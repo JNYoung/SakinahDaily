@@ -38,12 +38,12 @@ describe("Content Agent guardrails", () => {
       ritualMoment: "after_prayer"
     });
 
-    expect(selected).toHaveLength(1);
-    expect(selected[0].language).toBe("en");
+    expect(selected.length).toBeGreaterThanOrEqual(1);
+    expect(selected.every((source) => source.language === "en")).toBe(true);
   });
 
   it("applies cluster cooldown", () => {
-    const selected = selectCandidateSources(seedSources, {
+    const selected = selectCandidateSources([seedSources[0]], {
       language: "en",
       ritualMoment: "morning",
       recentClusterIds: ["ease"]
@@ -53,7 +53,7 @@ describe("Content Agent guardrails", () => {
   });
 
   it("blocks women/cycle-sensitive lock-screen source items", () => {
-    const selected = selectCandidateSources(seedSources, {
+    const selected = selectCandidateSources([seedSources.find((source) => source.id === "source_private_rest_en")!], {
       language: "en",
       ritualMoment: "evening",
       womenLockScreenSafe: true
@@ -106,10 +106,39 @@ describe("Content Agent guardrails", () => {
     const run = route.createRun({ language: "en", ritualMoment: "morning" });
 
     expect(run.status).toBe("completed");
-    expect(run.candidates).toHaveLength(1);
+    expect(run.candidates.length).toBeGreaterThanOrEqual(3);
     expect(run.candidates[0].status).toBe("needs_human_review");
     expect(run.candidates[0].safetyFlags).toEqual([]);
     expect(isAgentCandidate(run.candidates[0])).toBe(true);
+  });
+
+  it("ships source-backed dua seed content for review", () => {
+    const duaSources = seedSources.filter((source) => source.contentKind === "dua");
+
+    expect(duaSources).toHaveLength(5);
+    for (const source of duaSources) {
+      expect(source.status).toBe("published");
+      expect(source.reviewStatus).toBe("approved");
+      expect(source.sourceLabel).toMatch(/^Quran /);
+      expect(source.sourceUrl).toMatch(/^https:\/\/quran\.com\//);
+      expect(source.arabicText).toBeTruthy();
+      expect(source.transliteration).toBeTruthy();
+      expect(source.meaningSummary).toBeTruthy();
+    }
+  });
+
+  it("adds dua content to candidates without placing Quran text on lock screen", () => {
+    const route = new AgentRunsRoute(new AgentRunRepository(), new ContentRepository());
+    const run = route.createRun({ language: "en", ritualMoment: "morning" });
+    const duaCandidate = run.candidates.find((candidate) => candidate.prayerContent);
+
+    expect(duaCandidate).toBeTruthy();
+    expect(duaCandidate!.status).toBe("needs_human_review");
+    expect(duaCandidate!.lockScreenBody).not.toMatch(/[\u0600-\u06FF]{10,}/);
+    expect(duaCandidate!.prayerContent).toMatchObject({
+      sourceLabel: expect.stringMatching(/^Quran /),
+      sourceUrl: expect.stringMatching(/^https:\/\/quran\.com\//)
+    });
   });
 });
 

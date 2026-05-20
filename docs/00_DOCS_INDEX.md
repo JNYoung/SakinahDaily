@@ -31,6 +31,7 @@
 | `docs/architecture/02_DATA_MODELS.md` | 客户端模型、CMS 表结构、JSON 示例 |
 | `docs/content/01_CONTENT_GUIDELINES.md` | Quran/Dua/Dhikr/Reflection 内容策略与宗教安全 |
 | `docs/content/02_DAILY_PUSH_CONTENT_SYSTEM.md` | Daily push source items、候选选择、cooldown、women mode lock-screen safety |
+| `docs/content/03_DUA_PUSH_SEED_CONTENT.md` | Source-backed dua seed content for agent testing and review |
 | `docs/cms/supabase_schema.sql` | MVP 级别 Supabase/Postgres schema 草案 |
 | `docs/cms/02_PUSH_CONTENT_SCHEMA.sql` | Daily push 内容表结构草案 |
 | `docs/cms/03_AGENT_SERVICE_SCHEMA.sql` | Content Agent run/candidate/review 表结构草案 |
@@ -40,6 +41,7 @@
 | `docs/agent/04_AGENT_PROMPTS.md` | Content Agent prompts 与安全提示词 |
 | `docs/agent/05_AGENT_SERVICE_OPENAPI.yaml` | Content Agent HTTP endpoint 草案 |
 | `docs/agent/06_EVAL_AND_GUARDRAILS.md` | Guardrail 测试与评估规则 |
+| `docs/agent/07_AUTOMATED_TESTING_STRATEGY.md` | Content Agent 自动化测试分层、CI gate、阻断标准 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Codex 文档

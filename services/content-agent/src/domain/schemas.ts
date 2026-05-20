@@ -13,7 +13,20 @@ export interface SourceItem {
   language: string;
   text: string;
   sourceLabel: string;
+  sourceUrl?: string;
+  contentKind?: "dua" | "reflection" | "reminder";
+  arabicText?: string;
+  transliteration?: string;
+  meaningSummary?: string;
   cycleSensitiveHidden?: boolean;
+}
+
+export interface PrayerContent {
+  arabicText: string;
+  transliteration: string;
+  meaningSummary: string;
+  sourceLabel: string;
+  sourceUrl: string;
 }
 
 export interface AgentCandidate {
@@ -25,6 +38,7 @@ export interface AgentCandidate {
   language: string;
   lockScreenTitle: string;
   lockScreenBody: string;
+  prayerContent?: PrayerContent;
   status: CandidateStatus;
   safetyFlags: string[];
 }
@@ -63,6 +77,12 @@ export function isAgentCandidate(value: unknown): value is AgentCandidate {
     typeof candidate.lockScreenTitle === "string" &&
     typeof candidate.lockScreenBody === "string" &&
     candidate.status === "needs_human_review" &&
-    Array.isArray(candidate.safetyFlags)
+    Array.isArray(candidate.safetyFlags) &&
+    (candidate.prayerContent === undefined ||
+      (typeof candidate.prayerContent.arabicText === "string" &&
+        typeof candidate.prayerContent.transliteration === "string" &&
+        typeof candidate.prayerContent.meaningSummary === "string" &&
+        typeof candidate.prayerContent.sourceLabel === "string" &&
+        typeof candidate.prayerContent.sourceUrl === "string"))
   );
 }

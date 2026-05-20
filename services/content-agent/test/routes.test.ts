@@ -41,7 +41,9 @@ describe("Content Agent HTTP routes", () => {
     const reviewResponse = await fetch(`${baseUrl}/agent-runs/${run.runId}/review-packet`);
     expect(reviewResponse.status).toBe(200);
     expect((await reviewResponse.json()) as unknown).toMatchObject({
-      candidates: [expect.objectContaining({ candidateId: run.candidates[0].candidateId })]
+      candidates: expect.arrayContaining([
+        expect.objectContaining({ candidateId: run.candidates[0].candidateId })
+      ])
     });
 
     const qaResponse = await fetch(`${baseUrl}/agent-candidates/${run.candidates[0].candidateId}/qa`, {

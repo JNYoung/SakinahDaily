@@ -1,0 +1,39 @@
+name: Content Agent
+
+on:
+  pull_request:
+    paths:
+      - "services/content-agent/**"
+      - "docs/agent/**"
+      - "docs/content/**"
+      - "docs/cms/02_PUSH_CONTENT_SCHEMA.sql"
+      - "docs/cms/03_AGENT_SERVICE_SCHEMA.sql"
+      - ".github/workflows/content-agent.yml"
+  push:
+    branches:
+      - main
+      - "codex/**"
+    paths:
+      - "services/content-agent/**"
+      - "docs/agent/**"
+      - "docs/content/**"
+      - "docs/cms/02_PUSH_CONTENT_SCHEMA.sql"
+      - "docs/cms/03_AGENT_SERVICE_SCHEMA.sql"
+      - ".github/workflows/content-agent.yml"
+
+jobs:
+  content-agent:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/content-agent
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: services/content-agent/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck

@@ -11,3 +11,9 @@ Guardrails reject or flag content that:
 - Makes fatwa-like claims.
 
 Tests must not call live OpenAI APIs, publish content, or send FCM.
+
+Additional dua content checks:
+
+- Every dua seed must include Arabic text, transliteration, meaning summary, source label, and source URL.
+- Lock-screen title/body must use short safe summaries instead of full Quran text.
+- Dua candidates must remain `needs_human_review` until qualified human review.
