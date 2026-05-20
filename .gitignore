@@ -1,0 +1,16 @@
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+
+# TypeScript build/test output
+dist/
+coverage/
+.vite/
+
+# Local env
+.env
+.env.*
+!.env.example
+

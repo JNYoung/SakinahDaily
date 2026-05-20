@@ -30,7 +30,16 @@
 | `docs/architecture/01_TECH_ARCHITECTURE.md` | 总体技术架构、模块、数据流、目录结构 |
 | `docs/architecture/02_DATA_MODELS.md` | 客户端模型、CMS 表结构、JSON 示例 |
 | `docs/content/01_CONTENT_GUIDELINES.md` | Quran/Dua/Dhikr/Reflection 内容策略与宗教安全 |
+| `docs/content/02_DAILY_PUSH_CONTENT_SYSTEM.md` | Daily push source items、候选选择、cooldown、women mode lock-screen safety |
 | `docs/cms/supabase_schema.sql` | MVP 级别 Supabase/Postgres schema 草案 |
+| `docs/cms/02_PUSH_CONTENT_SCHEMA.sql` | Daily push 内容表结构草案 |
+| `docs/cms/03_AGENT_SERVICE_SCHEMA.sql` | Content Agent run/candidate/review 表结构草案 |
+| `docs/agent/01_CONTENT_AGENT_SERVICE_PRD.md` | Content Agent Service 产品与实现边界 |
+| `docs/agent/02_AGENT_WORKFLOWS.md` | Content Agent weekly preproduction workflow |
+| `docs/agent/03_AGENT_OUTPUT_SCHEMAS.md` | Agent run/candidate/review packet 输出契约 |
+| `docs/agent/04_AGENT_PROMPTS.md` | Content Agent prompts 与安全提示词 |
+| `docs/agent/05_AGENT_SERVICE_OPENAPI.yaml` | Content Agent HTTP endpoint 草案 |
+| `docs/agent/06_EVAL_AND_GUARDRAILS.md` | Guardrail 测试与评估规则 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Codex 文档
@@ -40,6 +49,8 @@
 | `AGENTS.md` | Agent 工作规则 |
 | `docs/codex/00_CODEX_CONTEXT.md` | Codex 项目总上下文 |
 | `docs/codex/01_CODEX_MILESTONES.md` | 可逐个执行的 milestone prompt |
+| `docs/prompts/sakinah_all_prompts_today_afternoon.md` | 从 prompt archive 提取的完整项目执行 prompt 汇总 |
+| `docs/prompts/08_CONTENT_AGENT_SERVICE_CODEX_PROMPT.md` | Content Agent Service Codex Prompt 单独归档 |
 
 ## 2. 推荐执行顺序
 
@@ -54,6 +65,8 @@
 9. 实现 Settings 与 Women’s Ibadah Mode。
 10. 接 CMS API。
 11. 加 analytics stub 与 QA checklist。
+12. 实现 Daily Push Content foundation。
+13. 实现 Content Agent Service foundation。
 
 ## 3. 文档维护规则
 
