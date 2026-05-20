@@ -1,0 +1,37 @@
+{
+  "color": {
+    "deepEmerald": "#0E3B2E",
+    "midnightNavy": "#101B2D",
+    "sandGold": "#C9A45C",
+    "ivory": "#F7F2E8",
+    "sageGreen": "#AABFA3",
+    "warmTaupe": "#B8A897",
+    "ink": "#1F2623",
+    "softWhite": "#FFFDF7"
+  },
+  "radius": {
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32
+  },
+  "typography": {
+    "latinPreferred": [
+      "Inter",
+      "Manrope",
+      "Nunito Sans"
+    ],
+    "arabicUiPreferred": [
+      "Noto Sans Arabic",
+      "IBM Plex Sans Arabic"
+    ],
+    "quranArabic": "TBD licensed Quran-safe font"
+  }
+}
