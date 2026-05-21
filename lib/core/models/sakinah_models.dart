@@ -400,6 +400,20 @@ class PrayerSettings {
   final String method;
   final String locationLabel;
 
+  PrayerSettings copyWith({
+    double? latitude,
+    double? longitude,
+    String? method,
+    String? locationLabel,
+  }) {
+    return PrayerSettings(
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      method: method ?? this.method,
+      locationLabel: locationLabel ?? this.locationLabel,
+    );
+  }
+
   Map<String, dynamic> toJson() => {
         'latitude': latitude,
         'longitude': longitude,
@@ -408,11 +422,12 @@ class PrayerSettings {
       };
 
   factory PrayerSettings.fromJson(Map<String, dynamic> json) {
+    final defaults = UserPreferences.defaults().prayerSettings;
     return PrayerSettings(
-      latitude: (json['latitude'] as num).toDouble(),
-      longitude: (json['longitude'] as num).toDouble(),
-      method: json['method'] as String,
-      locationLabel: json['locationLabel'] as String? ?? 'Manual location',
+      latitude: (json['latitude'] as num?)?.toDouble() ?? defaults.latitude,
+      longitude: (json['longitude'] as num?)?.toDouble() ?? defaults.longitude,
+      method: json['method'] as String? ?? defaults.method,
+      locationLabel: json['locationLabel'] as String? ?? defaults.locationLabel,
     );
   }
 }
@@ -517,17 +532,20 @@ class UserPreferences {
       };
 
   factory UserPreferences.fromJson(Map<String, dynamic> json) {
+    final defaults = UserPreferences.defaults();
+    final prayerSettingsJson = json['prayerSettings'];
+    final womenIbadahModeJson = json['womenIbadahMode'];
     return UserPreferences(
-      languageCode: json['languageCode'] as String? ?? 'en',
+      languageCode: json['languageCode'] as String? ?? defaults.languageCode,
       genderMode: GenderMode.parse(json['genderMode'] as String? ?? ''),
       audioPreference:
           AudioPreference.parse(json['audioPreference'] as String? ?? ''),
-      prayerSettings: PrayerSettings.fromJson(
-        json['prayerSettings'] as Map<String, dynamic>,
-      ),
-      womenIbadahMode: WomenIbadahMode.fromJson(
-        json['womenIbadahMode'] as Map<String, dynamic>,
-      ),
+      prayerSettings: prayerSettingsJson is Map<String, dynamic>
+          ? PrayerSettings.fromJson(prayerSettingsJson)
+          : defaults.prayerSettings,
+      womenIbadahMode: womenIbadahModeJson is Map<String, dynamic>
+          ? WomenIbadahMode.fromJson(womenIbadahModeJson)
+          : defaults.womenIbadahMode,
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? false,
     );
   }

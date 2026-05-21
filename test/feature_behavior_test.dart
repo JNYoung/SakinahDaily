@@ -78,6 +78,34 @@ void main() {
         _choiceChip(tester, SakinahKeys.womenModeNormalChip).selected, isFalse);
     expectNoFlutterErrors(tester);
   });
+
+  testWidgets('Settings update prayer method and notification toggle',
+      (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.bottomNavSettings);
+
+    expect(
+        find.byKey(SakinahKeys.settingsPrayerMethodDropdown), findsOneWidget);
+    expect(find.byKey(SakinahKeys.settingsNotificationSwitch), findsOneWidget);
+
+    await tester.tap(find.byKey(SakinahKeys.settingsPrayerMethodDropdown));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Muslim World League').last);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Muslim World League'), findsWidgets);
+
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+
+    final notificationSwitch = tester.widget<Switch>(
+      find.byKey(SakinahKeys.settingsNotificationSwitch),
+    );
+    expect(notificationSwitch.value, isTrue);
+    expectNoFlutterErrors(tester);
+  });
 }
 
 ChoiceChip _choiceChip(WidgetTester tester, Key wrapperKey) {

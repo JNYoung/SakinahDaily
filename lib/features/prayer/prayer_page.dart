@@ -22,10 +22,20 @@ class PrayerPage extends ConsumerWidget {
       title: l10n.t('prayer'),
       selectedNavIndex: 0,
       body: ListView.separated(
-        itemCount: prayers.length,
+        itemCount: prayers.length + 1,
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {
-          final prayer = prayers[index];
+          if (index == 0) {
+            return ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.location_on_outlined),
+              title: Text(preferences.prayerSettings.locationLabel),
+              subtitle: Text(
+                service.methodLabel(preferences.prayerSettings.method),
+              ),
+            );
+          }
+          final prayer = prayers[index - 1];
           final time =
               '${prayer.time.hour.toString().padLeft(2, '0')}:${prayer.time.minute.toString().padLeft(2, '0')}';
           return ListTile(

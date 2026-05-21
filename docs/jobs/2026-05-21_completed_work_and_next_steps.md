@@ -15,12 +15,18 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - The supplied Sakinah Daily artwork has been implemented as a native Flutter splash screen at `/splash`, with an automatic transition into onboarding.
 - Android native launch resources now use Sakinah static artwork and an Android 12+ Sakinah system splash icon, so the default Flutter template splash no longer flashes before the app splash.
 - App launcher icon assets were generated from the Sakinah icon direction for Android, Web, and macOS, with a tracked source at `assets/branding/app_icon.png`.
+- Branch `codex/prayer-prefs-notifications` adds real prayer settings, persistent user preferences, calculated prayer times, and a permission-aware local notification scheduling foundation.
+- User preferences now persist through a repository abstraction backed by `shared_preferences`, with fake in-memory storage for tests.
+- Prayer calculations now use `adhan_dart` for Fajr, Dhuhr, Asr, Maghrib, and Isha across Umm al-Qura, Muslim World League, Egyptian, and Indonesian/KEMENAG methods.
+- Settings now exposes prayer method selection and a safe notification toggle; onboarding saves preferences before routing home, and the Prayer page displays calculated times from the active settings.
 
 ## Current Validation Gate
 
 - Primary app gate: `flutter test`
 - Static analysis gate: `dart analyze`
 - Android gate: launch the Flutter app on the connected emulator after app-level changes.
+- Latest milestone validation on `codex/prayer-prefs-notifications`: `flutter test` passed with 42 tests, `dart analyze` passed with no issues, and `flutter run -d emulator-5554` built, installed, and launched successfully.
+- `flutter analyze` was retried for this milestone and still crashes in Flutter's analysis server with `FormatException: Unexpected end of input` while handling the current Chinese-character workspace path; generated `flutter_*.log` crash files are ignored.
 - Known note: `flutter analyze` may fail under the current Chinese-character workspace path because the Flutter analysis server crashes while parsing its protocol stream. Use `dart analyze` as the stable local gate unless the workspace path is moved or the Flutter toolchain issue is resolved.
 
 ## Recommended Next Jobs
@@ -31,7 +37,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 4. Finish Quran corpus ingestion with fixture-only tests first, then wire the client content cache around manifest, hash, schema, approval, and fallback rules.
 5. Expand Content Agent automated tests for guardrails, deterministic weekly preproduction, prayer-content generation packets, and no auto-publish/no FCM behavior.
 6. Add CMS/API integration behind seed fallback and keep all remote content filtered by `published` and `approved`.
-7. Next Codex implementation branch requested by the user: `codex/prayer-prefs-notifications`.
+7. Next client milestone: continue notification UX polish only after platform permission copy is finalized, then expand prayer-location handling beyond the manual fallback.
 
 ## Handoff Notes
 

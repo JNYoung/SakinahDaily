@@ -10,6 +10,7 @@
 .packages
 build/
 coverage/
+flutter_*.log
 
 # iOS / Android generated caches
 ios/Pods/

@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/notification_service.dart';
+import '../../core/services/prayer_calculation_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/settings_tile.dart';
@@ -16,6 +21,8 @@ class SettingsPage extends ConsumerWidget {
     final l10n = SakinahLocalizations.of(context);
     final preferences = ref.watch(userPreferencesProvider);
     final controller = ref.read(userPreferencesProvider.notifier);
+    final prayerService = ref.watch(prayerCalculationServiceProvider);
+    final notificationService = ref.watch(notificationServiceProvider);
 
     return LanguageAwareScaffold(
       title: l10n.t('settings'),
@@ -34,7 +41,7 @@ class SettingsPage extends ConsumerWidget {
               ],
               onChanged: (value) {
                 if (value != null) {
-                  controller.setLanguage(value);
+                  unawaited(controller.setLanguage(value));
                 }
               },
             ),
@@ -42,15 +49,48 @@ class SettingsPage extends ConsumerWidget {
           const Divider(),
           SettingsTile(
             title: l10n.t('prayerMethod'),
-            subtitle: preferences.prayerSettings.method,
+            subtitle:
+                prayerService.methodLabel(preferences.prayerSettings.method),
+            trailing: DropdownButton<String>(
+              key: SakinahKeys.settingsPrayerMethodDropdown,
+              value: preferences.prayerSettings.method,
+              items: [
+                for (final methodId
+                    in PrayerCalculationService.supportedMethodIds)
+                  DropdownMenuItem(
+                    value: methodId,
+                    child: Text(prayerService.methodLabel(methodId)),
+                  ),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  unawaited(
+                    controller.setPrayerSettings(
+                      preferences.prayerSettings.copyWith(method: value),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
           const Divider(),
           SettingsTile(
             title: l10n.t('prayerReminders'),
             subtitle: l10n.t('prayerReminderSubtitle'),
             trailing: Switch(
+              key: SakinahKeys.settingsNotificationSwitch,
               value: preferences.notificationsEnabled,
-              onChanged: controller.setNotificationsEnabled,
+              onChanged: (enabled) {
+                unawaited(
+                  _handleNotificationToggle(
+                    enabled: enabled,
+                    controller: controller,
+                    notificationService: notificationService,
+                    prayerService: prayerService,
+                    settings: preferences.prayerSettings,
+                  ),
+                );
+              },
             ),
           ),
           const Divider(),
@@ -60,7 +100,9 @@ class SettingsPage extends ConsumerWidget {
             subtitle: l10n.t('womenModeSubtitle'),
             trailing: Switch(
               value: preferences.womenIbadahMode.enabled,
-              onChanged: controller.setWomenMode,
+              onChanged: (enabled) {
+                unawaited(controller.setWomenMode(enabled));
+              },
             ),
             onTap: () => context.go('/settings/women'),
           ),
@@ -73,4 +115,39 @@ class SettingsPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+Future<void> _handleNotificationToggle({
+  required bool enabled,
+  required UserPreferencesController controller,
+  required NotificationService notificationService,
+  required PrayerCalculationService prayerService,
+  required PrayerSettings settings,
+}) async {
+  if (!enabled) {
+    await notificationService.cancelAll();
+    await controller.setNotificationsEnabled(false);
+    return;
+  }
+
+  final granted = await notificationService.requestPermissionAfterExplanation();
+  if (!granted) {
+    await notificationService.cancelAll();
+    await controller.setNotificationsEnabled(false);
+    return;
+  }
+
+  final now = DateTime.now();
+  var prayers = prayerService.calculateForDate(now, settings);
+  if (!prayers.any((prayer) => prayer.time.isAfter(now))) {
+    prayers = prayerService.calculateForDate(
+      now.add(const Duration(days: 1)),
+      settings,
+    );
+  }
+  final scheduled = await notificationService.schedulePrayerReminders(
+    settings,
+    prayers,
+  );
+  await controller.setNotificationsEnabled(scheduled.isNotEmpty);
 }
