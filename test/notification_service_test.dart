@@ -9,6 +9,7 @@ void main() {
     longitude: 39.8579,
     method: 'umm_al_qura',
     locationLabel: 'Makkah',
+    timezoneId: 'Asia/Riyadh',
   );
 
   test('notification denied state returns no scheduled reminders', () async {
@@ -33,5 +34,35 @@ void main() {
     await service.cancelAll();
 
     expect(service.scheduled, isEmpty);
+  });
+
+  test('English Indonesian and Arabic notification copy can be generated', () {
+    final en = PrayerNotificationCopy.forPrayer(
+      languageCode: 'en',
+      prayerName: 'Fajr',
+    );
+    final id = PrayerNotificationCopy.forPrayer(
+      languageCode: 'id',
+      prayerName: 'Fajr',
+    );
+    final ar = PrayerNotificationCopy.forPrayer(
+      languageCode: 'ar',
+      prayerName: 'Fajr',
+    );
+
+    expect(en.body, contains('Fajr'));
+    expect(id.body, contains('Subuh'));
+    expect(ar.body, contains('الفجر'));
+  });
+
+  test('women mode notification copy stays privacy-safe', () {
+    final copy = PrayerNotificationCopy.forPrayer(
+      languageCode: 'en',
+      prayerName: 'Fajr',
+      womenIbadahMode: const WomenIbadahMode(enabled: true),
+    );
+
+    expect(copy.body, isNot(contains('Fajr')));
+    expect(copy.body, isNot(contains('prayer')));
   });
 }

@@ -9,6 +9,7 @@ abstract final class SakinahKeys {
       ValueKey<String>('onboarding_continue_button');
 
   static const homePrayerBadge = ValueKey<String>('home_prayer_badge');
+  static const homeContentList = ValueKey<String>('home_content_list');
   static const homeSessionStartButton =
       ValueKey<String>('home_session_start_button');
   static const homeQuickActionQuran =
@@ -31,10 +32,13 @@ abstract final class SakinahKeys {
 
   static const settingsWomenModeTile =
       ValueKey<String>('settings_women_mode_tile');
+  static const settingsPrayerLocationDropdown =
+      ValueKey<String>('settings_prayer_location_dropdown');
   static const settingsPrayerMethodDropdown =
       ValueKey<String>('settings_prayer_method_dropdown');
   static const settingsNotificationSwitch =
       ValueKey<String>('settings_notification_switch');
+  static const prayerContentList = ValueKey<String>('prayer_content_list');
   static const womenModeNormalChip = ValueKey<String>('women_mode_normal_chip');
   static const womenModeMenstruatingChip =
       ValueKey<String>('women_mode_menstruating_chip');

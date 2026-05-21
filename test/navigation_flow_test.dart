@@ -17,6 +17,13 @@ void main() {
 
     expect(find.text('Fajr'), findsOneWidget);
     expect(find.text('Dhuhr'), findsOneWidget);
+    expect(find.byType(NavigationBar), findsNothing);
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    expect(find.text("Today's Sakinah Session"), findsOneWidget);
+    expect(find.byType(NavigationBar), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

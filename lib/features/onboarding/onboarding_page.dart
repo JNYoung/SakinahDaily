@@ -113,9 +113,11 @@ class OnboardingPage extends ConsumerWidget {
             key: SakinahKeys.onboardingContinueButton,
             label: l10n.t('continueLabel'),
             icon: Icons.arrow_forward_rounded,
-            onPressed: () {
-              unawaited(controller.saveCurrent());
-              context.go('/home');
+            onPressed: () async {
+              await controller.saveCurrent();
+              if (context.mounted) {
+                context.go('/home');
+              }
             },
           ),
         ],

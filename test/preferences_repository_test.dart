@@ -19,6 +19,7 @@ void main() {
         longitude: 106.8456,
         method: 'indonesia',
         locationLabel: 'Jakarta',
+        timezoneId: 'Asia/Jakarta',
       ),
       womenIbadahMode: WomenIbadahMode(enabled: true),
     );
@@ -32,6 +33,7 @@ void main() {
     expect(loaded.notificationsEnabled, isTrue);
     expect(loaded.prayerSettings.method, 'indonesia');
     expect(loaded.prayerSettings.locationLabel, 'Jakarta');
+    expect(loaded.prayerSettings.timezoneId, 'Asia/Jakarta');
     expect(loaded.womenIbadahMode.enabled, isTrue);
     expect(loaded.womenIbadahMode.localOnly, isTrue);
   });

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -99,12 +101,86 @@ void main() {
 
     await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
     await tester.pumpAndSettle();
+    expect(find.text('Enable prayer reminders?'), findsOneWidget);
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
 
     final notificationSwitch = tester.widget<Switch>(
       find.byKey(SakinahKeys.settingsNotificationSwitch),
     );
     expect(notificationSwitch.value, isTrue);
     expectNoFlutterErrors(tester);
+  });
+
+  testWidgets(
+      'Selecting prayer location preset persists and updates prayer page',
+      (tester) async {
+    final store = InMemoryUserPreferencesStore();
+    await pumpSakinahApp(tester, preferencesStore: store);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.bottomNavSettings);
+    await tester.tap(find.byKey(SakinahKeys.settingsPrayerLocationDropdown));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Dubai').last);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Dubai'), findsWidgets);
+    final loaded = await UserPreferencesRepository(store).load();
+    expect(loaded.prayerSettings.locationLabel, 'Dubai');
+    expect(loaded.prayerSettings.timezoneId, 'Asia/Dubai');
+
+    await tapByKey(tester, SakinahKeys.bottomNavHome);
+    await tapByKey(tester, SakinahKeys.homePrayerBadge);
+
+    expect(find.text('Dubai'), findsOneWidget);
+    expect(find.text('Muslim World League'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Notification permission denied keeps toggle off',
+      (tester) async {
+    final notifications = LocalNotificationServiceStub()
+      ..permissionGranted = false;
+    await pumpSakinahApp(tester, notificationService: notifications);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.bottomNavSettings);
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
+
+    final notificationSwitch = tester.widget<Switch>(
+      find.byKey(SakinahKeys.settingsNotificationSwitch),
+    );
+    expect(notificationSwitch.value, isFalse);
+    expect(
+        find.text(
+            'Notifications are off. You can enable them from system settings.'),
+        findsOneWidget);
+    expect(notifications.scheduled, isEmpty);
+  });
+
+  testWidgets('Notification permission granted schedules reminders',
+      (tester) async {
+    final notifications = LocalNotificationServiceStub();
+    await pumpSakinahApp(tester, notificationService: notifications);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.bottomNavSettings);
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
+
+    final notificationSwitch = tester.widget<Switch>(
+      find.byKey(SakinahKeys.settingsNotificationSwitch),
+    );
+    expect(notificationSwitch.value, isTrue);
+    expect(notifications.scheduled, isNotEmpty);
+    expect(notifications.scheduled.first.title, 'Sakinah Daily');
+    expect(notifications.scheduled.first.body, isNotEmpty);
   });
 }
 

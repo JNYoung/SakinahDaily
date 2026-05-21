@@ -36,6 +36,7 @@ class HomePage extends ConsumerWidget {
         ),
       ],
       body: ListView(
+        key: SakinahKeys.homeContentList,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +79,7 @@ class HomePage extends ConsumerWidget {
                       .remainder(60)
                       .clamp(0, 59),
                 ),
-                onTap: () => context.go('/prayer'),
+                onTap: () => context.push('/prayer'),
               ),
             ],
           ),

@@ -17,6 +17,7 @@ Future<void> pumpSakinahApp(
   String languageCode = 'en',
   bool settleSplash = true,
   UserPreferencesStore? preferencesStore,
+  NotificationService? notificationService,
 }) async {
   tester.view.devicePixelRatio = 1;
   tester.view.physicalSize = viewport;
@@ -32,7 +33,7 @@ Future<void> pumpSakinahApp(
           preferencesStore ?? InMemoryUserPreferencesStore(),
         ),
         notificationServiceProvider.overrideWithValue(
-          LocalNotificationServiceStub(),
+          notificationService ?? LocalNotificationServiceStub(),
         ),
       ],
       child: const SakinahApp(),
