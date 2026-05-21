@@ -246,7 +246,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playRecitation => 'Play recitation';
 
   @override
+  String get pauseRecitation => 'Pause recitation';
+
+  @override
+  String get textOnlyFallback => 'Text-only fallback';
+
+  @override
+  String get audioUnavailable => 'Audio unavailable';
+
+  @override
   String get approvedReciter => 'approved reciter';
+
+  @override
+  String get approvedReciterLabel => 'Approved reciter';
 
   @override
   String get quranSafetyTitle => 'Qur\'an Safety';

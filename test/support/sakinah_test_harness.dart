@@ -5,6 +5,7 @@ import 'package:sakinah_daily/app/sakinah_app.dart';
 import 'package:sakinah_daily/app/sakinah_router.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
@@ -21,6 +22,7 @@ Future<void> pumpSakinahApp(
   bool settleSplash = true,
   UserPreferencesStore? preferencesStore,
   NotificationService? notificationService,
+  SakinahAudioPlayer? audioPlayer,
 }) async {
   tester.view.devicePixelRatio = 1;
   tester.view.physicalSize = viewport;
@@ -42,6 +44,8 @@ Future<void> pumpSakinahApp(
         notificationServiceProvider.overrideWithValue(
           notificationService ?? LocalNotificationServiceStub(),
         ),
+        if (audioPlayer != null)
+          audioPlayerProvider.overrideWithValue(audioPlayer),
         if (initialLocation != null)
           routerProvider.overrideWithValue(
             createSakinahRouter(initialLocation: initialLocation),
@@ -52,7 +56,7 @@ Future<void> pumpSakinahApp(
   );
   if (settleSplash && initialLocation == null) {
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 2200));
+    await tester.pump(const Duration(milliseconds: 1900));
     await tester.pumpAndSettle();
   } else {
     await tester.pump();

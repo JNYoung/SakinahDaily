@@ -31,12 +31,15 @@ abstract final class SakinahKeys {
 
   static const dhikrCounter = ValueKey<String>('dhikr_counter');
   static const sessionDhikrCounter = ValueKey<String>('session_dhikr_counter');
+  static const sessionNextButton = ValueKey<String>('session_next_button');
+  static const sessionFinishButton = ValueKey<String>('session_finish_button');
   static const sessionProgressBar = ValueKey<String>('session_progress_bar');
   static const sessionAudioPlayerBar =
       ValueKey<String>('session_audio_player_bar');
   static const sessionSafetyCard = ValueKey<String>('session_safety_card');
-  static const sessionNextButton = ValueKey<String>('session_next_button');
-  static const sessionFinishButton = ValueKey<String>('session_finish_button');
+  static const audioPlayPauseButton =
+      ValueKey<String>('audio_play_pause_button');
+  static const quranSafetyCard = sessionSafetyCard;
   static const duaSourceCard = ValueKey<String>('dua_source_card');
 
   static const settingsWomenModeTile =

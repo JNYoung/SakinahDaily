@@ -7,6 +7,8 @@ import '../models/sakinah_models.dart';
 import '../repositories/content_repository.dart';
 import '../repositories/user_preferences_repository.dart';
 import '../services/analytics_service.dart';
+import '../services/audio_player_service.dart';
+import '../services/audio_policy_service.dart';
 import '../services/content_service.dart';
 import '../services/notification_service.dart';
 import '../services/prayer_calculation_service.dart';
@@ -143,6 +145,18 @@ final contentServiceProvider = Provider<ContentService>((ref) {
 
 final pushCandidateSelectorProvider = Provider<PushCandidateSelector>(
   (ref) => PushCandidateSelector(),
+);
+
+final audioPolicyServiceProvider = Provider<AudioPolicyService>(
+  (ref) => const AudioPolicyService(),
+);
+
+final audioPlayerProvider = Provider<SakinahAudioPlayer>(
+  (ref) {
+    final player = JustAudioSakinahPlayer();
+    ref.onDispose(player.dispose);
+    return player;
+  },
 );
 
 final dailySessionsProvider = Provider<List<DailySession>>((ref) {

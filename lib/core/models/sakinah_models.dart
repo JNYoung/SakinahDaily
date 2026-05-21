@@ -68,6 +68,36 @@ enum WomenIbadahStatus {
   }
 }
 
+enum AudioType {
+  quranRecitation,
+  duaGuidance,
+  reflectionGuidance,
+  dhikrGuidance,
+  ambientNonQuran;
+
+  static AudioType parse(String? value) {
+    return switch (value) {
+      'dua_guidance' || 'duaGuidance' => AudioType.duaGuidance,
+      'reflection_guidance' ||
+      'reflectionGuidance' =>
+        AudioType.reflectionGuidance,
+      'dhikr_guidance' || 'dhikrGuidance' => AudioType.dhikrGuidance,
+      'ambient_non_quran' || 'ambientNonQuran' => AudioType.ambientNonQuran,
+      _ => AudioType.quranRecitation,
+    };
+  }
+
+  String get wireValue {
+    return switch (this) {
+      AudioType.quranRecitation => 'quran_recitation',
+      AudioType.duaGuidance => 'dua_guidance',
+      AudioType.reflectionGuidance => 'reflection_guidance',
+      AudioType.dhikrGuidance => 'dhikr_guidance',
+      AudioType.ambientNonQuran => 'ambient_non_quran',
+    };
+  }
+}
+
 class LocalizedText {
   const LocalizedText(this.values);
 
@@ -87,39 +117,66 @@ class LocalizedText {
 class AudioAsset {
   const AudioAsset({
     required this.id,
-    required this.reciterName,
     required this.bgmAllowed,
     required this.approved,
+    this.audioType = AudioType.quranRecitation,
+    this.reciterName = '',
+    this.voiceName,
     this.url,
+    this.assetPath,
     this.sha256,
+    this.durationSeconds,
   });
 
   final String id;
+  final AudioType audioType;
   final String reciterName;
+  final String? voiceName;
   final bool bgmAllowed;
   final bool approved;
   final String? url;
+  final String? assetPath;
   final String? sha256;
+  final int? durationSeconds;
 
-  bool get textOnlyFallbackRequired => url == null || url!.isEmpty;
+  bool get isQuranRecitation => audioType == AudioType.quranRecitation;
+
+  bool get textOnlyFallbackRequired =>
+      (url == null || url!.isEmpty) &&
+      (assetPath == null || assetPath!.isEmpty);
+
+  String get displayVoiceName {
+    if (reciterName.isNotEmpty) {
+      return reciterName;
+    }
+    return voiceName ?? '';
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'audioType': audioType.wireValue,
         'reciterName': reciterName,
+        'voiceName': voiceName,
         'bgmAllowed': bgmAllowed,
         'approved': approved,
         'url': url,
+        'assetPath': assetPath,
         'sha256': sha256,
+        'durationSeconds': durationSeconds,
       };
 
   factory AudioAsset.fromJson(Map<String, dynamic> json) {
     return AudioAsset(
       id: json['id'] as String,
-      reciterName: json['reciterName'] as String,
+      audioType: AudioType.parse(json['audioType'] as String?),
+      reciterName: json['reciterName'] as String? ?? '',
+      voiceName: json['voiceName'] as String?,
       bgmAllowed: json['bgmAllowed'] as bool? ?? false,
       approved: json['approved'] as bool? ?? false,
       url: json['url'] as String?,
+      assetPath: json['assetPath'] as String?,
       sha256: json['sha256'] as String?,
+      durationSeconds: json['durationSeconds'] as int?,
     );
   }
 }

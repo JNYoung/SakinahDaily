@@ -135,6 +135,8 @@ class _StepContent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final repo = ref.watch(contentRepositoryProvider);
+    final audioPolicyService = ref.watch(audioPolicyServiceProvider);
+    final audioPlayer = ref.watch(audioPlayerProvider);
     final l10n = SakinahLocalizations.of(context);
     final title = step.title.resolve(languageCode);
 
@@ -143,6 +145,7 @@ class _StepContent extends ConsumerWidget {
       final audio = ayah?.audioAssetId == null
           ? null
           : repo.getAudioAsset(ayah!.audioAssetId!);
+      final policy = audioPolicyService.evaluate(audio);
       return Column(
         children: [
           AppCard(
@@ -178,22 +181,13 @@ class _StepContent extends ConsumerWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white70),
                 ),
-                const SizedBox(height: 26),
-                IconButton.filled(
-                  iconSize: 52,
-                  tooltip: l10n.t('playRecitation'),
-                  style: IconButton.styleFrom(
-                    fixedSize: const Size.square(92),
-                    backgroundColor: SakinahColors.sandGold,
-                    foregroundColor: SakinahColors.midnightNavy,
-                  ),
-                  onPressed: () {},
-                  icon: const Icon(Icons.play_arrow_rounded),
-                ),
                 const SizedBox(height: 12),
                 Text(
-                  l10n.recitedBy(
-                      audio?.reciterName ?? l10n.t('approvedReciter')),
+                  policy.textOnlyFallback
+                      ? l10n.t('textOnlyFallback')
+                      : l10n.recitedBy(
+                          audio?.displayVoiceName ?? l10n.t('approvedReciter'),
+                        ),
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white60),
                 ),
@@ -204,8 +198,9 @@ class _StepContent extends ConsumerWidget {
           if (audio != null)
             AudioPlayerBar(
               key: SakinahKeys.sessionAudioPlayerBar,
-              reciterName: audio.reciterName,
-              bgmAllowed: audio.bgmAllowed,
+              asset: audio,
+              policy: policy,
+              player: audioPlayer,
             ),
           const SizedBox(height: 20),
           AppCard(
