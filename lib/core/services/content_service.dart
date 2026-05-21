@@ -86,6 +86,12 @@ class ContentService {
     return seedRepository.getDailySession(sessionId);
   }
 
+  DailySession? loadSessionContainingContent(String contentId) {
+    return seedRepository.getDailySessions().where((session) {
+      return session.steps.any((step) => step.contentId == contentId);
+    }).firstOrNull;
+  }
+
   DailySession ensureDailySession(String sessionId) {
     final session = loadDailySession(sessionId);
     if (session == null) {
@@ -99,6 +105,14 @@ class ContentService {
         .getSourceItems()
         .where((item) => item.id == sourceItemId)
         .firstOrNull;
+  }
+
+  DuaItem? loadDua(String duaId) {
+    return seedRepository.getDua(duaId);
+  }
+
+  DhikrItem? loadDhikr(String dhikrId) {
+    return seedRepository.getDhikr(dhikrId);
   }
 
   QuranAyah? loadQuranVerse(String verseKey) {
