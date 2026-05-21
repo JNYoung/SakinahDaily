@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -40,7 +42,7 @@ class OnboardingPage extends ConsumerWidget {
             ],
             selected: {preferences.languageCode},
             onSelectionChanged: (selection) {
-              controller.setLanguage(selection.first);
+              unawaited(controller.setLanguage(selection.first));
             },
           ),
           const SizedBox(height: 24),
@@ -68,7 +70,7 @@ class OnboardingPage extends ConsumerWidget {
             ],
             onChanged: (value) {
               if (value != null) {
-                controller.setGenderMode(value);
+                unawaited(controller.setGenderMode(value));
               }
             },
           ),
@@ -97,7 +99,7 @@ class OnboardingPage extends ConsumerWidget {
             ],
             onChanged: (value) {
               if (value != null) {
-                controller.setAudioPreference(value);
+                unawaited(controller.setAudioPreference(value));
               }
             },
           ),
@@ -111,7 +113,10 @@ class OnboardingPage extends ConsumerWidget {
             key: SakinahKeys.onboardingContinueButton,
             label: l10n.t('continueLabel'),
             icon: Icons.arrow_forward_rounded,
-            onPressed: () => context.go('/home'),
+            onPressed: () {
+              unawaited(controller.saveCurrent());
+              context.go('/home');
+            },
           ),
         ],
       ),

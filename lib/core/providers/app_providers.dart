@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/sakinah_models.dart';
 import '../repositories/content_repository.dart';
+import '../repositories/user_preferences_repository.dart';
 import '../services/analytics_service.dart';
 import '../services/content_service.dart';
 import '../services/notification_service.dart';
@@ -11,37 +14,81 @@ import '../services/push_candidate_selector.dart';
 
 final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
 
+final userPreferencesStoreProvider = Provider<UserPreferencesStore>((ref) {
+  return SharedPreferencesUserPreferencesStore();
+});
+
+final userPreferencesRepositoryProvider =
+    Provider<UserPreferencesRepository>((ref) {
+  return UserPreferencesRepository(ref.watch(userPreferencesStoreProvider));
+});
+
 final userPreferencesProvider =
     StateNotifierProvider<UserPreferencesController, UserPreferences>(
-  (ref) => UserPreferencesController(ref),
+  (ref) {
+    final controller = UserPreferencesController(
+      ref,
+      ref.watch(userPreferencesRepositoryProvider),
+    );
+    unawaited(controller.load());
+    return controller;
+  },
 );
 
 class UserPreferencesController extends StateNotifier<UserPreferences> {
-  UserPreferencesController(this.ref) : super(UserPreferences.defaults());
+  UserPreferencesController(this.ref, this.repository)
+      : super(UserPreferences.defaults());
 
   final Ref ref;
+  final UserPreferencesRepository repository;
+  bool _hasLocalChanges = false;
 
-  void setLanguage(String languageCode) {
-    state = state.copyWith(languageCode: languageCode);
-    ref.read(localeProvider.notifier).state = Locale(languageCode);
+  Future<void> load() async {
+    final preferences = await repository.load();
+    if (!mounted || _hasLocalChanges) {
+      return;
+    }
+    state = preferences;
+    ref.read(localeProvider.notifier).state = Locale(preferences.languageCode);
   }
 
-  void setGenderMode(GenderMode mode) {
-    state = state.copyWith(genderMode: mode);
+  Future<void> setLanguage(String languageCode) async {
+    await _commit(state.copyWith(languageCode: languageCode));
   }
 
-  void setAudioPreference(AudioPreference preference) {
-    state = state.copyWith(audioPreference: preference);
+  Future<void> setGenderMode(GenderMode mode) async {
+    await _commit(state.copyWith(genderMode: mode));
   }
 
-  void setNotificationsEnabled(bool enabled) {
-    state = state.copyWith(notificationsEnabled: enabled);
+  Future<void> setAudioPreference(AudioPreference preference) async {
+    await _commit(state.copyWith(audioPreference: preference));
   }
 
-  void setWomenMode(bool enabled) {
-    state = state.copyWith(
-      womenIbadahMode: state.womenIbadahMode.copyWith(enabled: enabled),
+  Future<void> setPrayerSettings(PrayerSettings settings) async {
+    await _commit(state.copyWith(prayerSettings: settings));
+  }
+
+  Future<void> setNotificationsEnabled(bool enabled) async {
+    await _commit(state.copyWith(notificationsEnabled: enabled));
+  }
+
+  Future<void> setWomenMode(bool enabled) async {
+    await _commit(
+      state.copyWith(
+        womenIbadahMode: state.womenIbadahMode.copyWith(enabled: enabled),
+      ),
     );
+  }
+
+  Future<void> saveCurrent() async {
+    await repository.save(state);
+  }
+
+  Future<void> _commit(UserPreferences preferences) async {
+    _hasLocalChanges = true;
+    state = preferences;
+    ref.read(localeProvider.notifier).state = Locale(preferences.languageCode);
+    await repository.save(preferences);
   }
 }
 
@@ -60,7 +107,7 @@ final prayerCalculationServiceProvider = Provider<PrayerCalculationService>(
 );
 
 final notificationServiceProvider = Provider<NotificationService>(
-  (ref) => LocalNotificationServiceStub(),
+  (ref) => FlutterLocalNotificationService(),
 );
 
 final contentServiceProvider = Provider<ContentService>((ref) {
