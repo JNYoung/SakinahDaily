@@ -9,6 +9,7 @@ abstract final class SakinahKeys {
       ValueKey<String>('onboarding_continue_button');
 
   static const homePrayerBadge = ValueKey<String>('home_prayer_badge');
+  static const homeContentList = ValueKey<String>('home_content_list');
   static const homeSessionStartButton =
       ValueKey<String>('home_session_start_button');
   static const homeQuickActionQuran =
