@@ -1,0 +1,12 @@
+providers:
+  tanzil:
+    format: pipe
+    required: true
+    attribution: "Tanzil Quran text, user-supplied local file"
+  quranenc:
+    format: csv
+    required: false
+    attribution: "QuranEnc translations, user-supplied local file"
+expected:
+  surah_count: 114
+  ayah_count: 6236
