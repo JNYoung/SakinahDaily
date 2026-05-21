@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
+import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/content_repository.dart';
 import 'package:sakinah_daily/core/services/content_service.dart';
 
@@ -12,14 +13,18 @@ void main() {
   setUp(() {
     service = ContentService(
       seedRepository: SeedContentRepository(SeedContent.demo()),
-      cache: InMemoryContentCache(),
+      cacheRepository: ContentCacheRepository(InMemoryContentCacheStore()),
     );
   });
 
   test('seed home loads offline', () {
     expect(service.loadHomeContent(), isNotEmpty);
-    expect(
-        service.recoverPushDeepLink('session_morning_ease').available, isTrue);
+  });
+
+  test('seed push deep link loads offline', () async {
+    final result = await service.recoverPushDeepLink('session_morning_ease');
+
+    expect(result.available, isTrue);
   });
 
   test('hash mismatch discards bundle', () {
@@ -30,7 +35,8 @@ void main() {
       schemaVersion: 1,
     );
 
-    final accepted = service.validateAndCacheBundle(ref, _approvedBundleJson());
+    final accepted =
+        await service.validateAndCacheBundle(ref, _approvedBundleJson());
 
     expect(accepted, isFalse);
   });
@@ -44,7 +50,7 @@ void main() {
       schemaVersion: 2,
     );
 
-    expect(service.validateAndCacheBundle(ref, raw), isFalse);
+    expect(await service.validateAndCacheBundle(ref, raw), isFalse);
   });
 
   test('unapproved bundle is rejected', () {
@@ -56,7 +62,7 @@ void main() {
       schemaVersion: 1,
     );
 
-    expect(service.validateAndCacheBundle(ref, raw), isFalse);
+    expect(await service.validateAndCacheBundle(ref, raw), isFalse);
   });
 
   test('women privacy filter blocks sensitive lock-screen content', () {

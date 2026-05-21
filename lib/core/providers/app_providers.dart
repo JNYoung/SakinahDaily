@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/sakinah_models.dart';
+import '../repositories/content_cache_repository.dart';
 import '../repositories/content_repository.dart';
 import '../repositories/user_preferences_repository.dart';
 import '../services/analytics_service.dart';
@@ -115,8 +116,20 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
 
 final seedContentProvider = Provider<SeedContent>((ref) => SeedContent.demo());
 
-final contentRepositoryProvider = Provider<ContentRepository>((ref) {
+final seedContentRepositoryProvider = Provider<ContentRepository>((ref) {
   return SeedContentRepository(ref.watch(seedContentProvider));
+});
+
+final contentCacheStoreProvider = Provider<ContentCacheStore>((ref) {
+  return const SharedPreferencesContentCacheStore();
+});
+
+final contentCacheRepositoryProvider = Provider<ContentCacheRepository>((ref) {
+  return ContentCacheRepository(ref.watch(contentCacheStoreProvider));
+});
+
+final contentRepositoryProvider = Provider<ContentRepository>((ref) {
+  return ref.watch(contentServiceProvider);
 });
 
 final analyticsServiceProvider = Provider<AnalyticsService>((ref) {
@@ -137,10 +150,12 @@ final notificationServiceProvider = Provider<NotificationService>(
 );
 
 final contentServiceProvider = Provider<ContentService>((ref) {
-  return ContentService(
-    seedRepository: ref.watch(contentRepositoryProvider),
-    cache: InMemoryContentCache(),
+  final service = ContentService(
+    seedRepository: ref.watch(seedContentRepositoryProvider),
+    cacheRepository: ref.watch(contentCacheRepositoryProvider),
   );
+  unawaited(service.restoreCachedContent());
+  return service;
 });
 
 final pushCandidateSelectorProvider = Provider<PushCandidateSelector>(
