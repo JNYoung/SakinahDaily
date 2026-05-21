@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+ always shows a system splash before the Flutter surface.
+         Use Sakinah colors and iconography so the platform splash does not
+         flash the default Flutter launcher icon. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:windowSplashScreenBackground">@color/sakinah_splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/sakinah_splash_icon</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/sakinah_splash_transparent</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@color/sakinah_splash_background</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>
