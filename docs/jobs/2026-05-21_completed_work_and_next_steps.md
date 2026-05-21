@@ -25,6 +25,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Prayer now opens as an immersive pushed page without the bottom navigation bar, while preserving back navigation to Home.
 - Branch `codex/local-push-tdd` adds a local push payload model, client-side receiver tests, and a deterministic local push simulator for previewing, queueing, and guardrail-testing push payloads without FCM/APNs.
 - Branch `codex/audio-foundation-no-quran-bgm` adds the testable audio policy/player foundation, text-only fallback, and Daily Session Quran no-BGM enforcement without bundling licensed audio.
+- Branch `codex/source-corpus-real-ingestion` adds manifest-driven local Quran source corpus ingestion, fixture-only parser/merge/lock tests, draft source item exports, and CMS import JSONL payload generation without live source downloads or full corpus commits.
 
 ## Current Validation Gate
 
@@ -40,7 +41,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 1. Run the full verification gate after every app change: `flutter test`, `dart analyze`, and Android emulator launch.
 2. Continue the UI refactor from the design outputs, starting with Home, Daily Session, Dua Detail, and Women Ibadah Mode.
 3. Add visual or integration coverage only after the widget tests remain stable; keep TDD fast by default.
-4. Finish Quran corpus ingestion with fixture-only tests first, then wire the client content cache around manifest, hash, schema, approval, and fallback rules.
+4. After approved local source files are placed under `data/source/raw/`, run source corpus manifest ingestion and review the generated lock file before committing any schema or seed payload decisions.
 5. Expand Content Agent automated tests for guardrails, deterministic weekly preproduction, prayer-content generation packets, and no auto-publish/no FCM behavior.
 6. Add CMS/API integration behind seed fallback and keep all remote content filtered by `published` and `approved`.
 7. Next client milestone: continue notification UX polish only after platform permission copy is finalized, then expand prayer-location handling beyond the manual fallback.
@@ -51,4 +52,5 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 
 - Do not commit secrets, production CMS config, full Quran corpus, or licensed audio.
 - For Quran text, import and validate authorized source data; do not generate or rewrite Qur'an original text.
+- Source corpus tests remain fixture-only: no live Tanzil/QuranEnc downloads, no generated Quran text, and no machine-generated translations.
 - Women's mode privacy remains local-first, and sensitive content must not appear in lock-screen push text.

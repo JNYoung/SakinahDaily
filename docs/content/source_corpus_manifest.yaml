@@ -1,12 +1,48 @@
-providers:
-  tanzil:
-    format: pipe
-    required: true
+sources:
+  - id: tanzil_arabic
+    provider: tanzil
+    provider_name: Tanzil
+    content_type: arabic
+    language: ar
+    version: user_supplied
+    local_path: ../../data/source/raw/tanzil/quran-simple-clean.txt
     attribution: "Tanzil Quran text, user-supplied local file"
-  quranenc:
-    format: csv
+    terms_summary: "Verify source terms before local processing; do not commit full corpus."
+    expected_format: tanzil_pipe
+    required: true
+  - id: quranenc_en
+    provider: quranenc
+    provider_name: QuranEnc
+    content_type: translation
+    language: en
+    version: user_supplied
+    local_path: ../../data/source/raw/quranenc/en.csv
+    attribution: "QuranEnc English translation, user-supplied local file"
+    terms_summary: "Verify source terms before local processing; do not commit full corpus."
+    expected_format: quranenc_csv
+    required: true
+  - id: quranenc_ar_tafsir
+    provider: quranenc
+    provider_name: QuranEnc
+    content_type: tafsir
+    language: ar_tafsir
+    version: user_supplied
+    local_path: ../../data/source/raw/quranenc/ar_tafsir.csv
+    attribution: "QuranEnc Arabic tafsir/explanation, user-supplied local file"
+    terms_summary: "Verify source terms before local processing; do not commit full corpus."
+    expected_format: quranenc_csv
     required: false
-    attribution: "QuranEnc translations, user-supplied local file"
+  - id: quranenc_id
+    provider: quranenc
+    provider_name: QuranEnc
+    content_type: translation
+    language: id
+    version: user_supplied
+    local_path: ../../data/source/raw/quranenc/id.csv
+    attribution: "QuranEnc Indonesian translation, user-supplied local file"
+    terms_summary: "Verify source terms before local processing; do not commit full corpus."
+    expected_format: quranenc_csv
+    required: false
 expected:
   surah_count: 114
   ayah_count: 6236
