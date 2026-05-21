@@ -1,64 +1,104 @@
-# SakinahDaily
+# Sakinah Daily
 
-Sakinah Daily 是一个面向中东与印尼用户的 Islamic daily calm app，核心体验是每天 5–12 分钟的 Quran listening、Dua、Dhikr、Prayer reminders 和 gender-aware worship routines。
+Sakinah Daily is an Islamic daily calm app for Middle East and Indonesia users.
+The MVP focuses on Quran listening, Dua, Dhikr, prayer reminders, and
+privacy-first women's worship routines.
 
-本仓库的 MVP 原则：
+The product principle:
 
-> 先做一个高完成度的每日助祷陪伴 App，不做完整 Quran super-app，也不做普通冥想 App。
+> Build a high-quality daily worship companion first, not a full Quran super-app
+> and not a generic meditation app.
 
-## MVP 核心体验
+## Current Status
 
-用户完成 onboarding 后进入 Home：
+This repository contains the local MVP foundation:
 
-1. 看到下一次礼拜倒计时。
-2. 看到 Today's Sakinah Daily Session。
-3. 开始一个 5–12 分钟 session。
-4. 完成 Intention → Quran Audio → Reflection → Guided Dua → Dhikr Counter → Completion。
-5. 可浏览 Dua / Dhikr library，保存内容，配置推送和 Women’s Ibadah Mode。
+- Flutter client structure with routing, Riverpod providers, theme tokens,
+  localization, RTL support, onboarding, splash, home, prayer, daily session,
+  Dua, Dhikr, settings, seed content, and analytics stubs.
+- TypeScript `services/content-agent` foundation with deterministic draft
+  generation and guardrail tests.
+- Python `scripts/source_corpus` tooling for Quran source corpus parsing,
+  merging, and validation.
+- Documentation for PRD, design, architecture, content safety, CMS, client
+  content cache, agent workflows, and next-step jobs.
 
-## 关键产品规则
+## MVP Core Experience
 
-- Quran Arabic recitation 不能使用普通 TTS。
-- Quran recitation 下永远不播放 BGM。
-- Dua / Dhikr / Reflection 必须显示来源、审核状态或 CMS 发布状态。
-- Arabic UI 必须从第一天支持 RTL。
-- Women’s Ibadah Mode 默认本地隐私存储，不做成医学化 period tracker。
-- MVP 不做 AI Fatwa、宗教问答、社区、UGC、广告、复杂付费墙。
+After onboarding, the user enters Home:
 
-## 文档入口
+1. See the next prayer countdown.
+2. See Today's Sakinah Daily Session.
+3. Start a 5-12 minute session.
+4. Complete Intention -> Quran Audio -> Reflection -> Guided Dua -> Dhikr
+   Counter -> Completion.
+5. Browse Dua and Dhikr libraries, save content, configure push preferences, and
+   use Women's Ibadah Mode.
 
-| 文档 | 用途 |
+## Safety Rules
+
+- Quran Arabic recitation cannot use generic TTS.
+- Quran recitation must never play over background music.
+- Quran text and translations must be imported from approved sources, never
+  generated.
+- Dua, Dhikr, and Reflection content must display source, review status, or CMS
+  publish status.
+- Arabic UI must support RTL from the start.
+- Women's Ibadah Mode is local-first privacy behavior, not a medical period
+  tracker.
+- MVP does not include AI fatwa, religious Q&A, community, UGC, ads, or complex
+  paywalls.
+
+## Docs Entry
+
+| Document | Purpose |
 |---|---|
-| `docs/00_DOCS_INDEX.md` | 文档地图与执行顺序 |
-| `docs/prd/01_PRODUCT_PRD.md` | 产品 PRD |
-| `docs/prd/02_CLIENT_PRD.md` | 客户端 PRD |
-| `docs/prd/03_SERVER_PRD.md` | 服务端 PRD |
+| `docs/00_DOCS_INDEX.md` | Docs map and execution order |
+| `docs/prd/01_PRODUCT_PRD.md` | Product PRD |
+| `docs/prd/02_CLIENT_PRD.md` | Client PRD |
+| `docs/prd/03_SERVER_PRD.md` | Server PRD |
 | `docs/prd/04_CMS_PRD.md` | CMS PRD |
-| `docs/prd/05_SCM_PRD.md` | SCM / Repo / Codex 协作 PRD |
-| `docs/design/01_DESIGN_SYSTEM.md` | 设计系统 |
-| `docs/design/02_SCREEN_SPECS.md` | 页面规格和线框 |
-| `docs/architecture/01_TECH_ARCHITECTURE.md` | 技术架构 |
-| `docs/content/01_CONTENT_GUIDELINES.md` | 内容与宗教安全规范 |
-| `docs/codex/00_CODEX_CONTEXT.md` | Codex 总上下文 |
-| `docs/codex/01_CODEX_MILESTONES.md` | Codex 分阶段执行任务 |
-| `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | MVP 验收清单 |
+| `docs/prd/05_SCM_PRD.md` | SCM / repo / Codex collaboration PRD |
+| `docs/design/01_DESIGN_SYSTEM.md` | Design system |
+| `docs/design/02_SCREEN_SPECS.md` | Screen specs and wireframes |
+| `docs/architecture/01_TECH_ARCHITECTURE.md` | Technical architecture |
+| `docs/content/01_CONTENT_GUIDELINES.md` | Religious content safety |
+| `docs/agent/01_CONTENT_AGENT_SERVICE_PRD.md` | Content Agent service PRD |
+| `docs/client/01_CONTENT_DELIVERY_CACHE_STRATEGY.md` | Client cache strategy |
+| `docs/jobs/2026-05-21_completed_work_and_next_steps.md` | Current completion and next jobs |
+| `docs/codex/00_CODEX_CONTEXT.md` | Codex project context |
+| `docs/codex/01_CODEX_MILESTONES.md` | Codex milestone prompts |
+| `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | MVP acceptance checklist |
 
-## 推荐技术栈
+## Local Setup
 
-- Client: Flutter + Dart
-- State: Riverpod
-- Routing: go_router
-- Localization: Flutter l10n / ARB / RTL
-- Audio: just_audio
-- Prayer calculation: adhan_dart 或等价库
-- Local notifications: flutter_local_notifications
-- Backend: Supabase Postgres/Auth/Storage/Edge Functions
-- CMS: Directus
-- Server push: Firebase Cloud Messaging
+Flutter is required for the client:
 
-## Codex 使用方式
+```sh
+flutter doctor
+flutter pub get
+flutter test
+dart analyze
+```
 
-先让 Codex 阅读：
+Content Agent service:
+
+```sh
+cd services/content-agent
+npm install
+npm test
+npm run typecheck
+```
+
+Source corpus scripts:
+
+```sh
+python3 -m unittest discover -s scripts/source_corpus -p 'test_*.py'
+```
+
+## Codex Usage
+
+Ask Codex to read:
 
 ```text
 AGENTS.md
@@ -68,4 +108,9 @@ docs/codex/00_CODEX_CONTEXT.md
 docs/codex/01_CODEX_MILESTONES.md
 ```
 
-然后每次只执行一个 milestone，完成后 review diff，再继续下一步。
+Then execute one milestone at a time, review the diff, and continue.
+
+## Notes
+
+The repository intentionally does not include full Quran corpus files, licensed
+audio, API secrets, or production CMS configuration.

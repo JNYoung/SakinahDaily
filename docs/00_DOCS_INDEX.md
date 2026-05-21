@@ -30,8 +30,34 @@
 | `docs/architecture/01_TECH_ARCHITECTURE.md` | 总体技术架构、模块、数据流、目录结构 |
 | `docs/architecture/02_DATA_MODELS.md` | 客户端模型、CMS 表结构、JSON 示例 |
 | `docs/content/01_CONTENT_GUIDELINES.md` | Quran/Dua/Dhikr/Reflection 内容策略与宗教安全 |
+| `docs/content/02_DAILY_PUSH_CONTENT_SYSTEM.md` | 每日推送内容模型、选择规则、安全约束 |
+| `docs/content/03_SOURCE_CORPUS_INGESTION.md` | Quran/Tanzil/QuranEnc 语料导入与校验策略 |
 | `docs/cms/supabase_schema.sql` | MVP 级别 Supabase/Postgres schema 草案 |
+| `docs/cms/02_PUSH_CONTENT_SCHEMA.sql` | Daily push content CMS schema 草案 |
+| `docs/cms/03_AGENT_SERVICE_SCHEMA.sql` | Content Agent service schema 草案 |
+| `docs/cms/04_SOURCE_CORPUS_SCHEMA.sql` | Source corpus schema 草案 |
+| `docs/cms/05_CLIENT_CONTENT_DELIVERY_SCHEMA.sql` | Client content delivery/cache schema 草案 |
+| `docs/client/01_CONTENT_DELIVERY_CACHE_STRATEGY.md` | 客户端内容 manifest、bundle、cache 策略 |
+| `docs/client/02_CLIENT_CONTENT_MODELS.md` | 客户端内容投递模型 |
+| `docs/client/03_CLIENT_SYNC_FLOWS.md` | 客户端同步与缺内容恢复流程 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
+
+### Agent Service 文档
+
+| 文件 | 责任 |
+|---|---|
+| `docs/agent/01_CONTENT_AGENT_SERVICE_PRD.md` | Content Agent Service PRD |
+| `docs/agent/02_AGENT_WORKFLOWS.md` | Agent run、review、QA、promote 工作流 |
+| `docs/agent/03_AGENT_OUTPUT_SCHEMAS.md` | Agent structured output schema |
+| `docs/agent/04_AGENT_PROMPTS.md` | Agent prompts 与约束 |
+| `docs/agent/05_AGENT_SERVICE_OPENAPI.yaml` | Agent Service REST API 草案 |
+| `docs/agent/06_EVAL_AND_GUARDRAILS.md` | Eval、guardrails、自动化测试策略 |
+
+### Job 交接文档
+
+| 文件 | 责任 |
+|---|---|
+| `docs/jobs/2026-05-21_completed_work_and_next_steps.md` | 当前已完成工作、验证门禁、下一步推进 |
 
 ### Codex 文档
 
@@ -54,6 +80,7 @@
 9. 实现 Settings 与 Women’s Ibadah Mode。
 10. 接 CMS API。
 11. 加 analytics stub 与 QA checklist。
+12. 按 `docs/jobs/` 的最新交接记录继续推进 UI 重构、Quran 语料、缓存和 Agent 测试。
 
 ## 3. 文档维护规则
 
