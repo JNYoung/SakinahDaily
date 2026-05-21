@@ -22,6 +22,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Home vertical overscroll stretch/glow is disabled so pulling past the top or bottom no longer visually deforms the screen.
 - Branch `codex/prayer-location-notification-ux` adds prayer location presets, optional timezone IDs, localized notification copy, notification permission explanation UX, denied/scheduled feedback, and awaited onboarding preference save.
 - App-wide scroll behavior now disables vertical overscroll stretch/glow across Home, Prayer, Dua, Dhikr, Settings, Onboarding, Women's Mode, and Daily Session surfaces.
+- Prayer now opens as an immersive pushed page without the bottom navigation bar, while preserving back navigation to Home.
 
 ## Current Validation Gate
 

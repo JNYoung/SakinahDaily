@@ -21,7 +21,6 @@ class PrayerPage extends ConsumerWidget {
 
     return LanguageAwareScaffold(
       title: l10n.t('prayer'),
-      selectedNavIndex: 0,
       body: ListView.separated(
         key: SakinahKeys.prayerContentList,
         itemCount: prayers.length + 1,
