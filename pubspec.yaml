@@ -14,6 +14,7 @@ dependencies:
   crypto: ^3.0.6
   flutter_riverpod: ^2.6.1
   go_router: ^14.8.1
+  http: ^1.2.2
   shared_preferences: ^2.5.5
   adhan_dart: ^2.0.1
   flutter_local_notifications: ^21.0.0

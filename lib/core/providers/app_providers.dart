@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/content_api_config.dart';
 import '../models/sakinah_models.dart';
 import '../repositories/content_cache_repository.dart';
 import '../repositories/content_repository.dart';
@@ -14,6 +15,7 @@ import '../services/content_service.dart';
 import '../services/notification_service.dart';
 import '../services/prayer_calculation_service.dart';
 import '../services/push_candidate_selector.dart';
+import '../services/remote_content_api_client.dart';
 
 final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
 
@@ -128,6 +130,27 @@ final contentCacheRepositoryProvider = Provider<ContentCacheRepository>((ref) {
   return ContentCacheRepository(ref.watch(contentCacheStoreProvider));
 });
 
+final contentApiConfigProvider = Provider<ContentApiConfig>((ref) {
+  return ContentApiConfig.fromEnvironment();
+});
+
+final contentHttpClientProvider = Provider<ContentHttpClient>((ref) {
+  final client = DartHttpContentClient();
+  ref.onDispose(client.close);
+  return client;
+});
+
+final remoteManifestClientProvider = Provider<RemoteManifestClient?>((ref) {
+  final config = ref.watch(contentApiConfigProvider);
+  if (!config.isUsable) {
+    return null;
+  }
+  return HttpRemoteManifestClient(
+    config: config,
+    httpClient: ref.watch(contentHttpClientProvider),
+  );
+});
+
 final contentRepositoryProvider = Provider<ContentRepository>((ref) {
   return ref.watch(contentServiceProvider);
 });
@@ -150,11 +173,26 @@ final notificationServiceProvider = Provider<NotificationService>(
 );
 
 final contentServiceProvider = Provider<ContentService>((ref) {
+  final remoteClient = ref.watch(remoteManifestClientProvider);
+  final languageCode = ref.watch(localeProvider).languageCode;
+  final context = ContentRequestContext(
+    languageCode: languageCode,
+    market: 'global',
+    appVersion: '0.1.0',
+    womenIbadahMode: UserPreferences.defaults().womenIbadahMode,
+  );
   final service = ContentService(
     seedRepository: ref.watch(seedContentRepositoryProvider),
     cacheRepository: ref.watch(contentCacheRepositoryProvider),
+    remoteClient: remoteClient,
+    defaultContext: context,
   );
-  unawaited(service.restoreCachedContent());
+  unawaited(() async {
+    await service.restoreCachedContent();
+    if (remoteClient != null) {
+      await service.refreshRemoteContent(context);
+    }
+  }());
   return service;
 });
 

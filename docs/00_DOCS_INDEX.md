@@ -40,6 +40,8 @@
 | `docs/client/01_CONTENT_DELIVERY_CACHE_STRATEGY.md` | 客户端内容 manifest、bundle、cache 策略 |
 | `docs/client/02_CLIENT_CONTENT_MODELS.md` | 客户端内容投递模型 |
 | `docs/client/03_CLIENT_SYNC_FLOWS.md` | 客户端同步与缺内容恢复流程 |
+| `docs/client/04_CLIENT_CONTENT_CACHE_IMPLEMENTATION.md` | 客户端持久内容缓存实现 |
+| `docs/client/05_REMOTE_CONTENT_API_INTEGRATION.md` | 远程内容 API 配置、manifest/bundle 合约、安全回退 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Agent Service 文档

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/models/local_push_payload.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
@@ -10,6 +11,9 @@ import 'package:sakinah_daily/core/services/content_service.dart';
 import 'package:sakinah_daily/core/services/local_push_receiver.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/core/services/prayer_calculation_service.dart';
+import 'package:sakinah_daily/core/services/remote_content_api_client.dart';
+
+import 'support/fake_content_http_client.dart';
 
 void main() {
   late LocalPushReceiver receiver;
@@ -97,7 +101,106 @@ void main() {
     expect(result.route, '/session/remote_session');
   });
 
-  test('missing hinted detail bundle returns fallback without inventing content',
+  test('missing daily session recovers through fake HTTP detail bundle',
+      () async {
+    final raw = _detailBundleJson('remote_http_session');
+    final remote = _httpRemoteClient({
+      _detailUri('detail_remote_http_session').toString():
+          ContentHttpResponse.ok(jsonEncode({
+        'bundleRef': {
+          'bundleId': 'detail_remote_http_session',
+          'bundleType': 'daily_session_bundle',
+          'url':
+              'https://cdn.example.test/bundles/detail_remote_http_session.json',
+          'sha256': _sha256(raw),
+          'schemaVersion': 1,
+          'required': false,
+          'language': 'en',
+          'market': 'global',
+        },
+      })),
+      'https://cdn.example.test/bundles/detail_remote_http_session.json':
+          ContentHttpResponse.ok(raw),
+    });
+    final receiver = LocalPushReceiver(
+      contentService: _contentService(remote),
+    );
+
+    final result = await receiver.receiveJson(_payloadJson(
+      type: 'daily_session',
+      contentId: 'remote_http_session',
+      bundleHint: 'detail_remote_http_session',
+    ));
+
+    expect(result.accepted, isTrue);
+    expect(result.route, '/session/remote_http_session');
+  });
+
+  test('invalid detail bundle hash returns fallback', () async {
+    final raw = _detailBundleJson('remote_bad_hash_session');
+    final receiver = LocalPushReceiver(
+      contentService: _contentService(_httpRemoteClient({
+        _detailUri('detail_bad_hash').toString():
+            ContentHttpResponse.ok(jsonEncode({
+          'bundleRef': {
+            'bundleId': 'detail_bad_hash',
+            'bundleType': 'daily_session_bundle',
+            'url': 'https://cdn.example.test/bundles/detail_bad_hash.json',
+            'sha256': 'wrong',
+            'schemaVersion': 1,
+            'required': false,
+          },
+        })),
+        'https://cdn.example.test/bundles/detail_bad_hash.json':
+            ContentHttpResponse.ok(raw),
+      })),
+    );
+
+    final result = await receiver.receiveJson(_payloadJson(
+      type: 'daily_session',
+      contentId: 'remote_bad_hash_session',
+      bundleHint: 'detail_bad_hash',
+    ));
+
+    expect(result.accepted, isFalse);
+    expect(result.flags, contains('missing_content'));
+  });
+
+  test('unapproved detail bundle returns fallback', () async {
+    final raw = _detailBundleJson(
+      'remote_unapproved_session',
+      reviewStatus: 'draft',
+    );
+    final receiver = LocalPushReceiver(
+      contentService: _contentService(_httpRemoteClient({
+        _detailUri('detail_unapproved').toString():
+            ContentHttpResponse.ok(jsonEncode({
+          'bundleRef': {
+            'bundleId': 'detail_unapproved',
+            'bundleType': 'daily_session_bundle',
+            'url': 'https://cdn.example.test/bundles/detail_unapproved.json',
+            'sha256': _sha256(raw),
+            'schemaVersion': 1,
+            'required': false,
+          },
+        })),
+        'https://cdn.example.test/bundles/detail_unapproved.json':
+            ContentHttpResponse.ok(raw),
+      })),
+    );
+
+    final result = await receiver.receiveJson(_payloadJson(
+      type: 'daily_session',
+      contentId: 'remote_unapproved_session',
+      bundleHint: 'detail_unapproved',
+    ));
+
+    expect(result.accepted, isFalse);
+    expect(result.flags, contains('missing_content'));
+  });
+
+  test(
+      'missing hinted detail bundle returns fallback without inventing content',
       () async {
     final receiver = LocalPushReceiver(
       contentService: ContentService(
@@ -232,6 +335,39 @@ String _payloadJson({
   });
 }
 
+ContentService _contentService(RemoteManifestClient remoteClient) {
+  return ContentService(
+    seedRepository: SeedContentRepository(SeedContent.demo()),
+    cacheRepository: ContentCacheRepository(InMemoryContentCacheStore()),
+    remoteClient: remoteClient,
+  );
+}
+
+HttpRemoteManifestClient _httpRemoteClient(
+  Map<String, ContentHttpResponse> routes,
+) {
+  return HttpRemoteManifestClient(
+    config: ContentApiConfig(
+      enabled: true,
+      provider: 'generic',
+      baseUri: Uri.parse('https://content.example.test'),
+      detailBundlePath: '/detail-bundle',
+    ),
+    httpClient: FakeContentHttpClient(routes),
+  );
+}
+
+Uri _detailUri(String hint) {
+  return Uri.parse('https://content.example.test/detail-bundle').replace(
+    queryParameters: {
+      'bundle_hint': hint,
+      'language': 'en',
+      'market': 'global',
+      'schema_version': '1',
+    },
+  );
+}
+
 class _FakeRemoteManifestClient implements RemoteManifestClient {
   _FakeRemoteManifestClient({
     this.bundleHints = const {},
@@ -261,7 +397,7 @@ class _FakeRemoteManifestClient implements RemoteManifestClient {
   }
 }
 
-String _detailBundleJson(String sessionId) {
+String _detailBundleJson(String sessionId, {String reviewStatus = 'approved'}) {
   return jsonEncode({
     'bundleId': 'detail_$sessionId',
     'bundleType': 'daily_session_bundle',
@@ -269,7 +405,7 @@ String _detailBundleJson(String sessionId) {
     'language': 'en',
     'market': 'global',
     'status': 'published',
-    'reviewStatus': 'approved',
+    'reviewStatus': reviewStatus,
     'sourceCorpusVersions': {'quran': 'fixture-corpus-v1'},
     'payload': {
       'dailySessions': [
@@ -285,7 +421,7 @@ String _detailBundleJson(String sessionId) {
             }
           ],
           'status': 'published',
-          'reviewStatus': 'approved',
+          'reviewStatus': reviewStatus,
         }
       ],
     },
