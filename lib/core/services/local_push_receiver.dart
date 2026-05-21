@@ -55,10 +55,10 @@ class LocalPushReceiver {
     }
 
     return switch (payload.type) {
-      LocalPushType.dailySession => _resolveDailySession(payload),
-      LocalPushType.dua => _resolveDua(payload),
-      LocalPushType.dhikr => _resolveDhikr(payload),
-      LocalPushType.quran => _resolveQuran(payload),
+      LocalPushType.dailySession => await _resolveDailySession(payload),
+      LocalPushType.dua => await _resolveDua(payload),
+      LocalPushType.dhikr => await _resolveDhikr(payload),
+      LocalPushType.quran => await _resolveQuran(payload),
       LocalPushType.unknown => _rejected(
           flags: const ['unknown_type'],
           message: 'This push type is not supported yet.',
@@ -66,15 +66,20 @@ class LocalPushReceiver {
     };
   }
 
-  LocalPushReceiveResult _resolveDailySession(LocalPushPayload payload) {
-    final session = contentService.loadDailySession(payload.contentId);
-    if (session == null) {
+  Future<LocalPushReceiveResult> _resolveDailySession(
+    LocalPushPayload payload,
+  ) async {
+    final result = await contentService.recoverPushDeepLink(
+      payload.contentId,
+      bundleHint: payload.bundleHint,
+    );
+    if (!result.available || result.session == null) {
       return _missingContent();
     }
-    return _accepted('/session/${session.id}');
+    return _accepted('/session/${result.session!.id}');
   }
 
-  LocalPushReceiveResult _resolveDua(LocalPushPayload payload) {
+  Future<LocalPushReceiveResult> _resolveDua(LocalPushPayload payload) async {
     final dua = contentService.loadDua(payload.contentId);
     if (dua == null) {
       return _missingContent();
@@ -82,7 +87,7 @@ class LocalPushReceiver {
     return _accepted('/dua/${dua.id}');
   }
 
-  LocalPushReceiveResult _resolveDhikr(LocalPushPayload payload) {
+  Future<LocalPushReceiveResult> _resolveDhikr(LocalPushPayload payload) async {
     final dhikr = contentService.loadDhikr(payload.contentId);
     if (dhikr == null) {
       return _missingContent();
@@ -90,7 +95,7 @@ class LocalPushReceiver {
     return _accepted('/dhikr');
   }
 
-  LocalPushReceiveResult _resolveQuran(LocalPushPayload payload) {
+  Future<LocalPushReceiveResult> _resolveQuran(LocalPushPayload payload) async {
     final session = contentService.loadSessionContainingContent(
       payload.contentId,
     );

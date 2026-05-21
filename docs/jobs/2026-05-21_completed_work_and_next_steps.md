@@ -26,6 +26,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/local-push-tdd` adds a local push payload model, client-side receiver tests, and a deterministic local push simulator for previewing, queueing, and guardrail-testing push payloads without FCM/APNs.
 - Branch `codex/audio-foundation-no-quran-bgm` adds the testable audio policy/player foundation, text-only fallback, and Daily Session Quran no-BGM enforcement without bundling licensed audio.
 - Branch `codex/source-corpus-real-ingestion` adds manifest-driven local Quran source corpus ingestion, fixture-only parser/merge/lock tests, draft source item exports, and CMS import JSONL payload generation without live source downloads or full corpus commits.
+- Branch `codex/client-content-cache-persistent` adds persistent manifest/bundle cache runtime tests, SharedPreferences-backed MVP cache storage, validated bundle activation, revocation handling, and fake detail-bundle recovery for local push deep links without live CMS calls.
 
 ## Current Validation Gate
 
@@ -42,8 +43,8 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 2. Continue the UI refactor from the design outputs, starting with Home, Daily Session, Dua Detail, and Women Ibadah Mode.
 3. Add visual or integration coverage only after the widget tests remain stable; keep TDD fast by default.
 4. After approved local source files are placed under `data/source/raw/`, run source corpus manifest ingestion and review the generated lock file before committing any schema or seed payload decisions.
-5. Expand Content Agent automated tests for guardrails, deterministic weekly preproduction, prayer-content generation packets, and no auto-publish/no FCM behavior.
-6. Add CMS/API integration behind seed fallback and keep all remote content filtered by `published` and `approved`.
+5. Add a real CMS/API manifest client behind the existing fake-client contract, keeping all remote content filtered by `published` and `approved`.
+6. Expand Content Agent automated tests for guardrails, deterministic weekly preproduction, prayer-content generation packets, and no auto-publish/no FCM behavior.
 7. Next client milestone: continue notification UX polish only after platform permission copy is finalized, then expand prayer-location handling beyond the manual fallback.
 8. Next push milestone: wire the local push receiver into notification-tap handling once production routing decisions and platform payload contracts are finalized.
 9. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
@@ -53,4 +54,5 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Do not commit secrets, production CMS config, full Quran corpus, or licensed audio.
 - For Quran text, import and validate authorized source data; do not generate or rewrite Qur'an original text.
 - Source corpus tests remain fixture-only: no live Tanzil/QuranEnc downloads, no generated Quran text, and no machine-generated translations.
+- Client content cache tests remain fake/local only: no live CMS, no FCM/APNs, and no generated religious content.
 - Women's mode privacy remains local-first, and sensitive content must not appear in lock-screen push text.

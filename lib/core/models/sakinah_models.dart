@@ -791,26 +791,84 @@ class ContentManifest {
     required this.id,
     required this.schemaVersion,
     required this.bundles,
+    this.appMinVersion,
+    this.appMaxVersion,
+    this.language = 'en',
+    this.market = 'global',
+    this.generatedAt,
+    this.expiresAt,
+    this.sourceCorpusVersions = const {},
+    this.revokedContentIds = const [],
+    this.fallback = const {},
   });
 
   final String id;
   final int schemaVersion;
+  final String? appMinVersion;
+  final String? appMaxVersion;
+  final String language;
+  final String market;
+  final DateTime? generatedAt;
+  final DateTime? expiresAt;
+  final Map<String, String> sourceCorpusVersions;
+  final List<String> revokedContentIds;
+  final Map<String, dynamic> fallback;
   final List<BundleRef> bundles;
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'manifestId': id,
         'schemaVersion': schemaVersion,
+        'appMinVersion': appMinVersion,
+        'appMaxVersion': appMaxVersion,
+        'language': language,
+        'market': market,
+        'generatedAt': generatedAt?.toIso8601String(),
+        'expiresAt': expiresAt?.toIso8601String(),
+        'sourceCorpusVersions': sourceCorpusVersions,
+        'revokedContentIds': revokedContentIds,
+        'fallback': fallback,
         'bundles': bundles.map((bundle) => bundle.toJson()).toList(),
       };
 
   factory ContentManifest.fromJson(Map<String, dynamic> json) {
     return ContentManifest(
-      id: json['id'] as String,
-      schemaVersion: json['schemaVersion'] as int,
-      bundles: (json['bundles'] as List<dynamic>)
+      id: _stringFromKeys(json, const ['manifestId', 'id']),
+      schemaVersion: _intFromJson(json['schemaVersion'], fallback: 1),
+      appMinVersion: json['appMinVersion'] as String?,
+      appMaxVersion: json['appMaxVersion'] as String?,
+      language: _stringFromKeys(
+        json,
+        const ['language', 'languageCode'],
+        fallback: 'en',
+      ),
+      market: _stringFromKeys(json, const ['market'], fallback: 'global'),
+      generatedAt: _dateTimeFromJson(json['generatedAt']),
+      expiresAt: _dateTimeFromJson(json['expiresAt']),
+      sourceCorpusVersions: _stringMapFromJson(json['sourceCorpusVersions']),
+      revokedContentIds: _stringListFromJson(json['revokedContentIds']),
+      fallback: _dynamicMapFromJson(json['fallback']),
+      bundles: (json['bundles'] as List<dynamic>? ?? const [])
           .map((bundle) => BundleRef.fromJson(bundle))
           .toList(),
     );
+  }
+
+  bool get allowsStaleFallback => fallback['allowStale'] as bool? ?? false;
+
+  int get maxStaleSeconds =>
+      _intFromJson(fallback['maxStaleSeconds'], fallback: 0);
+
+  bool isExpired(DateTime now) => expiresAt != null && now.isAfter(expiresAt!);
+
+  bool staleAllowed(DateTime now) {
+    if (!isExpired(now)) {
+      return true;
+    }
+    if (!allowsStaleFallback || maxStaleSeconds <= 0 || expiresAt == null) {
+      return false;
+    }
+    return now.difference(expiresAt!).inSeconds <= maxStaleSeconds;
   }
 }
 
@@ -820,26 +878,63 @@ class BundleRef {
     required this.url,
     required this.sha256,
     required this.schemaVersion,
+    this.bundleType = 'home_bundle',
+    this.sizeBytes,
+    this.required = true,
+    this.ttlSeconds,
+    this.priority = 0,
+    this.language = 'en',
+    this.market = 'global',
   });
 
   final String id;
+  final String bundleType;
   final String url;
   final String sha256;
+  final int? sizeBytes;
+  final bool required;
+  final int? ttlSeconds;
+  final int priority;
   final int schemaVersion;
+  final String language;
+  final String market;
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'bundleId': id,
+        'bundleType': bundleType,
         'url': url,
         'sha256': sha256,
+        'sizeBytes': sizeBytes,
+        'required': required,
+        'ttlSeconds': ttlSeconds,
+        'priority': priority,
         'schemaVersion': schemaVersion,
+        'language': language,
+        'market': market,
       };
 
   factory BundleRef.fromJson(Map<String, dynamic> json) {
     return BundleRef(
-      id: json['id'] as String,
-      url: json['url'] as String,
-      sha256: json['sha256'] as String,
-      schemaVersion: json['schemaVersion'] as int,
+      id: _stringFromKeys(json, const ['bundleId', 'id']),
+      bundleType: _stringFromKeys(
+        json,
+        const ['bundleType'],
+        fallback: 'home_bundle',
+      ),
+      url: _stringFromKeys(json, const ['url']),
+      sha256: _stringFromKeys(json, const ['sha256']),
+      sizeBytes: _nullableIntFromJson(json['sizeBytes']),
+      required: json['required'] as bool? ?? true,
+      ttlSeconds: _nullableIntFromJson(json['ttlSeconds']),
+      priority: _intFromJson(json['priority'], fallback: 0),
+      schemaVersion: _intFromJson(json['schemaVersion'], fallback: 1),
+      language: _stringFromKeys(
+        json,
+        const ['language', 'languageCode'],
+        fallback: 'en',
+      ),
+      market: _stringFromKeys(json, const ['market'], fallback: 'global'),
     );
   }
 }
@@ -851,12 +946,20 @@ class ContentBundle {
     required this.status,
     required this.reviewStatus,
     required this.payload,
+    this.bundleType = 'home_bundle',
+    this.language = 'en',
+    this.market = 'global',
+    this.sourceCorpusVersions = const {},
   });
 
   final String id;
+  final String bundleType;
   final int schemaVersion;
+  final String language;
+  final String market;
   final ContentStatus status;
   final ReviewStatus reviewStatus;
+  final Map<String, String> sourceCorpusVersions;
   final Map<String, dynamic> payload;
 
   bool get isApproved =>
@@ -865,9 +968,14 @@ class ContentBundle {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'bundleId': id,
+        'bundleType': bundleType,
         'schemaVersion': schemaVersion,
+        'language': language,
+        'market': market,
         'status': status.name,
         'reviewStatus': reviewStatus.name,
+        'sourceCorpusVersions': sourceCorpusVersions,
         'payload': payload,
       };
 
@@ -875,37 +983,209 @@ class ContentBundle {
 
   factory ContentBundle.fromJson(Map<String, dynamic> json) {
     return ContentBundle(
-      id: json['id'] as String,
-      schemaVersion: json['schemaVersion'] as int,
-      status: ContentStatus.parse(json['status'] as String),
-      reviewStatus: ReviewStatus.parse(json['reviewStatus'] as String),
-      payload: json['payload'] as Map<String, dynamic>,
+      id: _stringFromKeys(json, const ['bundleId', 'id']),
+      bundleType: _stringFromKeys(
+        json,
+        const ['bundleType'],
+        fallback: 'home_bundle',
+      ),
+      schemaVersion: _intFromJson(json['schemaVersion'], fallback: 1),
+      language: _stringFromKeys(
+        json,
+        const ['language', 'languageCode'],
+        fallback: 'en',
+      ),
+      market: _stringFromKeys(json, const ['market'], fallback: 'global'),
+      status: ContentStatus.parse(json['status'] as String? ?? ''),
+      reviewStatus: ReviewStatus.parse(json['reviewStatus'] as String? ?? ''),
+      sourceCorpusVersions: _stringMapFromJson(json['sourceCorpusVersions']),
+      payload: _dynamicMapFromJson(json['payload']),
     );
   }
 }
 
 class CacheEntry {
-  const CacheEntry({
+  CacheEntry({
     required this.bundleId,
     required this.sha256,
     required this.cachedAt,
     required this.bundle,
-  });
+    String? cacheKey,
+    this.contentType = 'bundle',
+    String? contentId,
+    this.language = 'en',
+    this.market = 'global',
+    this.sourceCorpusVersionId,
+    this.localPath,
+    this.sizeBytes,
+    DateTime? createdAt,
+    DateTime? lastAccessedAt,
+    this.expiresAt,
+    this.pinned = false,
+  })  : cacheKey = cacheKey ?? bundleId,
+        contentId = contentId ?? bundleId,
+        createdAt = createdAt ?? cachedAt,
+        lastAccessedAt = lastAccessedAt ?? cachedAt;
 
+  final String cacheKey;
+  final String contentType;
+  final String contentId;
   final String bundleId;
+  final String language;
+  final String market;
+  final String? sourceCorpusVersionId;
+  final String? localPath;
   final String sha256;
+  final int? sizeBytes;
+  final DateTime createdAt;
   final DateTime cachedAt;
+  final DateTime lastAccessedAt;
+  final DateTime? expiresAt;
+  final bool pinned;
   final ContentBundle bundle;
+
+  factory CacheEntry.fromBundle(
+    ContentBundle bundle, {
+    required String sha256,
+    DateTime? cachedAt,
+    int? sizeBytes,
+  }) {
+    final now = cachedAt ?? DateTime.now();
+    return CacheEntry(
+      bundleId: bundle.id,
+      sha256: sha256,
+      cachedAt: now,
+      bundle: bundle,
+      contentType: bundle.bundleType,
+      language: bundle.language,
+      market: bundle.market,
+      sourceCorpusVersionId: bundle.sourceCorpusVersions.values.firstOrNull,
+      sizeBytes: sizeBytes,
+      createdAt: now,
+      lastAccessedAt: now,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'cacheKey': cacheKey,
+        'contentType': contentType,
+        'contentId': contentId,
+        'bundleId': bundleId,
+        'language': language,
+        'market': market,
+        'sourceCorpusVersionId': sourceCorpusVersionId,
+        'localPath': localPath,
+        'sha256': sha256,
+        'sizeBytes': sizeBytes,
+        'createdAt': createdAt.toIso8601String(),
+        'cachedAt': cachedAt.toIso8601String(),
+        'lastAccessedAt': lastAccessedAt.toIso8601String(),
+        'expiresAt': expiresAt?.toIso8601String(),
+        'pinned': pinned,
+        'bundle': bundle.toJson(),
+      };
+
+  factory CacheEntry.fromJson(Map<String, dynamic> json) {
+    final cachedAt = _dateTimeFromJson(json['cachedAt']) ?? DateTime.now();
+    return CacheEntry(
+      cacheKey: json['cacheKey'] as String?,
+      contentType: json['contentType'] as String? ?? 'bundle',
+      contentId: json['contentId'] as String?,
+      bundleId: _stringFromKeys(json, const ['bundleId', 'id']),
+      language: json['language'] as String? ?? 'en',
+      market: json['market'] as String? ?? 'global',
+      sourceCorpusVersionId: json['sourceCorpusVersionId'] as String?,
+      localPath: json['localPath'] as String?,
+      sha256: json['sha256'] as String? ?? '',
+      sizeBytes: _nullableIntFromJson(json['sizeBytes']),
+      createdAt: _dateTimeFromJson(json['createdAt']) ?? cachedAt,
+      cachedAt: cachedAt,
+      lastAccessedAt: _dateTimeFromJson(json['lastAccessedAt']) ?? cachedAt,
+      expiresAt: _dateTimeFromJson(json['expiresAt']),
+      pinned: json['pinned'] as bool? ?? false,
+      bundle: ContentBundle.fromJson(json['bundle'] as Map<String, dynamic>),
+    );
+  }
 }
 
 class ContentRequestContext {
   const ContentRequestContext({
     required this.languageCode,
     required this.womenIbadahMode,
+    this.market = 'global',
+    this.appVersion,
     this.lockScreenSafe = false,
   });
 
   final String languageCode;
+  final String market;
+  final String? appVersion;
   final WomenIbadahMode womenIbadahMode;
   final bool lockScreenSafe;
+}
+
+String _stringFromKeys(
+  Map<String, dynamic> json,
+  List<String> keys, {
+  String fallback = '',
+}) {
+  for (final key in keys) {
+    final value = json[key];
+    if (value is String) {
+      return value;
+    }
+  }
+  return fallback;
+}
+
+int _intFromJson(Object? value, {required int fallback}) {
+  if (value is int) {
+    return value;
+  }
+  if (value is num) {
+    return value.toInt();
+  }
+  if (value is String) {
+    return int.tryParse(value) ?? fallback;
+  }
+  return fallback;
+}
+
+int? _nullableIntFromJson(Object? value) {
+  if (value == null) {
+    return null;
+  }
+  return _intFromJson(value, fallback: 0);
+}
+
+DateTime? _dateTimeFromJson(Object? value) {
+  if (value is String && value.isNotEmpty) {
+    return DateTime.tryParse(value);
+  }
+  return null;
+}
+
+Map<String, String> _stringMapFromJson(Object? value) {
+  if (value is Map<String, dynamic>) {
+    return value.map((key, entry) => MapEntry(key, '$entry'));
+  }
+  return const {};
+}
+
+Map<String, dynamic> _dynamicMapFromJson(Object? value) {
+  if (value is Map<String, dynamic>) {
+    return Map<String, dynamic>.from(value);
+  }
+  return const {};
+}
+
+List<String> _stringListFromJson(Object? value) {
+  if (value is List<dynamic>) {
+    return value.map((entry) => '$entry').toList();
+  }
+  return const [];
+}
+
+extension _IterableFirstOrNull<T> on Iterable<T> {
+  T? get firstOrNull => isEmpty ? null : first;
 }
