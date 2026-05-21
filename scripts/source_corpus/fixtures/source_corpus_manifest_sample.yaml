@@ -1,0 +1,24 @@
+sources:
+  - id: tanzil_arabic
+    provider: tanzil
+    provider_name: Tanzil
+    content_type: arabic
+    language: ar
+    version: fixture
+    local_path: raw/tanzil.txt
+    attribution: Tanzil fixture
+    terms_summary: Local fixture only
+    expected_format: tanzil_pipe
+  - id: quranenc_en
+    provider: quranenc
+    provider_name: QuranEnc
+    content_type: translation
+    language: en
+    version: fixture
+    local_path: raw/en.csv
+    attribution: QuranEnc fixture
+    terms_summary: Local fixture only
+    expected_format: quranenc_csv
+expected:
+  surah_count: 1
+  ayah_count: 1
