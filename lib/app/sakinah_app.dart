@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/localization/sakinah_localizations.dart';
 import '../core/providers/app_providers.dart';
+import '../shared/widgets/sakinah_scroll_behavior.dart';
 import 'sakinah_router.dart';
 import 'theme/sakinah_theme.dart';
 
@@ -27,6 +28,7 @@ class SakinahApp extends ConsumerWidget {
       ],
       theme: SakinahTheme.light,
       darkTheme: SakinahTheme.dark,
+      scrollBehavior: const SakinahScrollBehavior(),
       routerConfig: ref.watch(routerProvider),
     );
   }

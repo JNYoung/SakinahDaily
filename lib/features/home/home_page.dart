@@ -35,157 +35,140 @@ class HomePage extends ConsumerWidget {
           icon: const Icon(Icons.settings_outlined),
         ),
       ],
-      body: ScrollConfiguration(
-        behavior: const _HomeScrollBehavior(),
-        child: ListView(
-          key: SakinahKeys.homeContentList,
-          physics: const ClampingScrollPhysics(),
-          children: [
-            Row(
+      body: ListView(
+        key: SakinahKeys.homeContentList,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${l10n.t('homeGreeting')},',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: SakinahColors.mutedText),
+                    ),
+                    Text(
+                      preferences.genderMode.name == 'female'
+                          ? l10n.t('homeFemaleName')
+                          : l10n.t('homeFriend'),
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    Text(
+                      l10n.t('homeDateLabel'),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: SakinahColors.mutedText),
+                    ),
+                  ],
+                ),
+              ),
+              _PrayerBadge(
+                key: SakinahKeys.homePrayerBadge,
+                label: l10n.prayerCountdown(
+                  nextPrayer.name,
+                  nextPrayer.time.difference(now).inHours.clamp(0, 24),
+                  nextPrayer.time
+                      .difference(now)
+                      .inMinutes
+                      .remainder(60)
+                      .clamp(0, 59),
+                ),
+                onTap: () => context.go('/prayer'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 26),
+          _HeroSessionCard(
+            eyebrow: l10n.t('todaySession'),
+            title: session.title.resolve(preferences.languageCode),
+            subtitle: l10n.t('sessionSubtitleMeta'),
+            startButtonKey: SakinahKeys.homeSessionStartButton,
+            startLabel: l10n.t('start'),
+            voiceOnlyLabel: l10n.t('voiceOnly'),
+            onStart: () => context.go('/session/${session.id}'),
+          ),
+          const SizedBox(height: 28),
+          Text(l10n.t('quickActions'),
+              style: Theme.of(context).textTheme.titleLarge),
+          const SizedBox(height: 12),
+          GridView.count(
+            crossAxisCount: 4,
+            childAspectRatio: 0.9,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              _QuickAction(
+                key: SakinahKeys.homeQuickActionQuran,
+                icon: Icons.menu_book_outlined,
+                label: l10n.t('quran'),
+                onTap: () => context.go('/session/${session.id}'),
+              ),
+              _QuickAction(
+                key: SakinahKeys.homeQuickActionDua,
+                icon: Icons.favorite_border_rounded,
+                label: l10n.t('dua'),
+                onTap: () => context.go('/dua'),
+              ),
+              _QuickAction(
+                key: SakinahKeys.homeQuickActionDhikr,
+                icon: Icons.radio_button_checked_rounded,
+                label: l10n.t('dhikr'),
+                onTap: () => context.go('/dhikr'),
+              ),
+              _QuickAction(
+                key: SakinahKeys.homeQuickActionQibla,
+                icon: Icons.explore_outlined,
+                label: l10n.t('qibla'),
+                onTap: () {},
+              ),
+            ],
+          ),
+          const SizedBox(height: 28),
+          AppCard(
+            padding: const EdgeInsets.all(22),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${l10n.t('homeGreeting')},',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: SakinahColors.mutedText),
-                      ),
-                      Text(
-                        preferences.genderMode.name == 'female'
-                            ? l10n.t('homeFemaleName')
-                            : l10n.t('homeFriend'),
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      Text(
-                        l10n.t('homeDateLabel'),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: SakinahColors.mutedText),
-                      ),
-                    ],
-                  ),
+                Text(
+                  l10n.t('tonight'),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge
+                      ?.copyWith(color: SakinahColors.mutedText),
                 ),
-                _PrayerBadge(
-                  key: SakinahKeys.homePrayerBadge,
-                  label: l10n.prayerCountdown(
-                    nextPrayer.name,
-                    nextPrayer.time.difference(now).inHours.clamp(0, 24),
-                    nextPrayer.time
-                        .difference(now)
-                        .inMinutes
-                        .remainder(60)
-                        .clamp(0, 59),
+                const SizedBox(height: 12),
+                Text(
+                  l10n.t('sleepAyatKursi'),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.t('sleepSessionDescription'),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: 136,
+                  child: PrimaryButton(
+                    label: l10n.t('saveTonight'),
+                    tonal: true,
+                    onPressed: () {},
                   ),
-                  onTap: () => context.go('/prayer'),
                 ),
               ],
             ),
-            const SizedBox(height: 26),
-            _HeroSessionCard(
-              eyebrow: l10n.t('todaySession'),
-              title: session.title.resolve(preferences.languageCode),
-              subtitle: l10n.t('sessionSubtitleMeta'),
-              startButtonKey: SakinahKeys.homeSessionStartButton,
-              startLabel: l10n.t('start'),
-              voiceOnlyLabel: l10n.t('voiceOnly'),
-              onStart: () => context.go('/session/${session.id}'),
-            ),
-            const SizedBox(height: 28),
-            Text(l10n.t('quickActions'),
-                style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 12),
-            GridView.count(
-              crossAxisCount: 4,
-              childAspectRatio: 0.9,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                _QuickAction(
-                  key: SakinahKeys.homeQuickActionQuran,
-                  icon: Icons.menu_book_outlined,
-                  label: l10n.t('quran'),
-                  onTap: () => context.go('/session/${session.id}'),
-                ),
-                _QuickAction(
-                  key: SakinahKeys.homeQuickActionDua,
-                  icon: Icons.favorite_border_rounded,
-                  label: l10n.t('dua'),
-                  onTap: () => context.go('/dua'),
-                ),
-                _QuickAction(
-                  key: SakinahKeys.homeQuickActionDhikr,
-                  icon: Icons.radio_button_checked_rounded,
-                  label: l10n.t('dhikr'),
-                  onTap: () => context.go('/dhikr'),
-                ),
-                _QuickAction(
-                  key: SakinahKeys.homeQuickActionQibla,
-                  icon: Icons.explore_outlined,
-                  label: l10n.t('qibla'),
-                  onTap: () {},
-                ),
-              ],
-            ),
-            const SizedBox(height: 28),
-            AppCard(
-              padding: const EdgeInsets.all(22),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.t('tonight'),
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelLarge
-                        ?.copyWith(color: SakinahColors.mutedText),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.t('sleepAyatKursi'),
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    l10n.t('sleepSessionDescription'),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: 136,
-                    child: PrimaryButton(
-                      label: l10n.t('saveTonight'),
-                      tonal: true,
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
-  }
-}
-
-class _HomeScrollBehavior extends ScrollBehavior {
-  const _HomeScrollBehavior();
-
-  @override
-  Widget buildOverscrollIndicator(
-    BuildContext context,
-    Widget child,
-    ScrollableDetails details,
-  ) {
-    return child;
   }
 }
 

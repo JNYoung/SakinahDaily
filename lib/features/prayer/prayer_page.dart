@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/providers/app_providers.dart';
+import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 
 class PrayerPage extends ConsumerWidget {
@@ -22,6 +23,7 @@ class PrayerPage extends ConsumerWidget {
       title: l10n.t('prayer'),
       selectedNavIndex: 0,
       body: ListView.separated(
+        key: SakinahKeys.prayerContentList,
         itemCount: prayers.length + 1,
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {

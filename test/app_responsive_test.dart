@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
+import 'package:sakinah_daily/shared/widgets/sakinah_scroll_behavior.dart';
 
 import 'support/sakinah_test_harness.dart';
 
@@ -31,15 +32,33 @@ void main() {
     await pumpSakinahApp(tester, viewport: mobileViewport);
     await continueToHome(tester);
 
+    expect(
+      tester.widget<MaterialApp>(find.byType(MaterialApp)).scrollBehavior,
+      isA<SakinahScrollBehavior>(),
+    );
+
     final homeList = find.byKey(SakinahKeys.homeContentList);
     expect(homeList, findsOneWidget);
-    expect(
-      tester.widget<ListView>(homeList).physics,
-      isA<ClampingScrollPhysics>(),
-    );
     expect(find.byType(StretchingOverscrollIndicator), findsNothing);
 
     await tester.drag(homeList, const Offset(0, 260));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(StretchingOverscrollIndicator), findsNothing);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('prayer scroll does not stretch at vertical edges',
+      (tester) async {
+    await pumpSakinahApp(tester, viewport: mobileViewport);
+    await continueToHome(tester);
+    await tapByKey(tester, SakinahKeys.homePrayerBadge);
+
+    final prayerList = find.byKey(SakinahKeys.prayerContentList);
+    expect(prayerList, findsOneWidget);
+    expect(find.byType(StretchingOverscrollIndicator), findsNothing);
+
+    await tester.drag(prayerList, const Offset(0, 260));
     await tester.pumpAndSettle();
 
     expect(find.byType(StretchingOverscrollIndicator), findsNothing);

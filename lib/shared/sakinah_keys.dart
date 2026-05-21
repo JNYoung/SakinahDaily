@@ -38,6 +38,7 @@ abstract final class SakinahKeys {
       ValueKey<String>('settings_prayer_method_dropdown');
   static const settingsNotificationSwitch =
       ValueKey<String>('settings_notification_switch');
+  static const prayerContentList = ValueKey<String>('prayer_content_list');
   static const womenModeNormalChip = ValueKey<String>('women_mode_normal_chip');
   static const womenModeMenstruatingChip =
       ValueKey<String>('women_mode_menstruating_chip');

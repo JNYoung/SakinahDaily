@@ -21,13 +21,14 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Settings now exposes prayer method selection and a safe notification toggle; onboarding saves preferences before routing home, and the Prayer page displays calculated times from the active settings.
 - Home vertical overscroll stretch/glow is disabled so pulling past the top or bottom no longer visually deforms the screen.
 - Branch `codex/prayer-location-notification-ux` adds prayer location presets, optional timezone IDs, localized notification copy, notification permission explanation UX, denied/scheduled feedback, and awaited onboarding preference save.
+- App-wide scroll behavior now disables vertical overscroll stretch/glow across Home, Prayer, Dua, Dhikr, Settings, Onboarding, Women's Mode, and Daily Session surfaces.
 
 ## Current Validation Gate
 
 - Primary app gate: `flutter test`
 - Static analysis gate: `dart analyze`
 - Android gate: launch the Flutter app on the connected emulator after app-level changes.
-- Latest milestone validation on `codex/prayer-location-notification-ux`: `flutter test` passed with 50 tests, `dart analyze` passed with no issues, and `flutter run -d emulator-5554` built, installed, and launched successfully.
+- Latest milestone validation on `codex/prayer-location-notification-ux`: `flutter test` passed with 51 tests, `dart analyze` passed with no issues, and `flutter run -d emulator-5554` built, installed, and launched successfully.
 - `flutter analyze` was retried for this milestone and still crashes in Flutter's analysis server with `FormatException: Unexpected end of input` while handling the current Chinese-character workspace path; generated `flutter_*.log` crash files are ignored.
 - Known note: `flutter analyze` may fail under the current Chinese-character workspace path because the Flutter analysis server crashes while parsing its protocol stream. Use `dart analyze` as the stable local gate unless the workspace path is moved or the Flutter toolchain issue is resolved.
 
