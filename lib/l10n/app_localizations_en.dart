@@ -181,6 +181,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get modePregnancy => 'Pregnancy';
 
   @override
+  String get modePreferNotToTrack => 'Prefer not to track';
+
+  @override
   String get dataStaysLocal => 'Data stays local by default';
 
   @override

@@ -180,6 +180,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get modePregnancy => 'Kehamilan';
 
   @override
+  String get modePreferNotToTrack => 'Tidak dilacak';
+
+  @override
   String get dataStaysLocal => 'Data tetap lokal secara default';
 
   @override

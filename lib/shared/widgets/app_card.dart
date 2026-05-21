@@ -18,9 +18,13 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final card = Card(
       color: color,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+      clipBehavior: Clip.antiAlias,
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+      shadowColor: Colors.black.withValues(alpha: isDark ? 0.28 : 0.10),
       child: Padding(
         padding: padding,
         child: child,

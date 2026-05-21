@@ -73,9 +73,28 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
   }
 
   Future<void> setWomenMode(bool enabled) async {
+    final status = enabled
+        ? (state.womenIbadahMode.status == WomenIbadahStatus.normal
+            ? WomenIbadahStatus.menstruating
+            : state.womenIbadahMode.status)
+        : WomenIbadahStatus.normal;
     await _commit(
       state.copyWith(
-        womenIbadahMode: state.womenIbadahMode.copyWith(enabled: enabled),
+        womenIbadahMode: state.womenIbadahMode.copyWith(
+          enabled: enabled,
+          status: status,
+        ),
+      ),
+    );
+  }
+
+  Future<void> setWomenModeStatus(WomenIbadahStatus status) async {
+    await _commit(
+      state.copyWith(
+        womenIbadahMode: state.womenIbadahMode.copyWith(
+          enabled: status != WomenIbadahStatus.normal,
+          status: status,
+        ),
       ),
     );
   }

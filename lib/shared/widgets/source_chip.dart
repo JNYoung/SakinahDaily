@@ -15,18 +15,26 @@ class SourceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = SakinahLocalizations.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: const Color(0xFFEAF3E7),
+        color: isDark ? const Color(0xFF18263D) : const Color(0xFFEAF3E7),
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFD6E6D0)),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.08)
+              : const Color(0xFFD6E6D0),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            const Icon(Icons.verified_outlined, color: Color(0xFF0E3B2E)),
+            Icon(
+              Icons.verified_outlined,
+              color: isDark ? const Color(0xFFC9A45C) : const Color(0xFF0E3B2E),
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(

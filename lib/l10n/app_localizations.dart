@@ -430,6 +430,12 @@ abstract class AppLocalizations {
   /// **'Pregnancy'**
   String get modePregnancy;
 
+  /// No description provided for @modePreferNotToTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer not to track'**
+  String get modePreferNotToTrack;
+
   /// No description provided for @dataStaysLocal.
   ///
   /// In en, this message translates to:

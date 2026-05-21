@@ -10,6 +10,10 @@ abstract final class SakinahKeys {
 
   static const homePrayerBadge = ValueKey<String>('home_prayer_badge');
   static const homeContentList = ValueKey<String>('home_content_list');
+  static const homeSessionCard = ValueKey<String>('home_session_card');
+  static const homeQuickActionsCard =
+      ValueKey<String>('home_quick_actions_card');
+  static const homeNightCard = ValueKey<String>('home_night_card');
   static const homeSessionStartButton =
       ValueKey<String>('home_session_start_button');
   static const homeQuickActionQuran =
@@ -27,8 +31,13 @@ abstract final class SakinahKeys {
 
   static const dhikrCounter = ValueKey<String>('dhikr_counter');
   static const sessionDhikrCounter = ValueKey<String>('session_dhikr_counter');
+  static const sessionProgressBar = ValueKey<String>('session_progress_bar');
+  static const sessionAudioPlayerBar =
+      ValueKey<String>('session_audio_player_bar');
+  static const sessionSafetyCard = ValueKey<String>('session_safety_card');
   static const sessionNextButton = ValueKey<String>('session_next_button');
   static const sessionFinishButton = ValueKey<String>('session_finish_button');
+  static const duaSourceCard = ValueKey<String>('dua_source_card');
 
   static const settingsWomenModeTile =
       ValueKey<String>('settings_women_mode_tile');
@@ -46,6 +55,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('women_mode_postpartum_chip');
   static const womenModePregnancyChip =
       ValueKey<String>('women_mode_pregnancy_chip');
+  static const womenModePreferNotToTrackChip =
+      ValueKey<String>('women_mode_prefer_not_to_track_chip');
   static const womenModeStartButton =
       ValueKey<String>('women_mode_start_button');
 

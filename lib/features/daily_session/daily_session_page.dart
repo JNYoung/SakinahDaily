@@ -73,6 +73,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
           ),
           const SizedBox(height: 18),
           ClipRRect(
+            key: SakinahKeys.sessionProgressBar,
             borderRadius: BorderRadius.circular(999),
             child: LinearProgressIndicator(
               value: (index + 1) / session.steps.length,
@@ -202,11 +203,13 @@ class _StepContent extends ConsumerWidget {
           const SizedBox(height: 20),
           if (audio != null)
             AudioPlayerBar(
+              key: SakinahKeys.sessionAudioPlayerBar,
               reciterName: audio.reciterName,
               bgmAllowed: audio.bgmAllowed,
             ),
           const SizedBox(height: 20),
           AppCard(
+            key: SakinahKeys.sessionSafetyCard,
             color: SakinahColors.navyCard,
             padding: const EdgeInsets.all(18),
             child: Row(
@@ -215,9 +218,22 @@ class _StepContent extends ConsumerWidget {
                     color: SakinahColors.sandGold),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: Text(
-                    '${l10n.t('quranSafetyTitle')}\n${l10n.t('quranSafetyDescription')}',
-                    style: const TextStyle(color: Colors.white70),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.t('quranSafetyTitle'),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.t('quranSafetyDescription'),
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                    ],
                   ),
                 ),
               ],

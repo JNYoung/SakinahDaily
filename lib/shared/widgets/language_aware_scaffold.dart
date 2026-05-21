@@ -24,8 +24,10 @@ class LanguageAwareScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark =
+        darkPattern || Theme.of(context).brightness == Brightness.dark;
     final background =
-        darkPattern ? SakinahColors.midnightNavy : SakinahColors.ivory;
+        isDark ? SakinahColors.midnightNavy : SakinahColors.ivory;
     return Scaffold(
       backgroundColor: background,
       appBar: showAppBar
@@ -36,7 +38,7 @@ class LanguageAwareScaffold extends StatelessWidget {
             )
           : null,
       body: SakinahPattern(
-        dark: darkPattern,
+        dark: isDark,
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(20, 12, 20, 16),

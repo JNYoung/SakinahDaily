@@ -26,20 +26,23 @@ class AudioPlayerBar extends StatelessWidget {
         padding: const EdgeInsets.all(18),
         child: Row(
           children: [
-            IconButton.filled(
-              tooltip: l10n.t('playRecitation'),
-              onPressed: () {},
-              style: IconButton.styleFrom(
-                backgroundColor: const Color(0xFFC9A45C),
-                foregroundColor: const Color(0xFF101B2D),
-              ),
-              icon: const Icon(Icons.play_arrow_rounded),
-            ),
-            const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                reciterName,
-                style: const TextStyle(color: Colors.white),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.t('voiceOnly'),
+                    style: const TextStyle(
+                      color: Color(0xFFC9A45C),
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    reciterName,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
             ),
             const SizedBox(width: 12),
@@ -51,6 +54,16 @@ class AudioPlayerBar extends StatelessWidget {
                 bgmAllowed ? Icons.music_note : Icons.music_off_rounded,
                 color: const Color(0xFFC9A45C),
               ),
+            ),
+            const SizedBox(width: 8),
+            IconButton.filled(
+              tooltip: l10n.t('playRecitation'),
+              onPressed: () {},
+              style: IconButton.styleFrom(
+                backgroundColor: const Color(0xFFC9A45C),
+                foregroundColor: const Color(0xFF101B2D),
+              ),
+              icon: const Icon(Icons.play_arrow_rounded),
             ),
           ],
         ),

@@ -24,6 +24,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - App-wide scroll behavior now disables vertical overscroll stretch/glow across Home, Prayer, Dua, Dhikr, Settings, Onboarding, Women's Mode, and Daily Session surfaces.
 - Prayer now opens as an immersive pushed page without the bottom navigation bar, while preserving back navigation to Home.
 - Branch `codex/local-push-tdd` adds a local push payload model, client-side receiver tests, and a deterministic local push simulator for previewing, queueing, and guardrail-testing push payloads without FCM/APNs.
+- Branch `codex/audio-foundation-no-quran-bgm` adds the testable audio policy/player foundation, text-only fallback, and Daily Session Quran no-BGM enforcement without bundling licensed audio.
 
 ## Current Validation Gate
 
@@ -44,6 +45,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 6. Add CMS/API integration behind seed fallback and keep all remote content filtered by `published` and `approved`.
 7. Next client milestone: continue notification UX polish only after platform permission copy is finalized, then expand prayer-location handling beyond the manual fallback.
 8. Next push milestone: wire the local push receiver into notification-tap handling once production routing decisions and platform payload contracts are finalized.
+9. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
 
 ## Handoff Notes
 

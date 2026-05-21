@@ -41,13 +41,15 @@ class SakinahTheme {
           foregroundColor: SakinahColors.deepEmerald,
           minimumSize: const Size.fromHeight(48),
           textStyle: const TextStyle(fontWeight: FontWeight.w800),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
         ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: SakinahColors.ivory,
         selectedColor: SakinahColors.deepEmerald,
-        side: BorderSide(color: SakinahColors.warmTaupe.withValues(alpha: 0.28)),
+        side:
+            BorderSide(color: SakinahColors.warmTaupe.withValues(alpha: 0.28)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -93,7 +95,8 @@ class SakinahTheme {
           backgroundColor: SakinahColors.sandGold,
           foregroundColor: SakinahColors.midnightNavy,
           textStyle: const TextStyle(fontWeight: FontWeight.w800),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -103,6 +106,13 @@ class SakinahTheme {
         labelTextStyle: WidgetStateProperty.all(
           const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
         ),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            size: 20,
+            color: selected ? SakinahColors.sandGold : Colors.white60,
+          );
+        }),
       ),
     );
   }
@@ -134,9 +144,8 @@ class SakinahTheme {
       bodyMedium: TextStyle(
         fontSize: 14,
         height: 1.35,
-        color: brightness == Brightness.dark
-            ? Colors.white70
-            : SakinahColors.ink,
+        color:
+            brightness == Brightness.dark ? Colors.white70 : SakinahColors.ink,
       ),
       bodySmall: TextStyle(
         fontSize: 12,

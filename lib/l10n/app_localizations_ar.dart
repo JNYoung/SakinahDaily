@@ -177,6 +177,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get modePregnancy => 'الحمل';
 
   @override
+  String get modePreferNotToTrack => 'أفضل عدم التتبع';
+
+  @override
   String get dataStaysLocal => 'تبقى البيانات محلية افتراضيا';
 
   @override

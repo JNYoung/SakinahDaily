@@ -53,6 +53,21 @@ enum AudioPreference {
   }
 }
 
+enum WomenIbadahStatus {
+  normal,
+  menstruating,
+  postpartum,
+  pregnancy,
+  preferNotToTrack;
+
+  static WomenIbadahStatus parse(String value) {
+    return WomenIbadahStatus.values.firstWhere(
+      (status) => status.name == value,
+      orElse: () => WomenIbadahStatus.normal,
+    );
+  }
+}
+
 class LocalizedText {
   const LocalizedText(this.values);
 
@@ -473,21 +488,25 @@ class PrayerLocationPreset {
 class WomenIbadahMode {
   const WomenIbadahMode({
     required this.enabled,
+    this.status = WomenIbadahStatus.normal,
     this.localOnly = true,
     this.hideCycleSensitiveLockScreenCopy = true,
   });
 
   final bool enabled;
+  final WomenIbadahStatus status;
   final bool localOnly;
   final bool hideCycleSensitiveLockScreenCopy;
 
   WomenIbadahMode copyWith({
     bool? enabled,
+    WomenIbadahStatus? status,
     bool? localOnly,
     bool? hideCycleSensitiveLockScreenCopy,
   }) {
     return WomenIbadahMode(
       enabled: enabled ?? this.enabled,
+      status: status ?? this.status,
       localOnly: localOnly ?? this.localOnly,
       hideCycleSensitiveLockScreenCopy: hideCycleSensitiveLockScreenCopy ??
           this.hideCycleSensitiveLockScreenCopy,
@@ -496,13 +515,22 @@ class WomenIbadahMode {
 
   Map<String, dynamic> toJson() => {
         'enabled': enabled,
+        'status': status.name,
         'localOnly': localOnly,
         'hideCycleSensitiveLockScreenCopy': hideCycleSensitiveLockScreenCopy,
       };
 
   factory WomenIbadahMode.fromJson(Map<String, dynamic> json) {
+    final enabled = json['enabled'] as bool? ?? false;
+    final parsedStatus =
+        WomenIbadahStatus.parse(json['status'] as String? ?? '');
     return WomenIbadahMode(
-      enabled: json['enabled'] as bool? ?? false,
+      enabled: enabled,
+      status: json.containsKey('status')
+          ? parsedStatus
+          : (enabled
+              ? WomenIbadahStatus.menstruating
+              : WomenIbadahStatus.normal),
       localOnly: json['localOnly'] as bool? ?? true,
       hideCycleSensitiveLockScreenCopy:
           json['hideCycleSensitiveLockScreenCopy'] as bool? ?? true,

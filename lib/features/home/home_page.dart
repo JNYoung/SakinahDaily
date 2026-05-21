@@ -23,6 +23,7 @@ class HomePage extends ConsumerWidget {
     final nextPrayer =
         prayerService.nextPrayer(now, preferences.prayerSettings);
     final session = sessions.first;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return LanguageAwareScaffold(
       title: l10n.t('appTitle'),
@@ -47,10 +48,11 @@ class HomePage extends ConsumerWidget {
                   children: [
                     Text(
                       '${l10n.t('homeGreeting')},',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: SakinahColors.mutedText),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: isDark
+                                ? Colors.white70
+                                : SakinahColors.mutedText,
+                          ),
                     ),
                     Text(
                       preferences.genderMode.name == 'female'
@@ -60,10 +62,11 @@ class HomePage extends ConsumerWidget {
                     ),
                     Text(
                       l10n.t('homeDateLabel'),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: SakinahColors.mutedText),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: isDark
+                                ? Colors.white60
+                                : SakinahColors.mutedText,
+                          ),
                     ),
                   ],
                 ),
@@ -85,6 +88,7 @@ class HomePage extends ConsumerWidget {
           ),
           const SizedBox(height: 26),
           _HeroSessionCard(
+            key: SakinahKeys.homeSessionCard,
             eyebrow: l10n.t('todaySession'),
             title: session.title.resolve(preferences.languageCode),
             subtitle: l10n.t('sessionSubtitleMeta'),
@@ -98,6 +102,7 @@ class HomePage extends ConsumerWidget {
               style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
           GridView.count(
+            key: SakinahKeys.homeQuickActionsCard,
             crossAxisCount: 4,
             childAspectRatio: 0.9,
             mainAxisSpacing: 12,
@@ -133,16 +138,18 @@ class HomePage extends ConsumerWidget {
           ),
           const SizedBox(height: 28),
           AppCard(
+            key: SakinahKeys.homeNightCard,
+            color: isDark ? SakinahColors.navyCard : null,
             padding: const EdgeInsets.all(22),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   l10n.t('tonight'),
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelLarge
-                      ?.copyWith(color: SakinahColors.mutedText),
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color:
+                            isDark ? Colors.white60 : SakinahColors.mutedText,
+                      ),
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -180,14 +187,16 @@ class _PrayerBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ActionChip(
       avatar: const Icon(Icons.circle, size: 8, color: SakinahColors.sandGold),
       label: Text(label),
       onPressed: onTap,
-      backgroundColor: const Color(0xFFEAF3E7),
+      backgroundColor:
+          isDark ? SakinahColors.navyCard : const Color(0xFFEAF3E7),
       side: BorderSide.none,
-      labelStyle: const TextStyle(
-        color: SakinahColors.deepEmerald,
+      labelStyle: TextStyle(
+        color: isDark ? Colors.white : SakinahColors.deepEmerald,
         fontWeight: FontWeight.w800,
       ),
     );
@@ -203,6 +212,7 @@ class _HeroSessionCard extends StatelessWidget {
     required this.startLabel,
     required this.voiceOnlyLabel,
     required this.onStart,
+    super.key,
   });
 
   final String eyebrow;
@@ -293,7 +303,9 @@ class _QuickAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return AppCard(
+      color: isDark ? SakinahColors.navyCard : null,
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
       onTap: onTap,
       child: Column(
@@ -306,7 +318,7 @@ class _QuickAction extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: SakinahColors.ink,
+                  color: isDark ? Colors.white70 : SakinahColors.ink,
                   fontWeight: FontWeight.w700,
                 ),
           ),
