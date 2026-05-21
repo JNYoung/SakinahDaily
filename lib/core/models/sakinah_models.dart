@@ -387,30 +387,38 @@ class DailySession {
   }
 }
 
+const _unsetPrayerSetting = Object();
+
 class PrayerSettings {
   const PrayerSettings({
     required this.latitude,
     required this.longitude,
     required this.method,
     this.locationLabel = 'Manual location',
+    this.timezoneId,
   });
 
   final double latitude;
   final double longitude;
   final String method;
   final String locationLabel;
+  final String? timezoneId;
 
   PrayerSettings copyWith({
     double? latitude,
     double? longitude,
     String? method,
     String? locationLabel,
+    Object? timezoneId = _unsetPrayerSetting,
   }) {
     return PrayerSettings(
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       method: method ?? this.method,
       locationLabel: locationLabel ?? this.locationLabel,
+      timezoneId: identical(timezoneId, _unsetPrayerSetting)
+          ? this.timezoneId
+          : timezoneId as String?,
     );
   }
 
@@ -419,6 +427,7 @@ class PrayerSettings {
         'longitude': longitude,
         'method': method,
         'locationLabel': locationLabel,
+        'timezoneId': timezoneId,
       };
 
   factory PrayerSettings.fromJson(Map<String, dynamic> json) {
@@ -428,6 +437,35 @@ class PrayerSettings {
       longitude: (json['longitude'] as num?)?.toDouble() ?? defaults.longitude,
       method: json['method'] as String? ?? defaults.method,
       locationLabel: json['locationLabel'] as String? ?? defaults.locationLabel,
+      timezoneId: json['timezoneId'] as String?,
+    );
+  }
+}
+
+class PrayerLocationPreset {
+  const PrayerLocationPreset({
+    required this.id,
+    required this.label,
+    required this.latitude,
+    required this.longitude,
+    required this.timezoneId,
+    required this.method,
+  });
+
+  final String id;
+  final String label;
+  final double latitude;
+  final double longitude;
+  final String timezoneId;
+  final String method;
+
+  PrayerSettings toPrayerSettings() {
+    return PrayerSettings(
+      latitude: latitude,
+      longitude: longitude,
+      method: method,
+      locationLabel: label,
+      timezoneId: timezoneId,
     );
   }
 }

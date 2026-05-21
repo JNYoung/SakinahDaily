@@ -32,6 +32,8 @@ abstract final class SakinahKeys {
 
   static const settingsWomenModeTile =
       ValueKey<String>('settings_women_mode_tile');
+  static const settingsPrayerLocationDropdown =
+      ValueKey<String>('settings_prayer_location_dropdown');
   static const settingsPrayerMethodDropdown =
       ValueKey<String>('settings_prayer_method_dropdown');
   static const settingsNotificationSwitch =

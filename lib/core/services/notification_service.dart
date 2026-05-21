@@ -10,19 +10,88 @@ class ScheduledPrayerReminder {
     required this.prayerName,
     required this.time,
     required this.settings,
+    required this.title,
+    required this.body,
   });
 
   final String prayerName;
   final DateTime time;
   final PrayerSettings settings;
+  final String title;
+  final String body;
+}
+
+class PrayerNotificationCopy {
+  const PrayerNotificationCopy({
+    required this.title,
+    required this.body,
+  });
+
+  final String title;
+  final String body;
+
+  factory PrayerNotificationCopy.forPrayer({
+    required String languageCode,
+    required String prayerName,
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) {
+    if (womenIbadahMode.enabled) {
+      return PrayerNotificationCopy(
+        title: _title(languageCode),
+        body: _privacySafeBody(languageCode),
+      );
+    }
+    final localizedPrayer = _prayerName(languageCode, prayerName);
+    return PrayerNotificationCopy(
+      title: _title(languageCode),
+      body: switch (languageCode) {
+        'id' => 'Waktu shalat $localizedPrayer.',
+        'ar' => 'حان وقت صلاة $localizedPrayer.',
+        _ => 'It is time for $localizedPrayer prayer.',
+      },
+    );
+  }
+
+  static String _title(String languageCode) {
+    return switch (languageCode) {
+      'ar' => 'سكينة يومية',
+      _ => 'Sakinah Daily',
+    };
+  }
+
+  static String _privacySafeBody(String languageCode) {
+    return switch (languageCode) {
+      'id' => 'Pengingat Sakinah yang lembut sudah siap.',
+      'ar' => 'تذكير سكينة لطيف جاهز.',
+      _ => 'A gentle Sakinah reminder is ready.',
+    };
+  }
+
+  static String _prayerName(String languageCode, String prayerName) {
+    return switch ((languageCode, prayerName)) {
+      ('id', 'Fajr') => 'Subuh',
+      ('id', 'Dhuhr') => 'Zuhur',
+      ('id', 'Asr') => 'Asar',
+      ('id', 'Maghrib') => 'Magrib',
+      ('id', 'Isha') => 'Isya',
+      ('ar', 'Fajr') => 'الفجر',
+      ('ar', 'Dhuhr') => 'الظهر',
+      ('ar', 'Asr') => 'العصر',
+      ('ar', 'Maghrib') => 'المغرب',
+      ('ar', 'Isha') => 'العشاء',
+      _ => prayerName,
+    };
+  }
 }
 
 abstract class NotificationService {
   Future<bool> requestPermissionAfterExplanation();
   Future<List<ScheduledPrayerReminder>> schedulePrayerReminders(
     PrayerSettings settings,
-    List<PrayerTime> prayerTimes,
-  );
+    List<PrayerTime> prayerTimes, {
+    String languageCode = 'en',
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  });
   Future<void> cancelAll();
 }
 
@@ -43,8 +112,10 @@ class LocalNotificationServiceStub implements NotificationService {
   @override
   Future<List<ScheduledPrayerReminder>> schedulePrayerReminders(
     PrayerSettings settings,
-    List<PrayerTime> prayerTimes,
-  ) async {
+    List<PrayerTime> prayerTimes, {
+    String languageCode = 'en',
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) async {
     if (!permissionGranted) {
       return [];
     }
@@ -52,11 +123,20 @@ class LocalNotificationServiceStub implements NotificationService {
       ..clear()
       ..addAll(
         prayerTimes.map(
-          (prayer) => ScheduledPrayerReminder(
-            prayerName: prayer.name,
-            time: prayer.time,
-            settings: settings,
-          ),
+          (prayer) {
+            final copy = PrayerNotificationCopy.forPrayer(
+              languageCode: languageCode,
+              prayerName: prayer.name,
+              womenIbadahMode: womenIbadahMode,
+            );
+            return ScheduledPrayerReminder(
+              prayerName: prayer.name,
+              time: prayer.time,
+              settings: settings,
+              title: copy.title,
+              body: copy.body,
+            );
+          },
         ),
       );
     return List.unmodifiable(scheduled);
@@ -106,8 +186,10 @@ class FlutterLocalNotificationService implements NotificationService {
   @override
   Future<List<ScheduledPrayerReminder>> schedulePrayerReminders(
     PrayerSettings settings,
-    List<PrayerTime> prayerTimes,
-  ) async {
+    List<PrayerTime> prayerTimes, {
+    String languageCode = 'en',
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) async {
     if (!_permissionGranted) {
       return [];
     }
@@ -119,15 +201,22 @@ class FlutterLocalNotificationService implements NotificationService {
       for (final prayer in prayerTimes.where(
         (prayer) => prayer.time.isAfter(now),
       )) {
+        final copy = PrayerNotificationCopy.forPrayer(
+          languageCode: languageCode,
+          prayerName: prayer.name,
+          womenIbadahMode: womenIbadahMode,
+        );
         final reminder = ScheduledPrayerReminder(
           prayerName: prayer.name,
           time: prayer.time,
           settings: settings,
+          title: copy.title,
+          body: copy.body,
         );
         await _plugin.zonedSchedule(
           id: _notificationId(prayer.name),
-          title: 'Sakinah Daily',
-          body: '${prayer.name} prayer reminder',
+          title: copy.title,
+          body: copy.body,
           scheduledDate: timezone.TZDateTime.from(prayer.time, timezone.local),
           notificationDetails: const NotificationDetails(
             android: AndroidNotificationDetails(

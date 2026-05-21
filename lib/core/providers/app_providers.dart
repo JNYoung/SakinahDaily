@@ -106,6 +106,11 @@ final prayerCalculationServiceProvider = Provider<PrayerCalculationService>(
   (ref) => PrayerCalculationService(),
 );
 
+enum NotificationPermissionFeedback { denied, scheduled }
+
+final notificationPermissionFeedbackProvider =
+    StateProvider<NotificationPermissionFeedback?>((ref) => null);
+
 final notificationServiceProvider = Provider<NotificationService>(
   (ref) => FlutterLocalNotificationService(),
 );

@@ -8,6 +8,7 @@ void main() {
     longitude: 39.8579,
     method: 'umm_al_qura',
     locationLabel: 'Makkah',
+    timezoneId: 'Asia/Riyadh',
   );
 
   test('prayer calculation returns five daily prayers for supported methods',
@@ -44,5 +45,31 @@ void main() {
     expect(next.name, 'Fajr');
     expect(next.time.isAfter(afterIsha), isTrue);
     expect(next.time.day, isNot(today.last.time.day));
+  });
+
+  test('timezone id overrides longitude fallback when available', () {
+    final service = PrayerCalculationService();
+    final longitudeFallback = makkah.copyWith(timezoneId: null);
+    final jakartaZone = makkah.copyWith(timezoneId: 'Asia/Jakarta');
+
+    final fallbackDhuhr =
+        service.calculateForDate(DateTime(2026, 5, 21), longitudeFallback)[1];
+    final jakartaDhuhr =
+        service.calculateForDate(DateTime(2026, 5, 21), jakartaZone)[1];
+
+    expect(jakartaDhuhr.time.difference(fallbackDhuhr.time).inHours, 4);
+  });
+
+  test('invalid timezone id falls back to longitude-derived clock', () {
+    final service = PrayerCalculationService();
+    final fallback = makkah.copyWith(timezoneId: null);
+    final invalidZone = makkah.copyWith(timezoneId: 'Not/AZone');
+
+    final fallbackPrayers =
+        service.calculateForDate(DateTime(2026, 5, 21), fallback);
+    final invalidPrayers =
+        service.calculateForDate(DateTime(2026, 5, 21), invalidZone);
+
+    expect(invalidPrayers[1].time, fallbackPrayers[1].time);
   });
 }

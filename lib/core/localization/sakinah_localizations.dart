@@ -61,9 +61,18 @@ class SakinahLocalizations {
       'dhikr': 'Dhikr',
       'settings': 'Settings',
       'prayer': 'Prayer',
+      'prayerLocation': 'Prayer location',
       'prayerMethod': 'Prayer method',
       'prayerReminders': 'Prayer reminders',
       'prayerReminderSubtitle': 'Permission is requested after explanation.',
+      'notificationPermissionTitle': 'Enable prayer reminders?',
+      'notificationPermissionBody':
+          "Sakinah schedules local prayer reminders only after permission. Women's mode reminders stay privacy-safe on the lock screen.",
+      'notificationPermissionAllow': 'Enable reminders',
+      'notificationPermissionNotNow': 'Not now',
+      'notificationPermissionDenied':
+          'Notifications are off. You can enable them from system settings.',
+      'notificationScheduled': 'Local prayer reminders are scheduled.',
       'womenModeSubtitle':
           'Local-only by default. Sensitive reminder copy stays private.',
       'privacy': 'Privacy',
@@ -160,9 +169,18 @@ class SakinahLocalizations {
       'dhikr': 'Dzikir',
       'settings': 'Pengaturan',
       'prayer': 'Shalat',
+      'prayerLocation': 'Lokasi shalat',
       'prayerMethod': 'Metode shalat',
       'prayerReminders': 'Pengingat shalat',
       'prayerReminderSubtitle': 'Izin diminta setelah penjelasan.',
+      'notificationPermissionTitle': 'Aktifkan pengingat shalat?',
+      'notificationPermissionBody':
+          'Sakinah menjadwalkan pengingat shalat lokal hanya setelah izin. Pengingat mode perempuan tetap aman untuk layar terkunci.',
+      'notificationPermissionAllow': 'Aktifkan pengingat',
+      'notificationPermissionNotNow': 'Nanti saja',
+      'notificationPermissionDenied':
+          'Notifikasi mati. Anda dapat mengaktifkannya dari pengaturan sistem.',
+      'notificationScheduled': 'Pengingat shalat lokal telah dijadwalkan.',
       'womenModeSubtitle':
           'Lokal secara default. Salinan pengingat sensitif tetap privat.',
       'privacy': 'Privasi',
@@ -257,9 +275,18 @@ class SakinahLocalizations {
       'dhikr': 'الذكر',
       'settings': 'الإعدادات',
       'prayer': 'الصلاة',
+      'prayerLocation': 'موقع الصلاة',
       'prayerMethod': 'طريقة الصلاة',
       'prayerReminders': 'تذكيرات الصلاة',
       'prayerReminderSubtitle': 'يطلب الإذن بعد الشرح.',
+      'notificationPermissionTitle': 'تفعيل تذكيرات الصلاة؟',
+      'notificationPermissionBody':
+          'تجدول سكينة تذكيرات صلاة محلية بعد الإذن فقط. تبقى تذكيرات وضع النساء آمنة على شاشة القفل.',
+      'notificationPermissionAllow': 'تفعيل التذكيرات',
+      'notificationPermissionNotNow': 'ليس الآن',
+      'notificationPermissionDenied':
+          'الإشعارات متوقفة. يمكنك تفعيلها من إعدادات النظام.',
+      'notificationScheduled': 'تم جدولة تذكيرات الصلاة المحلية.',
       'womenModeSubtitle': 'محلي افتراضيا. تبقى نصوص التذكير الحساسة خاصة.',
       'privacy': 'الخصوصية',
       'privacySubtitle': 'لا ترسل بيانات وضع النساء عن بعد في نسخة MVP.',
