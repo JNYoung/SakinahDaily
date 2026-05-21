@@ -13,8 +13,12 @@ import '../features/settings/womens_ibadah_mode_page.dart';
 import '../features/splash/splash_page.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
+  return createSakinahRouter();
+});
+
+GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
   return GoRouter(
-    initialLocation: '/splash',
+    initialLocation: initialLocation,
     routes: [
       GoRoute(
         path: '/splash',
@@ -37,6 +41,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
+        path: '/daily-session/:sessionId',
+        builder: (context, state) {
+          return DailySessionPage(
+            sessionId: state.pathParameters['sessionId']!,
+          );
+        },
+      ),
+      GoRoute(
         path: '/dua',
         builder: (context, state) => const DuaLibraryPage(),
       ),
@@ -51,6 +63,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const DhikrPage(),
       ),
       GoRoute(
+        path: '/dhikr/:dhikrId',
+        builder: (context, state) {
+          return DhikrPage(initialDhikrId: state.pathParameters['dhikrId']);
+        },
+      ),
+      GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsPage(),
       ),
@@ -59,9 +77,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const WomensIbadahModePage(),
       ),
       GoRoute(
+        path: '/settings/women-ibadah',
+        builder: (context, state) => const WomensIbadahModePage(),
+      ),
+      GoRoute(
         path: '/prayer',
         builder: (context, state) => const PrayerPage(),
       ),
     ],
   );
-});
+}

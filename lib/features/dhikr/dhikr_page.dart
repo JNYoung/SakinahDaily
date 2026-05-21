@@ -10,7 +10,9 @@ import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/source_chip.dart';
 
 class DhikrPage extends ConsumerStatefulWidget {
-  const DhikrPage({super.key});
+  const DhikrPage({this.initialDhikrId, super.key});
+
+  final String? initialDhikrId;
 
   @override
   ConsumerState<DhikrPage> createState() => _DhikrPageState();
@@ -21,13 +23,20 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
   int count = 0;
 
   @override
+  void initState() {
+    super.initState();
+    selectedId = widget.initialDhikrId;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final dhikrs = ref.watch(dhikrsProvider);
     final languageCode = ref.watch(userPreferencesProvider).languageCode;
     final l10n = SakinahLocalizations.of(context);
     final selected = dhikrs
-        .where((dhikr) => dhikr.id == (selectedId ?? dhikrs.first.id))
-        .first;
+            .where((dhikr) => dhikr.id == (selectedId ?? dhikrs.first.id))
+            .firstOrNull ??
+        dhikrs.first;
 
     return LanguageAwareScaffold(
       title: l10n.t('dhikr'),
@@ -80,4 +89,8 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
       ),
     );
   }
+}
+
+extension _FirstOrNull<T> on Iterable<T> {
+  T? get firstOrNull => isEmpty ? null : first;
 }

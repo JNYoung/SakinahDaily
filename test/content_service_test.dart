@@ -18,7 +18,8 @@ void main() {
 
   test('seed home loads offline', () {
     expect(service.loadHomeContent(), isNotEmpty);
-    expect(service.recoverPushDeepLink('session_morning_ease').available, isTrue);
+    expect(
+        service.recoverPushDeepLink('session_morning_ease').available, isTrue);
   });
 
   test('hash mismatch discards bundle', () {

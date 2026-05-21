@@ -430,6 +430,12 @@ abstract class AppLocalizations {
   /// **'Pregnancy'**
   String get modePregnancy;
 
+  /// No description provided for @modePreferNotToTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer not to track'**
+  String get modePreferNotToTrack;
+
   /// No description provided for @dataStaysLocal.
   ///
   /// In en, this message translates to:
@@ -550,11 +556,35 @@ abstract class AppLocalizations {
   /// **'Play recitation'**
   String get playRecitation;
 
+  /// No description provided for @pauseRecitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause recitation'**
+  String get pauseRecitation;
+
+  /// No description provided for @textOnlyFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Text-only fallback'**
+  String get textOnlyFallback;
+
+  /// No description provided for @audioUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio unavailable'**
+  String get audioUnavailable;
+
   /// No description provided for @approvedReciter.
   ///
   /// In en, this message translates to:
   /// **'approved reciter'**
   String get approvedReciter;
+
+  /// No description provided for @approvedReciterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved reciter'**
+  String get approvedReciterLabel;
 
   /// No description provided for @quranSafetyTitle.
   ///

@@ -180,6 +180,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get modePregnancy => 'Kehamilan';
 
   @override
+  String get modePreferNotToTrack => 'Tidak dilacak';
+
+  @override
   String get dataStaysLocal => 'Data tetap lokal secara default';
 
   @override
@@ -242,7 +245,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get playRecitation => 'Putar tilawah';
 
   @override
+  String get pauseRecitation => 'Jeda tilawah';
+
+  @override
+  String get textOnlyFallback => 'Fallback teks saja';
+
+  @override
+  String get audioUnavailable => 'Audio tidak tersedia';
+
+  @override
   String get approvedReciter => 'qari yang disetujui';
+
+  @override
+  String get approvedReciterLabel => 'Qari yang disetujui';
 
   @override
   String get quranSafetyTitle => 'Keamanan Qur’an';

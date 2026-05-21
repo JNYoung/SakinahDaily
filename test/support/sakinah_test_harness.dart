@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/app/sakinah_app.dart';
+import 'package:sakinah_daily/app/sakinah_router.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
@@ -15,15 +17,22 @@ Future<void> pumpSakinahApp(
   WidgetTester tester, {
   Size viewport = desktopViewport,
   String languageCode = 'en',
+  String? initialLocation,
+  Brightness? platformBrightness,
   bool settleSplash = true,
   UserPreferencesStore? preferencesStore,
   NotificationService? notificationService,
+  SakinahAudioPlayer? audioPlayer,
 }) async {
   tester.view.devicePixelRatio = 1;
   tester.view.physicalSize = viewport;
+  if (platformBrightness != null) {
+    tester.platformDispatcher.platformBrightnessTestValue = platformBrightness;
+  }
   addTearDown(() {
     tester.view.resetDevicePixelRatio();
     tester.view.resetPhysicalSize();
+    tester.platformDispatcher.clearPlatformBrightnessTestValue();
   });
 
   await tester.pumpWidget(
@@ -35,11 +44,17 @@ Future<void> pumpSakinahApp(
         notificationServiceProvider.overrideWithValue(
           notificationService ?? LocalNotificationServiceStub(),
         ),
+        if (audioPlayer != null)
+          audioPlayerProvider.overrideWithValue(audioPlayer),
+        if (initialLocation != null)
+          routerProvider.overrideWithValue(
+            createSakinahRouter(initialLocation: initialLocation),
+          ),
       ],
       child: const SakinahApp(),
     ),
   );
-  if (settleSplash) {
+  if (settleSplash && initialLocation == null) {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 1900));
     await tester.pumpAndSettle();

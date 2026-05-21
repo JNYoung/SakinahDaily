@@ -26,10 +26,15 @@ void main() {
 
   test('user preferences keep women mode local-only by default', () {
     final preferences = UserPreferences.defaults().copyWith(
-      womenIbadahMode: const WomenIbadahMode(enabled: true),
+      womenIbadahMode: const WomenIbadahMode(
+        enabled: true,
+        status: WomenIbadahStatus.menstruating,
+      ),
     );
 
+    expect(preferences.womenIbadahMode.status, WomenIbadahStatus.menstruating);
     expect(preferences.womenIbadahMode.localOnly, isTrue);
-    expect(preferences.womenIbadahMode.hideCycleSensitiveLockScreenCopy, isTrue);
+    expect(
+        preferences.womenIbadahMode.hideCycleSensitiveLockScreenCopy, isTrue);
   });
 }

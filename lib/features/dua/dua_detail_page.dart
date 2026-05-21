@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/providers/app_providers.dart';
+import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
@@ -20,6 +21,7 @@ class DuaDetailPage extends ConsumerWidget {
     final languageCode = ref.watch(userPreferencesProvider).languageCode;
     final l10n = SakinahLocalizations.of(context);
     final dua = repo.getDua(duaId);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     if (dua == null) {
       return LanguageAwareScaffold(
@@ -56,6 +58,7 @@ class DuaDetailPage extends ConsumerWidget {
           ),
           const SizedBox(height: 22),
           AppCard(
+            color: isDark ? SakinahColors.navyCard : null,
             padding: const EdgeInsets.all(22),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,10 +70,11 @@ class DuaDetailPage extends ConsumerWidget {
                   dua.arabicText,
                   textAlign: TextAlign.end,
                   style: const TextStyle(
-                    color: SakinahColors.deepEmerald,
                     fontSize: 29,
                     height: 1.9,
                     fontWeight: FontWeight.w800,
+                  ).copyWith(
+                    color: isDark ? Colors.white : SakinahColors.deepEmerald,
                   ),
                 ),
                 const Divider(height: 34),
@@ -111,7 +115,15 @@ class DuaDetailPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          SourceChip(source: dua.source, reviewStatus: dua.reviewStatus.name),
+          AppCard(
+            key: SakinahKeys.duaSourceCard,
+            color: isDark ? SakinahColors.navyCard : const Color(0xFFEAF3E7),
+            padding: EdgeInsets.zero,
+            child: SourceChip(
+              source: dua.source,
+              reviewStatus: dua.reviewStatus.name,
+            ),
+          ),
         ],
       ),
     );

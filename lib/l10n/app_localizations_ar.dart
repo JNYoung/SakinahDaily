@@ -177,6 +177,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get modePregnancy => 'الحمل';
 
   @override
+  String get modePreferNotToTrack => 'أفضل عدم التتبع';
+
+  @override
   String get dataStaysLocal => 'تبقى البيانات محلية افتراضيا';
 
   @override
@@ -239,7 +242,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get playRecitation => 'تشغيل التلاوة';
 
   @override
+  String get pauseRecitation => 'إيقاف التلاوة مؤقتا';
+
+  @override
+  String get textOnlyFallback => 'الرجوع إلى النص فقط';
+
+  @override
+  String get audioUnavailable => 'الصوت غير متاح';
+
+  @override
   String get approvedReciter => 'قارئ معتمد';
+
+  @override
+  String get approvedReciterLabel => 'قارئ معتمد';
 
   @override
   String get quranSafetyTitle => 'سلامة القرآن';

@@ -21,7 +21,10 @@ void main() {
         locationLabel: 'Jakarta',
         timezoneId: 'Asia/Jakarta',
       ),
-      womenIbadahMode: WomenIbadahMode(enabled: true),
+      womenIbadahMode: WomenIbadahMode(
+        enabled: true,
+        status: WomenIbadahStatus.pregnancy,
+      ),
     );
 
     await repository.save(saved);
@@ -35,6 +38,7 @@ void main() {
     expect(loaded.prayerSettings.locationLabel, 'Jakarta');
     expect(loaded.prayerSettings.timezoneId, 'Asia/Jakarta');
     expect(loaded.womenIbadahMode.enabled, isTrue);
+    expect(loaded.womenIbadahMode.status, WomenIbadahStatus.pregnancy);
     expect(loaded.womenIbadahMode.localOnly, isTrue);
   });
 

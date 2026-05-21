@@ -98,6 +98,37 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('PRD route aliases deep-link into session, dhikr and women mode',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/daily-session/session_morning_ease',
+      settleSplash: false,
+    );
+    expect(find.text('Step 1 of 6 · Set intention'), findsOneWidget);
+    expect(_bottomNav(tester).selectedIndex, 0);
+    expectNoFlutterErrors(tester);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/dhikr/dhikr_subhanallah',
+      settleSplash: false,
+    );
+    expect(find.text('Subhanallah'), findsOneWidget);
+    expect(find.text('0 / 33'), findsOneWidget);
+    expect(_bottomNav(tester).selectedIndex, 2);
+    expectNoFlutterErrors(tester);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/women-ibadah',
+      settleSplash: false,
+    );
+    expect(find.text("Women's Ibadah Mode"), findsWidgets);
+    expect(_bottomNav(tester).selectedIndex, 3);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets(
       'settings secondary completion returns home with Home tab selected',
       (tester) async {

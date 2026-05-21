@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
@@ -41,6 +42,61 @@ void main() {
     await tapByKey(tester, SakinahKeys.sessionDhikrCounter);
 
     expect(find.text('1 / 33'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Daily Session Quran step shows Quran Safety card',
+      (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.homeSessionStartButton);
+    await tapByKey(tester, SakinahKeys.sessionNextButton);
+
+    expect(find.textContaining("Qur'an Safety"), findsOneWidget);
+    expect(
+      find.textContaining(
+        'No background sound is played under Qur\'an recitation.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Text-only fallback'), findsWidgets);
+    expect(find.byIcon(Icons.music_note), findsNothing);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Daily Session Quran step disables playback for text fallback',
+      (tester) async {
+    final player = FakeSakinahAudioPlayer();
+    await pumpSakinahApp(tester, audioPlayer: player);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.homeSessionStartButton);
+    await tapByKey(tester, SakinahKeys.sessionNextButton);
+
+    expect(find.byKey(SakinahKeys.audioPlayPauseButton), findsOneWidget);
+    expect(find.text('Text-only fallback'), findsWidgets);
+
+    final button = tester.widget<IconButton>(
+      find.byKey(SakinahKeys.audioPlayPauseButton),
+    );
+    expect(button.onPressed, isNull);
+    expect(player.currentState.status, AudioPlaybackStatus.idle);
+  });
+
+  testWidgets('Arabic RTL renders Daily Session without layout exception',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      languageCode: 'ar',
+      viewport: mobileViewport,
+    );
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.homeSessionStartButton);
+    await tapByKey(tester, SakinahKeys.sessionNextButton);
+
+    expect(find.textContaining('سلامة القرآن'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

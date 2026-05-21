@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -18,6 +19,8 @@ class WomensIbadahModePage extends ConsumerWidget {
     final l10n = SakinahLocalizations.of(context);
     final preferences = ref.watch(userPreferencesProvider);
     final controller = ref.read(userPreferencesProvider.notifier);
+    final status = preferences.womenIbadahMode.status;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return LanguageAwareScaffold(
       title: l10n.t('womenMode'),
@@ -35,6 +38,7 @@ class WomensIbadahModePage extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           AppCard(
+            color: isDark ? SakinahColors.navyCard : null,
             padding: const EdgeInsets.all(22),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,26 +53,38 @@ class WomensIbadahModePage extends ConsumerWidget {
                     _ModeChip(
                       key: SakinahKeys.womenModeNormalChip,
                       label: l10n.t('modeNormal'),
-                      selected: !preferences.womenIbadahMode.enabled,
-                      onTap: () => controller.setWomenMode(false),
+                      selected: status == WomenIbadahStatus.normal,
+                      onTap: () => controller
+                          .setWomenModeStatus(WomenIbadahStatus.normal),
                     ),
                     _ModeChip(
                       key: SakinahKeys.womenModeMenstruatingChip,
                       label: l10n.t('modeMenstruating'),
-                      selected: preferences.womenIbadahMode.enabled,
-                      onTap: () => controller.setWomenMode(true),
+                      selected: status == WomenIbadahStatus.menstruating,
+                      onTap: () => controller
+                          .setWomenModeStatus(WomenIbadahStatus.menstruating),
                     ),
                     _ModeChip(
                       key: SakinahKeys.womenModePostpartumChip,
                       label: l10n.t('modePostpartum'),
-                      selected: false,
-                      onTap: () => controller.setWomenMode(true),
+                      selected: status == WomenIbadahStatus.postpartum,
+                      onTap: () => controller
+                          .setWomenModeStatus(WomenIbadahStatus.postpartum),
                     ),
                     _ModeChip(
                       key: SakinahKeys.womenModePregnancyChip,
                       label: l10n.t('modePregnancy'),
-                      selected: false,
-                      onTap: () => controller.setWomenMode(true),
+                      selected: status == WomenIbadahStatus.pregnancy,
+                      onTap: () => controller
+                          .setWomenModeStatus(WomenIbadahStatus.pregnancy),
+                    ),
+                    _ModeChip(
+                      key: SakinahKeys.womenModePreferNotToTrackChip,
+                      label: l10n.t('modePreferNotToTrack'),
+                      selected: status == WomenIbadahStatus.preferNotToTrack,
+                      onTap: () => controller.setWomenModeStatus(
+                        WomenIbadahStatus.preferNotToTrack,
+                      ),
                     ),
                   ],
                 ),
@@ -119,6 +135,7 @@ class WomensIbadahModePage extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           AppCard(
+            color: isDark ? SakinahColors.navyCard : null,
             padding: const EdgeInsets.all(22),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,19 +172,23 @@ class _ModeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ChoiceChip(
       label: SizedBox(
-        width: 112,
+        width: 116,
         child: Center(child: Text(label)),
       ),
       selected: selected,
       onSelected: (_) => onTap(),
       selectedColor: SakinahColors.deepEmerald,
       labelStyle: TextStyle(
-        color: selected ? Colors.white : SakinahColors.ink,
+        color: selected
+            ? Colors.white
+            : (isDark ? Colors.white70 : SakinahColors.ink),
         fontWeight: FontWeight.w700,
       ),
-      backgroundColor: const Color(0xFFEFE7DC),
+      backgroundColor:
+          isDark ? SakinahColors.midnightNavy : const Color(0xFFEFE7DC),
       side: BorderSide.none,
     );
   }
