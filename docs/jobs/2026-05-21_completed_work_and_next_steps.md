@@ -14,6 +14,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Indonesian and Arabic localization gaps were patched across the main onboarding, home, settings, dua, dhikr, prayer, and session surfaces.
 - The supplied Sakinah Daily artwork has been implemented as a native Flutter splash screen at `/splash`, with an automatic transition into onboarding.
 - Android native launch resources now use Sakinah static artwork and an Android 12+ Sakinah system splash icon, so the default Flutter template splash no longer flashes before the app splash.
+- App launcher icon assets were generated from the Sakinah icon direction for Android, Web, and macOS, with a tracked source at `assets/branding/app_icon.png`.
 
 ## Current Validation Gate
 
@@ -30,6 +31,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 4. Finish Quran corpus ingestion with fixture-only tests first, then wire the client content cache around manifest, hash, schema, approval, and fallback rules.
 5. Expand Content Agent automated tests for guardrails, deterministic weekly preproduction, prayer-content generation packets, and no auto-publish/no FCM behavior.
 6. Add CMS/API integration behind seed fallback and keep all remote content filtered by `published` and `approved`.
+7. Next Codex implementation branch requested by the user: `codex/prayer-prefs-notifications`.
 
 ## Handoff Notes
 
