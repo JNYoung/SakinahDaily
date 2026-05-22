@@ -9,6 +9,10 @@ Women's Ibadah Mode state, saved items, session progress/completion history,
 local content manifests, approved content bundles, and revoked content IDs on
 device. These are cleared through Settings > Privacy > Delete local data.
 
+Women's Ibadah Mode can adjust Home recommendations and Daily Session support
+copy locally. Exact status is not transmitted for remote personalization in the
+MVP.
+
 Session progress/completion history stores local session IDs, step index,
 timestamps, duration, language code, and total step count only. It does not
 store Quran, Dua, Dhikr, Hadith, translation text, reflections, or user notes.
@@ -27,6 +31,8 @@ Remote content requests may include:
 - bundle hint for detail recovery
 
 No Women's Ibadah Mode exact status is included in remote content requests.
+Notification copy remains generic when Women's Ibadah Mode is enabled and does
+not include exact private state terms.
 
 ## Permissions
 

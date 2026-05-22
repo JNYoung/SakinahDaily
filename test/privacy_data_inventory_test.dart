@@ -122,6 +122,18 @@ void main() {
       'sessionProgressHistory',
       'sessionProgressHistoryNotes',
       'noGuaranteedOutcome',
+      'localOnlyMode',
+      'womenModePrivatePath',
+      'womenModeHomeSupportBody',
+      'womenModeSessionNoteTitle',
+      'womenModeSessionNoteBody',
+      'womenModeWhatChangesTitle',
+      'womenModeWhatChangesBody',
+      'womenModeWhatStaysPrivateTitle',
+      'womenModeWhatStaysPrivateBody',
+      'womenModeReminderPrivacyBody',
+      'womenModeTurnOffBody',
+      'openPrivacyCenter',
     ];
 
     for (final locale in ['en', 'id', 'ar']) {

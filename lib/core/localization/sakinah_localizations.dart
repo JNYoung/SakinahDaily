@@ -131,6 +131,13 @@ class SakinahLocalizations {
           'This notification content is not available offline yet.',
       'womenModeSubtitle':
           'Local-only by default. Sensitive reminder copy stays private.',
+      'localOnlyMode': 'Local-only mode',
+      'womenModePrivatePath': 'Private gentle path',
+      'womenModeHomeSupportBody':
+          'Dua, dhikr, and reflection stay easy to reach. Your mode stays on this device.',
+      'womenModeSessionNoteTitle': 'Local-only mode',
+      'womenModeSessionNoteBody':
+          'Your mode stays on this device. This session keeps a gentle worship-friendly path.',
       'savedItems': 'Saved Items',
       'savedItemsEmptyTitle': 'Nothing saved yet',
       'savedItemsEmptyBody':
@@ -212,7 +219,7 @@ class SakinahLocalizations {
           'Stored locally to remember whether prayer reminders are enabled.',
       'privacyDataWomenModeState': "Women's Ibadah Mode state",
       'privacyDataWomenModeStateNotes':
-          'High sensitivity. Designed local-first and not sent to remote content APIs.',
+          'High sensitivity. Designed local-first, may adjust local UI recommendations, and is not sent to remote content APIs.',
       'privacyDataLocalContentManifest': 'Local content manifest',
       'privacyDataLocalContentManifestNotes':
           'Stored locally to know which approved bundles are active.',
@@ -260,6 +267,18 @@ class SakinahLocalizations {
       'rejectedContent': 'rejected content',
       'womenMode': "Women's Ibadah Mode",
       'womenModeDescription': 'Adjust reminders with privacy and respect.',
+      'womenModeWhatChangesTitle': 'What changes locally',
+      'womenModeWhatChangesBody':
+          'Home recommendations may become quieter and highlight dua, dhikr, and reflection. Daily sessions may show a private local-only note.',
+      'womenModeWhatStaysPrivateTitle':
+          'What does not leave this device',
+      'womenModeWhatStaysPrivateBody':
+          'Your exact mode is stored locally and is not sent with remote content requests.',
+      'womenModeReminderPrivacyBody':
+          'Reminder text stays generic so lock-screen copy does not reveal private details.',
+      'womenModeTurnOffBody':
+          'Turn this mode off by choosing Normal, or clear it from Privacy Center > Delete local data.',
+      'openPrivacyCenter': 'Open Privacy Center',
       'todaysMode': "Today's mode",
       'modeNormal': 'Normal',
       'modeMenstruating': 'Menstruating',
@@ -419,6 +438,13 @@ class SakinahLocalizations {
           'Konten notifikasi ini belum tersedia offline.',
       'womenModeSubtitle':
           'Lokal secara default. Salinan pengingat sensitif tetap privat.',
+      'localOnlyMode': 'Mode lokal saja',
+      'womenModePrivatePath': 'Jalur lembut privat',
+      'womenModeHomeSupportBody':
+          'Doa, dzikir, dan refleksi tetap mudah dijangkau. Mode Anda tetap di perangkat ini.',
+      'womenModeSessionNoteTitle': 'Mode lokal saja',
+      'womenModeSessionNoteBody':
+          'Mode Anda tetap di perangkat ini. Sesi ini menjaga jalur ibadah yang lembut.',
       'savedItems': 'Item Tersimpan',
       'savedItemsEmptyTitle': 'Belum ada yang tersimpan',
       'savedItemsEmptyBody':
@@ -500,7 +526,7 @@ class SakinahLocalizations {
           'Disimpan lokal untuk mengingat apakah pengingat shalat aktif.',
       'privacyDataWomenModeState': 'Status Mode Ibadah Perempuan',
       'privacyDataWomenModeStateNotes':
-          'Sensitivitas tinggi. Dirancang lokal terlebih dahulu dan tidak dikirim ke API konten jarak jauh.',
+          'Sensitivitas tinggi. Dirancang lokal terlebih dahulu, dapat menyesuaikan rekomendasi UI lokal, dan tidak dikirim ke API konten jarak jauh.',
       'privacyDataLocalContentManifest': 'Manifest konten lokal',
       'privacyDataLocalContentManifestNotes':
           'Disimpan lokal untuk mengetahui bundle yang aktif dan disetujui.',
@@ -548,6 +574,18 @@ class SakinahLocalizations {
       'rejectedContent': 'konten ditolak',
       'womenMode': 'Mode Ibadah Perempuan',
       'womenModeDescription': 'Atur pengingat dengan privasi dan penghormatan.',
+      'womenModeWhatChangesTitle': 'Yang berubah secara lokal',
+      'womenModeWhatChangesBody':
+          'Rekomendasi Beranda dapat menjadi lebih tenang dan menonjolkan doa, dzikir, dan refleksi. Sesi harian dapat menampilkan catatan privat lokal saja.',
+      'womenModeWhatStaysPrivateTitle':
+          'Yang tidak meninggalkan perangkat ini',
+      'womenModeWhatStaysPrivateBody':
+          'Mode persis Anda disimpan lokal dan tidak dikirim dengan permintaan konten jarak jauh.',
+      'womenModeReminderPrivacyBody':
+          'Teks pengingat tetap umum agar salinan layar kunci tidak membuka detail privat.',
+      'womenModeTurnOffBody':
+          'Matikan mode ini dengan memilih Normal, atau hapus dari Pusat Privasi > Hapus data lokal.',
+      'openPrivacyCenter': 'Buka Pusat Privasi',
       'todaysMode': 'Mode hari ini',
       'modeNormal': 'Normal',
       'modeMenstruating': 'Menstruasi',
@@ -700,6 +738,13 @@ class SakinahLocalizations {
       'notificationTapMissingContent':
           'محتوى هذا الإشعار غير متاح دون اتصال بعد.',
       'womenModeSubtitle': 'محلي افتراضيا. تبقى نصوص التذكير الحساسة خاصة.',
+      'localOnlyMode': 'وضع محلي فقط',
+      'womenModePrivatePath': 'مسار لطيف وخاص',
+      'womenModeHomeSupportBody':
+          'يبقى الدعاء والذكر والتأمل قريبين وسهلين. يبقى وضعك على هذا الجهاز.',
+      'womenModeSessionNoteTitle': 'وضع محلي فقط',
+      'womenModeSessionNoteBody':
+          'يبقى وضعك على هذا الجهاز. تحافظ هذه الجلسة على مسار عبادة لطيف.',
       'savedItems': 'العناصر المحفوظة',
       'savedItemsEmptyTitle': 'لا توجد عناصر محفوظة بعد',
       'savedItemsEmptyBody':
@@ -780,7 +825,7 @@ class SakinahLocalizations {
           'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة مفعلة.',
       'privacyDataWomenModeState': 'حالة وضع عبادة النساء',
       'privacyDataWomenModeStateNotes':
-          'حساسية عالية. صممت محلية أولا ولا ترسل إلى واجهات المحتوى عن بعد.',
+          'حساسية عالية. صممت محلية أولا، وقد تضبط توصيات الواجهة المحلية، ولا ترسل إلى واجهات المحتوى عن بعد.',
       'privacyDataLocalContentManifest': 'بيان المحتوى المحلي',
       'privacyDataLocalContentManifestNotes':
           'يخزن محليا لمعرفة الحزم المعتمدة النشطة.',
@@ -827,6 +872,17 @@ class SakinahLocalizations {
       'rejectedContent': 'محتوى مرفوض',
       'womenMode': 'وضع عبادة النساء',
       'womenModeDescription': 'اضبطي التذكيرات بخصوصية واحترام.',
+      'womenModeWhatChangesTitle': 'ما يتغير محليا',
+      'womenModeWhatChangesBody':
+          'قد تصبح توصيات الرئيسية أهدأ وتبرز الدعاء والذكر والتأمل. قد تعرض الجلسات اليومية ملاحظة خاصة ومحلية فقط.',
+      'womenModeWhatStaysPrivateTitle': 'ما لا يغادر هذا الجهاز',
+      'womenModeWhatStaysPrivateBody':
+          'يحفظ وضعك الدقيق محليا ولا يرسل مع طلبات المحتوى عن بعد.',
+      'womenModeReminderPrivacyBody':
+          'تبقى نصوص التذكير عامة حتى لا تكشف شاشة القفل تفاصيل خاصة.',
+      'womenModeTurnOffBody':
+          'أوقفي هذا الوضع باختيار عادي، أو امسحيه من مركز الخصوصية > حذف البيانات المحلية.',
+      'openPrivacyCenter': 'فتح مركز الخصوصية',
       'todaysMode': 'وضع اليوم',
       'modeNormal': 'عادي',
       'modeMenstruating': 'الحيض',

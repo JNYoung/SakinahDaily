@@ -24,6 +24,9 @@ class HomePage extends ConsumerWidget {
     final prayerService = ref.watch(prayerCalculationServiceProvider);
     final savedItems = ref.watch(savedItemsProvider);
     final sessionProgress = ref.watch(sessionProgressControllerProvider);
+    final womenModeDecision = ref
+        .watch(womenModeContentPolicyProvider)
+        .evaluate(preferences.womenIbadahMode);
     final now = DateTime.now();
     final nextPrayer =
         prayerService.nextPrayer(now, preferences.prayerSettings);
@@ -41,6 +44,13 @@ class HomePage extends ConsumerWidget {
         : activeProgress != null
             ? l10n.t('resumeSession')
             : null;
+    final showWomenModeSupport = preferences.womenIbadahMode.enabled &&
+        womenModeDecision.flags.any(
+          (flag) =>
+              flag == 'prefer_dua_dhikr_reflection' ||
+              flag == 'gentle_support' ||
+              flag == 'privacy_safe_copy',
+        );
     final isTonightSaved = savedItems.any(
       (item) =>
           item.itemType == SavedItemType.dailySession &&
@@ -116,6 +126,13 @@ class HomePage extends ConsumerWidget {
             title: session.title.resolve(preferences.languageCode),
             subtitle: l10n.t('sessionSubtitleMeta'),
             statusLabel: sessionStatusLabel,
+            supportLabel:
+                showWomenModeSupport ? l10n.t('womenModePrivatePath') : null,
+            supportBody: showWomenModeSupport
+                ? l10n.t('womenModeHomeSupportBody')
+                : null,
+            localOnlyLabel:
+                showWomenModeSupport ? l10n.t('localOnlyMode') : null,
             startButtonKey: SakinahKeys.homeSessionStartButton,
             startLabel: sessionButtonLabel,
             voiceOnlyLabel: l10n.t('voiceOnly'),
@@ -295,6 +312,9 @@ class _HeroSessionCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.statusLabel,
+    this.supportLabel,
+    this.supportBody,
+    this.localOnlyLabel,
     required this.startButtonKey,
     required this.startLabel,
     required this.voiceOnlyLabel,
@@ -307,6 +327,9 @@ class _HeroSessionCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String? statusLabel;
+  final String? supportLabel;
+  final String? supportBody;
+  final String? localOnlyLabel;
   final Key startButtonKey;
   final String startLabel;
   final String voiceOnlyLabel;
@@ -351,6 +374,63 @@ class _HeroSessionCard extends StatelessWidget {
                 subtitle,
                 style: TextStyle(color: Colors.white.withValues(alpha: 0.78)),
               ),
+              if (supportLabel != null && supportBody != null) ...[
+                const SizedBox(height: 14),
+                Container(
+                  key: SakinahKeys.homeWomenModeSupportCard,
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.10),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.14),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(
+                            supportLabel!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          if (localOnlyLabel != null)
+                            Chip(
+                              key: SakinahKeys.homeWomenModeLocalChip,
+                              avatar: const Icon(
+                                Icons.lock_outline_rounded,
+                                size: 14,
+                              ),
+                              label: Text(localOnlyLabel!),
+                              visualDensity: VisualDensity.compact,
+                              backgroundColor:
+                                  Colors.white.withValues(alpha: 0.16),
+                              labelStyle: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                              side: BorderSide.none,
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        supportBody!,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.76),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               if (statusLabel != null) ...[
                 const SizedBox(height: 10),
                 Chip(

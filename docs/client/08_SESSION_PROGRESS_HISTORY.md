@@ -53,6 +53,9 @@ Home uses the same local state to show:
 - Completed today / Review for sessions completed today.
 - Current streak and completed-this-week summary.
 
+Women's Ibadah Mode may add a local-only support note around the session entry,
+but session progress records still store only IDs and timestamps.
+
 ## Streak Calculation
 
 The MVP streak is a simple consecutive-day count ending today. It is calculated

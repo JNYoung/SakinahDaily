@@ -98,6 +98,60 @@ class WomensIbadahModePage extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           AppCard(
+            key: SakinahKeys.womenModeLocalChangesCard,
+            color: isDark ? SakinahColors.navyCard : null,
+            padding: const EdgeInsets.all(22),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.t('womenModeWhatChangesTitle'),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(l10n.t('womenModeWhatChangesBody')),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          AppCard(
+            key: SakinahKeys.womenModePrivacyDetailsCard,
+            color: isDark ? SakinahColors.navyCard : null,
+            padding: const EdgeInsets.all(22),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.t('womenModeWhatStaysPrivateTitle'),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(l10n.t('womenModeWhatStaysPrivateBody')),
+                const SizedBox(height: 12),
+                Text(l10n.t('womenModeReminderPrivacyBody')),
+                const SizedBox(height: 12),
+                Text(l10n.t('womenModeTurnOffBody')),
+                const SizedBox(height: 18),
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: PrimaryButton(
+                    label: l10n.t('openPrivacyCenter'),
+                    tonal: true,
+                    icon: Icons.privacy_tip_outlined,
+                    onPressed: () => context.go('/settings/privacy'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+          AppCard(
             color: SakinahColors.deepEmerald,
             padding: const EdgeInsets.all(22),
             child: Column(

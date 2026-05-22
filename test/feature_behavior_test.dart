@@ -136,6 +136,16 @@ void main() {
     );
     expect(
         _choiceChip(tester, SakinahKeys.womenModeNormalChip).selected, isFalse);
+
+    await tester.scrollUntilVisible(find.text('What changes locally'), 240);
+    expect(find.text('What changes locally'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('What does not leave this device'),
+      240,
+    );
+    expect(find.text('What does not leave this device'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Open Privacy Center'), 240);
+    expect(find.text('Open Privacy Center'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

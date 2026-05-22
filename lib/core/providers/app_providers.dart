@@ -26,6 +26,7 @@ import '../services/prayer_calculation_service.dart';
 import '../services/push_candidate_selector.dart';
 import '../services/qibla_service.dart';
 import '../services/remote_content_api_client.dart';
+import '../services/women_mode_content_policy.dart';
 
 final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
 
@@ -393,6 +394,11 @@ final prayerCalculationServiceProvider = Provider<PrayerCalculationService>(
 );
 
 final qiblaServiceProvider = Provider<QiblaService>((ref) => QiblaService());
+
+final womenModeContentPolicyProvider =
+    Provider<WomenModeContentPolicy>((ref) {
+  return const WomenModeContentPolicy();
+});
 
 enum NotificationPermissionFeedback { denied, scheduled }
 

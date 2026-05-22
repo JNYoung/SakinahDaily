@@ -10,7 +10,9 @@ In-app explanation:
 > reminders stay privacy-safe on the lock screen.
 
 Store/review note: notification reminders are local where possible. Sensitive
-Women's Ibadah Mode status must not appear in lock-screen copy.
+Women's Ibadah Mode status must not appear in lock-screen copy. When Women's
+Mode is enabled, reminder text should stay generic and avoid menstruation,
+postpartum, cycle, or similar private terms.
 
 ## Prayer Location
 
@@ -42,6 +44,11 @@ In-app explanation:
 
 > Women's Ibadah Mode is designed local-first. Exact status is not sent with
 > remote content requests.
+
+Recommendation explanation:
+
+> Women's Mode can adjust Home and Daily Session suggestions on this device.
+> Your exact mode stays local.
 
 Store/review note: treat any future transmission as sensitive information and
 require a fresh privacy review.
