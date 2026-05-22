@@ -28,6 +28,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/source-corpus-real-ingestion` adds manifest-driven local Quran source corpus ingestion, fixture-only parser/merge/lock tests, draft source item exports, and CMS import JSONL payload generation without live source downloads or full corpus commits.
 - Branch `codex/client-content-cache-persistent` adds persistent manifest/bundle cache runtime tests, SharedPreferences-backed MVP cache storage, validated bundle activation, revocation handling, and fake detail-bundle recovery for local push deep links without live CMS calls.
 - Branch `codex/cms-api-seed-fallback` adds a disabled-by-default remote content API config, provider-agnostic HTTP manifest client, fake HTTP test client, required bundle sync through existing cache validation, and local push detail-bundle recovery without live CMS calls or generated religious content.
+- Branch `codex/content-agent-db-review-queue` adds repository-backed Content Agent runs, candidates, review packets, feedback events, QA re-runs, and CMS draft-only promotion using local deterministic tests with no live OpenAI, DB, CMS, or push sends.
 
 ## Current Validation Gate
 
@@ -45,7 +46,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 3. Add visual or integration coverage only after the widget tests remain stable; keep TDD fast by default.
 4. After approved local source files are placed under `data/source/raw/`, run source corpus manifest ingestion and review the generated lock file before committing any schema or seed payload decisions.
 5. Connect the generic remote content API contract to a reviewed staging CMS only after endpoint auth, publishing workflow, and source-corpus approvals are finalized.
-6. Expand Content Agent automated tests for guardrails, deterministic weekly preproduction, prayer-content generation packets, and no auto-publish/no FCM behavior.
+6. Implement a reviewed Supabase/Directus staging adapter for the Content Agent review queue only after RLS, service credentials, and CMS draft workflows are approved.
 7. Next client milestone: continue notification UX polish only after platform permission copy is finalized, then expand prayer-location handling beyond the manual fallback.
 8. Next push milestone: wire the local push receiver into notification-tap handling once production routing decisions and platform payload contracts are finalized.
 9. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
