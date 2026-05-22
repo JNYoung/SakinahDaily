@@ -65,6 +65,8 @@ After onboarding, the user enters Home:
 | `docs/content/01_CONTENT_GUIDELINES.md` | Religious content safety |
 | `docs/agent/01_CONTENT_AGENT_SERVICE_PRD.md` | Content Agent service PRD |
 | `docs/client/01_CONTENT_DELIVERY_CACHE_STRATEGY.md` | Client cache strategy |
+| `docs/release/01_RELEASE_READINESS_CHECKLIST.md` | Release readiness checklist |
+| `docs/release/04_STORE_METADATA_DRAFT.md` | Store metadata draft |
 | `docs/jobs/2026-05-21_completed_work_and_next_steps.md` | Current completion and next jobs |
 | `docs/codex/00_CODEX_CONTEXT.md` | Codex project context |
 | `docs/codex/01_CODEX_MILESTONES.md` | Codex milestone prompts |
@@ -80,6 +82,16 @@ flutter pub get
 flutter test
 dart analyze
 ```
+
+Release readiness checks:
+
+```sh
+flutter test test/release_readiness_test.dart
+flutter build apk --debug --dart-define=SAKINAH_APP_ENV=dev
+```
+
+Do not commit `.env`, `key.properties`, keystores, service-account files,
+production CMS tokens, full Quran corpus files, or licensed audio.
 
 Content Agent service:
 

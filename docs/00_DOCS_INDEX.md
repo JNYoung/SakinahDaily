@@ -48,6 +48,13 @@
 | `docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md` | Google Play Data Safety 草案 |
 | `docs/privacy/05_PERMISSION_COPY.md` | 权限与同意说明文案草案 |
 | `docs/privacy/06_SDK_AND_API_INVENTORY.md` | SDK/API 隐私清单草案 |
+| `docs/release/01_RELEASE_READINESS_CHECKLIST.md` | 客户端 release readiness 总清单 |
+| `docs/release/02_ANDROID_RELEASE_CHECKLIST.md` | Android 包名、签名、权限和构建清单 |
+| `docs/release/03_IOS_RELEASE_CHECKLIST.md` | iOS bundle、签名、隐私和截图清单 |
+| `docs/release/04_STORE_METADATA_DRAFT.md` | App Store / Google Play metadata 草案 |
+| `docs/release/05_SCREENSHOT_PLAN.md` | Store 截图计划和后续自动化 key |
+| `docs/release/06_PERMISSION_AND_DATA_SAFETY_REVIEW.md` | 权限与 data safety 一致性复核 |
+| `docs/release/07_BUILD_FLAVORS_AND_DART_DEFINE.md` | dev/staging/prod dart-define 配置 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Agent Service 文档
@@ -89,7 +96,7 @@
 9. 实现 Settings 与 Women’s Ibadah Mode。
 10. 接 CMS API。
 11. 加 analytics stub 与 QA checklist。
-12. 按 `docs/jobs/` 的最新交接记录继续推进 UI 重构、Quran 语料、缓存、Agent 测试和 store readiness。
+12. 按 `docs/jobs/` 的最新交接记录继续推进 UI 重构、Quran 语料、缓存、Agent 测试、release readiness 和 store readiness。
 
 ## 3. 文档维护规则
 
