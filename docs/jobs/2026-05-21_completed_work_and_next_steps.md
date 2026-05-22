@@ -29,6 +29,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/client-content-cache-persistent` adds persistent manifest/bundle cache runtime tests, SharedPreferences-backed MVP cache storage, validated bundle activation, revocation handling, and fake detail-bundle recovery for local push deep links without live CMS calls.
 - Branch `codex/cms-api-seed-fallback` adds a disabled-by-default remote content API config, provider-agnostic HTTP manifest client, fake HTTP test client, required bundle sync through existing cache validation, and local push detail-bundle recovery without live CMS calls or generated religious content.
 - Branch `codex/content-agent-db-review-queue` adds repository-backed Content Agent runs, candidates, review packets, feedback events, QA re-runs, and CMS draft-only promotion using local deterministic tests with no live OpenAI, DB, CMS, or push sends.
+- Branch `codex/client-privacy-store-readiness` adds the Settings Privacy Center, client data inventory, local data reset flow, sensitive remote-request guardrails, and draft store privacy documentation without analytics, crash SDKs, ads, tracking, or new third-party SDKs.
 
 ## Current Validation Gate
 
@@ -47,9 +48,11 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 4. After approved local source files are placed under `data/source/raw/`, run source corpus manifest ingestion and review the generated lock file before committing any schema or seed payload decisions.
 5. Connect the generic remote content API contract to a reviewed staging CMS only after endpoint auth, publishing workflow, and source-corpus approvals are finalized.
 6. Implement a reviewed Supabase/Directus staging adapter for the Content Agent review queue only after RLS, service credentials, and CMS draft workflows are approved.
-7. Next client milestone: continue notification UX polish only after platform permission copy is finalized, then expand prayer-location handling beyond the manual fallback.
-8. Next push milestone: wire the local push receiver into notification-tap handling once production routing decisions and platform payload contracts are finalized.
-9. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
+7. Next client milestone: prepare release bundle identifiers, store screenshots, and store metadata using the privacy draft docs as review input.
+8. Next privacy milestone: decide whether analytics or crash reporting is needed after privacy review; do not add SDKs before that review.
+9. Next store milestone: build a final App Store / Google Play submission checklist from the draft privacy labels, permission copy, and SDK inventory.
+10. Next push milestone: wire the local push receiver into notification-tap handling once production routing decisions and platform payload contracts are finalized.
+11. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
 
 ## Handoff Notes
 
@@ -57,4 +60,5 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - For Quran text, import and validate authorized source data; do not generate or rewrite Qur'an original text.
 - Source corpus tests remain fixture-only: no live Tanzil/QuranEnc downloads, no generated Quran text, and no machine-generated translations.
 - Client content cache tests remain fake/local only: no live CMS, no FCM/APNs, and no generated religious content.
+- Privacy Center and store-readiness docs are implementation drafts, not legal final policy.
 - Women's mode privacy remains local-first, and sensitive content must not appear in lock-screen push text.

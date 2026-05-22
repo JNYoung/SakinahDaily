@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/app/sakinah_app.dart';
 import 'package:sakinah_daily/app/sakinah_router.dart';
+import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
+import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
@@ -21,6 +23,8 @@ Future<void> pumpSakinahApp(
   Brightness? platformBrightness,
   bool settleSplash = true,
   UserPreferencesStore? preferencesStore,
+  ContentCacheStore? contentCacheStore,
+  ContentApiConfig? contentApiConfig,
   NotificationService? notificationService,
   SakinahAudioPlayer? audioPlayer,
 }) async {
@@ -41,6 +45,10 @@ Future<void> pumpSakinahApp(
         userPreferencesStoreProvider.overrideWithValue(
           preferencesStore ?? InMemoryUserPreferencesStore(),
         ),
+        if (contentCacheStore != null)
+          contentCacheStoreProvider.overrideWithValue(contentCacheStore),
+        if (contentApiConfig != null)
+          contentApiConfigProvider.overrideWithValue(contentApiConfig),
         notificationServiceProvider.overrideWithValue(
           notificationService ?? LocalNotificationServiceStub(),
         ),

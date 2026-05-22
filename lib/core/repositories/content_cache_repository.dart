@@ -168,5 +168,15 @@ class ContentCacheRepository {
     }
   }
 
+  Future<void> clearAll() async {
+    final allKeys = await store.keys();
+    for (final key in allKeys.where((key) =>
+        key == activeManifestKey ||
+        key == revokedContentKey ||
+        key.startsWith(bundlePrefix))) {
+      await store.delete(key);
+    }
+  }
+
   String _bundleKey(String bundleId) => '$bundlePrefix$bundleId';
 }

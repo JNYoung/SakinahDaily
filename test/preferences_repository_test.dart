@@ -42,6 +42,28 @@ void main() {
     expect(loaded.womenIbadahMode.localOnly, isTrue);
   });
 
+  test('preferences reset returns defaults and disables women mode', () async {
+    final store = InMemoryUserPreferencesStore();
+    final repository = UserPreferencesRepository(store);
+    await repository.save(
+      UserPreferences.defaults().copyWith(
+        languageCode: 'ar',
+        notificationsEnabled: true,
+        womenIbadahMode: const WomenIbadahMode(
+          enabled: true,
+          status: WomenIbadahStatus.menstruating,
+        ),
+      ),
+    );
+
+    await repository.reset();
+
+    final loaded = await repository.load();
+    expect(loaded.languageCode, 'en');
+    expect(loaded.notificationsEnabled, isFalse);
+    expect(loaded.womenIbadahMode.enabled, isFalse);
+  });
+
   test('locale is restored after a fake app restart', () async {
     final store = InMemoryUserPreferencesStore();
     final firstContainer = ProviderContainer(

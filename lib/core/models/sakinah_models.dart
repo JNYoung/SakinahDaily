@@ -1111,17 +1111,31 @@ class CacheEntry {
 class ContentRequestContext {
   const ContentRequestContext({
     required this.languageCode,
-    required this.womenIbadahMode,
     this.market = 'global',
     this.appVersion,
     this.lockScreenSafe = false,
-  });
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+    bool? womenModeEnabled,
+    bool? hideCycleSensitiveLockScreenCopy,
+  })  : womenModeEnabled = womenModeEnabled ?? womenIbadahMode.enabled,
+        hideCycleSensitiveLockScreenCopy =
+            hideCycleSensitiveLockScreenCopy ??
+                womenIbadahMode.hideCycleSensitiveLockScreenCopy;
 
   final String languageCode;
   final String market;
   final String? appVersion;
-  final WomenIbadahMode womenIbadahMode;
   final bool lockScreenSafe;
+  final bool womenModeEnabled;
+  final bool hideCycleSensitiveLockScreenCopy;
+
+  WomenIbadahMode get womenIbadahMode {
+    return WomenIbadahMode(
+      enabled: womenModeEnabled,
+      status: WomenIbadahStatus.normal,
+      hideCycleSensitiveLockScreenCopy: hideCycleSensitiveLockScreenCopy,
+    );
+  }
 }
 
 String _stringFromKeys(
