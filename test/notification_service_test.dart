@@ -79,4 +79,53 @@ void main() {
     expect(copy.body, isNot(contains('Fajr')));
     expect(copy.body, isNot(contains('prayer')));
   });
+
+  test('all women mode statuses produce privacy-safe notification copy', () {
+    for (final status in WomenIbadahStatus.values) {
+      final copy = PrayerNotificationCopy.forPrayer(
+        languageCode: 'en',
+        prayerName: 'Fajr',
+        womenIbadahMode: WomenIbadahMode(enabled: true, status: status),
+      );
+
+      _expectNoSensitiveTerms(copy.title);
+      _expectNoSensitiveTerms(copy.body);
+      expect(copy.body, isNot(contains(status.name)));
+    }
+  });
+
+  test('notification payload does not include women status', () async {
+    final service = LocalNotificationServiceStub();
+    final prayers = PrayerCalculationService()
+        .calculateForDate(DateTime(2026, 5, 21), settings);
+
+    final scheduled = await service.schedulePrayerReminders(
+      settings,
+      prayers,
+      womenIbadahMode: const WomenIbadahMode(
+        enabled: true,
+        status: WomenIbadahStatus.postpartum,
+      ),
+    );
+
+    expect(scheduled, isNotEmpty);
+    _expectNoSensitiveTerms(scheduled.first.payload);
+    expect(scheduled.first.payload, isNot(contains('women')));
+    expect(scheduled.first.payload, isNot(contains('status')));
+  });
+}
+
+void _expectNoSensitiveTerms(String value) {
+  final lower = value.toLowerCase();
+  for (final term in const [
+    'menstruat',
+    'period',
+    'postpartum',
+    'pregnan',
+    'cycle',
+    'haidh',
+    'nifas',
+  ]) {
+    expect(lower, isNot(contains(term)));
+  }
 }

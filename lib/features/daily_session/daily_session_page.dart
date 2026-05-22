@@ -45,6 +45,9 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
     final preferences = ref.watch(userPreferencesProvider);
     final l10n = SakinahLocalizations.of(context);
     final session = repo.getDailySession(widget.sessionId);
+    final womenModeDecision = ref
+        .watch(womenModeContentPolicyProvider)
+        .evaluate(preferences.womenIbadahMode);
 
     if (session == null) {
       return LanguageAwareScaffold(
@@ -55,6 +58,13 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
 
     final step = session.steps[index];
     final stepTitle = step.title.resolve(preferences.languageCode);
+    final showWomenModeNote = preferences.womenIbadahMode.enabled &&
+        womenModeDecision.flags.any(
+          (flag) =>
+              flag == 'prefer_dua_dhikr_reflection' ||
+              flag == 'gentle_support' ||
+              flag == 'privacy_safe_copy',
+        );
 
     return LanguageAwareScaffold(
       title: session.title.resolve(preferences.languageCode),
@@ -82,6 +92,44 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
               child: Chip(
                 key: SakinahKeys.sessionResumeBadge,
                 label: Text(l10n.t('resumeSession')),
+              ),
+            ),
+          ],
+          if (showWomenModeNote) ...[
+            const SizedBox(height: 12),
+            AppCard(
+              key: SakinahKeys.sessionWomenModeNote,
+              color: SakinahColors.navyCard,
+              padding: const EdgeInsets.all(14),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.lock_outline_rounded,
+                    color: SakinahColors.sandGold,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.t('womenModeSessionNoteTitle'),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          l10n.t('womenModeSessionNoteBody'),
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

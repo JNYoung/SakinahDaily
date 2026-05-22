@@ -27,6 +27,10 @@ abstract final class SakinahKeys {
       ValueKey<String>('home_quick_action_dhikr');
   static const homeQuickActionQibla =
       ValueKey<String>('home_quick_action_qibla');
+  static const homeWomenModeSupportCard =
+      ValueKey<String>('home_women_mode_support_card');
+  static const homeWomenModeLocalChip =
+      ValueKey<String>('home_women_mode_local_chip');
 
   static const bottomNavHome = ValueKey<String>('bottom_nav_home');
   static const bottomNavDua = ValueKey<String>('bottom_nav_dua');
@@ -39,6 +43,8 @@ abstract final class SakinahKeys {
   static const sessionFinishButton = ValueKey<String>('session_finish_button');
   static const sessionProgressBar = ValueKey<String>('session_progress_bar');
   static const sessionResumeBadge = ValueKey<String>('session_resume_badge');
+  static const sessionWomenModeNote =
+      ValueKey<String>('session_women_mode_note');
   static const sessionCompletionPage =
       ValueKey<String>('session_completion_page');
   static const sessionCompletionSaveButton =
@@ -91,6 +97,10 @@ abstract final class SakinahKeys {
       ValueKey<String>('women_mode_prefer_not_to_track_chip');
   static const womenModeStartButton =
       ValueKey<String>('women_mode_start_button');
+  static const womenModeLocalChangesCard =
+      ValueKey<String>('women_mode_local_changes_card');
+  static const womenModePrivacyDetailsCard =
+      ValueKey<String>('women_mode_privacy_details_card');
   static const privacyCenterPage = ValueKey<String>('privacy_center_page');
   static const privacyDataInventoryPage =
       ValueKey<String>('privacy_data_inventory_page');

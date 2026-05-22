@@ -24,6 +24,10 @@ Session progress records store IDs, step position, timestamps, duration,
 language code, and total step count. They do not store Quran, Dua, Dhikr,
 Hadith, translation text, reflections, or user notes.
 
+Women's Ibadah Mode may change Home recommendations and Daily Session support
+copy locally. Exact status remains on device and is not used for remote
+personalization in the MVP.
+
 Users can clear this local data from Settings > Privacy > Delete local data.
 Bundled seed content and app files remain because they are part of the app.
 
@@ -32,6 +36,9 @@ Bundled seed content and app files remain because they are part of the app.
 If remote content delivery is enabled, requests may include language, market,
 app version, and schema version. Detail-bundle recovery may include a bundle
 hint. Women's Ibadah Mode exact status is not sent with these requests.
+
+Notification text stays generic when Women's Ibadah Mode is enabled so private
+state details do not appear on the lock screen.
 
 ## Not Implemented In MVP
 

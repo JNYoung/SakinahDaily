@@ -34,6 +34,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/client-notification-tap-qibla-saved` adds client-side notification tap route resolution, a Qibla page based on selected prayer location, and local-only Saved Items with Save Tonight, Dua, and Dhikr save/unsave behavior without GPS, compass permissions, remote sync, FCM/APNs, analytics, crash SDKs, ads, or generated religious content.
 - Branch `codex/client-notification-router-quran-entry` adds app-level notification tap navigation cleanup, Quran entry/detail routes, saved Quran verse navigation, voice-only Quran policy UX, and a manual prayer location page without GPS, compass/sensor permissions, remote CMS calls, full Quran corpus downloads, Quran TTS, or generated religious content.
 - Branch `codex/client-session-progress-history` adds local-only Daily Session resume progress, completion history, a completion screen, Home progress summary, and Delete Local Data cleanup without analytics, account sync, remote progress sync, social sharing, or generated religious content.
+- Branch `codex/client-women-mode-content-filter` adds local-only Women's Mode recommendation policy, Home/Session support notes, privacy-safe notification and remote-request guardrails, and documentation without analytics, remote women status sync, medical advice, fatwa-like claims, or generated religious content.
 
 ## Current Validation Gate
 
@@ -72,3 +73,4 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Qibla must continue to use selected manual/preset prayer location unless a future GPS or compass permission review explicitly changes the MVP scope.
 - Quran pages must continue to use approved local seed/cache content only until reviewed source corpus routing is expanded; do not add Quran TTS or background music under recitation.
 - Daily Session progress/history must remain local-only, store IDs and timestamps rather than religious text, and be cleared by Delete Local Data.
+- Women's Mode may influence local UI recommendations only; exact status must not leave the device, appear in lock-screen copy, or be used for medical or fatwa-like guidance.

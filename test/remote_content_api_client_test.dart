@@ -73,6 +73,38 @@ void main() {
     expect(uri.toString(), isNot(contains('pregnancy')));
   });
 
+  test('women mode status values do not change remote manifest query',
+      () async {
+    final http = FakeContentHttpClient({
+      _manifestUri().toString(): ContentHttpResponse.ok(_manifestJson()),
+    });
+    final client = _client(http);
+
+    for (final status in WomenIbadahStatus.values) {
+      await client.loadManifest(ContentRequestContext(
+        languageCode: 'en',
+        market: 'global',
+        appVersion: '0.1.0',
+        womenIbadahMode: WomenIbadahMode(enabled: true, status: status),
+      ));
+    }
+
+    for (final request in http.requests) {
+      expect(request.uri, _manifestUri());
+      expect(
+        request.uri.queryParameters.keys,
+        unorderedEquals(
+          ['app_version', 'language', 'market', 'schema_version'],
+        ),
+      );
+      expect(request.uri.toString(), isNot(contains('women')));
+      expect(request.uri.toString(), isNot(contains('gender')));
+      for (final status in WomenIbadahStatus.values) {
+        expect(request.uri.toString(), isNot(contains(status.name)));
+      }
+    }
+  });
+
   test('token is sent as authorization header when configured', () async {
     final http = FakeContentHttpClient({
       _manifestUri().toString(): ContentHttpResponse.ok(_manifestJson()),
