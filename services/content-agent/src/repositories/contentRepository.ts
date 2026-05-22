@@ -24,7 +24,7 @@ export const seedSources: SourceItem[] = [
     status: "published",
     reviewStatus: "approved",
     language: "en",
-    text: "A calm reminder that hardship is held with ease."
+    text: "A calm reminder that hardship is held with ease.",
   },
   {
     id: "source_ease_id",
@@ -33,7 +33,7 @@ export const seedSources: SourceItem[] = [
     status: "published",
     reviewStatus: "approved",
     language: "id",
-    text: "Pengingat lembut bahwa kesulitan bersama kemudahan."
+    text: "Pengingat lembut bahwa kesulitan bersama kemudahan.",
   },
   {
     id: "source_private_en",
@@ -43,6 +43,6 @@ export const seedSources: SourceItem[] = [
     reviewStatus: "approved",
     language: "en",
     text: "Private worship rest copy for sensitive days.",
-    cycleSensitiveHidden: true
-  }
+    cycleSensitiveHidden: true,
+  },
 ];

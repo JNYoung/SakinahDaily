@@ -3,20 +3,33 @@ info:
   title: Sakinah Content Agent
   version: 0.1.0
 paths:
+  /health:
+    get:
+      summary: Health check
   /agent-runs:
     post:
-      summary: Create an agent run
+      summary: Create and synchronously execute an agent run
     get:
-      summary: List agent runs
+      summary: List persisted agent runs
   /agent-runs/{run_id}:
     get:
-      summary: Get an agent run
+      summary: Get an agent run with candidate summary
+  /agent-runs/{run_id}/cancel:
+    post:
+      summary: Cancel a queued or running agent run
   /agent-runs/{run_id}/review-packet:
     get:
-      summary: Get review packet
+      summary: Get the persisted review packet for a run
+  /agent-candidates/{candidate_id}:
+    get:
+      summary: Get a persisted candidate
   /agent-candidates/{candidate_id}/qa:
     post:
-      summary: Run QA
+      summary: Re-run automated QA for a candidate
   /agent-candidates/{candidate_id}/promote-to-cms-draft:
     post:
-      summary: Promote candidate to CMS draft
+      summary: Promote a candidate to CMS draft metadata only
+      description: Never approves, publishes, sends FCM/APNs, or bypasses human review.
+  /agent-candidates/{candidate_id}/feedback:
+    post:
+      summary: Record human reviewer feedback for a candidate

@@ -1,10 +1,16 @@
-import type { AgentCandidate, SourceItem } from "./schemas.js";
-import { validateApprovedSource, validateCandidate } from "./validators.js";
+import type { AgentContentCandidate, SourceItem } from "./schemas.js";
+import { runCandidateQa } from "./qaReview.js";
 
-export function collectSafetyFlags(candidate: AgentCandidate, source: SourceItem): string[] {
-  return [...validateApprovedSource(source), ...validateCandidate(candidate)];
+export function collectSafetyFlags(
+  candidate: AgentContentCandidate,
+  source?: SourceItem,
+) {
+  return runCandidateQa(candidate, source);
 }
 
-export function isSafeForReview(candidate: AgentCandidate, source: SourceItem): boolean {
-  return collectSafetyFlags(candidate, source).length === 0;
+export function isSafeForReview(
+  candidate: AgentContentCandidate,
+  source?: SourceItem,
+): boolean {
+  return collectSafetyFlags(candidate, source).riskFlags.length === 0;
 }

@@ -54,6 +54,7 @@
 | `docs/agent/04_AGENT_PROMPTS.md` | Agent prompts 与约束 |
 | `docs/agent/05_AGENT_SERVICE_OPENAPI.yaml` | Agent Service REST API 草案 |
 | `docs/agent/06_EVAL_AND_GUARDRAILS.md` | Eval、guardrails、自动化测试策略 |
+| `docs/agent/07_AGENT_REVIEW_QUEUE_IMPLEMENTATION.md` | Content Agent review queue、QA、draft promotion 实现 |
 
 ### Job 交接文档
 
