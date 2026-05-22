@@ -124,6 +124,15 @@ void main() {
       }
     });
 
+    test('Android manifest does not request location or sensor permission', () {
+      final manifest =
+          File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
+
+      expect(manifest, isNot(contains('ACCESS_FINE_LOCATION')));
+      expect(manifest, isNot(contains('ACCESS_COARSE_LOCATION')));
+      expect(manifest, isNot(contains('BODY_SENSORS')));
+    });
+
     test('no obvious secret files are committed', () {
       final forbiddenPatterns = [
         RegExp(r'(^|/)\.env(\..*)?$'),

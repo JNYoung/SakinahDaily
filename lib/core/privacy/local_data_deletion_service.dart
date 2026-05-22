@@ -1,4 +1,5 @@
 import '../repositories/content_cache_repository.dart';
+import '../repositories/saved_items_repository.dart';
 import '../repositories/user_preferences_repository.dart';
 import '../services/notification_service.dart';
 
@@ -18,16 +19,19 @@ class LocalDataDeletionService {
   const LocalDataDeletionService({
     required this.preferencesRepository,
     required this.contentCacheRepository,
+    required this.savedItemsRepository,
     required this.notificationService,
   });
 
   final UserPreferencesRepository preferencesRepository;
   final ContentCacheRepository contentCacheRepository;
+  final SavedItemsRepository savedItemsRepository;
   final NotificationService notificationService;
 
   Future<LocalDataDeletionResult> deleteLocalData() async {
     await preferencesRepository.reset();
     await contentCacheRepository.clearAll();
+    await savedItemsRepository.clear();
     await notificationService.cancelAll();
     return const LocalDataDeletionResult(
       preferencesReset: true,

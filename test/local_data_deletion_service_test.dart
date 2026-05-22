@@ -1,8 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/models/saved_item.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/privacy/local_data_deletion_service.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/content_repository.dart';
+import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/content_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
@@ -14,6 +16,8 @@ void main() {
     final preferencesRepository = UserPreferencesRepository(preferencesStore);
     final cacheStore = InMemoryContentCacheStore();
     final cacheRepository = ContentCacheRepository(cacheStore);
+    final savedStore = InMemorySavedItemsStore();
+    final savedRepository = SavedItemsRepository(savedStore);
     final notifications = LocalNotificationServiceStub();
     await preferencesRepository.save(
       UserPreferences.defaults().copyWith(
@@ -45,6 +49,16 @@ void main() {
         sha256: 'fixture-sha',
       ),
     );
+    await savedRepository.save(
+      SavedItem(
+        id: SavedItem.stableId(SavedItemType.dua, 'dua_ease'),
+        itemType: SavedItemType.dua,
+        itemId: 'dua_ease',
+        titleSnapshot: 'Ease',
+        createdAt: DateTime.utc(2026, 5, 22),
+        languageCode: 'en',
+      ),
+    );
     notifications.scheduled.add(
       ScheduledPrayerReminder(
         prayerName: 'Fajr',
@@ -58,6 +72,7 @@ void main() {
     final result = await LocalDataDeletionService(
       preferencesRepository: preferencesRepository,
       contentCacheRepository: cacheRepository,
+      savedItemsRepository: savedRepository,
       notificationService: notifications,
     ).deleteLocalData();
 
@@ -71,6 +86,7 @@ void main() {
     expect(await cacheRepository.loadActiveManifest(), isNull);
     expect(await cacheRepository.listBundles(), isEmpty);
     expect(await cacheRepository.revokedContentIds(), isEmpty);
+    expect(await savedRepository.listSavedItems(), isEmpty);
     expect(notifications.scheduled, isEmpty);
   });
 
@@ -81,6 +97,8 @@ void main() {
       preferencesRepository:
           UserPreferencesRepository(InMemoryUserPreferencesStore()),
       contentCacheRepository: cacheRepository,
+      savedItemsRepository:
+          SavedItemsRepository(InMemorySavedItemsStore()),
       notificationService: LocalNotificationServiceStub(),
     ).deleteLocalData();
 

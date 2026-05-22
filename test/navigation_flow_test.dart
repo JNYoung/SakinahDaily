@@ -63,6 +63,17 @@ void main() {
     await tapByKey(tester, SakinahKeys.bottomNavHome);
     await tapByKey(tester, SakinahKeys.homeQuickActionQuran);
     expect(find.text('Step 1 of 6 · Set intention'), findsOneWidget);
+
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('home Qibla quick action opens Qibla page', (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.homeQuickActionQibla);
+
+    expect(find.byKey(SakinahKeys.qiblaPage), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

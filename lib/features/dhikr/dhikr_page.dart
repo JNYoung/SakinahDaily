@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/models/saved_item.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/dhikr_counter_circle.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
+import '../../shared/widgets/primary_button.dart';
 import '../../shared/widgets/source_chip.dart';
 
 class DhikrPage extends ConsumerStatefulWidget {
@@ -32,11 +36,16 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
   Widget build(BuildContext context) {
     final dhikrs = ref.watch(dhikrsProvider);
     final languageCode = ref.watch(userPreferencesProvider).languageCode;
+    final savedItems = ref.watch(savedItemsProvider);
     final l10n = SakinahLocalizations.of(context);
     final selected = dhikrs
             .where((dhikr) => dhikr.id == (selectedId ?? dhikrs.first.id))
             .firstOrNull ??
         dhikrs.first;
+    final isSaved = savedItems.any(
+      (item) =>
+          item.itemType == SavedItemType.dhikr && item.itemId == selected.id,
+    );
 
     return LanguageAwareScaffold(
       title: l10n.t('dhikr'),
@@ -84,6 +93,25 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
           SourceChip(
             source: selected.source,
             reviewStatus: selected.reviewStatus.name,
+          ),
+          const SizedBox(height: 18),
+          PrimaryButton(
+            key: SakinahKeys.dhikrSaveButton,
+            label: isSaved ? l10n.t('unsave') : l10n.t('save'),
+            tonal: true,
+            onPressed: () {
+              final item = SavedItem(
+                id: SavedItem.stableId(SavedItemType.dhikr, selected.id),
+                itemType: SavedItemType.dhikr,
+                itemId: selected.id,
+                titleSnapshot: selected.title.resolve(languageCode),
+                subtitleSnapshot: l10n.t('dhikr'),
+                sourceLabel: selected.source,
+                createdAt: DateTime.now(),
+                languageCode: languageCode,
+              );
+              unawaited(ref.read(savedItemsProvider.notifier).toggle(item));
+            },
           ),
         ],
       ),

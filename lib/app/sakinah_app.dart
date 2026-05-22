@@ -15,6 +15,14 @@ class SakinahApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
     final environment = ref.watch(appEnvironmentConfigProvider);
+    final router = ref.watch(routerProvider);
+
+    ref.listen(notificationTapResultProvider, (previous, next) {
+      final route = next?.route;
+      if (next?.handled == true && route != null) {
+        router.go(route);
+      }
+    });
 
     return MaterialApp.router(
       title: environment.appName,
@@ -30,7 +38,7 @@ class SakinahApp extends ConsumerWidget {
       theme: SakinahTheme.light,
       darkTheme: SakinahTheme.dark,
       scrollBehavior: const SakinahScrollBehavior(),
-      routerConfig: ref.watch(routerProvider),
+      routerConfig: router,
     );
   }
 }

@@ -8,6 +8,8 @@ import '../features/dua/dua_library_page.dart';
 import '../features/home/home_page.dart';
 import '../features/onboarding/onboarding_page.dart';
 import '../features/prayer/prayer_page.dart';
+import '../features/qibla/qibla_page.dart';
+import '../features/saved/saved_items_page.dart';
 import '../features/settings/settings_page.dart';
 import '../features/settings/delete_local_data_page.dart';
 import '../features/settings/privacy_center_page.dart';
@@ -70,6 +72,14 @@ GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
         builder: (context, state) {
           return DhikrPage(initialDhikrId: state.pathParameters['dhikrId']);
         },
+      ),
+      GoRoute(
+        path: '/qibla',
+        builder: (context, state) => const QiblaPage(),
+      ),
+      GoRoute(
+        path: '/saved',
+        builder: (context, state) => const SavedItemsPage(),
       ),
       GoRoute(
         path: '/settings',

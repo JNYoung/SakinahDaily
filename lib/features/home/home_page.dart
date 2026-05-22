@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/models/saved_item.dart';
 import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -19,10 +22,16 @@ class HomePage extends ConsumerWidget {
     final preferences = ref.watch(userPreferencesProvider);
     final sessions = ref.watch(dailySessionsProvider);
     final prayerService = ref.watch(prayerCalculationServiceProvider);
+    final savedItems = ref.watch(savedItemsProvider);
     final now = DateTime.now();
     final nextPrayer =
         prayerService.nextPrayer(now, preferences.prayerSettings);
     final session = sessions.first;
+    final isTonightSaved = savedItems.any(
+      (item) =>
+          item.itemType == SavedItemType.dailySession &&
+          item.itemId == session.id,
+    );
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return LanguageAwareScaffold(
@@ -132,7 +141,7 @@ class HomePage extends ConsumerWidget {
                 key: SakinahKeys.homeQuickActionQibla,
                 icon: Icons.explore_outlined,
                 label: l10n.t('qibla'),
-                onTap: () {},
+                onTap: () => context.go('/qibla'),
               ),
             ],
           ),
@@ -163,11 +172,35 @@ class HomePage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
-                  width: 136,
+                  width: 170,
                   child: PrimaryButton(
-                    label: l10n.t('saveTonight'),
+                    key: SakinahKeys.homeSaveTonightButton,
+                    label: isTonightSaved
+                        ? l10n.t('savedTonight')
+                        : l10n.t('saveTonight'),
                     tonal: true,
-                    onPressed: () {},
+                    onPressed: isTonightSaved
+                        ? null
+                        : () {
+                            unawaited(
+                              ref.read(savedItemsProvider.notifier).save(
+                                    SavedItem(
+                                      id: SavedItem.stableId(
+                                        SavedItemType.dailySession,
+                                        session.id,
+                                      ),
+                                      itemType: SavedItemType.dailySession,
+                                      itemId: session.id,
+                                      titleSnapshot:
+                                          l10n.t('sleepAyatKursi'),
+                                      subtitleSnapshot: session.title
+                                          .resolve(preferences.languageCode),
+                                      createdAt: DateTime.now(),
+                                      languageCode: preferences.languageCode,
+                                    ),
+                                  ),
+                            );
+                          },
                   ),
                 ),
               ],

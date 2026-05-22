@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/models/saved_item.dart';
 import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -19,6 +22,7 @@ class DuaDetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final repo = ref.watch(contentRepositoryProvider);
     final languageCode = ref.watch(userPreferencesProvider).languageCode;
+    final savedItems = ref.watch(savedItemsProvider);
     final l10n = SakinahLocalizations.of(context);
     final dua = repo.getDua(duaId);
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -29,6 +33,10 @@ class DuaDetailPage extends ConsumerWidget {
         body: Center(child: Text(l10n.t('duaUnavailable'))),
       );
     }
+
+    final isSaved = savedItems.any(
+      (item) => item.itemType == SavedItemType.dua && item.itemId == dua.id,
+    );
 
     return LanguageAwareScaffold(
       title: l10n.t('makeDua'),
@@ -53,7 +61,29 @@ class DuaDetailPage extends ConsumerWidget {
                   ],
                 ),
               ),
-              Chip(label: Text(l10n.t('saved'))),
+              SizedBox(
+                width: 132,
+                child: PrimaryButton(
+                  key: SakinahKeys.duaSaveButton,
+                  label: isSaved ? l10n.t('unsave') : l10n.t('save'),
+                  tonal: true,
+                  onPressed: () {
+                    final item = SavedItem(
+                      id: SavedItem.stableId(SavedItemType.dua, dua.id),
+                      itemType: SavedItemType.dua,
+                      itemId: dua.id,
+                      titleSnapshot: dua.translations.resolve(languageCode),
+                      subtitleSnapshot: l10n.t('dua'),
+                      sourceLabel: dua.source,
+                      createdAt: DateTime.now(),
+                      languageCode: languageCode,
+                    );
+                    unawaited(
+                      ref.read(savedItemsProvider.notifier).toggle(item),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 22),
