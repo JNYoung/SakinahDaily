@@ -45,6 +45,34 @@ void main() {
     expect(http.requests.single.uri, _manifestUri());
   });
 
+  test('manifest request omits women mode status and gender fields', () async {
+    final http = FakeContentHttpClient({
+      _manifestUri().toString(): ContentHttpResponse.ok(_manifestJson()),
+    });
+    final client = _client(http);
+
+    await client.loadManifest(const ContentRequestContext(
+      languageCode: 'en',
+      market: 'global',
+      appVersion: '0.1.0',
+      womenIbadahMode: WomenIbadahMode(
+        enabled: true,
+        status: WomenIbadahStatus.menstruating,
+      ),
+    ));
+
+    final uri = http.requests.single.uri;
+    expect(
+      uri.queryParameters.keys,
+      unorderedEquals(['app_version', 'language', 'market', 'schema_version']),
+    );
+    expect(uri.toString(), isNot(contains('women')));
+    expect(uri.toString(), isNot(contains('gender')));
+    expect(uri.toString(), isNot(contains('menstruating')));
+    expect(uri.toString(), isNot(contains('postpartum')));
+    expect(uri.toString(), isNot(contains('pregnancy')));
+  });
+
   test('token is sent as authorization header when configured', () async {
     final http = FakeContentHttpClient({
       _manifestUri().toString(): ContentHttpResponse.ok(_manifestJson()),

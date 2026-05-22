@@ -1,0 +1,119 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../core/localization/sakinah_localizations.dart';
+import '../../shared/sakinah_keys.dart';
+import '../../shared/widgets/app_card.dart';
+import '../../shared/widgets/language_aware_scaffold.dart';
+import '../../shared/widgets/settings_tile.dart';
+
+class PrivacyCenterPage extends ConsumerWidget {
+  const PrivacyCenterPage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = SakinahLocalizations.of(context);
+
+    return LanguageAwareScaffold(
+      key: SakinahKeys.privacyCenterPage,
+      title: l10n.t('privacyCenterTitle'),
+      selectedNavIndex: 3,
+      body: ListView(
+        children: [
+          AppCard(
+            radius: 8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SettingsTile(
+                  title: l10n.t('dataOnDeviceTitle'),
+                  subtitle: l10n.t('localOnlyData'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.go('/settings/privacy/data'),
+                ),
+                const Divider(),
+                SettingsTile(
+                  title: l10n.t('dataCanLeaveDeviceTitle'),
+                  subtitle: l10n.t('leavesDeviceData'),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          _PrivacySection(
+            title: l10n.t('womenModePrivacyTitle'),
+            body: l10n.t('womenModePrivacyBody'),
+          ),
+          _PrivacySection(
+            title: l10n.t('prayerLocationPrivacyTitle'),
+            body: l10n.t('prayerLocationPrivacyBody'),
+          ),
+          _PrivacySection(
+            title: l10n.t('notificationPrivacyTitle'),
+            body: l10n.t('notificationPrivacyBody'),
+          ),
+          _PrivacySection(
+            title: l10n.t('remoteContentPrivacyTitle'),
+            body: l10n.t('remoteContentPrivacyBody'),
+          ),
+          const SizedBox(height: 12),
+          AppCard(
+            radius: 8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SettingsTile(
+                  title: l10n.t('deleteLocalDataTitle'),
+                  subtitle: l10n.t('deleteLocalDataBody'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () =>
+                      context.go('/settings/privacy/delete-local-data'),
+                ),
+                const Divider(),
+                SettingsTile(
+                  title: l10n.t('privacyPolicyDraftTitle'),
+                  subtitle: l10n.t('privacyPolicyDraftBody'),
+                ),
+                const Divider(),
+                SettingsTile(
+                  title: l10n.t('storePrivacyDraftTitle'),
+                  subtitle: l10n.t('storePrivacyDraftBody'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PrivacySection extends StatelessWidget {
+  const _PrivacySection({
+    required this.title,
+    required this.body,
+  });
+
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: AppCard(
+        radius: 8,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Text(body),
+          ],
+        ),
+      ),
+    );
+  }
+}

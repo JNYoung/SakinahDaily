@@ -138,8 +138,10 @@ class SettingsPage extends ConsumerWidget {
           ),
           const Divider(),
           SettingsTile(
+            key: SakinahKeys.settingsPrivacyTile,
             title: l10n.t('privacy'),
             subtitle: l10n.t('privacySubtitle'),
+            onTap: () => context.go('/settings/privacy'),
           ),
         ],
       ),

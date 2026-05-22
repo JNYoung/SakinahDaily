@@ -7,6 +7,7 @@ import '../models/sakinah_models.dart';
 abstract class UserPreferencesStore {
   Future<String?> read(String key);
   Future<void> write(String key, String value);
+  Future<void> delete(String key);
 }
 
 class SharedPreferencesUserPreferencesStore implements UserPreferencesStore {
@@ -21,6 +22,12 @@ class SharedPreferencesUserPreferencesStore implements UserPreferencesStore {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setString(key, value);
   }
+
+  @override
+  Future<void> delete(String key) async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.remove(key);
+  }
 }
 
 class InMemoryUserPreferencesStore implements UserPreferencesStore {
@@ -32,6 +39,11 @@ class InMemoryUserPreferencesStore implements UserPreferencesStore {
   @override
   Future<void> write(String key, String value) async {
     _values[key] = value;
+  }
+
+  @override
+  Future<void> delete(String key) async {
+    _values.remove(key);
   }
 }
 
@@ -59,5 +71,9 @@ class UserPreferencesRepository {
 
   Future<void> save(UserPreferences preferences) async {
     await store.write(storageKey, jsonEncode(preferences.toJson()));
+  }
+
+  Future<void> reset() async {
+    await store.delete(storageKey);
   }
 }

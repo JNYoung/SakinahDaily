@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/content_api_config.dart';
 import '../models/sakinah_models.dart';
+import '../privacy/local_data_deletion_service.dart';
+import '../privacy/privacy_data_inventory.dart';
 import '../repositories/content_cache_repository.dart';
 import '../repositories/content_repository.dart';
 import '../repositories/user_preferences_repository.dart';
@@ -108,6 +110,14 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
     await repository.save(state);
   }
 
+  Future<void> resetToDefaults() async {
+    _hasLocalChanges = true;
+    await repository.reset();
+    final defaults = UserPreferences.defaults();
+    state = defaults;
+    ref.read(localeProvider.notifier).state = Locale(defaults.languageCode);
+  }
+
   Future<void> _commit(UserPreferences preferences) async {
     _hasLocalChanges = true;
     state = preferences;
@@ -129,6 +139,19 @@ final contentCacheStoreProvider = Provider<ContentCacheStore>((ref) {
 final contentCacheRepositoryProvider = Provider<ContentCacheRepository>((ref) {
   return ContentCacheRepository(ref.watch(contentCacheStoreProvider));
 });
+
+final privacyDataInventoryProvider =
+    Provider<List<PrivacyDataCategory>>((ref) {
+  return PrivacyDataInventory.categories;
+});
+
+final localDataDeletionServiceProvider = Provider<LocalDataDeletionService>(
+  (ref) => LocalDataDeletionService(
+    preferencesRepository: ref.watch(userPreferencesRepositoryProvider),
+    contentCacheRepository: ref.watch(contentCacheRepositoryProvider),
+    notificationService: ref.watch(notificationServiceProvider),
+  ),
+);
 
 final contentApiConfigProvider = Provider<ContentApiConfig>((ref) {
   return ContentApiConfig.fromEnvironment();

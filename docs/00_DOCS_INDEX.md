@@ -42,6 +42,12 @@
 | `docs/client/03_CLIENT_SYNC_FLOWS.md` | 客户端同步与缺内容恢复流程 |
 | `docs/client/04_CLIENT_CONTENT_CACHE_IMPLEMENTATION.md` | 客户端持久内容缓存实现 |
 | `docs/client/05_REMOTE_CONTENT_API_INTEGRATION.md` | 远程内容 API 配置、manifest/bundle 合约、安全回退 |
+| `docs/privacy/01_PRIVACY_DATA_INVENTORY.md` | 客户端隐私数据清单草案 |
+| `docs/privacy/02_PRIVACY_POLICY_DRAFT.md` | 隐私政策草案，供 legal/store review |
+| `docs/privacy/03_APP_STORE_PRIVACY_LABEL_DRAFT.md` | App Store privacy label 草案 |
+| `docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md` | Google Play Data Safety 草案 |
+| `docs/privacy/05_PERMISSION_COPY.md` | 权限与同意说明文案草案 |
+| `docs/privacy/06_SDK_AND_API_INVENTORY.md` | SDK/API 隐私清单草案 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Agent Service 文档
@@ -83,7 +89,7 @@
 9. 实现 Settings 与 Women’s Ibadah Mode。
 10. 接 CMS API。
 11. 加 analytics stub 与 QA checklist。
-12. 按 `docs/jobs/` 的最新交接记录继续推进 UI 重构、Quran 语料、缓存和 Agent 测试。
+12. 按 `docs/jobs/` 的最新交接记录继续推进 UI 重构、Quran 语料、缓存、Agent 测试和 store readiness。
 
 ## 3. 文档维护规则
 

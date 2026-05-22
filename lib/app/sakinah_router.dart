@@ -9,6 +9,9 @@ import '../features/home/home_page.dart';
 import '../features/onboarding/onboarding_page.dart';
 import '../features/prayer/prayer_page.dart';
 import '../features/settings/settings_page.dart';
+import '../features/settings/delete_local_data_page.dart';
+import '../features/settings/privacy_center_page.dart';
+import '../features/settings/privacy_data_inventory_page.dart';
 import '../features/settings/womens_ibadah_mode_page.dart';
 import '../features/splash/splash_page.dart';
 
@@ -71,6 +74,18 @@ GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsPage(),
+      ),
+      GoRoute(
+        path: '/settings/privacy',
+        builder: (context, state) => const PrivacyCenterPage(),
+      ),
+      GoRoute(
+        path: '/settings/privacy/data',
+        builder: (context, state) => const PrivacyDataInventoryPage(),
+      ),
+      GoRoute(
+        path: '/settings/privacy/delete-local-data',
+        builder: (context, state) => const DeleteLocalDataPage(),
       ),
       GoRoute(
         path: '/settings/women',

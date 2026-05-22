@@ -44,6 +44,8 @@ abstract final class SakinahKeys {
 
   static const settingsWomenModeTile =
       ValueKey<String>('settings_women_mode_tile');
+  static const settingsPrivacyTile =
+      ValueKey<String>('settings_privacy_tile');
   static const settingsPrayerLocationDropdown =
       ValueKey<String>('settings_prayer_location_dropdown');
   static const settingsPrayerMethodDropdown =
@@ -62,6 +64,13 @@ abstract final class SakinahKeys {
       ValueKey<String>('women_mode_prefer_not_to_track_chip');
   static const womenModeStartButton =
       ValueKey<String>('women_mode_start_button');
+  static const privacyCenterPage = ValueKey<String>('privacy_center_page');
+  static const privacyDataInventoryPage =
+      ValueKey<String>('privacy_data_inventory_page');
+  static const deleteLocalDataPage =
+      ValueKey<String>('delete_local_data_page');
+  static const deleteLocalDataButton =
+      ValueKey<String>('delete_local_data_button');
 
   static ValueKey<String> duaListItem(String duaId) {
     return ValueKey<String>('dua_list_item_$duaId');
