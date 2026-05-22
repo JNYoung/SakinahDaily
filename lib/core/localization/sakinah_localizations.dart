@@ -76,6 +76,25 @@ class SakinahLocalizations {
           "A quiet 5-minute session with pure Qur'an recitation and soft guidance.",
       'saveTonight': 'Save tonight',
       'savedTonight': 'Saved tonight',
+      'sessionCompletedTitle': 'Session complete',
+      'sessionCompletedBody':
+          'You completed this Sakinah session. Take a quiet moment before returning.',
+      'completedToday': 'Completed today',
+      'resumeSession': 'Resume',
+      'reviewSession': 'Review',
+      'localProgress': 'Local progress',
+      'currentStreak': 'Current streak',
+      'completedThisWeek': 'Completed this week',
+      'progressLocalOnly': 'Progress stays on this device only.',
+      'saveSession': 'Save session',
+      'sessionSaved': 'Session saved',
+      'openSavedItems': 'Open Saved Items',
+      'backHome': 'Back Home',
+      'sessionProgressHistory': 'Session progress history',
+      'sessionProgressHistoryNotes':
+          'Session progress and completion history are stored locally only.',
+      'noGuaranteedOutcome':
+          'No guaranteed spiritual outcome is claimed.',
       'dua': 'Dua',
       'dhikr': 'Dhikr',
       'settings': 'Settings',
@@ -147,14 +166,14 @@ class SakinahLocalizations {
           'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.',
       'deleteLocalDataTitle': 'Delete local data',
       'deleteLocalDataBody':
-          'Reset app preferences, saved items, women’s mode state, local content cache, and scheduled reminders on this device.',
+          'Reset app preferences, saved items, session progress, women’s mode state, local content cache, and scheduled reminders on this device.',
       'deleteLocalDataKeepsSeed':
           'Bundled seed content and app files are kept. This does not contact a remote service.',
       'deleteLocalDataConfirm': 'Delete local data',
       'deleteLocalDataDeleting': 'Deleting...',
       'deleteLocalDataDialogTitle': 'Confirm local reset',
       'deleteLocalDataDialogBody':
-          'This clears local preferences, saved items, cached bundles, and scheduled reminders on this device.',
+          'This clears local preferences, saved items, session progress, cached bundles, and scheduled reminders on this device.',
       'deleteLocalDataCancel': 'Cancel',
       'deleteLocalDataSuccess':
           'Local data has been reset on this device.',
@@ -206,6 +225,9 @@ class SakinahLocalizations {
       'privacyDataSavedItems': 'Saved items',
       'privacyDataSavedItemsNotes':
           'Saved sessions, duas, dhikr, and verse references are stored locally only.',
+      'privacyDataSessionProgressHistory': 'Session progress history',
+      'privacyDataSessionProgressHistoryNotes':
+          'Session progress and completion records store session IDs and timestamps locally only.',
       'privacyDataLocalPushDebug': 'Local push payload debug data',
       'privacyDataLocalPushDebugNotes':
           'No persistent client-side debug queue is collected in MVP.',
@@ -342,6 +364,25 @@ class SakinahLocalizations {
           "Sesi tenang 5 menit dengan tilawah Qur'an murni dan panduan lembut.",
       'saveTonight': 'Simpan malam ini',
       'savedTonight': 'Tersimpan malam ini',
+      'sessionCompletedTitle': 'Sesi selesai',
+      'sessionCompletedBody':
+          'Anda menyelesaikan sesi Sakinah ini. Ambil jeda hening sebelum kembali.',
+      'completedToday': 'Selesai hari ini',
+      'resumeSession': 'Lanjutkan',
+      'reviewSession': 'Tinjau',
+      'localProgress': 'Progres lokal',
+      'currentStreak': 'Rangkaian hari',
+      'completedThisWeek': 'Selesai pekan ini',
+      'progressLocalOnly': 'Progres tetap hanya di perangkat ini.',
+      'saveSession': 'Simpan sesi',
+      'sessionSaved': 'Sesi tersimpan',
+      'openSavedItems': 'Buka Item Tersimpan',
+      'backHome': 'Kembali ke Beranda',
+      'sessionProgressHistory': 'Riwayat progres sesi',
+      'sessionProgressHistoryNotes':
+          'Progres sesi dan riwayat penyelesaian disimpan lokal saja.',
+      'noGuaranteedOutcome':
+          'Tidak ada klaim hasil spiritual yang dijamin.',
       'dua': 'Doa',
       'dhikr': 'Dzikir',
       'settings': 'Pengaturan',
@@ -413,14 +454,14 @@ class SakinahLocalizations {
           'Bundle konten yang disetujui dapat disimpan di perangkat ini. Permintaan konten jarak jauh dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.',
       'deleteLocalDataTitle': 'Hapus data lokal',
       'deleteLocalDataBody':
-          'Reset preferensi aplikasi, item tersimpan, status mode perempuan, cache konten lokal, dan pengingat terjadwal di perangkat ini.',
+          'Reset preferensi aplikasi, item tersimpan, progres sesi, status mode perempuan, cache konten lokal, dan pengingat terjadwal di perangkat ini.',
       'deleteLocalDataKeepsSeed':
           'Konten seed bawaan dan file aplikasi tetap ada. Ini tidak menghubungi layanan jarak jauh.',
       'deleteLocalDataConfirm': 'Hapus data lokal',
       'deleteLocalDataDeleting': 'Menghapus...',
       'deleteLocalDataDialogTitle': 'Konfirmasi reset lokal',
       'deleteLocalDataDialogBody':
-          'Ini menghapus preferensi lokal, item tersimpan, bundle cache, dan pengingat terjadwal di perangkat ini.',
+          'Ini menghapus preferensi lokal, item tersimpan, progres sesi, bundle cache, dan pengingat terjadwal di perangkat ini.',
       'deleteLocalDataCancel': 'Batal',
       'deleteLocalDataSuccess':
           'Data lokal telah direset di perangkat ini.',
@@ -472,6 +513,9 @@ class SakinahLocalizations {
       'privacyDataSavedItems': 'Item tersimpan',
       'privacyDataSavedItemsNotes':
           'Sesi, doa, dzikir, dan referensi ayat yang disimpan tetap lokal.',
+      'privacyDataSessionProgressHistory': 'Riwayat progres sesi',
+      'privacyDataSessionProgressHistoryNotes':
+          'Progres sesi dan catatan selesai hanya menyimpan ID sesi dan waktu secara lokal.',
       'privacyDataLocalPushDebug': 'Data debug payload push lokal',
       'privacyDataLocalPushDebugNotes':
           'Tidak ada antrean debug klien yang persisten di MVP.',
@@ -605,6 +649,24 @@ class SakinahLocalizations {
           'جلسة هادئة من 5 دقائق مع تلاوة قرآن صافية وإرشاد لطيف.',
       'saveTonight': 'احفظ لليلة',
       'savedTonight': 'حفظت لليلة',
+      'sessionCompletedTitle': 'اكتملت الجلسة',
+      'sessionCompletedBody':
+          'أكملت جلسة السكينة هذه. خذ لحظة هادئة قبل العودة.',
+      'completedToday': 'اكتملت اليوم',
+      'resumeSession': 'متابعة',
+      'reviewSession': 'مراجعة',
+      'localProgress': 'التقدم المحلي',
+      'currentStreak': 'السلسلة الحالية',
+      'completedThisWeek': 'اكتمل هذا الأسبوع',
+      'progressLocalOnly': 'يبقى التقدم على هذا الجهاز فقط.',
+      'saveSession': 'حفظ الجلسة',
+      'sessionSaved': 'تم حفظ الجلسة',
+      'openSavedItems': 'فتح العناصر المحفوظة',
+      'backHome': 'العودة للرئيسية',
+      'sessionProgressHistory': 'سجل تقدم الجلسات',
+      'sessionProgressHistoryNotes':
+          'يحفظ تقدم الجلسات وسجل الإكمال محليا فقط.',
+      'noGuaranteedOutcome': 'لا يوجد ادعاء بنتيجة روحية مضمونة.',
       'dua': 'الدعاء',
       'dhikr': 'الذكر',
       'settings': 'الإعدادات',
@@ -673,14 +735,14 @@ class SakinahLocalizations {
           'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.',
       'deleteLocalDataTitle': 'حذف البيانات المحلية',
       'deleteLocalDataBody':
-          'إعادة ضبط تفضيلات التطبيق والعناصر المحفوظة وحالة وضع النساء وذاكرة المحتوى المحلية والتذكيرات المجدولة على هذا الجهاز.',
+          'إعادة ضبط تفضيلات التطبيق والعناصر المحفوظة وتقدم الجلسات وحالة وضع النساء وذاكرة المحتوى المحلية والتذكيرات المجدولة على هذا الجهاز.',
       'deleteLocalDataKeepsSeed':
           'يبقى محتوى التطبيق المضمن وملفات التطبيق. لا يتصل هذا بخدمة عن بعد.',
       'deleteLocalDataConfirm': 'حذف البيانات المحلية',
       'deleteLocalDataDeleting': 'جار الحذف...',
       'deleteLocalDataDialogTitle': 'تأكيد إعادة الضبط المحلية',
       'deleteLocalDataDialogBody':
-          'يمسح هذا التفضيلات المحلية والعناصر المحفوظة والحزم المخزنة والتذكيرات المجدولة على هذا الجهاز.',
+          'يمسح هذا التفضيلات المحلية والعناصر المحفوظة وتقدم الجلسات والحزم المخزنة والتذكيرات المجدولة على هذا الجهاز.',
       'deleteLocalDataCancel': 'إلغاء',
       'deleteLocalDataSuccess': 'تمت إعادة ضبط البيانات المحلية على هذا الجهاز.',
       'storePrivacyDraftTitle': 'ملخص سلامة بيانات المتجر',
@@ -731,6 +793,9 @@ class SakinahLocalizations {
       'privacyDataSavedItems': 'العناصر المحفوظة',
       'privacyDataSavedItemsNotes':
           'تبقى الجلسات والأدعية والأذكار ومراجع الآيات المحفوظة محلية فقط.',
+      'privacyDataSessionProgressHistory': 'سجل تقدم الجلسات',
+      'privacyDataSessionProgressHistoryNotes':
+          'يحفظ تقدم الجلسات وسجلات الإكمال معرفات الجلسات والأوقات محليا فقط.',
       'privacyDataLocalPushDebug': 'بيانات تصحيح رسائل الدفع المحلية',
       'privacyDataLocalPushDebugNotes':
           'لا تجمع قائمة تصحيح مستمرة على العميل في نسخة MVP.',

@@ -29,6 +29,8 @@ Status: Draft for release/store review.
 - [x] Manual prayer location updates prayer/Qibla settings without GPS or sensor permission.
 - [x] Quran entry/detail routes use local approved seed/cache content only.
 - [x] Quran recitation copy remains voice-only with no BGM and no Quran TTS.
+- [x] Daily Session progress/history is local-only and cleared by Delete local data.
+- [x] Daily Session completion UX avoids social sharing and guaranteed outcome claims.
 - [x] Local notification tap payloads avoid Women's Ibadah Mode exact status.
 - [x] Resolved local notification taps navigate and clear the pending tap result.
 - [x] Privacy docs are marked draft for legal/store review.

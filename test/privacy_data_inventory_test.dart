@@ -35,6 +35,17 @@ void main() {
     expect(category.userCanDelete, isTrue);
   });
 
+  test('session progress history is marked medium sensitivity and local only',
+      () {
+    final category =
+        PrivacyDataInventory.categoryById('session_progress_history');
+
+    expect(category.storageLocation, PrivacyStorageLocation.localDevice);
+    expect(category.sensitivity, PrivacySensitivity.medium);
+    expect(category.leavesDevice, isFalse);
+    expect(category.userCanDelete, isTrue);
+  });
+
   test('content request context does not retain women exact status', () {
     const context = ContentRequestContext(
       languageCode: 'en',
@@ -70,6 +81,8 @@ void main() {
       'remoteContentPrivacyBody',
       'privacyDataSavedItems',
       'privacyDataSavedItemsNotes',
+      'privacyDataSessionProgressHistory',
+      'privacyDataSessionProgressHistoryNotes',
       'storePrivacyDraftTitle',
       'privacyPolicyDraftTitle',
       'quranPageTitle',
@@ -93,6 +106,22 @@ void main() {
       'invalidLongitude',
       'locationSaved',
       'locationLocalOnlyNoGps',
+      'sessionCompletedTitle',
+      'sessionCompletedBody',
+      'completedToday',
+      'resumeSession',
+      'reviewSession',
+      'localProgress',
+      'currentStreak',
+      'completedThisWeek',
+      'progressLocalOnly',
+      'saveSession',
+      'sessionSaved',
+      'openSavedItems',
+      'backHome',
+      'sessionProgressHistory',
+      'sessionProgressHistoryNotes',
+      'noGuaranteedOutcome',
     ];
 
     for (final locale in ['en', 'id', 'ar']) {

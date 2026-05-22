@@ -16,6 +16,7 @@ classification.
 | Women's Ibadah Mode state | Yes, if enabled | Yes | No | No | Optional | Local privacy-aware reminder behavior | Settings > Privacy > Delete local data | High sensitivity, local-only in MVP |
 | Local content cache | Yes | Yes | No | No | Operational | Store approved published bundles and revocation IDs | Settings > Privacy > Delete local data | Content cache is local device data |
 | Saved items | Yes, when user saves content | Yes | No | No | Optional | Local shortcuts to saved sessions, duas, dhikr, and verse references | Settings > Privacy > Delete local data | Local-only saved content list |
+| Session progress and completion history | Yes, when user starts or completes a session | Yes | No | No | Optional | Resume sessions and show local progress summary | Settings > Privacy > Delete local data | Stores session IDs and timestamps only |
 | Remote content request metadata | Yes, when remote API is enabled | No durable client storage by default | Yes | Possible server/CDN logs | Operational | Request manifest/detail bundles | Server log deletion is future work | Language, market, app version, schema version only |
 | Audio playback state | No persistent history in MVP | No | No | No | No | Playback runtime only | Not applicable | No playback history claim for MVP |
 | Future analytics/crash reporting | Not implemented | No | No | No | No | Future reliability analysis after review | Not applicable | Do not declare as implemented |
@@ -29,7 +30,10 @@ classification.
   requests.
 - Content API tokens must not be displayed in the Privacy Center.
 - Delete local data must clear preferences, saved items, cached manifests,
-  cached bundles, revoked content IDs, and scheduled local reminders.
+  cached bundles, revoked content IDs, session progress/history, and scheduled
+  local reminders.
 - Delete local data must not delete seed assets or bundled app files.
 - Manual prayer location remains local-only in MVP and must not trigger exact
   GPS, coarse location, compass, or sensor permissions.
+- Session progress/history must not store Quran, Dua, Dhikr, Hadith, or
+  translation text and must not sync remotely in MVP.

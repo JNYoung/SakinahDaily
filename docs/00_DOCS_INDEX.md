@@ -44,6 +44,7 @@
 | `docs/client/05_REMOTE_CONTENT_API_INTEGRATION.md` | 远程内容 API 配置、manifest/bundle 合约、安全回退 |
 | `docs/client/06_NOTIFICATION_TAP_QIBLA_SAVED.md` | 通知点击、Qibla 和本地 Saved Items 实现 |
 | `docs/client/07_NOTIFICATION_ROUTER_QURAN_MANUAL_LOCATION.md` | 通知实际路由、Quran 入口和手动位置页实现 |
+| `docs/client/08_SESSION_PROGRESS_HISTORY.md` | Daily Session 进度、完成页和本地历史实现 |
 | `docs/privacy/01_PRIVACY_DATA_INVENTORY.md` | 客户端隐私数据清单草案 |
 | `docs/privacy/02_PRIVACY_POLICY_DRAFT.md` | 隐私政策草案，供 legal/store review |
 | `docs/privacy/03_APP_STORE_PRIVACY_LABEL_DRAFT.md` | App Store privacy label 草案 |

@@ -18,6 +18,11 @@ the MVP.
 - Women's Ibadah Mode state, designed local-first.
 - Approved content manifest and bundle cache.
 - Local revoked content IDs so revoked content stays hidden.
+- Saved items and session progress/completion history, stored locally only.
+
+Session progress records store IDs, step position, timestamps, duration,
+language code, and total step count. They do not store Quran, Dua, Dhikr,
+Hadith, translation text, reflections, or user notes.
 
 Users can clear this local data from Settings > Privacy > Delete local data.
 Bundled seed content and app files remain because they are part of the app.
@@ -37,6 +42,8 @@ hint. Women's Ibadah Mode exact status is not sent with these requests.
 - Crash-reporting SDK.
 - Exact GPS permission.
 - Remote deletion API.
+- Remote progress sync.
+- Social sharing or leaderboard features.
 
 ## Future Review Needed
 

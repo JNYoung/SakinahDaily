@@ -23,10 +23,24 @@ class HomePage extends ConsumerWidget {
     final sessions = ref.watch(dailySessionsProvider);
     final prayerService = ref.watch(prayerCalculationServiceProvider);
     final savedItems = ref.watch(savedItemsProvider);
+    final sessionProgress = ref.watch(sessionProgressControllerProvider);
     final now = DateTime.now();
     final nextPrayer =
         prayerService.nextPrayer(now, preferences.prayerSettings);
     final session = sessions.first;
+    final activeProgress = sessionProgress.progressFor(session.id);
+    final completedToday =
+        sessionProgress.completionForDate(now, sessionId: session.id) != null;
+    final sessionButtonLabel = completedToday
+        ? l10n.t('reviewSession')
+        : activeProgress != null
+            ? l10n.t('resumeSession')
+            : l10n.t('start');
+    final sessionStatusLabel = completedToday
+        ? l10n.t('completedToday')
+        : activeProgress != null
+            ? l10n.t('resumeSession')
+            : null;
     final isTonightSaved = savedItems.any(
       (item) =>
           item.itemType == SavedItemType.dailySession &&
@@ -101,11 +115,49 @@ class HomePage extends ConsumerWidget {
             eyebrow: l10n.t('todaySession'),
             title: session.title.resolve(preferences.languageCode),
             subtitle: l10n.t('sessionSubtitleMeta'),
+            statusLabel: sessionStatusLabel,
             startButtonKey: SakinahKeys.homeSessionStartButton,
-            startLabel: l10n.t('start'),
+            startLabel: sessionButtonLabel,
             voiceOnlyLabel: l10n.t('voiceOnly'),
-            onStart: () => context.go('/session/${session.id}'),
+            onStart: () => completedToday
+                ? context.go('/session/${session.id}/completed')
+                : context.go('/session/${session.id}'),
             onVoiceOnly: () => _showQuranVoiceOnlySheet(context, l10n),
+          ),
+          const SizedBox(height: 14),
+          AppCard(
+            key: SakinahKeys.homeProgressCard,
+            color: isDark ? SakinahColors.navyCard : null,
+            radius: 8,
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.t('localProgress'),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _ProgressMetric(
+                        label: l10n.t('currentStreak'),
+                        value: '${sessionProgress.currentStreakDays}',
+                      ),
+                    ),
+                    Expanded(
+                      child: _ProgressMetric(
+                        label: l10n.t('completedThisWeek'),
+                        value: '${sessionProgress.completionCountLast7Days}',
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(l10n.t('progressLocalOnly')),
+              ],
+            ),
           ),
           const SizedBox(height: 28),
           Text(l10n.t('quickActions'),
@@ -242,6 +294,7 @@ class _HeroSessionCard extends StatelessWidget {
     required this.eyebrow,
     required this.title,
     required this.subtitle,
+    required this.statusLabel,
     required this.startButtonKey,
     required this.startLabel,
     required this.voiceOnlyLabel,
@@ -253,6 +306,7 @@ class _HeroSessionCard extends StatelessWidget {
   final String eyebrow;
   final String title;
   final String subtitle;
+  final String? statusLabel;
   final Key startButtonKey;
   final String startLabel;
   final String voiceOnlyLabel;
@@ -297,6 +351,15 @@ class _HeroSessionCard extends StatelessWidget {
                 subtitle,
                 style: TextStyle(color: Colors.white.withValues(alpha: 0.78)),
               ),
+              if (statusLabel != null) ...[
+                const SizedBox(height: 10),
+                Chip(
+                  label: Text(statusLabel!),
+                  backgroundColor: Colors.white.withValues(alpha: 0.14),
+                  labelStyle: const TextStyle(color: Colors.white),
+                  side: BorderSide.none,
+                ),
+              ],
               const SizedBox(height: 22),
               Row(
                 children: [
@@ -322,6 +385,28 @@ class _HeroSessionCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ProgressMetric extends StatelessWidget {
+  const _ProgressMetric({
+    required this.label,
+    required this.value,
+  });
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: Theme.of(context).textTheme.bodySmall),
+        const SizedBox(height: 4),
+        Text(value, style: Theme.of(context).textTheme.headlineSmall),
+      ],
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/daily_session/daily_session_page.dart';
+import '../features/daily_session/session_completion_page.dart';
 import '../features/dhikr/dhikr_page.dart';
 import '../features/dua/dua_detail_page.dart';
 import '../features/dua/dua_library_page.dart';
@@ -49,9 +50,25 @@ GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
         },
       ),
       GoRoute(
+        path: '/session/:sessionId/completed',
+        builder: (context, state) {
+          return SessionCompletionPage(
+            sessionId: state.pathParameters['sessionId']!,
+          );
+        },
+      ),
+      GoRoute(
         path: '/daily-session/:sessionId',
         builder: (context, state) {
           return DailySessionPage(
+            sessionId: state.pathParameters['sessionId']!,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/daily-session/:sessionId/completed',
+        builder: (context, state) {
+          return SessionCompletionPage(
             sessionId: state.pathParameters['sessionId']!,
           );
         },
