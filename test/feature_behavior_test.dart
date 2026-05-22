@@ -255,6 +255,19 @@ void main() {
     expect(saved.single.itemType, SavedItemType.dailySession);
     expect(saved.single.itemId, 'session_morning_ease');
   });
+
+  testWidgets('Home hero voice-only button opens Quran audio policy sheet',
+      (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.homeVoiceOnlyButton);
+
+    expect(find.text('Quran recitation is voice-only'), findsOneWidget);
+    expect(find.textContaining('No background music'), findsOneWidget);
+    expect(find.textContaining('No Quran TTS'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
 }
 
 ChoiceChip _choiceChip(WidgetTester tester, Key wrapperKey) {

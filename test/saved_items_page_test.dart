@@ -43,6 +43,26 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('tapping saved Quran verse opens Quran verse detail',
+      (tester) async {
+    final store = InMemorySavedItemsStore();
+    await SavedItemsRepository(store).save(_savedQuranVerse());
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/saved',
+      settleSplash: false,
+      savedItemsStore: store,
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.savedItemTile('quran_verse_94:5'));
+
+    expect(find.byKey(SakinahKeys.quranVerseDetailPage), findsOneWidget);
+    expect(find.text('For indeed, with hardship will be ease.'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Saved Items page shows empty state', (tester) async {
     await pumpSakinahApp(
       tester,
@@ -67,6 +87,19 @@ SavedItem _savedDua() {
     titleSnapshot: 'Ease',
     subtitleSnapshot: 'Dua',
     sourceLabel: 'Ibn Hibban',
+    createdAt: DateTime.utc(2026, 5, 22),
+    languageCode: 'en',
+  );
+}
+
+SavedItem _savedQuranVerse() {
+  return SavedItem(
+    id: SavedItem.stableId(SavedItemType.quranVerse, '94:5'),
+    itemType: SavedItemType.quranVerse,
+    itemId: '94:5',
+    titleSnapshot: 'Quran 94:5',
+    subtitleSnapshot: 'For indeed, with hardship will be ease.',
+    sourceLabel: 'Seed metadata; replace with approved Quran source before production',
     createdAt: DateTime.utc(2026, 5, 22),
     languageCode: 'en',
   );

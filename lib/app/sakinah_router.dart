@@ -9,7 +9,10 @@ import '../features/home/home_page.dart';
 import '../features/onboarding/onboarding_page.dart';
 import '../features/prayer/prayer_page.dart';
 import '../features/qibla/qibla_page.dart';
+import '../features/quran/quran_page.dart';
+import '../features/quran/quran_verse_detail_page.dart';
 import '../features/saved/saved_items_page.dart';
+import '../features/prayer/manual_prayer_location_page.dart';
 import '../features/settings/settings_page.dart';
 import '../features/settings/delete_local_data_page.dart';
 import '../features/settings/privacy_center_page.dart';
@@ -78,6 +81,18 @@ GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
         builder: (context, state) => const QiblaPage(),
       ),
       GoRoute(
+        path: '/quran',
+        builder: (context, state) => const QuranPage(),
+      ),
+      GoRoute(
+        path: '/quran/:verseKey',
+        builder: (context, state) {
+          return QuranVerseDetailPage(
+            verseKey: state.pathParameters['verseKey']!,
+          );
+        },
+      ),
+      GoRoute(
         path: '/saved',
         builder: (context, state) => const SavedItemsPage(),
       ),
@@ -104,6 +119,10 @@ GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
       GoRoute(
         path: '/settings/women-ibadah',
         builder: (context, state) => const WomensIbadahModePage(),
+      ),
+      GoRoute(
+        path: '/settings/prayer-location',
+        builder: (context, state) => const ManualPrayerLocationPage(),
       ),
       GoRoute(
         path: '/prayer',

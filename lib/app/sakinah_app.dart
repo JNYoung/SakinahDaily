@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/localization/sakinah_localizations.dart';
 import '../core/providers/app_providers.dart';
+import '../shared/widgets/notification_tap_route_listener.dart';
 import '../shared/widgets/sakinah_scroll_behavior.dart';
 import 'sakinah_router.dart';
 import 'theme/sakinah_theme.dart';
@@ -16,13 +17,6 @@ class SakinahApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     final environment = ref.watch(appEnvironmentConfigProvider);
     final router = ref.watch(routerProvider);
-
-    ref.listen(notificationTapResultProvider, (previous, next) {
-      final route = next?.route;
-      if (next?.handled == true && route != null) {
-        router.go(route);
-      }
-    });
 
     return MaterialApp.router(
       title: environment.appName,
@@ -39,6 +33,12 @@ class SakinahApp extends ConsumerWidget {
       darkTheme: SakinahTheme.dark,
       scrollBehavior: const SakinahScrollBehavior(),
       routerConfig: router,
+      builder: (context, child) {
+        return NotificationTapRouteListener(
+          router: router,
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

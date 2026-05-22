@@ -32,6 +32,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/client-privacy-store-readiness` adds the Settings Privacy Center, client data inventory, local data reset flow, sensitive remote-request guardrails, and draft store privacy documentation without analytics, crash SDKs, ads, tracking, or new third-party SDKs.
 - Branch `codex/client-release-readiness` updates Android package identity to `com.sakinahdaily.app`, adds a dev/staging/prod Dart define config foundation, release-readiness tests, and draft store metadata/release checklists without production signing keys, analytics, crash SDKs, ads, tracking, or secrets.
 - Branch `codex/client-notification-tap-qibla-saved` adds client-side notification tap route resolution, a Qibla page based on selected prayer location, and local-only Saved Items with Save Tonight, Dua, and Dhikr save/unsave behavior without GPS, compass permissions, remote sync, FCM/APNs, analytics, crash SDKs, ads, or generated religious content.
+- Branch `codex/client-notification-router-quran-entry` adds app-level notification tap navigation cleanup, Quran entry/detail routes, saved Quran verse navigation, voice-only Quran policy UX, and a manual prayer location page without GPS, compass/sensor permissions, remote CMS calls, full Quran corpus downloads, Quran TTS, or generated religious content.
 
 ## Current Validation Gate
 
@@ -54,7 +55,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 8. Next QA milestone: run real device notification permission QA and Android install/build checks with Flutter available on PATH.
 9. Next store milestone: send store metadata, privacy labels, Google Play Data Safety, and permission copy for final legal/store review.
 10. Next privacy milestone: decide whether analytics or crash reporting is needed after privacy review; do not add SDKs before that review.
-11. Next push milestone: wire the local push receiver into notification-tap handling once production routing decisions and platform payload contracts are finalized.
+11. Next push milestone: validate cold-start notification launch handoff on Android/iOS once platform launch details are wired.
 12. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
 
 ## Handoff Notes
@@ -68,3 +69,4 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Women's mode privacy remains local-first, and sensitive content must not appear in lock-screen push text.
 - Saved items remain local-only and must be cleared by Settings > Privacy > Delete local data.
 - Qibla must continue to use selected manual/preset prayer location unless a future GPS or compass permission review explicitly changes the MVP scope.
+- Quran pages must continue to use approved local seed/cache content only until reviewed source corpus routing is expanded; do not add Quran TTS or background music under recitation.

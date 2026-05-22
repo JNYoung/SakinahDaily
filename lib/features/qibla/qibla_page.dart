@@ -73,7 +73,7 @@ class QiblaPage extends ConsumerWidget {
             label: l10n.t('qiblaChangeLocation'),
             icon: Icons.location_on_outlined,
             tonal: true,
-            onPressed: () => context.go('/settings'),
+            onPressed: () => context.go('/settings/prayer-location'),
           ),
         ],
       ),

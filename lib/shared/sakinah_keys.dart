@@ -16,6 +16,8 @@ abstract final class SakinahKeys {
   static const homeNightCard = ValueKey<String>('home_night_card');
   static const homeSessionStartButton =
       ValueKey<String>('home_session_start_button');
+  static const homeVoiceOnlyButton =
+      ValueKey<String>('home_voice_only_button');
   static const homeSaveTonightButton =
       ValueKey<String>('home_save_tonight_button');
   static const homeQuickActionQuran =
@@ -57,6 +59,13 @@ abstract final class SakinahKeys {
   static const settingsNotificationSwitch =
       ValueKey<String>('settings_notification_switch');
   static const prayerContentList = ValueKey<String>('prayer_content_list');
+  static const quranPage = ValueKey<String>('quran_page');
+  static const quranOpenFeaturedButton =
+      ValueKey<String>('quran_open_featured_button');
+  static const quranVerseDetailPage =
+      ValueKey<String>('quran_verse_detail_page');
+  static const quranVerseSaveButton =
+      ValueKey<String>('quran_verse_save_button');
   static const qiblaPage = ValueKey<String>('qibla_page');
   static const savedItemsPage = ValueKey<String>('saved_items_page');
   static const duaSaveButton = ValueKey<String>('dua_save_button');
@@ -79,6 +88,22 @@ abstract final class SakinahKeys {
       ValueKey<String>('delete_local_data_page');
   static const deleteLocalDataButton =
       ValueKey<String>('delete_local_data_button');
+  static const settingsPrayerLocationTile =
+      ValueKey<String>('settings_prayer_location_tile');
+  static const manualPrayerLocationPage =
+      ValueKey<String>('manual_prayer_location_page');
+  static const manualLocationLabelField =
+      ValueKey<String>('manual_location_label_field');
+  static const manualLatitudeField =
+      ValueKey<String>('manual_latitude_field');
+  static const manualLongitudeField =
+      ValueKey<String>('manual_longitude_field');
+  static const manualTimezoneField =
+      ValueKey<String>('manual_timezone_field');
+  static const manualPrayerMethodDropdown =
+      ValueKey<String>('manual_prayer_method_dropdown');
+  static const manualLocationSaveButton =
+      ValueKey<String>('manual_location_save_button');
 
   static ValueKey<String> duaListItem(String duaId) {
     return ValueKey<String>('dua_list_item_$duaId');

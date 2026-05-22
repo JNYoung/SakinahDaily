@@ -51,6 +51,18 @@ void main() {
     expect(result.route, '/dua/dua_ease');
   });
 
+  test('quran push with existing seed verse resolves to Quran detail route',
+      () async {
+    final result = await receiver.receiveJson(_payloadJson(
+      type: 'quran',
+      contentId: '94:5',
+    ));
+
+    expect(result.accepted, isTrue);
+    expect(result.routeAvailable, isTrue);
+    expect(result.route, '/quran/94:5');
+  });
+
   test('missing content returns fallback and does not invent source text',
       () async {
     final result = await receiver.receiveJson(_payloadJson(

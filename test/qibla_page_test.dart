@@ -55,5 +55,6 @@ void main() {
 
     expect(manifest, isNot(contains('ACCESS_FINE_LOCATION')));
     expect(manifest, isNot(contains('ACCESS_COARSE_LOCATION')));
+    expect(manifest, isNot(contains('BODY_SENSORS')));
   });
 }

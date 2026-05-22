@@ -100,7 +100,7 @@ class SavedItemsPage extends ConsumerWidget {
       SavedItemType.dailySession => '/session/${item.itemId}',
       SavedItemType.dua => '/dua/${item.itemId}',
       SavedItemType.dhikr => '/dhikr/${item.itemId}',
-      SavedItemType.quranVerse => '/home',
+      SavedItemType.quranVerse => '/quran/${item.itemId}',
     };
   }
 
