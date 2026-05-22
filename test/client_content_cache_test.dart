@@ -10,14 +10,14 @@ import 'package:sakinah_daily/core/services/content_service.dart';
 void main() {
   test('active manifest saves and loads from fake persistent store', () async {
     final repository = ContentCacheRepository(InMemoryContentCacheStore());
-    final manifest = ContentManifest(
+    const manifest = ContentManifest(
       id: 'manifest-fixture',
       schemaVersion: 1,
       language: 'en',
       market: 'global',
-      sourceCorpusVersions: const {'quran': 'fixture-corpus-v1'},
-      revokedContentIds: const ['revoked_session'],
-      bundles: const [],
+      sourceCorpusVersions: {'quran': 'fixture-corpus-v1'},
+      revokedContentIds: ['revoked_session'],
+      bundles: [],
     );
 
     await repository.saveActiveManifest(manifest);
@@ -40,7 +40,8 @@ void main() {
       ),
     );
 
-    await repository.saveBundle(CacheEntry.fromBundle(bundle, sha256: 'abc123'));
+    await repository
+        .saveBundle(CacheEntry.fromBundle(bundle, sha256: 'abc123'));
 
     final restored = await repository.loadBundle('home_bundle_fixture');
     expect(restored, isNotNull);
@@ -177,7 +178,8 @@ void main() {
       schemaVersion: 1,
     );
 
-    expect(await _contentService(store).validateAndCacheBundle(ref, raw), isTrue);
+    expect(
+        await _contentService(store).validateAndCacheBundle(ref, raw), isTrue);
 
     final restartedService = _contentService(store);
     await restartedService.restoreCachedContent();

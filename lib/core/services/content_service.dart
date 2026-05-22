@@ -78,6 +78,19 @@ class ContentService implements ContentRepository {
     return manifest;
   }
 
+  Future<void> refreshRemoteContent(ContentRequestContext context) async {
+    if (remoteClient == null) {
+      await restoreCachedContent();
+      return;
+    }
+    try {
+      final manifest = await refreshManifest(context);
+      await syncRequiredBundles(manifest);
+    } on Object {
+      await restoreCachedContent();
+    }
+  }
+
   Future<void> syncRequiredBundles(ContentManifest manifest) async {
     if (remoteClient == null) {
       return;
@@ -260,9 +273,8 @@ class ContentService implements ContentRepository {
     for (final id in cleanIds) {
       await cacheRepository.deleteBundle(id);
     }
-    _entries = _entries
-        .where((entry) => !_revoked.contains(entry.bundleId))
-        .toList();
+    _entries =
+        _entries.where((entry) => !_revoked.contains(entry.bundleId)).toList();
   }
 
   Future<bool> validateAndCacheBundle(BundleRef ref, String rawJson) async {
@@ -285,7 +297,8 @@ class ContentService implements ContentRepository {
     if (!bundle.isApproved) {
       return false;
     }
-    if (!_compatible(ref.language, bundle.language, defaultContext.languageCode)) {
+    if (!_compatible(
+        ref.language, bundle.language, defaultContext.languageCode)) {
       return false;
     }
     if (!_compatibleMarket(ref.market, bundle.market, defaultContext.market)) {

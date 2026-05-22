@@ -27,7 +27,7 @@ void main() {
     expect(result.available, isTrue);
   });
 
-  test('hash mismatch discards bundle', () {
+  test('hash mismatch discards bundle', () async {
     const ref = BundleRef(
       id: 'bundle-home',
       url: 'memory://bundle-home',
@@ -41,7 +41,7 @@ void main() {
     expect(accepted, isFalse);
   });
 
-  test('unsupported schema discards bundle', () {
+  test('unsupported schema discards bundle', () async {
     final raw = _approvedBundleJson(schemaVersion: 2);
     final ref = BundleRef(
       id: 'bundle-home',
@@ -53,7 +53,7 @@ void main() {
     expect(await service.validateAndCacheBundle(ref, raw), isFalse);
   });
 
-  test('unapproved bundle is rejected', () {
+  test('unapproved bundle is rejected', () async {
     final raw = _approvedBundleJson(reviewStatus: 'draft');
     final ref = BundleRef(
       id: 'bundle-home',
