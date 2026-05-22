@@ -24,6 +24,27 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('tapping saved daily session opens Daily Session', (tester) async {
+    final store = InMemorySavedItemsStore();
+    await SavedItemsRepository(store).save(_savedDailySession());
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/saved',
+      settleSplash: false,
+      savedItemsStore: store,
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(
+      tester,
+      SakinahKeys.savedItemTile('daily_session_session_morning_ease'),
+    );
+
+    expect(find.text('Step 1 of 6 · Set intention'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('tapping saved dua opens Dua Detail', (tester) async {
     final store = InMemorySavedItemsStore();
     await SavedItemsRepository(store).save(_savedDua());
@@ -87,6 +108,21 @@ SavedItem _savedDua() {
     titleSnapshot: 'Ease',
     subtitleSnapshot: 'Dua',
     sourceLabel: 'Ibn Hibban',
+    createdAt: DateTime.utc(2026, 5, 22),
+    languageCode: 'en',
+  );
+}
+
+SavedItem _savedDailySession() {
+  return SavedItem(
+    id: SavedItem.stableId(
+      SavedItemType.dailySession,
+      'session_morning_ease',
+    ),
+    itemType: SavedItemType.dailySession,
+    itemId: 'session_morning_ease',
+    titleSnapshot: 'Ease after hardship',
+    subtitleSnapshot: 'Daily Session',
     createdAt: DateTime.utc(2026, 5, 22),
     languageCode: 'en',
   );

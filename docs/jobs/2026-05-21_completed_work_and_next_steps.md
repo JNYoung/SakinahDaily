@@ -33,6 +33,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/client-release-readiness` updates Android package identity to `com.sakinahdaily.app`, adds a dev/staging/prod Dart define config foundation, release-readiness tests, and draft store metadata/release checklists without production signing keys, analytics, crash SDKs, ads, tracking, or secrets.
 - Branch `codex/client-notification-tap-qibla-saved` adds client-side notification tap route resolution, a Qibla page based on selected prayer location, and local-only Saved Items with Save Tonight, Dua, and Dhikr save/unsave behavior without GPS, compass permissions, remote sync, FCM/APNs, analytics, crash SDKs, ads, or generated religious content.
 - Branch `codex/client-notification-router-quran-entry` adds app-level notification tap navigation cleanup, Quran entry/detail routes, saved Quran verse navigation, voice-only Quran policy UX, and a manual prayer location page without GPS, compass/sensor permissions, remote CMS calls, full Quran corpus downloads, Quran TTS, or generated religious content.
+- Branch `codex/client-session-progress-history` adds local-only Daily Session resume progress, completion history, a completion screen, Home progress summary, and Delete Local Data cleanup without analytics, account sync, remote progress sync, social sharing, or generated religious content.
 
 ## Current Validation Gate
 
@@ -70,3 +71,4 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Saved items remain local-only and must be cleared by Settings > Privacy > Delete local data.
 - Qibla must continue to use selected manual/preset prayer location unless a future GPS or compass permission review explicitly changes the MVP scope.
 - Quran pages must continue to use approved local seed/cache content only until reviewed source corpus routing is expanded; do not add Quran TTS or background music under recitation.
+- Daily Session progress/history must remain local-only, store IDs and timestamps rather than religious text, and be cleared by Delete Local Data.

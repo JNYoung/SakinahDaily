@@ -90,7 +90,7 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('daily session start advances and finishes back home',
+  testWidgets('daily session start advances and finishes to completion',
       (tester) async {
     await pumpSakinahApp(tester);
     await continueToHome(tester);
@@ -105,6 +105,11 @@ void main() {
     expect(find.byKey(SakinahKeys.sessionFinishButton), findsOneWidget);
 
     await tapByKey(tester, SakinahKeys.sessionFinishButton);
+
+    expect(find.byKey(SakinahKeys.sessionCompletionPage), findsOneWidget);
+    expect(find.text('Session complete'), findsWidgets);
+
+    await tapByKey(tester, SakinahKeys.sessionCompletionBackHomeButton);
 
     expect(find.text("Today's Sakinah Session"), findsOneWidget);
     expectNoFlutterErrors(tester);

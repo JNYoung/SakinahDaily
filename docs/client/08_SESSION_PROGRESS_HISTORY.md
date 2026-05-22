@@ -1,0 +1,79 @@
+# Session Progress And Local History
+
+Status: MVP client foundation.
+
+This milestone adds local-only Daily Session progress, completion records, a
+completion page, and a small Home progress summary. It does not add analytics,
+account sync, remote progress sync, social sharing, live CMS calls, AI
+religious content, full Quran corpus downloads, Quran TTS, or licensed audio.
+
+## Local-Only Progress Design
+
+Session progress is stored through `SessionProgressRepository` using local
+`SharedPreferences` storage in production and an in-memory store in tests.
+
+The active progress record stores:
+
+- session ID
+- current step index
+- total step count
+- status
+- started/updated/completed timestamps
+- language code
+
+It intentionally does not store Quran text, Dua text, Dhikr text, Hadith text,
+translations, reflections, or user notes.
+
+## Completion Records
+
+When a session is finished, the app stores a `SessionCompletionRecord` with:
+
+- record ID
+- session ID
+- completed timestamp
+- duration in seconds
+- language code
+- total step count
+
+The in-progress state for that session is cleared after completion. The
+completion page at `/session/:sessionId/completed` shows a gentle completion
+message, local-only progress note, current streak, completed-this-week count,
+and links back Home or to Saved Items.
+
+## Resume Behavior
+
+Opening a Daily Session resumes the saved step when local progress has status
+`inProgress`. Moving to the next step updates the local step index. Completing
+the session records local history and routes to the completion page.
+
+Home uses the same local state to show:
+
+- Start for not-started sessions.
+- Resume for in-progress sessions.
+- Completed today / Review for sessions completed today.
+- Current streak and completed-this-week summary.
+
+## Streak Calculation
+
+The MVP streak is a simple consecutive-day count ending today. It is calculated
+from local completion record dates only. Completed-this-week counts completion
+records in the last seven local calendar days.
+
+This is a quiet personal progress cue, not a leaderboard and not a social or
+reward claim.
+
+## Privacy Notes
+
+- Progress and completion records remain on device.
+- Records are not synced to an account.
+- Records are not sent to analytics or crash reporting.
+- Delete Local Data clears active progress and completion history.
+- No guaranteed spiritual outcome is claimed from completing a session.
+
+## Future Work
+
+- Optional richer completion insights after privacy review.
+- Multi-session history filters if the client adds more daily sessions.
+- Account sync only after explicit account, consent, deletion, and privacy
+  review.
+- Real Flutter CI execution once the local and remote toolchains are available.

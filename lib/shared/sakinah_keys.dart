@@ -38,6 +38,16 @@ abstract final class SakinahKeys {
   static const sessionNextButton = ValueKey<String>('session_next_button');
   static const sessionFinishButton = ValueKey<String>('session_finish_button');
   static const sessionProgressBar = ValueKey<String>('session_progress_bar');
+  static const sessionResumeBadge = ValueKey<String>('session_resume_badge');
+  static const sessionCompletionPage =
+      ValueKey<String>('session_completion_page');
+  static const sessionCompletionSaveButton =
+      ValueKey<String>('session_completion_save_button');
+  static const sessionCompletionBackHomeButton =
+      ValueKey<String>('session_completion_back_home_button');
+  static const sessionCompletionSavedItemsButton =
+      ValueKey<String>('session_completion_saved_items_button');
+  static const homeProgressCard = ValueKey<String>('home_progress_card');
   static const sessionAudioPlayerBar =
       ValueKey<String>('session_audio_player_bar');
   static const sessionSafetyCard = ValueKey<String>('session_safety_card');

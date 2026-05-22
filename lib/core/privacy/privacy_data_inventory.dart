@@ -132,6 +132,15 @@ abstract final class PrivacyDataInventory {
       notesKey: 'privacyDataSavedItemsNotes',
     ),
     PrivacyDataCategory(
+      id: 'session_progress_history',
+      displayNameKey: 'privacyDataSessionProgressHistory',
+      storageLocation: PrivacyStorageLocation.localDevice,
+      sensitivity: PrivacySensitivity.medium,
+      leavesDevice: false,
+      userCanDelete: true,
+      notesKey: 'privacyDataSessionProgressHistoryNotes',
+    ),
+    PrivacyDataCategory(
       id: 'local_push_payload_debug_data',
       displayNameKey: 'privacyDataLocalPushDebug',
       storageLocation: PrivacyStorageLocation.notCollected,

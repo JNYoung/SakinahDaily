@@ -1,10 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/saved_item.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
+import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/privacy/local_data_deletion_service.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/content_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
+import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/content_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
@@ -18,6 +20,8 @@ void main() {
     final cacheRepository = ContentCacheRepository(cacheStore);
     final savedStore = InMemorySavedItemsStore();
     final savedRepository = SavedItemsRepository(savedStore);
+    final progressStore = InMemorySessionProgressStore();
+    final progressRepository = SessionProgressRepository(progressStore);
     final notifications = LocalNotificationServiceStub();
     await preferencesRepository.save(
       UserPreferences.defaults().copyWith(
@@ -59,6 +63,27 @@ void main() {
         languageCode: 'en',
       ),
     );
+    await progressRepository.saveProgress(
+      SessionProgress(
+        sessionId: 'session_morning_ease',
+        currentStepIndex: 2,
+        totalSteps: 6,
+        status: SessionProgressStatus.inProgress,
+        startedAt: DateTime.utc(2026, 5, 22, 5),
+        updatedAt: DateTime.utc(2026, 5, 22, 5, 2),
+        languageCode: 'en',
+      ),
+    );
+    await progressRepository.markCompleted(
+      SessionCompletionRecord(
+        id: 'session_morning_ease_2026-05-22T05:07:00.000Z',
+        sessionId: 'session_morning_ease',
+        completedAt: DateTime.utc(2026, 5, 22, 5, 7),
+        durationSeconds: 420,
+        languageCode: 'en',
+        totalSteps: 6,
+      ),
+    );
     notifications.scheduled.add(
       ScheduledPrayerReminder(
         prayerName: 'Fajr',
@@ -73,6 +98,7 @@ void main() {
       preferencesRepository: preferencesRepository,
       contentCacheRepository: cacheRepository,
       savedItemsRepository: savedRepository,
+      sessionProgressRepository: progressRepository,
       notificationService: notifications,
     ).deleteLocalData();
 
@@ -87,6 +113,8 @@ void main() {
     expect(await cacheRepository.listBundles(), isEmpty);
     expect(await cacheRepository.revokedContentIds(), isEmpty);
     expect(await savedRepository.listSavedItems(), isEmpty);
+    expect(await progressRepository.loadProgress('session_morning_ease'), isNull);
+    expect(await progressRepository.listCompletionRecords(), isEmpty);
     expect(notifications.scheduled, isEmpty);
   });
 
@@ -99,6 +127,9 @@ void main() {
       contentCacheRepository: cacheRepository,
       savedItemsRepository:
           SavedItemsRepository(InMemorySavedItemsStore()),
+      sessionProgressRepository: SessionProgressRepository(
+        InMemorySessionProgressStore(),
+      ),
       notificationService: LocalNotificationServiceStub(),
     ).deleteLocalData();
 

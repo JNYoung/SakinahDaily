@@ -7,6 +7,7 @@ import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
+import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
@@ -26,6 +27,7 @@ Future<void> pumpSakinahApp(
   UserPreferencesStore? preferencesStore,
   ContentCacheStore? contentCacheStore,
   SavedItemsStore? savedItemsStore,
+  SessionProgressStore? sessionProgressStore,
   ContentApiConfig? contentApiConfig,
   NotificationService? notificationService,
   SakinahAudioPlayer? audioPlayer,
@@ -51,6 +53,9 @@ Future<void> pumpSakinahApp(
           contentCacheStoreProvider.overrideWithValue(contentCacheStore),
         if (savedItemsStore != null)
           savedItemsStoreProvider.overrideWithValue(savedItemsStore),
+        sessionProgressStoreProvider.overrideWithValue(
+          sessionProgressStore ?? InMemorySessionProgressStore(),
+        ),
         if (contentApiConfig != null)
           contentApiConfigProvider.overrideWithValue(contentApiConfig),
         notificationServiceProvider.overrideWithValue(

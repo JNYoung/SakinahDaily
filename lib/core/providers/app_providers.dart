@@ -7,11 +7,13 @@ import '../config/app_environment.dart';
 import '../config/content_api_config.dart';
 import '../models/saved_item.dart';
 import '../models/sakinah_models.dart';
+import '../models/session_progress.dart';
 import '../privacy/local_data_deletion_service.dart';
 import '../privacy/privacy_data_inventory.dart';
 import '../repositories/content_cache_repository.dart';
 import '../repositories/content_repository.dart';
 import '../repositories/saved_items_repository.dart';
+import '../repositories/session_progress_repository.dart';
 import '../repositories/user_preferences_repository.dart';
 import '../services/analytics_service.dart';
 import '../services/audio_player_service.dart';
@@ -199,6 +201,149 @@ class SavedItemsController extends StateNotifier<List<SavedItem>> {
   }
 }
 
+final sessionProgressStoreProvider = Provider<SessionProgressStore>((ref) {
+  return const SharedPreferencesSessionProgressStore();
+});
+
+final sessionProgressRepositoryProvider =
+    Provider<SessionProgressRepository>((ref) {
+  return SessionProgressRepository(ref.watch(sessionProgressStoreProvider));
+});
+
+final sessionProgressControllerProvider = StateNotifierProvider<
+    SessionProgressController, SessionProgressState>((ref) {
+  final controller = SessionProgressController(
+    ref.watch(sessionProgressRepositoryProvider),
+  );
+  unawaited(controller.reload());
+  return controller;
+});
+
+class SessionProgressState {
+  const SessionProgressState({
+    this.activeProgress = const {},
+    this.completionRecords = const [],
+    this.currentStreakDays = 0,
+    this.completionCountLast7Days = 0,
+  });
+
+  final Map<String, SessionProgress> activeProgress;
+  final List<SessionCompletionRecord> completionRecords;
+  final int currentStreakDays;
+  final int completionCountLast7Days;
+
+  SessionProgress? progressFor(String sessionId) {
+    return activeProgress[sessionId];
+  }
+
+  SessionCompletionRecord? completionForDate(
+    DateTime date, {
+    String? sessionId,
+  }) {
+    final day = _dayKey(date);
+    for (final record in completionRecords) {
+      if (_dayKey(record.completedAt) == day &&
+          (sessionId == null || record.sessionId == sessionId)) {
+        return record;
+      }
+    }
+    return null;
+  }
+
+  static String _dayKey(DateTime date) {
+    return '${date.year.toString().padLeft(4, '0')}-'
+        '${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')}';
+  }
+}
+
+class SessionProgressController extends StateNotifier<SessionProgressState> {
+  SessionProgressController(this.repository)
+      : super(const SessionProgressState());
+
+  final SessionProgressRepository repository;
+
+  Future<void> reload() async {
+    final activeProgress = await repository.listActiveProgress();
+    final records = await repository.listCompletionRecords();
+    final streak = await repository.currentStreakDays();
+    final weekCount = await repository.completionCountLast7Days();
+    state = SessionProgressState(
+      activeProgress: activeProgress,
+      completionRecords: records,
+      currentStreakDays: streak,
+      completionCountLast7Days: weekCount,
+    );
+  }
+
+  Future<SessionProgress> startSession(
+    DailySession session, {
+    required String languageCode,
+  }) async {
+    final existing = await repository.loadProgress(session.id);
+    if (existing != null) {
+      await reload();
+      return existing;
+    }
+    final now = DateTime.now();
+    final progress = SessionProgress(
+      sessionId: session.id,
+      currentStepIndex: 0,
+      totalSteps: session.steps.length,
+      status: SessionProgressStatus.inProgress,
+      startedAt: now,
+      updatedAt: now,
+      languageCode: languageCode,
+    );
+    await repository.saveProgress(progress);
+    await reload();
+    return progress;
+  }
+
+  Future<void> updateStep(String sessionId, int index) async {
+    final progress = await repository.loadProgress(sessionId);
+    if (progress == null) {
+      return;
+    }
+    final maxIndex =
+        (progress.totalSteps - 1).clamp(0, progress.totalSteps).toInt();
+    await repository.saveProgress(
+      progress.copyWith(
+        currentStepIndex: index.clamp(0, maxIndex).toInt(),
+        updatedAt: DateTime.now(),
+      ),
+    );
+    await reload();
+  }
+
+  Future<SessionCompletionRecord> completeSession(
+    DailySession session, {
+    required String languageCode,
+  }) async {
+    final now = DateTime.now();
+    final progress = await repository.loadProgress(session.id);
+    final startedAt = progress?.startedAt ?? now;
+    final record = SessionCompletionRecord(
+      id: '${session.id}_${now.toUtc().toIso8601String()}',
+      sessionId: session.id,
+      completedAt: now,
+      durationSeconds:
+          now.difference(startedAt).inSeconds.clamp(0, 86400).toInt(),
+      languageCode: languageCode,
+      totalSteps: session.steps.length,
+    );
+    await repository.markCompleted(record);
+    await repository.clearProgress(session.id);
+    await reload();
+    return record;
+  }
+
+  Future<void> clearSession(String sessionId) async {
+    await repository.clearProgress(sessionId);
+    await reload();
+  }
+}
+
 final privacyDataInventoryProvider =
     Provider<List<PrivacyDataCategory>>((ref) {
   return PrivacyDataInventory.categories;
@@ -209,6 +354,7 @@ final localDataDeletionServiceProvider = Provider<LocalDataDeletionService>(
     preferencesRepository: ref.watch(userPreferencesRepositoryProvider),
     contentCacheRepository: ref.watch(contentCacheRepositoryProvider),
     savedItemsRepository: ref.watch(savedItemsRepositoryProvider),
+    sessionProgressRepository: ref.watch(sessionProgressRepositoryProvider),
     notificationService: ref.watch(notificationServiceProvider),
   ),
 );

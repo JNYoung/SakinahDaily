@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +28,7 @@ class DailySessionPage extends ConsumerStatefulWidget {
 class _DailySessionPageState extends ConsumerState<DailySessionPage> {
   int index = 0;
   int dhikrCount = 0;
+  bool resumedFromProgress = false;
 
   @override
   void initState() {
@@ -33,6 +36,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
     ref
         .read(analyticsServiceProvider)
         .track('session_started', {'session_id': widget.sessionId});
+    unawaited(_startOrResumeSession());
   }
 
   @override
@@ -71,6 +75,16 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
             l10n.stepProgress(index + 1, session.steps.length, stepTitle),
             style: const TextStyle(color: Colors.white70),
           ),
+          if (resumedFromProgress) ...[
+            const SizedBox(height: 8),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Chip(
+                key: SakinahKeys.sessionResumeBadge,
+                label: Text(l10n.t('resumeSession')),
+              ),
+            ),
+          ],
           const SizedBox(height: 18),
           ClipRRect(
             key: SakinahKeys.sessionProgressBar,
@@ -103,19 +117,62 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
             icon: Icons.arrow_forward_rounded,
             onPressed: () {
               if (index == session.steps.length - 1) {
-                ref.read(analyticsServiceProvider).track(
-                  'session_completed',
-                  {'session_id': widget.sessionId},
-                );
-                context.go('/home');
+                unawaited(_finishSession(session, preferences.languageCode));
                 return;
               }
-              setState(() => index += 1);
+              final nextIndex = index + 1;
+              setState(() {
+                index = nextIndex;
+                resumedFromProgress = false;
+              });
+              unawaited(
+                ref
+                    .read(sessionProgressControllerProvider.notifier)
+                    .updateStep(session.id, nextIndex),
+              );
             },
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _startOrResumeSession() async {
+    final session =
+        ref.read(contentRepositoryProvider).getDailySession(widget.sessionId);
+    if (session == null) {
+      return;
+    }
+    final languageCode = ref.read(userPreferencesProvider).languageCode;
+    final progress = await ref
+        .read(sessionProgressControllerProvider.notifier)
+        .startSession(session, languageCode: languageCode);
+    if (!mounted) {
+      return;
+    }
+    final maxIndex = (session.steps.length - 1).clamp(0, session.steps.length);
+    final nextIndex = progress.currentStepIndex.clamp(0, maxIndex).toInt();
+    setState(() {
+      index = nextIndex;
+      resumedFromProgress = nextIndex > 0;
+    });
+  }
+
+  Future<void> _finishSession(
+    DailySession session,
+    String languageCode,
+  ) async {
+    ref.read(analyticsServiceProvider).track(
+      'session_completed',
+      {'session_id': widget.sessionId},
+    );
+    await ref
+        .read(sessionProgressControllerProvider.notifier)
+        .completeSession(session, languageCode: languageCode);
+    if (!mounted) {
+      return;
+    }
+    context.go('/session/${session.id}/completed');
   }
 }
 
