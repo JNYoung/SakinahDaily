@@ -36,6 +36,20 @@ void main() {
     expect(service.scheduled, isEmpty);
   });
 
+  test('scheduled prayer reminders include a privacy-safe tap payload',
+      () async {
+    final service = LocalNotificationServiceStub();
+    final prayers = PrayerCalculationService()
+        .calculateForDate(DateTime(2026, 5, 21), settings);
+
+    final scheduled = await service.schedulePrayerReminders(settings, prayers);
+
+    expect(scheduled.first.payload, contains('"type":"prayer"'));
+    expect(scheduled.first.payload, contains('"fallbackRoute":"/prayer"'));
+    expect(scheduled.first.payload, isNot(contains('menstruating')));
+    expect(scheduled.first.payload, isNot(contains('postpartum')));
+  });
+
   test('English Indonesian and Arabic notification copy can be generated', () {
     final en = PrayerNotificationCopy.forPrayer(
       languageCode: 'en',

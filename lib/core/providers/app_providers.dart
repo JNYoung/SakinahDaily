@@ -5,19 +5,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/app_environment.dart';
 import '../config/content_api_config.dart';
+import '../models/saved_item.dart';
 import '../models/sakinah_models.dart';
 import '../privacy/local_data_deletion_service.dart';
 import '../privacy/privacy_data_inventory.dart';
 import '../repositories/content_cache_repository.dart';
 import '../repositories/content_repository.dart';
+import '../repositories/saved_items_repository.dart';
 import '../repositories/user_preferences_repository.dart';
 import '../services/analytics_service.dart';
 import '../services/audio_player_service.dart';
 import '../services/audio_policy_service.dart';
 import '../services/content_service.dart';
+import '../services/local_push_receiver.dart';
 import '../services/notification_service.dart';
+import '../services/notification_tap_service.dart';
 import '../services/prayer_calculation_service.dart';
 import '../services/push_candidate_selector.dart';
+import '../services/qibla_service.dart';
 import '../services/remote_content_api_client.dart';
 
 final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
@@ -145,6 +150,55 @@ final contentCacheRepositoryProvider = Provider<ContentCacheRepository>((ref) {
   return ContentCacheRepository(ref.watch(contentCacheStoreProvider));
 });
 
+final savedItemsStoreProvider = Provider<SavedItemsStore>((ref) {
+  return const SharedPreferencesSavedItemsStore();
+});
+
+final savedItemsRepositoryProvider = Provider<SavedItemsRepository>((ref) {
+  return SavedItemsRepository(ref.watch(savedItemsStoreProvider));
+});
+
+final savedItemsProvider =
+    StateNotifierProvider<SavedItemsController, List<SavedItem>>((ref) {
+  final controller = SavedItemsController(
+    ref.watch(savedItemsRepositoryProvider),
+  );
+  unawaited(controller.load());
+  return controller;
+});
+
+class SavedItemsController extends StateNotifier<List<SavedItem>> {
+  SavedItemsController(this.repository) : super(const []);
+
+  final SavedItemsRepository repository;
+
+  Future<void> load() async {
+    state = await repository.listSavedItems();
+  }
+
+  bool isSaved(SavedItemType itemType, String itemId) {
+    return state.any(
+      (item) => item.itemType == itemType && item.itemId == itemId,
+    );
+  }
+
+  Future<void> save(SavedItem item) async {
+    await repository.save(item);
+    state = await repository.listSavedItems();
+  }
+
+  Future<void> remove(SavedItemType itemType, String itemId) async {
+    await repository.remove(itemType, itemId);
+    state = await repository.listSavedItems();
+  }
+
+  Future<bool> toggle(SavedItem item) async {
+    final saved = await repository.toggle(item);
+    state = await repository.listSavedItems();
+    return saved;
+  }
+}
+
 final privacyDataInventoryProvider =
     Provider<List<PrivacyDataCategory>>((ref) {
   return PrivacyDataInventory.categories;
@@ -154,6 +208,7 @@ final localDataDeletionServiceProvider = Provider<LocalDataDeletionService>(
   (ref) => LocalDataDeletionService(
     preferencesRepository: ref.watch(userPreferencesRepositoryProvider),
     contentCacheRepository: ref.watch(contentCacheRepositoryProvider),
+    savedItemsRepository: ref.watch(savedItemsRepositoryProvider),
     notificationService: ref.watch(notificationServiceProvider),
   ),
 );
@@ -191,13 +246,26 @@ final prayerCalculationServiceProvider = Provider<PrayerCalculationService>(
   (ref) => PrayerCalculationService(),
 );
 
+final qiblaServiceProvider = Provider<QiblaService>((ref) => QiblaService());
+
 enum NotificationPermissionFeedback { denied, scheduled }
 
 final notificationPermissionFeedbackProvider =
     StateProvider<NotificationPermissionFeedback?>((ref) => null);
 
+final notificationTapResultProvider =
+    StateProvider<NotificationTapResult?>((ref) => null);
+
 final notificationServiceProvider = Provider<NotificationService>(
-  (ref) => FlutterLocalNotificationService(),
+  (ref) => FlutterLocalNotificationService(
+    onNotificationTap: (payload) async {
+      final result =
+          await ref.read(notificationTapServiceProvider).resolveRawPayload(
+                payload,
+              );
+      ref.read(notificationTapResultProvider.notifier).state = result;
+    },
+  ),
 );
 
 final contentServiceProvider = Provider<ContentService>((ref) {
@@ -222,6 +290,16 @@ final contentServiceProvider = Provider<ContentService>((ref) {
     }
   }());
   return service;
+});
+
+final localPushReceiverProvider = Provider<LocalPushReceiver>((ref) {
+  return LocalPushReceiver(contentService: ref.watch(contentServiceProvider));
+});
+
+final notificationTapServiceProvider = Provider<NotificationTapService>((ref) {
+  return NotificationTapService(
+    localPushReceiver: ref.watch(localPushReceiverProvider),
+  );
 });
 
 final pushCandidateSelectorProvider = Provider<PushCandidateSelector>(

@@ -123,6 +123,15 @@ abstract final class PrivacyDataInventory {
       notesKey: 'privacyDataLocalRevokedContentIdsNotes',
     ),
     PrivacyDataCategory(
+      id: 'saved_items',
+      displayNameKey: 'privacyDataSavedItems',
+      storageLocation: PrivacyStorageLocation.localDevice,
+      sensitivity: PrivacySensitivity.medium,
+      leavesDevice: false,
+      userCanDelete: true,
+      notesKey: 'privacyDataSavedItemsNotes',
+    ),
+    PrivacyDataCategory(
       id: 'local_push_payload_debug_data',
       displayNameKey: 'privacyDataLocalPushDebug',
       storageLocation: PrivacyStorageLocation.notCollected,

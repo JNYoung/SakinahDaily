@@ -31,6 +31,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/content-agent-db-review-queue` adds repository-backed Content Agent runs, candidates, review packets, feedback events, QA re-runs, and CMS draft-only promotion using local deterministic tests with no live OpenAI, DB, CMS, or push sends.
 - Branch `codex/client-privacy-store-readiness` adds the Settings Privacy Center, client data inventory, local data reset flow, sensitive remote-request guardrails, and draft store privacy documentation without analytics, crash SDKs, ads, tracking, or new third-party SDKs.
 - Branch `codex/client-release-readiness` updates Android package identity to `com.sakinahdaily.app`, adds a dev/staging/prod Dart define config foundation, release-readiness tests, and draft store metadata/release checklists without production signing keys, analytics, crash SDKs, ads, tracking, or secrets.
+- Branch `codex/client-notification-tap-qibla-saved` adds client-side notification tap route resolution, a Qibla page based on selected prayer location, and local-only Saved Items with Save Tonight, Dua, and Dhikr save/unsave behavior without GPS, compass permissions, remote sync, FCM/APNs, analytics, crash SDKs, ads, or generated religious content.
 
 ## Current Validation Gate
 
@@ -65,3 +66,5 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Privacy Center and store-readiness docs are implementation drafts, not legal final policy.
 - Release readiness docs are submission preparation drafts; production signing, provisioning, and final store submission remain outside the repo.
 - Women's mode privacy remains local-first, and sensitive content must not appear in lock-screen push text.
+- Saved items remain local-only and must be cleared by Settings > Privacy > Delete local data.
+- Qibla must continue to use selected manual/preset prayer location unless a future GPS or compass permission review explicitly changes the MVP scope.

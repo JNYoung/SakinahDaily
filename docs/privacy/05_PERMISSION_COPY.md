@@ -17,7 +17,11 @@ Women's Ibadah Mode status must not appear in lock-screen copy.
 In-app explanation:
 
 > Prayer location uses manual or preset choices by default for prayer time
-> calculation.
+> calculation and Qibla direction.
+
+Qibla explanation:
+
+> Qibla uses your selected prayer location. Exact GPS is not required.
 
 Store/review note: exact GPS permission is not implemented in MVP. If added
 later, provide a separate consent screen and update store declarations.

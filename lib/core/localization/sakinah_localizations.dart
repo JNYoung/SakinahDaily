@@ -52,11 +52,19 @@ class SakinahLocalizations {
       'home': 'Home',
       'quran': 'Quran',
       'qibla': 'Qibla',
+      'qiblaTitle': 'Qibla direction',
+      'qiblaBearing': 'Qibla bearing',
+      'qiblaBasedOnSelectedLocation':
+          'Qibla uses your selected prayer location.',
+      'qiblaChangeLocation': 'Change prayer location',
+      'qiblaNoGpsRequired':
+          'Qibla uses your selected prayer location. Exact GPS is not required.',
       'tonight': 'Tonight',
       'sleepAyatKursi': 'Sleep with Ayat al-Kursi',
       'sleepSessionDescription':
           "A quiet 5-minute session with pure Qur'an recitation and soft guidance.",
       'saveTonight': 'Save tonight',
+      'savedTonight': 'Saved tonight',
       'dua': 'Dua',
       'dhikr': 'Dhikr',
       'settings': 'Settings',
@@ -73,8 +81,22 @@ class SakinahLocalizations {
       'notificationPermissionDenied':
           'Notifications are off. You can enable them from system settings.',
       'notificationScheduled': 'Local prayer reminders are scheduled.',
+      'notificationTapMalformed':
+          'This notification could not be opened safely.',
+      'notificationTapFallbackPrayer': 'Opening prayer times.',
+      'notificationTapMissingContent':
+          'This notification content is not available offline yet.',
       'womenModeSubtitle':
           'Local-only by default. Sensitive reminder copy stays private.',
+      'savedItems': 'Saved Items',
+      'savedItemsEmptyTitle': 'Nothing saved yet',
+      'savedItemsEmptyBody':
+          'Saved items stay on this device for quick return later.',
+      'save': 'Save',
+      'unsave': 'Unsave',
+      'removeSavedItem': 'Remove saved item',
+      'savedLocalOnly': 'Saved items stay on this device only.',
+      'savedItemsPrivacyNotes': 'Saved locally. No account or sync in MVP.',
       'privacy': 'Privacy',
       'privacySubtitle': "Women's mode data is not sent remotely in MVP.",
       'privacyCenterTitle': 'Privacy Center',
@@ -101,14 +123,14 @@ class SakinahLocalizations {
           'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.',
       'deleteLocalDataTitle': 'Delete local data',
       'deleteLocalDataBody':
-          'Reset app preferences, women’s mode state, local content cache, and scheduled reminders on this device.',
+          'Reset app preferences, saved items, women’s mode state, local content cache, and scheduled reminders on this device.',
       'deleteLocalDataKeepsSeed':
           'Bundled seed content and app files are kept. This does not contact a remote service.',
       'deleteLocalDataConfirm': 'Delete local data',
       'deleteLocalDataDeleting': 'Deleting...',
       'deleteLocalDataDialogTitle': 'Confirm local reset',
       'deleteLocalDataDialogBody':
-          'This clears local preferences, cached bundles, and scheduled reminders on this device.',
+          'This clears local preferences, saved items, cached bundles, and scheduled reminders on this device.',
       'deleteLocalDataCancel': 'Cancel',
       'deleteLocalDataSuccess':
           'Local data has been reset on this device.',
@@ -157,6 +179,9 @@ class SakinahLocalizations {
       'privacyDataLocalRevokedContentIds': 'Local revoked content IDs',
       'privacyDataLocalRevokedContentIdsNotes':
           'Stored locally so revoked content is hidden from the client.',
+      'privacyDataSavedItems': 'Saved items',
+      'privacyDataSavedItemsNotes':
+          'Saved sessions, duas, dhikr, and verse references are stored locally only.',
       'privacyDataLocalPushDebug': 'Local push payload debug data',
       'privacyDataLocalPushDebugNotes':
           'No persistent client-side debug queue is collected in MVP.',
@@ -269,11 +294,19 @@ class SakinahLocalizations {
       'home': 'Beranda',
       'quran': 'Quran',
       'qibla': 'Kiblat',
+      'qiblaTitle': 'Arah kiblat',
+      'qiblaBearing': 'Arah kiblat',
+      'qiblaBasedOnSelectedLocation':
+          'Kiblat memakai lokasi shalat yang dipilih.',
+      'qiblaChangeLocation': 'Ubah lokasi shalat',
+      'qiblaNoGpsRequired':
+          'Kiblat memakai lokasi shalat yang dipilih. GPS presisi tidak diperlukan.',
       'tonight': 'Malam ini',
       'sleepAyatKursi': 'Tidur dengan Ayat Kursi',
       'sleepSessionDescription':
           "Sesi tenang 5 menit dengan tilawah Qur'an murni dan panduan lembut.",
       'saveTonight': 'Simpan malam ini',
+      'savedTonight': 'Tersimpan malam ini',
       'dua': 'Doa',
       'dhikr': 'Dzikir',
       'settings': 'Pengaturan',
@@ -290,8 +323,22 @@ class SakinahLocalizations {
       'notificationPermissionDenied':
           'Notifikasi mati. Anda dapat mengaktifkannya dari pengaturan sistem.',
       'notificationScheduled': 'Pengingat shalat lokal telah dijadwalkan.',
+      'notificationTapMalformed':
+          'Notifikasi ini tidak dapat dibuka dengan aman.',
+      'notificationTapFallbackPrayer': 'Membuka waktu shalat.',
+      'notificationTapMissingContent':
+          'Konten notifikasi ini belum tersedia offline.',
       'womenModeSubtitle':
           'Lokal secara default. Salinan pengingat sensitif tetap privat.',
+      'savedItems': 'Item Tersimpan',
+      'savedItemsEmptyTitle': 'Belum ada yang tersimpan',
+      'savedItemsEmptyBody':
+          'Item tersimpan tetap di perangkat ini untuk dibuka kembali.',
+      'save': 'Simpan',
+      'unsave': 'Batal simpan',
+      'removeSavedItem': 'Hapus item tersimpan',
+      'savedLocalOnly': 'Item tersimpan tetap hanya di perangkat ini.',
+      'savedItemsPrivacyNotes': 'Disimpan lokal. Tanpa akun atau sinkronisasi di MVP.',
       'privacy': 'Privasi',
       'privacySubtitle': 'Data mode perempuan tidak dikirim jarak jauh di MVP.',
       'privacyCenterTitle': 'Pusat Privasi',
@@ -318,14 +365,14 @@ class SakinahLocalizations {
           'Bundle konten yang disetujui dapat disimpan di perangkat ini. Permintaan konten jarak jauh dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.',
       'deleteLocalDataTitle': 'Hapus data lokal',
       'deleteLocalDataBody':
-          'Reset preferensi aplikasi, status mode perempuan, cache konten lokal, dan pengingat terjadwal di perangkat ini.',
+          'Reset preferensi aplikasi, item tersimpan, status mode perempuan, cache konten lokal, dan pengingat terjadwal di perangkat ini.',
       'deleteLocalDataKeepsSeed':
           'Konten seed bawaan dan file aplikasi tetap ada. Ini tidak menghubungi layanan jarak jauh.',
       'deleteLocalDataConfirm': 'Hapus data lokal',
       'deleteLocalDataDeleting': 'Menghapus...',
       'deleteLocalDataDialogTitle': 'Konfirmasi reset lokal',
       'deleteLocalDataDialogBody':
-          'Ini menghapus preferensi lokal, bundle cache, dan pengingat terjadwal di perangkat ini.',
+          'Ini menghapus preferensi lokal, item tersimpan, bundle cache, dan pengingat terjadwal di perangkat ini.',
       'deleteLocalDataCancel': 'Batal',
       'deleteLocalDataSuccess':
           'Data lokal telah direset di perangkat ini.',
@@ -374,6 +421,9 @@ class SakinahLocalizations {
       'privacyDataLocalRevokedContentIds': 'ID konten dicabut lokal',
       'privacyDataLocalRevokedContentIdsNotes':
           'Disimpan lokal agar konten yang dicabut disembunyikan dari klien.',
+      'privacyDataSavedItems': 'Item tersimpan',
+      'privacyDataSavedItemsNotes':
+          'Sesi, doa, dzikir, dan referensi ayat yang disimpan tetap lokal.',
       'privacyDataLocalPushDebug': 'Data debug payload push lokal',
       'privacyDataLocalPushDebugNotes':
           'Tidak ada antrean debug klien yang persisten di MVP.',
@@ -484,11 +534,18 @@ class SakinahLocalizations {
       'home': 'الرئيسية',
       'quran': 'القرآن',
       'qibla': 'القبلة',
+      'qiblaTitle': 'اتجاه القبلة',
+      'qiblaBearing': 'زاوية القبلة',
+      'qiblaBasedOnSelectedLocation': 'تستخدم القبلة موقع الصلاة المختار.',
+      'qiblaChangeLocation': 'تغيير موقع الصلاة',
+      'qiblaNoGpsRequired':
+          'تستخدم القبلة موقع الصلاة المختار. لا يلزم GPS دقيق.',
       'tonight': 'الليلة',
       'sleepAyatKursi': 'نم مع آية الكرسي',
       'sleepSessionDescription':
           'جلسة هادئة من 5 دقائق مع تلاوة قرآن صافية وإرشاد لطيف.',
       'saveTonight': 'احفظ لليلة',
+      'savedTonight': 'حفظت لليلة',
       'dua': 'الدعاء',
       'dhikr': 'الذكر',
       'settings': 'الإعدادات',
@@ -505,7 +562,20 @@ class SakinahLocalizations {
       'notificationPermissionDenied':
           'الإشعارات متوقفة. يمكنك تفعيلها من إعدادات النظام.',
       'notificationScheduled': 'تم جدولة تذكيرات الصلاة المحلية.',
+      'notificationTapMalformed': 'تعذر فتح هذا الإشعار بأمان.',
+      'notificationTapFallbackPrayer': 'فتح أوقات الصلاة.',
+      'notificationTapMissingContent':
+          'محتوى هذا الإشعار غير متاح دون اتصال بعد.',
       'womenModeSubtitle': 'محلي افتراضيا. تبقى نصوص التذكير الحساسة خاصة.',
+      'savedItems': 'العناصر المحفوظة',
+      'savedItemsEmptyTitle': 'لا توجد عناصر محفوظة بعد',
+      'savedItemsEmptyBody':
+          'تبقى العناصر المحفوظة على هذا الجهاز للرجوع إليها لاحقا.',
+      'save': 'حفظ',
+      'unsave': 'إلغاء الحفظ',
+      'removeSavedItem': 'إزالة العنصر المحفوظ',
+      'savedLocalOnly': 'تبقى العناصر المحفوظة على هذا الجهاز فقط.',
+      'savedItemsPrivacyNotes': 'تحفظ محليا. لا حساب ولا مزامنة في نسخة MVP.',
       'privacy': 'الخصوصية',
       'privacySubtitle': 'لا ترسل بيانات وضع النساء عن بعد في نسخة MVP.',
       'privacyCenterTitle': 'مركز الخصوصية',
@@ -532,14 +602,14 @@ class SakinahLocalizations {
           'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.',
       'deleteLocalDataTitle': 'حذف البيانات المحلية',
       'deleteLocalDataBody':
-          'إعادة ضبط تفضيلات التطبيق وحالة وضع النساء وذاكرة المحتوى المحلية والتذكيرات المجدولة على هذا الجهاز.',
+          'إعادة ضبط تفضيلات التطبيق والعناصر المحفوظة وحالة وضع النساء وذاكرة المحتوى المحلية والتذكيرات المجدولة على هذا الجهاز.',
       'deleteLocalDataKeepsSeed':
           'يبقى محتوى التطبيق المضمن وملفات التطبيق. لا يتصل هذا بخدمة عن بعد.',
       'deleteLocalDataConfirm': 'حذف البيانات المحلية',
       'deleteLocalDataDeleting': 'جار الحذف...',
       'deleteLocalDataDialogTitle': 'تأكيد إعادة الضبط المحلية',
       'deleteLocalDataDialogBody':
-          'يمسح هذا التفضيلات المحلية والحزم المخزنة والتذكيرات المجدولة على هذا الجهاز.',
+          'يمسح هذا التفضيلات المحلية والعناصر المحفوظة والحزم المخزنة والتذكيرات المجدولة على هذا الجهاز.',
       'deleteLocalDataCancel': 'إلغاء',
       'deleteLocalDataSuccess': 'تمت إعادة ضبط البيانات المحلية على هذا الجهاز.',
       'storePrivacyDraftTitle': 'ملخص سلامة بيانات المتجر',
@@ -587,6 +657,9 @@ class SakinahLocalizations {
       'privacyDataLocalRevokedContentIds': 'معرفات المحتوى الملغى محليا',
       'privacyDataLocalRevokedContentIdsNotes':
           'تخزن محليا حتى يخفى المحتوى الملغى من العميل.',
+      'privacyDataSavedItems': 'العناصر المحفوظة',
+      'privacyDataSavedItemsNotes':
+          'تبقى الجلسات والأدعية والأذكار ومراجع الآيات المحفوظة محلية فقط.',
       'privacyDataLocalPushDebug': 'بيانات تصحيح رسائل الدفع المحلية',
       'privacyDataLocalPushDebugNotes':
           'لا تجمع قائمة تصحيح مستمرة على العميل في نسخة MVP.',
@@ -688,6 +761,14 @@ class SakinahLocalizations {
 
   String quranVerseLabel(String verseKey) {
     return '${t('quran')} $verseKey';
+  }
+
+  String qiblaBearingLabel(int degrees, String cardinalLabel) {
+    return switch (locale.languageCode) {
+      'id' => '${t('qiblaBearing')}: $degrees° $cardinalLabel',
+      'ar' => '${t('qiblaBearing')}: $degrees° $cardinalLabel',
+      _ => '${t('qiblaBearing')}: $degrees° $cardinalLabel',
+    };
   }
 
   String recitedBy(String reciterName) {

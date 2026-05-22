@@ -1,8 +1,12 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as timezone_data;
 import 'package:timezone/timezone.dart' as timezone;
 
 import '../models/sakinah_models.dart';
+import 'notification_tap_service.dart';
 import 'prayer_calculation_service.dart';
 
 class ScheduledPrayerReminder {
@@ -12,6 +16,7 @@ class ScheduledPrayerReminder {
     required this.settings,
     required this.title,
     required this.body,
+    this.payload = '',
   });
 
   final String prayerName;
@@ -19,6 +24,7 @@ class ScheduledPrayerReminder {
   final PrayerSettings settings;
   final String title;
   final String body;
+  final String payload;
 }
 
 class PrayerNotificationCopy {
@@ -135,6 +141,7 @@ class LocalNotificationServiceStub implements NotificationService {
               settings: settings,
               title: copy.title,
               body: copy.body,
+              payload: prayerNotificationPayload(),
             );
           },
         ),
@@ -146,9 +153,11 @@ class LocalNotificationServiceStub implements NotificationService {
 class FlutterLocalNotificationService implements NotificationService {
   FlutterLocalNotificationService({
     FlutterLocalNotificationsPlugin? plugin,
+    this.onNotificationTap,
   }) : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
 
   final FlutterLocalNotificationsPlugin _plugin;
+  final FutureOr<void> Function(String? payload)? onNotificationTap;
   bool _initialized = false;
   bool _permissionGranted = false;
 
@@ -212,6 +221,7 @@ class FlutterLocalNotificationService implements NotificationService {
           settings: settings,
           title: copy.title,
           body: copy.body,
+          payload: prayerNotificationPayload(),
         );
         await _plugin.zonedSchedule(
           id: _notificationId(prayer.name),
@@ -228,6 +238,7 @@ class FlutterLocalNotificationService implements NotificationService {
             macOS: DarwinNotificationDetails(),
           ),
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+          payload: reminder.payload,
         );
         scheduled.add(reminder);
       }
@@ -256,6 +267,12 @@ class FlutterLocalNotificationService implements NotificationService {
           requestSoundPermission: false,
         ),
       ),
+      onDidReceiveNotificationResponse: (response) {
+        final callback = onNotificationTap;
+        if (callback != null) {
+          unawaited(Future.sync(() => callback(response.payload)));
+        }
+      },
     );
     _initialized = true;
   }
@@ -270,4 +287,8 @@ class FlutterLocalNotificationService implements NotificationService {
       _ => 199,
     };
   }
+}
+
+String prayerNotificationPayload() {
+  return jsonEncode(NotificationTapPayload.prayer().toJson());
 }

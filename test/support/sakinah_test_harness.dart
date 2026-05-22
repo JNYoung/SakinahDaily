@@ -6,6 +6,7 @@ import 'package:sakinah_daily/app/sakinah_router.dart';
 import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
+import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
@@ -24,6 +25,7 @@ Future<void> pumpSakinahApp(
   bool settleSplash = true,
   UserPreferencesStore? preferencesStore,
   ContentCacheStore? contentCacheStore,
+  SavedItemsStore? savedItemsStore,
   ContentApiConfig? contentApiConfig,
   NotificationService? notificationService,
   SakinahAudioPlayer? audioPlayer,
@@ -47,6 +49,8 @@ Future<void> pumpSakinahApp(
         ),
         if (contentCacheStore != null)
           contentCacheStoreProvider.overrideWithValue(contentCacheStore),
+        if (savedItemsStore != null)
+          savedItemsStoreProvider.overrideWithValue(savedItemsStore),
         if (contentApiConfig != null)
           contentApiConfigProvider.overrideWithValue(contentApiConfig),
         notificationServiceProvider.overrideWithValue(

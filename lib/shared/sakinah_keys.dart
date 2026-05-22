@@ -16,6 +16,8 @@ abstract final class SakinahKeys {
   static const homeNightCard = ValueKey<String>('home_night_card');
   static const homeSessionStartButton =
       ValueKey<String>('home_session_start_button');
+  static const homeSaveTonightButton =
+      ValueKey<String>('home_save_tonight_button');
   static const homeQuickActionQuran =
       ValueKey<String>('home_quick_action_quran');
   static const homeQuickActionDua = ValueKey<String>('home_quick_action_dua');
@@ -46,6 +48,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('settings_women_mode_tile');
   static const settingsPrivacyTile =
       ValueKey<String>('settings_privacy_tile');
+  static const settingsSavedItemsTile =
+      ValueKey<String>('settings_saved_items_tile');
   static const settingsPrayerLocationDropdown =
       ValueKey<String>('settings_prayer_location_dropdown');
   static const settingsPrayerMethodDropdown =
@@ -53,6 +57,10 @@ abstract final class SakinahKeys {
   static const settingsNotificationSwitch =
       ValueKey<String>('settings_notification_switch');
   static const prayerContentList = ValueKey<String>('prayer_content_list');
+  static const qiblaPage = ValueKey<String>('qibla_page');
+  static const savedItemsPage = ValueKey<String>('saved_items_page');
+  static const duaSaveButton = ValueKey<String>('dua_save_button');
+  static const dhikrSaveButton = ValueKey<String>('dhikr_save_button');
   static const womenModeNormalChip = ValueKey<String>('women_mode_normal_chip');
   static const womenModeMenstruatingChip =
       ValueKey<String>('women_mode_menstruating_chip');
@@ -74,5 +82,13 @@ abstract final class SakinahKeys {
 
   static ValueKey<String> duaListItem(String duaId) {
     return ValueKey<String>('dua_list_item_$duaId');
+  }
+
+  static ValueKey<String> savedItemTile(String savedItemId) {
+    return ValueKey<String>('saved_item_tile_$savedItemId');
+  }
+
+  static ValueKey<String> savedItemRemoveButton(String savedItemId) {
+    return ValueKey<String>('saved_item_remove_$savedItemId');
   }
 }

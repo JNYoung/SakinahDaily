@@ -26,6 +26,15 @@ void main() {
     expect(category.notesKey, 'remoteContentRequestMetadataNotes');
   });
 
+  test('saved items are marked medium sensitivity and local only', () {
+    final category = PrivacyDataInventory.categoryById('saved_items');
+
+    expect(category.storageLocation, PrivacyStorageLocation.localDevice);
+    expect(category.sensitivity, PrivacySensitivity.medium);
+    expect(category.leavesDevice, isFalse);
+    expect(category.userCanDelete, isTrue);
+  });
+
   test('content request context does not retain women exact status', () {
     const context = ContentRequestContext(
       languageCode: 'en',
@@ -59,6 +68,8 @@ void main() {
       'notificationPrivacyBody',
       'remoteContentPrivacyTitle',
       'remoteContentPrivacyBody',
+      'privacyDataSavedItems',
+      'privacyDataSavedItemsNotes',
       'storePrivacyDraftTitle',
       'privacyPolicyDraftTitle',
     ];

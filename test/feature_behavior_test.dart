@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/models/saved_item.dart';
+import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
@@ -237,6 +239,21 @@ void main() {
     expect(notifications.scheduled, isNotEmpty);
     expect(notifications.scheduled.first.title, 'Sakinah Daily');
     expect(notifications.scheduled.first.body, isNotEmpty);
+  });
+
+  testWidgets('Save Tonight button saves the current session locally',
+      (tester) async {
+    final savedStore = InMemorySavedItemsStore();
+    await pumpSakinahApp(tester, savedItemsStore: savedStore);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.homeSaveTonightButton);
+
+    expect(find.text('Saved tonight'), findsOneWidget);
+    final saved = await SavedItemsRepository(savedStore).listSavedItems();
+    expect(saved, hasLength(1));
+    expect(saved.single.itemType, SavedItemType.dailySession);
+    expect(saved.single.itemId, 'session_morning_ease');
   });
 }
 
