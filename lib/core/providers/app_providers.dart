@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_environment.dart';
 import '../config/content_api_config.dart';
 import '../models/sakinah_models.dart';
 import '../privacy/local_data_deletion_service.dart';
@@ -20,6 +21,10 @@ import '../services/push_candidate_selector.dart';
 import '../services/remote_content_api_client.dart';
 
 final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
+
+final appEnvironmentConfigProvider = Provider<AppEnvironmentConfig>((ref) {
+  return AppEnvironmentConfig.fromDartDefine();
+});
 
 final userPreferencesStoreProvider = Provider<UserPreferencesStore>((ref) {
   return SharedPreferencesUserPreferencesStore();

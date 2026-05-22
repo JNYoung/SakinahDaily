@@ -1,4 +1,4 @@
-package com.example.sakinah_daily
+package com.sakinahdaily.app
 
 import io.flutter.embedding.android.FlutterActivity
 

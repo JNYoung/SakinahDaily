@@ -1,0 +1,59 @@
+# Android Release Checklist
+
+Status: Draft for release/store review.
+
+## Package Identity
+
+- Namespace: `com.sakinahdaily.app`
+- Application ID: `com.sakinahdaily.app`
+- Display name: `Sakinah Daily`
+
+## Signing
+
+Production signing is not configured in this repository. Local release builds
+currently keep debug signing only so developers can exercise Android build
+flows.
+
+Before production:
+
+- Create a release keystore outside the repository.
+- Keep `key.properties` outside git or in a local ignored file.
+- Use environment-specific CI secrets for signing passwords.
+- Verify `.jks`, `.keystore`, `key.properties`, and service-account files are
+  not tracked.
+- Review Play App Signing settings.
+
+## Permissions
+
+Current:
+
+- `android.permission.POST_NOTIFICATIONS`
+
+Not currently used:
+
+- `android.permission.ACCESS_COARSE_LOCATION`
+- `android.permission.ACCESS_FINE_LOCATION`
+
+Do not add location permission without dedicated permission UX and an updated
+Google Play Data Safety review.
+
+## Build Commands
+
+```sh
+flutter pub get
+flutter test
+dart analyze
+flutter build apk --debug \
+  --dart-define=SAKINAH_APP_ENV=dev
+```
+
+Staging example:
+
+```sh
+flutter build apk --debug \
+  --dart-define=SAKINAH_APP_ENV=staging \
+  --dart-define=SAKINAH_CONTENT_API_ENABLED=true \
+  --dart-define=SAKINAH_CONTENT_API_BASE_URL=https://staging-content.example
+```
+
+Do not pass production tokens from shell history on shared machines.
