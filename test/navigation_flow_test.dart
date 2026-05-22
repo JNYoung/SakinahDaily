@@ -62,7 +62,8 @@ void main() {
 
     await tapByKey(tester, SakinahKeys.bottomNavHome);
     await tapByKey(tester, SakinahKeys.homeQuickActionQuran);
-    expect(find.text('Step 1 of 6 · Set intention'), findsOneWidget);
+    expect(find.byKey(SakinahKeys.quranPage), findsOneWidget);
+    expect(find.text('Featured ayah'), findsOneWidget);
 
     expectNoFlutterErrors(tester);
   });
@@ -137,6 +138,15 @@ void main() {
     );
     expect(find.text("Women's Ibadah Mode"), findsWidgets);
     expect(_bottomNav(tester).selectedIndex, 3);
+    expectNoFlutterErrors(tester);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/quran/94:5',
+      settleSplash: false,
+    );
+    expect(find.byKey(SakinahKeys.quranVerseDetailPage), findsOneWidget);
+    expect(find.text('For indeed, with hardship will be ease.'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

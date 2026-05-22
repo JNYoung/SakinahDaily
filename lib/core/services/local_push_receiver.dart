@@ -104,12 +104,12 @@ class LocalPushReceiver {
     }
     final verse = contentService.loadQuranVerse(payload.contentId);
     if (verse != null) {
-      return const LocalPushReceiveResult(
+      return LocalPushReceiveResult(
         accepted: true,
         routeAvailable: true,
-        route: '/home',
-        message: 'Opened safe Quran fallback route.',
-        flags: ['quran_fallback_route'],
+        route: '/quran/${verse.verseKey}',
+        message: 'Push content is available locally.',
+        flags: const [],
       );
     }
     return _missingContent();

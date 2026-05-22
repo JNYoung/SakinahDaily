@@ -105,6 +105,7 @@ class HomePage extends ConsumerWidget {
             startLabel: l10n.t('start'),
             voiceOnlyLabel: l10n.t('voiceOnly'),
             onStart: () => context.go('/session/${session.id}'),
+            onVoiceOnly: () => _showQuranVoiceOnlySheet(context, l10n),
           ),
           const SizedBox(height: 28),
           Text(l10n.t('quickActions'),
@@ -123,7 +124,7 @@ class HomePage extends ConsumerWidget {
                 key: SakinahKeys.homeQuickActionQuran,
                 icon: Icons.menu_book_outlined,
                 label: l10n.t('quran'),
-                onTap: () => context.go('/session/${session.id}'),
+                onTap: () => context.go('/quran'),
               ),
               _QuickAction(
                 key: SakinahKeys.homeQuickActionDua,
@@ -245,6 +246,7 @@ class _HeroSessionCard extends StatelessWidget {
     required this.startLabel,
     required this.voiceOnlyLabel,
     required this.onStart,
+    required this.onVoiceOnly,
     super.key,
   });
 
@@ -255,6 +257,7 @@ class _HeroSessionCard extends StatelessWidget {
   final String startLabel;
   final String voiceOnlyLabel;
   final VoidCallback onStart;
+  final VoidCallback onVoiceOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -307,9 +310,10 @@ class _HeroSessionCard extends StatelessWidget {
                   const SizedBox(width: 14),
                   Expanded(
                     child: PrimaryButton(
+                      key: SakinahKeys.homeVoiceOnlyButton,
                       label: voiceOnlyLabel,
                       tonal: true,
-                      onPressed: () {},
+                      onPressed: onVoiceOnly,
                     ),
                   ),
                 ],
@@ -320,6 +324,44 @@ class _HeroSessionCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _showQuranVoiceOnlySheet(
+  BuildContext context,
+  SakinahLocalizations l10n,
+) {
+  return showModalBottomSheet<void>(
+    context: context,
+    showDragHandle: true,
+    builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.t('quranVoiceOnlyTitle'),
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 10),
+            Text(l10n.t('quranVoiceOnlyBody')),
+            const SizedBox(height: 14),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.music_off_outlined),
+              title: Text(l10n.t('noQuranBgm')),
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.record_voice_over_outlined),
+              title: Text(l10n.t('noQuranTts')),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 class _QuickAction extends StatelessWidget {

@@ -45,6 +45,18 @@ void main() {
     expect(result.flags, isEmpty);
   });
 
+  test('quran payload resolves through local push receiver to verse detail',
+      () async {
+    final result = await service.resolveRawPayload(_localPushPayloadJson(
+      type: 'quran',
+      contentId: '94:5',
+    ));
+
+    expect(result.handled, isTrue);
+    expect(result.route, '/quran/94:5');
+    expect(result.flags, isEmpty);
+  });
+
   test('malformed notification payload is not handled', () async {
     final result = await service.resolveRawPayload('{"type": 7}');
 

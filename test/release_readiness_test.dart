@@ -96,6 +96,11 @@ void main() {
       for (final path in _releaseDocs) {
         expect(File(path).existsSync(), isTrue, reason: path);
       }
+      expect(
+        File('docs/client/07_NOTIFICATION_ROUTER_QURAN_MANUAL_LOCATION.md')
+            .existsSync(),
+        isTrue,
+      );
     });
 
     test('store metadata and Google Play drafts are present', () {

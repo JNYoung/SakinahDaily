@@ -11,7 +11,7 @@ classification.
 | Category | Collected? | Stored locally? | Transmitted? | Shared? | Required? | Purpose | Deletion path | Store note |
 |---|---:|---:|---:|---:|---:|---|---|---|
 | App preferences | Yes | Yes | No by default | No | Optional | Language, gender mode, audio preference, prayer settings | Settings > Privacy > Delete local data | Local app preference candidate |
-| Prayer location preset / manual location | Yes, when selected | Yes | No by default | No | Optional | Prayer-time and Qibla calculation | Settings > Privacy > Delete local data | Location concern if exact GPS permission is added later |
+| Prayer location preset / manual location | Yes, when selected | Yes | No by default | No | Optional | Prayer-time and Qibla calculation | Settings > Privacy > Delete local data | Manual/preset location only; no GPS or sensor permission in MVP |
 | Notification preferences | Yes | Yes | No by default | No | Optional | Local reminder scheduling | Settings > Privacy > Delete local data | Notification permission should be declared separately |
 | Women's Ibadah Mode state | Yes, if enabled | Yes | No | No | Optional | Local privacy-aware reminder behavior | Settings > Privacy > Delete local data | High sensitivity, local-only in MVP |
 | Local content cache | Yes | Yes | No | No | Operational | Store approved published bundles and revocation IDs | Settings > Privacy > Delete local data | Content cache is local device data |
@@ -31,3 +31,5 @@ classification.
 - Delete local data must clear preferences, saved items, cached manifests,
   cached bundles, revoked content IDs, and scheduled local reminders.
 - Delete local data must not delete seed assets or bundled app files.
+- Manual prayer location remains local-only in MVP and must not trigger exact
+  GPS, coarse location, compass, or sensor permissions.

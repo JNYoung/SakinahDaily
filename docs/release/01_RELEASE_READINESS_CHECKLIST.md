@@ -26,7 +26,11 @@ Status: Draft for release/store review.
 - [x] Local data deletion exists.
 - [x] Saved items are local-only and cleared by local data deletion.
 - [x] Qibla uses selected prayer location without GPS or compass permission.
+- [x] Manual prayer location updates prayer/Qibla settings without GPS or sensor permission.
+- [x] Quran entry/detail routes use local approved seed/cache content only.
+- [x] Quran recitation copy remains voice-only with no BGM and no Quran TTS.
 - [x] Local notification tap payloads avoid Women's Ibadah Mode exact status.
+- [x] Resolved local notification taps navigate and clear the pending tap result.
 - [x] Privacy docs are marked draft for legal/store review.
 - [x] Store privacy label drafts exist.
 - [x] No ads, tracking, analytics SDK, or crash SDK is added.

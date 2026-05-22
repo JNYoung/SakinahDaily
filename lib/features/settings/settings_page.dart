@@ -50,8 +50,10 @@ class SettingsPage extends ConsumerWidget {
           ),
           const Divider(),
           SettingsTile(
+            key: SakinahKeys.settingsPrayerLocationTile,
             title: l10n.t('prayerLocation'),
             subtitle: preferences.prayerSettings.locationLabel,
+            onTap: () => context.go('/settings/prayer-location'),
             trailing: DropdownButton<String>(
               key: SakinahKeys.settingsPrayerLocationDropdown,
               value: _presetIdFor(preferences.prayerSettings),
