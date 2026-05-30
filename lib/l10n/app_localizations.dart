@@ -496,6 +496,96 @@ abstract class AppLocalizations {
   /// **'Dhikr'**
   String get dhikr;
 
+  /// No description provided for @allCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allCategories;
+
+  /// No description provided for @searchDuaHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search duas'**
+  String get searchDuaHint;
+
+  /// No description provided for @searchDhikrHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search dhikr'**
+  String get searchDhikrHint;
+
+  /// No description provided for @noDuaResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No duas found'**
+  String get noDuaResultsTitle;
+
+  /// No description provided for @noDuaResultsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another category or search term.'**
+  String get noDuaResultsBody;
+
+  /// No description provided for @noDhikrResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No dhikr found'**
+  String get noDhikrResultsTitle;
+
+  /// No description provided for @noDhikrResultsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another category or search term.'**
+  String get noDhikrResultsBody;
+
+  /// No description provided for @categoryQuranic.
+  ///
+  /// In en, this message translates to:
+  /// **'Quranic'**
+  String get categoryQuranic;
+
+  /// No description provided for @categoryMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning'**
+  String get categoryMorning;
+
+  /// No description provided for @categoryEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening'**
+  String get categoryEvening;
+
+  /// No description provided for @categoryReflection.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflection'**
+  String get categoryReflection;
+
+  /// No description provided for @categoryDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get categoryDifficulty;
+
+  /// No description provided for @categoryGratitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Gratitude'**
+  String get categoryGratitude;
+
+  /// No description provided for @categoryForgiveness.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgiveness'**
+  String get categoryForgiveness;
+
+  /// No description provided for @categoryGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get categoryGeneral;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:

@@ -116,6 +116,74 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Dua library filters by category and searches content',
+      (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.bottomNavDua);
+    await tapByKey(tester, SakinahKeys.duaCategoryChip('evening'));
+
+    expect(find.byKey(SakinahKeys.duaListItem('dua_rest')), findsOneWidget);
+    expect(find.byKey(SakinahKeys.duaListItem('dua_ease')), findsNothing);
+
+    await tapByKey(tester, SakinahKeys.duaCategoryChip('all'));
+    await tester.enterText(find.byKey(SakinahKeys.duaSearchField), 'easy');
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.duaListItem('dua_ease')), findsOneWidget);
+    expect(find.byKey(SakinahKeys.duaListItem('dua_rest')), findsNothing);
+
+    await tester.enterText(find.byKey(SakinahKeys.duaSearchField), 'missing');
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.duaEmptyState), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Dhikr library filters by category and searches content',
+      (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.bottomNavDhikr);
+    await tapByKey(tester, SakinahKeys.dhikrCategoryChip('forgiveness'));
+
+    expect(
+      find.byKey(SakinahKeys.dhikrListItem('dhikr_istighfar')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(SakinahKeys.dhikrListItem('dhikr_subhanallah')),
+      findsNothing,
+    );
+
+    await tapByKey(tester, SakinahKeys.dhikrCategoryChip('all'));
+    await tester.enterText(
+      find.byKey(SakinahKeys.dhikrSearchField),
+      'Astaghfirullah',
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(SakinahKeys.dhikrListItem('dhikr_istighfar')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(SakinahKeys.dhikrListItem('dhikr_subhanallah')),
+      findsNothing,
+    );
+
+    await tester.enterText(
+      find.byKey(SakinahKeys.dhikrSearchField),
+      'missing',
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.dhikrEmptyState), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Women mode stays local and toggles sensitive-day state',
       (tester) async {
     await pumpSakinahApp(tester);

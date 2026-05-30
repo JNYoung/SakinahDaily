@@ -296,6 +296,7 @@ class DuaItem {
 class DhikrItem {
   const DhikrItem({
     required this.id,
+    required this.category,
     required this.title,
     required this.arabicText,
     required this.transliteration,
@@ -307,6 +308,7 @@ class DhikrItem {
   });
 
   final String id;
+  final String category;
   final LocalizedText title;
   final String arabicText;
   final String transliteration;
@@ -322,6 +324,7 @@ class DhikrItem {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'category': category,
         'title': title.toJson(),
         'arabicText': arabicText,
         'transliteration': transliteration,
@@ -335,6 +338,7 @@ class DhikrItem {
   factory DhikrItem.fromJson(Map<String, dynamic> json) {
     return DhikrItem(
       id: json['id'] as String,
+      category: json['category'] as String? ?? 'general',
       title: LocalizedText.fromJson(json['title'] as Map<String, dynamic>),
       arabicText: json['arabicText'] as String,
       transliteration: json['transliteration'] as String,

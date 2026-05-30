@@ -136,34 +136,40 @@ Suggested next milestone:
   Quran slice needed for beta sessions.
 - Add corpus-aware missing-verse UX only after approved source routing exists.
 
-## 5. Dua Chain
+## 5. Dua / Dhikr Discovery Chain
 
-Product status: MVP functional; category/search/audio/content depth remains
-incomplete.
+Product status: MVP functional for local seed discovery; audio/content depth
+remains incomplete.
 
 Completed:
 
 - Dua library lists approved local seed duas.
+- Dua library supports local category filters, search across Arabic,
+  transliteration, localized meaning, source, and safe empty states.
 - Dua detail shows Arabic, transliteration, localized meaning, source, and
   review status.
 - Dua save/unsave is local-only and cleared by Delete Local Data.
 - Local notification taps, including cold-start taps, route to `/dua/:id` when
   approved local content exists.
+- Dhikr seed items now carry category metadata.
+- Dhikr page supports local category filters, search across title, Arabic,
+  transliteration, localized meaning, source, and safe empty states while
+  preserving the counter and save flow.
 
 Open product links:
 
-- PRD categories are represented as item metadata, but the library has no
-  category tabs, filters, or search yet.
 - Detail actions “Listen” and “Repeat slowly” are UI placeholders and do not
   play reviewed dua audio.
 - Reviewed content depth is still seed-level; no staging CMS publishing flow is
   connected for expanded dua packs.
 - Women’s Ibadah category curation remains limited to local policy notes rather
   than a reviewed content category.
+- PRD categories such as Before sleep, Anxiety, Travel, Study / Work, Ramadan,
+  and Women’s Ibadah still need reviewed content coverage before beta.
 
 Suggested next milestone:
 
-- Add category filtering/search before expanding the dua pack.
+- Expand the reviewed Dua/Dhikr content pack now that discovery UX exists.
 - Either wire reviewed dua audio controls or mark the audio CTAs as deferred in
   the release scope.
 
@@ -174,7 +180,7 @@ Suggested next milestone:
 | Prayer | Usable with manual/preset location | Device-location scope decision and reminder QA |
 | Daily Session | End-to-end seed flow works | Reviewed session pack, reminder CTA decision, licensed audio |
 | Quran | Safe local verse entry works | Approved source corpus and licensed reciter assets |
-| Dua | Detail/library/save works | Category UX, reviewed content depth, audio CTA decision |
+| Dua / Dhikr | Local library/detail/save/search/category discovery works | Reviewed content depth, missing PRD categories, audio CTA decision |
 
 The strongest next product move is to lock the v0.1 release baseline:
 manual-only vs device location, seed-only vs staging CMS content, and

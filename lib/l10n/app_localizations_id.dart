@@ -216,6 +216,51 @@ class AppLocalizationsId extends AppLocalizations {
   String get dhikr => 'Dzikir';
 
   @override
+  String get allCategories => 'Semua';
+
+  @override
+  String get searchDuaHint => 'Cari doa';
+
+  @override
+  String get searchDhikrHint => 'Cari dzikir';
+
+  @override
+  String get noDuaResultsTitle => 'Doa tidak ditemukan';
+
+  @override
+  String get noDuaResultsBody => 'Coba kategori atau kata pencarian lain.';
+
+  @override
+  String get noDhikrResultsTitle => 'Dzikir tidak ditemukan';
+
+  @override
+  String get noDhikrResultsBody => 'Coba kategori atau kata pencarian lain.';
+
+  @override
+  String get categoryQuranic => 'Quranic';
+
+  @override
+  String get categoryMorning => 'Pagi';
+
+  @override
+  String get categoryEvening => 'Malam';
+
+  @override
+  String get categoryReflection => 'Renungan';
+
+  @override
+  String get categoryDifficulty => 'Kesulitan';
+
+  @override
+  String get categoryGratitude => 'Syukur';
+
+  @override
+  String get categoryForgiveness => 'Ampunan';
+
+  @override
+  String get categoryGeneral => 'Umum';
+
+  @override
   String get settings => 'Pengaturan';
 
   @override

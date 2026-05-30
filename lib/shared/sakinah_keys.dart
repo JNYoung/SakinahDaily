@@ -16,8 +16,7 @@ abstract final class SakinahKeys {
   static const homeNightCard = ValueKey<String>('home_night_card');
   static const homeSessionStartButton =
       ValueKey<String>('home_session_start_button');
-  static const homeVoiceOnlyButton =
-      ValueKey<String>('home_voice_only_button');
+  static const homeVoiceOnlyButton = ValueKey<String>('home_voice_only_button');
   static const homeSaveTonightButton =
       ValueKey<String>('home_save_tonight_button');
   static const homeQuickActionQuran =
@@ -64,8 +63,7 @@ abstract final class SakinahKeys {
 
   static const settingsWomenModeTile =
       ValueKey<String>('settings_women_mode_tile');
-  static const settingsPrivacyTile =
-      ValueKey<String>('settings_privacy_tile');
+  static const settingsPrivacyTile = ValueKey<String>('settings_privacy_tile');
   static const settingsSavedItemsTile =
       ValueKey<String>('settings_saved_items_tile');
   static const settingsPrayerLocationDropdown =
@@ -84,7 +82,11 @@ abstract final class SakinahKeys {
       ValueKey<String>('quran_verse_save_button');
   static const qiblaPage = ValueKey<String>('qibla_page');
   static const savedItemsPage = ValueKey<String>('saved_items_page');
+  static const duaSearchField = ValueKey<String>('dua_search_field');
+  static const duaEmptyState = ValueKey<String>('dua_empty_state');
   static const duaSaveButton = ValueKey<String>('dua_save_button');
+  static const dhikrSearchField = ValueKey<String>('dhikr_search_field');
+  static const dhikrEmptyState = ValueKey<String>('dhikr_empty_state');
   static const dhikrSaveButton = ValueKey<String>('dhikr_save_button');
   static const womenModeNormalChip = ValueKey<String>('women_mode_normal_chip');
   static const womenModeMenstruatingChip =
@@ -104,8 +106,7 @@ abstract final class SakinahKeys {
   static const privacyCenterPage = ValueKey<String>('privacy_center_page');
   static const privacyDataInventoryPage =
       ValueKey<String>('privacy_data_inventory_page');
-  static const deleteLocalDataPage =
-      ValueKey<String>('delete_local_data_page');
+  static const deleteLocalDataPage = ValueKey<String>('delete_local_data_page');
   static const deleteLocalDataButton =
       ValueKey<String>('delete_local_data_button');
   static const settingsPrayerLocationTile =
@@ -114,12 +115,10 @@ abstract final class SakinahKeys {
       ValueKey<String>('manual_prayer_location_page');
   static const manualLocationLabelField =
       ValueKey<String>('manual_location_label_field');
-  static const manualLatitudeField =
-      ValueKey<String>('manual_latitude_field');
+  static const manualLatitudeField = ValueKey<String>('manual_latitude_field');
   static const manualLongitudeField =
       ValueKey<String>('manual_longitude_field');
-  static const manualTimezoneField =
-      ValueKey<String>('manual_timezone_field');
+  static const manualTimezoneField = ValueKey<String>('manual_timezone_field');
   static const manualPrayerMethodDropdown =
       ValueKey<String>('manual_prayer_method_dropdown');
   static const manualLocationSaveButton =
@@ -127,6 +126,18 @@ abstract final class SakinahKeys {
 
   static ValueKey<String> duaListItem(String duaId) {
     return ValueKey<String>('dua_list_item_$duaId');
+  }
+
+  static ValueKey<String> duaCategoryChip(String category) {
+    return ValueKey<String>('dua_category_$category');
+  }
+
+  static ValueKey<String> dhikrListItem(String dhikrId) {
+    return ValueKey<String>('dhikr_list_item_$dhikrId');
+  }
+
+  static ValueKey<String> dhikrCategoryChip(String category) {
+    return ValueKey<String>('dhikr_category_$category');
   }
 
   static ValueKey<String> savedItemTile(String savedItemId) {
