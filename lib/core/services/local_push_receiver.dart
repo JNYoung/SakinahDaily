@@ -96,12 +96,6 @@ class LocalPushReceiver {
   }
 
   Future<LocalPushReceiveResult> _resolveQuran(LocalPushPayload payload) async {
-    final session = contentService.loadSessionContainingContent(
-      payload.contentId,
-    );
-    if (session != null) {
-      return _accepted('/session/${session.id}');
-    }
     final verse = contentService.loadQuranVerse(payload.contentId);
     if (verse != null) {
       return LocalPushReceiveResult(
@@ -111,6 +105,12 @@ class LocalPushReceiver {
         message: 'Push content is available locally.',
         flags: const [],
       );
+    }
+    final session = contentService.loadSessionContainingContent(
+      payload.contentId,
+    );
+    if (session != null) {
+      return _accepted('/session/${session.id}');
     }
     return _missingContent();
   }

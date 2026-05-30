@@ -306,3 +306,22 @@ women_ibadah_mode_changed
 - Quran step 不播放 BGM。
 - Women’s Ibadah Mode 本地保存。
 - Analyzer 和基础测试通过。
+
+## 17. 当前产品进度（2026-05-30）
+
+详细进度与缺口见
+`docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md`。当前结论：
+
+| 链路 | 当前状态 | Beta/Store 前主要缺口 |
+|---|---|---|
+| Prayer | 手动/预设位置、礼拜时间、通知开关、冷启动通知路由已具备 MVP 骨架 | 是否做 device location 的范围决策、per-prayer 提醒配置、真实设备权限 QA |
+| Daily Session | seed session 可端到端完成，进度/完成历史本地保存，冷启动可进 session | Set reminder CTA、更多 reviewed session 内容、授权音频资产与 hash 校验 |
+| Quran | 本地 approved seed ayah 入口和 `/quran/:verseKey` 详情可用，冷启动可进 verse | approved corpus 导入、生产来源替换、licensed reciter/offline audio |
+| Dua | library/detail/save/source/review status 可用，冷启动可进 dua detail | 分类筛选/搜索、Listen/Repeat audio 行为、更多 reviewed CMS 内容 |
+
+当前 v0.1 最需要产品决策的三件事：
+
+1. Prayer location 是继续以 manual/preset 作为 release baseline，还是补
+   device location permission flow。
+2. 内容是 seed-only beta，还是接入 reviewed staging CMS content pack。
+3. 音频按钮是明确延期，还是进入 licensed audio asset ingestion milestone。

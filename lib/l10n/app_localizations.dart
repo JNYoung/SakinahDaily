@@ -262,11 +262,101 @@ abstract class AppLocalizations {
   /// **'Quran'**
   String get quran;
 
+  /// No description provided for @quranPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran'**
+  String get quranPageTitle;
+
+  /// No description provided for @featuredAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured ayah'**
+  String get featuredAyah;
+
+  /// No description provided for @openAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'Open ayah'**
+  String get openAyah;
+
+  /// No description provided for @quranVerseUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran verse unavailable'**
+  String get quranVerseUnavailable;
+
+  /// No description provided for @saveAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'Save ayah'**
+  String get saveAyah;
+
+  /// No description provided for @savedAyah.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved ayah'**
+  String get savedAyah;
+
+  /// No description provided for @quranVoiceOnlyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran recitation is voice-only'**
+  String get quranVoiceOnlyTitle;
+
+  /// No description provided for @quranVoiceOnlyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran recitation uses approved voice assets only and does not rely on synthetic Quran audio.'**
+  String get quranVoiceOnlyBody;
+
+  /// No description provided for @noQuranTts.
+  ///
+  /// In en, this message translates to:
+  /// **'No Quran TTS'**
+  String get noQuranTts;
+
+  /// No description provided for @noQuranBgm.
+  ///
+  /// In en, this message translates to:
+  /// **'No background music under Quran recitation'**
+  String get noQuranBgm;
+
   /// No description provided for @qibla.
   ///
   /// In en, this message translates to:
   /// **'Qibla'**
   String get qibla;
+
+  /// No description provided for @qiblaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla direction'**
+  String get qiblaTitle;
+
+  /// No description provided for @qiblaBearing.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla bearing'**
+  String get qiblaBearing;
+
+  /// No description provided for @qiblaBasedOnSelectedLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla uses your selected prayer location.'**
+  String get qiblaBasedOnSelectedLocation;
+
+  /// No description provided for @qiblaChangeLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Change prayer location'**
+  String get qiblaChangeLocation;
+
+  /// No description provided for @qiblaNoGpsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Qibla uses your selected prayer location. Exact GPS is not required.'**
+  String get qiblaNoGpsRequired;
 
   /// No description provided for @tonight.
   ///
@@ -292,6 +382,108 @@ abstract class AppLocalizations {
   /// **'Save tonight'**
   String get saveTonight;
 
+  /// No description provided for @savedTonight.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved tonight'**
+  String get savedTonight;
+
+  /// No description provided for @sessionCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Session complete'**
+  String get sessionCompletedTitle;
+
+  /// No description provided for @sessionCompletedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You completed this Sakinah session. Take a quiet moment before returning.'**
+  String get sessionCompletedBody;
+
+  /// No description provided for @completedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed today'**
+  String get completedToday;
+
+  /// No description provided for @resumeSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get resumeSession;
+
+  /// No description provided for @reviewSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get reviewSession;
+
+  /// No description provided for @localProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Local progress'**
+  String get localProgress;
+
+  /// No description provided for @currentStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Current streak'**
+  String get currentStreak;
+
+  /// No description provided for @completedThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed this week'**
+  String get completedThisWeek;
+
+  /// No description provided for @progressLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress stays on this device only.'**
+  String get progressLocalOnly;
+
+  /// No description provided for @saveSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Save session'**
+  String get saveSession;
+
+  /// No description provided for @sessionSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Session saved'**
+  String get sessionSaved;
+
+  /// No description provided for @openSavedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Saved Items'**
+  String get openSavedItems;
+
+  /// No description provided for @backHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Back Home'**
+  String get backHome;
+
+  /// No description provided for @sessionProgressHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Session progress history'**
+  String get sessionProgressHistory;
+
+  /// No description provided for @sessionProgressHistoryNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Session progress and completion history are stored locally only.'**
+  String get sessionProgressHistoryNotes;
+
+  /// No description provided for @noGuaranteedOutcome.
+  ///
+  /// In en, this message translates to:
+  /// **'No guaranteed spiritual outcome is claimed.'**
+  String get noGuaranteedOutcome;
+
   /// No description provided for @dua.
   ///
   /// In en, this message translates to:
@@ -316,6 +508,78 @@ abstract class AppLocalizations {
   /// **'Prayer'**
   String get prayer;
 
+  /// No description provided for @prayerLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer location'**
+  String get prayerLocation;
+
+  /// No description provided for @manualPrayerLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual prayer location'**
+  String get manualPrayerLocationTitle;
+
+  /// No description provided for @manualPrayerLocationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a prayer location manually. It is stored locally and used for prayer times and Qibla.'**
+  String get manualPrayerLocationBody;
+
+  /// No description provided for @locationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Location label'**
+  String get locationLabel;
+
+  /// No description provided for @latitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude'**
+  String get latitude;
+
+  /// No description provided for @longitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude'**
+  String get longitude;
+
+  /// No description provided for @timezoneId.
+  ///
+  /// In en, this message translates to:
+  /// **'Timezone ID'**
+  String get timezoneId;
+
+  /// No description provided for @saveLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Save location'**
+  String get saveLocation;
+
+  /// No description provided for @invalidLatitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude must be between -90 and 90.'**
+  String get invalidLatitude;
+
+  /// No description provided for @invalidLongitude.
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude must be between -180 and 180.'**
+  String get invalidLongitude;
+
+  /// No description provided for @locationSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Location saved'**
+  String get locationSaved;
+
+  /// No description provided for @locationLocalOnlyNoGps.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally. No GPS permission is required.'**
+  String get locationLocalOnlyNoGps;
+
   /// No description provided for @prayerMethod.
   ///
   /// In en, this message translates to:
@@ -334,11 +598,107 @@ abstract class AppLocalizations {
   /// **'Permission is requested after explanation.'**
   String get prayerReminderSubtitle;
 
+  /// No description provided for @notificationTapMalformed.
+  ///
+  /// In en, this message translates to:
+  /// **'This notification could not be opened safely.'**
+  String get notificationTapMalformed;
+
+  /// No description provided for @notificationTapFallbackPrayer.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening prayer times.'**
+  String get notificationTapFallbackPrayer;
+
+  /// No description provided for @notificationTapMissingContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This notification content is not available offline yet.'**
+  String get notificationTapMissingContent;
+
   /// No description provided for @womenModeSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Local-only by default. Sensitive reminder copy stays private.'**
   String get womenModeSubtitle;
+
+  /// No description provided for @localOnlyMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Local-only mode'**
+  String get localOnlyMode;
+
+  /// No description provided for @womenModePrivatePath.
+  ///
+  /// In en, this message translates to:
+  /// **'Private gentle path'**
+  String get womenModePrivatePath;
+
+  /// No description provided for @womenModeHomeSupportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Dua, dhikr, and reflection stay easy to reach. Your mode stays on this device.'**
+  String get womenModeHomeSupportBody;
+
+  /// No description provided for @womenModeSessionNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Local-only mode'**
+  String get womenModeSessionNoteTitle;
+
+  /// No description provided for @womenModeSessionNoteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your mode stays on this device. This session keeps a gentle worship-friendly path.'**
+  String get womenModeSessionNoteBody;
+
+  /// No description provided for @savedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved Items'**
+  String get savedItems;
+
+  /// No description provided for @savedItemsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing saved yet'**
+  String get savedItemsEmptyTitle;
+
+  /// No description provided for @savedItemsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved items stay on this device for quick return later.'**
+  String get savedItemsEmptyBody;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @unsave.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsave'**
+  String get unsave;
+
+  /// No description provided for @removeSavedItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove saved item'**
+  String get removeSavedItem;
+
+  /// No description provided for @savedLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved items stay on this device only.'**
+  String get savedLocalOnly;
+
+  /// No description provided for @savedItemsPrivacyNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved locally. No account or sync in MVP.'**
+  String get savedItemsPrivacyNotes;
 
   /// No description provided for @privacy.
   ///
@@ -351,6 +711,468 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Women\'s mode data is not sent remotely in MVP.'**
   String get privacySubtitle;
+
+  /// No description provided for @privacyCenterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Center'**
+  String get privacyCenterTitle;
+
+  /// No description provided for @dataInventoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data inventory'**
+  String get dataInventoryTitle;
+
+  /// No description provided for @dataInventoryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This inventory describes MVP client data and where it is stored.'**
+  String get dataInventoryBody;
+
+  /// No description provided for @dataOnDeviceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data we keep on this device'**
+  String get dataOnDeviceTitle;
+
+  /// No description provided for @dataCanLeaveDeviceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data that can leave this device'**
+  String get dataCanLeaveDeviceTitle;
+
+  /// No description provided for @localOnlyData.
+  ///
+  /// In en, this message translates to:
+  /// **'Most preferences, prayer settings, women’s mode, and content cache stay on this device.'**
+  String get localOnlyData;
+
+  /// No description provided for @leavesDeviceData.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote content requests may include language, market, app version, and schema version.'**
+  String get leavesDeviceData;
+
+  /// No description provided for @womenModePrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Women\'s Ibadah Mode privacy'**
+  String get womenModePrivacyTitle;
+
+  /// No description provided for @womenModePrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Women’s Ibadah Mode is designed local-first. Exact status is not sent with remote content requests.'**
+  String get womenModePrivacyBody;
+
+  /// No description provided for @prayerLocationPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer location privacy'**
+  String get prayerLocationPrivacyTitle;
+
+  /// No description provided for @prayerLocationPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer location uses manual or preset choices by default for prayer time calculation.'**
+  String get prayerLocationPrivacyBody;
+
+  /// No description provided for @notificationPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications privacy'**
+  String get notificationPrivacyTitle;
+
+  /// No description provided for @notificationPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer reminders are scheduled locally where possible, and sensitive women’s mode copy stays off the lock screen.'**
+  String get notificationPrivacyBody;
+
+  /// No description provided for @remoteContentPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote content cache'**
+  String get remoteContentPrivacyTitle;
+
+  /// No description provided for @remoteContentPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.'**
+  String get remoteContentPrivacyBody;
+
+  /// No description provided for @deleteLocalDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete local data'**
+  String get deleteLocalDataTitle;
+
+  /// No description provided for @deleteLocalDataBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset app preferences, saved items, session progress, women’s mode state, local content cache, and scheduled reminders on this device.'**
+  String get deleteLocalDataBody;
+
+  /// No description provided for @deleteLocalDataKeepsSeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Bundled seed content and app files are kept. This does not contact a remote service.'**
+  String get deleteLocalDataKeepsSeed;
+
+  /// No description provided for @deleteLocalDataConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete local data'**
+  String get deleteLocalDataConfirm;
+
+  /// No description provided for @deleteLocalDataDeleting.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting...'**
+  String get deleteLocalDataDeleting;
+
+  /// No description provided for @deleteLocalDataDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm local reset'**
+  String get deleteLocalDataDialogTitle;
+
+  /// No description provided for @deleteLocalDataDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This clears local preferences, saved items, session progress, cached bundles, and scheduled reminders on this device.'**
+  String get deleteLocalDataDialogBody;
+
+  /// No description provided for @deleteLocalDataCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get deleteLocalDataCancel;
+
+  /// No description provided for @deleteLocalDataSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Local data has been reset on this device.'**
+  String get deleteLocalDataSuccess;
+
+  /// No description provided for @storePrivacyDraftTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Store data safety summary'**
+  String get storePrivacyDraftTitle;
+
+  /// No description provided for @storePrivacyDraftBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft store declarations are documented for review before submission.'**
+  String get storePrivacyDraftBody;
+
+  /// No description provided for @privacyPolicyDraftTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy draft'**
+  String get privacyPolicyDraftTitle;
+
+  /// No description provided for @privacyPolicyDraftBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A draft privacy policy exists for legal and store review.'**
+  String get privacyPolicyDraftBody;
+
+  /// No description provided for @storageLocalDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Local device'**
+  String get storageLocalDevice;
+
+  /// No description provided for @storageRemoteOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote request'**
+  String get storageRemoteOptional;
+
+  /// No description provided for @storageNotCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not collected'**
+  String get storageNotCollected;
+
+  /// No description provided for @sensitivityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low sensitivity'**
+  String get sensitivityLow;
+
+  /// No description provided for @sensitivityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium sensitivity'**
+  String get sensitivityMedium;
+
+  /// No description provided for @sensitivityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High sensitivity'**
+  String get sensitivityHigh;
+
+  /// No description provided for @localOnlyShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Local only'**
+  String get localOnlyShort;
+
+  /// No description provided for @leavesDeviceShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaves device'**
+  String get leavesDeviceShort;
+
+  /// No description provided for @userCanDeleteShort.
+  ///
+  /// In en, this message translates to:
+  /// **'User can delete'**
+  String get userCanDeleteShort;
+
+  /// No description provided for @privacyDataLanguagePreference.
+  ///
+  /// In en, this message translates to:
+  /// **'Language preference'**
+  String get privacyDataLanguagePreference;
+
+  /// No description provided for @privacyDataLanguagePreferenceNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally and used to choose app language and content language.'**
+  String get privacyDataLanguagePreferenceNotes;
+
+  /// No description provided for @privacyDataGenderModePreference.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender mode preference'**
+  String get privacyDataGenderModePreference;
+
+  /// No description provided for @privacyDataGenderModePreferenceNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally for client personalization in MVP.'**
+  String get privacyDataGenderModePreferenceNotes;
+
+  /// No description provided for @privacyDataAudioPreference.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio preference'**
+  String get privacyDataAudioPreference;
+
+  /// No description provided for @privacyDataAudioPreferenceNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally to choose recitation-only, guidance, or text-first behavior.'**
+  String get privacyDataAudioPreferenceNotes;
+
+  /// No description provided for @privacyDataPrayerSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer settings'**
+  String get privacyDataPrayerSettings;
+
+  /// No description provided for @privacyDataPrayerSettingsNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally for prayer time method and calculation settings.'**
+  String get privacyDataPrayerSettingsNotes;
+
+  /// No description provided for @privacyDataPrayerLocationPreset.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer location preset'**
+  String get privacyDataPrayerLocationPreset;
+
+  /// No description provided for @privacyDataPrayerLocationPresetNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally by default as a manual or preset location choice.'**
+  String get privacyDataPrayerLocationPresetNotes;
+
+  /// No description provided for @privacyDataNotificationEnabledState.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification enabled state'**
+  String get privacyDataNotificationEnabledState;
+
+  /// No description provided for @privacyDataNotificationEnabledStateNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally to remember whether prayer reminders are enabled.'**
+  String get privacyDataNotificationEnabledStateNotes;
+
+  /// No description provided for @privacyDataWomenModeState.
+  ///
+  /// In en, this message translates to:
+  /// **'Women\'s Ibadah Mode state'**
+  String get privacyDataWomenModeState;
+
+  /// No description provided for @privacyDataWomenModeStateNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'High sensitivity. Designed local-first, may adjust local UI recommendations, and is not sent to remote content APIs.'**
+  String get privacyDataWomenModeStateNotes;
+
+  /// No description provided for @privacyDataLocalContentManifest.
+  ///
+  /// In en, this message translates to:
+  /// **'Local content manifest'**
+  String get privacyDataLocalContentManifest;
+
+  /// No description provided for @privacyDataLocalContentManifestNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally to know which approved bundles are active.'**
+  String get privacyDataLocalContentManifestNotes;
+
+  /// No description provided for @privacyDataLocalContentBundles.
+  ///
+  /// In en, this message translates to:
+  /// **'Local content bundles'**
+  String get privacyDataLocalContentBundles;
+
+  /// No description provided for @privacyDataLocalContentBundlesNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally after hash, schema, published, and approved checks.'**
+  String get privacyDataLocalContentBundlesNotes;
+
+  /// No description provided for @privacyDataLocalRevokedContentIds.
+  ///
+  /// In en, this message translates to:
+  /// **'Local revoked content IDs'**
+  String get privacyDataLocalRevokedContentIds;
+
+  /// No description provided for @privacyDataLocalRevokedContentIdsNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally so revoked content is hidden from the client.'**
+  String get privacyDataLocalRevokedContentIdsNotes;
+
+  /// No description provided for @privacyDataSavedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved items'**
+  String get privacyDataSavedItems;
+
+  /// No description provided for @privacyDataSavedItemsNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved sessions, duas, dhikr, and verse references are stored locally only.'**
+  String get privacyDataSavedItemsNotes;
+
+  /// No description provided for @privacyDataSessionProgressHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Session progress history'**
+  String get privacyDataSessionProgressHistory;
+
+  /// No description provided for @privacyDataSessionProgressHistoryNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Session progress and completion records store session IDs and timestamps locally only.'**
+  String get privacyDataSessionProgressHistoryNotes;
+
+  /// No description provided for @privacyDataLocalPushDebug.
+  ///
+  /// In en, this message translates to:
+  /// **'Local push payload debug data'**
+  String get privacyDataLocalPushDebug;
+
+  /// No description provided for @privacyDataLocalPushDebugNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No persistent client-side debug queue is collected in MVP.'**
+  String get privacyDataLocalPushDebugNotes;
+
+  /// No description provided for @privacyDataAudioPlaybackState.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio playback state'**
+  String get privacyDataAudioPlaybackState;
+
+  /// No description provided for @privacyDataAudioPlaybackStateNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No persistent playback history is collected in MVP.'**
+  String get privacyDataAudioPlaybackStateNotes;
+
+  /// No description provided for @privacyDataRemoteContentApiConfig.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote content API config state'**
+  String get privacyDataRemoteContentApiConfig;
+
+  /// No description provided for @privacyDataRemoteContentApiConfigNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Provider and endpoint configuration may exist locally; tokens are never displayed in Privacy Center.'**
+  String get privacyDataRemoteContentApiConfigNotes;
+
+  /// No description provided for @privacyDataRemoteContentRequestMetadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote content request metadata'**
+  String get privacyDataRemoteContentRequestMetadata;
+
+  /// No description provided for @remoteContentRequestMetadataNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests may include language, market, app version, and schema version only.'**
+  String get remoteContentRequestMetadataNotes;
+
+  /// No description provided for @privacyDataFutureAnalyticsCrash.
+  ///
+  /// In en, this message translates to:
+  /// **'Future analytics or crash reporting'**
+  String get privacyDataFutureAnalyticsCrash;
+
+  /// No description provided for @privacyDataFutureAnalyticsCrashNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No analytics or crash-reporting SDK is implemented in MVP.'**
+  String get privacyDataFutureAnalyticsCrashNotes;
+
+  /// No description provided for @privacyDataAccountData.
+  ///
+  /// In en, this message translates to:
+  /// **'Account data'**
+  String get privacyDataAccountData;
+
+  /// No description provided for @privacyDataAccountDataNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Account login is not implemented in MVP.'**
+  String get privacyDataAccountDataNotes;
+
+  /// No description provided for @privacyDataPaymentsSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments and subscriptions'**
+  String get privacyDataPaymentsSubscriptions;
+
+  /// No description provided for @privacyDataPaymentsSubscriptionsNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments and subscriptions are not implemented in MVP.'**
+  String get privacyDataPaymentsSubscriptionsNotes;
+
+  /// No description provided for @privacyDataAdsTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Ads or tracking'**
+  String get privacyDataAdsTracking;
+
+  /// No description provided for @privacyDataAdsTrackingNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Ads, tracking, and ATT prompts are not implemented in MVP.'**
+  String get privacyDataAdsTrackingNotes;
 
   /// No description provided for @source.
   ///
@@ -399,6 +1221,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adjust reminders with privacy and respect.'**
   String get womenModeDescription;
+
+  /// No description provided for @womenModeWhatChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What changes locally'**
+  String get womenModeWhatChangesTitle;
+
+  /// No description provided for @womenModeWhatChangesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Home recommendations may become quieter and highlight dua, dhikr, and reflection. Daily sessions may show a private local-only note.'**
+  String get womenModeWhatChangesBody;
+
+  /// No description provided for @womenModeWhatStaysPrivateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What does not leave this device'**
+  String get womenModeWhatStaysPrivateTitle;
+
+  /// No description provided for @womenModeWhatStaysPrivateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your exact mode is stored locally and is not sent with remote content requests.'**
+  String get womenModeWhatStaysPrivateBody;
+
+  /// No description provided for @womenModeReminderPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder text stays generic so lock-screen copy does not reveal private details.'**
+  String get womenModeReminderPrivacyBody;
+
+  /// No description provided for @womenModeTurnOffBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn this mode off by choosing Normal, or clear it from Privacy Center > Delete local data.'**
+  String get womenModeTurnOffBody;
+
+  /// No description provided for @openPrivacyCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Privacy Center'**
+  String get openPrivacyCenter;
 
   /// No description provided for @todaysMode.
   ///

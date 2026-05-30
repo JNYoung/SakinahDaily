@@ -19,6 +19,9 @@ TTS, or new religious content.
   details.
 - Platform notification services still only emit a payload into the testable
   notification tap service; they do not know about `GoRouter`.
+- Cold-start notification launch details are read once at app startup, resolved
+  by `NotificationTapService`, routed, and cleared so rebuilds do not replay the
+  navigation.
 
 Prayer reminders continue to use the local JSON payload documented in
 `docs/client/06_NOTIFICATION_TAP_QIBLA_SAVED.md`.
@@ -75,7 +78,7 @@ used by prayer times and Qibla.
 
 ## Future Work
 
-- Cold-start notification launch handoff from platform launch details.
+- iOS cold-start notification launch validation.
 - Approved expanded Quran corpus routing after source import review.
 - Licensed reciter assets and offline audio cache validation after rights and
   hashes are approved.

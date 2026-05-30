@@ -91,6 +91,7 @@ class PrayerNotificationCopy {
 }
 
 abstract class NotificationService {
+  Future<String?> takeLaunchPayload();
   Future<bool> requestPermissionAfterExplanation();
   Future<List<ScheduledPrayerReminder>> schedulePrayerReminders(
     PrayerSettings settings,
@@ -103,11 +104,19 @@ abstract class NotificationService {
 
 class LocalNotificationServiceStub implements NotificationService {
   bool permissionGranted = true;
+  String? launchPayload;
   final List<ScheduledPrayerReminder> scheduled = [];
 
   @override
   Future<void> cancelAll() async {
     scheduled.clear();
+  }
+
+  @override
+  Future<String?> takeLaunchPayload() async {
+    final payload = launchPayload;
+    launchPayload = null;
+    return payload;
   }
 
   @override
@@ -160,12 +169,31 @@ class FlutterLocalNotificationService implements NotificationService {
   final FutureOr<void> Function(String? payload)? onNotificationTap;
   bool _initialized = false;
   bool _permissionGranted = false;
+  bool _launchPayloadConsumed = false;
 
   @override
   Future<void> cancelAll() async {
     await _ensureInitialized();
     await _plugin.cancelAllPendingNotifications();
     await _plugin.cancelAll();
+  }
+
+  @override
+  Future<String?> takeLaunchPayload() async {
+    if (_launchPayloadConsumed) {
+      return null;
+    }
+    _launchPayloadConsumed = true;
+    try {
+      await _ensureInitialized();
+      final details = await _plugin.getNotificationAppLaunchDetails();
+      if (details?.didNotificationLaunchApp ?? false) {
+        return details?.notificationResponse?.payload;
+      }
+    } on Object {
+      return null;
+    }
+    return null;
   }
 
   @override

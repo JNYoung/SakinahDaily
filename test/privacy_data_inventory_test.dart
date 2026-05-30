@@ -47,11 +47,11 @@ void main() {
   });
 
   test('content request context does not retain women exact status', () {
-    const context = ContentRequestContext(
+    final context = ContentRequestContext(
       languageCode: 'en',
       market: 'global',
       appVersion: '0.1.0',
-      womenIbadahMode: WomenIbadahMode(
+      womenIbadahMode: const WomenIbadahMode(
         enabled: true,
         status: WomenIbadahStatus.menstruating,
       ),

@@ -31,11 +31,12 @@ class ContentService implements ContentRepository {
     required this.cacheRepository,
     this.remoteClient,
     this.supportedSchemaVersion = 1,
-    this.defaultContext = const ContentRequestContext(
-      languageCode: 'en',
-      womenIbadahMode: WomenIbadahMode(enabled: false),
-    ),
-  });
+    ContentRequestContext? defaultContext,
+  }) : defaultContext = defaultContext ??
+            ContentRequestContext(
+              languageCode: 'en',
+              womenIbadahMode: const WomenIbadahMode(enabled: false),
+            );
 
   final ContentRepository seedRepository;
   final ContentCacheRepository cacheRepository;

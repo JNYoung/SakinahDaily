@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -23,6 +25,15 @@ class NotificationTapRouteListener extends ConsumerStatefulWidget {
 class _NotificationTapRouteListenerState
     extends ConsumerState<NotificationTapRouteListener> {
   NotificationTapResult? _scheduledResult;
+  bool _launchPayloadChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(_resolveLaunchPayload());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,5 +62,26 @@ class _NotificationTapRouteListenerState
       });
     }
     return widget.child;
+  }
+
+  Future<void> _resolveLaunchPayload() async {
+    if (_launchPayloadChecked) {
+      return;
+    }
+    _launchPayloadChecked = true;
+
+    final launchPayload =
+        await ref.read(notificationServiceProvider).takeLaunchPayload();
+    if (!mounted || launchPayload == null || launchPayload.trim().isEmpty) {
+      return;
+    }
+
+    final result = await ref
+        .read(notificationTapServiceProvider)
+        .resolveRawPayload(launchPayload);
+    if (!mounted) {
+      return;
+    }
+    ref.read(notificationTapResultProvider.notifier).state = result;
   }
 }

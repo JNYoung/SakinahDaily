@@ -35,6 +35,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/client-notification-router-quran-entry` adds app-level notification tap navigation cleanup, Quran entry/detail routes, saved Quran verse navigation, voice-only Quran policy UX, and a manual prayer location page without GPS, compass/sensor permissions, remote CMS calls, full Quran corpus downloads, Quran TTS, or generated religious content.
 - Branch `codex/client-session-progress-history` adds local-only Daily Session resume progress, completion history, a completion screen, Home progress summary, and Delete Local Data cleanup without analytics, account sync, remote progress sync, social sharing, or generated religious content.
 - Branch `codex/client-women-mode-content-filter` adds local-only Women's Mode recommendation policy, Home/Session support notes, privacy-safe notification and remote-request guardrails, and documentation without analytics, remote women status sync, medical advice, fatwa-like claims, or generated religious content.
+- 2026-05-30 continuation adds cold-start notification launch payload handoff, Android emulator validation for prayer/session/Quran/Dua routes, and a product requirements progress document for those four chains.
 
 ## Current Validation Gate
 
@@ -57,8 +58,9 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 8. Next QA milestone: run real device notification permission QA and Android install/build checks with Flutter available on PATH.
 9. Next store milestone: send store metadata, privacy labels, Google Play Data Safety, and permission copy for final legal/store review.
 10. Next privacy milestone: decide whether analytics or crash reporting is needed after privacy review; do not add SDKs before that review.
-11. Next push milestone: validate cold-start notification launch handoff on Android/iOS once platform launch details are wired.
-12. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
+11. Next push milestone: run real-device Android permission/OEM scheduling QA and iOS cold-start notification QA once an iOS runtime is available.
+12. Next product milestone: decide whether v0.1 release baseline is manual-only location, seed-only content, and deferred audio CTAs, or whether device location, staging CMS content, and licensed audio should enter the next sprint.
+13. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
 
 ## Handoff Notes
 
@@ -74,3 +76,4 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Quran pages must continue to use approved local seed/cache content only until reviewed source corpus routing is expanded; do not add Quran TTS or background music under recitation.
 - Daily Session progress/history must remain local-only, store IDs and timestamps rather than religious text, and be cleared by Delete Local Data.
 - Women's Mode may influence local UI recommendations only; exact status must not leave the device, appear in lock-screen copy, or be used for medical or fatwa-like guidance.
+- Prayer/session/Quran/Dua product progress and remaining release gaps are tracked in `docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md`.

@@ -24,7 +24,8 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('tapping saved daily session opens Daily Session', (tester) async {
+  testWidgets('tapping saved daily session opens Daily Session',
+      (tester) async {
     final store = InMemorySavedItemsStore();
     await SavedItemsRepository(store).save(_savedDailySession());
 
@@ -80,7 +81,8 @@ void main() {
     await tapByKey(tester, SakinahKeys.savedItemTile('quran_verse_94:5'));
 
     expect(find.byKey(SakinahKeys.quranVerseDetailPage), findsOneWidget);
-    expect(find.text('For indeed, with hardship will be ease.'), findsOneWidget);
+    expect(
+        find.text('For indeed, with hardship will be ease.'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 
@@ -94,8 +96,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Nothing saved yet'), findsOneWidget);
-    expect(find.textContaining('Saved items stay on this device'),
-        findsOneWidget);
+    expect(
+      find.text('Saved items stay on this device for quick return later.'),
+      findsOneWidget,
+    );
     expectNoFlutterErrors(tester);
   });
 }
@@ -135,7 +139,8 @@ SavedItem _savedQuranVerse() {
     itemId: '94:5',
     titleSnapshot: 'Quran 94:5',
     subtitleSnapshot: 'For indeed, with hardship will be ease.',
-    sourceLabel: 'Seed metadata; replace with approved Quran source before production',
+    sourceLabel:
+        'Seed metadata; replace with approved Quran source before production',
     createdAt: DateTime.utc(2026, 5, 22),
     languageCode: 'en',
   );

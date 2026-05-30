@@ -91,7 +91,55 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quran => 'القرآن';
 
   @override
+  String get quranPageTitle => 'القرآن';
+
+  @override
+  String get featuredAyah => 'آية مختارة';
+
+  @override
+  String get openAyah => 'فتح الآية';
+
+  @override
+  String get quranVerseUnavailable => 'آية القرآن غير متاحة';
+
+  @override
+  String get saveAyah => 'حفظ الآية';
+
+  @override
+  String get savedAyah => 'الآية محفوظة';
+
+  @override
+  String get quranVoiceOnlyTitle => 'تلاوة القرآن صوت فقط';
+
+  @override
+  String get quranVoiceOnlyBody =>
+      'تستخدم تلاوة القرآن أصولا صوتية معتمدة فقط ولا تعتمد على صوت قرآن اصطناعي.';
+
+  @override
+  String get noQuranTts => 'لا يوجد TTS للقرآن';
+
+  @override
+  String get noQuranBgm => 'لا موسيقى خلفية تحت تلاوة القرآن';
+
+  @override
   String get qibla => 'القبلة';
+
+  @override
+  String get qiblaTitle => 'اتجاه القبلة';
+
+  @override
+  String get qiblaBearing => 'زاوية القبلة';
+
+  @override
+  String get qiblaBasedOnSelectedLocation =>
+      'تستخدم القبلة موقع الصلاة المختار.';
+
+  @override
+  String get qiblaChangeLocation => 'تغيير موقع الصلاة';
+
+  @override
+  String get qiblaNoGpsRequired =>
+      'تستخدم القبلة موقع الصلاة المختار. لا يلزم GPS دقيق.';
 
   @override
   String get tonight => 'الليلة';
@@ -107,6 +155,59 @@ class AppLocalizationsAr extends AppLocalizations {
   String get saveTonight => 'احفظ لليلة';
 
   @override
+  String get savedTonight => 'حفظت لليلة';
+
+  @override
+  String get sessionCompletedTitle => 'اكتملت الجلسة';
+
+  @override
+  String get sessionCompletedBody =>
+      'أكملت جلسة السكينة هذه. خذ لحظة هادئة قبل العودة.';
+
+  @override
+  String get completedToday => 'اكتملت اليوم';
+
+  @override
+  String get resumeSession => 'متابعة';
+
+  @override
+  String get reviewSession => 'مراجعة';
+
+  @override
+  String get localProgress => 'التقدم المحلي';
+
+  @override
+  String get currentStreak => 'السلسلة الحالية';
+
+  @override
+  String get completedThisWeek => 'اكتمل هذا الأسبوع';
+
+  @override
+  String get progressLocalOnly => 'يبقى التقدم على هذا الجهاز فقط.';
+
+  @override
+  String get saveSession => 'حفظ الجلسة';
+
+  @override
+  String get sessionSaved => 'تم حفظ الجلسة';
+
+  @override
+  String get openSavedItems => 'فتح العناصر المحفوظة';
+
+  @override
+  String get backHome => 'العودة للرئيسية';
+
+  @override
+  String get sessionProgressHistory => 'سجل تقدم الجلسات';
+
+  @override
+  String get sessionProgressHistoryNotes =>
+      'يحفظ تقدم الجلسات وسجل الإكمال محليا فقط.';
+
+  @override
+  String get noGuaranteedOutcome => 'لا يوجد ادعاء بنتيجة روحية مضمونة.';
+
+  @override
   String get dua => 'الدعاء';
 
   @override
@@ -119,6 +220,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String get prayer => 'الصلاة';
 
   @override
+  String get prayerLocation => 'موقع الصلاة';
+
+  @override
+  String get manualPrayerLocationTitle => 'موقع الصلاة اليدوي';
+
+  @override
+  String get manualPrayerLocationBody =>
+      'أدخل موقع الصلاة يدويا. يخزن محليا ويستخدم لأوقات الصلاة والقبلة.';
+
+  @override
+  String get locationLabel => 'اسم الموقع';
+
+  @override
+  String get latitude => 'خط العرض';
+
+  @override
+  String get longitude => 'خط الطول';
+
+  @override
+  String get timezoneId => 'معرف المنطقة الزمنية';
+
+  @override
+  String get saveLocation => 'حفظ الموقع';
+
+  @override
+  String get invalidLatitude => 'يجب أن يكون خط العرض بين -90 و90.';
+
+  @override
+  String get invalidLongitude => 'يجب أن يكون خط الطول بين -180 و180.';
+
+  @override
+  String get locationSaved => 'تم حفظ الموقع';
+
+  @override
+  String get locationLocalOnlyNoGps => 'يحفظ محليا. لا يلزم إذن GPS.';
+
+  @override
   String get prayerMethod => 'طريقة الصلاة';
 
   @override
@@ -128,14 +266,333 @@ class AppLocalizationsAr extends AppLocalizations {
   String get prayerReminderSubtitle => 'يطلب الإذن بعد الشرح.';
 
   @override
+  String get notificationTapMalformed => 'تعذر فتح هذا الإشعار بأمان.';
+
+  @override
+  String get notificationTapFallbackPrayer => 'فتح أوقات الصلاة.';
+
+  @override
+  String get notificationTapMissingContent =>
+      'محتوى هذا الإشعار غير متاح دون اتصال بعد.';
+
+  @override
   String get womenModeSubtitle =>
       'محلي افتراضيا. تبقى نصوص التذكير الحساسة خاصة.';
+
+  @override
+  String get localOnlyMode => 'وضع محلي فقط';
+
+  @override
+  String get womenModePrivatePath => 'مسار لطيف وخاص';
+
+  @override
+  String get womenModeHomeSupportBody =>
+      'يبقى الدعاء والذكر والتأمل قريبين وسهلين. يبقى وضعك على هذا الجهاز.';
+
+  @override
+  String get womenModeSessionNoteTitle => 'وضع محلي فقط';
+
+  @override
+  String get womenModeSessionNoteBody =>
+      'يبقى وضعك على هذا الجهاز. تحافظ هذه الجلسة على مسار عبادة لطيف.';
+
+  @override
+  String get savedItems => 'العناصر المحفوظة';
+
+  @override
+  String get savedItemsEmptyTitle => 'لا توجد عناصر محفوظة بعد';
+
+  @override
+  String get savedItemsEmptyBody =>
+      'تبقى العناصر المحفوظة على هذا الجهاز للرجوع إليها لاحقا.';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get unsave => 'إلغاء الحفظ';
+
+  @override
+  String get removeSavedItem => 'إزالة العنصر المحفوظ';
+
+  @override
+  String get savedLocalOnly => 'تبقى العناصر المحفوظة على هذا الجهاز فقط.';
+
+  @override
+  String get savedItemsPrivacyNotes =>
+      'تحفظ محليا. لا حساب ولا مزامنة في نسخة MVP.';
 
   @override
   String get privacy => 'الخصوصية';
 
   @override
   String get privacySubtitle => 'لا ترسل بيانات وضع النساء عن بعد في نسخة MVP.';
+
+  @override
+  String get privacyCenterTitle => 'مركز الخصوصية';
+
+  @override
+  String get dataInventoryTitle => 'قائمة البيانات';
+
+  @override
+  String get dataInventoryBody =>
+      'تصف هذه القائمة بيانات العميل في نسخة MVP ومكان تخزينها.';
+
+  @override
+  String get dataOnDeviceTitle => 'البيانات التي تبقى على هذا الجهاز';
+
+  @override
+  String get dataCanLeaveDeviceTitle => 'البيانات التي قد تغادر هذا الجهاز';
+
+  @override
+  String get localOnlyData =>
+      'تبقى معظم التفضيلات وإعدادات الصلاة ووضع النساء وذاكرة المحتوى على هذا الجهاز.';
+
+  @override
+  String get leavesDeviceData =>
+      'قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.';
+
+  @override
+  String get womenModePrivacyTitle => 'خصوصية وضع عبادة النساء';
+
+  @override
+  String get womenModePrivacyBody =>
+      'صمم وضع عبادة النساء ليكون محليا أولا. لا ترسل الحالة الدقيقة مع طلبات المحتوى عن بعد.';
+
+  @override
+  String get prayerLocationPrivacyTitle => 'خصوصية موقع الصلاة';
+
+  @override
+  String get prayerLocationPrivacyBody =>
+      'يستخدم موقع الصلاة اختيارات يدوية أو جاهزة افتراضيا لحساب أوقات الصلاة.';
+
+  @override
+  String get notificationPrivacyTitle => 'خصوصية الإشعارات';
+
+  @override
+  String get notificationPrivacyBody =>
+      'تجدول تذكيرات الصلاة محليا حيثما أمكن، وتبقى نصوص وضع النساء الحساسة خارج شاشة القفل.';
+
+  @override
+  String get remoteContentPrivacyTitle => 'ذاكرة المحتوى عن بعد';
+
+  @override
+  String get remoteContentPrivacyBody =>
+      'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.';
+
+  @override
+  String get deleteLocalDataTitle => 'حذف البيانات المحلية';
+
+  @override
+  String get deleteLocalDataBody =>
+      'إعادة ضبط تفضيلات التطبيق والعناصر المحفوظة وتقدم الجلسات وحالة وضع النساء وذاكرة المحتوى المحلية والتذكيرات المجدولة على هذا الجهاز.';
+
+  @override
+  String get deleteLocalDataKeepsSeed =>
+      'يبقى محتوى التطبيق المضمن وملفات التطبيق. لا يتصل هذا بخدمة عن بعد.';
+
+  @override
+  String get deleteLocalDataConfirm => 'حذف البيانات المحلية';
+
+  @override
+  String get deleteLocalDataDeleting => 'جار الحذف...';
+
+  @override
+  String get deleteLocalDataDialogTitle => 'تأكيد إعادة الضبط المحلية';
+
+  @override
+  String get deleteLocalDataDialogBody =>
+      'يمسح هذا التفضيلات المحلية والعناصر المحفوظة وتقدم الجلسات والحزم المخزنة والتذكيرات المجدولة على هذا الجهاز.';
+
+  @override
+  String get deleteLocalDataCancel => 'إلغاء';
+
+  @override
+  String get deleteLocalDataSuccess =>
+      'تمت إعادة ضبط البيانات المحلية على هذا الجهاز.';
+
+  @override
+  String get storePrivacyDraftTitle => 'ملخص سلامة بيانات المتجر';
+
+  @override
+  String get storePrivacyDraftBody =>
+      'تم توثيق مسودات إقرارات المتجر للمراجعة قبل الإرسال.';
+
+  @override
+  String get privacyPolicyDraftTitle => 'مسودة سياسة الخصوصية';
+
+  @override
+  String get privacyPolicyDraftBody =>
+      'توجد مسودة سياسة خصوصية للمراجعة القانونية ومراجعة المتجر.';
+
+  @override
+  String get storageLocalDevice => 'الجهاز المحلي';
+
+  @override
+  String get storageRemoteOptional => 'طلب عن بعد';
+
+  @override
+  String get storageNotCollected => 'لا تجمع';
+
+  @override
+  String get sensitivityLow => 'حساسية منخفضة';
+
+  @override
+  String get sensitivityMedium => 'حساسية متوسطة';
+
+  @override
+  String get sensitivityHigh => 'حساسية عالية';
+
+  @override
+  String get localOnlyShort => 'محلي فقط';
+
+  @override
+  String get leavesDeviceShort => 'يغادر الجهاز';
+
+  @override
+  String get userCanDeleteShort => 'يمكن للمستخدم حذفه';
+
+  @override
+  String get privacyDataLanguagePreference => 'تفضيل اللغة';
+
+  @override
+  String get privacyDataLanguagePreferenceNotes =>
+      'يخزن محليا لاختيار لغة التطبيق ولغة المحتوى.';
+
+  @override
+  String get privacyDataGenderModePreference => 'تفضيل وضع الجنس';
+
+  @override
+  String get privacyDataGenderModePreferenceNotes =>
+      'يخزن محليا لتخصيص العميل في نسخة MVP.';
+
+  @override
+  String get privacyDataAudioPreference => 'تفضيل الصوت';
+
+  @override
+  String get privacyDataAudioPreferenceNotes =>
+      'يخزن محليا لاختيار التلاوة فقط أو الإرشاد أو النص أولا.';
+
+  @override
+  String get privacyDataPrayerSettings => 'إعدادات الصلاة';
+
+  @override
+  String get privacyDataPrayerSettingsNotes =>
+      'تخزن محليا لطريقة حساب أوقات الصلاة وإعداداتها.';
+
+  @override
+  String get privacyDataPrayerLocationPreset => 'موقع الصلاة الجاهز';
+
+  @override
+  String get privacyDataPrayerLocationPresetNotes =>
+      'يخزن محليا افتراضيا كاختيار يدوي أو جاهز للموقع.';
+
+  @override
+  String get privacyDataNotificationEnabledState => 'حالة تفعيل الإشعارات';
+
+  @override
+  String get privacyDataNotificationEnabledStateNotes =>
+      'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة مفعلة.';
+
+  @override
+  String get privacyDataWomenModeState => 'حالة وضع عبادة النساء';
+
+  @override
+  String get privacyDataWomenModeStateNotes =>
+      'حساسية عالية. صممت محلية أولا، وقد تضبط توصيات الواجهة المحلية، ولا ترسل إلى واجهات المحتوى عن بعد.';
+
+  @override
+  String get privacyDataLocalContentManifest => 'بيان المحتوى المحلي';
+
+  @override
+  String get privacyDataLocalContentManifestNotes =>
+      'يخزن محليا لمعرفة الحزم المعتمدة النشطة.';
+
+  @override
+  String get privacyDataLocalContentBundles => 'حزم المحتوى المحلية';
+
+  @override
+  String get privacyDataLocalContentBundlesNotes =>
+      'تخزن محليا بعد فحص البصمة والمخطط والنشر والاعتماد.';
+
+  @override
+  String get privacyDataLocalRevokedContentIds => 'معرفات المحتوى الملغى محليا';
+
+  @override
+  String get privacyDataLocalRevokedContentIdsNotes =>
+      'تخزن محليا حتى يخفى المحتوى الملغى من العميل.';
+
+  @override
+  String get privacyDataSavedItems => 'العناصر المحفوظة';
+
+  @override
+  String get privacyDataSavedItemsNotes =>
+      'تبقى الجلسات والأدعية والأذكار ومراجع الآيات المحفوظة محلية فقط.';
+
+  @override
+  String get privacyDataSessionProgressHistory => 'سجل تقدم الجلسات';
+
+  @override
+  String get privacyDataSessionProgressHistoryNotes =>
+      'يحفظ تقدم الجلسات وسجلات الإكمال معرفات الجلسات والأوقات محليا فقط.';
+
+  @override
+  String get privacyDataLocalPushDebug => 'بيانات تصحيح رسائل الدفع المحلية';
+
+  @override
+  String get privacyDataLocalPushDebugNotes =>
+      'لا تجمع قائمة تصحيح مستمرة على العميل في نسخة MVP.';
+
+  @override
+  String get privacyDataAudioPlaybackState => 'حالة تشغيل الصوت';
+
+  @override
+  String get privacyDataAudioPlaybackStateNotes =>
+      'لا يجمع سجل تشغيل مستمر في نسخة MVP.';
+
+  @override
+  String get privacyDataRemoteContentApiConfig => 'حالة إعداد واجهة المحتوى';
+
+  @override
+  String get privacyDataRemoteContentApiConfigNotes =>
+      'قد توجد إعدادات المزود والنقطة محليا؛ لا تعرض الرموز في مركز الخصوصية.';
+
+  @override
+  String get privacyDataRemoteContentRequestMetadata =>
+      'بيانات طلب المحتوى عن بعد';
+
+  @override
+  String get remoteContentRequestMetadataNotes =>
+      'قد تتضمن الطلبات اللغة والسوق وإصدار التطبيق وإصدار المخطط فقط.';
+
+  @override
+  String get privacyDataFutureAnalyticsCrash =>
+      'تحليلات أو تقارير أعطال مستقبلية';
+
+  @override
+  String get privacyDataFutureAnalyticsCrashNotes =>
+      'لا توجد SDK للتحليلات أو تقارير الأعطال في نسخة MVP.';
+
+  @override
+  String get privacyDataAccountData => 'بيانات الحساب';
+
+  @override
+  String get privacyDataAccountDataNotes =>
+      'تسجيل الدخول غير مطبق في نسخة MVP.';
+
+  @override
+  String get privacyDataPaymentsSubscriptions => 'المدفوعات والاشتراكات';
+
+  @override
+  String get privacyDataPaymentsSubscriptionsNotes =>
+      'المدفوعات والاشتراكات غير مطبقة في نسخة MVP.';
+
+  @override
+  String get privacyDataAdsTracking => 'إعلانات أو تتبع';
+
+  @override
+  String get privacyDataAdsTrackingNotes =>
+      'الإعلانات والتتبع ومطالبة ATT غير مطبقة في نسخة MVP.';
 
   @override
   String get source => 'المصدر';
@@ -160,6 +617,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get womenModeDescription => 'اضبطي التذكيرات بخصوصية واحترام.';
+
+  @override
+  String get womenModeWhatChangesTitle => 'ما يتغير محليا';
+
+  @override
+  String get womenModeWhatChangesBody =>
+      'قد تصبح توصيات الرئيسية أهدأ وتبرز الدعاء والذكر والتأمل. قد تعرض الجلسات اليومية ملاحظة خاصة ومحلية فقط.';
+
+  @override
+  String get womenModeWhatStaysPrivateTitle => 'ما لا يغادر هذا الجهاز';
+
+  @override
+  String get womenModeWhatStaysPrivateBody =>
+      'يحفظ وضعك الدقيق محليا ولا يرسل مع طلبات المحتوى عن بعد.';
+
+  @override
+  String get womenModeReminderPrivacyBody =>
+      'تبقى نصوص التذكير عامة حتى لا تكشف شاشة القفل تفاصيل خاصة.';
+
+  @override
+  String get womenModeTurnOffBody =>
+      'أوقفي هذا الوضع باختيار عادي، أو امسحيه من مركز الخصوصية > حذف البيانات المحلية.';
+
+  @override
+  String get openPrivacyCenter => 'فتح مركز الخصوصية';
 
   @override
   String get todaysMode => 'وضع اليوم';
