@@ -305,6 +305,7 @@ const _demoJson = r'''
   "dhikrs": [
     {
       "id": "dhikr_subhanallah",
+      "category": "morning",
       "title": {"en": "Tasbih", "id": "Tasbih", "ar": "التسبيح"},
       "arabicText": "سُبْحَانَ اللَّهِ",
       "transliteration": "Subhanallah",
@@ -316,6 +317,7 @@ const _demoJson = r'''
     },
     {
       "id": "dhikr_alhamdulillah",
+      "category": "gratitude",
       "title": {"en": "Tahmid", "id": "Tahmid", "ar": "التحميد"},
       "arabicText": "الْحَمْدُ لِلَّهِ",
       "transliteration": "Alhamdulillah",
@@ -327,6 +329,7 @@ const _demoJson = r'''
     },
     {
       "id": "dhikr_allahu_akbar",
+      "category": "morning",
       "title": {"en": "Takbir", "id": "Takbir", "ar": "التكبير"},
       "arabicText": "اللَّهُ أَكْبَرُ",
       "transliteration": "Allahu akbar",
@@ -338,6 +341,7 @@ const _demoJson = r'''
     },
     {
       "id": "dhikr_istighfar",
+      "category": "forgiveness",
       "title": {"en": "Istighfar", "id": "Istighfar", "ar": "الاستغفار"},
       "arabicText": "أَسْتَغْفِرُ اللَّهَ",
       "transliteration": "Astaghfirullah",
@@ -349,6 +353,7 @@ const _demoJson = r'''
     },
     {
       "id": "dhikr_lailaha",
+      "category": "evening",
       "title": {"en": "Tahlil", "id": "Tahlil", "ar": "التهليل"},
       "arabicText": "لَا إِلَٰهَ إِلَّا اللَّهُ",
       "transliteration": "La ilaha illa Allah",

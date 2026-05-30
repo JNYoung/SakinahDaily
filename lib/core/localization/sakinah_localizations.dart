@@ -93,10 +93,24 @@ class SakinahLocalizations {
       'sessionProgressHistory': 'Session progress history',
       'sessionProgressHistoryNotes':
           'Session progress and completion history are stored locally only.',
-      'noGuaranteedOutcome':
-          'No guaranteed spiritual outcome is claimed.',
+      'noGuaranteedOutcome': 'No guaranteed spiritual outcome is claimed.',
       'dua': 'Dua',
       'dhikr': 'Dhikr',
+      'allCategories': 'All',
+      'searchDuaHint': 'Search duas',
+      'searchDhikrHint': 'Search dhikr',
+      'noDuaResultsTitle': 'No duas found',
+      'noDuaResultsBody': 'Try another category or search term.',
+      'noDhikrResultsTitle': 'No dhikr found',
+      'noDhikrResultsBody': 'Try another category or search term.',
+      'categoryQuranic': 'Quranic',
+      'categoryMorning': 'Morning',
+      'categoryEvening': 'Evening',
+      'categoryReflection': 'Reflection',
+      'categoryDifficulty': 'Difficulty',
+      'categoryGratitude': 'Gratitude',
+      'categoryForgiveness': 'Forgiveness',
+      'categoryGeneral': 'General',
       'settings': 'Settings',
       'prayer': 'Prayer',
       'prayerLocation': 'Prayer location',
@@ -182,8 +196,7 @@ class SakinahLocalizations {
       'deleteLocalDataDialogBody':
           'This clears local preferences, saved items, session progress, cached bundles, and scheduled reminders on this device.',
       'deleteLocalDataCancel': 'Cancel',
-      'deleteLocalDataSuccess':
-          'Local data has been reset on this device.',
+      'deleteLocalDataSuccess': 'Local data has been reset on this device.',
       'storePrivacyDraftTitle': 'Store data safety summary',
       'storePrivacyDraftBody':
           'Draft store declarations are documented for review before submission.',
@@ -270,8 +283,7 @@ class SakinahLocalizations {
       'womenModeWhatChangesTitle': 'What changes locally',
       'womenModeWhatChangesBody':
           'Home recommendations may become quieter and highlight dua, dhikr, and reflection. Daily sessions may show a private local-only note.',
-      'womenModeWhatStaysPrivateTitle':
-          'What does not leave this device',
+      'womenModeWhatStaysPrivateTitle': 'What does not leave this device',
       'womenModeWhatStaysPrivateBody':
           'Your exact mode is stored locally and is not sent with remote content requests.',
       'womenModeReminderPrivacyBody':
@@ -400,10 +412,24 @@ class SakinahLocalizations {
       'sessionProgressHistory': 'Riwayat progres sesi',
       'sessionProgressHistoryNotes':
           'Progres sesi dan riwayat penyelesaian disimpan lokal saja.',
-      'noGuaranteedOutcome':
-          'Tidak ada klaim hasil spiritual yang dijamin.',
+      'noGuaranteedOutcome': 'Tidak ada klaim hasil spiritual yang dijamin.',
       'dua': 'Doa',
       'dhikr': 'Dzikir',
+      'allCategories': 'Semua',
+      'searchDuaHint': 'Cari doa',
+      'searchDhikrHint': 'Cari dzikir',
+      'noDuaResultsTitle': 'Doa tidak ditemukan',
+      'noDuaResultsBody': 'Coba kategori atau kata pencarian lain.',
+      'noDhikrResultsTitle': 'Dzikir tidak ditemukan',
+      'noDhikrResultsBody': 'Coba kategori atau kata pencarian lain.',
+      'categoryQuranic': 'Quranic',
+      'categoryMorning': 'Pagi',
+      'categoryEvening': 'Malam',
+      'categoryReflection': 'Renungan',
+      'categoryDifficulty': 'Kesulitan',
+      'categoryGratitude': 'Syukur',
+      'categoryForgiveness': 'Ampunan',
+      'categoryGeneral': 'Umum',
       'settings': 'Pengaturan',
       'prayer': 'Shalat',
       'prayerLocation': 'Lokasi shalat',
@@ -418,8 +444,7 @@ class SakinahLocalizations {
       'invalidLatitude': 'Lintang harus antara -90 dan 90.',
       'invalidLongitude': 'Bujur harus antara -180 dan 180.',
       'locationSaved': 'Lokasi tersimpan',
-      'locationLocalOnlyNoGps':
-          'Disimpan lokal. Izin GPS tidak diperlukan.',
+      'locationLocalOnlyNoGps': 'Disimpan lokal. Izin GPS tidak diperlukan.',
       'prayerMethod': 'Metode shalat',
       'prayerReminders': 'Pengingat shalat',
       'prayerReminderSubtitle': 'Izin diminta setelah penjelasan.',
@@ -453,7 +478,8 @@ class SakinahLocalizations {
       'unsave': 'Batal simpan',
       'removeSavedItem': 'Hapus item tersimpan',
       'savedLocalOnly': 'Item tersimpan tetap hanya di perangkat ini.',
-      'savedItemsPrivacyNotes': 'Disimpan lokal. Tanpa akun atau sinkronisasi di MVP.',
+      'savedItemsPrivacyNotes':
+          'Disimpan lokal. Tanpa akun atau sinkronisasi di MVP.',
       'privacy': 'Privasi',
       'privacySubtitle': 'Data mode perempuan tidak dikirim jarak jauh di MVP.',
       'privacyCenterTitle': 'Pusat Privasi',
@@ -489,8 +515,7 @@ class SakinahLocalizations {
       'deleteLocalDataDialogBody':
           'Ini menghapus preferensi lokal, item tersimpan, progres sesi, bundle cache, dan pengingat terjadwal di perangkat ini.',
       'deleteLocalDataCancel': 'Batal',
-      'deleteLocalDataSuccess':
-          'Data lokal telah direset di perangkat ini.',
+      'deleteLocalDataSuccess': 'Data lokal telah direset di perangkat ini.',
       'storePrivacyDraftTitle': 'Ringkasan keamanan data toko',
       'storePrivacyDraftBody':
           'Draf deklarasi toko didokumentasikan untuk ditinjau sebelum pengajuan.',
@@ -577,8 +602,7 @@ class SakinahLocalizations {
       'womenModeWhatChangesTitle': 'Yang berubah secara lokal',
       'womenModeWhatChangesBody':
           'Rekomendasi Beranda dapat menjadi lebih tenang dan menonjolkan doa, dzikir, dan refleksi. Sesi harian dapat menampilkan catatan privat lokal saja.',
-      'womenModeWhatStaysPrivateTitle':
-          'Yang tidak meninggalkan perangkat ini',
+      'womenModeWhatStaysPrivateTitle': 'Yang tidak meninggalkan perangkat ini',
       'womenModeWhatStaysPrivateBody':
           'Mode persis Anda disimpan lokal dan tidak dikirim dengan permintaan konten jarak jauh.',
       'womenModeReminderPrivacyBody':
@@ -707,6 +731,21 @@ class SakinahLocalizations {
       'noGuaranteedOutcome': 'لا يوجد ادعاء بنتيجة روحية مضمونة.',
       'dua': 'الدعاء',
       'dhikr': 'الذكر',
+      'allCategories': 'الكل',
+      'searchDuaHint': 'ابحث في الأدعية',
+      'searchDhikrHint': 'ابحث في الأذكار',
+      'noDuaResultsTitle': 'لا توجد أدعية',
+      'noDuaResultsBody': 'جرب تصنيفا أو كلمة بحث أخرى.',
+      'noDhikrResultsTitle': 'لا توجد أذكار',
+      'noDhikrResultsBody': 'جرب تصنيفا أو كلمة بحث أخرى.',
+      'categoryQuranic': 'من القرآن',
+      'categoryMorning': 'الصباح',
+      'categoryEvening': 'المساء',
+      'categoryReflection': 'التأمل',
+      'categoryDifficulty': 'الصعوبة',
+      'categoryGratitude': 'الشكر',
+      'categoryForgiveness': 'المغفرة',
+      'categoryGeneral': 'عام',
       'settings': 'الإعدادات',
       'prayer': 'الصلاة',
       'prayerLocation': 'موقع الصلاة',
@@ -789,7 +828,8 @@ class SakinahLocalizations {
       'deleteLocalDataDialogBody':
           'يمسح هذا التفضيلات المحلية والعناصر المحفوظة وتقدم الجلسات والحزم المخزنة والتذكيرات المجدولة على هذا الجهاز.',
       'deleteLocalDataCancel': 'إلغاء',
-      'deleteLocalDataSuccess': 'تمت إعادة ضبط البيانات المحلية على هذا الجهاز.',
+      'deleteLocalDataSuccess':
+          'تمت إعادة ضبط البيانات المحلية على هذا الجهاز.',
       'storePrivacyDraftTitle': 'ملخص سلامة بيانات المتجر',
       'storePrivacyDraftBody':
           'تم توثيق مسودات إقرارات المتجر للمراجعة قبل الإرسال.',

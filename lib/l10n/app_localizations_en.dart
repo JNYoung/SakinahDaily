@@ -216,6 +216,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dhikr => 'Dhikr';
 
   @override
+  String get allCategories => 'All';
+
+  @override
+  String get searchDuaHint => 'Search duas';
+
+  @override
+  String get searchDhikrHint => 'Search dhikr';
+
+  @override
+  String get noDuaResultsTitle => 'No duas found';
+
+  @override
+  String get noDuaResultsBody => 'Try another category or search term.';
+
+  @override
+  String get noDhikrResultsTitle => 'No dhikr found';
+
+  @override
+  String get noDhikrResultsBody => 'Try another category or search term.';
+
+  @override
+  String get categoryQuranic => 'Quranic';
+
+  @override
+  String get categoryMorning => 'Morning';
+
+  @override
+  String get categoryEvening => 'Evening';
+
+  @override
+  String get categoryReflection => 'Reflection';
+
+  @override
+  String get categoryDifficulty => 'Difficulty';
+
+  @override
+  String get categoryGratitude => 'Gratitude';
+
+  @override
+  String get categoryForgiveness => 'Forgiveness';
+
+  @override
+  String get categoryGeneral => 'General';
+
+  @override
   String get settings => 'Settings';
 
   @override

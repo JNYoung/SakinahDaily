@@ -214,6 +214,51 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dhikr => 'الذكر';
 
   @override
+  String get allCategories => 'الكل';
+
+  @override
+  String get searchDuaHint => 'ابحث في الأدعية';
+
+  @override
+  String get searchDhikrHint => 'ابحث في الأذكار';
+
+  @override
+  String get noDuaResultsTitle => 'لا توجد أدعية';
+
+  @override
+  String get noDuaResultsBody => 'جرب تصنيفا أو كلمة بحث أخرى.';
+
+  @override
+  String get noDhikrResultsTitle => 'لا توجد أذكار';
+
+  @override
+  String get noDhikrResultsBody => 'جرب تصنيفا أو كلمة بحث أخرى.';
+
+  @override
+  String get categoryQuranic => 'من القرآن';
+
+  @override
+  String get categoryMorning => 'الصباح';
+
+  @override
+  String get categoryEvening => 'المساء';
+
+  @override
+  String get categoryReflection => 'التأمل';
+
+  @override
+  String get categoryDifficulty => 'الصعوبة';
+
+  @override
+  String get categoryGratitude => 'الشكر';
+
+  @override
+  String get categoryForgiveness => 'المغفرة';
+
+  @override
+  String get categoryGeneral => 'عام';
+
+  @override
   String get settings => 'الإعدادات';
 
   @override
