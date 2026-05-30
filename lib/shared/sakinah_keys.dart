@@ -48,6 +48,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('session_completion_page');
   static const sessionCompletionSaveButton =
       ValueKey<String>('session_completion_save_button');
+  static const sessionCompletionReminderButton =
+      ValueKey<String>('session_completion_reminder_button');
   static const sessionCompletionBackHomeButton =
       ValueKey<String>('session_completion_back_home_button');
   static const sessionCompletionSavedItemsButton =

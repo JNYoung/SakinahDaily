@@ -607,6 +607,7 @@ class UserPreferences {
     required this.prayerSettings,
     required this.womenIbadahMode,
     this.notificationsEnabled = false,
+    this.dailySessionReminderEnabled = false,
   });
 
   final String languageCode;
@@ -615,6 +616,7 @@ class UserPreferences {
   final PrayerSettings prayerSettings;
   final WomenIbadahMode womenIbadahMode;
   final bool notificationsEnabled;
+  final bool dailySessionReminderEnabled;
 
   factory UserPreferences.defaults() {
     return const UserPreferences(
@@ -638,6 +640,7 @@ class UserPreferences {
     PrayerSettings? prayerSettings,
     WomenIbadahMode? womenIbadahMode,
     bool? notificationsEnabled,
+    bool? dailySessionReminderEnabled,
   }) {
     return UserPreferences(
       languageCode: languageCode ?? this.languageCode,
@@ -646,6 +649,8 @@ class UserPreferences {
       prayerSettings: prayerSettings ?? this.prayerSettings,
       womenIbadahMode: womenIbadahMode ?? this.womenIbadahMode,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+      dailySessionReminderEnabled:
+          dailySessionReminderEnabled ?? this.dailySessionReminderEnabled,
     );
   }
 
@@ -656,6 +661,7 @@ class UserPreferences {
         'prayerSettings': prayerSettings.toJson(),
         'womenIbadahMode': womenIbadahMode.toJson(),
         'notificationsEnabled': notificationsEnabled,
+        'dailySessionReminderEnabled': dailySessionReminderEnabled,
       };
 
   factory UserPreferences.fromJson(Map<String, dynamic> json) {
@@ -674,6 +680,8 @@ class UserPreferences {
           ? WomenIbadahMode.fromJson(womenIbadahModeJson)
           : defaults.womenIbadahMode,
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? false,
+      dailySessionReminderEnabled:
+          json['dailySessionReminderEnabled'] as bool? ?? false,
     );
   }
 }

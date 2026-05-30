@@ -89,6 +89,13 @@ class SakinahLocalizations {
       'saveSession': 'Save session',
       'sessionSaved': 'Session saved',
       'openSavedItems': 'Open Saved Items',
+      'setDailyReminder': 'Set daily reminder',
+      'dailyReminderSet': 'Daily reminder set',
+      'sessionReminderPermissionTitle': 'Set daily reminder?',
+      'sessionReminderPermissionBody':
+          'Sakinah can schedule a local daily session reminder. The reminder text stays privacy-safe on the lock screen.',
+      'sessionReminderPermissionAllow': 'Set reminder',
+      'sessionReminderPermissionNotNow': 'Not now',
       'backHome': 'Back Home',
       'sessionProgressHistory': 'Session progress history',
       'sessionProgressHistoryNotes':
@@ -229,7 +236,7 @@ class SakinahLocalizations {
           'Stored locally by default as a manual or preset location choice.',
       'privacyDataNotificationEnabledState': 'Notification enabled state',
       'privacyDataNotificationEnabledStateNotes':
-          'Stored locally to remember whether prayer reminders are enabled.',
+          'Stored locally to remember whether prayer and daily session reminders are enabled.',
       'privacyDataWomenModeState': "Women's Ibadah Mode state",
       'privacyDataWomenModeStateNotes':
           'High sensitivity. Designed local-first, may adjust local UI recommendations, and is not sent to remote content APIs.',
@@ -408,6 +415,13 @@ class SakinahLocalizations {
       'saveSession': 'Simpan sesi',
       'sessionSaved': 'Sesi tersimpan',
       'openSavedItems': 'Buka Item Tersimpan',
+      'setDailyReminder': 'Atur pengingat harian',
+      'dailyReminderSet': 'Pengingat harian aktif',
+      'sessionReminderPermissionTitle': 'Atur pengingat harian?',
+      'sessionReminderPermissionBody':
+          'Sakinah dapat menjadwalkan pengingat sesi harian lokal. Teks pengingat tetap aman untuk layar terkunci.',
+      'sessionReminderPermissionAllow': 'Atur pengingat',
+      'sessionReminderPermissionNotNow': 'Nanti saja',
       'backHome': 'Kembali ke Beranda',
       'sessionProgressHistory': 'Riwayat progres sesi',
       'sessionProgressHistoryNotes':
@@ -548,7 +562,7 @@ class SakinahLocalizations {
           'Disimpan lokal secara default sebagai pilihan lokasi manual atau preset.',
       'privacyDataNotificationEnabledState': 'Status notifikasi aktif',
       'privacyDataNotificationEnabledStateNotes':
-          'Disimpan lokal untuk mengingat apakah pengingat shalat aktif.',
+          'Disimpan lokal untuk mengingat apakah pengingat shalat dan sesi harian aktif.',
       'privacyDataWomenModeState': 'Status Mode Ibadah Perempuan',
       'privacyDataWomenModeStateNotes':
           'Sensitivitas tinggi. Dirancang lokal terlebih dahulu, dapat menyesuaikan rekomendasi UI lokal, dan tidak dikirim ke API konten jarak jauh.',
@@ -724,6 +738,13 @@ class SakinahLocalizations {
       'saveSession': 'حفظ الجلسة',
       'sessionSaved': 'تم حفظ الجلسة',
       'openSavedItems': 'فتح العناصر المحفوظة',
+      'setDailyReminder': 'ضبط تذكير يومي',
+      'dailyReminderSet': 'تم ضبط التذكير اليومي',
+      'sessionReminderPermissionTitle': 'ضبط تذكير يومي؟',
+      'sessionReminderPermissionBody':
+          'يمكن لسكينة جدولة تذكير جلسة يومي محلي. يبقى نص التذكير آمنا على شاشة القفل.',
+      'sessionReminderPermissionAllow': 'ضبط التذكير',
+      'sessionReminderPermissionNotNow': 'ليس الآن',
       'backHome': 'العودة للرئيسية',
       'sessionProgressHistory': 'سجل تقدم الجلسات',
       'sessionProgressHistoryNotes':
@@ -862,7 +883,7 @@ class SakinahLocalizations {
           'يخزن محليا افتراضيا كاختيار يدوي أو جاهز للموقع.',
       'privacyDataNotificationEnabledState': 'حالة تفعيل الإشعارات',
       'privacyDataNotificationEnabledStateNotes':
-          'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة مفعلة.',
+          'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة والجلسة اليومية مفعلة.',
       'privacyDataWomenModeState': 'حالة وضع عبادة النساء',
       'privacyDataWomenModeStateNotes':
           'حساسية عالية. صممت محلية أولا، وقد تضبط توصيات الواجهة المحلية، ولا ترسل إلى واجهات المحتوى عن بعد.',

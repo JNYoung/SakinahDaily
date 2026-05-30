@@ -27,6 +27,22 @@ class ScheduledPrayerReminder {
   final String payload;
 }
 
+class ScheduledDailySessionReminder {
+  const ScheduledDailySessionReminder({
+    required this.sessionId,
+    required this.time,
+    required this.title,
+    required this.body,
+    required this.payload,
+  });
+
+  final String sessionId;
+  final DateTime time;
+  final String title;
+  final String body;
+  final String payload;
+}
+
 class PrayerNotificationCopy {
   const PrayerNotificationCopy({
     required this.title,
@@ -90,12 +106,44 @@ class PrayerNotificationCopy {
   }
 }
 
+class DailySessionNotificationCopy {
+  const DailySessionNotificationCopy({
+    required this.title,
+    required this.body,
+  });
+
+  final String title;
+  final String body;
+
+  factory DailySessionNotificationCopy.forSession({
+    required String languageCode,
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) {
+    return DailySessionNotificationCopy(
+      title: switch (languageCode) {
+        'ar' => 'سكينة يومية',
+        _ => 'Sakinah Daily',
+      },
+      body: switch (languageCode) {
+        'id' => 'Sesi Sakinah singkat sudah siap.',
+        'ar' => 'جلسة سكينة قصيرة جاهزة.',
+        _ => 'A short Sakinah session is ready.',
+      },
+    );
+  }
+}
+
 abstract class NotificationService {
   Future<String?> takeLaunchPayload();
   Future<bool> requestPermissionAfterExplanation();
   Future<List<ScheduledPrayerReminder>> schedulePrayerReminders(
     PrayerSettings settings,
     List<PrayerTime> prayerTimes, {
+    String languageCode = 'en',
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  });
+  Future<ScheduledDailySessionReminder?> scheduleDailySessionReminder(
+    DailySession session, {
     String languageCode = 'en',
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   });
@@ -106,10 +154,12 @@ class LocalNotificationServiceStub implements NotificationService {
   bool permissionGranted = true;
   String? launchPayload;
   final List<ScheduledPrayerReminder> scheduled = [];
+  ScheduledDailySessionReminder? dailySessionReminder;
 
   @override
   Future<void> cancelAll() async {
     scheduled.clear();
+    dailySessionReminder = null;
   }
 
   @override
@@ -156,6 +206,29 @@ class LocalNotificationServiceStub implements NotificationService {
         ),
       );
     return List.unmodifiable(scheduled);
+  }
+
+  @override
+  Future<ScheduledDailySessionReminder?> scheduleDailySessionReminder(
+    DailySession session, {
+    String languageCode = 'en',
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) async {
+    if (!permissionGranted) {
+      return null;
+    }
+    final copy = DailySessionNotificationCopy.forSession(
+      languageCode: languageCode,
+      womenIbadahMode: womenIbadahMode,
+    );
+    dailySessionReminder = ScheduledDailySessionReminder(
+      sessionId: session.id,
+      time: nextDailySessionReminderTime(),
+      title: copy.title,
+      body: copy.body,
+      payload: dailySessionNotificationPayload(session.id),
+    );
+    return dailySessionReminder;
   }
 }
 
@@ -232,7 +305,7 @@ class FlutterLocalNotificationService implements NotificationService {
     }
     try {
       await _ensureInitialized();
-      await cancelAll();
+      await _cancelPrayerReminders();
       final now = DateTime.now();
       final scheduled = <ScheduledPrayerReminder>[];
       for (final prayer in prayerTimes.where(
@@ -276,6 +349,53 @@ class FlutterLocalNotificationService implements NotificationService {
     }
   }
 
+  @override
+  Future<ScheduledDailySessionReminder?> scheduleDailySessionReminder(
+    DailySession session, {
+    String languageCode = 'en',
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) async {
+    if (!_permissionGranted) {
+      return null;
+    }
+    try {
+      await _ensureInitialized();
+      final copy = DailySessionNotificationCopy.forSession(
+        languageCode: languageCode,
+        womenIbadahMode: womenIbadahMode,
+      );
+      final reminder = ScheduledDailySessionReminder(
+        sessionId: session.id,
+        time: nextDailySessionReminderTime(),
+        title: copy.title,
+        body: copy.body,
+        payload: dailySessionNotificationPayload(session.id),
+      );
+      await _plugin.cancel(id: _dailySessionNotificationId);
+      await _plugin.zonedSchedule(
+        id: _dailySessionNotificationId,
+        title: reminder.title,
+        body: reminder.body,
+        scheduledDate: timezone.TZDateTime.from(reminder.time, timezone.local),
+        notificationDetails: const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'sakinah_daily_session_reminders',
+            'Daily session reminders',
+            channelDescription: 'Local daily Sakinah session reminders',
+          ),
+          iOS: DarwinNotificationDetails(),
+          macOS: DarwinNotificationDetails(),
+        ),
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
+        payload: reminder.payload,
+      );
+      return reminder;
+    } on Object {
+      return null;
+    }
+  }
+
   Future<void> _ensureInitialized() async {
     if (_initialized) {
       return;
@@ -315,8 +435,47 @@ class FlutterLocalNotificationService implements NotificationService {
       _ => 199,
     };
   }
+
+  Future<void> _cancelPrayerReminders() async {
+    for (final prayerName in const [
+      'Fajr',
+      'Dhuhr',
+      'Asr',
+      'Maghrib',
+      'Isha'
+    ]) {
+      await _plugin.cancel(id: _notificationId(prayerName));
+    }
+  }
 }
 
 String prayerNotificationPayload() {
   return jsonEncode(NotificationTapPayload.prayer().toJson());
 }
+
+String dailySessionNotificationPayload(String sessionId) {
+  return jsonEncode(
+    NotificationTapPayload(
+      id: 'daily_session_$sessionId',
+      type: 'daily_session',
+      contentId: sessionId,
+      fallbackRoute: '/session/$sessionId',
+      data: {
+        'type': 'daily_session',
+        'contentId': sessionId,
+        'fallbackRoute': '/session/$sessionId',
+      },
+    ).toJson(),
+  );
+}
+
+DateTime nextDailySessionReminderTime() {
+  final now = DateTime.now();
+  final todayReminder = DateTime(now.year, now.month, now.day, 20);
+  if (todayReminder.isAfter(now)) {
+    return todayReminder;
+  }
+  return todayReminder.add(const Duration(days: 1));
+}
+
+const _dailySessionNotificationId = 201;

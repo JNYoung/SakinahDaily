@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
+import 'package:sakinah_daily/core/repositories/content_repository.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/core/services/prayer_calculation_service.dart';
 
@@ -112,6 +113,47 @@ void main() {
     _expectNoSensitiveTerms(scheduled.first.payload);
     expect(scheduled.first.payload, isNot(contains('women')));
     expect(scheduled.first.payload, isNot(contains('status')));
+  });
+
+  test('daily session reminder uses privacy-safe local tap payload', () async {
+    final service = LocalNotificationServiceStub();
+    final session = SeedContentRepository(
+      SeedContent.demo(),
+    ).getDailySession('session_morning_ease')!;
+
+    final scheduled = await service.scheduleDailySessionReminder(
+      session,
+      languageCode: 'en',
+      womenIbadahMode: const WomenIbadahMode(
+        enabled: true,
+        status: WomenIbadahStatus.menstruating,
+      ),
+    );
+
+    expect(scheduled, isNotNull);
+    expect(service.dailySessionReminder, scheduled);
+    expect(scheduled!.payload, contains('"type":"daily_session"'));
+    expect(scheduled.payload, contains('"contentId":"session_morning_ease"'));
+    expect(scheduled.payload,
+        contains('"fallbackRoute":"/session/session_morning_ease"'));
+    _expectNoSensitiveTerms(scheduled.title);
+    _expectNoSensitiveTerms(scheduled.body);
+    _expectNoSensitiveTerms(scheduled.payload);
+    expect(scheduled.payload, isNot(contains('women')));
+    expect(scheduled.payload, isNot(contains('status')));
+  });
+
+  test('daily session reminder is not scheduled when permission is denied',
+      () async {
+    final service = LocalNotificationServiceStub()..permissionGranted = false;
+    final session = SeedContentRepository(
+      SeedContent.demo(),
+    ).getDailySession('session_morning_ease')!;
+
+    final scheduled = await service.scheduleDailySessionReminder(session);
+
+    expect(scheduled, isNull);
+    expect(service.dailySessionReminder, isNull);
   });
 }
 

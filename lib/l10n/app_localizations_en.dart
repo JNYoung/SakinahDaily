@@ -196,6 +196,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openSavedItems => 'Open Saved Items';
 
   @override
+  String get setDailyReminder => 'Set daily reminder';
+
+  @override
+  String get dailyReminderSet => 'Daily reminder set';
+
+  @override
+  String get sessionReminderPermissionTitle => 'Set daily reminder?';
+
+  @override
+  String get sessionReminderPermissionBody =>
+      'Sakinah can schedule a local daily session reminder. The reminder text stays privacy-safe on the lock screen.';
+
+  @override
+  String get sessionReminderPermissionAllow => 'Set reminder';
+
+  @override
+  String get sessionReminderPermissionNotNow => 'Not now';
+
+  @override
   String get backHome => 'Back Home';
 
   @override
@@ -544,7 +563,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'Stored locally to remember whether prayer reminders are enabled.';
+      'Stored locally to remember whether prayer and daily session reminders are enabled.';
 
   @override
   String get privacyDataWomenModeState => 'Women\'s Ibadah Mode state';

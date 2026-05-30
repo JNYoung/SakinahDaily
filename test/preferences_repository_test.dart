@@ -14,6 +14,7 @@ void main() {
       genderMode: GenderMode.female,
       audioPreference: AudioPreference.quietGuidance,
       notificationsEnabled: true,
+      dailySessionReminderEnabled: true,
       prayerSettings: PrayerSettings(
         latitude: -6.2088,
         longitude: 106.8456,
@@ -34,6 +35,7 @@ void main() {
     expect(loaded.genderMode, GenderMode.female);
     expect(loaded.audioPreference, AudioPreference.quietGuidance);
     expect(loaded.notificationsEnabled, isTrue);
+    expect(loaded.dailySessionReminderEnabled, isTrue);
     expect(loaded.prayerSettings.method, 'indonesia');
     expect(loaded.prayerSettings.locationLabel, 'Jakarta');
     expect(loaded.prayerSettings.timezoneId, 'Asia/Jakarta');
@@ -49,6 +51,7 @@ void main() {
       UserPreferences.defaults().copyWith(
         languageCode: 'ar',
         notificationsEnabled: true,
+        dailySessionReminderEnabled: true,
         womenIbadahMode: const WomenIbadahMode(
           enabled: true,
           status: WomenIbadahStatus.menstruating,
@@ -61,6 +64,7 @@ void main() {
     final loaded = await repository.load();
     expect(loaded.languageCode, 'en');
     expect(loaded.notificationsEnabled, isFalse);
+    expect(loaded.dailySessionReminderEnabled, isFalse);
     expect(loaded.womenIbadahMode.enabled, isFalse);
   });
 

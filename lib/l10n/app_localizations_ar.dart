@@ -195,6 +195,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openSavedItems => 'فتح العناصر المحفوظة';
 
   @override
+  String get setDailyReminder => 'ضبط تذكير يومي';
+
+  @override
+  String get dailyReminderSet => 'تم ضبط التذكير اليومي';
+
+  @override
+  String get sessionReminderPermissionTitle => 'ضبط تذكير يومي؟';
+
+  @override
+  String get sessionReminderPermissionBody =>
+      'يمكن لسكينة جدولة تذكير جلسة يومي محلي. يبقى نص التذكير آمنا على شاشة القفل.';
+
+  @override
+  String get sessionReminderPermissionAllow => 'ضبط التذكير';
+
+  @override
+  String get sessionReminderPermissionNotNow => 'ليس الآن';
+
+  @override
   String get backHome => 'العودة للرئيسية';
 
   @override
@@ -537,7 +556,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة مفعلة.';
+      'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة والجلسة اليومية مفعلة.';
 
   @override
   String get privacyDataWomenModeState => 'حالة وضع عبادة النساء';

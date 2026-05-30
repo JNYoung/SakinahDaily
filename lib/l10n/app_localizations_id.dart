@@ -196,6 +196,25 @@ class AppLocalizationsId extends AppLocalizations {
   String get openSavedItems => 'Buka Item Tersimpan';
 
   @override
+  String get setDailyReminder => 'Atur pengingat harian';
+
+  @override
+  String get dailyReminderSet => 'Pengingat harian aktif';
+
+  @override
+  String get sessionReminderPermissionTitle => 'Atur pengingat harian?';
+
+  @override
+  String get sessionReminderPermissionBody =>
+      'Sakinah dapat menjadwalkan pengingat sesi harian lokal. Teks pengingat tetap aman untuk layar terkunci.';
+
+  @override
+  String get sessionReminderPermissionAllow => 'Atur pengingat';
+
+  @override
+  String get sessionReminderPermissionNotNow => 'Nanti saja';
+
+  @override
   String get backHome => 'Kembali ke Beranda';
 
   @override
@@ -543,7 +562,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'Disimpan lokal untuk mengingat apakah pengingat shalat aktif.';
+      'Disimpan lokal untuk mengingat apakah pengingat shalat dan sesi harian aktif.';
 
   @override
   String get privacyDataWomenModeState => 'Status Mode Ibadah Perempuan';
