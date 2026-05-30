@@ -23,6 +23,12 @@
 | `docs/design/02_SCREEN_SPECS.md` | 关键页面线框、页面状态、组件需求 |
 | `docs/design/design_tokens.json` | 可被客户端引用的基础设计 token |
 
+### 产品研究文档
+
+| 文件 | 责任 |
+|---|---|
+| `docs/research/01_COMPETITOR_FEATURE_GAP_PRIORITY.md` | 竞品功能研究、Sakinah 功能缺口与优先级 |
+
 ### 技术与内容文档
 
 | 文件 | 责任 |
@@ -46,6 +52,7 @@
 | `docs/client/07_NOTIFICATION_ROUTER_QURAN_MANUAL_LOCATION.md` | 通知实际路由、Quran 入口和手动位置页实现 |
 | `docs/client/08_SESSION_PROGRESS_HISTORY.md` | Daily Session 进度、完成页和本地历史实现 |
 | `docs/client/09_WOMEN_MODE_CONTENT_POLICY.md` | Women’s Mode 本地内容推荐与隐私策略 |
+| `docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md` | Prayer / Session / Quran / Dua 产品侧需求进度与缺口 |
 | `docs/privacy/01_PRIVACY_DATA_INVENTORY.md` | 客户端隐私数据清单草案 |
 | `docs/privacy/02_PRIVACY_POLICY_DRAFT.md` | 隐私政策草案，供 legal/store review |
 | `docs/privacy/03_APP_STORE_PRIVACY_LABEL_DRAFT.md` | App Store privacy label 草案 |

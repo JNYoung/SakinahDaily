@@ -20,6 +20,8 @@ handled routes.
 - Malformed payloads return an unhandled result with safety flags.
 - Missing content can use a safe fallback route, but the client does not invent
   Quran, Dua, Dhikr, Hadith, or translation content.
+- Cold-start launch payloads are consumed from platform notification launch
+  details once on app startup and routed through the same safe resolver.
 
 Prayer reminders use a local JSON tap payload:
 
@@ -93,7 +95,8 @@ the saved state and does not create duplicate saved items.
 
 ## Future Work
 
-- Cold-start notification tap handoff from platform launch details.
+- iOS cold-start notification tap validation after an iOS project/runtime is
+  available.
 - Detail pages for saved Quran verse references after approved corpus routing.
 - Optional cloud sync only after account, consent, privacy, and deletion
   workflows are designed and reviewed.

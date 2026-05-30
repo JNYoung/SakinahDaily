@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
+import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
@@ -21,6 +22,7 @@ void main() {
     expect(find.text("Women's Ibadah Mode privacy"), findsOneWidget);
     expect(find.text('Prayer location privacy'), findsOneWidget);
     expect(find.text('Notifications privacy'), findsOneWidget);
+    await scrollUntilFound(tester, find.text('Remote content cache'));
     expect(find.text('Remote content cache'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
@@ -41,8 +43,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(SakinahKeys.privacyCenterPage), findsOneWidget);
-    expect(find.textContaining('secret-token-that-must-not-render'),
-        findsNothing);
+    expect(
+        find.textContaining('secret-token-that-must-not-render'), findsNothing);
   });
 
   testWidgets('Delete local data page requires confirmation and resets state',
@@ -85,19 +87,29 @@ void main() {
       settleSplash: false,
       preferencesStore: preferencesStore,
       contentCacheStore: cacheStore,
+      savedItemsStore: InMemorySavedItemsStore(),
       notificationService: notifications,
     );
     await tester.pumpAndSettle();
 
     await tapByKey(tester, SakinahKeys.deleteLocalDataButton);
     expect(find.text('Confirm local reset'), findsOneWidget);
-    expect((await preferencesRepository.load()).womenIbadahMode.enabled,
-        isTrue);
+    expect(
+        (await preferencesRepository.load()).womenIbadahMode.enabled, isTrue);
 
-    await tester.tap(find.text('Delete local data').last);
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(FilledButton, 'Delete local data'),
+      ),
+    );
     await tester.pumpAndSettle();
 
     final resetPreferences = await preferencesRepository.load();
+    await scrollUntilFound(
+      tester,
+      find.text('Local data has been reset on this device.'),
+    );
     expect(
       find.text('Local data has been reset on this device.'),
       findsOneWidget,

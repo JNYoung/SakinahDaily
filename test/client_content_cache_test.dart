@@ -312,10 +312,10 @@ void main() {
   test('language and market incompatible bundle is rejected', () async {
     final service = _contentService(
       InMemoryContentCacheStore(),
-      context: const ContentRequestContext(
+      context: ContentRequestContext(
         languageCode: 'en',
         market: 'id',
-        womenIbadahMode: WomenIbadahMode(enabled: false),
+        womenIbadahMode: const WomenIbadahMode(enabled: false),
       ),
     );
     final raw = _encodedBundle(
@@ -406,16 +406,17 @@ class FakeRemoteManifestClient implements RemoteManifestClient {
 ContentService _contentService(
   ContentCacheStore store, {
   RemoteManifestClient? remoteClient,
-  ContentRequestContext context = const ContentRequestContext(
-    languageCode: 'en',
-    womenIbadahMode: WomenIbadahMode(enabled: false),
-  ),
+  ContentRequestContext? context,
 }) {
   return ContentService(
     seedRepository: SeedContentRepository(SeedContent.demo()),
     cacheRepository: ContentCacheRepository(store),
     remoteClient: remoteClient,
-    defaultContext: context,
+    defaultContext: context ??
+        ContentRequestContext(
+          languageCode: 'en',
+          womenIbadahMode: const WomenIbadahMode(enabled: false),
+        ),
   );
 }
 

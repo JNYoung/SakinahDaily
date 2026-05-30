@@ -33,6 +33,8 @@ Status: Draft for release/store review.
 - [x] Daily Session completion UX avoids social sharing and guaranteed outcome claims.
 - [x] Local notification tap payloads avoid Women's Ibadah Mode exact status.
 - [x] Resolved local notification taps navigate and clear the pending tap result.
+- [x] Android cold-start local notification taps route prayer, session, Quran,
+  and Dua payloads through the same safe resolver.
 - [x] Privacy docs are marked draft for legal/store review.
 - [x] Store privacy label drafts exist.
 - [x] No ads, tracking, analytics SDK, or crash SDK is added.
@@ -54,6 +56,7 @@ Status: Draft for release/store review.
 - [ ] `flutter build apk --debug`
 - [ ] `flutter run -d emulator-5554`
 - [ ] Real device notification permission QA.
+- [ ] iOS cold-start notification tap QA after iOS runtime is available.
 
 ## Not Included In This Milestone
 

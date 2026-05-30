@@ -103,10 +103,35 @@ Future<void> continueToHome(WidgetTester tester) async {
 
 Future<void> tapByKey(WidgetTester tester, Key key) async {
   final finder = find.byKey(key);
+  if (finder.evaluate().isEmpty) {
+    await scrollUntilFound(tester, finder);
+  }
   expect(finder, findsOneWidget);
-  await tester.ensureVisible(finder);
+  await Scrollable.ensureVisible(
+    tester.element(finder),
+    alignment: 0.35,
+    duration: Duration.zero,
+  );
+  await tester.pump();
   await tester.tap(finder);
   await tester.pumpAndSettle();
+}
+
+Future<void> scrollUntilFound(
+  WidgetTester tester,
+  Finder finder, {
+  int maxAttempts = 10,
+  double delta = 240,
+}) async {
+  final scrollable = find.byType(Scrollable);
+  for (var attempt = 0;
+      attempt < maxAttempts &&
+          finder.evaluate().isEmpty &&
+          scrollable.evaluate().isNotEmpty;
+      attempt += 1) {
+    await tester.drag(scrollable.first, Offset(0, -delta));
+    await tester.pumpAndSettle();
+  }
 }
 
 void expectNoFlutterErrors(WidgetTester tester) {

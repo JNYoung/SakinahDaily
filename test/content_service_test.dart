@@ -67,9 +67,9 @@ void main() {
 
   test('women privacy filter blocks sensitive lock-screen content', () {
     final items = service.lockScreenSafeSourceItems(
-      const ContentRequestContext(
+      ContentRequestContext(
         languageCode: 'en',
-        womenIbadahMode: WomenIbadahMode(enabled: true),
+        womenIbadahMode: const WomenIbadahMode(enabled: true),
         lockScreenSafe: true,
       ),
     );

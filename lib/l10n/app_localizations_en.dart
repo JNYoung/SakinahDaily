@@ -92,7 +92,55 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quran => 'Quran';
 
   @override
+  String get quranPageTitle => 'Quran';
+
+  @override
+  String get featuredAyah => 'Featured ayah';
+
+  @override
+  String get openAyah => 'Open ayah';
+
+  @override
+  String get quranVerseUnavailable => 'Quran verse unavailable';
+
+  @override
+  String get saveAyah => 'Save ayah';
+
+  @override
+  String get savedAyah => 'Saved ayah';
+
+  @override
+  String get quranVoiceOnlyTitle => 'Quran recitation is voice-only';
+
+  @override
+  String get quranVoiceOnlyBody =>
+      'Quran recitation uses approved voice assets only and does not rely on synthetic Quran audio.';
+
+  @override
+  String get noQuranTts => 'No Quran TTS';
+
+  @override
+  String get noQuranBgm => 'No background music under Quran recitation';
+
+  @override
   String get qibla => 'Qibla';
+
+  @override
+  String get qiblaTitle => 'Qibla direction';
+
+  @override
+  String get qiblaBearing => 'Qibla bearing';
+
+  @override
+  String get qiblaBasedOnSelectedLocation =>
+      'Qibla uses your selected prayer location.';
+
+  @override
+  String get qiblaChangeLocation => 'Change prayer location';
+
+  @override
+  String get qiblaNoGpsRequired =>
+      'Qibla uses your selected prayer location. Exact GPS is not required.';
 
   @override
   String get tonight => 'Tonight';
@@ -108,6 +156,60 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveTonight => 'Save tonight';
 
   @override
+  String get savedTonight => 'Saved tonight';
+
+  @override
+  String get sessionCompletedTitle => 'Session complete';
+
+  @override
+  String get sessionCompletedBody =>
+      'You completed this Sakinah session. Take a quiet moment before returning.';
+
+  @override
+  String get completedToday => 'Completed today';
+
+  @override
+  String get resumeSession => 'Resume';
+
+  @override
+  String get reviewSession => 'Review';
+
+  @override
+  String get localProgress => 'Local progress';
+
+  @override
+  String get currentStreak => 'Current streak';
+
+  @override
+  String get completedThisWeek => 'Completed this week';
+
+  @override
+  String get progressLocalOnly => 'Progress stays on this device only.';
+
+  @override
+  String get saveSession => 'Save session';
+
+  @override
+  String get sessionSaved => 'Session saved';
+
+  @override
+  String get openSavedItems => 'Open Saved Items';
+
+  @override
+  String get backHome => 'Back Home';
+
+  @override
+  String get sessionProgressHistory => 'Session progress history';
+
+  @override
+  String get sessionProgressHistoryNotes =>
+      'Session progress and completion history are stored locally only.';
+
+  @override
+  String get noGuaranteedOutcome =>
+      'No guaranteed spiritual outcome is claimed.';
+
+  @override
   String get dua => 'Dua';
 
   @override
@@ -120,6 +222,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get prayer => 'Prayer';
 
   @override
+  String get prayerLocation => 'Prayer location';
+
+  @override
+  String get manualPrayerLocationTitle => 'Manual prayer location';
+
+  @override
+  String get manualPrayerLocationBody =>
+      'Enter a prayer location manually. It is stored locally and used for prayer times and Qibla.';
+
+  @override
+  String get locationLabel => 'Location label';
+
+  @override
+  String get latitude => 'Latitude';
+
+  @override
+  String get longitude => 'Longitude';
+
+  @override
+  String get timezoneId => 'Timezone ID';
+
+  @override
+  String get saveLocation => 'Save location';
+
+  @override
+  String get invalidLatitude => 'Latitude must be between -90 and 90.';
+
+  @override
+  String get invalidLongitude => 'Longitude must be between -180 and 180.';
+
+  @override
+  String get locationSaved => 'Location saved';
+
+  @override
+  String get locationLocalOnlyNoGps =>
+      'Stored locally. No GPS permission is required.';
+
+  @override
   String get prayerMethod => 'Prayer method';
 
   @override
@@ -130,8 +270,62 @@ class AppLocalizationsEn extends AppLocalizations {
       'Permission is requested after explanation.';
 
   @override
+  String get notificationTapMalformed =>
+      'This notification could not be opened safely.';
+
+  @override
+  String get notificationTapFallbackPrayer => 'Opening prayer times.';
+
+  @override
+  String get notificationTapMissingContent =>
+      'This notification content is not available offline yet.';
+
+  @override
   String get womenModeSubtitle =>
       'Local-only by default. Sensitive reminder copy stays private.';
+
+  @override
+  String get localOnlyMode => 'Local-only mode';
+
+  @override
+  String get womenModePrivatePath => 'Private gentle path';
+
+  @override
+  String get womenModeHomeSupportBody =>
+      'Dua, dhikr, and reflection stay easy to reach. Your mode stays on this device.';
+
+  @override
+  String get womenModeSessionNoteTitle => 'Local-only mode';
+
+  @override
+  String get womenModeSessionNoteBody =>
+      'Your mode stays on this device. This session keeps a gentle worship-friendly path.';
+
+  @override
+  String get savedItems => 'Saved Items';
+
+  @override
+  String get savedItemsEmptyTitle => 'Nothing saved yet';
+
+  @override
+  String get savedItemsEmptyBody =>
+      'Saved items stay on this device for quick return later.';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get unsave => 'Unsave';
+
+  @override
+  String get removeSavedItem => 'Remove saved item';
+
+  @override
+  String get savedLocalOnly => 'Saved items stay on this device only.';
+
+  @override
+  String get savedItemsPrivacyNotes =>
+      'Saved locally. No account or sync in MVP.';
 
   @override
   String get privacy => 'Privacy';
@@ -139,6 +333,274 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacySubtitle =>
       'Women\'s mode data is not sent remotely in MVP.';
+
+  @override
+  String get privacyCenterTitle => 'Privacy Center';
+
+  @override
+  String get dataInventoryTitle => 'Data inventory';
+
+  @override
+  String get dataInventoryBody =>
+      'This inventory describes MVP client data and where it is stored.';
+
+  @override
+  String get dataOnDeviceTitle => 'Data we keep on this device';
+
+  @override
+  String get dataCanLeaveDeviceTitle => 'Data that can leave this device';
+
+  @override
+  String get localOnlyData =>
+      'Most preferences, prayer settings, women’s mode, and content cache stay on this device.';
+
+  @override
+  String get leavesDeviceData =>
+      'Remote content requests may include language, market, app version, and schema version.';
+
+  @override
+  String get womenModePrivacyTitle => 'Women\'s Ibadah Mode privacy';
+
+  @override
+  String get womenModePrivacyBody =>
+      'Women’s Ibadah Mode is designed local-first. Exact status is not sent with remote content requests.';
+
+  @override
+  String get prayerLocationPrivacyTitle => 'Prayer location privacy';
+
+  @override
+  String get prayerLocationPrivacyBody =>
+      'Prayer location uses manual or preset choices by default for prayer time calculation.';
+
+  @override
+  String get notificationPrivacyTitle => 'Notifications privacy';
+
+  @override
+  String get notificationPrivacyBody =>
+      'Prayer reminders are scheduled locally where possible, and sensitive women’s mode copy stays off the lock screen.';
+
+  @override
+  String get remoteContentPrivacyTitle => 'Remote content cache';
+
+  @override
+  String get remoteContentPrivacyBody =>
+      'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.';
+
+  @override
+  String get deleteLocalDataTitle => 'Delete local data';
+
+  @override
+  String get deleteLocalDataBody =>
+      'Reset app preferences, saved items, session progress, women’s mode state, local content cache, and scheduled reminders on this device.';
+
+  @override
+  String get deleteLocalDataKeepsSeed =>
+      'Bundled seed content and app files are kept. This does not contact a remote service.';
+
+  @override
+  String get deleteLocalDataConfirm => 'Delete local data';
+
+  @override
+  String get deleteLocalDataDeleting => 'Deleting...';
+
+  @override
+  String get deleteLocalDataDialogTitle => 'Confirm local reset';
+
+  @override
+  String get deleteLocalDataDialogBody =>
+      'This clears local preferences, saved items, session progress, cached bundles, and scheduled reminders on this device.';
+
+  @override
+  String get deleteLocalDataCancel => 'Cancel';
+
+  @override
+  String get deleteLocalDataSuccess =>
+      'Local data has been reset on this device.';
+
+  @override
+  String get storePrivacyDraftTitle => 'Store data safety summary';
+
+  @override
+  String get storePrivacyDraftBody =>
+      'Draft store declarations are documented for review before submission.';
+
+  @override
+  String get privacyPolicyDraftTitle => 'Privacy policy draft';
+
+  @override
+  String get privacyPolicyDraftBody =>
+      'A draft privacy policy exists for legal and store review.';
+
+  @override
+  String get storageLocalDevice => 'Local device';
+
+  @override
+  String get storageRemoteOptional => 'Remote request';
+
+  @override
+  String get storageNotCollected => 'Not collected';
+
+  @override
+  String get sensitivityLow => 'Low sensitivity';
+
+  @override
+  String get sensitivityMedium => 'Medium sensitivity';
+
+  @override
+  String get sensitivityHigh => 'High sensitivity';
+
+  @override
+  String get localOnlyShort => 'Local only';
+
+  @override
+  String get leavesDeviceShort => 'Leaves device';
+
+  @override
+  String get userCanDeleteShort => 'User can delete';
+
+  @override
+  String get privacyDataLanguagePreference => 'Language preference';
+
+  @override
+  String get privacyDataLanguagePreferenceNotes =>
+      'Stored locally and used to choose app language and content language.';
+
+  @override
+  String get privacyDataGenderModePreference => 'Gender mode preference';
+
+  @override
+  String get privacyDataGenderModePreferenceNotes =>
+      'Stored locally for client personalization in MVP.';
+
+  @override
+  String get privacyDataAudioPreference => 'Audio preference';
+
+  @override
+  String get privacyDataAudioPreferenceNotes =>
+      'Stored locally to choose recitation-only, guidance, or text-first behavior.';
+
+  @override
+  String get privacyDataPrayerSettings => 'Prayer settings';
+
+  @override
+  String get privacyDataPrayerSettingsNotes =>
+      'Stored locally for prayer time method and calculation settings.';
+
+  @override
+  String get privacyDataPrayerLocationPreset => 'Prayer location preset';
+
+  @override
+  String get privacyDataPrayerLocationPresetNotes =>
+      'Stored locally by default as a manual or preset location choice.';
+
+  @override
+  String get privacyDataNotificationEnabledState =>
+      'Notification enabled state';
+
+  @override
+  String get privacyDataNotificationEnabledStateNotes =>
+      'Stored locally to remember whether prayer reminders are enabled.';
+
+  @override
+  String get privacyDataWomenModeState => 'Women\'s Ibadah Mode state';
+
+  @override
+  String get privacyDataWomenModeStateNotes =>
+      'High sensitivity. Designed local-first, may adjust local UI recommendations, and is not sent to remote content APIs.';
+
+  @override
+  String get privacyDataLocalContentManifest => 'Local content manifest';
+
+  @override
+  String get privacyDataLocalContentManifestNotes =>
+      'Stored locally to know which approved bundles are active.';
+
+  @override
+  String get privacyDataLocalContentBundles => 'Local content bundles';
+
+  @override
+  String get privacyDataLocalContentBundlesNotes =>
+      'Stored locally after hash, schema, published, and approved checks.';
+
+  @override
+  String get privacyDataLocalRevokedContentIds => 'Local revoked content IDs';
+
+  @override
+  String get privacyDataLocalRevokedContentIdsNotes =>
+      'Stored locally so revoked content is hidden from the client.';
+
+  @override
+  String get privacyDataSavedItems => 'Saved items';
+
+  @override
+  String get privacyDataSavedItemsNotes =>
+      'Saved sessions, duas, dhikr, and verse references are stored locally only.';
+
+  @override
+  String get privacyDataSessionProgressHistory => 'Session progress history';
+
+  @override
+  String get privacyDataSessionProgressHistoryNotes =>
+      'Session progress and completion records store session IDs and timestamps locally only.';
+
+  @override
+  String get privacyDataLocalPushDebug => 'Local push payload debug data';
+
+  @override
+  String get privacyDataLocalPushDebugNotes =>
+      'No persistent client-side debug queue is collected in MVP.';
+
+  @override
+  String get privacyDataAudioPlaybackState => 'Audio playback state';
+
+  @override
+  String get privacyDataAudioPlaybackStateNotes =>
+      'No persistent playback history is collected in MVP.';
+
+  @override
+  String get privacyDataRemoteContentApiConfig =>
+      'Remote content API config state';
+
+  @override
+  String get privacyDataRemoteContentApiConfigNotes =>
+      'Provider and endpoint configuration may exist locally; tokens are never displayed in Privacy Center.';
+
+  @override
+  String get privacyDataRemoteContentRequestMetadata =>
+      'Remote content request metadata';
+
+  @override
+  String get remoteContentRequestMetadataNotes =>
+      'Requests may include language, market, app version, and schema version only.';
+
+  @override
+  String get privacyDataFutureAnalyticsCrash =>
+      'Future analytics or crash reporting';
+
+  @override
+  String get privacyDataFutureAnalyticsCrashNotes =>
+      'No analytics or crash-reporting SDK is implemented in MVP.';
+
+  @override
+  String get privacyDataAccountData => 'Account data';
+
+  @override
+  String get privacyDataAccountDataNotes =>
+      'Account login is not implemented in MVP.';
+
+  @override
+  String get privacyDataPaymentsSubscriptions => 'Payments and subscriptions';
+
+  @override
+  String get privacyDataPaymentsSubscriptionsNotes =>
+      'Payments and subscriptions are not implemented in MVP.';
+
+  @override
+  String get privacyDataAdsTracking => 'Ads or tracking';
+
+  @override
+  String get privacyDataAdsTrackingNotes =>
+      'Ads, tracking, and ATT prompts are not implemented in MVP.';
 
   @override
   String get source => 'Source';
@@ -164,6 +626,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get womenModeDescription =>
       'Adjust reminders with privacy and respect.';
+
+  @override
+  String get womenModeWhatChangesTitle => 'What changes locally';
+
+  @override
+  String get womenModeWhatChangesBody =>
+      'Home recommendations may become quieter and highlight dua, dhikr, and reflection. Daily sessions may show a private local-only note.';
+
+  @override
+  String get womenModeWhatStaysPrivateTitle =>
+      'What does not leave this device';
+
+  @override
+  String get womenModeWhatStaysPrivateBody =>
+      'Your exact mode is stored locally and is not sent with remote content requests.';
+
+  @override
+  String get womenModeReminderPrivacyBody =>
+      'Reminder text stays generic so lock-screen copy does not reveal private details.';
+
+  @override
+  String get womenModeTurnOffBody =>
+      'Turn this mode off by choosing Normal, or clear it from Privacy Center > Delete local data.';
+
+  @override
+  String get openPrivacyCenter => 'Open Privacy Center';
 
   @override
   String get todaysMode => 'Today\'s mode';

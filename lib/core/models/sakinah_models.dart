@@ -1109,7 +1109,7 @@ class CacheEntry {
 }
 
 class ContentRequestContext {
-  const ContentRequestContext({
+  ContentRequestContext({
     required this.languageCode,
     this.market = 'global',
     this.appVersion,
@@ -1118,9 +1118,8 @@ class ContentRequestContext {
     bool? womenModeEnabled,
     bool? hideCycleSensitiveLockScreenCopy,
   })  : womenModeEnabled = womenModeEnabled ?? womenIbadahMode.enabled,
-        hideCycleSensitiveLockScreenCopy =
-            hideCycleSensitiveLockScreenCopy ??
-                womenIbadahMode.hideCycleSensitiveLockScreenCopy;
+        hideCycleSensitiveLockScreenCopy = hideCycleSensitiveLockScreenCopy ??
+            womenIbadahMode.hideCycleSensitiveLockScreenCopy;
 
   final String languageCode;
   final String market;

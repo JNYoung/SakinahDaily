@@ -88,6 +88,10 @@ void main() {
 
     expect(find.text('Mode Ibadah Perempuan'), findsWidgets);
     expect(find.text('Data tetap lokal secara default'), findsOneWidget);
+    await scrollUntilFound(
+      tester,
+      find.text('Direkomendasikan sekarang'),
+    );
     expect(find.text('Direkomendasikan sekarang'), findsOneWidget);
     expect(find.text("Women's Ibadah Mode"), findsNothing);
     expect(find.text('Data stays local by default'), findsNothing);
@@ -114,6 +118,10 @@ void main() {
 
     expect(find.text('وضع عبادة النساء'), findsWidgets);
     expect(find.text('تبقى البيانات محلية افتراضيا'), findsOneWidget);
+    await scrollUntilFound(
+      tester,
+      find.text('موصى به الآن'),
+    );
     expect(find.text('موصى به الآن'), findsOneWidget);
     expect(find.text("Women's Ibadah Mode"), findsNothing);
     expect(find.text('Data stays local by default'), findsNothing);

@@ -51,11 +51,11 @@ void main() {
     });
     final client = _client(http);
 
-    await client.loadManifest(const ContentRequestContext(
+    await client.loadManifest(ContentRequestContext(
       languageCode: 'en',
       market: 'global',
       appVersion: '0.1.0',
-      womenIbadahMode: WomenIbadahMode(
+      womenIbadahMode: const WomenIbadahMode(
         enabled: true,
         status: WomenIbadahStatus.menstruating,
       ),
@@ -326,11 +326,11 @@ ContentApiConfig _config({String? token}) {
 }
 
 ContentRequestContext _context() {
-  return const ContentRequestContext(
+  return ContentRequestContext(
     languageCode: 'en',
     market: 'global',
     appVersion: '0.1.0',
-    womenIbadahMode: WomenIbadahMode(enabled: false),
+    womenIbadahMode: const WomenIbadahMode(enabled: false),
   );
 }
 
@@ -366,8 +366,8 @@ String _manifestJson({
     'schemaVersion': 1,
     'language': 'en',
     'market': 'global',
-    'generatedAt': '2026-05-21T00:00:00Z',
-    'expiresAt': '2026-05-22T00:00:00Z',
+    'generatedAt': '2099-05-21T00:00:00Z',
+    'expiresAt': '2099-05-22T00:00:00Z',
     'sourceCorpusVersions': {'quran': 'fixture-corpus-v1'},
     'revokedContentIds': revokedContentIds,
     'fallback': {'allowStale': true, 'maxStaleSeconds': 604800},
