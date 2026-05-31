@@ -47,7 +47,7 @@ Priority levels:
 | P0 | Prayer location and reminder reliability decision | Prayer reminders are core expectation across Muslim Pro, Athan, Pillars, Quran Majeed. | Manual/preset location works; broad notification toggle works; no device-location permission flow; no per-prayer control. | Decide release baseline: manual-only or device location. If device location is in v0.1, add permission explanation, fallback, tests, and QA. Add per-prayer enablement and lead-time offset after permission QA. |
 | P0 | Dua/Dhikr category filtering and search | Dhikr & Dua competitors make content discoverable by moment, need, and category. Current list will feel unfinished. | Implemented for local seed content: Dua and Dhikr now have category chips, search across source-backed text fields, and safe empty states. Dhikr seed items carry category metadata. | Extend the reviewed pack into the remaining PRD categories: Before sleep, Anxiety, Travel, Study/Work, Ramadan, and Women’s Ibadah. Keep search local/privacy-safe. |
 | P0 | Session completion habit loop | Quranly/Pillars-style habit loops drive retention. Sakinah's north star is weekly completed worship sessions. | Completion stores local history, save session, completed-today state, and a privacy-safe local daily reminder CTA. Notification settings now let users enable, disable, and reschedule the daily session reminder. | Add next-session suggestions after content pack breadth improves. Avoid leaderboard/gamification. |
-| P0 | Audio CTA truthfulness | Competitors with audio set user expectation. Empty audio URLs and no-op buttons hurt trust. | Quran audio metadata exists but URL/hash empty; Dua detail Listen/Repeat buttons are placeholders. | Before beta, either hide/disable audio CTAs with clear text-only copy or ingest approved licensed audio assets with hash validation. Quran remains no BGM and no generic TTS. |
+| P0 | Audio CTA truthfulness | Competitors with audio set user expectation. Empty audio URLs and no-op buttons hurt trust. | Quran audio metadata exists but URL/hash empty; Dua detail now shows clear text-only copy instead of no-op Listen/Repeat buttons. | Before beta, ingest approved licensed audio assets with hash validation or keep unavailable audio surfaces explicitly text-only. Quran remains no BGM and no generic TTS. |
 | P0 | Minimal Quran reader slice | Quran Majeed/Muslim Pro normalize full Quran access. Sakinah can stay session-led, but saved Quran routes need credible depth. | Quran entry/detail exists only for seed ayahs; no browse/search/surah list; source labels are production blockers. | Add an approved limited Quran slice for session verses plus a simple browse/search by verse reference. Defer full Quran reader until source corpus and translation rights are approved. |
 | P1 | Home/widget prayer surfaces | Pillars and Athan emphasize widgets and fast prayer access. | In-app Home countdown exists; no platform widgets or lock-screen surfaces. | Add Android home-screen widget or in-app compact prayer dashboard first. iOS widgets later. Keep payload copy privacy-safe. |
 | P1 | Hijri and Ramadan-light utilities | Major competitors support Islamic calendar and Ramadan. Indonesian/MENA users expect at least a respectful baseline. | Hijri date is mock/tunable; Ramadan is placeholder in content guidance. | Add Hijri date tuning, Ramadan content category, suhoor/iftar reminder design doc, and fasting-sensitive privacy review. Full Ramadan plan remains post-MVP. |
@@ -124,9 +124,11 @@ Acceptance:
 
 ### P0-E — Audio Scope Cleanup
 
+Status: Dua detail audio CTAs are deferred behind explicit text-only copy.
+
 Acceptance:
 
-- No visible audio button is a no-op.
+- Done: No visible Dua audio button is a no-op.
 - Quran audio uses approved asset metadata only.
 - Quran recitation cannot enable BGM.
 - If licensed assets are unavailable, text-only fallback is explicit and tested.

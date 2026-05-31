@@ -825,6 +825,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get repeatSlowly => 'كرر ببطء';
 
   @override
+  String get duaAudioUnavailableTitle => 'صوت الدعاء غير متاح';
+
+  @override
+  String get duaAudioUnavailableBody =>
+      'يبقى هذا الدعاء نصيا حتى تتم الموافقة على أصل صوتي مراجع.';
+
+  @override
   String get session => 'الجلسة';
 
   @override

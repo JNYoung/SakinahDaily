@@ -333,6 +333,9 @@ class SakinahLocalizations {
       'meaning': 'Meaning',
       'listen': 'Listen',
       'repeatSlowly': 'Repeat slowly',
+      'duaAudioUnavailableTitle': 'Dua audio unavailable',
+      'duaAudioUnavailableBody':
+          'This dua remains text-only until a reviewed audio asset is approved.',
       'session': 'Session',
       'sessionUnavailable': 'Session unavailable.',
       'next': 'Next',
@@ -671,6 +674,9 @@ class SakinahLocalizations {
       'meaning': 'Makna',
       'listen': 'Dengarkan',
       'repeatSlowly': 'Ulangi perlahan',
+      'duaAudioUnavailableTitle': 'Audio doa belum tersedia',
+      'duaAudioUnavailableBody':
+          'Doa ini tetap berbasis teks sampai aset audio yang ditinjau disetujui.',
       'session': 'Sesi',
       'sessionUnavailable': 'Sesi tidak tersedia.',
       'next': 'Berikutnya',
@@ -1002,6 +1008,9 @@ class SakinahLocalizations {
       'meaning': 'المعنى',
       'listen': 'استمع',
       'repeatSlowly': 'كرر ببطء',
+      'duaAudioUnavailableTitle': 'صوت الدعاء غير متاح',
+      'duaAudioUnavailableBody':
+          'يبقى هذا الدعاء نصيا حتى تتم الموافقة على أصل صوتي مراجع.',
       'session': 'الجلسة',
       'sessionUnavailable': 'الجلسة غير متاحة.',
       'next': 'التالي',

@@ -164,8 +164,8 @@ Completed:
 
 Open product links:
 
-- Detail actions “Listen” and “Repeat slowly” are UI placeholders and do not
-  play reviewed dua audio.
+- Dua detail no longer exposes no-op audio CTAs; it shows a text-only state
+  until reviewed dua audio assets are approved.
 - Reviewed content depth is still seed-level; no staging CMS publishing flow is
   connected for expanded dua packs.
 - Women’s Ibadah category curation remains limited to local policy notes rather
@@ -176,8 +176,8 @@ Open product links:
 Suggested next milestone:
 
 - Expand the reviewed Dua/Dhikr content pack now that discovery UX exists.
-- Either wire reviewed dua audio controls or mark the audio CTAs as deferred in
-  the release scope.
+- Wire reviewed dua audio controls only after assets, rights, and hashes are
+  approved.
 
 ## 6. Product Readiness Summary
 

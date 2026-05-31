@@ -835,6 +835,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get repeatSlowly => 'Repeat slowly';
 
   @override
+  String get duaAudioUnavailableTitle => 'Dua audio unavailable';
+
+  @override
+  String get duaAudioUnavailableBody =>
+      'This dua remains text-only until a reviewed audio asset is approved.';
+
+  @override
   String get session => 'Session';
 
   @override

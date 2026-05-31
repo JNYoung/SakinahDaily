@@ -39,6 +39,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - 2026-05-30 continuation adds local Dua/Dhikr category filters, search, Dhikr category metadata, safe empty states, and product research/progress updates for P0-C Discoverable Dua/Dhikr.
 - 2026-05-30 continuation adds the Daily Session completion Set daily reminder CTA, local daily session reminder preference, privacy-safe local notification payload, and P0-D product progress updates.
 - Branch `codex/session-reminder-time-settings` expands the Daily Session reminder from fixed 20:00 scheduling to a local user-selected time, adds Settings > Notification settings management, and lets users disable or reschedule the reminder without clearing prayer reminders.
+- Branch `codex/audio-cta-truthfulness` marks Dua detail audio as text-only until reviewed audio assets are approved, removing no-op Listen/Repeat buttons while keeping Quran no-BGM/text fallback rules intact.
 
 ## Current Validation Gate
 
