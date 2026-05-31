@@ -460,6 +460,48 @@ abstract class AppLocalizations {
   /// **'Open Saved Items'**
   String get openSavedItems;
 
+  /// No description provided for @setDailyReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Set daily reminder'**
+  String get setDailyReminder;
+
+  /// No description provided for @dailyReminderSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder set'**
+  String get dailyReminderSet;
+
+  /// No description provided for @manageDailyReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage daily reminder'**
+  String get manageDailyReminder;
+
+  /// No description provided for @sessionReminderPermissionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set daily reminder?'**
+  String get sessionReminderPermissionTitle;
+
+  /// No description provided for @sessionReminderPermissionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sakinah can schedule a local daily session reminder. The reminder text stays privacy-safe on the lock screen.'**
+  String get sessionReminderPermissionBody;
+
+  /// No description provided for @sessionReminderPermissionAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Set reminder'**
+  String get sessionReminderPermissionAllow;
+
+  /// No description provided for @sessionReminderPermissionNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get sessionReminderPermissionNotNow;
+
   /// No description provided for @backHome.
   ///
   /// In en, this message translates to:
@@ -687,6 +729,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Permission is requested after explanation.'**
   String get prayerReminderSubtitle;
+
+  /// No description provided for @notificationPermissionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable prayer reminders?'**
+  String get notificationPermissionTitle;
+
+  /// No description provided for @notificationPermissionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sakinah schedules local prayer reminders only after permission. Women\'s mode reminders stay privacy-safe on the lock screen.'**
+  String get notificationPermissionBody;
+
+  /// No description provided for @notificationPermissionAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable reminders'**
+  String get notificationPermissionAllow;
+
+  /// No description provided for @notificationPermissionNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notificationPermissionNotNow;
+
+  /// No description provided for @notificationPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off. You can enable them from system settings.'**
+  String get notificationPermissionDenied;
+
+  /// No description provided for @notificationScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Local prayer reminders are scheduled.'**
+  String get notificationScheduled;
+
+  /// No description provided for @notificationSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings'**
+  String get notificationSettingsTitle;
+
+  /// No description provided for @notificationSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage prayer and daily session reminders.'**
+  String get notificationSettingsSubtitle;
+
+  /// No description provided for @dailySessionReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily session reminder'**
+  String get dailySessionReminderTitle;
+
+  /// No description provided for @dailySessionReminderPrivacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Session reminders are scheduled locally and keep lock-screen text privacy-safe.'**
+  String get dailySessionReminderPrivacyNote;
+
+  /// No description provided for @reminderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time'**
+  String get reminderTime;
+
+  /// No description provided for @reminderTimeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time saved'**
+  String get reminderTimeSaved;
+
+  /// No description provided for @saveReminderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Save time'**
+  String get saveReminderTime;
+
+  /// No description provided for @reminderStatusOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get reminderStatusOn;
+
+  /// No description provided for @reminderStatusOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get reminderStatusOff;
 
   /// No description provided for @notificationTapMalformed.
   ///
@@ -1093,7 +1225,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyDataNotificationEnabledStateNotes.
   ///
   /// In en, this message translates to:
-  /// **'Stored locally to remember whether prayer reminders are enabled.'**
+  /// **'Stored locally to remember whether prayer and daily session reminders are enabled, plus the selected daily session reminder time.'**
   String get privacyDataNotificationEnabledStateNotes;
 
   /// No description provided for @privacyDataWomenModeState.

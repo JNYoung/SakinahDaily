@@ -92,6 +92,19 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
     await _commit(state.copyWith(notificationsEnabled: enabled));
   }
 
+  Future<void> setDailySessionReminderEnabled(bool enabled) async {
+    await _commit(state.copyWith(dailySessionReminderEnabled: enabled));
+  }
+
+  Future<void> setDailySessionReminderTime(int minutesAfterMidnight) async {
+    await _commit(
+      state.copyWith(
+        dailySessionReminderMinutesAfterMidnight:
+            sanitizeDailySessionReminderMinutes(minutesAfterMidnight),
+      ),
+    );
+  }
+
   Future<void> setWomenMode(bool enabled) async {
     final status = enabled
         ? (state.womenIbadahMode.status == WomenIbadahStatus.normal
@@ -211,8 +224,9 @@ final sessionProgressRepositoryProvider =
   return SessionProgressRepository(ref.watch(sessionProgressStoreProvider));
 });
 
-final sessionProgressControllerProvider = StateNotifierProvider<
-    SessionProgressController, SessionProgressState>((ref) {
+final sessionProgressControllerProvider =
+    StateNotifierProvider<SessionProgressController, SessionProgressState>(
+        (ref) {
   final controller = SessionProgressController(
     ref.watch(sessionProgressRepositoryProvider),
   );
@@ -345,8 +359,7 @@ class SessionProgressController extends StateNotifier<SessionProgressState> {
   }
 }
 
-final privacyDataInventoryProvider =
-    Provider<List<PrivacyDataCategory>>((ref) {
+final privacyDataInventoryProvider = Provider<List<PrivacyDataCategory>>((ref) {
   return PrivacyDataInventory.categories;
 });
 
@@ -395,8 +408,7 @@ final prayerCalculationServiceProvider = Provider<PrayerCalculationService>(
 
 final qiblaServiceProvider = Provider<QiblaService>((ref) => QiblaService());
 
-final womenModeContentPolicyProvider =
-    Provider<WomenModeContentPolicy>((ref) {
+final womenModeContentPolicyProvider = Provider<WomenModeContentPolicy>((ref) {
   return const WomenModeContentPolicy();
 });
 

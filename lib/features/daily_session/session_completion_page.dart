@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/saved_item.dart';
+import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -21,7 +22,8 @@ class SessionCompletionPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = SakinahLocalizations.of(context);
-    final languageCode = ref.watch(userPreferencesProvider).languageCode;
+    final preferences = ref.watch(userPreferencesProvider);
+    final languageCode = preferences.languageCode;
     final session = ref.watch(contentRepositoryProvider).getDailySession(
           sessionId,
         );
@@ -33,6 +35,12 @@ class SessionCompletionPage extends ConsumerWidget {
           item.itemType == SavedItemType.dailySession &&
           item.itemId == sessionId,
     );
+    final reminderTime = formatDailySessionReminderTime(
+      preferences.dailySessionReminderMinutesAfterMidnight,
+    );
+    final reminderLabel = preferences.dailySessionReminderEnabled
+        ? l10n.t('manageDailyReminder')
+        : '${l10n.t('setDailyReminder')} · $reminderTime';
 
     return LanguageAwareScaffold(
       title: l10n.t('sessionCompletedTitle'),
@@ -130,6 +138,27 @@ class SessionCompletionPage extends ConsumerWidget {
           ),
           const SizedBox(height: 10),
           PrimaryButton(
+            key: SakinahKeys.sessionCompletionReminderButton,
+            label: reminderLabel,
+            tonal: true,
+            icon: Icons.notifications_active_outlined,
+            onPressed: session == null
+                ? null
+                : preferences.dailySessionReminderEnabled
+                    ? () => context.go('/settings/notifications')
+                    : () async {
+                        await _setDailyReminder(
+                          context: context,
+                          ref: ref,
+                          l10n: l10n,
+                          session: session,
+                          languageCode: languageCode,
+                          preferences: preferences,
+                        );
+                      },
+          ),
+          const SizedBox(height: 10),
+          PrimaryButton(
             key: SakinahKeys.sessionCompletionSavedItemsButton,
             label: l10n.t('openSavedItems'),
             tonal: true,
@@ -138,6 +167,76 @@ class SessionCompletionPage extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+Future<void> _setDailyReminder({
+  required BuildContext context,
+  required WidgetRef ref,
+  required SakinahLocalizations l10n,
+  required DailySession session,
+  required String languageCode,
+  required UserPreferences preferences,
+}) async {
+  final accepted = await showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(l10n.t('sessionReminderPermissionTitle')),
+        content: Text(l10n.t('sessionReminderPermissionBody')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.t('sessionReminderPermissionNotNow')),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.t('sessionReminderPermissionAllow')),
+          ),
+        ],
+      );
+    },
+  );
+  if (accepted != true || !context.mounted) {
+    return;
+  }
+
+  final notificationService = ref.read(notificationServiceProvider);
+  final permissionGranted =
+      await notificationService.requestPermissionAfterExplanation();
+  if (!context.mounted) {
+    return;
+  }
+  if (!permissionGranted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.t('notificationPermissionDenied'))),
+    );
+    return;
+  }
+
+  final scheduled = await notificationService.scheduleDailySessionReminder(
+    session,
+    languageCode: languageCode,
+    minutesAfterMidnight: preferences.dailySessionReminderMinutesAfterMidnight,
+    womenIbadahMode: preferences.womenIbadahMode,
+  );
+  if (!context.mounted) {
+    return;
+  }
+  if (scheduled == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.t('notificationPermissionDenied'))),
+    );
+    return;
+  }
+
+  await ref
+      .read(userPreferencesProvider.notifier)
+      .setDailySessionReminderEnabled(true);
+  if (context.mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.t('dailyReminderSet'))),
     );
   }
 }

@@ -73,8 +73,8 @@ Suggested next milestone:
 
 ## 3. Daily Session Chain
 
-Product status: MVP functional; production content/audio and reminder loops are
-still incomplete.
+Product status: MVP functional with a locally manageable completion reminder
+loop; production content/audio depth remains incomplete.
 
 Completed:
 
@@ -82,7 +82,12 @@ Completed:
   Dhikr -> Completion.
 - Session progress resumes locally and completion history/streak summaries are
   local-only.
-- Completion page supports save session and open Saved Items.
+- Completion page supports save session, open Saved Items, and set a local daily
+  session reminder.
+- Settings exposes Notification settings where the daily session reminder can be
+  enabled, disabled, and rescheduled to a user-selected local time.
+- Daily session reminders use privacy-safe lock-screen copy and local
+  `daily_session` tap payloads that route back to the session.
 - Quran step enforces no BGM and no Quran TTS.
 - Dua step displays source and review status.
 - Women’s Mode can show local, privacy-safe support notes.
@@ -91,7 +96,6 @@ Completed:
 
 Open product links:
 
-- Completion page does not yet include the PRD’s “Set reminder” action.
 - There is only one seed session; a production beta needs a small reviewed
   session pack or staging CMS content.
 - Licensed Quran reciter audio is not bundled; current seed audio metadata uses
@@ -99,12 +103,14 @@ Open product links:
 - Offline audio cache validation, asset rights, and hash checks remain open.
 - Analytics is still a local stub; product metrics cannot be measured yet.
 - Session history is intentionally small and lacks filters or richer insights.
+- Reminder timing is user-selectable locally, but real-device notification
+  permission/OEM scheduling QA remains open.
 
 Suggested next milestone:
 
-- Add a privacy-safe “set daily reminder” completion CTA or explicitly defer it
-  from v0.1.
 - Prepare a reviewed seed/session content pack before store or beta QA.
+- Add next-session suggestions only after reviewed session content breadth
+  improves.
 - Add licensed audio asset ingestion only after rights and hashes are approved.
 
 ## 4. Quran Chain
@@ -178,7 +184,7 @@ Suggested next milestone:
 | Chain | Current release posture | Main blocker before beta/store |
 |---|---|---|
 | Prayer | Usable with manual/preset location | Device-location scope decision and reminder QA |
-| Daily Session | End-to-end seed flow works | Reviewed session pack, reminder CTA decision, licensed audio |
+| Daily Session | End-to-end seed flow and local manageable daily reminder | Reviewed session pack, real-device notification QA, licensed audio |
 | Quran | Safe local verse entry works | Approved source corpus and licensed reciter assets |
 | Dua / Dhikr | Local library/detail/save/search/category discovery works | Reviewed content depth, missing PRD categories, audio CTA decision |
 

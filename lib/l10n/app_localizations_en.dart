@@ -196,6 +196,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openSavedItems => 'Open Saved Items';
 
   @override
+  String get setDailyReminder => 'Set daily reminder';
+
+  @override
+  String get dailyReminderSet => 'Daily reminder set';
+
+  @override
+  String get manageDailyReminder => 'Manage daily reminder';
+
+  @override
+  String get sessionReminderPermissionTitle => 'Set daily reminder?';
+
+  @override
+  String get sessionReminderPermissionBody =>
+      'Sakinah can schedule a local daily session reminder. The reminder text stays privacy-safe on the lock screen.';
+
+  @override
+  String get sessionReminderPermissionAllow => 'Set reminder';
+
+  @override
+  String get sessionReminderPermissionNotNow => 'Not now';
+
+  @override
   String get backHome => 'Back Home';
 
   @override
@@ -313,6 +335,55 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get prayerReminderSubtitle =>
       'Permission is requested after explanation.';
+
+  @override
+  String get notificationPermissionTitle => 'Enable prayer reminders?';
+
+  @override
+  String get notificationPermissionBody =>
+      'Sakinah schedules local prayer reminders only after permission. Women\'s mode reminders stay privacy-safe on the lock screen.';
+
+  @override
+  String get notificationPermissionAllow => 'Enable reminders';
+
+  @override
+  String get notificationPermissionNotNow => 'Not now';
+
+  @override
+  String get notificationPermissionDenied =>
+      'Notifications are off. You can enable them from system settings.';
+
+  @override
+  String get notificationScheduled => 'Local prayer reminders are scheduled.';
+
+  @override
+  String get notificationSettingsTitle => 'Notification settings';
+
+  @override
+  String get notificationSettingsSubtitle =>
+      'Manage prayer and daily session reminders.';
+
+  @override
+  String get dailySessionReminderTitle => 'Daily session reminder';
+
+  @override
+  String get dailySessionReminderPrivacyNote =>
+      'Session reminders are scheduled locally and keep lock-screen text privacy-safe.';
+
+  @override
+  String get reminderTime => 'Reminder time';
+
+  @override
+  String get reminderTimeSaved => 'Reminder time saved';
+
+  @override
+  String get saveReminderTime => 'Save time';
+
+  @override
+  String get reminderStatusOn => 'On';
+
+  @override
+  String get reminderStatusOff => 'Off';
 
   @override
   String get notificationTapMalformed =>
@@ -544,7 +615,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'Stored locally to remember whether prayer reminders are enabled.';
+      'Stored locally to remember whether prayer and daily session reminders are enabled, plus the selected daily session reminder time.';
 
   @override
   String get privacyDataWomenModeState => 'Women\'s Ibadah Mode state';

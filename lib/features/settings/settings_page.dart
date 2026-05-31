@@ -127,6 +127,14 @@ class SettingsPage extends ConsumerWidget {
           ),
           const Divider(),
           SettingsTile(
+            key: SakinahKeys.settingsNotificationSettingsTile,
+            title: l10n.t('notificationSettingsTitle'),
+            subtitle: l10n.t('notificationSettingsSubtitle'),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => context.go('/settings/notifications'),
+          ),
+          const Divider(),
+          SettingsTile(
             key: SakinahKeys.settingsWomenModeTile,
             title: l10n.t('womenMode'),
             subtitle: l10n.t('womenModeSubtitle'),

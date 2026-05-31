@@ -195,6 +195,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openSavedItems => 'فتح العناصر المحفوظة';
 
   @override
+  String get setDailyReminder => 'ضبط تذكير يومي';
+
+  @override
+  String get dailyReminderSet => 'تم ضبط التذكير اليومي';
+
+  @override
+  String get manageDailyReminder => 'إدارة التذكير اليومي';
+
+  @override
+  String get sessionReminderPermissionTitle => 'ضبط تذكير يومي؟';
+
+  @override
+  String get sessionReminderPermissionBody =>
+      'يمكن لسكينة جدولة تذكير جلسة يومي محلي. يبقى نص التذكير آمنا على شاشة القفل.';
+
+  @override
+  String get sessionReminderPermissionAllow => 'ضبط التذكير';
+
+  @override
+  String get sessionReminderPermissionNotNow => 'ليس الآن';
+
+  @override
   String get backHome => 'العودة للرئيسية';
 
   @override
@@ -309,6 +331,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get prayerReminderSubtitle => 'يطلب الإذن بعد الشرح.';
+
+  @override
+  String get notificationPermissionTitle => 'تفعيل تذكيرات الصلاة؟';
+
+  @override
+  String get notificationPermissionBody =>
+      'تجدول سكينة تذكيرات صلاة محلية بعد الإذن فقط. تبقى تذكيرات وضع النساء آمنة على شاشة القفل.';
+
+  @override
+  String get notificationPermissionAllow => 'تفعيل التذكيرات';
+
+  @override
+  String get notificationPermissionNotNow => 'ليس الآن';
+
+  @override
+  String get notificationPermissionDenied =>
+      'الإشعارات متوقفة. يمكنك تفعيلها من إعدادات النظام.';
+
+  @override
+  String get notificationScheduled => 'تم جدولة تذكيرات الصلاة المحلية.';
+
+  @override
+  String get notificationSettingsTitle => 'إعدادات الإشعارات';
+
+  @override
+  String get notificationSettingsSubtitle =>
+      'إدارة تذكيرات الصلاة والجلسة اليومية.';
+
+  @override
+  String get dailySessionReminderTitle => 'تذكير الجلسة اليومية';
+
+  @override
+  String get dailySessionReminderPrivacyNote =>
+      'تجدول تذكيرات الجلسة محليا ويبقى نص شاشة القفل آمنا للخصوصية.';
+
+  @override
+  String get reminderTime => 'وقت التذكير';
+
+  @override
+  String get reminderTimeSaved => 'تم حفظ وقت التذكير';
+
+  @override
+  String get saveReminderTime => 'حفظ الوقت';
+
+  @override
+  String get reminderStatusOn => 'مفعل';
+
+  @override
+  String get reminderStatusOff => 'متوقف';
 
   @override
   String get notificationTapMalformed => 'تعذر فتح هذا الإشعار بأمان.';
@@ -537,7 +608,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة مفعلة.';
+      'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة والجلسة اليومية مفعلة، مع وقت تذكير الجلسة اليومي المختار.';
 
   @override
   String get privacyDataWomenModeState => 'حالة وضع عبادة النساء';

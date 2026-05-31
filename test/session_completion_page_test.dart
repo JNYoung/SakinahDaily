@@ -1,8 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/models/saved_item.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
+import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -22,8 +25,10 @@ void main() {
 
     expect(find.byKey(SakinahKeys.sessionCompletionPage), findsOneWidget);
     expect(find.text('Session complete'), findsWidgets);
-    expect(find.textContaining('Progress stays on this device'), findsOneWidget);
-    expect(find.textContaining('No guaranteed spiritual outcome'), findsOneWidget);
+    expect(
+        find.textContaining('Progress stays on this device'), findsOneWidget);
+    expect(
+        find.textContaining('No guaranteed spiritual outcome'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 
@@ -49,6 +54,50 @@ void main() {
     expect(saved, hasLength(1));
     expect(saved.single.itemType, SavedItemType.dailySession);
     expect(saved.single.itemId, 'session_morning_ease');
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Set daily reminder from completion page stores local preference',
+      (tester) async {
+    final progressStore = InMemorySessionProgressStore();
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub();
+    await UserPreferencesRepository(preferencesStore).save(
+      UserPreferences.defaults().copyWith(
+        dailySessionReminderMinutesAfterMidnight: 21 * 60 + 15,
+      ),
+    );
+    await SessionProgressRepository(progressStore).markCompleted(_record());
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/session/session_morning_ease/completed',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      sessionProgressStore: progressStore,
+      notificationService: notifications,
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.sessionCompletionReminderButton);
+    expect(find.text('Set daily reminder?'), findsOneWidget);
+
+    await tester.tap(find.text('Set reminder'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Daily reminder set'), findsWidgets);
+    final preferences = await UserPreferencesRepository(
+      preferencesStore,
+    ).load();
+    expect(preferences.dailySessionReminderEnabled, isTrue);
+    expect(preferences.dailySessionReminderMinutesAfterMidnight, 21 * 60 + 15);
+    expect(notifications.dailySessionReminder, isNotNull);
+    expect(notifications.dailySessionReminder!.time.hour, 21);
+    expect(notifications.dailySessionReminder!.time.minute, 15);
+    expect(
+      notifications.dailySessionReminder!.payload,
+      contains('"type":"daily_session"'),
+    );
     expectNoFlutterErrors(tester);
   });
 }

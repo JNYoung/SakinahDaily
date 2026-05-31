@@ -196,6 +196,28 @@ class AppLocalizationsId extends AppLocalizations {
   String get openSavedItems => 'Buka Item Tersimpan';
 
   @override
+  String get setDailyReminder => 'Atur pengingat harian';
+
+  @override
+  String get dailyReminderSet => 'Pengingat harian aktif';
+
+  @override
+  String get manageDailyReminder => 'Kelola pengingat harian';
+
+  @override
+  String get sessionReminderPermissionTitle => 'Atur pengingat harian?';
+
+  @override
+  String get sessionReminderPermissionBody =>
+      'Sakinah dapat menjadwalkan pengingat sesi harian lokal. Teks pengingat tetap aman untuk layar terkunci.';
+
+  @override
+  String get sessionReminderPermissionAllow => 'Atur pengingat';
+
+  @override
+  String get sessionReminderPermissionNotNow => 'Nanti saja';
+
+  @override
   String get backHome => 'Kembali ke Beranda';
 
   @override
@@ -312,6 +334,56 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get prayerReminderSubtitle => 'Izin diminta setelah penjelasan.';
+
+  @override
+  String get notificationPermissionTitle => 'Aktifkan pengingat shalat?';
+
+  @override
+  String get notificationPermissionBody =>
+      'Sakinah menjadwalkan pengingat shalat lokal hanya setelah izin. Pengingat mode perempuan tetap aman untuk layar terkunci.';
+
+  @override
+  String get notificationPermissionAllow => 'Aktifkan pengingat';
+
+  @override
+  String get notificationPermissionNotNow => 'Nanti saja';
+
+  @override
+  String get notificationPermissionDenied =>
+      'Notifikasi mati. Anda dapat mengaktifkannya dari pengaturan sistem.';
+
+  @override
+  String get notificationScheduled =>
+      'Pengingat shalat lokal telah dijadwalkan.';
+
+  @override
+  String get notificationSettingsTitle => 'Pengaturan notifikasi';
+
+  @override
+  String get notificationSettingsSubtitle =>
+      'Kelola pengingat shalat dan sesi harian.';
+
+  @override
+  String get dailySessionReminderTitle => 'Pengingat sesi harian';
+
+  @override
+  String get dailySessionReminderPrivacyNote =>
+      'Pengingat sesi dijadwalkan lokal dan teks layar terkunci tetap aman untuk privasi.';
+
+  @override
+  String get reminderTime => 'Waktu pengingat';
+
+  @override
+  String get reminderTimeSaved => 'Waktu pengingat tersimpan';
+
+  @override
+  String get saveReminderTime => 'Simpan waktu';
+
+  @override
+  String get reminderStatusOn => 'Aktif';
+
+  @override
+  String get reminderStatusOff => 'Nonaktif';
 
   @override
   String get notificationTapMalformed =>
@@ -543,7 +615,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'Disimpan lokal untuk mengingat apakah pengingat shalat aktif.';
+      'Disimpan lokal untuk mengingat apakah pengingat shalat dan sesi harian aktif, termasuk waktu pengingat sesi harian yang dipilih.';
 
   @override
   String get privacyDataWomenModeState => 'Status Mode Ibadah Perempuan';
