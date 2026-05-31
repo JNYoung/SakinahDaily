@@ -91,6 +91,7 @@ class SakinahLocalizations {
       'openSavedItems': 'Open Saved Items',
       'setDailyReminder': 'Set daily reminder',
       'dailyReminderSet': 'Daily reminder set',
+      'manageDailyReminder': 'Manage daily reminder',
       'sessionReminderPermissionTitle': 'Set daily reminder?',
       'sessionReminderPermissionBody':
           'Sakinah can schedule a local daily session reminder. The reminder text stays privacy-safe on the lock screen.',
@@ -137,6 +138,17 @@ class SakinahLocalizations {
       'prayerMethod': 'Prayer method',
       'prayerReminders': 'Prayer reminders',
       'prayerReminderSubtitle': 'Permission is requested after explanation.',
+      'notificationSettingsTitle': 'Notification settings',
+      'notificationSettingsSubtitle':
+          'Manage prayer and daily session reminders.',
+      'dailySessionReminderTitle': 'Daily session reminder',
+      'dailySessionReminderPrivacyNote':
+          'Session reminders are scheduled locally and keep lock-screen text privacy-safe.',
+      'reminderTime': 'Reminder time',
+      'reminderTimeSaved': 'Reminder time saved',
+      'saveReminderTime': 'Save time',
+      'reminderStatusOn': 'On',
+      'reminderStatusOff': 'Off',
       'notificationPermissionTitle': 'Enable prayer reminders?',
       'notificationPermissionBody':
           "Sakinah schedules local prayer reminders only after permission. Women's mode reminders stay privacy-safe on the lock screen.",
@@ -236,7 +248,7 @@ class SakinahLocalizations {
           'Stored locally by default as a manual or preset location choice.',
       'privacyDataNotificationEnabledState': 'Notification enabled state',
       'privacyDataNotificationEnabledStateNotes':
-          'Stored locally to remember whether prayer and daily session reminders are enabled.',
+          'Stored locally to remember whether prayer and daily session reminders are enabled, plus the selected daily session reminder time.',
       'privacyDataWomenModeState': "Women's Ibadah Mode state",
       'privacyDataWomenModeStateNotes':
           'High sensitivity. Designed local-first, may adjust local UI recommendations, and is not sent to remote content APIs.',
@@ -417,6 +429,7 @@ class SakinahLocalizations {
       'openSavedItems': 'Buka Item Tersimpan',
       'setDailyReminder': 'Atur pengingat harian',
       'dailyReminderSet': 'Pengingat harian aktif',
+      'manageDailyReminder': 'Kelola pengingat harian',
       'sessionReminderPermissionTitle': 'Atur pengingat harian?',
       'sessionReminderPermissionBody':
           'Sakinah dapat menjadwalkan pengingat sesi harian lokal. Teks pengingat tetap aman untuk layar terkunci.',
@@ -462,6 +475,17 @@ class SakinahLocalizations {
       'prayerMethod': 'Metode shalat',
       'prayerReminders': 'Pengingat shalat',
       'prayerReminderSubtitle': 'Izin diminta setelah penjelasan.',
+      'notificationSettingsTitle': 'Pengaturan notifikasi',
+      'notificationSettingsSubtitle':
+          'Kelola pengingat shalat dan sesi harian.',
+      'dailySessionReminderTitle': 'Pengingat sesi harian',
+      'dailySessionReminderPrivacyNote':
+          'Pengingat sesi dijadwalkan lokal dan teks layar terkunci tetap aman untuk privasi.',
+      'reminderTime': 'Waktu pengingat',
+      'reminderTimeSaved': 'Waktu pengingat tersimpan',
+      'saveReminderTime': 'Simpan waktu',
+      'reminderStatusOn': 'Aktif',
+      'reminderStatusOff': 'Nonaktif',
       'notificationPermissionTitle': 'Aktifkan pengingat shalat?',
       'notificationPermissionBody':
           'Sakinah menjadwalkan pengingat shalat lokal hanya setelah izin. Pengingat mode perempuan tetap aman untuk layar terkunci.',
@@ -562,7 +586,7 @@ class SakinahLocalizations {
           'Disimpan lokal secara default sebagai pilihan lokasi manual atau preset.',
       'privacyDataNotificationEnabledState': 'Status notifikasi aktif',
       'privacyDataNotificationEnabledStateNotes':
-          'Disimpan lokal untuk mengingat apakah pengingat shalat dan sesi harian aktif.',
+          'Disimpan lokal untuk mengingat apakah pengingat shalat dan sesi harian aktif, termasuk waktu pengingat sesi harian yang dipilih.',
       'privacyDataWomenModeState': 'Status Mode Ibadah Perempuan',
       'privacyDataWomenModeStateNotes':
           'Sensitivitas tinggi. Dirancang lokal terlebih dahulu, dapat menyesuaikan rekomendasi UI lokal, dan tidak dikirim ke API konten jarak jauh.',
@@ -740,6 +764,7 @@ class SakinahLocalizations {
       'openSavedItems': 'فتح العناصر المحفوظة',
       'setDailyReminder': 'ضبط تذكير يومي',
       'dailyReminderSet': 'تم ضبط التذكير اليومي',
+      'manageDailyReminder': 'إدارة التذكير اليومي',
       'sessionReminderPermissionTitle': 'ضبط تذكير يومي؟',
       'sessionReminderPermissionBody':
           'يمكن لسكينة جدولة تذكير جلسة يومي محلي. يبقى نص التذكير آمنا على شاشة القفل.',
@@ -785,6 +810,16 @@ class SakinahLocalizations {
       'prayerMethod': 'طريقة الصلاة',
       'prayerReminders': 'تذكيرات الصلاة',
       'prayerReminderSubtitle': 'يطلب الإذن بعد الشرح.',
+      'notificationSettingsTitle': 'إعدادات الإشعارات',
+      'notificationSettingsSubtitle': 'إدارة تذكيرات الصلاة والجلسة اليومية.',
+      'dailySessionReminderTitle': 'تذكير الجلسة اليومية',
+      'dailySessionReminderPrivacyNote':
+          'تجدول تذكيرات الجلسة محليا ويبقى نص شاشة القفل آمنا للخصوصية.',
+      'reminderTime': 'وقت التذكير',
+      'reminderTimeSaved': 'تم حفظ وقت التذكير',
+      'saveReminderTime': 'حفظ الوقت',
+      'reminderStatusOn': 'مفعل',
+      'reminderStatusOff': 'متوقف',
       'notificationPermissionTitle': 'تفعيل تذكيرات الصلاة؟',
       'notificationPermissionBody':
           'تجدول سكينة تذكيرات صلاة محلية بعد الإذن فقط. تبقى تذكيرات وضع النساء آمنة على شاشة القفل.',
@@ -883,7 +918,7 @@ class SakinahLocalizations {
           'يخزن محليا افتراضيا كاختيار يدوي أو جاهز للموقع.',
       'privacyDataNotificationEnabledState': 'حالة تفعيل الإشعارات',
       'privacyDataNotificationEnabledStateNotes':
-          'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة والجلسة اليومية مفعلة.',
+          'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة والجلسة اليومية مفعلة، مع وقت تذكير الجلسة اليومي المختار.',
       'privacyDataWomenModeState': 'حالة وضع عبادة النساء',
       'privacyDataWomenModeStateNotes':
           'حساسية عالية. صممت محلية أولا، وقد تضبط توصيات الواجهة المحلية، ولا ترسل إلى واجهات المحتوى عن بعد.',

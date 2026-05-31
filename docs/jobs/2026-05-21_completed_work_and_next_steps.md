@@ -38,6 +38,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - 2026-05-30 continuation adds cold-start notification launch payload handoff, Android emulator validation for prayer/session/Quran/Dua routes, and a product requirements progress document for those four chains.
 - 2026-05-30 continuation adds local Dua/Dhikr category filters, search, Dhikr category metadata, safe empty states, and product research/progress updates for P0-C Discoverable Dua/Dhikr.
 - 2026-05-30 continuation adds the Daily Session completion Set daily reminder CTA, local daily session reminder preference, privacy-safe local notification payload, and P0-D product progress updates.
+- Branch `codex/session-reminder-time-settings` expands the Daily Session reminder from fixed 20:00 scheduling to a local user-selected time, adds Settings > Notification settings management, and lets users disable or reschedule the reminder without clearing prayer reminders.
 
 ## Current Validation Gate
 
@@ -64,7 +65,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 12. Next product milestone: decide whether v0.1 release baseline is manual-only location, seed-only content, and deferred audio CTAs, or whether device location, staging CMS content, and licensed audio should enter the next sprint.
 13. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
 14. Next content milestone: expand the reviewed Dua/Dhikr pack into the remaining PRD categories now that local discovery UX exists.
-15. Next habit-loop milestone: decide whether v0.1 needs user-selectable daily session reminder timing and next-session suggestions.
+15. Next habit-loop milestone: add next-session suggestions after reviewed session content breadth improves.
 
 ## Handoff Notes
 

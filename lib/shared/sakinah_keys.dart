@@ -68,6 +68,20 @@ abstract final class SakinahKeys {
   static const settingsPrivacyTile = ValueKey<String>('settings_privacy_tile');
   static const settingsSavedItemsTile =
       ValueKey<String>('settings_saved_items_tile');
+  static const settingsNotificationSettingsTile =
+      ValueKey<String>('settings_notification_settings_tile');
+  static const notificationSettingsPage =
+      ValueKey<String>('notification_settings_page');
+  static const settingsDailySessionReminderSwitch =
+      ValueKey<String>('settings_daily_session_reminder_switch');
+  static const settingsDailySessionReminderTimeButton =
+      ValueKey<String>('settings_daily_session_reminder_time_button');
+  static const settingsDailySessionReminderHourDropdown =
+      ValueKey<String>('settings_daily_session_reminder_hour_dropdown');
+  static const settingsDailySessionReminderMinuteDropdown =
+      ValueKey<String>('settings_daily_session_reminder_minute_dropdown');
+  static const settingsDailySessionReminderTimeSaveButton =
+      ValueKey<String>('settings_daily_session_reminder_time_save_button');
   static const settingsPrayerLocationDropdown =
       ValueKey<String>('settings_prayer_location_dropdown');
   static const settingsPrayerMethodDropdown =

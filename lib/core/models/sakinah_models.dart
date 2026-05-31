@@ -599,6 +599,27 @@ class WomenIbadahMode {
   }
 }
 
+const defaultDailySessionReminderMinutesAfterMidnight = 20 * 60;
+const _minutesPerDay = 24 * 60;
+
+int sanitizeDailySessionReminderMinutes(int minutesAfterMidnight) {
+  if (minutesAfterMidnight < 0) {
+    return 0;
+  }
+  if (minutesAfterMidnight >= _minutesPerDay) {
+    return _minutesPerDay - 1;
+  }
+  return minutesAfterMidnight;
+}
+
+String formatDailySessionReminderTime(int minutesAfterMidnight) {
+  final minutes = sanitizeDailySessionReminderMinutes(minutesAfterMidnight);
+  final hour = minutes ~/ 60;
+  final minute = minutes % 60;
+  return '${hour.toString().padLeft(2, '0')}:'
+      '${minute.toString().padLeft(2, '0')}';
+}
+
 class UserPreferences {
   const UserPreferences({
     required this.languageCode,
@@ -608,7 +629,12 @@ class UserPreferences {
     required this.womenIbadahMode,
     this.notificationsEnabled = false,
     this.dailySessionReminderEnabled = false,
-  });
+    this.dailySessionReminderMinutesAfterMidnight =
+        defaultDailySessionReminderMinutesAfterMidnight,
+  }) : assert(
+          dailySessionReminderMinutesAfterMidnight >= 0 &&
+              dailySessionReminderMinutesAfterMidnight < _minutesPerDay,
+        );
 
   final String languageCode;
   final GenderMode genderMode;
@@ -617,6 +643,7 @@ class UserPreferences {
   final WomenIbadahMode womenIbadahMode;
   final bool notificationsEnabled;
   final bool dailySessionReminderEnabled;
+  final int dailySessionReminderMinutesAfterMidnight;
 
   factory UserPreferences.defaults() {
     return const UserPreferences(
@@ -641,6 +668,7 @@ class UserPreferences {
     WomenIbadahMode? womenIbadahMode,
     bool? notificationsEnabled,
     bool? dailySessionReminderEnabled,
+    int? dailySessionReminderMinutesAfterMidnight,
   }) {
     return UserPreferences(
       languageCode: languageCode ?? this.languageCode,
@@ -651,6 +679,12 @@ class UserPreferences {
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       dailySessionReminderEnabled:
           dailySessionReminderEnabled ?? this.dailySessionReminderEnabled,
+      dailySessionReminderMinutesAfterMidnight:
+          dailySessionReminderMinutesAfterMidnight == null
+              ? this.dailySessionReminderMinutesAfterMidnight
+              : sanitizeDailySessionReminderMinutes(
+                  dailySessionReminderMinutesAfterMidnight,
+                ),
     );
   }
 
@@ -662,6 +696,8 @@ class UserPreferences {
         'womenIbadahMode': womenIbadahMode.toJson(),
         'notificationsEnabled': notificationsEnabled,
         'dailySessionReminderEnabled': dailySessionReminderEnabled,
+        'dailySessionReminderMinutesAfterMidnight':
+            dailySessionReminderMinutesAfterMidnight,
       };
 
   factory UserPreferences.fromJson(Map<String, dynamic> json) {
@@ -682,6 +718,11 @@ class UserPreferences {
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? false,
       dailySessionReminderEnabled:
           json['dailySessionReminderEnabled'] as bool? ?? false,
+      dailySessionReminderMinutesAfterMidnight:
+          sanitizeDailySessionReminderMinutes(
+        json['dailySessionReminderMinutesAfterMidnight'] as int? ??
+            defaultDailySessionReminderMinutesAfterMidnight,
+      ),
     );
   }
 }

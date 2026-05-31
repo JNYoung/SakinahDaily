@@ -96,6 +96,15 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
     await _commit(state.copyWith(dailySessionReminderEnabled: enabled));
   }
 
+  Future<void> setDailySessionReminderTime(int minutesAfterMidnight) async {
+    await _commit(
+      state.copyWith(
+        dailySessionReminderMinutesAfterMidnight:
+            sanitizeDailySessionReminderMinutes(minutesAfterMidnight),
+      ),
+    );
+  }
+
   Future<void> setWomenMode(bool enabled) async {
     final status = enabled
         ? (state.womenIbadahMode.status == WomenIbadahStatus.normal

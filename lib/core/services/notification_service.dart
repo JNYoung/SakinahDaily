@@ -145,8 +145,10 @@ abstract class NotificationService {
   Future<ScheduledDailySessionReminder?> scheduleDailySessionReminder(
     DailySession session, {
     String languageCode = 'en',
+    int minutesAfterMidnight = defaultDailySessionReminderMinutesAfterMidnight,
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   });
+  Future<void> cancelDailySessionReminder();
   Future<void> cancelAll();
 }
 
@@ -159,6 +161,11 @@ class LocalNotificationServiceStub implements NotificationService {
   @override
   Future<void> cancelAll() async {
     scheduled.clear();
+    dailySessionReminder = null;
+  }
+
+  @override
+  Future<void> cancelDailySessionReminder() async {
     dailySessionReminder = null;
   }
 
@@ -212,6 +219,7 @@ class LocalNotificationServiceStub implements NotificationService {
   Future<ScheduledDailySessionReminder?> scheduleDailySessionReminder(
     DailySession session, {
     String languageCode = 'en',
+    int minutesAfterMidnight = defaultDailySessionReminderMinutesAfterMidnight,
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   }) async {
     if (!permissionGranted) {
@@ -223,7 +231,9 @@ class LocalNotificationServiceStub implements NotificationService {
     );
     dailySessionReminder = ScheduledDailySessionReminder(
       sessionId: session.id,
-      time: nextDailySessionReminderTime(),
+      time: nextDailySessionReminderTime(
+        minutesAfterMidnight: minutesAfterMidnight,
+      ),
       title: copy.title,
       body: copy.body,
       payload: dailySessionNotificationPayload(session.id),
@@ -249,6 +259,12 @@ class FlutterLocalNotificationService implements NotificationService {
     await _ensureInitialized();
     await _plugin.cancelAllPendingNotifications();
     await _plugin.cancelAll();
+  }
+
+  @override
+  Future<void> cancelDailySessionReminder() async {
+    await _ensureInitialized();
+    await _plugin.cancel(id: _dailySessionNotificationId);
   }
 
   @override
@@ -353,6 +369,7 @@ class FlutterLocalNotificationService implements NotificationService {
   Future<ScheduledDailySessionReminder?> scheduleDailySessionReminder(
     DailySession session, {
     String languageCode = 'en',
+    int minutesAfterMidnight = defaultDailySessionReminderMinutesAfterMidnight,
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   }) async {
     if (!_permissionGranted) {
@@ -366,7 +383,9 @@ class FlutterLocalNotificationService implements NotificationService {
       );
       final reminder = ScheduledDailySessionReminder(
         sessionId: session.id,
-        time: nextDailySessionReminderTime(),
+        time: nextDailySessionReminderTime(
+          minutesAfterMidnight: minutesAfterMidnight,
+        ),
         title: copy.title,
         body: copy.body,
         payload: dailySessionNotificationPayload(session.id),
@@ -469,10 +488,20 @@ String dailySessionNotificationPayload(String sessionId) {
   );
 }
 
-DateTime nextDailySessionReminderTime() {
-  final now = DateTime.now();
-  final todayReminder = DateTime(now.year, now.month, now.day, 20);
-  if (todayReminder.isAfter(now)) {
+DateTime nextDailySessionReminderTime({
+  int minutesAfterMidnight = defaultDailySessionReminderMinutesAfterMidnight,
+  DateTime? now,
+}) {
+  final current = now ?? DateTime.now();
+  final minutes = sanitizeDailySessionReminderMinutes(minutesAfterMidnight);
+  final todayReminder = DateTime(
+    current.year,
+    current.month,
+    current.day,
+    minutes ~/ 60,
+    minutes % 60,
+  );
+  if (todayReminder.isAfter(current)) {
     return todayReminder;
   }
   return todayReminder.add(const Duration(days: 1));

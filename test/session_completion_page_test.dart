@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/models/saved_item.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
@@ -61,6 +62,11 @@ void main() {
     final progressStore = InMemorySessionProgressStore();
     final preferencesStore = InMemoryUserPreferencesStore();
     final notifications = LocalNotificationServiceStub();
+    await UserPreferencesRepository(preferencesStore).save(
+      UserPreferences.defaults().copyWith(
+        dailySessionReminderMinutesAfterMidnight: 21 * 60 + 15,
+      ),
+    );
     await SessionProgressRepository(progressStore).markCompleted(_record());
 
     await pumpSakinahApp(
@@ -84,7 +90,10 @@ void main() {
       preferencesStore,
     ).load();
     expect(preferences.dailySessionReminderEnabled, isTrue);
+    expect(preferences.dailySessionReminderMinutesAfterMidnight, 21 * 60 + 15);
     expect(notifications.dailySessionReminder, isNotNull);
+    expect(notifications.dailySessionReminder!.time.hour, 21);
+    expect(notifications.dailySessionReminder!.time.minute, 15);
     expect(
       notifications.dailySessionReminder!.payload,
       contains('"type":"daily_session"'),

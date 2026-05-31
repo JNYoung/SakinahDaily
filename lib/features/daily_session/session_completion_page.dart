@@ -35,6 +35,12 @@ class SessionCompletionPage extends ConsumerWidget {
           item.itemType == SavedItemType.dailySession &&
           item.itemId == sessionId,
     );
+    final reminderTime = formatDailySessionReminderTime(
+      preferences.dailySessionReminderMinutesAfterMidnight,
+    );
+    final reminderLabel = preferences.dailySessionReminderEnabled
+        ? l10n.t('manageDailyReminder')
+        : '${l10n.t('setDailyReminder')} · $reminderTime';
 
     return LanguageAwareScaffold(
       title: l10n.t('sessionCompletedTitle'),
@@ -133,14 +139,13 @@ class SessionCompletionPage extends ConsumerWidget {
           const SizedBox(height: 10),
           PrimaryButton(
             key: SakinahKeys.sessionCompletionReminderButton,
-            label: preferences.dailySessionReminderEnabled
-                ? l10n.t('dailyReminderSet')
-                : l10n.t('setDailyReminder'),
+            label: reminderLabel,
             tonal: true,
             icon: Icons.notifications_active_outlined,
-            onPressed:
-                session == null || preferences.dailySessionReminderEnabled
-                    ? null
+            onPressed: session == null
+                ? null
+                : preferences.dailySessionReminderEnabled
+                    ? () => context.go('/settings/notifications')
                     : () async {
                         await _setDailyReminder(
                           context: context,
@@ -213,6 +218,7 @@ Future<void> _setDailyReminder({
   final scheduled = await notificationService.scheduleDailySessionReminder(
     session,
     languageCode: languageCode,
+    minutesAfterMidnight: preferences.dailySessionReminderMinutesAfterMidnight,
     womenIbadahMode: preferences.womenIbadahMode,
   );
   if (!context.mounted) {

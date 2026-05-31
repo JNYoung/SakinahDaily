@@ -124,6 +124,7 @@ void main() {
     final scheduled = await service.scheduleDailySessionReminder(
       session,
       languageCode: 'en',
+      minutesAfterMidnight: 21 * 60 + 15,
       womenIbadahMode: const WomenIbadahMode(
         enabled: true,
         status: WomenIbadahStatus.menstruating,
@@ -132,7 +133,9 @@ void main() {
 
     expect(scheduled, isNotNull);
     expect(service.dailySessionReminder, scheduled);
-    expect(scheduled!.payload, contains('"type":"daily_session"'));
+    expect(scheduled!.time.hour, 21);
+    expect(scheduled.time.minute, 15);
+    expect(scheduled.payload, contains('"type":"daily_session"'));
     expect(scheduled.payload, contains('"contentId":"session_morning_ease"'));
     expect(scheduled.payload,
         contains('"fallbackRoute":"/session/session_morning_ease"'));
@@ -154,6 +157,20 @@ void main() {
 
     expect(scheduled, isNull);
     expect(service.dailySessionReminder, isNull);
+  });
+
+  test('next daily session reminder uses selected time and rolls forward', () {
+    final sameDay = nextDailySessionReminderTime(
+      minutesAfterMidnight: 21 * 60 + 15,
+      now: DateTime(2026, 5, 21, 20, 0),
+    );
+    final nextDay = nextDailySessionReminderTime(
+      minutesAfterMidnight: 21 * 60 + 15,
+      now: DateTime(2026, 5, 21, 22, 0),
+    );
+
+    expect(sameDay, DateTime(2026, 5, 21, 21, 15));
+    expect(nextDay, DateTime(2026, 5, 22, 21, 15));
   });
 }
 
