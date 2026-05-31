@@ -5,9 +5,10 @@ Status: Draft for legal/store review. Do not submit as final without review.
 ## Local-Only Data
 
 The MVP stores app preferences, prayer settings, notification enabled state,
-Women's Ibadah Mode state, saved items, session progress/completion history,
-local content manifests, approved content bundles, and revoked content IDs on
-device. These are cleared through Settings > Privacy > Delete local data.
+selected daily session reminder time, Women's Ibadah Mode state, saved items,
+session progress/completion history, local content manifests, approved content
+bundles, and revoked content IDs on device. These are cleared through Settings >
+Privacy > Delete local data.
 
 Women's Ibadah Mode can adjust Home recommendations and Daily Session support
 copy locally. Exact status is not transmitted for remote personalization in the

@@ -14,7 +14,8 @@ the MVP.
 
 - App language and preference settings.
 - Prayer calculation settings and manual or preset prayer location.
-- Notification enabled state and locally scheduled reminder state.
+- Notification enabled state, selected daily session reminder time, and locally
+  scheduled reminder state.
 - Women's Ibadah Mode state, designed local-first.
 - Approved content manifest and bundle cache.
 - Local revoked content IDs so revoked content stays hidden.

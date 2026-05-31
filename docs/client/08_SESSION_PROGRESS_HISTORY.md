@@ -39,7 +39,8 @@ The in-progress state for that session is cleared after completion. The
 completion page at `/session/:sessionId/completed` shows a gentle completion
 message, local-only progress note, current streak, completed-this-week count,
 links back Home or to Saved Items, and offers a privacy-safe Set daily reminder
-CTA.
+CTA. When the reminder is already enabled, the same CTA becomes a Manage daily
+reminder entry that opens Settings > Notification settings.
 
 ## Resume Behavior
 
@@ -69,8 +70,8 @@ reward claim.
 ## Privacy Notes
 
 - Progress and completion records remain on device.
-- The daily session reminder enabled state is stored locally in user
-  preferences.
+- The daily session reminder enabled state and selected reminder time are stored
+  locally in user preferences.
 - Daily session notification payloads contain only route/session IDs and do not
   include women mode status or religious text.
 - Records are not synced to an account.
@@ -82,7 +83,8 @@ reward claim.
 
 - Optional richer completion insights after privacy review.
 - Multi-session history filters if the client adds more daily sessions.
-- User-selectable daily reminder timing after notification UX review.
+- Next-session suggestions after the reviewed session pack expands beyond one
+  seed session.
 - Account sync only after explicit account, consent, deletion, and privacy
   review.
 - Real Flutter CI execution once the local and remote toolchains are available.

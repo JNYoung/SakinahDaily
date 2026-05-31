@@ -73,8 +73,8 @@ Suggested next milestone:
 
 ## 3. Daily Session Chain
 
-Product status: MVP functional with a local completion reminder loop;
-production content/audio depth remains incomplete.
+Product status: MVP functional with a locally manageable completion reminder
+loop; production content/audio depth remains incomplete.
 
 Completed:
 
@@ -84,6 +84,8 @@ Completed:
   local-only.
 - Completion page supports save session, open Saved Items, and set a local daily
   session reminder.
+- Settings exposes Notification settings where the daily session reminder can be
+  enabled, disabled, and rescheduled to a user-selected local time.
 - Daily session reminders use privacy-safe lock-screen copy and local
   `daily_session` tap payloads that route back to the session.
 - Quran step enforces no BGM and no Quran TTS.
@@ -101,13 +103,14 @@ Open product links:
 - Offline audio cache validation, asset rights, and hash checks remain open.
 - Analytics is still a local stub; product metrics cannot be measured yet.
 - Session history is intentionally small and lacks filters or richer insights.
-- Reminder timing is currently a simple local daily 20:00 reminder; richer time
-  selection is not implemented.
+- Reminder timing is user-selectable locally, but real-device notification
+  permission/OEM scheduling QA remains open.
 
 Suggested next milestone:
 
 - Prepare a reviewed seed/session content pack before store or beta QA.
-- Decide whether user-selectable reminder time belongs in v0.1 or later.
+- Add next-session suggestions only after reviewed session content breadth
+  improves.
 - Add licensed audio asset ingestion only after rights and hashes are approved.
 
 ## 4. Quran Chain
@@ -181,7 +184,7 @@ Suggested next milestone:
 | Chain | Current release posture | Main blocker before beta/store |
 |---|---|---|
 | Prayer | Usable with manual/preset location | Device-location scope decision and reminder QA |
-| Daily Session | End-to-end seed flow and local daily reminder CTA work | Reviewed session pack, reminder time flexibility, licensed audio |
+| Daily Session | End-to-end seed flow and local manageable daily reminder | Reviewed session pack, real-device notification QA, licensed audio |
 | Quran | Safe local verse entry works | Approved source corpus and licensed reciter assets |
 | Dua / Dhikr | Local library/detail/save/search/category discovery works | Reviewed content depth, missing PRD categories, audio CTA decision |
 
