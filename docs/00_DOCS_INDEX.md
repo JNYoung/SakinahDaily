@@ -53,6 +53,7 @@
 | `docs/client/08_SESSION_PROGRESS_HISTORY.md` | Daily Session 进度、完成页和本地历史实现 |
 | `docs/client/09_WOMEN_MODE_CONTENT_POLICY.md` | Women’s Mode 本地内容推荐与隐私策略 |
 | `docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md` | Prayer / Session / Quran / Dua 产品侧需求进度与缺口 |
+| `docs/client/11_CONTENT_SOURCE_TRANSPARENCY.md` | Settings 内容来源透明页、审核状态语义与不生成宗教文本说明 |
 | `docs/privacy/01_PRIVACY_DATA_INVENTORY.md` | 客户端隐私数据清单草案 |
 | `docs/privacy/02_PRIVACY_POLICY_DRAFT.md` | 隐私政策草案，供 legal/store review |
 | `docs/privacy/03_APP_STORE_PRIVACY_LABEL_DRAFT.md` | App Store privacy label 草案 |

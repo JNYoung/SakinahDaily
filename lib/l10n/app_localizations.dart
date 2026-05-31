@@ -1096,6 +1096,66 @@ abstract class AppLocalizations {
   /// **'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.'**
   String get remoteContentPrivacyBody;
 
+  /// No description provided for @contentSourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Content Sources'**
+  String get contentSourcesTitle;
+
+  /// No description provided for @contentSourcesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How Quran, dua, dhikr, and session content are reviewed.'**
+  String get contentSourcesSubtitle;
+
+  /// No description provided for @contentSourcesSeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bundled seed content'**
+  String get contentSourcesSeedTitle;
+
+  /// No description provided for @contentSourcesSeedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app includes a small offline seed set for MVP flows. Seed items still carry source labels and review status.'**
+  String get contentSourcesSeedBody;
+
+  /// No description provided for @contentSourcesCmsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed CMS bundles'**
+  String get contentSourcesCmsTitle;
+
+  /// No description provided for @contentSourcesCmsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Future remote bundles must be published and approved before the client can display them, then are cached locally after validation.'**
+  String get contentSourcesCmsBody;
+
+  /// No description provided for @contentSourcesReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review status meanings'**
+  String get contentSourcesReviewTitle;
+
+  /// No description provided for @contentSourcesReviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved content can be shown. Draft, in-review, rejected, or revoked content is hidden from the client.'**
+  String get contentSourcesReviewBody;
+
+  /// No description provided for @contentSourcesNotGeneratedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No generated religious text'**
+  String get contentSourcesNotGeneratedTitle;
+
+  /// No description provided for @contentSourcesNotGeneratedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source labels. Approved sources must be imported or reviewed before display.'**
+  String get contentSourcesNotGeneratedBody;
+
   /// No description provided for @deleteLocalDataTitle.
   ///
   /// In en, this message translates to:

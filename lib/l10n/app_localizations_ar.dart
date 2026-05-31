@@ -541,6 +541,41 @@ class AppLocalizationsAr extends AppLocalizations {
       'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.';
 
   @override
+  String get contentSourcesTitle => 'مصادر المحتوى';
+
+  @override
+  String get contentSourcesSubtitle =>
+      'كيف تراجع محتويات القرآن والدعاء والذكر والجلسات.';
+
+  @override
+  String get contentSourcesSeedTitle => 'محتوى مبدئي مرفق';
+
+  @override
+  String get contentSourcesSeedBody =>
+      'يتضمن التطبيق مجموعة مبدئية صغيرة تعمل دون اتصال لتدفقات نسخة MVP. تبقى العناصر المبدئية مع وسم مصدر وحالة مراجعة.';
+
+  @override
+  String get contentSourcesCmsTitle => 'حزم CMS مراجعة';
+
+  @override
+  String get contentSourcesCmsBody =>
+      'يجب أن تكون الحزم البعيدة المستقبلية منشورة ومعتمدة قبل أن يعرضها العميل، ثم تخزن محليا بعد التحقق.';
+
+  @override
+  String get contentSourcesReviewTitle => 'معاني حالة المراجعة';
+
+  @override
+  String get contentSourcesReviewBody =>
+      'يمكن عرض المحتوى المعتمد. يخفى المحتوى المسودة أو قيد المراجعة أو المرفوض أو الملغى عن العميل.';
+
+  @override
+  String get contentSourcesNotGeneratedTitle => 'لا نص ديني مولد';
+
+  @override
+  String get contentSourcesNotGeneratedBody =>
+      'لا ينشئ Sakinah القرآن أو الدعاء أو الذكر أو Hadith أو الترجمات أو وسوم المصادر. يجب استيراد المصادر المعتمدة أو مراجعتها قبل العرض.';
+
+  @override
   String get deleteLocalDataTitle => 'حذف البيانات المحلية';
 
   @override

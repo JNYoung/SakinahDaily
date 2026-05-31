@@ -547,6 +547,41 @@ class AppLocalizationsEn extends AppLocalizations {
       'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.';
 
   @override
+  String get contentSourcesTitle => 'Content Sources';
+
+  @override
+  String get contentSourcesSubtitle =>
+      'How Quran, dua, dhikr, and session content are reviewed.';
+
+  @override
+  String get contentSourcesSeedTitle => 'Bundled seed content';
+
+  @override
+  String get contentSourcesSeedBody =>
+      'The app includes a small offline seed set for MVP flows. Seed items still carry source labels and review status.';
+
+  @override
+  String get contentSourcesCmsTitle => 'Reviewed CMS bundles';
+
+  @override
+  String get contentSourcesCmsBody =>
+      'Future remote bundles must be published and approved before the client can display them, then are cached locally after validation.';
+
+  @override
+  String get contentSourcesReviewTitle => 'Review status meanings';
+
+  @override
+  String get contentSourcesReviewBody =>
+      'Approved content can be shown. Draft, in-review, rejected, or revoked content is hidden from the client.';
+
+  @override
+  String get contentSourcesNotGeneratedTitle => 'No generated religious text';
+
+  @override
+  String get contentSourcesNotGeneratedBody =>
+      'Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source labels. Approved sources must be imported or reviewed before display.';
+
+  @override
   String get deleteLocalDataTitle => 'Delete local data';
 
   @override
