@@ -15,9 +15,14 @@ Core modules:
 - `AgentRepository`: DB-ready persistence interface.
 - `InMemoryAgentRepository`: local/test repository.
 - `PostgresAgentRepository`: future adapter skeleton, not used by tests.
+- `buildContentPack`: packages approved source records into local client
+  manifest/bundle payloads without generating religious text.
+- `FileContentPackStore` and `ContentDeliveryRoute`: serve generated local
+  manifest, bundle, and detail-bundle refs for client delivery tests.
 - `runCandidateQa`: repeatable automated QA checks.
 - `buildReviewPacket`: human review packet builder.
 - HTTP routes for health, runs, candidates, QA, draft promotion, and feedback.
+  Local content delivery routes are read-only and serve only generated files.
 
 ## Repository Modes
 
@@ -114,6 +119,15 @@ Automated QA flags:
 The service does not call live OpenAI in tests, does not send FCM/APNs, does not
 generate Quran or Hadith text, and does not invent source references.
 
+Scheduled content-pack generation follows the same boundary:
+
+- It packages approved local source records only.
+- It does not generate Quran, Dua, Dhikr, Hadith, translations, or source
+  labels.
+- Beta mode requires reviewed inventory targets and `source`, `version`, and
+  `reviewedAt` metadata before delivery.
+- Generated files are local `.generated/` artifacts and are not committed.
+
 ## Running Tests
 
 ```sh
@@ -121,6 +135,7 @@ cd services/content-agent
 npm install
 npm test
 npm run typecheck
+CONTENT_PACK_PROFILE=beta npm run content-pack:generate
 ```
 
 ## Future Directus/Supabase Integration

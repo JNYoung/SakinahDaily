@@ -21,6 +21,34 @@ The HTTP layer does not decide whether religious content is displayable. It only
 fetches JSON. Hash, schema, status, review status, language, market, and
 revocation checks remain in `ContentService`.
 
+## Local Scheduled Content Pack
+
+`services/content-agent` now includes a local scheduled content-pack generator
+that writes the same generic delivery shape consumed by the client:
+
+```sh
+cd services/content-agent
+npm run content-pack:generate
+npm run content-pack:serve
+```
+
+Local endpoints:
+
+- `GET /manifest`
+- `GET /bundles/<bundle_id>.json`
+- `GET /detail-bundle?bundle_hint=<session_or_content_id>`
+
+Dev mode can package the current seed content to prove downfeed wiring. Beta
+mode blocks delivery until the source JSON contains approved reviewed inventory
+with required counts, source labels, `version`, and `reviewedAt` metadata:
+
+```sh
+CONTENT_PACK_PROFILE=beta npm run content-pack:generate
+```
+
+The generator never creates Quran, Dua, Dhikr, Hadith, translations, or source
+labels. It only packages approved source records.
+
 ## Configuration
 
 Remote content is disabled by default. Enable it only with Dart environment

@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
+    "content-pack:generate": "tsx src/jobs/scheduledContentPackJob.ts --once",
+    "content-pack:schedule": "tsx src/jobs/scheduledContentPackJob.ts --schedule",
+    "content-pack:serve": "tsx src/index.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
