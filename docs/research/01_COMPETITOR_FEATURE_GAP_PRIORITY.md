@@ -43,7 +43,7 @@ Priority levels:
 
 | Priority | Gap | Why it matters | Current state | Proposed scope |
 |---|---|---|---|---|
-| P0 | Reviewed content pack and source/licensing baseline | Competitors offer deep Quran/Dua/Dhikr libraries. Sakinah cannot launch with placeholder Quran source labels or very thin seed content. | One seed session, 3 Quran ayahs, 5 duas, 5 dhikrs, placeholder Quran source labels, empty audio URLs/hashes. | Prepare a reviewed beta pack: 5-7 sessions, 30-50 duas, 20-30 dhikrs, 10-20 Quran ayah references used by sessions, source labels, reviewer status, version, reviewed date. Keep full Quran corpus out until approved. |
+| P0 | Reviewed content pack and source/licensing baseline | Competitors offer deep Quran/Dua/Dhikr libraries. Sakinah cannot launch with placeholder Quran source labels or very thin seed content. | One seed session, 3 Quran ayahs, 5 duas, 5 dhikrs, placeholder Quran source labels, empty audio URLs/hashes. Local scheduled manifest/bundle generation and downfeed endpoints now exist, but beta generation blocks until reviewed inventory and metadata are complete. | Prepare a reviewed beta pack: 5-7 sessions, 30-50 duas, 20-30 dhikrs, 10-20 Quran ayah references used by sessions, source labels, reviewer status, version, reviewed date. Keep full Quran corpus out until approved. |
 | P0 | Prayer location and reminder reliability decision | Prayer reminders are core expectation across Muslim Pro, Athan, Pillars, Quran Majeed. | Manual/preset location works; broad notification toggle works; no device-location permission flow; no per-prayer control. | Decide release baseline: manual-only or device location. If device location is in v0.1, add permission explanation, fallback, tests, and QA. Add per-prayer enablement and lead-time offset after permission QA. |
 | P0 | Dua/Dhikr category filtering and search | Dhikr & Dua competitors make content discoverable by moment, need, and category. Current list will feel unfinished. | Implemented for local seed content: Dua and Dhikr now have category chips, search across source-backed text fields, and safe empty states. Dhikr seed items carry category metadata. | Extend the reviewed pack into the remaining PRD categories: Before sleep, Anxiety, Travel, Study/Work, Ramadan, and Women’s Ibadah. Keep search local/privacy-safe. |
 | P0 | Session completion habit loop | Quranly/Pillars-style habit loops drive retention. Sakinah's north star is weekly completed worship sessions. | Completion stores local history, save session, completed-today state, and a privacy-safe local daily reminder CTA. Notification settings now let users enable, disable, and reschedule the daily session reminder. | Add next-session suggestions after content pack breadth improves. Avoid leaderboard/gamification. |
@@ -81,8 +81,17 @@ This decision should happen before adding more feature surfaces.
 
 ### P0-B — Reviewed Content Pack
 
+Status: local scheduled generator/downfeed pipeline implemented; approved
+inventory remains open.
+
 Acceptance:
 
+- Done: local scheduled job can package approved source records into manifest,
+  bundle, and detail-bundle files.
+- Done: content-agent can serve `/manifest`, `/bundles/<id>.json`, and
+  `/detail-bundle` for local client delivery tests.
+- Done: beta mode blocks delivery unless target counts and source/version/
+  reviewed-date metadata are present.
 - No production-facing Quran source placeholder remains.
 - Each Quran/Dua/Dhikr/Reflection item has source, review status, version, and
   reviewed date.

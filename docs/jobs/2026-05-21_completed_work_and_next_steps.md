@@ -40,6 +40,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - 2026-05-30 continuation adds the Daily Session completion Set daily reminder CTA, local daily session reminder preference, privacy-safe local notification payload, and P0-D product progress updates.
 - Branch `codex/session-reminder-time-settings` expands the Daily Session reminder from fixed 20:00 scheduling to a local user-selected time, adds Settings > Notification settings management, and lets users disable or reschedule the reminder without clearing prayer reminders.
 - Branch `codex/audio-cta-truthfulness` marks Dua detail audio as text-only until reviewed audio assets are approved, removing no-op Listen/Repeat buttons while keeping Quran no-BGM/text fallback rules intact.
+- Branch `codex/scheduled-content-pack-delivery` adds a local scheduled content-pack generator and read-only delivery endpoints for manifest, bundle, and detail-bundle testing. Dev mode can package current seed content for delivery proof; beta mode blocks until approved inventory reaches the reviewed 5-7 session, 30-50 dua, 20-30 dhikr, and 10-20 Quran ayah targets with source/version/reviewed date metadata.
 
 ## Current Validation Gate
 
@@ -65,7 +66,7 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 11. Next push milestone: run real-device Android permission/OEM scheduling QA and iOS cold-start notification QA once an iOS runtime is available.
 12. Next product milestone: decide whether v0.1 release baseline is manual-only location, seed-only content, and deferred audio CTAs, or whether device location, staging CMS content, and licensed audio should enter the next sprint.
 13. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
-14. Next content milestone: expand the reviewed Dua/Dhikr pack into the remaining PRD categories now that local discovery UX exists.
+14. Next content milestone: fill the approved content-pack source inventory so `CONTENT_PACK_PROFILE=beta npm run content-pack:generate` produces a deliverable manifest/bundle instead of an audit block.
 15. Next habit-loop milestone: add next-session suggestions after reviewed session content breadth improves.
 
 ## Handoff Notes

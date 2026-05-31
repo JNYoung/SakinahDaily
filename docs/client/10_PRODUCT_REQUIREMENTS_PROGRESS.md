@@ -4,6 +4,13 @@ Status date: 2026-05-30
 Scope: product-side progress for the core worship chains and notification
 cold-start routing.
 
+Update: a local scheduled content-pack pipeline now exists in
+`services/content-agent`. It can package approved local source records into the
+client's generic manifest/bundle contract and serve them from local endpoints.
+Beta mode intentionally blocks delivery until the reviewed content inventory
+meets the 5-7 session, 30-50 dua, 20-30 dhikr, and 10-20 Quran ayah target with
+source, review status, version, and reviewed date metadata.
+
 ## 1. Cold-Start Notification Routing
 
 Status: implemented and Android-emulator verified.
@@ -80,6 +87,8 @@ Completed:
 
 - Daily Session route supports Intention -> Quran -> Reflection -> Dua ->
   Dhikr -> Completion.
+- The content-agent can generate and locally serve scheduled content bundles
+  for additional approved sessions through the existing remote content contract.
 - Session progress resumes locally and completion history/streak summaries are
   local-only.
 - Completion page supports save session, open Saved Items, and set a local daily
@@ -97,7 +106,8 @@ Completed:
 Open product links:
 
 - There is only one seed session; a production beta needs a small reviewed
-  session pack or staging CMS content.
+  session pack or staging CMS content. The beta content-pack generator now
+  blocks until that approved inventory exists.
 - Licensed Quran reciter audio is not bundled; current seed audio metadata uses
   empty URL/hash placeholders.
 - Offline audio cache validation, asset rights, and hash checks remain open.
@@ -108,7 +118,8 @@ Open product links:
 
 Suggested next milestone:
 
-- Prepare a reviewed seed/session content pack before store or beta QA.
+- Fill the approved content-pack source inventory so the beta generator can
+  publish a 5-7 session pack through local manifest/bundle delivery.
 - Add next-session suggestions only after reviewed session content breadth
   improves.
 - Add licensed audio asset ingestion only after rights and hashes are approved.
@@ -131,7 +142,7 @@ Open product links:
 
 - Full approved Quran corpus routing is not shipped.
 - Seed Quran source labels still say “replace with approved Quran source before
-  production”; this is not store-production content.
+  production”; beta content-pack generation blocks on those placeholder labels.
 - No Surah/Juz browse, Quran search, or broader verse navigation exists.
 - Licensed reciter assets, offline audio cache, and hash validation are open.
 - Tafsir and Quran Arabic TTS remain outside MVP.
@@ -166,8 +177,8 @@ Open product links:
 
 - Dua detail no longer exposes no-op audio CTAs; it shows a text-only state
   until reviewed dua audio assets are approved.
-- Reviewed content depth is still seed-level; no staging CMS publishing flow is
-  connected for expanded dua packs.
+- Reviewed content depth is still seed-level, but local scheduled bundle
+  generation/downfeed now exists for expanded approved dua/dhikr packs.
 - Women’s Ibadah category curation remains limited to local policy notes rather
   than a reviewed content category.
 - PRD categories such as Before sleep, Anxiety, Travel, Study / Work, Ramadan,
@@ -175,7 +186,8 @@ Open product links:
 
 Suggested next milestone:
 
-- Expand the reviewed Dua/Dhikr content pack now that discovery UX exists.
+- Populate the reviewed Dua/Dhikr source inventory so beta content-pack
+  generation reaches 30-50 duas and 20-30 dhikrs.
 - Wire reviewed dua audio controls only after assets, rights, and hashes are
   approved.
 
