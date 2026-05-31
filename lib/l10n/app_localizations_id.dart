@@ -140,7 +140,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get qiblaNoGpsRequired =>
-      'Kiblat memakai lokasi shalat yang dipilih. GPS presisi tidak diperlukan.';
+      'Kiblat memakai lokasi shalat yang dipilih. Kompas atau lokasi latar belakang tidak diperlukan.';
 
   @override
   String get tonight => 'Malam ini';
@@ -292,11 +292,51 @@ class AppLocalizationsId extends AppLocalizations {
   String get prayerLocation => 'Lokasi shalat';
 
   @override
+  String get devicePrayerLocationTitle =>
+      'Gunakan lokasi perangkat untuk waktu shalat?';
+
+  @override
+  String get devicePrayerLocationBody =>
+      'Sakinah memakai lokasi perangkat hanya untuk menghitung waktu shalat dan kiblat. Jika izin ditolak, Anda dapat memasukkan lokasi manual.';
+
+  @override
+  String get deviceLocationPrivacyNote =>
+      'Diminta saat aplikasi digunakan. Tidak dipakai untuk pelacakan latar belakang atau sinkronisasi jarak jauh.';
+
+  @override
+  String get useDeviceLocation => 'Gunakan lokasi perangkat';
+
+  @override
+  String get enterLocationManually => 'Masukkan manual';
+
+  @override
+  String get deviceLocationLabel => 'Lokasi perangkat';
+
+  @override
+  String get deviceLocationSaved => 'Lokasi perangkat tersimpan';
+
+  @override
+  String get deviceLocationDeniedFallback =>
+      'Izin lokasi ditolak. Masukkan lokasi secara manual.';
+
+  @override
+  String get deviceLocationDeniedForeverFallback =>
+      'Izin lokasi diblokir di pengaturan sistem. Masukkan lokasi secara manual.';
+
+  @override
+  String get deviceLocationServiceDisabledFallback =>
+      'Layanan lokasi mati. Masukkan lokasi secara manual.';
+
+  @override
+  String get deviceLocationUnavailableFallback =>
+      'Lokasi perangkat tidak tersedia. Masukkan lokasi secara manual.';
+
+  @override
   String get manualPrayerLocationTitle => 'Lokasi shalat manual';
 
   @override
   String get manualPrayerLocationBody =>
-      'Masukkan lokasi shalat secara manual. Data ini disimpan lokal dan dipakai untuk waktu shalat serta kiblat.';
+      'Masukkan lokasi shalat secara manual, atau gunakan lokasi perangkat setelah penjelasan di atas. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.';
 
   @override
   String get locationLabel => 'Label lokasi';
@@ -324,7 +364,11 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get locationLocalOnlyNoGps =>
-      'Disimpan lokal. Izin GPS tidak diperlukan.';
+      'Entri manual tetap lokal. Lokasi perangkat hanya diminta setelah penjelasan.';
+
+  @override
+  String get locationLocalOnly =>
+      'Lokasi shalat tetap di perangkat ini. Fallback manual selalu tersedia.';
 
   @override
   String get prayerMethod => 'Metode shalat';
@@ -487,7 +531,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get prayerLocationPrivacyBody =>
-      'Lokasi shalat memakai pilihan manual atau preset secara default untuk perhitungan waktu shalat.';
+      'Lokasi shalat dapat memakai pilihan perangkat, manual, atau preset untuk menghitung waktu shalat dan kiblat. Data ini tetap di perangkat dalam MVP.';
 
   @override
   String get notificationPrivacyTitle => 'Privasi notifikasi';
@@ -604,11 +648,11 @@ class AppLocalizationsId extends AppLocalizations {
       'Disimpan lokal untuk metode dan pengaturan perhitungan waktu shalat.';
 
   @override
-  String get privacyDataPrayerLocationPreset => 'Preset lokasi shalat';
+  String get privacyDataPrayerLocationPreset => 'Lokasi shalat';
 
   @override
   String get privacyDataPrayerLocationPresetNotes =>
-      'Disimpan lokal secara default sebagai pilihan lokasi manual atau preset.';
+      'Disimpan lokal sebagai pilihan lokasi shalat perangkat, manual, atau preset.';
 
   @override
   String get privacyDataNotificationEnabledState => 'Status notifikasi aktif';

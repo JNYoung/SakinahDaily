@@ -109,8 +109,7 @@ void main() {
         isTrue,
       );
       expect(
-        File('docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md')
-            .existsSync(),
+        File('docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md').existsSync(),
         isTrue,
       );
     });
@@ -129,12 +128,14 @@ void main() {
       }
     });
 
-    test('Android manifest does not request location or sensor permission', () {
+    test('Android manifest requests only foreground coarse location', () {
       final manifest =
           File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
 
+      expect(manifest, contains('ACCESS_COARSE_LOCATION'));
       expect(manifest, isNot(contains('ACCESS_FINE_LOCATION')));
-      expect(manifest, isNot(contains('ACCESS_COARSE_LOCATION')));
+      expect(manifest, isNot(contains('ACCESS_BACKGROUND_LOCATION')));
+      expect(manifest, isNot(contains('FOREGROUND_SERVICE_LOCATION')));
       expect(manifest, isNot(contains('BODY_SENSORS')));
     });
 
@@ -202,4 +203,5 @@ const _releaseDocs = [
   'docs/release/05_SCREENSHOT_PLAN.md',
   'docs/release/06_PERMISSION_AND_DATA_SAFETY_REVIEW.md',
   'docs/release/07_BUILD_FLAVORS_AND_DART_DEFINE.md',
+  'docs/release/08_PRAYER_DEVICE_LOCATION_QA.md',
 ];

@@ -2,9 +2,10 @@
 
 Status: MVP client foundation.
 
-This milestone closes three client-side usability gaps without adding live
-push services, GPS, compass sensors, remote saved-item sync, analytics, or
-new religious content.
+This milestone closed three client-side usability gaps without adding live push
+services, compass sensors, remote saved-item sync, analytics, or new religious
+content. A later Prayer baseline adds foreground coarse device location with
+manual fallback.
 
 ## Notification Tap Flow
 
@@ -48,7 +49,7 @@ No FCM/APNs server push, production tokens, or live CMS calls are added.
 ## Qibla
 
 The Qibla page at `/qibla` calculates an initial bearing from the selected
-manual or preset prayer location to the Kaaba coordinates:
+device, manual, or preset prayer location to the Kaaba coordinates:
 
 - latitude: `21.4225`
 - longitude: `39.8262`
@@ -56,8 +57,9 @@ manual or preset prayer location to the Kaaba coordinates:
 The page shows the selected location label, bearing in degrees, a static
 compass-style visual, and a link back to prayer location settings.
 
-No GPS permission, compass permission, sensors plugin, or live location lookup
-is used in this MVP. The in-app copy states that exact GPS is not required.
+The current app can use foreground coarse device location for the selected
+prayer location, but Qibla still does not use compass permission, sensor
+plugins, background location, or live compass tracking.
 
 ## Saved Items
 

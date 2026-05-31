@@ -33,7 +33,10 @@ void main() {
 
     expect(find.byKey(SakinahKeys.qiblaPage), findsOneWidget);
     expect(find.text('Jakarta'), findsOneWidget);
-    expect(find.textContaining('Exact GPS is not required'), findsOneWidget);
+    expect(
+      find.textContaining('No compass or background location is required'),
+      findsOneWidget,
+    );
     expect(find.textContaining('295'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
@@ -49,12 +52,16 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  test('AndroidManifest does not request exact or coarse location', () {
+  test(
+      'AndroidManifest uses coarse location without exact or sensor permission',
+      () {
     final manifest =
         File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
 
+    expect(manifest, contains('ACCESS_COARSE_LOCATION'));
     expect(manifest, isNot(contains('ACCESS_FINE_LOCATION')));
-    expect(manifest, isNot(contains('ACCESS_COARSE_LOCATION')));
+    expect(manifest, isNot(contains('ACCESS_BACKGROUND_LOCATION')));
+    expect(manifest, isNot(contains('FOREGROUND_SERVICE_LOCATION')));
     expect(manifest, isNot(contains('BODY_SENSORS')));
   });
 }

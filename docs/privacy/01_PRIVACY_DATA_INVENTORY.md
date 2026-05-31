@@ -11,7 +11,7 @@ classification.
 | Category | Collected? | Stored locally? | Transmitted? | Shared? | Required? | Purpose | Deletion path | Store note |
 |---|---:|---:|---:|---:|---:|---|---|---|
 | App preferences | Yes | Yes | No by default | No | Optional | Language, gender mode, audio preference, prayer settings | Settings > Privacy > Delete local data | Local app preference candidate |
-| Prayer location preset / manual location | Yes, when selected | Yes | No by default | No | Optional | Prayer-time and Qibla calculation | Settings > Privacy > Delete local data | Manual/preset location only; no GPS or sensor permission in MVP |
+| Prayer device / manual / preset location | Yes, when selected | Yes | No by default | No | Optional | Prayer-time and Qibla calculation | Settings > Privacy > Delete local data | v0.1 uses foreground coarse device location with manual fallback; no background location or sensor permission |
 | Notification preferences | Yes | Yes | No by default | No | Optional | Local reminder scheduling | Settings > Privacy > Delete local data | Notification permission should be declared separately |
 | Women's Ibadah Mode state | Yes, if enabled | Yes | No | No | Optional | Local privacy-aware reminder behavior and local UI recommendation adjustments | Settings > Privacy > Delete local data | High sensitivity, local-only in MVP |
 | Local content cache | Yes | Yes | No | No | Operational | Store approved published bundles and revocation IDs | Settings > Privacy > Delete local data | Content cache is local device data |
@@ -37,7 +37,10 @@ classification.
   cached bundles, revoked content IDs, session progress/history, and scheduled
   local reminders.
 - Delete local data must not delete seed assets or bundled app files.
-- Manual prayer location remains local-only in MVP and must not trigger exact
-  GPS, coarse location, compass, or sensor permissions.
+- Prayer location remains local-only in MVP. Device location is requested only
+  after explanatory copy and must keep manual fallback available when denied or
+  unavailable.
+- Do not add fine/background location, compass, or sensor permissions without a
+  fresh product, privacy, store, and QA review.
 - Session progress/history must not store Quran, Dua, Dhikr, Hadith, or
   translation text and must not sync remotely in MVP.

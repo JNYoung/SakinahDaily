@@ -355,7 +355,7 @@ abstract class AppLocalizations {
   /// No description provided for @qiblaNoGpsRequired.
   ///
   /// In en, this message translates to:
-  /// **'Qibla uses your selected prayer location. Exact GPS is not required.'**
+  /// **'Qibla uses your selected prayer location. No compass or background location is required.'**
   String get qiblaNoGpsRequired;
 
   /// No description provided for @tonight.
@@ -646,6 +646,72 @@ abstract class AppLocalizations {
   /// **'Prayer location'**
   String get prayerLocation;
 
+  /// No description provided for @devicePrayerLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use device location for prayer times?'**
+  String get devicePrayerLocationTitle;
+
+  /// No description provided for @devicePrayerLocationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sakinah uses your device location only to calculate prayer times and Qibla. If permission is denied, you can enter the location manually.'**
+  String get devicePrayerLocationBody;
+
+  /// No description provided for @deviceLocationPrivacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Requested while using the app. Not used for background tracking or remote sync.'**
+  String get deviceLocationPrivacyNote;
+
+  /// No description provided for @useDeviceLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use device location'**
+  String get useDeviceLocation;
+
+  /// No description provided for @enterLocationManually.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter manually'**
+  String get enterLocationManually;
+
+  /// No description provided for @deviceLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Device location'**
+  String get deviceLocationLabel;
+
+  /// No description provided for @deviceLocationSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Device location saved'**
+  String get deviceLocationSaved;
+
+  /// No description provided for @deviceLocationDeniedFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission was denied. Enter location manually instead.'**
+  String get deviceLocationDeniedFallback;
+
+  /// No description provided for @deviceLocationDeniedForeverFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is blocked in system settings. Enter location manually instead.'**
+  String get deviceLocationDeniedForeverFallback;
+
+  /// No description provided for @deviceLocationServiceDisabledFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are off. Enter location manually instead.'**
+  String get deviceLocationServiceDisabledFallback;
+
+  /// No description provided for @deviceLocationUnavailableFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Device location is unavailable. Enter location manually instead.'**
+  String get deviceLocationUnavailableFallback;
+
   /// No description provided for @manualPrayerLocationTitle.
   ///
   /// In en, this message translates to:
@@ -655,7 +721,7 @@ abstract class AppLocalizations {
   /// No description provided for @manualPrayerLocationBody.
   ///
   /// In en, this message translates to:
-  /// **'Enter a prayer location manually. It is stored locally and used for prayer times and Qibla.'**
+  /// **'Enter a prayer location manually, or use device location after the explanation above. Prayer location is stored locally for prayer times and Qibla.'**
   String get manualPrayerLocationBody;
 
   /// No description provided for @locationLabel.
@@ -709,8 +775,14 @@ abstract class AppLocalizations {
   /// No description provided for @locationLocalOnlyNoGps.
   ///
   /// In en, this message translates to:
-  /// **'Stored locally. No GPS permission is required.'**
+  /// **'Manual entries stay local. Device location is requested only after explanation.'**
   String get locationLocalOnlyNoGps;
+
+  /// No description provided for @locationLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer location stays on this device. Manual fallback is always available.'**
+  String get locationLocalOnly;
 
   /// No description provided for @prayerMethod.
   ///
@@ -997,7 +1069,7 @@ abstract class AppLocalizations {
   /// No description provided for @prayerLocationPrivacyBody.
   ///
   /// In en, this message translates to:
-  /// **'Prayer location uses manual or preset choices by default for prayer time calculation.'**
+  /// **'Prayer location can use device, manual, or preset choices for prayer time calculation and Qibla. It stays on this device in MVP.'**
   String get prayerLocationPrivacyBody;
 
   /// No description provided for @notificationPrivacyTitle.
@@ -1207,13 +1279,13 @@ abstract class AppLocalizations {
   /// No description provided for @privacyDataPrayerLocationPreset.
   ///
   /// In en, this message translates to:
-  /// **'Prayer location preset'**
+  /// **'Prayer location'**
   String get privacyDataPrayerLocationPreset;
 
   /// No description provided for @privacyDataPrayerLocationPresetNotes.
   ///
   /// In en, this message translates to:
-  /// **'Stored locally by default as a manual or preset location choice.'**
+  /// **'Stored locally as a device, manual, or preset prayer location choice.'**
   String get privacyDataPrayerLocationPresetNotes;
 
   /// No description provided for @privacyDataNotificationEnabledState.

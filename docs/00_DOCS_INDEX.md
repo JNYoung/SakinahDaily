@@ -66,6 +66,7 @@
 | `docs/release/05_SCREENSHOT_PLAN.md` | Store 截图计划和后续自动化 key |
 | `docs/release/06_PERMISSION_AND_DATA_SAFETY_REVIEW.md` | 权限与 data safety 一致性复核 |
 | `docs/release/07_BUILD_FLAVORS_AND_DART_DEFINE.md` | dev/staging/prod dart-define 配置 |
+| `docs/release/08_PRAYER_DEVICE_LOCATION_QA.md` | v0.1 device location 真实设备 QA 清单 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Agent Service 文档
