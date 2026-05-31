@@ -835,6 +835,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get repeatSlowly => 'Ulangi perlahan';
 
   @override
+  String get duaAudioUnavailableTitle => 'Audio doa belum tersedia';
+
+  @override
+  String get duaAudioUnavailableBody =>
+      'Doa ini tetap berbasis teks sampai aset audio yang ditinjau disetujui.';
+
+  @override
   String get session => 'Sesi';
 
   @override

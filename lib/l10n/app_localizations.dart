@@ -1612,6 +1612,18 @@ abstract class AppLocalizations {
   /// **'Repeat slowly'**
   String get repeatSlowly;
 
+  /// No description provided for @duaAudioUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dua audio unavailable'**
+  String get duaAudioUnavailableTitle;
+
+  /// No description provided for @duaAudioUnavailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This dua remains text-only until a reviewed audio asset is approved.'**
+  String get duaAudioUnavailableBody;
+
   /// No description provided for @session.
   ///
   /// In en, this message translates to:

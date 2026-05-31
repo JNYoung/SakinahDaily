@@ -62,6 +62,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('audio_play_pause_button');
   static const quranSafetyCard = sessionSafetyCard;
   static const duaSourceCard = ValueKey<String>('dua_source_card');
+  static const duaAudioUnavailableCard =
+      ValueKey<String>('dua_audio_unavailable_card');
 
   static const settingsWomenModeTile =
       ValueKey<String>('settings_women_mode_tile');

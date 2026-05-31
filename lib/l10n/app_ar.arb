@@ -252,6 +252,8 @@
   "meaning": "المعنى",
   "listen": "استمع",
   "repeatSlowly": "كرر ببطء",
+  "duaAudioUnavailableTitle": "صوت الدعاء غير متاح",
+  "duaAudioUnavailableBody": "يبقى هذا الدعاء نصيا حتى تتم الموافقة على أصل صوتي مراجع.",
   "session": "الجلسة",
   "sessionUnavailable": "الجلسة غير متاحة.",
   "next": "التالي",

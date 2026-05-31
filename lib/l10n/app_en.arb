@@ -252,6 +252,8 @@
   "meaning": "Meaning",
   "listen": "Listen",
   "repeatSlowly": "Repeat slowly",
+  "duaAudioUnavailableTitle": "Dua audio unavailable",
+  "duaAudioUnavailableBody": "This dua remains text-only until a reviewed audio asset is approved.",
   "session": "Session",
   "sessionUnavailable": "Session unavailable.",
   "next": "Next",

@@ -34,8 +34,10 @@ could confuse future audio mixing behavior, so Quran assets are voice-only.
 ## Text-Only Fallback
 
 If audio metadata is missing, unapproved, invalid, or has no source, the Daily
-Session continues with Quran text, translation, and source-backed content. The
-session must not block progress because licensed audio is not bundled in MVP.
+Session continues with Quran text, translation, and source-backed content. Dua
+detail also stays text-only rather than exposing play buttons that cannot play a
+reviewed asset. The session must not block progress because licensed audio is
+not bundled in MVP.
 
 ## Approved Audio Asset Model
 
@@ -66,6 +68,7 @@ network audio and do not require licensed audio files.
 
 - Licensed reciter asset ingestion.
 - Offline audio cache with hash validation.
-- Non-Quran reflection and dua guidance audio.
+- Non-Quran reflection and dua guidance audio after reviewed assets are
+  approved.
 - Platform-level audio interruption handling.
 - Optional ambient audio only for reviewed non-Quran surfaces.

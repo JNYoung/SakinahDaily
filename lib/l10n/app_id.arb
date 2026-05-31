@@ -252,6 +252,8 @@
   "meaning": "Makna",
   "listen": "Dengarkan",
   "repeatSlowly": "Ulangi perlahan",
+  "duaAudioUnavailableTitle": "Audio doa belum tersedia",
+  "duaAudioUnavailableBody": "Doa ini tetap berbasis teks sampai aset audio yang ditinjau disetujui.",
   "session": "Sesi",
   "sessionUnavailable": "Sesi tidak tersedia.",
   "next": "Berikutnya",

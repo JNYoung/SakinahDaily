@@ -123,23 +123,50 @@ class DuaDetailPage extends ConsumerWidget {
                 const SizedBox(height: 10),
                 Text(dua.translations.resolve(languageCode)),
                 const SizedBox(height: 22),
-                Row(
-                  children: [
-                    Expanded(
-                      child: PrimaryButton(
-                        label: l10n.t('listen'),
-                        onPressed: () {},
-                      ),
+                DecoratedBox(
+                  key: SakinahKeys.duaAudioUnavailableCard,
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.06)
+                        : const Color(0xFFF7F0DF),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.10)
+                          : SakinahColors.sandGold.withValues(alpha: 0.36),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: PrimaryButton(
-                        label: l10n.t('repeatSlowly'),
-                        tonal: true,
-                        onPressed: () {},
-                      ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.volume_off_outlined,
+                          color: isDark
+                              ? SakinahColors.sandGold
+                              : SakinahColors.deepEmerald,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.t('duaAudioUnavailableTitle'),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.copyWith(fontWeight: FontWeight.w800),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(l10n.t('duaAudioUnavailableBody')),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),

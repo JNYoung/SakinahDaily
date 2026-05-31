@@ -116,6 +116,22 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Dua detail marks audio as unavailable instead of no-op CTAs',
+      (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.bottomNavDua);
+    await tapByKey(tester, SakinahKeys.duaListItem('dua_ease'));
+
+    expect(find.text('Listen'), findsNothing);
+    expect(find.text('Repeat slowly'), findsNothing);
+    expect(find.byKey(SakinahKeys.duaAudioUnavailableCard), findsOneWidget);
+    expect(find.text('Dua audio unavailable'), findsOneWidget);
+    expect(find.textContaining('reviewed audio asset'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Dua library filters by category and searches content',
       (tester) async {
     await pumpSakinahApp(tester);
