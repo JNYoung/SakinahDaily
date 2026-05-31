@@ -53,6 +53,19 @@ enum AudioPreference {
   }
 }
 
+enum PrayerLocationMode {
+  preset,
+  manual,
+  device;
+
+  static PrayerLocationMode parse(String? value) {
+    return PrayerLocationMode.values.firstWhere(
+      (mode) => mode.name == value,
+      orElse: () => PrayerLocationMode.manual,
+    );
+  }
+}
+
 enum WomenIbadahStatus {
   normal,
   menstruating,
@@ -472,6 +485,7 @@ class PrayerSettings {
     required this.method,
     this.locationLabel = 'Manual location',
     this.timezoneId,
+    this.locationMode = PrayerLocationMode.manual,
   });
 
   final double latitude;
@@ -479,6 +493,7 @@ class PrayerSettings {
   final String method;
   final String locationLabel;
   final String? timezoneId;
+  final PrayerLocationMode locationMode;
 
   PrayerSettings copyWith({
     double? latitude,
@@ -486,6 +501,7 @@ class PrayerSettings {
     String? method,
     String? locationLabel,
     Object? timezoneId = _unsetPrayerSetting,
+    PrayerLocationMode? locationMode,
   }) {
     return PrayerSettings(
       latitude: latitude ?? this.latitude,
@@ -495,6 +511,7 @@ class PrayerSettings {
       timezoneId: identical(timezoneId, _unsetPrayerSetting)
           ? this.timezoneId
           : timezoneId as String?,
+      locationMode: locationMode ?? this.locationMode,
     );
   }
 
@@ -504,6 +521,7 @@ class PrayerSettings {
         'method': method,
         'locationLabel': locationLabel,
         'timezoneId': timezoneId,
+        'locationMode': locationMode.name,
       };
 
   factory PrayerSettings.fromJson(Map<String, dynamic> json) {
@@ -514,6 +532,9 @@ class PrayerSettings {
       method: json['method'] as String? ?? defaults.method,
       locationLabel: json['locationLabel'] as String? ?? defaults.locationLabel,
       timezoneId: json['timezoneId'] as String?,
+      locationMode: json.containsKey('locationMode')
+          ? PrayerLocationMode.parse(json['locationMode'] as String?)
+          : PrayerLocationMode.manual,
     );
   }
 }
@@ -542,6 +563,7 @@ class PrayerLocationPreset {
       method: method,
       locationLabel: label,
       timezoneId: timezoneId,
+      locationMode: PrayerLocationMode.preset,
     );
   }
 }
@@ -655,6 +677,7 @@ class UserPreferences {
         longitude: 39.8579,
         method: 'umm_al_qura',
         locationLabel: 'Makkah',
+        locationMode: PrayerLocationMode.preset,
       ),
       womenIbadahMode: WomenIbadahMode(enabled: false),
     );

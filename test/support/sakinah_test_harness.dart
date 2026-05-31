@@ -10,6 +10,7 @@ import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
+import 'package:sakinah_daily/core/services/device_location_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
@@ -30,6 +31,7 @@ Future<void> pumpSakinahApp(
   SessionProgressStore? sessionProgressStore,
   ContentApiConfig? contentApiConfig,
   NotificationService? notificationService,
+  DeviceLocationService? deviceLocationService,
   SakinahAudioPlayer? audioPlayer,
 }) async {
   tester.view.devicePixelRatio = 1;
@@ -61,6 +63,10 @@ Future<void> pumpSakinahApp(
         notificationServiceProvider.overrideWithValue(
           notificationService ?? LocalNotificationServiceStub(),
         ),
+        if (deviceLocationService != null)
+          deviceLocationServiceProvider.overrideWithValue(
+            deviceLocationService,
+          ),
         if (audioPlayer != null)
           audioPlayerProvider.overrideWithValue(audioPlayer),
         if (initialLocation != null)

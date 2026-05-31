@@ -31,7 +31,9 @@
 ## 4. Privacy
 
 - [ ] Location permission 前有说明。
+- [ ] Device location 拒绝/不可用时仍可继续手动 location。
 - [ ] 支持手动 location。
+- [ ] 不请求 background location、compass 或 sensor 权限。
 - [ ] Women’s Ibadah Mode 默认本地存储。
 - [ ] 不上传 menstruating/postpartum/pregnancy 状态。
 - [ ] 隐私页面说明 location 和 women mode 数据用途。

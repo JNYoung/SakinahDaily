@@ -7,6 +7,10 @@ abstract final class SakinahKeys {
 
   static const onboardingContinueButton =
       ValueKey<String>('onboarding_continue_button');
+  static const onboardingUseDeviceLocationButton =
+      ValueKey<String>('onboarding_use_device_location_button');
+  static const onboardingManualLocationButton =
+      ValueKey<String>('onboarding_manual_location_button');
 
   static const homePrayerBadge = ValueKey<String>('home_prayer_badge');
   static const homeContentList = ValueKey<String>('home_content_list');
@@ -139,6 +143,8 @@ abstract final class SakinahKeys {
   static const manualTimezoneField = ValueKey<String>('manual_timezone_field');
   static const manualPrayerMethodDropdown =
       ValueKey<String>('manual_prayer_method_dropdown');
+  static const manualUseDeviceLocationButton =
+      ValueKey<String>('manual_use_device_location_button');
   static const manualLocationSaveButton =
       ValueKey<String>('manual_location_save_button');
 

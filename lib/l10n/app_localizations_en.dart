@@ -140,7 +140,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qiblaNoGpsRequired =>
-      'Qibla uses your selected prayer location. Exact GPS is not required.';
+      'Qibla uses your selected prayer location. No compass or background location is required.';
 
   @override
   String get tonight => 'Tonight';
@@ -292,11 +292,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get prayerLocation => 'Prayer location';
 
   @override
+  String get devicePrayerLocationTitle =>
+      'Use device location for prayer times?';
+
+  @override
+  String get devicePrayerLocationBody =>
+      'Sakinah uses your device location only to calculate prayer times and Qibla. If permission is denied, you can enter the location manually.';
+
+  @override
+  String get deviceLocationPrivacyNote =>
+      'Requested while using the app. Not used for background tracking or remote sync.';
+
+  @override
+  String get useDeviceLocation => 'Use device location';
+
+  @override
+  String get enterLocationManually => 'Enter manually';
+
+  @override
+  String get deviceLocationLabel => 'Device location';
+
+  @override
+  String get deviceLocationSaved => 'Device location saved';
+
+  @override
+  String get deviceLocationDeniedFallback =>
+      'Location permission was denied. Enter location manually instead.';
+
+  @override
+  String get deviceLocationDeniedForeverFallback =>
+      'Location permission is blocked in system settings. Enter location manually instead.';
+
+  @override
+  String get deviceLocationServiceDisabledFallback =>
+      'Location services are off. Enter location manually instead.';
+
+  @override
+  String get deviceLocationUnavailableFallback =>
+      'Device location is unavailable. Enter location manually instead.';
+
+  @override
   String get manualPrayerLocationTitle => 'Manual prayer location';
 
   @override
   String get manualPrayerLocationBody =>
-      'Enter a prayer location manually. It is stored locally and used for prayer times and Qibla.';
+      'Enter a prayer location manually, or use device location after the explanation above. Prayer location is stored locally for prayer times and Qibla.';
 
   @override
   String get locationLabel => 'Location label';
@@ -324,7 +364,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locationLocalOnlyNoGps =>
-      'Stored locally. No GPS permission is required.';
+      'Manual entries stay local. Device location is requested only after explanation.';
+
+  @override
+  String get locationLocalOnly =>
+      'Prayer location stays on this device. Manual fallback is always available.';
 
   @override
   String get prayerMethod => 'Prayer method';
@@ -486,7 +530,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get prayerLocationPrivacyBody =>
-      'Prayer location uses manual or preset choices by default for prayer time calculation.';
+      'Prayer location can use device, manual, or preset choices for prayer time calculation and Qibla. It stays on this device in MVP.';
 
   @override
   String get notificationPrivacyTitle => 'Notifications privacy';
@@ -603,11 +647,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Stored locally for prayer time method and calculation settings.';
 
   @override
-  String get privacyDataPrayerLocationPreset => 'Prayer location preset';
+  String get privacyDataPrayerLocationPreset => 'Prayer location';
 
   @override
   String get privacyDataPrayerLocationPresetNotes =>
-      'Stored locally by default as a manual or preset location choice.';
+      'Stored locally as a device, manual, or preset prayer location choice.';
 
   @override
   String get privacyDataNotificationEnabledState =>

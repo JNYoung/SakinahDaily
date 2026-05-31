@@ -44,7 +44,7 @@ Priority levels:
 | Priority | Gap | Why it matters | Current state | Proposed scope |
 |---|---|---|---|---|
 | P0 | Reviewed content pack and source/licensing baseline | Competitors offer deep Quran/Dua/Dhikr libraries. Sakinah cannot launch with placeholder Quran source labels or very thin seed content. | One seed session, 3 Quran ayahs, 5 duas, 5 dhikrs, placeholder Quran source labels, empty audio URLs/hashes. Local scheduled manifest/bundle generation and downfeed endpoints now exist, but beta generation blocks until reviewed inventory and metadata are complete. | Prepare a reviewed beta pack: 5-7 sessions, 30-50 duas, 20-30 dhikrs, 10-20 Quran ayah references used by sessions, source labels, reviewer status, version, reviewed date. Keep full Quran corpus out until approved. |
-| P0 | Prayer location and reminder reliability decision | Prayer reminders are core expectation across Muslim Pro, Athan, Pillars, Quran Majeed. | Manual/preset location works; broad notification toggle works; no device-location permission flow; no per-prayer control. | Decide release baseline: manual-only or device location. If device location is in v0.1, add permission explanation, fallback, tests, and QA. Add per-prayer enablement and lead-time offset after permission QA. |
+| P0 | Prayer location and reminder reliability | Prayer reminders are core expectation across Muslim Pro, Athan, Pillars, Quran Majeed. | v0.1 device-location baseline is implemented with explanation copy, Android foreground coarse location, manual fallback, prayer calculations, and broad notification toggle. No per-prayer control yet. | Run real-device location/notification QA before beta. Add per-prayer enablement and lead-time offset after permission QA is stable. |
 | P0 | Dua/Dhikr category filtering and search | Dhikr & Dua competitors make content discoverable by moment, need, and category. Current list will feel unfinished. | Implemented for local seed content: Dua and Dhikr now have category chips, search across source-backed text fields, and safe empty states. Dhikr seed items carry category metadata. | Extend the reviewed pack into the remaining PRD categories: Before sleep, Anxiety, Travel, Study/Work, Ramadan, and Women’s Ibadah. Keep search local/privacy-safe. |
 | P0 | Session completion habit loop | Quranly/Pillars-style habit loops drive retention. Sakinah's north star is weekly completed worship sessions. | Completion stores local history, save session, completed-today state, and a privacy-safe local daily reminder CTA. Notification settings now let users enable, disable, and reschedule the daily session reminder. | Add next-session suggestions after content pack breadth improves. Avoid leaderboard/gamification. |
 | P0 | Audio CTA truthfulness | Competitors with audio set user expectation. Empty audio URLs and no-op buttons hurt trust. | Quran audio metadata exists but URL/hash empty; Dua detail now shows clear text-only copy instead of no-op Listen/Repeat buttons. | Before beta, ingest approved licensed audio assets with hash validation or keep unavailable audio surfaces explicitly text-only. Quran remains no BGM and no generic TTS. |
@@ -69,15 +69,20 @@ Priority levels:
 ### P0-A — Release Baseline Decision
 
 Owner: product + engineering  
-Outcome: one-page decision recorded in PRD.
+Outcome: partially decided; remaining scope decisions are content and audio.
 
-Decide:
+Decided:
 
-1. Is v0.1 manual/preset location only, or does it require device location?
-2. Is v0.1 seed-reviewed content only, or does it require staging CMS content?
-3. Are audio CTAs deferred, or does v0.1 require licensed audio assets?
+1. Prayer location: v0.1 requires device location with explanation copy and
+   manual fallback.
 
-This decision should happen before adding more feature surfaces.
+Still decide:
+
+1. Is v0.1 seed-reviewed content only, or does it require staging CMS content?
+2. Are audio CTAs deferred, or does v0.1 require licensed audio assets?
+
+Real-device Prayer location QA should happen before adding more Prayer feature
+surfaces.
 
 ### P0-B — Reviewed Content Pack
 

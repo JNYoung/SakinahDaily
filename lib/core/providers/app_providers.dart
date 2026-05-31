@@ -19,6 +19,7 @@ import '../services/analytics_service.dart';
 import '../services/audio_player_service.dart';
 import '../services/audio_policy_service.dart';
 import '../services/content_service.dart';
+import '../services/device_location_service.dart';
 import '../services/local_push_receiver.dart';
 import '../services/notification_service.dart';
 import '../services/notification_tap_service.dart';
@@ -54,6 +55,10 @@ final userPreferencesProvider =
     return controller;
   },
 );
+
+final deviceLocationServiceProvider = Provider<DeviceLocationService>((ref) {
+  return const GeolocatorDeviceLocationService();
+});
 
 class UserPreferencesController extends StateNotifier<UserPreferences> {
   UserPreferencesController(this.ref, this.repository)

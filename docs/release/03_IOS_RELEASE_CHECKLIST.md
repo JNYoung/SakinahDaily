@@ -12,7 +12,12 @@ When iOS is available:
 - Set display name to `Sakinah Daily`.
 - Configure signing team in Xcode or CI secrets.
 - Do not commit provisioning profiles or certificates.
+- Add `NSLocationWhenInUseUsageDescription` before enabling device location on
+  iOS.
+- Do not add Always/background location unless a separate product, privacy, and
+  store review approves it.
 - Verify notification permission copy before requesting permission.
+- Verify location permission copy before requesting permission.
 - Confirm App Privacy labels against `docs/privacy`.
 - Capture iPhone 6.7-inch and 6.5-inch screenshots.
 - Verify Arabic RTL, Bahasa Indonesia, and English screenshots.
@@ -24,4 +29,5 @@ Future iOS submission checklist:
 - Store metadata reviewed in all languages.
 - App icon and launch screen verified.
 - Real device notification permission QA completed.
+- Real device location permission QA completed.
 - No analytics/crash SDK enabled before privacy review.

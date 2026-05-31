@@ -4,11 +4,12 @@ Status: Draft for legal/store review. Do not submit as final without review.
 
 ## Local-Only Data
 
-The MVP stores app preferences, prayer settings, notification enabled state,
-selected daily session reminder time, Women's Ibadah Mode state, saved items,
-session progress/completion history, local content manifests, approved content
-bundles, and revoked content IDs on device. These are cleared through Settings >
-Privacy > Delete local data.
+The MVP stores app preferences, prayer settings, selected prayer location
+(device, manual, or preset), notification enabled state, selected daily session
+reminder time, Women's Ibadah Mode state, saved items, session
+progress/completion history, local content manifests, approved content bundles,
+and revoked content IDs on device. These are cleared through Settings > Privacy
+> Delete local data.
 
 Women's Ibadah Mode can adjust Home recommendations and Daily Session support
 copy locally. Exact status is not transmitted for remote personalization in the
@@ -39,14 +40,18 @@ not include exact private state terms.
 
 - Notifications: used for local prayer reminders after user explanation and
   permission.
-- Location: exact GPS permission is not implemented in MVP. Manual or preset
-  prayer location is local by default and is used for prayer times and Qibla.
+- Location: foreground coarse device location is used after explanation and
+  permission for prayer times and Qibla. Manual entry remains available when
+  permission is denied or location is unavailable. Fine/background location,
+  compass, and sensor permissions are not implemented.
 
 ## Third-Party SDKs
 
 - Flutter and app runtime dependencies.
 - `shared_preferences` for local app storage.
 - `flutter_local_notifications` for local notifications.
+- `geolocator` for foreground coarse device location used in prayer/Qibla
+  setup.
 - Audio playback dependencies for approved audio asset playback.
 - No analytics SDK.
 - No crash-reporting SDK.
@@ -55,7 +60,7 @@ not include exact private state terms.
 
 ## Future Updates
 
-Revisit this draft before adding exact location, compass/sensor permissions,
-FCM/APNs production pushes, analytics, crash reporting, accounts,
+Revisit this draft before adding fine/background location, compass/sensor
+permissions, FCM/APNs production pushes, analytics, crash reporting, accounts,
 subscriptions, remote saved-item sync, remote progress sync, or any remote
 deletion workflow.

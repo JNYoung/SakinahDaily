@@ -12,6 +12,7 @@ import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
+import 'device_location_flow.dart';
 
 class ManualPrayerLocationPage extends ConsumerStatefulWidget {
   const ManualPrayerLocationPage({super.key});
@@ -70,6 +71,41 @@ class _ManualPrayerLocationPageState
             ),
             const SizedBox(height: 8),
             Text(l10n.t('manualPrayerLocationBody')),
+            const SizedBox(height: 18),
+            AppCard(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.my_location_rounded),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          l10n.t('devicePrayerLocationTitle'),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(l10n.t('devicePrayerLocationBody')),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.t('deviceLocationPrivacyNote'),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 14),
+                  PrimaryButton(
+                    key: SakinahKeys.manualUseDeviceLocationButton,
+                    label: l10n.t('useDeviceLocation'),
+                    icon: Icons.my_location_rounded,
+                    onPressed: () => unawaited(_useDeviceLocation(l10n)),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 18),
             AppCard(
               padding: const EdgeInsets.all(18),
@@ -164,7 +200,7 @@ class _ManualPrayerLocationPageState
               ),
             ),
             const SizedBox(height: 14),
-            Text(l10n.t('locationLocalOnlyNoGps')),
+            Text(l10n.t('locationLocalOnly')),
             const SizedBox(height: 18),
             PrimaryButton(
               key: SakinahKeys.manualLocationSaveButton,
@@ -189,6 +225,7 @@ class _ManualPrayerLocationPageState
       method: _method,
       locationLabel: _labelController.text.trim(),
       timezoneId: timezone.isEmpty ? null : timezone,
+      locationMode: PrayerLocationMode.manual,
     );
     await ref.read(userPreferencesProvider.notifier).setPrayerSettings(
           settings,
@@ -199,6 +236,25 @@ class _ManualPrayerLocationPageState
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(l10n.t('locationSaved'))),
     );
+  }
+
+  Future<void> _useDeviceLocation(SakinahLocalizations l10n) async {
+    final saved = await requestAndSaveDevicePrayerLocation(
+      context: context,
+      ref: ref,
+      l10n: l10n,
+    );
+    if (!saved || !mounted) {
+      return;
+    }
+    final settings = ref.read(userPreferencesProvider).prayerSettings;
+    setState(() {
+      _labelController.text = settings.locationLabel;
+      _latitudeController.text = '${settings.latitude}';
+      _longitudeController.text = '${settings.longitude}';
+      _timezoneController.text = settings.timezoneId ?? '';
+      _method = settings.method;
+    });
   }
 
   String? _validateRange(

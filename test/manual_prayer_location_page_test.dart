@@ -118,12 +118,16 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  test('AndroidManifest has no location or sensor permission', () {
+  test(
+      'AndroidManifest has foreground coarse location without sensor permission',
+      () {
     final manifest =
         File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
 
+    expect(manifest, contains('ACCESS_COARSE_LOCATION'));
     expect(manifest, isNot(contains('ACCESS_FINE_LOCATION')));
-    expect(manifest, isNot(contains('ACCESS_COARSE_LOCATION')));
+    expect(manifest, isNot(contains('ACCESS_BACKGROUND_LOCATION')));
+    expect(manifest, isNot(contains('FOREGROUND_SERVICE_LOCATION')));
     expect(manifest, isNot(contains('BODY_SENSORS')));
   });
 }

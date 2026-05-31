@@ -13,7 +13,7 @@ the MVP.
 ## Data Stored On Device
 
 - App language and preference settings.
-- Prayer calculation settings and manual or preset prayer location.
+- Prayer calculation settings and device, manual, or preset prayer location.
 - Notification enabled state, selected daily session reminder time, and locally
   scheduled reminder state.
 - Women's Ibadah Mode state, designed local-first.
@@ -49,11 +49,14 @@ state details do not appear on the lock screen.
 - Analytics SDK.
 - Crash-reporting SDK.
 - Exact GPS permission.
+- Background location.
+- Compass or sensor permissions.
 - Remote deletion API.
 - Remote progress sync.
 - Social sharing or leaderboard features.
 
 ## Future Review Needed
 
-Before enabling analytics, crash reporting, exact location, account login, or
-paid features, update this policy, store declarations, consent copy, and tests.
+Before enabling analytics, crash reporting, fine/background location, account
+login, or paid features, update this policy, store declarations, consent copy,
+and tests.

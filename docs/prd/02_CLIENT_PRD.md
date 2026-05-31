@@ -81,8 +81,11 @@ lib/
 ### Step 3 Location
 
 - 说明用途：仅用于 prayer time 和 Qibla。
-- 支持 device location。
+- v0.1 release baseline：支持 device location，且请求系统权限前必须先展示解释。
+- Android v0.1 使用前台粗略位置即可；不做后台定位、compass/sensor 权限。
 - 支持 manual location fallback。
+- 拒绝、永久拒绝、定位服务关闭、定位不可用时，App 必须继续提供 manual
+  location 表单，且不能阻断 onboarding/Home 使用。
 
 ### Step 4 Personalization
 
@@ -124,7 +127,7 @@ Home 是核心入口，不能做成工具列表。
 | 有 CMS 内容 | 展示 published session |
 | 无 CMS 内容 | 使用 seed session |
 | Prayer 计算失败 | 展示手动设置入口 |
-| 未授权位置 | 用 manual location |
+| 未授权位置 | 保留 manual location fallback |
 
 ## 7. Daily Session 需求
 
@@ -203,10 +206,13 @@ saved
 
 P0：
 
-- Prayer times for current/manual location。
+- Prayer times for device/manual/preset location。
 - Next prayer countdown。
 - Calculation method setting。
 - Local notification schedule。
+- Device location permission explanation before request。
+- Location denied fallback to manual entry。
+- Real-device Android permission QA before beta sign-off。
 
 P1：
 
@@ -307,21 +313,21 @@ women_ibadah_mode_changed
 - Women’s Ibadah Mode 本地保存。
 - Analyzer 和基础测试通过。
 
-## 17. 当前产品进度（2026-05-30）
+## 17. 当前产品进度（2026-05-31）
 
 详细进度与缺口见
 `docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md`。当前结论：
 
 | 链路 | 当前状态 | Beta/Store 前主要缺口 |
 |---|---|---|
-| Prayer | 手动/预设位置、礼拜时间、通知开关、冷启动通知路由已具备 MVP 骨架 | 是否做 device location 的范围决策、per-prayer 提醒配置、真实设备权限 QA |
+| Prayer | v0.1 device location baseline 已拍板并实现解释文案、前台粗略位置、拒绝 fallback、手动/预设位置、礼拜时间、通知开关、冷启动通知路由 | 真实设备 location/notification 权限 QA、per-prayer 提醒配置 |
 | Daily Session | seed session 可端到端完成，进度/完成历史本地保存，完成页 Set daily reminder CTA 可用，Settings 可管理每日 session 提醒时间，冷启动可进 session | 更多 reviewed session 内容、真实设备通知 QA、授权音频资产与 hash 校验 |
 | Quran | 本地 approved seed ayah 入口和 `/quran/:verseKey` 详情可用，冷启动可进 verse | approved corpus 导入、生产来源替换、licensed reciter/offline audio |
 | Dua / Dhikr | library/detail/save/source/review status、分类筛选/搜索、Dhikr counter、冷启动进 dua detail 可用 | Listen/Repeat audio 行为、更多 reviewed CMS 内容、剩余 PRD 分类覆盖 |
 
 当前 v0.1 最需要产品决策的三件事：
 
-1. Prayer location 是继续以 manual/preset 作为 release baseline，还是补
-   device location permission flow。
+1. Prayer location 已拍板为 v0.1 device location baseline；beta 前必须完成
+   真实设备 location permission QA。
 2. 内容是 seed-only beta，还是接入 reviewed staging CMS content pack。
 3. 音频按钮是明确延期，还是进入 licensed audio asset ingestion milestone。
