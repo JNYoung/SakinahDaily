@@ -155,6 +155,14 @@ class SettingsPage extends ConsumerWidget {
           ),
           const Divider(),
           SettingsTile(
+            key: SakinahKeys.settingsContentSourcesTile,
+            title: l10n.t('contentSourcesTitle'),
+            subtitle: l10n.t('contentSourcesSubtitle'),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => context.go('/settings/content-sources'),
+          ),
+          const Divider(),
+          SettingsTile(
             key: SakinahKeys.settingsPrivacyTile,
             title: l10n.t('privacy'),
             subtitle: l10n.t('privacySubtitle'),

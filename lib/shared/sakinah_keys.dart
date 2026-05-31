@@ -74,6 +74,9 @@ abstract final class SakinahKeys {
   static const settingsPrivacyTile = ValueKey<String>('settings_privacy_tile');
   static const settingsSavedItemsTile =
       ValueKey<String>('settings_saved_items_tile');
+  static const settingsContentSourcesTile =
+      ValueKey<String>('settings_content_sources_tile');
+  static const contentSourcesPage = ValueKey<String>('content_sources_page');
   static const settingsNotificationSettingsTile =
       ValueKey<String>('settings_notification_settings_tile');
   static const notificationSettingsPage =

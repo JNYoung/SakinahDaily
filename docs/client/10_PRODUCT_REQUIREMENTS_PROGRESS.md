@@ -11,6 +11,12 @@ Beta mode intentionally blocks delivery until the reviewed content inventory
 meets the 5-7 session, 30-50 dua, 20-30 dhikr, and 10-20 Quran ayah target with
 source, review status, version, and reviewed date metadata.
 
+Update: Settings now includes a Content Sources page that explains bundled seed
+content, reviewed CMS bundles, review status meanings, and the rule that
+Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source
+labels. This improves source transparency but does not solve the approved
+content inventory blocker.
+
 ## 1. Cold-Start Notification Routing
 
 Status: implemented and Android-emulator verified.
@@ -217,6 +223,7 @@ Suggested next milestone:
 | Daily Session | End-to-end seed flow and local manageable daily reminder | Reviewed session pack, real-device notification QA, licensed audio |
 | Quran | Safe local verse entry works | Approved source corpus and licensed reciter assets |
 | Dua / Dhikr | Local library/detail/save/search/category discovery works | Reviewed content depth, missing PRD categories, audio CTA decision |
+| Content Sources | Settings transparency page implemented | Approved content inventory and source-corpus labels |
 
 The strongest next product move is to run real-device location and notification
 QA while the content team fills the reviewed beta content inventory. Location is

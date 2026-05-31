@@ -15,6 +15,7 @@ import '../features/quran/quran_verse_detail_page.dart';
 import '../features/saved/saved_items_page.dart';
 import '../features/prayer/manual_prayer_location_page.dart';
 import '../features/settings/settings_page.dart';
+import '../features/settings/content_sources_page.dart';
 import '../features/settings/delete_local_data_page.dart';
 import '../features/settings/notification_settings_page.dart';
 import '../features/settings/privacy_center_page.dart';
@@ -121,6 +122,10 @@ GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
       GoRoute(
         path: '/settings/notifications',
         builder: (context, state) => const NotificationSettingsPage(),
+      ),
+      GoRoute(
+        path: '/settings/content-sources',
+        builder: (context, state) => const ContentSourcesPage(),
       ),
       GoRoute(
         path: '/settings/privacy',
