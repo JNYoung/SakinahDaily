@@ -13,6 +13,14 @@ import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
 
+const _heroSessionMutedText = Color(0xFFE5EFEA);
+const _heroSessionAccent = Color(0xFFD8B96A);
+const _heroSessionPrimaryButtonBackground = Color(0xFFFFFAF1);
+const _heroSessionPrimaryButtonForeground = SakinahColors.deepEmerald;
+const _heroSessionSecondaryButtonBackground = Color(0xFF1C5949);
+const _heroSessionSecondaryButtonForeground = Colors.white;
+const _heroSessionSecondaryButtonBorder = Color(0xFFBFD8CC);
+
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
@@ -261,8 +269,7 @@ class HomePage extends ConsumerWidget {
                                       ),
                                       itemType: SavedItemType.dailySession,
                                       itemId: session.id,
-                                      titleSnapshot:
-                                          l10n.t('sleepAyatKursi'),
+                                      titleSnapshot: l10n.t('sleepAyatKursi'),
                                       subtitleSnapshot: session.title
                                           .resolve(preferences.languageCode),
                                       createdAt: DateTime.now(),
@@ -343,13 +350,13 @@ class _HeroSessionCard extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       child: Stack(
         children: [
-          PositionedDirectional(
+          const PositionedDirectional(
             end: 6,
             top: 16,
             child: Icon(
               Icons.nightlight_round,
               size: 72,
-              color: SakinahColors.sandGold.withValues(alpha: 0.82),
+              color: _heroSessionAccent,
             ),
           ),
           Column(
@@ -358,7 +365,7 @@ class _HeroSessionCard extends StatelessWidget {
               Text(
                 eyebrow,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.78),
+                      color: _heroSessionMutedText,
                     ),
               ),
               const SizedBox(height: 22),
@@ -372,7 +379,10 @@ class _HeroSessionCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 subtitle,
-                style: TextStyle(color: Colors.white.withValues(alpha: 0.78)),
+                style: const TextStyle(
+                  color: _heroSessionMutedText,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               if (supportLabel != null && supportBody != null) ...[
                 const SizedBox(height: 14),
@@ -380,10 +390,10 @@ class _HeroSessionCard extends StatelessWidget {
                   key: SakinahKeys.homeWomenModeSupportCard,
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.10),
+                    color: _heroSessionSecondaryButtonBackground,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.14),
+                      color: _heroSessionSecondaryButtonBorder,
                     ),
                   ),
                   child: Column(
@@ -423,8 +433,8 @@ class _HeroSessionCard extends StatelessWidget {
                       const SizedBox(height: 6),
                       Text(
                         supportBody!,
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.76),
+                        style: const TextStyle(
+                          color: _heroSessionMutedText,
                         ),
                       ),
                     ],
@@ -435,28 +445,40 @@ class _HeroSessionCard extends StatelessWidget {
                 const SizedBox(height: 10),
                 Chip(
                   label: Text(statusLabel!),
-                  backgroundColor: Colors.white.withValues(alpha: 0.14),
+                  backgroundColor: _heroSessionSecondaryButtonBackground,
                   labelStyle: const TextStyle(color: Colors.white),
-                  side: BorderSide.none,
+                  side: const BorderSide(
+                    color: _heroSessionSecondaryButtonBorder,
+                  ),
                 ),
               ],
               const SizedBox(height: 22),
               Row(
                 children: [
                   Expanded(
-                    child: PrimaryButton(
+                    child: FilledButton(
                       key: startButtonKey,
-                      label: startLabel,
+                      style: _heroSessionButtonStyle(
+                        backgroundColor: _heroSessionPrimaryButtonBackground,
+                        foregroundColor: _heroSessionPrimaryButtonForeground,
+                      ),
                       onPressed: onStart,
+                      child: Text(startLabel),
                     ),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
-                    child: PrimaryButton(
+                    child: FilledButton(
                       key: SakinahKeys.homeVoiceOnlyButton,
-                      label: voiceOnlyLabel,
-                      tonal: true,
+                      style: _heroSessionButtonStyle(
+                        backgroundColor: _heroSessionSecondaryButtonBackground,
+                        foregroundColor: _heroSessionSecondaryButtonForeground,
+                        side: const BorderSide(
+                          color: _heroSessionSecondaryButtonBorder,
+                        ),
+                      ),
                       onPressed: onVoiceOnly,
+                      child: Text(voiceOnlyLabel),
                     ),
                   ),
                 ],
@@ -467,6 +489,22 @@ class _HeroSessionCard extends StatelessWidget {
       ),
     );
   }
+}
+
+ButtonStyle _heroSessionButtonStyle({
+  required Color backgroundColor,
+  required Color foregroundColor,
+  BorderSide? side,
+}) {
+  return FilledButton.styleFrom(
+    backgroundColor: backgroundColor,
+    foregroundColor: foregroundColor,
+    minimumSize: const Size.fromHeight(48),
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+    textStyle: const TextStyle(fontWeight: FontWeight.w900),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
+    side: side,
+  );
 }
 
 class _ProgressMetric extends StatelessWidget {
