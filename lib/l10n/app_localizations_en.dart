@@ -332,11 +332,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Device location is unavailable. Enter location manually instead.';
 
   @override
-  String get manualPrayerLocationTitle => 'Manual prayer location';
+  String get manualPrayerLocationTitle => 'Prayer location';
 
   @override
   String get manualPrayerLocationBody =>
-      'Enter a prayer location manually, or use device location after the explanation above. Prayer location is stored locally for prayer times and Qibla.';
+      'Choose a city, use device location, or edit coordinates only if needed. Prayer location is stored locally for prayer times and Qibla.';
 
   @override
   String get locationLabel => 'Location label';

@@ -77,6 +77,7 @@ abstract final class SakinahKeys {
   static const settingsContentSourcesTile =
       ValueKey<String>('settings_content_sources_tile');
   static const contentSourcesPage = ValueKey<String>('content_sources_page');
+  static const contentSourceLink = ValueKey<String>('content_source_link');
   static const settingsNotificationSettingsTile =
       ValueKey<String>('settings_notification_settings_tile');
   static const notificationSettingsPage =
@@ -138,6 +139,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('settings_prayer_location_tile');
   static const manualPrayerLocationPage =
       ValueKey<String>('manual_prayer_location_page');
+  static const manualLocationPresetDropdown =
+      ValueKey<String>('manual_location_preset_dropdown');
   static const manualLocationLabelField =
       ValueKey<String>('manual_location_label_field');
   static const manualLatitudeField = ValueKey<String>('manual_latitude_field');

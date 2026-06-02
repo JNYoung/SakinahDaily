@@ -11,6 +11,12 @@ abstract class ContentHttpClient {
     Uri uri, {
     Map<String, String> headers = const {},
   });
+
+  Future<ContentHttpResponse> postJson(
+    Uri uri, {
+    required Object body,
+    Map<String, String> headers = const {},
+  });
 }
 
 class ContentHttpResponse {
@@ -50,6 +56,27 @@ class DartHttpContentClient implements ContentHttpClient {
     Map<String, String> headers = const {},
   }) async {
     final response = await _client.get(uri, headers: headers);
+    return ContentHttpResponse(
+      statusCode: response.statusCode,
+      body: response.body,
+      headers: response.headers,
+    );
+  }
+
+  @override
+  Future<ContentHttpResponse> postJson(
+    Uri uri, {
+    required Object body,
+    Map<String, String> headers = const {},
+  }) async {
+    final response = await _client.post(
+      uri,
+      headers: {
+        ...headers,
+        'content-type': 'application/json; charset=utf-8',
+      },
+      body: jsonEncode(body),
+    );
     return ContentHttpResponse(
       statusCode: response.statusCode,
       body: response.body,

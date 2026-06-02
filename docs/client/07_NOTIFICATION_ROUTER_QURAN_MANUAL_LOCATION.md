@@ -56,7 +56,9 @@ also resolve to the Quran verse detail route.
 ## Manual Prayer Location
 
 The manual prayer location page at `/settings/prayer-location` lets the user
-save:
+choose a backend-provided mock city catalog entry when configured, or fall back
+to bundled city presets/manual entry when the backend is disabled. It lets the
+user save:
 
 - location label
 - latitude
@@ -67,6 +69,13 @@ save:
 Latitude is validated to `-90..90`, longitude to `-180..180`, and the label must
 be non-empty. Saved values update the existing local `PrayerSettings`, which are
 used by prayer times and Qibla.
+
+Backend city catalog integration is opt-in for development:
+
+```sh
+--dart-define=SAKINAH_BACKEND_API_ENABLED=true
+--dart-define=SAKINAH_BACKEND_API_BASE_URL=http://127.0.0.1:8800
+```
 
 ## Privacy Notes
 

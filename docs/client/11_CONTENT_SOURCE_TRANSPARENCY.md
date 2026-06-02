@@ -15,6 +15,8 @@ does not generate.
 ## Client Behavior
 
 - Settings includes a Content Sources entry.
+- Dua, Dhikr, Daily Session dua, and Quran verse source chips can open the
+  Content Sources page.
 - The Content Sources page is localized in English, Indonesian, and Arabic.
 - The page explains the bundled seed content used for MVP offline flows.
 - The page explains that future CMS bundles must be published and approved
@@ -38,5 +40,5 @@ does not generate.
   labels before production.
 - Add reviewed content inventory so beta content-pack generation can deliver the
   target session, dua, dhikr, and Quran slice counts.
-- Consider linking item-level source chips to this page after content volume and
-  source metadata are broader.
+- Add richer item-level source detail metadata after content volume and source
+  metadata are broader.

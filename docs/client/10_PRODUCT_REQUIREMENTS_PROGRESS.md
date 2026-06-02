@@ -17,6 +17,11 @@ Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source
 labels. This improves source transparency but does not solve the approved
 content inventory blocker.
 
+Update: item-level source chips on Dua, Dhikr, Daily Session dua, and Quran
+verse detail surfaces now open the Content Sources transparency page. This adds
+a visible trust path from religious content details without adding new content
+or remote CMS calls.
+
 ## 1. Cold-Start Notification Routing
 
 Status: implemented and Android-emulator verified.
@@ -74,8 +79,16 @@ Completed:
   permissions.
 - Denied, blocked, disabled-service, and unavailable device-location results
   keep the manual location form as fallback.
-- Manual prayer location page saves label, latitude, longitude, optional
+- Prayer location page saves label, latitude, longitude, optional
   timezone ID, and calculation method locally.
+- Prayer location now starts with common city presets for Middle East
+  and Indonesia users. Choosing a preset fills latitude, longitude, timezone,
+  and recommended calculation method while still allowing advanced manual edits.
+- A local backend-api foundation now exposes city search, timezone lists, and
+  prayer-ready location resolution. The Prayer location page can now load the
+  mock backend city catalog when `SAKINAH_BACKEND_API_ENABLED=true`, while
+  falling back to bundled presets offline. Replacing the in-code/backend mock
+  catalog with a full database-backed city/country search remains P1.
 - Qibla uses the selected prayer location without compass or sensor
   permissions.
 - Local prayer reminder taps, including cold-start taps, route to `/prayer`.
@@ -92,8 +105,8 @@ Open product links:
   offset, quiet hours, or separate daily reminder configuration.
 - Prayer page does not yet highlight the current/next prayer state beyond the
   Home countdown.
-- Hijri date tuning, regional default presets, and polished live compass remain
-  P1.
+- Hijri date tuning, full database-backed city search, regional defaults beyond
+  the bundled/backend MVP presets, and polished live compass remain P1.
 - Real-device permission and OEM scheduling QA remains open.
 
 Suggested next milestone:
@@ -223,7 +236,7 @@ Suggested next milestone:
 | Daily Session | End-to-end seed flow and local manageable daily reminder | Reviewed session pack, real-device notification QA, licensed audio |
 | Quran | Safe local verse entry works | Approved source corpus and licensed reciter assets |
 | Dua / Dhikr | Local library/detail/save/search/category discovery works | Reviewed content depth, missing PRD categories, audio CTA decision |
-| Content Sources | Settings transparency page implemented | Approved content inventory and source-corpus labels |
+| Content Sources | Settings transparency page implemented; item-level source chips link to it | Approved content inventory, richer source metadata, and source-corpus labels |
 
 The strongest next product move is to run real-device location and notification
 QA while the content team fills the reviewed beta content inventory. Location is

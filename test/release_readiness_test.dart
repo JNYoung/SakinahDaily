@@ -83,6 +83,38 @@ void main() {
       expect(config.analyticsEnabled, isFalse);
       expect(config.crashReportingEnabled, isFalse);
     });
+
+    test('dev and staging can start from a QA route', () {
+      final dev = AppEnvironmentConfig.fromMap(const {
+        'SAKINAH_APP_ENV': 'dev',
+        'SAKINAH_INITIAL_ROUTE': '/dua/dua_ease',
+      });
+      final staging = AppEnvironmentConfig.fromMap(const {
+        'SAKINAH_APP_ENV': 'staging',
+        'SAKINAH_INITIAL_ROUTE': '/quran/94:5',
+      });
+
+      expect(dev.initialRoute, '/dua/dua_ease');
+      expect(staging.initialRoute, '/quran/94:5');
+    });
+
+    test('prod ignores QA initial route overrides', () {
+      final config = AppEnvironmentConfig.fromMap(const {
+        'SAKINAH_APP_ENV': 'prod',
+        'SAKINAH_INITIAL_ROUTE': '/settings/privacy',
+      });
+
+      expect(config.initialRoute, '/splash');
+    });
+
+    test('invalid QA initial route falls back to splash', () {
+      final config = AppEnvironmentConfig.fromMap(const {
+        'SAKINAH_APP_ENV': 'dev',
+        'SAKINAH_INITIAL_ROUTE': 'settings/privacy',
+      });
+
+      expect(config.initialRoute, '/splash');
+    });
   });
 
   group('store readiness docs and guardrails', () {

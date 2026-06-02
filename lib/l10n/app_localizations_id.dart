@@ -332,11 +332,11 @@ class AppLocalizationsId extends AppLocalizations {
       'Lokasi perangkat tidak tersedia. Masukkan lokasi secara manual.';
 
   @override
-  String get manualPrayerLocationTitle => 'Lokasi shalat manual';
+  String get manualPrayerLocationTitle => 'Lokasi shalat';
 
   @override
   String get manualPrayerLocationBody =>
-      'Masukkan lokasi shalat secara manual, atau gunakan lokasi perangkat setelah penjelasan di atas. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.';
+      'Pilih kota, gunakan lokasi perangkat, atau ubah koordinat hanya jika perlu. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.';
 
   @override
   String get locationLabel => 'Label lokasi';

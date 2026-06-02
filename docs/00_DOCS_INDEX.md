@@ -43,6 +43,8 @@
 | `docs/cms/03_AGENT_SERVICE_SCHEMA.sql` | Content Agent service schema 草案 |
 | `docs/cms/04_SOURCE_CORPUS_SCHEMA.sql` | Source corpus schema 草案 |
 | `docs/cms/05_CLIENT_CONTENT_DELIVERY_SCHEMA.sql` | Client content delivery/cache schema 草案 |
+| `docs/server/01_BACKEND_API_PROJECT.md` | Backend API 项目、城市库/时区/内容下发/push preview 合约 |
+| `docs/server/02_BACKEND_API_OPENAPI.yaml` | Backend API OpenAPI 草案 |
 | `docs/client/01_CONTENT_DELIVERY_CACHE_STRATEGY.md` | 客户端内容 manifest、bundle、cache 策略 |
 | `docs/client/02_CLIENT_CONTENT_MODELS.md` | 客户端内容投递模型 |
 | `docs/client/03_CLIENT_SYNC_FLOWS.md` | 客户端同步与缺内容恢复流程 |
@@ -69,6 +71,8 @@
 | `docs/release/07_BUILD_FLAVORS_AND_DART_DEFINE.md` | dev/staging/prod dart-define 配置 |
 | `docs/release/08_PRAYER_DEVICE_LOCATION_QA.md` | v0.1 device location 真实设备 QA 清单 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
+| `docs/testing/03_REAL_DEVICE_E2E_PLAN.md` | 真机 E2E 模块化需求走查与夜间 smoke runbook |
+| `docs/testing/04_REAL_DEVICE_E2E_RESULTS.md` | 真机 E2E 执行结果、证据目录和后续关注点 |
 
 ### Agent Service 文档
 

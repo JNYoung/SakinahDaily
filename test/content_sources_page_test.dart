@@ -46,6 +46,34 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Item source links open Content Sources transparency',
+      (tester) async {
+    await _expectSourceLinkOpensTransparency(
+      tester,
+      initialLocation: '/dua/dua_ease',
+    );
+    await _expectSourceLinkOpensTransparency(
+      tester,
+      initialLocation: '/dhikr/dhikr_subhanallah',
+    );
+    await _expectSourceLinkOpensTransparency(
+      tester,
+      initialLocation: '/quran/94:5',
+    );
+    await _expectSourceLinkOpensTransparency(
+      tester,
+      initialLocation: '/session/session_morning_ease',
+      beforeTap: () async {
+        for (var i = 0; i < 3; i += 1) {
+          await tapByKey(tester, SakinahKeys.sessionNextButton);
+        }
+      },
+    );
+
+    expect(find.text('No generated religious text'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Content Sources page renders in English Indonesian and Arabic',
       (tester) async {
     const languages = ['en', 'id', 'ar'];
@@ -68,4 +96,26 @@ void main() {
       expectNoFlutterErrors(tester);
     }
   });
+}
+
+Future<void> _expectSourceLinkOpensTransparency(
+  WidgetTester tester, {
+  required String initialLocation,
+  Future<void> Function()? beforeTap,
+}) async {
+  await pumpSakinahApp(
+    tester,
+    initialLocation: initialLocation,
+    settleSplash: false,
+  );
+  await tester.pumpAndSettle();
+
+  if (beforeTap != null) {
+    await beforeTap();
+  }
+
+  await tapByKey(tester, SakinahKeys.contentSourceLink);
+
+  expect(find.byKey(SakinahKeys.contentSourcesPage), findsOneWidget);
+  expect(find.text('Content Sources'), findsWidgets);
 }

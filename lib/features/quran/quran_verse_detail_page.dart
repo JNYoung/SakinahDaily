@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
@@ -11,6 +12,7 @@ import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
+import '../../shared/widgets/source_chip.dart';
 
 class QuranVerseDetailPage extends ConsumerWidget {
   const QuranVerseDetailPage({required this.verseKey, super.key});
@@ -65,8 +67,7 @@ class QuranVerseDetailPage extends ConsumerWidget {
                 width: 140,
                 child: PrimaryButton(
                   key: SakinahKeys.quranVerseSaveButton,
-                  label:
-                      isSaved ? l10n.t('savedAyah') : l10n.t('saveAyah'),
+                  label: isSaved ? l10n.t('savedAyah') : l10n.t('saveAyah'),
                   tonal: true,
                   onPressed: () {
                     final item = SavedItem(
@@ -114,10 +115,11 @@ class QuranVerseDetailPage extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 18),
-                Text(
-                  ayah.source,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall,
+                SourceChip(
+                  key: SakinahKeys.contentSourceLink,
+                  source: ayah.source,
+                  reviewStatus: ayah.reviewStatus.name,
+                  onTap: () => context.push('/settings/content-sources'),
                 ),
               ],
             ),

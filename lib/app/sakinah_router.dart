@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/providers/app_providers.dart';
 import '../features/daily_session/daily_session_page.dart';
 import '../features/daily_session/session_completion_page.dart';
 import '../features/dhikr/dhikr_page.dart';
@@ -24,7 +25,8 @@ import '../features/settings/womens_ibadah_mode_page.dart';
 import '../features/splash/splash_page.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  return createSakinahRouter();
+  final environment = ref.watch(appEnvironmentConfigProvider);
+  return createSakinahRouter(initialLocation: environment.initialRoute);
 });
 
 GoRouter createSakinahRouter({String initialLocation = '/splash'}) {

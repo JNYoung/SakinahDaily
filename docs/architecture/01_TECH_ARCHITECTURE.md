@@ -11,6 +11,12 @@ Flutter App
   ├── Audio playback
   └── CMS/API client
 
+Backend API BFF
+  ├── City catalog / prayer-ready location resolution
+  ├── Generic manifest and bundle delivery
+  ├── Detail-bundle lookup for push deep links
+  └── Local push preview and future FCM adapter boundary
+
 Supabase
   ├── Postgres
   ├── Auth
@@ -82,6 +88,8 @@ HomeScreen
 
 ```text
 LocationPreference
+  -> Backend API city catalog or device/manual coordinates
+  -> latitude + longitude + timezone + calculation method
   -> PrayerCalculationService
   -> PrayerSchedule
   -> LocalNotificationService.schedulePrayerReminders
@@ -91,6 +99,7 @@ LocationPreference
 
 ```text
 Directus/Supabase API
+  -> Backend API BFF or generic content endpoint
   -> CmsContentRepository
   -> validate published + approved
   -> app models

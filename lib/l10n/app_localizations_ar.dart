@@ -329,11 +329,11 @@ class AppLocalizationsAr extends AppLocalizations {
       'موقع الجهاز غير متاح. أدخل الموقع يدويا بدلا من ذلك.';
 
   @override
-  String get manualPrayerLocationTitle => 'موقع الصلاة اليدوي';
+  String get manualPrayerLocationTitle => 'موقع الصلاة';
 
   @override
   String get manualPrayerLocationBody =>
-      'أدخل موقع الصلاة يدويا، أو استخدم موقع الجهاز بعد الشرح أعلاه. يحفظ موقع الصلاة محليا لأوقات الصلاة والقبلة.';
+      'اختر مدينة، أو استخدم موقع الجهاز، أو عدل الإحداثيات عند الحاجة فقط. يحفظ موقع الصلاة محليا لأوقات الصلاة والقبلة.';
 
   @override
   String get locationLabel => 'اسم الموقع';

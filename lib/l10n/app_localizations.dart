@@ -715,13 +715,13 @@ abstract class AppLocalizations {
   /// No description provided for @manualPrayerLocationTitle.
   ///
   /// In en, this message translates to:
-  /// **'Manual prayer location'**
+  /// **'Prayer location'**
   String get manualPrayerLocationTitle;
 
   /// No description provided for @manualPrayerLocationBody.
   ///
   /// In en, this message translates to:
-  /// **'Enter a prayer location manually, or use device location after the explanation above. Prayer location is stored locally for prayer times and Qibla.'**
+  /// **'Choose a city, use device location, or edit coordinates only if needed. Prayer location is stored locally for prayer times and Qibla.'**
   String get manualPrayerLocationBody;
 
   /// No description provided for @locationLabel.

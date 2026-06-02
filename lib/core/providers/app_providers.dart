@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/app_environment.dart';
+import '../config/backend_api_config.dart';
 import '../config/content_api_config.dart';
 import '../models/saved_item.dart';
 import '../models/sakinah_models.dart';
@@ -27,6 +28,7 @@ import '../services/prayer_calculation_service.dart';
 import '../services/push_candidate_selector.dart';
 import '../services/qibla_service.dart';
 import '../services/remote_content_api_client.dart';
+import '../services/remote_prayer_location_api_client.dart';
 import '../services/women_mode_content_policy.dart';
 
 final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
@@ -382,6 +384,10 @@ final contentApiConfigProvider = Provider<ContentApiConfig>((ref) {
   return ContentApiConfig.fromEnvironment();
 });
 
+final backendApiConfigProvider = Provider<BackendApiConfig>((ref) {
+  return BackendApiConfig.fromEnvironment();
+});
+
 final contentHttpClientProvider = Provider<ContentHttpClient>((ref) {
   final client = DartHttpContentClient();
   ref.onDispose(client.close);
@@ -394,6 +400,18 @@ final remoteManifestClientProvider = Provider<RemoteManifestClient?>((ref) {
     return null;
   }
   return HttpRemoteManifestClient(
+    config: config,
+    httpClient: ref.watch(contentHttpClientProvider),
+  );
+});
+
+final remotePrayerLocationClientProvider =
+    Provider<PrayerLocationCatalogClient?>((ref) {
+  final config = ref.watch(backendApiConfigProvider);
+  if (!config.isUsable) {
+    return null;
+  }
+  return HttpRemotePrayerLocationClient(
     config: config,
     httpClient: ref.watch(contentHttpClientProvider),
   );

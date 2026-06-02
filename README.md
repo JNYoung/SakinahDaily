@@ -16,6 +16,8 @@ This repository contains the local MVP foundation:
 - Flutter client structure with routing, Riverpod providers, theme tokens,
   localization, RTL support, onboarding, splash, home, prayer, daily session,
   Dua, Dhikr, settings, seed content, and analytics stubs.
+- TypeScript `services/backend-api` foundation for city search, prayer-ready
+  location resolution, generic content delivery, and local push preview.
 - TypeScript `services/content-agent` foundation with deterministic draft
   generation and guardrail tests.
 - Python `scripts/source_corpus` tooling for Quran source corpus parsing,
@@ -100,6 +102,24 @@ cd services/content-agent
 npm install
 npm test
 npm run typecheck
+```
+
+Backend API service:
+
+```sh
+cd services/backend-api
+npm install
+npm test
+npm run typecheck
+npm run dev
+```
+
+Flutter can use the local mock Backend API for prayer city catalog integration:
+
+```sh
+flutter run \
+  --dart-define=SAKINAH_BACKEND_API_ENABLED=true \
+  --dart-define=SAKINAH_BACKEND_API_BASE_URL=http://127.0.0.1:8800
 ```
 
 Source corpus scripts:

@@ -25,11 +25,15 @@ class ManualPrayerLocationPage extends ConsumerStatefulWidget {
 class _ManualPrayerLocationPageState
     extends ConsumerState<ManualPrayerLocationPage> {
   final _formKey = GlobalKey<FormState>();
+  final _methodDropdownKey = GlobalKey<FormFieldState<String>>();
   late final TextEditingController _labelController;
   late final TextEditingController _latitudeController;
   late final TextEditingController _longitudeController;
   late final TextEditingController _timezoneController;
   late String _method;
+  late String? _selectedPresetId;
+  late List<PrayerLocationPreset> _cityPresets;
+  bool _syncingPresetMethod = false;
 
   @override
   void initState() {
@@ -41,6 +45,9 @@ class _ManualPrayerLocationPageState
     _timezoneController =
         TextEditingController(text: settings.timezoneId ?? '');
     _method = settings.method;
+    _cityPresets = PrayerCalculationService.locationPresets;
+    _selectedPresetId = _matchingPresetId(settings);
+    unawaited(_loadRemoteCityPresets());
   }
 
   @override
@@ -56,6 +63,10 @@ class _ManualPrayerLocationPageState
   Widget build(BuildContext context) {
     final l10n = SakinahLocalizations.of(context);
     final prayerService = ref.watch(prayerCalculationServiceProvider);
+    final selectedPresetId =
+        _cityPresets.any((preset) => preset.id == _selectedPresetId)
+            ? _selectedPresetId
+            : null;
 
     return LanguageAwareScaffold(
       title: l10n.t('manualPrayerLocationTitle'),
@@ -111,6 +122,48 @@ class _ManualPrayerLocationPageState
               padding: const EdgeInsets.all(18),
               child: Column(
                 children: [
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(
+                      l10n.t('choosePrayerCityTitle'),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(l10n.t('choosePrayerCityBody')),
+                  const SizedBox(height: 14),
+                  DropdownButtonFormField<String>(
+                    key: SakinahKeys.manualLocationPresetDropdown,
+                    initialValue: selectedPresetId,
+                    decoration: InputDecoration(
+                      labelText: l10n.t('prayerCityPreset'),
+                      border: const OutlineInputBorder(),
+                    ),
+                    items: [
+                      for (final preset in _cityPresets)
+                        DropdownMenuItem(
+                          value: preset.id,
+                          child: Text(preset.label),
+                        ),
+                    ],
+                    onChanged: (value) {
+                      final preset = _cityPresets
+                          .where((preset) => preset.id == value)
+                          .firstOrNull;
+                      if (preset != null) {
+                        _applyPreset(preset);
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 18),
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(
+                      l10n.t('advancedLocationDetails'),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
                   TextFormField(
                     key: SakinahKeys.manualLocationLabelField,
                     controller: _labelController,
@@ -124,6 +177,7 @@ class _ManualPrayerLocationPageState
                       }
                       return null;
                     },
+                    onChanged: (_) => _clearPresetSelection(),
                   ),
                   const SizedBox(height: 14),
                   TextFormField(
@@ -138,6 +192,7 @@ class _ManualPrayerLocationPageState
                       signed: true,
                     ),
                     inputFormatters: [_CoordinateInputFormatter()],
+                    onChanged: (_) => _clearPresetSelection(),
                     validator: (value) => _validateRange(
                       value,
                       min: -90,
@@ -158,6 +213,7 @@ class _ManualPrayerLocationPageState
                       signed: true,
                     ),
                     inputFormatters: [_CoordinateInputFormatter()],
+                    onChanged: (_) => _clearPresetSelection(),
                     validator: (value) => _validateRange(
                       value,
                       min: -180,
@@ -173,28 +229,39 @@ class _ManualPrayerLocationPageState
                       labelText: l10n.t('timezoneId'),
                       border: const OutlineInputBorder(),
                     ),
+                    onChanged: (_) => _clearPresetSelection(),
                   ),
                   const SizedBox(height: 14),
-                  DropdownButtonFormField<String>(
+                  KeyedSubtree(
                     key: SakinahKeys.manualPrayerMethodDropdown,
-                    initialValue: _method,
-                    decoration: InputDecoration(
-                      labelText: l10n.t('prayerMethod'),
-                      border: const OutlineInputBorder(),
+                    child: DropdownButtonFormField<String>(
+                      key: _methodDropdownKey,
+                      initialValue: _method,
+                      decoration: InputDecoration(
+                        labelText: l10n.t('prayerMethod'),
+                        border: const OutlineInputBorder(),
+                      ),
+                      items: [
+                        for (final methodId
+                            in PrayerCalculationService.supportedMethodIds)
+                          DropdownMenuItem(
+                            value: methodId,
+                            child: Text(prayerService.methodLabel(methodId)),
+                          ),
+                      ],
+                      onChanged: (value) {
+                        if (value != null) {
+                          if (_syncingPresetMethod) {
+                            _method = value;
+                            return;
+                          }
+                          setState(() {
+                            _method = value;
+                            _selectedPresetId = null;
+                          });
+                        }
+                      },
                     ),
-                    items: [
-                      for (final methodId
-                          in PrayerCalculationService.supportedMethodIds)
-                        DropdownMenuItem(
-                          value: methodId,
-                          child: Text(prayerService.methodLabel(methodId)),
-                        ),
-                    ],
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() => _method = value);
-                      }
-                    },
                   ),
                 ],
               ),
@@ -225,7 +292,9 @@ class _ManualPrayerLocationPageState
       method: _method,
       locationLabel: _labelController.text.trim(),
       timezoneId: timezone.isEmpty ? null : timezone,
-      locationMode: PrayerLocationMode.manual,
+      locationMode: _selectedPresetId == null
+          ? PrayerLocationMode.manual
+          : PrayerLocationMode.preset,
     );
     await ref.read(userPreferencesProvider.notifier).setPrayerSettings(
           settings,
@@ -254,7 +323,69 @@ class _ManualPrayerLocationPageState
       _longitudeController.text = '${settings.longitude}';
       _timezoneController.text = settings.timezoneId ?? '';
       _method = settings.method;
+      _selectedPresetId = _matchingPresetId(settings);
+      _methodDropdownKey.currentState?.didChange(settings.method);
     });
+  }
+
+  Future<void> _loadRemoteCityPresets() async {
+    final client = ref.read(remotePrayerLocationClientProvider);
+    if (client == null) {
+      return;
+    }
+    try {
+      final presets = await client.searchCities(
+        locale: ref.read(localeProvider).languageCode,
+      );
+      if (!mounted || presets.isEmpty) {
+        return;
+      }
+      final settings = ref.read(userPreferencesProvider).prayerSettings;
+      setState(() {
+        _cityPresets = presets;
+        _selectedPresetId = _matchingPresetId(settings);
+      });
+    } on Object {
+      // Keep the bundled MVP presets as the offline fallback.
+    }
+  }
+
+  void _applyPreset(PrayerLocationPreset preset) {
+    _syncingPresetMethod = true;
+    setState(() {
+      _selectedPresetId = preset.id;
+      _labelController.text = preset.label;
+      _latitudeController.text = '${preset.latitude}';
+      _longitudeController.text = '${preset.longitude}';
+      _timezoneController.text = preset.timezoneId;
+      _method = preset.method;
+      _methodDropdownKey.currentState?.didChange(preset.method);
+    });
+    _syncingPresetMethod = false;
+  }
+
+  void _clearPresetSelection() {
+    if (_selectedPresetId == null) {
+      return;
+    }
+    setState(() => _selectedPresetId = null);
+  }
+
+  String? _matchingPresetId(PrayerSettings settings) {
+    if (settings.locationMode != PrayerLocationMode.preset) {
+      return null;
+    }
+    return _cityPresets
+        .where(
+          (preset) =>
+              preset.label == settings.locationLabel &&
+              preset.latitude == settings.latitude &&
+              preset.longitude == settings.longitude &&
+              preset.timezoneId == settings.timezoneId &&
+              preset.method == settings.method,
+        )
+        .firstOrNull
+        ?.id;
   }
 
   String? _validateRange(
@@ -283,4 +414,8 @@ class _CoordinateInputFormatter extends TextInputFormatter {
     }
     return oldValue;
   }
+}
+
+extension _FirstOrNull<T> on Iterable<T> {
+  T? get firstOrNull => isEmpty ? null : first;
 }

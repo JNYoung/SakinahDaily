@@ -35,6 +35,27 @@ iOS:
 
 ## Automation Notes
 
+The real-device route screenshot helper can capture the main QA/store surfaces
+without coordinate tapping by using the dev-only `SAKINAH_INITIAL_ROUTE`
+dart-define:
+
+```sh
+DEVICE_ID=SC65XWPZ7DLNUSTC \
+  scripts/android_e2e/capture_route_screenshots.sh
+```
+
+Captured files are written to `build/e2e/route-screenshots-<timestamp>/`.
+The route override is ignored in `prod` builds and is intended for dev/staging
+QA only.
+
+To smoke a single route during development:
+
+```sh
+DEVICE_ID=SC65XWPZ7DLNUSTC \
+  ROUTE_SPECS_OVERRIDE='privacy-center|/settings/privacy' \
+  scripts/android_e2e/capture_route_screenshots.sh
+```
+
 Useful existing test keys:
 
 - `SakinahKeys.homePrayerBadge`

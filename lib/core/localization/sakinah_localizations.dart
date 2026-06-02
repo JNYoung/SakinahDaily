@@ -139,9 +139,14 @@ class SakinahLocalizations {
           'Location services are off. Enter location manually instead.',
       'deviceLocationUnavailableFallback':
           'Device location is unavailable. Enter location manually instead.',
-      'manualPrayerLocationTitle': 'Manual prayer location',
+      'manualPrayerLocationTitle': 'Prayer location',
       'manualPrayerLocationBody':
-          'Enter a prayer location manually, or use device location after the explanation above. Prayer location is stored locally for prayer times and Qibla.',
+          'Choose a city, use device location, or edit coordinates only if needed. Prayer location is stored locally for prayer times and Qibla.',
+      'choosePrayerCityTitle': 'Choose a city',
+      'choosePrayerCityBody':
+          'Prayer times need both city coordinates and timezone. Pick a common city to fill them, then edit details only if needed.',
+      'prayerCityPreset': 'City or region',
+      'advancedLocationDetails': 'Location details',
       'locationLabel': 'Location label',
       'latitude': 'Latitude',
       'longitude': 'Longitude',
@@ -515,9 +520,14 @@ class SakinahLocalizations {
           'Layanan lokasi mati. Masukkan lokasi secara manual.',
       'deviceLocationUnavailableFallback':
           'Lokasi perangkat tidak tersedia. Masukkan lokasi secara manual.',
-      'manualPrayerLocationTitle': 'Lokasi shalat manual',
+      'manualPrayerLocationTitle': 'Lokasi shalat',
       'manualPrayerLocationBody':
-          'Masukkan lokasi shalat secara manual, atau gunakan lokasi perangkat setelah penjelasan di atas. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.',
+          'Pilih kota, gunakan lokasi perangkat, atau ubah koordinat hanya jika perlu. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.',
+      'choosePrayerCityTitle': 'Pilih kota',
+      'choosePrayerCityBody':
+          'Waktu shalat memerlukan koordinat kota dan zona waktu. Pilih kota umum untuk mengisinya, lalu ubah detail hanya jika perlu.',
+      'prayerCityPreset': 'Kota atau wilayah',
+      'advancedLocationDetails': 'Detail lokasi',
       'locationLabel': 'Label lokasi',
       'latitude': 'Lintang',
       'longitude': 'Bujur',
@@ -888,9 +898,14 @@ class SakinahLocalizations {
           'خدمات الموقع متوقفة. أدخل الموقع يدويا بدلا من ذلك.',
       'deviceLocationUnavailableFallback':
           'موقع الجهاز غير متاح. أدخل الموقع يدويا بدلا من ذلك.',
-      'manualPrayerLocationTitle': 'موقع الصلاة اليدوي',
+      'manualPrayerLocationTitle': 'موقع الصلاة',
       'manualPrayerLocationBody':
-          'أدخل موقع الصلاة يدويا، أو استخدم موقع الجهاز بعد الشرح أعلاه. يحفظ موقع الصلاة محليا لأوقات الصلاة والقبلة.',
+          'اختر مدينة، أو استخدم موقع الجهاز، أو عدل الإحداثيات عند الحاجة فقط. يحفظ موقع الصلاة محليا لأوقات الصلاة والقبلة.',
+      'choosePrayerCityTitle': 'اختر مدينة',
+      'choosePrayerCityBody':
+          'تحتاج أوقات الصلاة إلى إحداثيات المدينة والمنطقة الزمنية معا. اختر مدينة شائعة لملئها ثم عدل التفاصيل عند الحاجة فقط.',
+      'prayerCityPreset': 'المدينة أو المنطقة',
+      'advancedLocationDetails': 'تفاصيل الموقع',
       'locationLabel': 'اسم الموقع',
       'latitude': 'خط العرض',
       'longitude': 'خط الطول',

@@ -44,6 +44,26 @@ Optional:
 Do not commit tokens, `.env` files, `key.properties`, keystores, or service
 account files. Prefer CI secrets or local untracked shell configuration.
 
+## Backend API
+
+The Backend API is disabled unless explicitly configured. It currently powers
+mock city catalog integration for Prayer location and can also serve the generic
+content paths when pointed at `services/backend-api`.
+
+```sh
+--dart-define=SAKINAH_BACKEND_API_ENABLED=true
+--dart-define=SAKINAH_BACKEND_API_BASE_URL=http://127.0.0.1:8800
+```
+
+Optional:
+
+```sh
+--dart-define=SAKINAH_BACKEND_API_TOKEN=...
+```
+
+For a physical Android device connected over USB, use `adb reverse tcp:8800
+tcp:8800` before launching with `http://127.0.0.1:8800`.
+
 ## Telemetry
 
 `analyticsEnabled` and `crashReportingEnabled` are hard-disabled in
@@ -64,7 +84,9 @@ Staging:
 flutter run \
   --dart-define=SAKINAH_APP_ENV=staging \
   --dart-define=SAKINAH_CONTENT_API_ENABLED=true \
-  --dart-define=SAKINAH_CONTENT_API_BASE_URL=https://staging-content.example
+  --dart-define=SAKINAH_CONTENT_API_BASE_URL=https://staging-content.example \
+  --dart-define=SAKINAH_BACKEND_API_ENABLED=true \
+  --dart-define=SAKINAH_BACKEND_API_BASE_URL=https://staging-api.example
 ```
 
 Prod dry run without remote content:
