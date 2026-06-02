@@ -139,9 +139,14 @@ class SakinahLocalizations {
           'Location services are off. Enter location manually instead.',
       'deviceLocationUnavailableFallback':
           'Device location is unavailable. Enter location manually instead.',
-      'manualPrayerLocationTitle': 'Manual prayer location',
+      'manualPrayerLocationTitle': 'Prayer location',
       'manualPrayerLocationBody':
-          'Enter a prayer location manually, or use device location after the explanation above. Prayer location is stored locally for prayer times and Qibla.',
+          'Choose a city, use device location, or edit coordinates only if needed. Prayer location is stored locally for prayer times and Qibla.',
+      'choosePrayerCityTitle': 'Choose a city',
+      'choosePrayerCityBody':
+          'Prayer times need both city coordinates and timezone. Pick a common city to fill them, then edit details only if needed.',
+      'prayerCityPreset': 'City or region',
+      'advancedLocationDetails': 'Location details',
       'locationLabel': 'Location label',
       'latitude': 'Latitude',
       'longitude': 'Longitude',
@@ -223,6 +228,21 @@ class SakinahLocalizations {
       'remoteContentPrivacyTitle': 'Remote content cache',
       'remoteContentPrivacyBody':
           'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.',
+      'contentSourcesTitle': 'Content Sources',
+      'contentSourcesSubtitle':
+          'How Quran, dua, dhikr, and session content are reviewed.',
+      'contentSourcesSeedTitle': 'Bundled seed content',
+      'contentSourcesSeedBody':
+          'The app includes a small offline seed set for MVP flows. Seed items still carry source labels and review status.',
+      'contentSourcesCmsTitle': 'Reviewed CMS bundles',
+      'contentSourcesCmsBody':
+          'Future remote bundles must be published and approved before the client can display them, then are cached locally after validation.',
+      'contentSourcesReviewTitle': 'Review status meanings',
+      'contentSourcesReviewBody':
+          'Approved content can be shown. Draft, in-review, rejected, or revoked content is hidden from the client.',
+      'contentSourcesNotGeneratedTitle': 'No generated religious text',
+      'contentSourcesNotGeneratedBody':
+          'Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source labels. Approved sources must be imported or reviewed before display.',
       'deleteLocalDataTitle': 'Delete local data',
       'deleteLocalDataBody':
           'Reset app preferences, saved items, session progress, women’s mode state, local content cache, and scheduled reminders on this device.',
@@ -500,9 +520,14 @@ class SakinahLocalizations {
           'Layanan lokasi mati. Masukkan lokasi secara manual.',
       'deviceLocationUnavailableFallback':
           'Lokasi perangkat tidak tersedia. Masukkan lokasi secara manual.',
-      'manualPrayerLocationTitle': 'Lokasi shalat manual',
+      'manualPrayerLocationTitle': 'Lokasi shalat',
       'manualPrayerLocationBody':
-          'Masukkan lokasi shalat secara manual, atau gunakan lokasi perangkat setelah penjelasan di atas. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.',
+          'Pilih kota, gunakan lokasi perangkat, atau ubah koordinat hanya jika perlu. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.',
+      'choosePrayerCityTitle': 'Pilih kota',
+      'choosePrayerCityBody':
+          'Waktu shalat memerlukan koordinat kota dan zona waktu. Pilih kota umum untuk mengisinya, lalu ubah detail hanya jika perlu.',
+      'prayerCityPreset': 'Kota atau wilayah',
+      'advancedLocationDetails': 'Detail lokasi',
       'locationLabel': 'Label lokasi',
       'latitude': 'Lintang',
       'longitude': 'Bujur',
@@ -585,6 +610,21 @@ class SakinahLocalizations {
       'remoteContentPrivacyTitle': 'Cache konten jarak jauh',
       'remoteContentPrivacyBody':
           'Bundle konten yang disetujui dapat disimpan di perangkat ini. Permintaan konten jarak jauh dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.',
+      'contentSourcesTitle': 'Sumber Konten',
+      'contentSourcesSubtitle':
+          'Cara konten Quran, doa, dzikir, dan sesi ditinjau.',
+      'contentSourcesSeedTitle': 'Konten seed bawaan',
+      'contentSourcesSeedBody':
+          'Aplikasi menyertakan set seed offline kecil untuk alur MVP. Item seed tetap memiliki label sumber dan status tinjauan.',
+      'contentSourcesCmsTitle': 'Bundle CMS yang ditinjau',
+      'contentSourcesCmsBody':
+          'Bundle jarak jauh mendatang harus published dan approved sebelum dapat ditampilkan klien, lalu disimpan lokal setelah validasi.',
+      'contentSourcesReviewTitle': 'Makna status tinjauan',
+      'contentSourcesReviewBody':
+          'Konten approved dapat ditampilkan. Konten draft, in-review, rejected, atau revoked disembunyikan dari klien.',
+      'contentSourcesNotGeneratedTitle': 'Tidak ada teks agama generatif',
+      'contentSourcesNotGeneratedBody':
+          'Sakinah tidak menghasilkan Quran, doa, dzikir, Hadith, terjemahan, atau label sumber. Sumber yang disetujui harus diimpor atau ditinjau sebelum tampil.',
       'deleteLocalDataTitle': 'Hapus data lokal',
       'deleteLocalDataBody':
           'Reset preferensi aplikasi, item tersimpan, progres sesi, status mode perempuan, cache konten lokal, dan pengingat terjadwal di perangkat ini.',
@@ -858,9 +898,14 @@ class SakinahLocalizations {
           'خدمات الموقع متوقفة. أدخل الموقع يدويا بدلا من ذلك.',
       'deviceLocationUnavailableFallback':
           'موقع الجهاز غير متاح. أدخل الموقع يدويا بدلا من ذلك.',
-      'manualPrayerLocationTitle': 'موقع الصلاة اليدوي',
+      'manualPrayerLocationTitle': 'موقع الصلاة',
       'manualPrayerLocationBody':
-          'أدخل موقع الصلاة يدويا، أو استخدم موقع الجهاز بعد الشرح أعلاه. يحفظ موقع الصلاة محليا لأوقات الصلاة والقبلة.',
+          'اختر مدينة، أو استخدم موقع الجهاز، أو عدل الإحداثيات عند الحاجة فقط. يحفظ موقع الصلاة محليا لأوقات الصلاة والقبلة.',
+      'choosePrayerCityTitle': 'اختر مدينة',
+      'choosePrayerCityBody':
+          'تحتاج أوقات الصلاة إلى إحداثيات المدينة والمنطقة الزمنية معا. اختر مدينة شائعة لملئها ثم عدل التفاصيل عند الحاجة فقط.',
+      'prayerCityPreset': 'المدينة أو المنطقة',
+      'advancedLocationDetails': 'تفاصيل الموقع',
       'locationLabel': 'اسم الموقع',
       'latitude': 'خط العرض',
       'longitude': 'خط الطول',
@@ -939,6 +984,21 @@ class SakinahLocalizations {
       'remoteContentPrivacyTitle': 'ذاكرة المحتوى عن بعد',
       'remoteContentPrivacyBody':
           'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.',
+      'contentSourcesTitle': 'مصادر المحتوى',
+      'contentSourcesSubtitle':
+          'كيف تراجع محتويات القرآن والدعاء والذكر والجلسات.',
+      'contentSourcesSeedTitle': 'محتوى مبدئي مرفق',
+      'contentSourcesSeedBody':
+          'يتضمن التطبيق مجموعة مبدئية صغيرة تعمل دون اتصال لتدفقات نسخة MVP. تبقى العناصر المبدئية مع وسم مصدر وحالة مراجعة.',
+      'contentSourcesCmsTitle': 'حزم CMS مراجعة',
+      'contentSourcesCmsBody':
+          'يجب أن تكون الحزم البعيدة المستقبلية منشورة ومعتمدة قبل أن يعرضها العميل، ثم تخزن محليا بعد التحقق.',
+      'contentSourcesReviewTitle': 'معاني حالة المراجعة',
+      'contentSourcesReviewBody':
+          'يمكن عرض المحتوى المعتمد. يخفى المحتوى المسودة أو قيد المراجعة أو المرفوض أو الملغى عن العميل.',
+      'contentSourcesNotGeneratedTitle': 'لا نص ديني مولد',
+      'contentSourcesNotGeneratedBody':
+          'لا ينشئ Sakinah القرآن أو الدعاء أو الذكر أو Hadith أو الترجمات أو وسوم المصادر. يجب استيراد المصادر المعتمدة أو مراجعتها قبل العرض.',
       'deleteLocalDataTitle': 'حذف البيانات المحلية',
       'deleteLocalDataBody':
           'إعادة ضبط تفضيلات التطبيق والعناصر المحفوظة وتقدم الجلسات وحالة وضع النساء وذاكرة المحتوى المحلية والتذكيرات المجدولة على هذا الجهاز.',

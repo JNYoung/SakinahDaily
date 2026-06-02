@@ -19,6 +19,8 @@
 
 ### P0
 
+- 提供城市搜索/常用城市库，返回经纬度、时区和 prayer calculation method。
+- 提供 prayer-ready location resolution；时区单独不能作为礼拜时间计算输入。
 - 提供 published + approved 内容读取。
 - 保存非敏感用户偏好，若用户登录。
 - 保存收藏内容，若用户登录。
@@ -60,6 +62,33 @@ GET /content/audio-assets/:id
 status = published
 review_status = approved
 ```
+
+### Location API
+
+```text
+GET /locations/cities?query=jakarta&country=ID&locale=id
+GET /locations/cities/:city_id
+POST /locations/resolve
+GET /locations/timezones?country=ID
+```
+
+`/locations/resolve` 必须返回经纬度、时区和计算法。仅返回 timezone
+不足以计算礼拜时间。
+
+### MVP Backend BFF
+
+当前仓库新增 `services/backend-api` 作为本地可测 BFF 骨架：
+
+```text
+GET /health
+GET /manifest
+GET /bundles/:bundle_id.json
+GET /detail-bundle?bundle_hint=:content_id
+POST /push/preview
+```
+
+该项目暂不连接生产 Supabase、Directus、FCM 或 APNs；它先稳定客户端和后续
+服务端之间的 API 合约。
 
 ### User API
 

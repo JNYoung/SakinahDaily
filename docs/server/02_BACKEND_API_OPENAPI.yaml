@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: Sakinah Backend API
+  version: 0.1.0
+  description: >
+    Local MVP backend BFF for city lookup, prayer-ready location resolution,
+    content-pack delivery, and push preview. This API does not send live FCM/APNs
+    pushes and does not generate religious content.
+servers:
+  - url: http://127.0.0.1:8800
+paths:
+  /health:
+    get:
+      summary: Service health and capabilities
+      responses:
+        "200":
+          description: Backend is available
+  /locations/cities:
+    get:
+      summary: Search curated city catalog
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
+          name: country
+          schema:
+            type: string
+            example: ID
+        - in: query
+          name: locale
+          schema:
+            type: string
+            enum: [en, id, ar]
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+      responses:
+        "200":
+          description: City search results
+  /locations/cities/{cityId}:
+    get:
+      summary: Fetch one city
+      parameters:
+        - in: path
+          name: cityId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: City record
+        "404":
+          description: City not found
+  /locations/resolve:
+    post:
+      summary: Resolve a city ID or coordinates to a prayer-ready location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                  required: [cityId]
+                  properties:
+                    cityId:
+                      type: string
+                      example: id-jakarta
+                - type: object
+                  required: [latitude, longitude]
+                  properties:
+                    latitude:
+                      type: number
+                      example: -6.2088
+                    longitude:
+                      type: number
+                      example: 106.8456
+      responses:
+        "200":
+          description: Prayer-ready location
+        "422":
+          description: Missing coordinates or unknown city
+  /locations/timezones:
+    get:
+      summary: List supported catalog timezones
+      parameters:
+        - in: query
+          name: country
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Timezone list
+  /manifest:
+    get:
+      summary: Generic content manifest alias
+      responses:
+        "200":
+          description: Content manifest
+        "404":
+          description: Manifest not found
+  /bundles/{bundleId}.json:
+    get:
+      summary: Generic content bundle alias
+      parameters:
+        - in: path
+          name: bundleId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Content bundle
+        "404":
+          description: Bundle not found
+  /detail-bundle:
+    get:
+      summary: Generic detail-bundle alias
+      parameters:
+        - in: query
+          name: bundle_hint
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Bundle ref
+        "404":
+          description: Bundle hint not found
+  /content/manifest:
+    get:
+      summary: Grouped BFF content manifest
+      responses:
+        "200":
+          description: Content manifest
+        "404":
+          description: Manifest not found
+  /content/bundles/{bundleId}.json:
+    get:
+      summary: Grouped BFF content bundle
+      parameters:
+        - in: path
+          name: bundleId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Content bundle
+        "404":
+          description: Bundle not found
+  /content/detail-bundle:
+    get:
+      summary: Grouped BFF detail-bundle lookup
+      parameters:
+        - in: query
+          name: bundle_hint
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Bundle ref
+        "404":
+          description: Bundle hint not found
+  /push/preview:
+    post:
+      summary: Preview a local lock-screen-safe push payload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                language:
+                  type: string
+                  enum: [en, id, ar]
+                type:
+                  type: string
+                  example: daily_session
+                contentId:
+                  type: string
+                  example: session_morning_ease
+                womenIbadahSafeRequired:
+                  type: boolean
+      responses:
+        "200":
+          description: Preview result. sent is always false.
+  /push/send:
+    post:
+      summary: Queue a local preview payload without sending FCM/APNs
+      responses:
+        "200":
+          description: Queue result. sent is always false.
+  /push/messages:
+    get:
+      summary: Inspect queued local push payloads
+      responses:
+        "200":
+          description: Queued messages
+    delete:
+      summary: Clear queued local push payloads
+      responses:
+        "200":
+          description: Queue cleared

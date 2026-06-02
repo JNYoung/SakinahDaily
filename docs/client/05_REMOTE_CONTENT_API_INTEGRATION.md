@@ -38,6 +38,13 @@ Local endpoints:
 - `GET /bundles/<bundle_id>.json`
 - `GET /detail-bundle?bundle_hint=<session_or_content_id>`
 
+`services/backend-api` also serves the same generic paths, plus grouped BFF
+paths:
+
+- `GET /content/manifest`
+- `GET /content/bundles/<bundle_id>.json`
+- `GET /content/detail-bundle?bundle_hint=<session_or_content_id>`
+
 Dev mode can package the current seed content to prove downfeed wiring. Beta
 mode blocks delivery until the source JSON contains approved reviewed inventory
 with required counts, source labels, `version`, and `reviewedAt` metadata:

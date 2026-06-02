@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
@@ -203,8 +204,10 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
             ),
             const SizedBox(height: 24),
             SourceChip(
+              key: SakinahKeys.contentSourceLink,
               source: selected.source,
               reviewStatus: selected.reviewStatus.name,
+              onTap: () => context.push('/settings/content-sources'),
             ),
             const SizedBox(height: 18),
             PrimaryButton(

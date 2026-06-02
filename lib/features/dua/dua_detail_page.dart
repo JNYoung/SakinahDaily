@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
@@ -177,8 +178,10 @@ class DuaDetailPage extends ConsumerWidget {
             color: isDark ? SakinahColors.navyCard : const Color(0xFFEAF3E7),
             padding: EdgeInsets.zero,
             child: SourceChip(
+              key: SakinahKeys.contentSourceLink,
               source: dua.source,
               reviewStatus: dua.reviewStatus.name,
+              onTap: () => context.push('/settings/content-sources'),
             ),
           ),
         ],

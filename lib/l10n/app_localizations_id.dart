@@ -332,11 +332,11 @@ class AppLocalizationsId extends AppLocalizations {
       'Lokasi perangkat tidak tersedia. Masukkan lokasi secara manual.';
 
   @override
-  String get manualPrayerLocationTitle => 'Lokasi shalat manual';
+  String get manualPrayerLocationTitle => 'Lokasi shalat';
 
   @override
   String get manualPrayerLocationBody =>
-      'Masukkan lokasi shalat secara manual, atau gunakan lokasi perangkat setelah penjelasan di atas. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.';
+      'Pilih kota, gunakan lokasi perangkat, atau ubah koordinat hanya jika perlu. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.';
 
   @override
   String get locationLabel => 'Label lokasi';
@@ -546,6 +546,42 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get remoteContentPrivacyBody =>
       'Bundle konten yang disetujui dapat disimpan di perangkat ini. Permintaan konten jarak jauh dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.';
+
+  @override
+  String get contentSourcesTitle => 'Sumber Konten';
+
+  @override
+  String get contentSourcesSubtitle =>
+      'Cara konten Quran, doa, dzikir, dan sesi ditinjau.';
+
+  @override
+  String get contentSourcesSeedTitle => 'Konten seed bawaan';
+
+  @override
+  String get contentSourcesSeedBody =>
+      'Aplikasi menyertakan set seed offline kecil untuk alur MVP. Item seed tetap memiliki label sumber dan status tinjauan.';
+
+  @override
+  String get contentSourcesCmsTitle => 'Bundle CMS yang ditinjau';
+
+  @override
+  String get contentSourcesCmsBody =>
+      'Bundle jarak jauh mendatang harus published dan approved sebelum dapat ditampilkan klien, lalu disimpan lokal setelah validasi.';
+
+  @override
+  String get contentSourcesReviewTitle => 'Makna status tinjauan';
+
+  @override
+  String get contentSourcesReviewBody =>
+      'Konten approved dapat ditampilkan. Konten draft, in-review, rejected, atau revoked disembunyikan dari klien.';
+
+  @override
+  String get contentSourcesNotGeneratedTitle =>
+      'Tidak ada teks agama generatif';
+
+  @override
+  String get contentSourcesNotGeneratedBody =>
+      'Sakinah tidak menghasilkan Quran, doa, dzikir, Hadith, terjemahan, atau label sumber. Sumber yang disetujui harus diimpor atau ditinjau sebelum tampil.';
 
   @override
   String get deleteLocalDataTitle => 'Hapus data lokal';

@@ -62,6 +62,7 @@ lib/
 | `/dhikr` | DhikrScreen | P0 |
 | `/prayer` | PrayerScreen | P0 |
 | `/settings` | SettingsScreen | P0 |
+| `/settings/content-sources` | ContentSourcesScreen | P1 |
 | `/settings/women-ibadah` | WomenIbadahModeScreen | P0 |
 
 ## 5. Onboarding 需求
@@ -229,7 +230,8 @@ P1：
 - Notification schedule。
 - Privacy。
 - Women’s Ibadah Mode。
-- Content source / about。
+- Content source / about：Settings 入口和 `/settings/content-sources` 已实现；
+  说明 seed、reviewed CMS bundle、review status 语义以及不生成宗教文本。
 
 ## 12. Women’s Ibadah Mode 需求
 
@@ -324,6 +326,7 @@ women_ibadah_mode_changed
 | Daily Session | seed session 可端到端完成，进度/完成历史本地保存，完成页 Set daily reminder CTA 可用，Settings 可管理每日 session 提醒时间，冷启动可进 session | 更多 reviewed session 内容、真实设备通知 QA、授权音频资产与 hash 校验 |
 | Quran | 本地 approved seed ayah 入口和 `/quran/:verseKey` 详情可用，冷启动可进 verse | approved corpus 导入、生产来源替换、licensed reciter/offline audio |
 | Dua / Dhikr | library/detail/save/source/review status、分类筛选/搜索、Dhikr counter、冷启动进 dua detail 可用 | Listen/Repeat audio 行为、更多 reviewed CMS 内容、剩余 PRD 分类覆盖 |
+| Content Sources | Settings 内容来源透明页已实现，说明 seed/CMS 来源、审核状态和不生成宗教文本 | item-level source 深链、approved source corpus/content inventory |
 
 当前 v0.1 最需要产品决策的三件事：
 

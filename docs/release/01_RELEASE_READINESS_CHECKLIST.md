@@ -63,6 +63,7 @@ Status: Draft for release/store review.
 - [ ] `flutter run -d emulator-5554`
 - [ ] Real device Android prayer-location permission QA.
 - [ ] Real device notification permission QA.
+- [ ] Real device modular E2E smoke per `docs/testing/03_REAL_DEVICE_E2E_PLAN.md`.
 - [ ] iOS cold-start notification tap QA after iOS runtime is available.
 
 ## Not Included In This Milestone

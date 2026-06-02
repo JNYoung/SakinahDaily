@@ -42,6 +42,11 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Branch `codex/audio-cta-truthfulness` marks Dua detail audio as text-only until reviewed audio assets are approved, removing no-op Listen/Repeat buttons while keeping Quran no-BGM/text fallback rules intact.
 - Branch `codex/scheduled-content-pack-delivery` adds a local scheduled content-pack generator and read-only delivery endpoints for manifest, bundle, and detail-bundle testing. Dev mode can package current seed content for delivery proof; beta mode blocks until approved inventory reaches the reviewed 5-7 session, 30-50 dua, 20-30 dhikr, and 10-20 Quran ayah targets with source/version/reviewed date metadata.
 - Branch `codex/prayer-device-location-baseline` locks Prayer v0.1 to device location with explanatory permission copy, Android foreground coarse location, manual fallback for denied/unavailable states, and a real-device QA checklist. It does not add fine/background location, compass, or sensor permissions.
+- Branch `codex/content-sources-transparency` adds Settings > Content Sources, localized source/review explanations, no-generated-religious-text copy, route tests, and product documentation without adding new religious content, remote CMS calls, or secrets display.
+- 2026-06-02 continuation adds `services/backend-api`, a local TypeScript BFF
+  foundation for city search, prayer-ready location resolution, generic
+  content-pack delivery, and local push preview without production Supabase,
+  Directus, FCM/APNs, live geocoding, or secrets.
 
 ## Current Validation Gate
 
@@ -69,6 +74,10 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 13. Next audio milestone: add reviewed licensed reciter assets and offline audio cache validation when asset rights and hashes are finalized.
 14. Next content milestone: fill the approved content-pack source inventory so `CONTENT_PACK_PROFILE=beta npm run content-pack:generate` produces a deliverable manifest/bundle instead of an audit block.
 15. Next habit-loop milestone: add next-session suggestions after reviewed session content breadth improves.
+16. Next trust milestone: after approved inventory grows, link item-level source chips to Content Sources or source detail metadata.
+17. Next backend milestone: replace the MVP in-code city catalog with a
+    reviewed database-backed city table, then wire Flutter Prayer location to
+    `/locations/cities` and `/locations/resolve` behind seed fallback.
 
 ## Handoff Notes
 
