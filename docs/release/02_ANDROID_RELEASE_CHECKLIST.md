@@ -28,14 +28,23 @@ Before production:
 Current:
 
 - `android.permission.POST_NOTIFICATIONS`
+- `android.permission.ACCESS_COARSE_LOCATION`
 
 Not currently used:
 
-- `android.permission.ACCESS_COARSE_LOCATION`
 - `android.permission.ACCESS_FINE_LOCATION`
+- `android.permission.ACCESS_BACKGROUND_LOCATION`
+- `android.permission.FOREGROUND_SERVICE_LOCATION`
+- Compass/sensor permissions
 
-Do not add location permission without dedicated permission UX and an updated
-Google Play Data Safety review.
+Location baseline:
+
+- v0.1 uses foreground coarse device location for prayer time and Qibla setup.
+- The app must show explanatory copy before requesting location permission.
+- Denied, permanently denied, disabled service, and unavailable location states
+  must keep manual location entry available.
+- Do not add fine/background location or sensor permissions without a new
+  product, privacy, and store review.
 
 ## Build Commands
 

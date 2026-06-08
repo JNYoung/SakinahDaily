@@ -41,6 +41,7 @@ void main() {
     expect(loaded.prayerSettings.method, 'indonesia');
     expect(loaded.prayerSettings.locationLabel, 'Jakarta');
     expect(loaded.prayerSettings.timezoneId, 'Asia/Jakarta');
+    expect(loaded.prayerSettings.locationMode, PrayerLocationMode.manual);
     expect(loaded.womenIbadahMode.enabled, isTrue);
     expect(loaded.womenIbadahMode.status, WomenIbadahStatus.pregnancy);
     expect(loaded.womenIbadahMode.localOnly, isTrue);

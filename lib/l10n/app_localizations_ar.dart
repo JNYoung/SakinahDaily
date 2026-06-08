@@ -139,7 +139,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get qiblaNoGpsRequired =>
-      'تستخدم القبلة موقع الصلاة المختار. لا يلزم GPS دقيق.';
+      'تستخدم القبلة موقع الصلاة المختار. لا يلزم بوصلة أو موقع في الخلفية.';
 
   @override
   String get tonight => 'الليلة';
@@ -290,11 +290,50 @@ class AppLocalizationsAr extends AppLocalizations {
   String get prayerLocation => 'موقع الصلاة';
 
   @override
-  String get manualPrayerLocationTitle => 'موقع الصلاة اليدوي';
+  String get devicePrayerLocationTitle => 'استخدام موقع الجهاز لأوقات الصلاة؟';
+
+  @override
+  String get devicePrayerLocationBody =>
+      'تستخدم سكينة موقع الجهاز فقط لحساب أوقات الصلاة والقبلة. إذا رفض الإذن يمكنك إدخال الموقع يدويا.';
+
+  @override
+  String get deviceLocationPrivacyNote =>
+      'يطلب أثناء استخدام التطبيق. لا يستخدم للتتبع في الخلفية أو المزامنة عن بعد.';
+
+  @override
+  String get useDeviceLocation => 'استخدام موقع الجهاز';
+
+  @override
+  String get enterLocationManually => 'إدخال يدوي';
+
+  @override
+  String get deviceLocationLabel => 'موقع الجهاز';
+
+  @override
+  String get deviceLocationSaved => 'تم حفظ موقع الجهاز';
+
+  @override
+  String get deviceLocationDeniedFallback =>
+      'تم رفض إذن الموقع. أدخل الموقع يدويا بدلا من ذلك.';
+
+  @override
+  String get deviceLocationDeniedForeverFallback =>
+      'إذن الموقع محظور في إعدادات النظام. أدخل الموقع يدويا بدلا من ذلك.';
+
+  @override
+  String get deviceLocationServiceDisabledFallback =>
+      'خدمات الموقع متوقفة. أدخل الموقع يدويا بدلا من ذلك.';
+
+  @override
+  String get deviceLocationUnavailableFallback =>
+      'موقع الجهاز غير متاح. أدخل الموقع يدويا بدلا من ذلك.';
+
+  @override
+  String get manualPrayerLocationTitle => 'موقع الصلاة';
 
   @override
   String get manualPrayerLocationBody =>
-      'أدخل موقع الصلاة يدويا. يخزن محليا ويستخدم لأوقات الصلاة والقبلة.';
+      'اختر مدينة، أو استخدم موقع الجهاز، أو عدل الإحداثيات عند الحاجة فقط. يحفظ موقع الصلاة محليا لأوقات الصلاة والقبلة.';
 
   @override
   String get locationLabel => 'اسم الموقع';
@@ -321,7 +360,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get locationSaved => 'تم حفظ الموقع';
 
   @override
-  String get locationLocalOnlyNoGps => 'يحفظ محليا. لا يلزم إذن GPS.';
+  String get locationLocalOnlyNoGps =>
+      'تبقى الإدخالات اليدوية محلية. يطلب موقع الجهاز بعد الشرح فقط.';
+
+  @override
+  String get locationLocalOnly =>
+      'يبقى موقع الصلاة على هذا الجهاز. الرجوع إلى الإدخال اليدوي متاح دائما.';
 
   @override
   String get prayerMethod => 'طريقة الصلاة';
@@ -480,7 +524,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get prayerLocationPrivacyBody =>
-      'يستخدم موقع الصلاة اختيارات يدوية أو جاهزة افتراضيا لحساب أوقات الصلاة.';
+      'يمكن أن يستخدم موقع الصلاة اختيار الجهاز أو الإدخال اليدوي أو موقعا جاهزا لحساب أوقات الصلاة والقبلة. يبقى ذلك على الجهاز في نسخة MVP.';
 
   @override
   String get notificationPrivacyTitle => 'خصوصية الإشعارات';
@@ -495,6 +539,41 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get remoteContentPrivacyBody =>
       'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.';
+
+  @override
+  String get contentSourcesTitle => 'مصادر المحتوى';
+
+  @override
+  String get contentSourcesSubtitle =>
+      'كيف تراجع محتويات القرآن والدعاء والذكر والجلسات.';
+
+  @override
+  String get contentSourcesSeedTitle => 'محتوى مبدئي مرفق';
+
+  @override
+  String get contentSourcesSeedBody =>
+      'يتضمن التطبيق مجموعة مبدئية صغيرة تعمل دون اتصال لتدفقات نسخة MVP. تبقى العناصر المبدئية مع وسم مصدر وحالة مراجعة.';
+
+  @override
+  String get contentSourcesCmsTitle => 'حزم CMS مراجعة';
+
+  @override
+  String get contentSourcesCmsBody =>
+      'يجب أن تكون الحزم البعيدة المستقبلية منشورة ومعتمدة قبل أن يعرضها العميل، ثم تخزن محليا بعد التحقق.';
+
+  @override
+  String get contentSourcesReviewTitle => 'معاني حالة المراجعة';
+
+  @override
+  String get contentSourcesReviewBody =>
+      'يمكن عرض المحتوى المعتمد. يخفى المحتوى المسودة أو قيد المراجعة أو المرفوض أو الملغى عن العميل.';
+
+  @override
+  String get contentSourcesNotGeneratedTitle => 'لا نص ديني مولد';
+
+  @override
+  String get contentSourcesNotGeneratedBody =>
+      'لا ينشئ Sakinah القرآن أو الدعاء أو الذكر أو Hadith أو الترجمات أو وسوم المصادر. يجب استيراد المصادر المعتمدة أو مراجعتها قبل العرض.';
 
   @override
   String get deleteLocalDataTitle => 'حذف البيانات المحلية';
@@ -597,11 +676,11 @@ class AppLocalizationsAr extends AppLocalizations {
       'تخزن محليا لطريقة حساب أوقات الصلاة وإعداداتها.';
 
   @override
-  String get privacyDataPrayerLocationPreset => 'موقع الصلاة الجاهز';
+  String get privacyDataPrayerLocationPreset => 'موقع الصلاة';
 
   @override
   String get privacyDataPrayerLocationPresetNotes =>
-      'يخزن محليا افتراضيا كاختيار يدوي أو جاهز للموقع.';
+      'يخزن محليا كاختيار موقع صلاة من الجهاز أو يدوي أو جاهز.';
 
   @override
   String get privacyDataNotificationEnabledState => 'حالة تفعيل الإشعارات';

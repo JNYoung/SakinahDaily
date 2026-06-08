@@ -140,7 +140,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qiblaNoGpsRequired =>
-      'Qibla uses your selected prayer location. Exact GPS is not required.';
+      'Qibla uses your selected prayer location. No compass or background location is required.';
 
   @override
   String get tonight => 'Tonight';
@@ -292,11 +292,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get prayerLocation => 'Prayer location';
 
   @override
-  String get manualPrayerLocationTitle => 'Manual prayer location';
+  String get devicePrayerLocationTitle =>
+      'Use device location for prayer times?';
+
+  @override
+  String get devicePrayerLocationBody =>
+      'Sakinah uses your device location only to calculate prayer times and Qibla. If permission is denied, you can enter the location manually.';
+
+  @override
+  String get deviceLocationPrivacyNote =>
+      'Requested while using the app. Not used for background tracking or remote sync.';
+
+  @override
+  String get useDeviceLocation => 'Use device location';
+
+  @override
+  String get enterLocationManually => 'Enter manually';
+
+  @override
+  String get deviceLocationLabel => 'Device location';
+
+  @override
+  String get deviceLocationSaved => 'Device location saved';
+
+  @override
+  String get deviceLocationDeniedFallback =>
+      'Location permission was denied. Enter location manually instead.';
+
+  @override
+  String get deviceLocationDeniedForeverFallback =>
+      'Location permission is blocked in system settings. Enter location manually instead.';
+
+  @override
+  String get deviceLocationServiceDisabledFallback =>
+      'Location services are off. Enter location manually instead.';
+
+  @override
+  String get deviceLocationUnavailableFallback =>
+      'Device location is unavailable. Enter location manually instead.';
+
+  @override
+  String get manualPrayerLocationTitle => 'Prayer location';
 
   @override
   String get manualPrayerLocationBody =>
-      'Enter a prayer location manually. It is stored locally and used for prayer times and Qibla.';
+      'Choose a city, use device location, or edit coordinates only if needed. Prayer location is stored locally for prayer times and Qibla.';
 
   @override
   String get locationLabel => 'Location label';
@@ -324,7 +364,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locationLocalOnlyNoGps =>
-      'Stored locally. No GPS permission is required.';
+      'Manual entries stay local. Device location is requested only after explanation.';
+
+  @override
+  String get locationLocalOnly =>
+      'Prayer location stays on this device. Manual fallback is always available.';
 
   @override
   String get prayerMethod => 'Prayer method';
@@ -486,7 +530,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get prayerLocationPrivacyBody =>
-      'Prayer location uses manual or preset choices by default for prayer time calculation.';
+      'Prayer location can use device, manual, or preset choices for prayer time calculation and Qibla. It stays on this device in MVP.';
 
   @override
   String get notificationPrivacyTitle => 'Notifications privacy';
@@ -501,6 +545,41 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get remoteContentPrivacyBody =>
       'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.';
+
+  @override
+  String get contentSourcesTitle => 'Content Sources';
+
+  @override
+  String get contentSourcesSubtitle =>
+      'How Quran, dua, dhikr, and session content are reviewed.';
+
+  @override
+  String get contentSourcesSeedTitle => 'Bundled seed content';
+
+  @override
+  String get contentSourcesSeedBody =>
+      'The app includes a small offline seed set for MVP flows. Seed items still carry source labels and review status.';
+
+  @override
+  String get contentSourcesCmsTitle => 'Reviewed CMS bundles';
+
+  @override
+  String get contentSourcesCmsBody =>
+      'Future remote bundles must be published and approved before the client can display them, then are cached locally after validation.';
+
+  @override
+  String get contentSourcesReviewTitle => 'Review status meanings';
+
+  @override
+  String get contentSourcesReviewBody =>
+      'Approved content can be shown. Draft, in-review, rejected, or revoked content is hidden from the client.';
+
+  @override
+  String get contentSourcesNotGeneratedTitle => 'No generated religious text';
+
+  @override
+  String get contentSourcesNotGeneratedBody =>
+      'Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source labels. Approved sources must be imported or reviewed before display.';
 
   @override
   String get deleteLocalDataTitle => 'Delete local data';
@@ -603,11 +682,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Stored locally for prayer time method and calculation settings.';
 
   @override
-  String get privacyDataPrayerLocationPreset => 'Prayer location preset';
+  String get privacyDataPrayerLocationPreset => 'Prayer location';
 
   @override
   String get privacyDataPrayerLocationPresetNotes =>
-      'Stored locally by default as a manual or preset location choice.';
+      'Stored locally as a device, manual, or preset prayer location choice.';
 
   @override
   String get privacyDataNotificationEnabledState =>

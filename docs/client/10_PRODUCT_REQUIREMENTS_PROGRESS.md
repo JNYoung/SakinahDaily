@@ -1,6 +1,6 @@
 # Product Requirements Progress — Prayer, Session, Quran, Dua
 
-Status date: 2026-05-30  
+Status date: 2026-05-31
 Scope: product-side progress for the core worship chains and notification
 cold-start routing.
 
@@ -10,6 +10,17 @@ client's generic manifest/bundle contract and serve them from local endpoints.
 Beta mode intentionally blocks delivery until the reviewed content inventory
 meets the 5-7 session, 30-50 dua, 20-30 dhikr, and 10-20 Quran ayah target with
 source, review status, version, and reviewed date metadata.
+
+Update: Settings now includes a Content Sources page that explains bundled seed
+content, reviewed CMS bundles, review status meanings, and the rule that
+Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source
+labels. This improves source transparency but does not solve the approved
+content inventory blocker.
+
+Update: item-level source chips on Dua, Dhikr, Daily Session dua, and Quran
+verse detail surfaces now open the Content Sources transparency page. This adds
+a visible trust path from religious content details without adding new content
+or remote CMS calls.
 
 ## 1. Cold-Start Notification Routing
 
@@ -44,39 +55,65 @@ Remaining notification QA:
 
 ## 2. Prayer Chain
 
-Product status: MVP partial; beta usable with manual/preset location, but not
-production-complete.
+Product status: v0.1 release baseline is device location with manual fallback;
+beta usable after real-device permission QA.
+
+Product decision:
+
+- v0.1 should request device location for prayer time and Qibla setup.
+- The request must be preceded by in-app explanatory copy.
+- If location service or permission is denied, the app must keep manual
+  location entry available and usable.
+- Device location stays local in MVP and must not be used for background
+  tracking, remote sync, analytics, or personalization.
 
 Completed:
 
 - Prayer page displays calculated Fajr, Dhuhr, Asr, Maghrib, and Isha times.
 - Home can show next prayer countdown from the active prayer settings.
 - Settings exposes prayer method and notification toggle.
-- Manual prayer location page saves label, latitude, longitude, optional
+- Onboarding and Settings > Prayer location now expose a device-location CTA
+  with explanatory copy before requesting platform permission.
+- Android declares foreground coarse location for prayer/Qibla setup and does
+  not declare fine, background, foreground-service location, compass, or sensor
+  permissions.
+- Denied, blocked, disabled-service, and unavailable device-location results
+  keep the manual location form as fallback.
+- Prayer location page saves label, latitude, longitude, optional
   timezone ID, and calculation method locally.
-- Qibla uses the selected prayer location without GPS or sensor permissions.
+- Prayer location now starts with common city presets for Middle East
+  and Indonesia users. Choosing a preset fills latitude, longitude, timezone,
+  and recommended calculation method while still allowing advanced manual edits.
+- A local backend-api foundation now exposes city search, timezone lists, and
+  prayer-ready location resolution. The Prayer location page can now load the
+  mock backend city catalog when `SAKINAH_BACKEND_API_ENABLED=true`, while
+  falling back to bundled presets offline. Replacing the in-code/backend mock
+  catalog with a full database-backed city/country search remains P1.
+- Qibla uses the selected prayer location without compass or sensor
+  permissions.
 - Local prayer reminder taps, including cold-start taps, route to `/prayer`.
 - Women’s Mode notification copy avoids sensitive lock-screen state.
 
 Open product links:
 
-- Device-location permission flow is not implemented; the MVP currently relies
-  on preset/manual location. The PRD should either keep this as a P0 gap or
-  explicitly accept manual-only for v0.1.
+- Real-device Android QA is still required for allow, approximate/coarse,
+  denied, denied-forever/system-settings, and location-services-off flows.
+- iOS device-location QA is blocked until an iOS project/runtime is available;
+  future iOS work must use When In Use copy and avoid Always/background
+  location.
 - Reminder control is still broad. There is no per-prayer enablement, lead-time
   offset, quiet hours, or separate daily reminder configuration.
 - Prayer page does not yet highlight the current/next prayer state beyond the
   Home countdown.
-- Hijri date tuning, regional default presets, and polished live compass remain
-  P1.
+- Hijri date tuning, full database-backed city search, regional defaults beyond
+  the bundled/backend MVP presets, and polished live compass remain P1.
 - Real-device permission and OEM scheduling QA remains open.
 
 Suggested next milestone:
 
-- Decide whether v0.1 requires device location. If yes, add explanatory
-  permission UX plus manual fallback tests. If no, update PRD copy to make
-  manual/preset location the release baseline.
-- Add per-prayer reminder preferences only after permission QA is stable.
+- Run the real-device prayer-location QA checklist before beta sign-off.
+- Add per-prayer reminder preferences only after permission/location QA is
+  stable.
 
 ## 3. Daily Session Chain
 
@@ -195,12 +232,13 @@ Suggested next milestone:
 
 | Chain | Current release posture | Main blocker before beta/store |
 |---|---|---|
-| Prayer | Usable with manual/preset location | Device-location scope decision and reminder QA |
+| Prayer | Device location baseline implemented with manual fallback | Real-device location/notification QA and per-prayer control |
 | Daily Session | End-to-end seed flow and local manageable daily reminder | Reviewed session pack, real-device notification QA, licensed audio |
 | Quran | Safe local verse entry works | Approved source corpus and licensed reciter assets |
 | Dua / Dhikr | Local library/detail/save/search/category discovery works | Reviewed content depth, missing PRD categories, audio CTA decision |
+| Content Sources | Settings transparency page implemented; item-level source chips link to it | Approved content inventory, richer source metadata, and source-corpus labels |
 
-The strongest next product move is to lock the v0.1 release baseline:
-manual-only vs device location, seed-only vs staging CMS content, and
-placeholder vs licensed audio. Those decisions determine whether the next
-milestone should be location QA, content pack review, or audio asset ingestion.
+The strongest next product move is to run real-device location and notification
+QA while the content team fills the reviewed beta content inventory. Location is
+now decided for v0.1; content breadth and licensed audio remain open release
+scope decisions.

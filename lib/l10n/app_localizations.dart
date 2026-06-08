@@ -355,7 +355,7 @@ abstract class AppLocalizations {
   /// No description provided for @qiblaNoGpsRequired.
   ///
   /// In en, this message translates to:
-  /// **'Qibla uses your selected prayer location. Exact GPS is not required.'**
+  /// **'Qibla uses your selected prayer location. No compass or background location is required.'**
   String get qiblaNoGpsRequired;
 
   /// No description provided for @tonight.
@@ -646,16 +646,82 @@ abstract class AppLocalizations {
   /// **'Prayer location'**
   String get prayerLocation;
 
+  /// No description provided for @devicePrayerLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use device location for prayer times?'**
+  String get devicePrayerLocationTitle;
+
+  /// No description provided for @devicePrayerLocationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sakinah uses your device location only to calculate prayer times and Qibla. If permission is denied, you can enter the location manually.'**
+  String get devicePrayerLocationBody;
+
+  /// No description provided for @deviceLocationPrivacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Requested while using the app. Not used for background tracking or remote sync.'**
+  String get deviceLocationPrivacyNote;
+
+  /// No description provided for @useDeviceLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use device location'**
+  String get useDeviceLocation;
+
+  /// No description provided for @enterLocationManually.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter manually'**
+  String get enterLocationManually;
+
+  /// No description provided for @deviceLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Device location'**
+  String get deviceLocationLabel;
+
+  /// No description provided for @deviceLocationSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Device location saved'**
+  String get deviceLocationSaved;
+
+  /// No description provided for @deviceLocationDeniedFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission was denied. Enter location manually instead.'**
+  String get deviceLocationDeniedFallback;
+
+  /// No description provided for @deviceLocationDeniedForeverFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is blocked in system settings. Enter location manually instead.'**
+  String get deviceLocationDeniedForeverFallback;
+
+  /// No description provided for @deviceLocationServiceDisabledFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are off. Enter location manually instead.'**
+  String get deviceLocationServiceDisabledFallback;
+
+  /// No description provided for @deviceLocationUnavailableFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Device location is unavailable. Enter location manually instead.'**
+  String get deviceLocationUnavailableFallback;
+
   /// No description provided for @manualPrayerLocationTitle.
   ///
   /// In en, this message translates to:
-  /// **'Manual prayer location'**
+  /// **'Prayer location'**
   String get manualPrayerLocationTitle;
 
   /// No description provided for @manualPrayerLocationBody.
   ///
   /// In en, this message translates to:
-  /// **'Enter a prayer location manually. It is stored locally and used for prayer times and Qibla.'**
+  /// **'Choose a city, use device location, or edit coordinates only if needed. Prayer location is stored locally for prayer times and Qibla.'**
   String get manualPrayerLocationBody;
 
   /// No description provided for @locationLabel.
@@ -709,8 +775,14 @@ abstract class AppLocalizations {
   /// No description provided for @locationLocalOnlyNoGps.
   ///
   /// In en, this message translates to:
-  /// **'Stored locally. No GPS permission is required.'**
+  /// **'Manual entries stay local. Device location is requested only after explanation.'**
   String get locationLocalOnlyNoGps;
+
+  /// No description provided for @locationLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer location stays on this device. Manual fallback is always available.'**
+  String get locationLocalOnly;
 
   /// No description provided for @prayerMethod.
   ///
@@ -997,7 +1069,7 @@ abstract class AppLocalizations {
   /// No description provided for @prayerLocationPrivacyBody.
   ///
   /// In en, this message translates to:
-  /// **'Prayer location uses manual or preset choices by default for prayer time calculation.'**
+  /// **'Prayer location can use device, manual, or preset choices for prayer time calculation and Qibla. It stays on this device in MVP.'**
   String get prayerLocationPrivacyBody;
 
   /// No description provided for @notificationPrivacyTitle.
@@ -1023,6 +1095,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.'**
   String get remoteContentPrivacyBody;
+
+  /// No description provided for @contentSourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Content Sources'**
+  String get contentSourcesTitle;
+
+  /// No description provided for @contentSourcesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How Quran, dua, dhikr, and session content are reviewed.'**
+  String get contentSourcesSubtitle;
+
+  /// No description provided for @contentSourcesSeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bundled seed content'**
+  String get contentSourcesSeedTitle;
+
+  /// No description provided for @contentSourcesSeedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The app includes a small offline seed set for MVP flows. Seed items still carry source labels and review status.'**
+  String get contentSourcesSeedBody;
+
+  /// No description provided for @contentSourcesCmsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed CMS bundles'**
+  String get contentSourcesCmsTitle;
+
+  /// No description provided for @contentSourcesCmsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Future remote bundles must be published and approved before the client can display them, then are cached locally after validation.'**
+  String get contentSourcesCmsBody;
+
+  /// No description provided for @contentSourcesReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review status meanings'**
+  String get contentSourcesReviewTitle;
+
+  /// No description provided for @contentSourcesReviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved content can be shown. Draft, in-review, rejected, or revoked content is hidden from the client.'**
+  String get contentSourcesReviewBody;
+
+  /// No description provided for @contentSourcesNotGeneratedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No generated religious text'**
+  String get contentSourcesNotGeneratedTitle;
+
+  /// No description provided for @contentSourcesNotGeneratedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source labels. Approved sources must be imported or reviewed before display.'**
+  String get contentSourcesNotGeneratedBody;
 
   /// No description provided for @deleteLocalDataTitle.
   ///
@@ -1207,13 +1339,13 @@ abstract class AppLocalizations {
   /// No description provided for @privacyDataPrayerLocationPreset.
   ///
   /// In en, this message translates to:
-  /// **'Prayer location preset'**
+  /// **'Prayer location'**
   String get privacyDataPrayerLocationPreset;
 
   /// No description provided for @privacyDataPrayerLocationPresetNotes.
   ///
   /// In en, this message translates to:
-  /// **'Stored locally by default as a manual or preset location choice.'**
+  /// **'Stored locally as a device, manual, or preset prayer location choice.'**
   String get privacyDataPrayerLocationPresetNotes;
 
   /// No description provided for @privacyDataNotificationEnabledState.

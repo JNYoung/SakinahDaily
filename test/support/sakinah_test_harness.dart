@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/app/sakinah_app.dart';
 import 'package:sakinah_daily/app/sakinah_router.dart';
+import 'package:sakinah_daily/core/config/app_environment.dart';
+import 'package:sakinah_daily/core/config/backend_api_config.dart';
 import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
@@ -10,7 +12,9 @@ import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
+import 'package:sakinah_daily/core/services/device_location_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
+import 'package:sakinah_daily/core/services/remote_content_api_client.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 const mobileViewport = Size(390, 844);
@@ -28,8 +32,12 @@ Future<void> pumpSakinahApp(
   ContentCacheStore? contentCacheStore,
   SavedItemsStore? savedItemsStore,
   SessionProgressStore? sessionProgressStore,
+  AppEnvironmentConfig? appEnvironmentConfig,
   ContentApiConfig? contentApiConfig,
+  BackendApiConfig? backendApiConfig,
+  ContentHttpClient? contentHttpClient,
   NotificationService? notificationService,
+  DeviceLocationService? deviceLocationService,
   SakinahAudioPlayer? audioPlayer,
 }) async {
   tester.view.devicePixelRatio = 1;
@@ -56,11 +64,21 @@ Future<void> pumpSakinahApp(
         sessionProgressStoreProvider.overrideWithValue(
           sessionProgressStore ?? InMemorySessionProgressStore(),
         ),
+        if (appEnvironmentConfig != null)
+          appEnvironmentConfigProvider.overrideWithValue(appEnvironmentConfig),
         if (contentApiConfig != null)
           contentApiConfigProvider.overrideWithValue(contentApiConfig),
+        if (backendApiConfig != null)
+          backendApiConfigProvider.overrideWithValue(backendApiConfig),
+        if (contentHttpClient != null)
+          contentHttpClientProvider.overrideWithValue(contentHttpClient),
         notificationServiceProvider.overrideWithValue(
           notificationService ?? LocalNotificationServiceStub(),
         ),
+        if (deviceLocationService != null)
+          deviceLocationServiceProvider.overrideWithValue(
+            deviceLocationService,
+          ),
         if (audioPlayer != null)
           audioPlayerProvider.overrideWithValue(audioPlayer),
         if (initialLocation != null)

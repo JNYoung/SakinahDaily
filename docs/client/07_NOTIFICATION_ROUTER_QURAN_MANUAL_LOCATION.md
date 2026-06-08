@@ -4,9 +4,10 @@ Status: MVP client foundation.
 
 This milestone completes app-facing routing for local notification taps, adds a
 small Quran entry/detail surface, and gives prayer location a manual settings
-page. It does not add GPS, compass/sensor permissions, FCM/APNs server push,
-analytics, crash reporting, live CMS calls, full Quran corpus downloads, Quran
-TTS, or new religious content.
+page. A later Prayer baseline adds foreground coarse device location with manual
+fallback. This milestone still does not add compass/sensor permissions,
+FCM/APNs server push, analytics, crash reporting, live CMS calls, full Quran
+corpus downloads, Quran TTS, or new religious content.
 
 ## Notification Tap Routing
 
@@ -55,7 +56,9 @@ also resolve to the Quran verse detail route.
 ## Manual Prayer Location
 
 The manual prayer location page at `/settings/prayer-location` lets the user
-save:
+choose a backend-provided mock city catalog entry when configured, or fall back
+to bundled city presets/manual entry when the backend is disabled. It lets the
+user save:
 
 - location label
 - latitude
@@ -67,11 +70,20 @@ Latitude is validated to `-90..90`, longitude to `-180..180`, and the label must
 be non-empty. Saved values update the existing local `PrayerSettings`, which are
 used by prayer times and Qibla.
 
+Backend city catalog integration is opt-in for development:
+
+```sh
+--dart-define=SAKINAH_BACKEND_API_ENABLED=true
+--dart-define=SAKINAH_BACKEND_API_BASE_URL=http://127.0.0.1:8800
+```
+
 ## Privacy Notes
 
 - Manual prayer location is stored locally through user preferences.
-- Qibla continues to use the selected prayer location only.
-- Exact GPS is not requested.
+- Qibla continues to use the selected device/manual/preset prayer location
+  only.
+- Android device location uses foreground coarse location only.
+- Fine/background location is not requested.
 - Compass and sensor permissions are not requested.
 - Saved Quran verse references stay local-only and are cleared by Delete local
   data.

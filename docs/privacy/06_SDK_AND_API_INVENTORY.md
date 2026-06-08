@@ -11,7 +11,8 @@ Status: Draft for legal/store review.
 | go_router | Client routing | No | In-process only |
 | shared_preferences | Local preference/cache storage | No | Stores app preferences and MVP content cache locally |
 | flutter_local_notifications | Local notifications | No remote send by this code | Uses platform notification permission |
-| prayer calculation library | Prayer times | No | Uses local manual/preset settings |
+| geolocator | Device location for prayer/Qibla setup | No remote send by this code | Requests foreground coarse location after explanation; manual fallback remains available |
+| prayer calculation library | Prayer times | No | Uses local device/manual/preset settings |
 | audio playback library | Approved audio playback | No by this code | No persistent playback history in MVP |
 | Remote content API client | Manifest and bundle fetch | Yes, request metadata | Disabled by default, no live CMS calls in tests |
 
@@ -25,6 +26,8 @@ Status: Draft for legal/store review.
 - Account login.
 - Payments or subscriptions.
 - Exact GPS permission.
+- Background location permission.
+- Compass or sensor permission.
 - FCM/APNs production push tokens.
 - Live OpenAI calls.
 

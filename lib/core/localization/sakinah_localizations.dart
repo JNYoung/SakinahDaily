@@ -69,7 +69,7 @@ class SakinahLocalizations {
           'Qibla uses your selected prayer location.',
       'qiblaChangeLocation': 'Change prayer location',
       'qiblaNoGpsRequired':
-          'Qibla uses your selected prayer location. Exact GPS is not required.',
+          'Qibla uses your selected prayer location. No compass or background location is required.',
       'tonight': 'Tonight',
       'sleepAyatKursi': 'Sleep with Ayat al-Kursi',
       'sleepSessionDescription':
@@ -122,9 +122,31 @@ class SakinahLocalizations {
       'settings': 'Settings',
       'prayer': 'Prayer',
       'prayerLocation': 'Prayer location',
-      'manualPrayerLocationTitle': 'Manual prayer location',
+      'devicePrayerLocationTitle': 'Use device location for prayer times?',
+      'devicePrayerLocationBody':
+          'Sakinah uses your device location only to calculate prayer times and Qibla. If permission is denied, you can enter the location manually.',
+      'deviceLocationPrivacyNote':
+          'Requested while using the app. Not used for background tracking or remote sync.',
+      'useDeviceLocation': 'Use device location',
+      'enterLocationManually': 'Enter manually',
+      'deviceLocationLabel': 'Device location',
+      'deviceLocationSaved': 'Device location saved',
+      'deviceLocationDeniedFallback':
+          'Location permission was denied. Enter location manually instead.',
+      'deviceLocationDeniedForeverFallback':
+          'Location permission is blocked in system settings. Enter location manually instead.',
+      'deviceLocationServiceDisabledFallback':
+          'Location services are off. Enter location manually instead.',
+      'deviceLocationUnavailableFallback':
+          'Device location is unavailable. Enter location manually instead.',
+      'manualPrayerLocationTitle': 'Prayer location',
       'manualPrayerLocationBody':
-          'Enter a prayer location manually. It is stored locally and used for prayer times and Qibla.',
+          'Choose a city, use device location, or edit coordinates only if needed. Prayer location is stored locally for prayer times and Qibla.',
+      'choosePrayerCityTitle': 'Choose a city',
+      'choosePrayerCityBody':
+          'Prayer times need both city coordinates and timezone. Pick a common city to fill them, then edit details only if needed.',
+      'prayerCityPreset': 'City or region',
+      'advancedLocationDetails': 'Location details',
       'locationLabel': 'Location label',
       'latitude': 'Latitude',
       'longitude': 'Longitude',
@@ -134,7 +156,9 @@ class SakinahLocalizations {
       'invalidLongitude': 'Longitude must be between -180 and 180.',
       'locationSaved': 'Location saved',
       'locationLocalOnlyNoGps':
-          'Stored locally. No GPS permission is required.',
+          'Manual entries stay local. Device location is requested only after explanation.',
+      'locationLocalOnly':
+          'Prayer location stays on this device. Manual fallback is always available.',
       'prayerMethod': 'Prayer method',
       'prayerReminders': 'Prayer reminders',
       'prayerReminderSubtitle': 'Permission is requested after explanation.',
@@ -197,13 +221,28 @@ class SakinahLocalizations {
           'Women’s Ibadah Mode is designed local-first. Exact status is not sent with remote content requests.',
       'prayerLocationPrivacyTitle': 'Prayer location privacy',
       'prayerLocationPrivacyBody':
-          'Prayer location uses manual or preset choices by default for prayer time calculation.',
+          'Prayer location can use device, manual, or preset choices for prayer time calculation and Qibla. It stays on this device in MVP.',
       'notificationPrivacyTitle': 'Notifications privacy',
       'notificationPrivacyBody':
           'Prayer reminders are scheduled locally where possible, and sensitive women’s mode copy stays off the lock screen.',
       'remoteContentPrivacyTitle': 'Remote content cache',
       'remoteContentPrivacyBody':
           'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.',
+      'contentSourcesTitle': 'Content Sources',
+      'contentSourcesSubtitle':
+          'How Quran, dua, dhikr, and session content are reviewed.',
+      'contentSourcesSeedTitle': 'Bundled seed content',
+      'contentSourcesSeedBody':
+          'The app includes a small offline seed set for MVP flows. Seed items still carry source labels and review status.',
+      'contentSourcesCmsTitle': 'Reviewed CMS bundles',
+      'contentSourcesCmsBody':
+          'Future remote bundles must be published and approved before the client can display them, then are cached locally after validation.',
+      'contentSourcesReviewTitle': 'Review status meanings',
+      'contentSourcesReviewBody':
+          'Approved content can be shown. Draft, in-review, rejected, or revoked content is hidden from the client.',
+      'contentSourcesNotGeneratedTitle': 'No generated religious text',
+      'contentSourcesNotGeneratedBody':
+          'Sakinah does not generate Quran, dua, dhikr, Hadith, translations, or source labels. Approved sources must be imported or reviewed before display.',
       'deleteLocalDataTitle': 'Delete local data',
       'deleteLocalDataBody':
           'Reset app preferences, saved items, session progress, women’s mode state, local content cache, and scheduled reminders on this device.',
@@ -243,9 +282,9 @@ class SakinahLocalizations {
       'privacyDataPrayerSettings': 'Prayer settings',
       'privacyDataPrayerSettingsNotes':
           'Stored locally for prayer time method and calculation settings.',
-      'privacyDataPrayerLocationPreset': 'Prayer location preset',
+      'privacyDataPrayerLocationPreset': 'Prayer location',
       'privacyDataPrayerLocationPresetNotes':
-          'Stored locally by default as a manual or preset location choice.',
+          'Stored locally as a device, manual, or preset prayer location choice.',
       'privacyDataNotificationEnabledState': 'Notification enabled state',
       'privacyDataNotificationEnabledStateNotes':
           'Stored locally to remember whether prayer and daily session reminders are enabled, plus the selected daily session reminder time.',
@@ -410,7 +449,7 @@ class SakinahLocalizations {
           'Kiblat memakai lokasi shalat yang dipilih.',
       'qiblaChangeLocation': 'Ubah lokasi shalat',
       'qiblaNoGpsRequired':
-          'Kiblat memakai lokasi shalat yang dipilih. GPS presisi tidak diperlukan.',
+          'Kiblat memakai lokasi shalat yang dipilih. Kompas atau lokasi latar belakang tidak diperlukan.',
       'tonight': 'Malam ini',
       'sleepAyatKursi': 'Tidur dengan Ayat Kursi',
       'sleepSessionDescription':
@@ -463,9 +502,32 @@ class SakinahLocalizations {
       'settings': 'Pengaturan',
       'prayer': 'Shalat',
       'prayerLocation': 'Lokasi shalat',
-      'manualPrayerLocationTitle': 'Lokasi shalat manual',
+      'devicePrayerLocationTitle':
+          'Gunakan lokasi perangkat untuk waktu shalat?',
+      'devicePrayerLocationBody':
+          'Sakinah memakai lokasi perangkat hanya untuk menghitung waktu shalat dan kiblat. Jika izin ditolak, Anda dapat memasukkan lokasi manual.',
+      'deviceLocationPrivacyNote':
+          'Diminta saat aplikasi digunakan. Tidak dipakai untuk pelacakan latar belakang atau sinkronisasi jarak jauh.',
+      'useDeviceLocation': 'Gunakan lokasi perangkat',
+      'enterLocationManually': 'Masukkan manual',
+      'deviceLocationLabel': 'Lokasi perangkat',
+      'deviceLocationSaved': 'Lokasi perangkat tersimpan',
+      'deviceLocationDeniedFallback':
+          'Izin lokasi ditolak. Masukkan lokasi secara manual.',
+      'deviceLocationDeniedForeverFallback':
+          'Izin lokasi diblokir di pengaturan sistem. Masukkan lokasi secara manual.',
+      'deviceLocationServiceDisabledFallback':
+          'Layanan lokasi mati. Masukkan lokasi secara manual.',
+      'deviceLocationUnavailableFallback':
+          'Lokasi perangkat tidak tersedia. Masukkan lokasi secara manual.',
+      'manualPrayerLocationTitle': 'Lokasi shalat',
       'manualPrayerLocationBody':
-          'Masukkan lokasi shalat secara manual. Data ini disimpan lokal dan dipakai untuk waktu shalat serta kiblat.',
+          'Pilih kota, gunakan lokasi perangkat, atau ubah koordinat hanya jika perlu. Lokasi shalat disimpan lokal untuk waktu shalat dan kiblat.',
+      'choosePrayerCityTitle': 'Pilih kota',
+      'choosePrayerCityBody':
+          'Waktu shalat memerlukan koordinat kota dan zona waktu. Pilih kota umum untuk mengisinya, lalu ubah detail hanya jika perlu.',
+      'prayerCityPreset': 'Kota atau wilayah',
+      'advancedLocationDetails': 'Detail lokasi',
       'locationLabel': 'Label lokasi',
       'latitude': 'Lintang',
       'longitude': 'Bujur',
@@ -474,7 +536,10 @@ class SakinahLocalizations {
       'invalidLatitude': 'Lintang harus antara -90 dan 90.',
       'invalidLongitude': 'Bujur harus antara -180 dan 180.',
       'locationSaved': 'Lokasi tersimpan',
-      'locationLocalOnlyNoGps': 'Disimpan lokal. Izin GPS tidak diperlukan.',
+      'locationLocalOnlyNoGps':
+          'Entri manual tetap lokal. Lokasi perangkat hanya diminta setelah penjelasan.',
+      'locationLocalOnly':
+          'Lokasi shalat tetap di perangkat ini. Fallback manual selalu tersedia.',
       'prayerMethod': 'Metode shalat',
       'prayerReminders': 'Pengingat shalat',
       'prayerReminderSubtitle': 'Izin diminta setelah penjelasan.',
@@ -538,13 +603,28 @@ class SakinahLocalizations {
           'Mode Ibadah Perempuan dirancang lokal terlebih dahulu. Status persis tidak dikirim dengan permintaan konten jarak jauh.',
       'prayerLocationPrivacyTitle': 'Privasi lokasi shalat',
       'prayerLocationPrivacyBody':
-          'Lokasi shalat memakai pilihan manual atau preset secara default untuk perhitungan waktu shalat.',
+          'Lokasi shalat dapat memakai pilihan perangkat, manual, atau preset untuk menghitung waktu shalat dan kiblat. Data ini tetap di perangkat dalam MVP.',
       'notificationPrivacyTitle': 'Privasi notifikasi',
       'notificationPrivacyBody':
           'Pengingat shalat dijadwalkan lokal bila memungkinkan, dan teks sensitif mode perempuan tidak tampil di layar terkunci.',
       'remoteContentPrivacyTitle': 'Cache konten jarak jauh',
       'remoteContentPrivacyBody':
           'Bundle konten yang disetujui dapat disimpan di perangkat ini. Permintaan konten jarak jauh dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.',
+      'contentSourcesTitle': 'Sumber Konten',
+      'contentSourcesSubtitle':
+          'Cara konten Quran, doa, dzikir, dan sesi ditinjau.',
+      'contentSourcesSeedTitle': 'Konten seed bawaan',
+      'contentSourcesSeedBody':
+          'Aplikasi menyertakan set seed offline kecil untuk alur MVP. Item seed tetap memiliki label sumber dan status tinjauan.',
+      'contentSourcesCmsTitle': 'Bundle CMS yang ditinjau',
+      'contentSourcesCmsBody':
+          'Bundle jarak jauh mendatang harus published dan approved sebelum dapat ditampilkan klien, lalu disimpan lokal setelah validasi.',
+      'contentSourcesReviewTitle': 'Makna status tinjauan',
+      'contentSourcesReviewBody':
+          'Konten approved dapat ditampilkan. Konten draft, in-review, rejected, atau revoked disembunyikan dari klien.',
+      'contentSourcesNotGeneratedTitle': 'Tidak ada teks agama generatif',
+      'contentSourcesNotGeneratedBody':
+          'Sakinah tidak menghasilkan Quran, doa, dzikir, Hadith, terjemahan, atau label sumber. Sumber yang disetujui harus diimpor atau ditinjau sebelum tampil.',
       'deleteLocalDataTitle': 'Hapus data lokal',
       'deleteLocalDataBody':
           'Reset preferensi aplikasi, item tersimpan, progres sesi, status mode perempuan, cache konten lokal, dan pengingat terjadwal di perangkat ini.',
@@ -584,9 +664,9 @@ class SakinahLocalizations {
       'privacyDataPrayerSettings': 'Pengaturan shalat',
       'privacyDataPrayerSettingsNotes':
           'Disimpan lokal untuk metode dan pengaturan perhitungan waktu shalat.',
-      'privacyDataPrayerLocationPreset': 'Preset lokasi shalat',
+      'privacyDataPrayerLocationPreset': 'Lokasi shalat',
       'privacyDataPrayerLocationPresetNotes':
-          'Disimpan lokal secara default sebagai pilihan lokasi manual atau preset.',
+          'Disimpan lokal sebagai pilihan lokasi shalat perangkat, manual, atau preset.',
       'privacyDataNotificationEnabledState': 'Status notifikasi aktif',
       'privacyDataNotificationEnabledStateNotes':
           'Disimpan lokal untuk mengingat apakah pengingat shalat dan sesi harian aktif, termasuk waktu pengingat sesi harian yang dipilih.',
@@ -748,7 +828,7 @@ class SakinahLocalizations {
       'qiblaBasedOnSelectedLocation': 'تستخدم القبلة موقع الصلاة المختار.',
       'qiblaChangeLocation': 'تغيير موقع الصلاة',
       'qiblaNoGpsRequired':
-          'تستخدم القبلة موقع الصلاة المختار. لا يلزم GPS دقيق.',
+          'تستخدم القبلة موقع الصلاة المختار. لا يلزم بوصلة أو موقع في الخلفية.',
       'tonight': 'الليلة',
       'sleepAyatKursi': 'نم مع آية الكرسي',
       'sleepSessionDescription':
@@ -801,9 +881,31 @@ class SakinahLocalizations {
       'settings': 'الإعدادات',
       'prayer': 'الصلاة',
       'prayerLocation': 'موقع الصلاة',
-      'manualPrayerLocationTitle': 'موقع الصلاة اليدوي',
+      'devicePrayerLocationTitle': 'استخدام موقع الجهاز لأوقات الصلاة؟',
+      'devicePrayerLocationBody':
+          'تستخدم سكينة موقع الجهاز فقط لحساب أوقات الصلاة والقبلة. إذا رفض الإذن يمكنك إدخال الموقع يدويا.',
+      'deviceLocationPrivacyNote':
+          'يطلب أثناء استخدام التطبيق. لا يستخدم للتتبع في الخلفية أو المزامنة عن بعد.',
+      'useDeviceLocation': 'استخدام موقع الجهاز',
+      'enterLocationManually': 'إدخال يدوي',
+      'deviceLocationLabel': 'موقع الجهاز',
+      'deviceLocationSaved': 'تم حفظ موقع الجهاز',
+      'deviceLocationDeniedFallback':
+          'تم رفض إذن الموقع. أدخل الموقع يدويا بدلا من ذلك.',
+      'deviceLocationDeniedForeverFallback':
+          'إذن الموقع محظور في إعدادات النظام. أدخل الموقع يدويا بدلا من ذلك.',
+      'deviceLocationServiceDisabledFallback':
+          'خدمات الموقع متوقفة. أدخل الموقع يدويا بدلا من ذلك.',
+      'deviceLocationUnavailableFallback':
+          'موقع الجهاز غير متاح. أدخل الموقع يدويا بدلا من ذلك.',
+      'manualPrayerLocationTitle': 'موقع الصلاة',
       'manualPrayerLocationBody':
-          'أدخل موقع الصلاة يدويا. يخزن محليا ويستخدم لأوقات الصلاة والقبلة.',
+          'اختر مدينة، أو استخدم موقع الجهاز، أو عدل الإحداثيات عند الحاجة فقط. يحفظ موقع الصلاة محليا لأوقات الصلاة والقبلة.',
+      'choosePrayerCityTitle': 'اختر مدينة',
+      'choosePrayerCityBody':
+          'تحتاج أوقات الصلاة إلى إحداثيات المدينة والمنطقة الزمنية معا. اختر مدينة شائعة لملئها ثم عدل التفاصيل عند الحاجة فقط.',
+      'prayerCityPreset': 'المدينة أو المنطقة',
+      'advancedLocationDetails': 'تفاصيل الموقع',
       'locationLabel': 'اسم الموقع',
       'latitude': 'خط العرض',
       'longitude': 'خط الطول',
@@ -812,7 +914,10 @@ class SakinahLocalizations {
       'invalidLatitude': 'يجب أن يكون خط العرض بين -90 و90.',
       'invalidLongitude': 'يجب أن يكون خط الطول بين -180 و180.',
       'locationSaved': 'تم حفظ الموقع',
-      'locationLocalOnlyNoGps': 'يحفظ محليا. لا يلزم إذن GPS.',
+      'locationLocalOnlyNoGps':
+          'تبقى الإدخالات اليدوية محلية. يطلب موقع الجهاز بعد الشرح فقط.',
+      'locationLocalOnly':
+          'يبقى موقع الصلاة على هذا الجهاز. الرجوع إلى الإدخال اليدوي متاح دائما.',
       'prayerMethod': 'طريقة الصلاة',
       'prayerReminders': 'تذكيرات الصلاة',
       'prayerReminderSubtitle': 'يطلب الإذن بعد الشرح.',
@@ -872,13 +977,28 @@ class SakinahLocalizations {
           'صمم وضع عبادة النساء ليكون محليا أولا. لا ترسل الحالة الدقيقة مع طلبات المحتوى عن بعد.',
       'prayerLocationPrivacyTitle': 'خصوصية موقع الصلاة',
       'prayerLocationPrivacyBody':
-          'يستخدم موقع الصلاة اختيارات يدوية أو جاهزة افتراضيا لحساب أوقات الصلاة.',
+          'يمكن أن يستخدم موقع الصلاة اختيار الجهاز أو الإدخال اليدوي أو موقعا جاهزا لحساب أوقات الصلاة والقبلة. يبقى ذلك على الجهاز في نسخة MVP.',
       'notificationPrivacyTitle': 'خصوصية الإشعارات',
       'notificationPrivacyBody':
           'تجدول تذكيرات الصلاة محليا حيثما أمكن، وتبقى نصوص وضع النساء الحساسة خارج شاشة القفل.',
       'remoteContentPrivacyTitle': 'ذاكرة المحتوى عن بعد',
       'remoteContentPrivacyBody':
           'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.',
+      'contentSourcesTitle': 'مصادر المحتوى',
+      'contentSourcesSubtitle':
+          'كيف تراجع محتويات القرآن والدعاء والذكر والجلسات.',
+      'contentSourcesSeedTitle': 'محتوى مبدئي مرفق',
+      'contentSourcesSeedBody':
+          'يتضمن التطبيق مجموعة مبدئية صغيرة تعمل دون اتصال لتدفقات نسخة MVP. تبقى العناصر المبدئية مع وسم مصدر وحالة مراجعة.',
+      'contentSourcesCmsTitle': 'حزم CMS مراجعة',
+      'contentSourcesCmsBody':
+          'يجب أن تكون الحزم البعيدة المستقبلية منشورة ومعتمدة قبل أن يعرضها العميل، ثم تخزن محليا بعد التحقق.',
+      'contentSourcesReviewTitle': 'معاني حالة المراجعة',
+      'contentSourcesReviewBody':
+          'يمكن عرض المحتوى المعتمد. يخفى المحتوى المسودة أو قيد المراجعة أو المرفوض أو الملغى عن العميل.',
+      'contentSourcesNotGeneratedTitle': 'لا نص ديني مولد',
+      'contentSourcesNotGeneratedBody':
+          'لا ينشئ Sakinah القرآن أو الدعاء أو الذكر أو Hadith أو الترجمات أو وسوم المصادر. يجب استيراد المصادر المعتمدة أو مراجعتها قبل العرض.',
       'deleteLocalDataTitle': 'حذف البيانات المحلية',
       'deleteLocalDataBody':
           'إعادة ضبط تفضيلات التطبيق والعناصر المحفوظة وتقدم الجلسات وحالة وضع النساء وذاكرة المحتوى المحلية والتذكيرات المجدولة على هذا الجهاز.',
@@ -919,9 +1039,9 @@ class SakinahLocalizations {
       'privacyDataPrayerSettings': 'إعدادات الصلاة',
       'privacyDataPrayerSettingsNotes':
           'تخزن محليا لطريقة حساب أوقات الصلاة وإعداداتها.',
-      'privacyDataPrayerLocationPreset': 'موقع الصلاة الجاهز',
+      'privacyDataPrayerLocationPreset': 'موقع الصلاة',
       'privacyDataPrayerLocationPresetNotes':
-          'يخزن محليا افتراضيا كاختيار يدوي أو جاهز للموقع.',
+          'يخزن محليا كاختيار موقع صلاة من الجهاز أو يدوي أو جاهز.',
       'privacyDataNotificationEnabledState': 'حالة تفعيل الإشعارات',
       'privacyDataNotificationEnabledStateNotes':
           'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة والجلسة اليومية مفعلة، مع وقت تذكير الجلسة اليومي المختار.',

@@ -360,7 +360,11 @@ class _StepContent extends ConsumerWidget {
             const SizedBox(height: 12),
             if (dua != null)
               SourceChip(
-                  source: dua.source, reviewStatus: dua.reviewStatus.name),
+                key: SakinahKeys.contentSourceLink,
+                source: dua.source,
+                reviewStatus: dua.reviewStatus.name,
+                onTap: () => context.push('/settings/content-sources'),
+              ),
           ],
         ),
       );

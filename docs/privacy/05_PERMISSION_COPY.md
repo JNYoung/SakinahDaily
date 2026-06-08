@@ -18,15 +18,27 @@ postpartum, cycle, or similar private terms.
 
 In-app explanation:
 
-> Prayer location uses manual or preset choices by default for prayer time
-> calculation and Qibla direction.
+> Sakinah uses your device location only to calculate prayer times and Qibla.
+> If permission is denied, you can enter the location manually.
+
+Privacy note:
+
+> Requested while using the app. Not used for background tracking or remote
+> sync.
 
 Qibla explanation:
 
-> Qibla uses your selected prayer location. Exact GPS is not required.
+> Qibla uses your selected prayer location. No compass or background location
+> is required.
 
-Store/review note: exact GPS permission is not implemented in MVP. If added
-later, provide a separate consent screen and update store declarations.
+Fallback note:
+
+> Location permission was denied. Enter location manually instead.
+
+Store/review note: v0.1 uses foreground coarse device location for prayer time
+and Qibla setup. It does not use fine/background location, compass, or sensor
+permissions. Any future fine/background location scope requires a separate
+consent screen and updated store declarations.
 
 ## Remote Content
 

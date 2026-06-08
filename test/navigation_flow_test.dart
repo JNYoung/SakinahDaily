@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/config/app_environment.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -151,7 +152,27 @@ void main() {
       settleSplash: false,
     );
     expect(find.byKey(SakinahKeys.quranVerseDetailPage), findsOneWidget);
-    expect(find.text('For indeed, with hardship will be ease.'), findsOneWidget);
+    expect(
+        find.text('For indeed, with hardship will be ease.'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('QA initial route opens a direct page in dev builds',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      settleSplash: false,
+      appEnvironmentConfig: const AppEnvironmentConfig(
+        environment: AppEnvironment.dev,
+        appName: 'Sakinah Daily Dev',
+        remoteContentEnabled: false,
+        initialRoute: '/settings/privacy',
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.privacyCenterPage), findsOneWidget);
+    expect(find.text('Privacy Center'), findsWidgets);
     expectNoFlutterErrors(tester);
   });
 

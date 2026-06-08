@@ -43,6 +43,8 @@
 | `docs/cms/03_AGENT_SERVICE_SCHEMA.sql` | Content Agent service schema 草案 |
 | `docs/cms/04_SOURCE_CORPUS_SCHEMA.sql` | Source corpus schema 草案 |
 | `docs/cms/05_CLIENT_CONTENT_DELIVERY_SCHEMA.sql` | Client content delivery/cache schema 草案 |
+| `docs/server/01_BACKEND_API_PROJECT.md` | Backend API 项目、城市库/时区/内容下发/push preview 合约 |
+| `docs/server/02_BACKEND_API_OPENAPI.yaml` | Backend API OpenAPI 草案 |
 | `docs/client/01_CONTENT_DELIVERY_CACHE_STRATEGY.md` | 客户端内容 manifest、bundle、cache 策略 |
 | `docs/client/02_CLIENT_CONTENT_MODELS.md` | 客户端内容投递模型 |
 | `docs/client/03_CLIENT_SYNC_FLOWS.md` | 客户端同步与缺内容恢复流程 |
@@ -53,6 +55,7 @@
 | `docs/client/08_SESSION_PROGRESS_HISTORY.md` | Daily Session 进度、完成页和本地历史实现 |
 | `docs/client/09_WOMEN_MODE_CONTENT_POLICY.md` | Women’s Mode 本地内容推荐与隐私策略 |
 | `docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md` | Prayer / Session / Quran / Dua 产品侧需求进度与缺口 |
+| `docs/client/11_CONTENT_SOURCE_TRANSPARENCY.md` | Settings 内容来源透明页、审核状态语义与不生成宗教文本说明 |
 | `docs/privacy/01_PRIVACY_DATA_INVENTORY.md` | 客户端隐私数据清单草案 |
 | `docs/privacy/02_PRIVACY_POLICY_DRAFT.md` | 隐私政策草案，供 legal/store review |
 | `docs/privacy/03_APP_STORE_PRIVACY_LABEL_DRAFT.md` | App Store privacy label 草案 |
@@ -66,7 +69,10 @@
 | `docs/release/05_SCREENSHOT_PLAN.md` | Store 截图计划和后续自动化 key |
 | `docs/release/06_PERMISSION_AND_DATA_SAFETY_REVIEW.md` | 权限与 data safety 一致性复核 |
 | `docs/release/07_BUILD_FLAVORS_AND_DART_DEFINE.md` | dev/staging/prod dart-define 配置 |
+| `docs/release/08_PRAYER_DEVICE_LOCATION_QA.md` | v0.1 device location 真实设备 QA 清单 |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
+| `docs/testing/03_REAL_DEVICE_E2E_PLAN.md` | 真机 E2E 模块化需求走查与夜间 smoke runbook |
+| `docs/testing/04_REAL_DEVICE_E2E_RESULTS.md` | 真机 E2E 执行结果、证据目录和后续关注点 |
 
 ### Agent Service 文档
 

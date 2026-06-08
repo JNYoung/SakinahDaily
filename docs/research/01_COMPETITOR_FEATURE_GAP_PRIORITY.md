@@ -44,7 +44,7 @@ Priority levels:
 | Priority | Gap | Why it matters | Current state | Proposed scope |
 |---|---|---|---|---|
 | P0 | Reviewed content pack and source/licensing baseline | Competitors offer deep Quran/Dua/Dhikr libraries. Sakinah cannot launch with placeholder Quran source labels or very thin seed content. | One seed session, 3 Quran ayahs, 5 duas, 5 dhikrs, placeholder Quran source labels, empty audio URLs/hashes. Local scheduled manifest/bundle generation and downfeed endpoints now exist, but beta generation blocks until reviewed inventory and metadata are complete. | Prepare a reviewed beta pack: 5-7 sessions, 30-50 duas, 20-30 dhikrs, 10-20 Quran ayah references used by sessions, source labels, reviewer status, version, reviewed date. Keep full Quran corpus out until approved. |
-| P0 | Prayer location and reminder reliability decision | Prayer reminders are core expectation across Muslim Pro, Athan, Pillars, Quran Majeed. | Manual/preset location works; broad notification toggle works; no device-location permission flow; no per-prayer control. | Decide release baseline: manual-only or device location. If device location is in v0.1, add permission explanation, fallback, tests, and QA. Add per-prayer enablement and lead-time offset after permission QA. |
+| P0 | Prayer location and reminder reliability | Prayer reminders are core expectation across Muslim Pro, Athan, Pillars, Quran Majeed. | v0.1 device-location baseline is implemented with explanation copy, Android foreground coarse location, manual fallback, prayer calculations, and broad notification toggle. No per-prayer control yet. | Run real-device location/notification QA before beta. Add per-prayer enablement and lead-time offset after permission QA is stable. |
 | P0 | Dua/Dhikr category filtering and search | Dhikr & Dua competitors make content discoverable by moment, need, and category. Current list will feel unfinished. | Implemented for local seed content: Dua and Dhikr now have category chips, search across source-backed text fields, and safe empty states. Dhikr seed items carry category metadata. | Extend the reviewed pack into the remaining PRD categories: Before sleep, Anxiety, Travel, Study/Work, Ramadan, and Women’s Ibadah. Keep search local/privacy-safe. |
 | P0 | Session completion habit loop | Quranly/Pillars-style habit loops drive retention. Sakinah's north star is weekly completed worship sessions. | Completion stores local history, save session, completed-today state, and a privacy-safe local daily reminder CTA. Notification settings now let users enable, disable, and reschedule the daily session reminder. | Add next-session suggestions after content pack breadth improves. Avoid leaderboard/gamification. |
 | P0 | Audio CTA truthfulness | Competitors with audio set user expectation. Empty audio URLs and no-op buttons hurt trust. | Quran audio metadata exists but URL/hash empty; Dua detail now shows clear text-only copy instead of no-op Listen/Repeat buttons. | Before beta, ingest approved licensed audio assets with hash validation or keep unavailable audio surfaces explicitly text-only. Quran remains no BGM and no generic TTS. |
@@ -52,7 +52,7 @@ Priority levels:
 | P1 | Home/widget prayer surfaces | Pillars and Athan emphasize widgets and fast prayer access. | In-app Home countdown exists; no platform widgets or lock-screen surfaces. | Add Android home-screen widget or in-app compact prayer dashboard first. iOS widgets later. Keep payload copy privacy-safe. |
 | P1 | Hijri and Ramadan-light utilities | Major competitors support Islamic calendar and Ramadan. Indonesian/MENA users expect at least a respectful baseline. | Hijri date is mock/tunable; Ramadan is placeholder in content guidance. | Add Hijri date tuning, Ramadan content category, suhoor/iftar reminder design doc, and fasting-sensitive privacy review. Full Ramadan plan remains post-MVP. |
 | P1 | Qibla compass polish | Prayer/Qibla is table stakes, but sensor permissions carry privacy and QA complexity. | Static bearing from selected location works; no GPS/sensor compass. | Add calibrated sensor compass only after permission/privacy review. Manual/static Qibla remains acceptable for beta if clearly positioned. |
-| P1 | Content source/about transparency | Trust is central in Islamic content apps. | Dua detail shows source/review; Quran source labels are placeholders; no dedicated content source/about screen. | Add a Content Sources page explaining seed/CMS sources, review status meanings, and what is not generated. |
+| P1 | Content source/about transparency | Trust is central in Islamic content apps. | Implemented: Settings includes a Content Sources page explaining seed content, reviewed CMS bundles, review status meanings, and what is not generated. Quran source labels are still placeholders. | Keep the page as the baseline trust surface; later link item-level source chips when approved inventory/source metadata is broader. |
 | P1 | Saved collections and continue surfaces | Competitors support bookmarks/favorites/progress. | Saved items exist for session, Dua, Dhikr, Quran verse; no folders or "continue saved" rail. | Add Home "Continue / Saved for tonight" rail and simple filters by item type. Defer folders unless content volume grows. |
 | P1 | Privacy-safe analytics plan | Product metrics are defined in PRD, but no measurement exists. | Analytics service is stubbed; no SDK and no tracking. | Design consent-aware event collection or keep a local debug-only event log for beta. Do not add analytics SDK before privacy review. |
 | P2 | Multi-reciter and offline audio library | Strong Quran apps offer reciters and offline downloads. | Audio foundation exists; licensed assets not present. | Add after rights, hashes, storage, and offline cache validation are finalized. |
@@ -69,15 +69,20 @@ Priority levels:
 ### P0-A — Release Baseline Decision
 
 Owner: product + engineering  
-Outcome: one-page decision recorded in PRD.
+Outcome: partially decided; remaining scope decisions are content and audio.
 
-Decide:
+Decided:
 
-1. Is v0.1 manual/preset location only, or does it require device location?
-2. Is v0.1 seed-reviewed content only, or does it require staging CMS content?
-3. Are audio CTAs deferred, or does v0.1 require licensed audio assets?
+1. Prayer location: v0.1 requires device location with explanation copy and
+   manual fallback.
 
-This decision should happen before adding more feature surfaces.
+Still decide:
+
+1. Is v0.1 seed-reviewed content only, or does it require staging CMS content?
+2. Are audio CTAs deferred, or does v0.1 require licensed audio assets?
+
+Real-device Prayer location QA should happen before adding more Prayer feature
+surfaces.
 
 ### P0-B — Reviewed Content Pack
 
