@@ -11,10 +11,11 @@ import 'support/sakinah_test_harness.dart';
 
 void main() {
   testWidgets('Dhikr counter increments toward its target', (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
-
-    await tapByKey(tester, SakinahKeys.bottomNavDhikr);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/dhikr',
+      settleSplash: false,
+    );
 
     expect(find.text('0 / 33'), findsOneWidget);
 
@@ -103,10 +104,11 @@ void main() {
   });
 
   testWidgets('Dua detail shows source and review status', (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
-
-    await tapByKey(tester, SakinahKeys.bottomNavDua);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/dua',
+      settleSplash: false,
+    );
     await tapByKey(tester, SakinahKeys.duaListItem('dua_ease'));
 
     expect(find.text('Arabic'), findsOneWidget);
@@ -118,10 +120,11 @@ void main() {
 
   testWidgets('Dua library filters by category and searches content',
       (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
-
-    await tapByKey(tester, SakinahKeys.bottomNavDua);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/dua',
+      settleSplash: false,
+    );
     await tapByKey(tester, SakinahKeys.duaCategoryChip('evening'));
 
     expect(find.byKey(SakinahKeys.duaListItem('dua_rest')), findsOneWidget);
@@ -143,10 +146,11 @@ void main() {
 
   testWidgets('Dhikr library filters by category and searches content',
       (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
-
-    await tapByKey(tester, SakinahKeys.bottomNavDhikr);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/dhikr',
+      settleSplash: false,
+    );
     await tapByKey(tester, SakinahKeys.dhikrCategoryChip('forgiveness'));
 
     expect(
@@ -186,11 +190,11 @@ void main() {
 
   testWidgets('Women mode stays local and toggles sensitive-day state',
       (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
-
-    await tapByKey(tester, SakinahKeys.bottomNavSettings);
-    await tapByKey(tester, SakinahKeys.settingsWomenModeTile);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/women',
+      settleSplash: false,
+    );
 
     expect(find.text('Data stays local by default'), findsOneWidget);
     expect(

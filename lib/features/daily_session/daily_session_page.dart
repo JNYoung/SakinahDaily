@@ -69,7 +69,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
     return LanguageAwareScaffold(
       title: session.title.resolve(preferences.languageCode),
       darkPattern: true,
-      selectedNavIndex: 0,
+      selectedNavIndex: 2,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

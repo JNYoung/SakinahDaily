@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/localization/sakinah_localizations.dart';
+import 'package:sakinah_daily/core/models/sakinah_models.dart';
+import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -74,24 +76,30 @@ void main() {
     await pumpSakinahApp(tester, languageCode: 'id');
     await continueToHome(tester);
 
-    expect(find.text('Aksi Cepat'), findsOneWidget);
+    expect(find.text('Shalat harian sebagai pusat'), findsOneWidget);
     expect(find.text('Quick Actions'), findsNothing);
 
     await tapByKey(tester, SakinahKeys.bottomNavSettings);
 
     expect(find.text('Metode shalat'), findsOneWidget);
     expect(find.text('Pengingat shalat'), findsOneWidget);
+    expect(find.text('Mode Ibadah Perempuan'), findsNothing);
     expect(find.text('Prayer method'), findsNothing);
     expect(find.text('Prayer reminders'), findsNothing);
 
-    await tapByKey(tester, SakinahKeys.settingsWomenModeTile);
+    await pumpSakinahApp(
+      tester,
+      languageCode: 'id',
+      initialLocation: '/settings/women',
+      settleSplash: false,
+      preferencesStore: await _preferencesStoreWithLanguage('id'),
+    );
+    await tester.pumpAndSettle();
 
     expect(find.text('Mode Ibadah Perempuan'), findsWidgets);
     expect(find.text('Data tetap lokal secara default'), findsOneWidget);
     await scrollUntilFound(
-      tester,
-      find.text('Direkomendasikan sekarang'),
-    );
+        tester, find.byKey(SakinahKeys.womenModeRecommendedCard));
     expect(find.text('Direkomendasikan sekarang'), findsOneWidget);
     expect(find.text("Women's Ibadah Mode"), findsNothing);
     expect(find.text('Data stays local by default'), findsNothing);
@@ -104,30 +112,46 @@ void main() {
     await pumpSakinahApp(tester, languageCode: 'ar');
     await continueToHome(tester);
 
-    expect(find.text('إجراءات سريعة'), findsOneWidget);
+    expect(find.text('الصلاة اليومية في المركز'), findsOneWidget);
     expect(find.text('Quick Actions'), findsNothing);
 
     await tapByKey(tester, SakinahKeys.bottomNavSettings);
 
     expect(find.text('طريقة الصلاة'), findsOneWidget);
     expect(find.text('تذكيرات الصلاة'), findsOneWidget);
+    expect(find.text('وضع عبادة النساء'), findsNothing);
     expect(find.text('Prayer method'), findsNothing);
     expect(find.text('Prayer reminders'), findsNothing);
 
-    await tapByKey(tester, SakinahKeys.settingsWomenModeTile);
+    await pumpSakinahApp(
+      tester,
+      languageCode: 'ar',
+      initialLocation: '/settings/women',
+      settleSplash: false,
+      preferencesStore: await _preferencesStoreWithLanguage('ar'),
+    );
+    await tester.pumpAndSettle();
 
     expect(find.text('وضع عبادة النساء'), findsWidgets);
     expect(find.text('تبقى البيانات محلية افتراضيا'), findsOneWidget);
     await scrollUntilFound(
-      tester,
-      find.text('موصى به الآن'),
-    );
+        tester, find.byKey(SakinahKeys.womenModeRecommendedCard));
     expect(find.text('موصى به الآن'), findsOneWidget);
     expect(find.text("Women's Ibadah Mode"), findsNothing);
     expect(find.text('Data stays local by default'), findsNothing);
     expect(find.text('Recommended now'), findsNothing);
     expectNoFlutterErrors(tester);
   });
+}
+
+Future<InMemoryUserPreferencesStore> _preferencesStoreWithLanguage(
+  String languageCode,
+) async {
+  final store = InMemoryUserPreferencesStore();
+  await UserPreferencesRepository(store).save(
+    UserPreferences.defaults().copyWith(languageCode: languageCode),
+  );
+  return store;
 }
 
 Set<String> _arbKeys(String locale) {

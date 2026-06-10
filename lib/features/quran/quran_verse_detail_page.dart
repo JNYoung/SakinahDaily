@@ -44,7 +44,6 @@ class QuranVerseDetailPage extends ConsumerWidget {
 
     return LanguageAwareScaffold(
       title: l10n.quranVerseLabel(ayah.verseKey),
-      selectedNavIndex: 0,
       body: ListView(
         key: SakinahKeys.quranVerseDetailPage,
         children: [
@@ -65,8 +64,7 @@ class QuranVerseDetailPage extends ConsumerWidget {
                 width: 140,
                 child: PrimaryButton(
                   key: SakinahKeys.quranVerseSaveButton,
-                  label:
-                      isSaved ? l10n.t('savedAyah') : l10n.t('saveAyah'),
+                  label: isSaved ? l10n.t('savedAyah') : l10n.t('saveAyah'),
                   tonal: true,
                   onPressed: () {
                     final item = SavedItem(

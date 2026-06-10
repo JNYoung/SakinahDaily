@@ -12,7 +12,8 @@ import 'package:sakinah_daily/core/services/content_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 
 void main() {
-  test('delete local data resets preferences clears cache and cancels reminders',
+  test(
+      'delete local data resets preferences clears cache and cancels reminders',
       () async {
     final preferencesStore = InMemoryUserPreferencesStore();
     final preferencesRepository = UserPreferencesRepository(preferencesStore);
@@ -113,20 +114,19 @@ void main() {
     expect(await cacheRepository.listBundles(), isEmpty);
     expect(await cacheRepository.revokedContentIds(), isEmpty);
     expect(await savedRepository.listSavedItems(), isEmpty);
-    expect(await progressRepository.loadProgress('session_morning_ease'), isNull);
+    expect(
+        await progressRepository.loadProgress('session_morning_ease'), isNull);
     expect(await progressRepository.listCompletionRecords(), isEmpty);
     expect(notifications.scheduled, isEmpty);
   });
 
   test('delete local data keeps bundled seed content available', () async {
-    final cacheRepository =
-        ContentCacheRepository(InMemoryContentCacheStore());
+    final cacheRepository = ContentCacheRepository(InMemoryContentCacheStore());
     await LocalDataDeletionService(
       preferencesRepository:
           UserPreferencesRepository(InMemoryUserPreferencesStore()),
       contentCacheRepository: cacheRepository,
-      savedItemsRepository:
-          SavedItemsRepository(InMemorySavedItemsStore()),
+      savedItemsRepository: SavedItemsRepository(InMemorySavedItemsStore()),
       sessionProgressRepository: SessionProgressRepository(
         InMemorySessionProgressStore(),
       ),

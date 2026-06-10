@@ -1,8 +1,35 @@
 # Product Requirements Progress — Prayer, Session, Quran, Dua
 
-Status date: 2026-05-30  
+Status date: 2026-06-10
 Scope: product-side progress for the core worship chains and notification
 cold-start routing.
+
+## 0. Release Baseline Decision
+
+Decision date: 2026-06-10.
+
+v0.1 is now scoped as a daily prayer release, not a broad Quran/Dua/Dhikr
+companion release. The main app path is Home -> Prayer -> Session -> Settings.
+
+Release baseline:
+
+- Manual/preset prayer location only; no GPS/location permission in v0.1.
+- Local prayer reminders and local daily session reminders only; no production
+  FCM/APNs.
+- Seed-reviewed minimum content only; staging CMS is not required for v0.1.
+- Quran, Dua, Dhikr, Qibla, Saved Items, and Women’s Mode can remain as
+  secondary/deep routes, but they are not Home or bottom-navigation surfaces.
+- Licensed Quran audio and expanded content packs are post-baseline unless an
+  audio CTA is visible and would otherwise be a no-op.
+
+Current high-priority release work:
+
+1. Real-device Android notification permission and delivery QA.
+2. Debug/release Android build validation with Flutter available on PATH.
+3. Store screenshots focused on Home, Prayer, Notification Settings, Manual
+   Location, Privacy Center, Settings, and optional Session.
+4. Production signing, version/build number, privacy policy URL, and final
+   store metadata review.
 
 ## 1. Cold-Start Notification Routing
 
@@ -37,8 +64,8 @@ Remaining notification QA:
 
 ## 2. Prayer Chain
 
-Product status: MVP partial; beta usable with manual/preset location, but not
-production-complete.
+Product status: v0.1 release baseline, pending real-device notification and
+build QA.
 
 Completed:
 
@@ -53,11 +80,9 @@ Completed:
 
 Open product links:
 
-- Device-location permission flow is not implemented; the MVP currently relies
-  on preset/manual location. The PRD should either keep this as a P0 gap or
-  explicitly accept manual-only for v0.1.
-- Reminder control is still broad. There is no per-prayer enablement, lead-time
-  offset, quiet hours, or separate daily reminder configuration.
+- Device-location permission flow is intentionally deferred for v0.1.
+- Reminder control is intentionally broad for v0.1. Per-prayer enablement,
+  lead-time offset, and quiet hours are P1 after release QA.
 - Prayer page does not yet highlight the current/next prayer state beyond the
   Home countdown.
 - Hijri date tuning, regional default presets, and polished live compass remain
@@ -183,12 +208,10 @@ Suggested next milestone:
 
 | Chain | Current release posture | Main blocker before beta/store |
 |---|---|---|
-| Prayer | Usable with manual/preset location | Device-location scope decision and reminder QA |
-| Daily Session | End-to-end seed flow and local manageable daily reminder | Reviewed session pack, real-device notification QA, licensed audio |
-| Quran | Safe local verse entry works | Approved source corpus and licensed reciter assets |
-| Dua / Dhikr | Local library/detail/save/search/category discovery works | Reviewed content depth, missing PRD categories, audio CTA decision |
+| Prayer | v0.1 main release path | Real-device notification QA and build/signing gates |
+| Daily Session | Optional secondary habit loop | Ensure no visible no-op audio CTA in release path |
+| Quran | Secondary/deep route only | Not a v0.1 blocker unless release path exposes unsafe/no-op audio |
+| Dua / Dhikr | Secondary/deep route only | Not a v0.1 blocker |
 
-The strongest next product move is to lock the v0.1 release baseline:
-manual-only vs device location, seed-only vs staging CMS content, and
-placeholder vs licensed audio. Those decisions determine whether the next
-milestone should be location QA, content pack review, or audio asset ingestion.
+The strongest next product move is real-device prayer reminder QA and Android
+release build preparation, not additional content or feature expansion.

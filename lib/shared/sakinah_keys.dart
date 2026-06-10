@@ -9,6 +9,12 @@ abstract final class SakinahKeys {
       ValueKey<String>('onboarding_continue_button');
 
   static const homePrayerBadge = ValueKey<String>('home_prayer_badge');
+  static const homePrayerPrimaryCard =
+      ValueKey<String>('home_prayer_primary_card');
+  static const homePrayerTimesButton =
+      ValueKey<String>('home_prayer_times_button');
+  static const homePrayerReminderSettingsButton =
+      ValueKey<String>('home_prayer_reminder_settings_button');
   static const homeContentList = ValueKey<String>('home_content_list');
   static const homeSessionCard = ValueKey<String>('home_session_card');
   static const homeQuickActionsCard =
@@ -32,6 +38,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('home_women_mode_local_chip');
 
   static const bottomNavHome = ValueKey<String>('bottom_nav_home');
+  static const bottomNavPrayer = ValueKey<String>('bottom_nav_prayer');
+  static const bottomNavSession = ValueKey<String>('bottom_nav_session');
   static const bottomNavDua = ValueKey<String>('bottom_nav_dua');
   static const bottomNavDhikr = ValueKey<String>('bottom_nav_dhikr');
   static const bottomNavSettings = ValueKey<String>('bottom_nav_settings');
@@ -119,6 +127,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('women_mode_local_changes_card');
   static const womenModePrivacyDetailsCard =
       ValueKey<String>('women_mode_privacy_details_card');
+  static const womenModeRecommendedCard =
+      ValueKey<String>('women_mode_recommended_card');
   static const privacyCenterPage = ValueKey<String>('privacy_center_page');
   static const privacyDataInventoryPage =
       ValueKey<String>('privacy_data_inventory_page');

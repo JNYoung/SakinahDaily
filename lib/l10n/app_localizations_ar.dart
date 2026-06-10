@@ -67,6 +67,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get nextPrayer => 'الصلاة التالية';
 
   @override
+  String get dailyPrayerHomeTitle => 'الصلاة اليومية في المركز';
+
+  @override
+  String get viewPrayerTimes => 'عرض أوقات الصلاة';
+
+  @override
+  String get manageReminders => 'إدارة التذكيرات';
+
+  @override
+  String get changeLocation => 'تغيير الموقع';
+
+  @override
   String get todaySession => 'جلسة السكينة اليوم';
 
   @override

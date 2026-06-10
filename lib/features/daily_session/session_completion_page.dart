@@ -44,7 +44,7 @@ class SessionCompletionPage extends ConsumerWidget {
 
     return LanguageAwareScaffold(
       title: l10n.t('sessionCompletedTitle'),
-      selectedNavIndex: 0,
+      selectedNavIndex: 2,
       body: ListView(
         key: SakinahKeys.sessionCompletionPage,
         children: [

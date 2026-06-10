@@ -2,7 +2,10 @@
 
 ## 1. 客户端目标
 
-构建一个 Flutter 移动端 MVP，支持 Arabic / Bahasa Indonesia / English，包含 onboarding、Home、Daily Session、Dua、Dhikr、Prayer、Settings 和 Women’s Ibadah Mode。
+构建一个 Flutter 移动端 MVP，支持 Arabic / Bahasa Indonesia / English。
+v0.1 上架目标收敛为每日祷告 companion：Home、Prayer、Session、Settings
+是主路径；Dua、Dhikr、Quran、Qibla、Saved Items 和 Women’s Ibadah Mode
+可以保留为 secondary/deep surfaces，但不能作为当前上架阻塞。
 
 ## 2. 技术约束
 
@@ -56,13 +59,17 @@ lib/
 |---|---|---|
 | `/onboarding` | OnboardingFlow | P0 |
 | `/home` | HomeScreen | P0 |
-| `/daily-session/:id` | DailySessionScreen | P0 |
-| `/dua` | DuaLibraryScreen | P0 |
-| `/dua/:id` | DuaDetailScreen | P0 |
-| `/dhikr` | DhikrScreen | P0 |
 | `/prayer` | PrayerScreen | P0 |
+| `/settings/notifications` | NotificationSettingsScreen | P0 |
+| `/settings/prayer-location` | ManualPrayerLocationScreen | P0 |
 | `/settings` | SettingsScreen | P0 |
-| `/settings/women-ibadah` | WomenIbadahModeScreen | P0 |
+| `/daily-session/:id` | DailySessionScreen | P0 secondary |
+| `/dua` | DuaLibraryScreen | Secondary |
+| `/dua/:id` | DuaDetailScreen | Secondary |
+| `/dhikr` | DhikrScreen | Secondary |
+| `/quran` | QuranScreen | Secondary |
+| `/qibla` | QiblaScreen | Secondary |
+| `/settings/women-ibadah` | WomenIbadahModeScreen | Secondary privacy-safe |
 
 ## 5. Onboarding 需求
 
@@ -81,8 +88,8 @@ lib/
 ### Step 3 Location
 
 - 说明用途：仅用于 prayer time 和 Qibla。
-- 支持 device location。
-- 支持 manual location fallback。
+- v0.1 上架 baseline 使用 manual/preset location。
+- 不请求 GPS/location permission；device location flow 延后到 P1。
 
 ### Step 4 Personalization
 
@@ -112,10 +119,12 @@ Home 是核心入口，不能做成工具列表。
 
 - Greeting。
 - Hijri/Gregorian date，可先 mock Hijri。
-- Next prayer countdown。
-- Today's Sakinah card。
-- Quick actions：Quran / Dua / Dhikr / Qibla。
-- Tonight suggestion。
+- Next prayer countdown / time。
+- Prayer location、calculation method、reminder status。
+- Primary CTA：View prayer times。
+- Secondary CTA：Manage reminders。
+- Today's Sakinah card 作为 secondary。
+- 不在 Home 放 Quran / Dua / Dhikr / Qibla 工具宫格。
 
 状态：
 
@@ -124,7 +133,7 @@ Home 是核心入口，不能做成工具列表。
 | 有 CMS 内容 | 展示 published session |
 | 无 CMS 内容 | 使用 seed session |
 | Prayer 计算失败 | 展示手动设置入口 |
-| 未授权位置 | 用 manual location |
+| 未授权位置 | v0.1 不请求位置权限；用 manual/preset location |
 
 ## 7. Daily Session 需求
 

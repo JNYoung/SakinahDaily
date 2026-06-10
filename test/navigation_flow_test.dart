@@ -17,7 +17,7 @@ void main() {
 
     expect(find.text('Fajr'), findsOneWidget);
     expect(find.text('Dhuhr'), findsOneWidget);
-    expect(find.byType(NavigationBar), findsNothing);
+    expect(find.byType(NavigationBar), findsOneWidget);
 
     await tester.pageBack();
     await tester.pumpAndSettle();
@@ -27,17 +27,17 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('bottom navigation reaches Home, Dua, Dhikr, and Settings',
+  testWidgets('bottom navigation reaches Home, Prayer, Session, and Settings',
       (tester) async {
     await pumpSakinahApp(tester);
     await continueToHome(tester);
 
-    await tapByKey(tester, SakinahKeys.bottomNavDua);
-    expect(find.byKey(SakinahKeys.duaListItem('dua_rabbana_atina')),
-        findsOneWidget);
+    await tapByKey(tester, SakinahKeys.bottomNavPrayer);
+    expect(find.text('Fajr'), findsOneWidget);
+    expect(find.text('Dhuhr'), findsOneWidget);
 
-    await tapByKey(tester, SakinahKeys.bottomNavDhikr);
-    expect(find.byKey(SakinahKeys.dhikrCounter), findsOneWidget);
+    await tapByKey(tester, SakinahKeys.bottomNavSession);
+    expect(find.text('Step 1 of 6 · Set intention'), findsOneWidget);
 
     await tapByKey(tester, SakinahKeys.bottomNavSettings);
     expect(find.text('Prayer method'), findsOneWidget);
@@ -47,42 +47,74 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('home quick actions route to their feature surfaces',
-      (tester) async {
+  testWidgets('home is scoped to prayer-first release actions', (tester) async {
     await pumpSakinahApp(tester);
     await continueToHome(tester);
 
-    await tapByKey(tester, SakinahKeys.homeQuickActionDua);
-    expect(find.byKey(SakinahKeys.duaListItem('dua_rabbana_atina')),
-        findsOneWidget);
-
-    await tapByKey(tester, SakinahKeys.bottomNavHome);
-    await tapByKey(tester, SakinahKeys.homeQuickActionDhikr);
-    expect(find.byKey(SakinahKeys.dhikrCounter), findsOneWidget);
-
-    await tapByKey(tester, SakinahKeys.bottomNavHome);
-    await tapByKey(tester, SakinahKeys.homeQuickActionQuran);
-    expect(find.byKey(SakinahKeys.quranPage), findsOneWidget);
-    expect(find.text('Featured ayah'), findsOneWidget);
+    expect(find.byKey(SakinahKeys.homePrayerPrimaryCard), findsOneWidget);
+    expect(find.byKey(SakinahKeys.homePrayerTimesButton), findsOneWidget);
+    expect(
+      find.byKey(SakinahKeys.homePrayerReminderSettingsButton),
+      findsOneWidget,
+    );
+    expect(find.byKey(SakinahKeys.homeQuickActionDua), findsNothing);
+    expect(find.byKey(SakinahKeys.homeQuickActionDhikr), findsNothing);
+    expect(find.byKey(SakinahKeys.homeQuickActionQuran), findsNothing);
 
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('home Qibla quick action opens Qibla page', (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
-
-    await tapByKey(tester, SakinahKeys.homeQuickActionQibla);
+  testWidgets('Qibla route remains available as a secondary surface',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/qibla',
+      settleSplash: false,
+    );
+    await tester.pumpAndSettle();
 
     expect(find.byKey(SakinahKeys.qiblaPage), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('Dua list opens detail', (tester) async {
+  testWidgets('home prayer actions open prayer and reminder settings',
+      (tester) async {
     await pumpSakinahApp(tester);
     await continueToHome(tester);
 
-    await tapByKey(tester, SakinahKeys.bottomNavDua);
+    await tapByKey(tester, SakinahKeys.homePrayerTimesButton);
+    expect(find.text('Fajr'), findsOneWidget);
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.homePrayerReminderSettingsButton);
+    expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('settings main path is scoped to prayer release controls',
+      (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.bottomNavSettings);
+
+    expect(find.text('Prayer location'), findsOneWidget);
+    expect(find.text('Prayer method'), findsOneWidget);
+    expect(find.text('Prayer reminders'), findsOneWidget);
+    expect(find.text('Privacy'), findsOneWidget);
+    expect(find.text("Women's Ibadah Mode"), findsNothing);
+    expect(find.text('Saved Items'), findsNothing);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Dua list opens detail', (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/dua',
+      settleSplash: false,
+    );
     await tapByKey(tester, SakinahKeys.duaListItem('dua_ease'));
 
     expect(find.text('Make Dua'), findsWidgets);
@@ -123,7 +155,7 @@ void main() {
       settleSplash: false,
     );
     expect(find.text('Step 1 of 6 · Set intention'), findsOneWidget);
-    expect(_bottomNav(tester).selectedIndex, 0);
+    expect(_bottomNav(tester).selectedIndex, 2);
     expectNoFlutterErrors(tester);
 
     await pumpSakinahApp(
@@ -133,7 +165,7 @@ void main() {
     );
     expect(find.text('Subhanallah'), findsOneWidget);
     expect(find.text('0 / 33'), findsOneWidget);
-    expect(_bottomNav(tester).selectedIndex, 2);
+    expect(find.byType(NavigationBar), findsNothing);
     expectNoFlutterErrors(tester);
 
     await pumpSakinahApp(
@@ -151,18 +183,19 @@ void main() {
       settleSplash: false,
     );
     expect(find.byKey(SakinahKeys.quranVerseDetailPage), findsOneWidget);
-    expect(find.text('For indeed, with hardship will be ease.'), findsOneWidget);
+    expect(
+        find.text('For indeed, with hardship will be ease.'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 
   testWidgets(
-      'settings secondary completion returns home with Home tab selected',
+      'women mode secondary route completion returns home with Home tab selected',
       (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
-
-    await tapByKey(tester, SakinahKeys.bottomNavSettings);
-    await tapByKey(tester, SakinahKeys.settingsWomenModeTile);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/women',
+      settleSplash: false,
+    );
 
     expect(_bottomNav(tester).selectedIndex, 3);
 

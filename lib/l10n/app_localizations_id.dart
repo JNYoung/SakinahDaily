@@ -68,6 +68,18 @@ class AppLocalizationsId extends AppLocalizations {
   String get nextPrayer => 'Shalat berikutnya';
 
   @override
+  String get dailyPrayerHomeTitle => 'Shalat harian sebagai pusat';
+
+  @override
+  String get viewPrayerTimes => 'Lihat waktu shalat';
+
+  @override
+  String get manageReminders => 'Kelola pengingat';
+
+  @override
+  String get changeLocation => 'Ubah lokasi';
+
+  @override
   String get todaySession => 'Sesi Sakinah Hari Ini';
 
   @override

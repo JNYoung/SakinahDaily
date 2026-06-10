@@ -40,7 +40,6 @@ class DuaDetailPage extends ConsumerWidget {
 
     return LanguageAwareScaffold(
       title: l10n.t('makeDua'),
-      selectedNavIndex: 1,
       body: ListView(
         children: [
           Row(

@@ -68,6 +68,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nextPrayer => 'Next prayer';
 
   @override
+  String get dailyPrayerHomeTitle => 'Daily prayer at the center';
+
+  @override
+  String get viewPrayerTimes => 'View prayer times';
+
+  @override
+  String get manageReminders => 'Manage reminders';
+
+  @override
+  String get changeLocation => 'Change location';
+
+  @override
   String get todaySession => 'Today\'s Sakinah Session';
 
   @override

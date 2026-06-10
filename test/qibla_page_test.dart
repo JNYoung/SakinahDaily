@@ -38,11 +38,13 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('Home Qibla quick action opens Qibla page', (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
-
-    await tapByKey(tester, SakinahKeys.homeQuickActionQibla);
+  testWidgets('Qibla page remains available as a secondary route',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/qibla',
+      settleSplash: false,
+    );
 
     expect(find.byKey(SakinahKeys.qiblaPage), findsOneWidget);
     expect(find.text('Qibla'), findsWidgets);

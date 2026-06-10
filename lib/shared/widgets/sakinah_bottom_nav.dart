@@ -46,10 +46,10 @@ class SakinahBottomNav extends StatelessWidget {
                   context.go('/home');
                   return;
                 case 1:
-                  context.go('/dua');
+                  context.go('/prayer');
                   return;
                 case 2:
-                  context.go('/dhikr');
+                  context.go('/session/session_morning_ease');
                   return;
                 case 3:
                   context.go('/settings');
@@ -64,16 +64,16 @@ class SakinahBottomNav extends StatelessWidget {
                 label: l10n.t('home'),
               ),
               NavigationDestination(
-                key: SakinahKeys.bottomNavDua,
-                icon: const Icon(Icons.favorite_border_rounded),
-                selectedIcon: const Icon(Icons.favorite_rounded),
-                label: l10n.t('dua'),
+                key: SakinahKeys.bottomNavPrayer,
+                icon: const Icon(Icons.schedule_outlined),
+                selectedIcon: const Icon(Icons.schedule_rounded),
+                label: l10n.t('prayer'),
               ),
               NavigationDestination(
-                key: SakinahKeys.bottomNavDhikr,
-                icon: const Icon(Icons.radio_button_unchecked_rounded),
-                selectedIcon: const Icon(Icons.radio_button_checked_rounded),
-                label: l10n.t('dhikr'),
+                key: SakinahKeys.bottomNavSession,
+                icon: const Icon(Icons.nightlight_outlined),
+                selectedIcon: const Icon(Icons.nightlight_round),
+                label: l10n.t('session'),
               ),
               NavigationDestination(
                 key: SakinahKeys.bottomNavSettings,

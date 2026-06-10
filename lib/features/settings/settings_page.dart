@@ -135,26 +135,6 @@ class SettingsPage extends ConsumerWidget {
           ),
           const Divider(),
           SettingsTile(
-            key: SakinahKeys.settingsWomenModeTile,
-            title: l10n.t('womenMode'),
-            subtitle: l10n.t('womenModeSubtitle'),
-            trailing: Switch(
-              value: preferences.womenIbadahMode.enabled,
-              onChanged: (enabled) {
-                unawaited(controller.setWomenMode(enabled));
-              },
-            ),
-            onTap: () => context.go('/settings/women'),
-          ),
-          const Divider(),
-          SettingsTile(
-            key: SakinahKeys.settingsSavedItemsTile,
-            title: l10n.t('savedItems'),
-            subtitle: l10n.t('savedItemsPrivacyNotes'),
-            onTap: () => context.go('/saved'),
-          ),
-          const Divider(),
-          SettingsTile(
             key: SakinahKeys.settingsPrivacyTile,
             title: l10n.t('privacy'),
             subtitle: l10n.t('privacySubtitle'),
