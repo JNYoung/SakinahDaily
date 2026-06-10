@@ -264,7 +264,7 @@ class FlutterLocalNotificationService implements NotificationService {
   @override
   Future<void> cancelDailySessionReminder() async {
     await _ensureInitialized();
-    await _plugin.cancel(id: _dailySessionNotificationId);
+    await _plugin.cancel(_dailySessionNotificationId);
   }
 
   @override
@@ -341,11 +341,11 @@ class FlutterLocalNotificationService implements NotificationService {
           payload: prayerNotificationPayload(),
         );
         await _plugin.zonedSchedule(
-          id: _notificationId(prayer.name),
-          title: copy.title,
-          body: copy.body,
-          scheduledDate: timezone.TZDateTime.from(prayer.time, timezone.local),
-          notificationDetails: const NotificationDetails(
+          _notificationId(prayer.name),
+          copy.title,
+          copy.body,
+          timezone.TZDateTime.from(prayer.time, timezone.local),
+          const NotificationDetails(
             android: AndroidNotificationDetails(
               'sakinah_prayer_reminders',
               'Prayer reminders',
@@ -390,13 +390,13 @@ class FlutterLocalNotificationService implements NotificationService {
         body: copy.body,
         payload: dailySessionNotificationPayload(session.id),
       );
-      await _plugin.cancel(id: _dailySessionNotificationId);
+      await _plugin.cancel(_dailySessionNotificationId);
       await _plugin.zonedSchedule(
-        id: _dailySessionNotificationId,
-        title: reminder.title,
-        body: reminder.body,
-        scheduledDate: timezone.TZDateTime.from(reminder.time, timezone.local),
-        notificationDetails: const NotificationDetails(
+        _dailySessionNotificationId,
+        reminder.title,
+        reminder.body,
+        timezone.TZDateTime.from(reminder.time, timezone.local),
+        const NotificationDetails(
           android: AndroidNotificationDetails(
             'sakinah_daily_session_reminders',
             'Daily session reminders',
@@ -421,7 +421,7 @@ class FlutterLocalNotificationService implements NotificationService {
     }
     timezone_data.initializeTimeZones();
     await _plugin.initialize(
-      settings: const InitializationSettings(
+      const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
         iOS: DarwinInitializationSettings(
           requestAlertPermission: false,
@@ -463,7 +463,7 @@ class FlutterLocalNotificationService implements NotificationService {
       'Maghrib',
       'Isha'
     ]) {
-      await _plugin.cancel(id: _notificationId(prayerName));
+      await _plugin.cancel(_notificationId(prayerName));
     }
   }
 }

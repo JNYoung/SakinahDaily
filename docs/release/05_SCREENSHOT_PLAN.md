@@ -5,14 +5,13 @@ Status: Draft for release/store review.
 ## Required Screens
 
 1. Splash / brand.
-2. Home.
-3. Daily Session Quran step.
-4. Dua Detail.
-5. Dhikr Counter.
-6. Prayer Times.
-7. Women's Ibadah Mode.
-8. Privacy Center.
-9. Settings.
+2. Home with next prayer and reminder status.
+3. Prayer Times.
+4. Notification Settings.
+5. Manual Prayer Location.
+6. Privacy Center.
+7. Settings.
+8. Optional Daily Session start screen.
 
 ## Device Sizes
 
@@ -38,10 +37,12 @@ iOS:
 Useful existing test keys:
 
 - `SakinahKeys.homePrayerBadge`
+- `SakinahKeys.homePrayerPrimaryCard`
+- `SakinahKeys.homePrayerTimesButton`
+- `SakinahKeys.homePrayerReminderSettingsButton`
 - `SakinahKeys.homeSessionStartButton`
-- `SakinahKeys.duaListItem(...)`
-- `SakinahKeys.dhikrCounter`
-- `SakinahKeys.settingsWomenModeTile`
+- `SakinahKeys.settingsNotificationSettingsTile`
+- `SakinahKeys.settingsPrayerLocationTile`
 - `SakinahKeys.settingsPrivacyTile`
 - `SakinahKeys.privacyCenterPage`
 

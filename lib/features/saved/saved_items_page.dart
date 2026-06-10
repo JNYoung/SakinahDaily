@@ -21,7 +21,6 @@ class SavedItemsPage extends ConsumerWidget {
 
     return LanguageAwareScaffold(
       title: l10n.t('savedItems'),
-      selectedNavIndex: 3,
       body: ListView(
         key: SakinahKeys.savedItemsPage,
         children: [

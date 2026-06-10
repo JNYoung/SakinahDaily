@@ -8,44 +8,43 @@ Sakinah Daily
 
 ## Subtitle / Short Description
 
-A peaceful Quran, Dua, Dhikr, and prayer companion.
+A peaceful daily prayer and reminder companion.
 
 ## English Draft
 
 ### Long Description
 
-Sakinah Daily is a calm worship companion for daily Quran, Dua, Dhikr, and
-prayer moments. The MVP helps you start a short daily session, keep prayer
-reminders, browse reviewed source-backed content, and use a local-first
-Women's Ibadah Mode with privacy controls.
+Sakinah Daily is a calm daily prayer companion for Muslim worship moments. The
+MVP helps you see prayer times, keep local prayer reminders, choose a manual or
+preset prayer location, and start one optional short daily worship session.
 
 Designed for a quieter daily rhythm:
 
-- Daily worship moments for Quran listening, reflection, Dua, and Dhikr.
+- Prayer times for a selected manual or preset location.
 - Prayer reminder settings with explanation before notification permission.
-- Women's Ibadah Mode designed local-first.
+- One optional short daily worship session.
 - Privacy Center with local data reset.
 - No ads.
 - No AI fatwa or religious Q&A.
-- No generic Quran TTS.
-- Quran recitation is voice-only with no background music.
+- No GPS permission in v0.1.
+- No generic Quran TTS or background music under Quran recitation.
 
 ### Keywords
 
-Quran, Dua, Dhikr, Prayer, Muslim, Ramadan, Sakinah, Adhkar, Ibadah
+Prayer, Muslim, Salah, Shalat, Reminder, Qibla, Sakinah, Ibadah
 
 ## Bahasa Indonesia Draft
 
 ### Deskripsi Singkat
 
-Pendamping Quran, Doa, Dzikir, dan shalat yang tenang.
+Pendamping waktu shalat dan pengingat harian yang tenang.
 
 ### Deskripsi Panjang
 
-Sakinah Daily adalah pendamping ibadah harian yang tenang untuk momen Quran,
-Doa, Dzikir, dan pengingat shalat. MVP membantu pengguna memulai sesi harian
-singkat, mengatur pengingat shalat, membuka konten yang ditinjau, dan memakai
-Mode Ibadah Perempuan yang dirancang lokal terlebih dahulu.
+Sakinah Daily adalah pendamping shalat harian yang tenang. MVP membantu
+pengguna melihat waktu shalat, mengatur pengingat shalat lokal, memilih lokasi
+shalat manual atau preset, dan memulai satu sesi ibadah harian singkat bila
+diinginkan.
 
 Catatan draft:
 
@@ -53,20 +52,20 @@ Catatan draft:
 - Tanpa fatwa AI atau tanya jawab agama AI.
 - Tanpa TTS generik untuk Quran.
 - Tilawah Quran tidak memakai musik latar.
+- Tanpa izin GPS di v0.1.
 - Kontrol privasi dan hapus data lokal tersedia di aplikasi.
 
 ## Arabic Draft
 
 ### وصف قصير
 
-رفيق هادئ للقرآن والدعاء والذكر والصلاة.
+رفيق هادئ لأوقات الصلاة والتذكيرات اليومية.
 
 ### وصف طويل
 
-سكينة يومية رفيق عبادة هادئ للحظات القرآن والدعاء والذكر وتذكيرات الصلاة.
-يساعد إصدار MVP المستخدم على بدء جلسة يومية قصيرة، وضبط تذكيرات الصلاة،
-واستخدام وضع عبادة النساء المصمم ليكون محليا أولا، مع مركز خصوصية لحذف
-البيانات المحلية.
+سكينة يومية رفيق هادئ لأوقات الصلاة والتذكيرات اليومية. يساعد إصدار MVP
+المستخدم على رؤية أوقات الصلاة، وضبط تذكيرات صلاة محلية، واختيار موقع صلاة
+يدوي أو جاهز، وبدء جلسة عبادة يومية قصيرة اختيارية.
 
 ملاحظات المسودة:
 
@@ -74,6 +73,7 @@ Catatan draft:
 - لا فتوى بالذكاء الاصطناعي ولا أسئلة دينية بالذكاء الاصطناعي.
 - لا تحويل نص عام إلى تلاوة قرآن.
 - تلاوة القرآن صوت فقط وبدون موسيقى خلفية.
+- لا يطلب إذن GPS في إصدار v0.1.
 - إعدادات الخصوصية وحذف البيانات المحلية داخل التطبيق.
 
 ## Claims To Avoid

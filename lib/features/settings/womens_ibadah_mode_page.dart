@@ -152,6 +152,7 @@ class WomensIbadahModePage extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           AppCard(
+            key: SakinahKeys.womenModeRecommendedCard,
             color: SakinahColors.deepEmerald,
             padding: const EdgeInsets.all(22),
             child: Column(

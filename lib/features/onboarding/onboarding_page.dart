@@ -52,7 +52,7 @@ class OnboardingPage extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           DropdownButtonFormField<GenderMode>(
-            initialValue: preferences.genderMode,
+            value: preferences.genderMode,
             decoration: const InputDecoration(border: OutlineInputBorder()),
             items: [
               DropdownMenuItem(
@@ -81,7 +81,7 @@ class OnboardingPage extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           DropdownButtonFormField<AudioPreference>(
-            initialValue: preferences.audioPreference,
+            value: preferences.audioPreference,
             decoration: const InputDecoration(border: OutlineInputBorder()),
             items: [
               DropdownMenuItem(

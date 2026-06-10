@@ -16,7 +16,8 @@ void main() {
 
     expect(find.byKey(SakinahKeys.quranVerseDetailPage), findsOneWidget);
     expect(find.text('فَإِنَّ مَعَ الْعُسْرِ يُسْرًا'), findsOneWidget);
-    expect(find.text('For indeed, with hardship will be ease.'), findsOneWidget);
+    expect(
+        find.text('For indeed, with hardship will be ease.'), findsOneWidget);
     expect(
       find.textContaining('Seed metadata; replace with approved Quran source'),
       findsOneWidget,

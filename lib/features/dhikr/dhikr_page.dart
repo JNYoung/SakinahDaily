@@ -78,7 +78,6 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
 
     return LanguageAwareScaffold(
       title: l10n.t('dhikr'),
-      selectedNavIndex: 2,
       body: ListView(
         children: [
           TextField(

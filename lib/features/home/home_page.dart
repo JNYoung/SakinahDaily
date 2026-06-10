@@ -120,6 +120,25 @@ class HomePage extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 26),
+          _PrayerReleaseCard(
+            key: SakinahKeys.homePrayerPrimaryCard,
+            title: l10n.t('dailyPrayerHomeTitle'),
+            nextPrayerLabel: l10n.t('nextPrayer'),
+            nextPrayerName: l10n.prayerName(nextPrayer.name),
+            nextPrayerTime: _formatPrayerTime(nextPrayer.time),
+            locationLabel: preferences.prayerSettings.locationLabel,
+            methodLabel: prayerService.methodLabel(
+              preferences.prayerSettings.method,
+            ),
+            remindersLabel: preferences.notificationsEnabled
+                ? l10n.t('reminderStatusOn')
+                : l10n.t('reminderStatusOff'),
+            openPrayerLabel: l10n.t('viewPrayerTimes'),
+            reminderSettingsLabel: l10n.t('manageReminders'),
+            onOpenPrayer: () => context.push('/prayer'),
+            onReminderSettings: () => context.go('/settings/notifications'),
+          ),
+          const SizedBox(height: 18),
           _HeroSessionCard(
             key: SakinahKeys.homeSessionCard,
             eyebrow: l10n.t('todaySession'),
@@ -177,45 +196,6 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 28),
-          Text(l10n.t('quickActions'),
-              style: Theme.of(context).textTheme.titleLarge),
-          const SizedBox(height: 12),
-          GridView.count(
-            key: SakinahKeys.homeQuickActionsCard,
-            crossAxisCount: 4,
-            childAspectRatio: 0.9,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              _QuickAction(
-                key: SakinahKeys.homeQuickActionQuran,
-                icon: Icons.menu_book_outlined,
-                label: l10n.t('quran'),
-                onTap: () => context.go('/quran'),
-              ),
-              _QuickAction(
-                key: SakinahKeys.homeQuickActionDua,
-                icon: Icons.favorite_border_rounded,
-                label: l10n.t('dua'),
-                onTap: () => context.go('/dua'),
-              ),
-              _QuickAction(
-                key: SakinahKeys.homeQuickActionDhikr,
-                icon: Icons.radio_button_checked_rounded,
-                label: l10n.t('dhikr'),
-                onTap: () => context.go('/dhikr'),
-              ),
-              _QuickAction(
-                key: SakinahKeys.homeQuickActionQibla,
-                icon: Icons.explore_outlined,
-                label: l10n.t('qibla'),
-                onTap: () => context.go('/qibla'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 28),
           AppCard(
             key: SakinahKeys.homeNightCard,
             color: isDark ? SakinahColors.navyCard : null,
@@ -261,8 +241,7 @@ class HomePage extends ConsumerWidget {
                                       ),
                                       itemType: SavedItemType.dailySession,
                                       itemId: session.id,
-                                      titleSnapshot:
-                                          l10n.t('sleepAyatKursi'),
+                                      titleSnapshot: l10n.t('sleepAyatKursi'),
                                       subtitleSnapshot: session.title
                                           .resolve(preferences.languageCode),
                                       createdAt: DateTime.now(),
@@ -302,6 +281,138 @@ class _PrayerBadge extends StatelessWidget {
         color: isDark ? Colors.white : SakinahColors.deepEmerald,
         fontWeight: FontWeight.w800,
       ),
+    );
+  }
+}
+
+class _PrayerReleaseCard extends StatelessWidget {
+  const _PrayerReleaseCard({
+    required this.title,
+    required this.nextPrayerLabel,
+    required this.nextPrayerName,
+    required this.nextPrayerTime,
+    required this.locationLabel,
+    required this.methodLabel,
+    required this.remindersLabel,
+    required this.openPrayerLabel,
+    required this.reminderSettingsLabel,
+    required this.onOpenPrayer,
+    required this.onReminderSettings,
+    super.key,
+  });
+
+  final String title;
+  final String nextPrayerLabel;
+  final String nextPrayerName;
+  final String nextPrayerTime;
+  final String locationLabel;
+  final String methodLabel;
+  final String remindersLabel;
+  final String openPrayerLabel;
+  final String reminderSettingsLabel;
+  final VoidCallback onOpenPrayer;
+  final VoidCallback onReminderSettings;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return AppCard(
+      color: isDark ? SakinahColors.navyCard : const Color(0xFFEAF3E7),
+      radius: 8,
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: Theme.of(context).textTheme.titleLarge),
+          const SizedBox(height: 14),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      nextPrayerLabel,
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            color: isDark
+                                ? Colors.white70
+                                : SakinahColors.mutedText,
+                          ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      nextPrayerName,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                nextPrayerTime,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: SakinahColors.deepEmerald,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _PrayerInfoChip(
+                icon: Icons.location_on_outlined,
+                label: locationLabel,
+              ),
+              _PrayerInfoChip(
+                icon: Icons.calculate_outlined,
+                label: methodLabel,
+              ),
+              _PrayerInfoChip(
+                icon: Icons.notifications_active_outlined,
+                label: remindersLabel,
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          SizedBox(
+            width: double.infinity,
+            child: PrimaryButton(
+              key: SakinahKeys.homePrayerTimesButton,
+              label: openPrayerLabel,
+              onPressed: onOpenPrayer,
+            ),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            child: PrimaryButton(
+              key: SakinahKeys.homePrayerReminderSettingsButton,
+              label: reminderSettingsLabel,
+              tonal: true,
+              onPressed: onReminderSettings,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PrayerInfoChip extends StatelessWidget {
+  const _PrayerInfoChip({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      avatar: Icon(icon, size: 16),
+      label: Text(label),
+      visualDensity: VisualDensity.compact,
+      side: BorderSide.none,
     );
   }
 }
@@ -529,41 +640,7 @@ Future<void> _showQuranVoiceOnlySheet(
   );
 }
 
-class _QuickAction extends StatelessWidget {
-  const _QuickAction({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-    super.key,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return AppCard(
-      color: isDark ? SakinahColors.navyCard : null,
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-      onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: SakinahColors.sandGold),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: isDark ? Colors.white70 : SakinahColors.ink,
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
+String _formatPrayerTime(DateTime time) {
+  return '${time.hour.toString().padLeft(2, '0')}:'
+      '${time.minute.toString().padLeft(2, '0')}';
 }

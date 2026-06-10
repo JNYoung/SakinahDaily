@@ -49,24 +49,27 @@ Future<void> pumpSakinahApp(
         userPreferencesStoreProvider.overrideWithValue(
           preferencesStore ?? InMemoryUserPreferencesStore(),
         ),
-        if (contentCacheStore != null)
-          contentCacheStoreProvider.overrideWithValue(contentCacheStore),
-        if (savedItemsStore != null)
-          savedItemsStoreProvider.overrideWithValue(savedItemsStore),
+        contentCacheStoreProvider.overrideWithValue(
+          contentCacheStore ?? InMemoryContentCacheStore(),
+        ),
+        savedItemsStoreProvider.overrideWithValue(
+          savedItemsStore ?? InMemorySavedItemsStore(),
+        ),
         sessionProgressStoreProvider.overrideWithValue(
           sessionProgressStore ?? InMemorySessionProgressStore(),
         ),
-        if (contentApiConfig != null)
-          contentApiConfigProvider.overrideWithValue(contentApiConfig),
+        contentApiConfigProvider.overrideWithValue(
+          contentApiConfig ?? const ContentApiConfig.disabled(),
+        ),
         notificationServiceProvider.overrideWithValue(
           notificationService ?? LocalNotificationServiceStub(),
         ),
-        if (audioPlayer != null)
-          audioPlayerProvider.overrideWithValue(audioPlayer),
-        if (initialLocation != null)
-          routerProvider.overrideWithValue(
-            createSakinahRouter(initialLocation: initialLocation),
-          ),
+        audioPlayerProvider.overrideWithValue(
+          audioPlayer ?? FakeSakinahAudioPlayer(),
+        ),
+        routerProvider.overrideWithValue(
+          createSakinahRouter(initialLocation: initialLocation ?? '/splash'),
+        ),
       ],
       child: const SakinahApp(),
     ),

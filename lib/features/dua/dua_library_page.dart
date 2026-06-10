@@ -52,7 +52,6 @@ class _DuaLibraryPageState extends ConsumerState<DuaLibraryPage> {
 
     return LanguageAwareScaffold(
       title: l10n.t('dua'),
-      selectedNavIndex: 1,
       body: ListView(
         children: [
           TextField(

@@ -141,7 +141,7 @@ class _ManualPrayerLocationPageState
                   const SizedBox(height: 14),
                   DropdownButtonFormField<String>(
                     key: SakinahKeys.manualPrayerMethodDropdown,
-                    initialValue: _method,
+                    value: _method,
                     decoration: InputDecoration(
                       labelText: l10n.t('prayerMethod'),
                       border: const OutlineInputBorder(),

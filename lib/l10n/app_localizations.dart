@@ -214,6 +214,30 @@ abstract class AppLocalizations {
   /// **'Next prayer'**
   String get nextPrayer;
 
+  /// No description provided for @dailyPrayerHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily prayer at the center'**
+  String get dailyPrayerHomeTitle;
+
+  /// No description provided for @viewPrayerTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'View prayer times'**
+  String get viewPrayerTimes;
+
+  /// No description provided for @manageReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage reminders'**
+  String get manageReminders;
+
+  /// No description provided for @changeLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Change location'**
+  String get changeLocation;
+
   /// No description provided for @todaySession.
   ///
   /// In en, this message translates to:

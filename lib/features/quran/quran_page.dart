@@ -30,7 +30,6 @@ class QuranPage extends ConsumerWidget {
 
     return LanguageAwareScaffold(
       title: l10n.t('quranPageTitle'),
-      selectedNavIndex: 0,
       body: ListView(
         key: SakinahKeys.quranPage,
         children: [

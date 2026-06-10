@@ -1,12 +1,33 @@
 # Product PRD — Sakinah Daily MVP v0.1
 
+## 0. v0.1 上架收敛决策
+
+当前 v0.1 的上架目的收敛为：
+
+> A daily prayer companion that helps users see prayer times, set local
+> reminders, and keep one optional short daily worship session.
+
+上架主路径只包含 Home、Prayer、Session、Settings。Quran、Dua、Dhikr、
+Qibla、Saved Items、Women’s Ibadah Mode 和 CMS 能保留为 secondary/deep
+surfaces，但不能再阻塞 v0.1 上架，除非它们影响宗教安全、隐私、通知、RTL
+或商店合规。
+
+v0.1 明确采用：
+
+- Manual/preset prayer location only；不请求 GPS/location 权限。
+- Local prayer reminders；不接 FCM/APNs production push。
+- Seed-reviewed minimum content only；不要求 staging CMS。
+- Text-first/session-safe Quran handling；不要求 licensed audio 才能上架，但
+  不允许可见 no-op audio CTA。
+- No analytics/crash SDK、no ads、no account、no subscription。
+
 ## 1. 产品定位
 
 Sakinah Daily 是一个面向中东与印尼穆斯林用户的每日助祷陪伴 App。产品将 Quran listening、Dua、Dhikr、Prayer reminders 和 gender-aware worship routines 做成一个类似 calm app 的日常 worship experience。
 
 一句话：
 
-> A peaceful Quran, Dua, and Dhikr companion for daily worship.
+> A peaceful daily prayer and reminder companion for Muslim worship.
 
 中文内部描述：
 
@@ -59,17 +80,15 @@ Sakinah Daily 是一个面向中东与印尼穆斯林用户的每日助祷陪伴
 
 ## 4. 产品目标
 
-MVP 需要让用户完成以下事情：
+v0.1 上架 MVP 需要让用户完成以下事情：
 
 1. 选择语言：Arabic、Bahasa Indonesia、English。
-2. 设置地区/位置，用于 prayer time。
-3. 可选选择 gender mode：male / female / prefer not to say。
-4. 进入 Home，看到下一次礼拜倒计时和 Today's Sakinah。
-5. 完成一个 Daily Session。
-6. 浏览 Dua / Dhikr library。
-7. 保存喜欢的 Dua 或 session。
-8. 配置推送提醒。
-9. 使用 Women’s Ibadah Mode，且默认本地隐私存储。
+2. 选择 preset 或手动输入地区/位置，用于 prayer time。
+3. 进入 Home，第一眼看到下一次礼拜、地点、计算方式和提醒状态。
+4. 查看全天 Fajr / Dhuhr / Asr / Maghrib / Isha 时间。
+5. 配置本地礼拜提醒和每日 session reminder。
+6. 可选完成一个短 Daily Session。
+7. 在 Settings 中管理语言、位置、计算方式、通知和隐私。
 
 ## 5. MVP 范围
 
@@ -77,16 +96,24 @@ MVP 需要让用户完成以下事情：
 
 | 模块 | 需求 |
 |---|---|
-| Onboarding | 语言、位置、gender mode、audio preference |
-| Home | 下一次礼拜、今日 session、快捷入口 |
-| Daily Session | Intention → Quran Audio → Reflection → Dua → Dhikr → Completion |
-| Prayer | Prayer time、下一次礼拜倒计时、本地提醒 |
-| Dua Library | 分类、详情、阿文、音译、翻译、来源、收藏 |
-| Dhikr | 手动计数、目标次数、完成反馈 |
-| Audio | Quran approved audio asset、普通引导音频、无 BGM 规则 |
-| Settings | 语言、地区、计算方式、音频、通知、隐私 |
-| Women’s Ibadah Mode | Normal / Menstruating / Postpartum / Pregnancy / Prefer not to track |
-| CMS integration | 先 seed data，后接 published + approved 内容 |
+| Onboarding | 语言、manual/preset 位置、通知说明；gender/audio preference 可保留但不是主卖点 |
+| Home | Prayer-first：下一次礼拜、地点、计算方式、提醒状态、Prayer/Reminder CTA |
+| Prayer | 全天礼拜时间、下一次礼拜卡片、本地提醒入口、手动位置入口 |
+| Notifications | 本地礼拜提醒、每日 session reminder、拒绝权限不影响使用 |
+| Daily Session | 可选短 session；不能出现 Quran BGM/TTS 或无效 audio CTA |
+| Settings | 语言、地区、计算方式、通知、隐私、删除本地数据 |
+| Privacy | 不请求 GPS；位置和 women mode 默认本地；无 ads/tracking/analytics SDK |
+
+### P0 保留但不作为上架主入口
+
+| 模块 | v0.1 处理 |
+|---|---|
+| Quran | 仅保留 session/deep route 需要的安全展示；不做完整 reader |
+| Dua Library | 可通过 deep route 保留；不在 Home/bottom nav 作为主入口 |
+| Dhikr | 可通过 session/deep route 保留；不在 Home/bottom nav 作为主入口 |
+| Qibla | 保留基于 selected prayer location 的静态方向；不请求 compass/GPS |
+| Women’s Ibadah Mode | 保留隐私安全实现；不作为上架核心宣传 |
+| CMS integration | 远程内容默认关闭；不阻塞 v0.1 |
 
 ### P1 Beta 后再做
 
@@ -97,6 +124,9 @@ MVP 需要让用户完成以下事情：
 - 更完整 Qibla UI。
 - 用户云同步。
 - 高级个性化推荐。
+- Device location permission flow。
+- Per-prayer advanced offsets、quiet hours、OEM battery guidance。
+- Reviewed expanded Dua/Dhikr/Quran packs。
 
 ### P2 不进 MVP
 
@@ -113,21 +143,19 @@ MVP 需要让用户完成以下事情：
 
 1. Welcome。
 2. 选择语言。
-3. 设置 location。
-4. 选择 optional gender mode。
-5. 选择 audio preference。
-6. 进入 Home。
-7. 开始第一次 Daily Session。
-8. 完成后询问是否设置每日提醒。
+3. 选择 preset 或手动设置 prayer location。
+4. 进入 Home，看到下一次礼拜和提醒状态。
+5. 打开 Prayer 查看全天时间。
+6. 开启本地礼拜提醒。
+7. 可选开始第一次 Daily Session。
 
 ### Journey 2：日常使用
 
-1. 用户收到 morning / prayer / sleep reminder。
+1. 用户收到 prayer reminder。
 2. 打开 Home。
 3. 看到下一次礼拜倒计时。
-4. 开始 Today's Sakinah。
-5. 完成 session。
-6. 保存 Dua 或设置明天提醒。
+4. 打开 Prayer 查看全天时间或调整提醒。
+5. 可选开始 Today's Sakinah。
 
 ### Journey 3：Women’s Ibadah Mode
 
@@ -144,36 +172,36 @@ App
 ├── Onboarding
 ├── Home
 │   ├── Next Prayer
-│   ├── Today’s Sakinah
-│   └── Quick Actions
-├── Daily Session
-├── Quran Listening
-├── Dua Library
-├── Dhikr
+│   ├── Prayer reminder status
+│   ├── Prayer / Reminder CTAs
+│   └── Today’s Sakinah (secondary)
 ├── Prayer
+├── Daily Session
 ├── Settings
-└── Women’s Ibadah Mode
+│   ├── Notification Settings
+│   ├── Prayer Location
+│   └── Privacy Center
+└── Secondary deep routes: Quran, Dua, Dhikr, Qibla, Women’s Ibadah Mode
 ```
 
 ## 8. 北极星指标
 
-> Weekly Completed Worship Sessions
+> Weekly Active Prayer Reminder Users
 
-每周完成的 Daily Session 数量。
+每周打开礼拜时间或启用/保留礼拜提醒的用户数。Daily Session completion
+是辅助指标，不再是 v0.1 上架北极星。
 
 ## 9. 关键指标
 
 | 指标 | 说明 |
 |---|---|
 | Onboarding Completion Rate | 是否完成首次配置 |
-| Daily Session Start Rate | 是否开始核心体验 |
-| Daily Session Completion Rate | 是否完成 session |
+| Prayer View Rate | 是否打开 prayer time 主页面 |
+| Prayer Reminder Opt-in Rate | 是否愿意接收礼拜提醒 |
 | D1 / D7 Retention | 是否形成初步习惯 |
-| Prayer Reminder Opt-in Rate | 是否愿意接收提醒 |
 | Push Open Rate | 推送文案是否有效 |
-| Audio Completion Rate | 音频体验是否舒服 |
-| Saved Dua Count | 内容是否有价值 |
-| Women’s Mode Activation | 女性模式是否被接受 |
+| Daily Session Start Rate | 是否使用可选短 session |
+| Settings Completion Rate | 是否完成位置、算法、通知配置 |
 
 ## 10. 主要风险
 
@@ -184,13 +212,14 @@ App
 | 性别设计冒犯 | 不强制性别，不粉色化，不医学化 |
 | 中东/印尼差异 | 三语言、本地词汇、RTL、地区 prayer method |
 | MVP 膨胀 | Codex milestone 必须小步执行 |
+| 祷告提醒不可靠 | 先做 manual/preset location + 本地通知 + 真机 QA，不引入 GPS/FCM |
 
 ## 11. 成功标准
 
 MVP 成功不是“功能很多”，而是：
 
-- 用户能顺利完成一次 Daily Session。
-- 用户愿意打开 prayer reminder。
+- 用户能顺利看到下一次礼拜和全天礼拜时间。
+- 用户愿意打开 prayer reminder，拒绝权限时 App 仍可用。
 - 用户觉得内容可信、安静、不冒犯。
 - Arabic RTL 和 Bahasa Indonesia 文案都不像临时翻译。
-- App 不像普通工具堆叠，而像 daily worship companion。
+- App 不像普通工具堆叠，而像 daily prayer companion。

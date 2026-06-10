@@ -109,8 +109,7 @@ void main() {
         isTrue,
       );
       expect(
-        File('docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md')
-            .existsSync(),
+        File('docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md').existsSync(),
         isTrue,
       );
     });

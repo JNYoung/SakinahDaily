@@ -17,8 +17,8 @@ Status: Draft for release/store review.
 - [x] `staging` and `prod` are selected with `SAKINAH_APP_ENV`.
 - [x] Remote content is disabled unless explicitly enabled.
 - [x] Analytics and crash reporting remain disabled.
-- [ ] Staging content API endpoint is approved before any staging build.
-- [ ] Production content API endpoint is approved before any production build.
+- [x] v0.1 daily-prayer release baseline does not require staging CMS.
+- [x] v0.1 daily-prayer release baseline does not require production CMS.
 
 ## Safety And Privacy
 
@@ -40,6 +40,8 @@ Status: Draft for release/store review.
 - [x] No ads, tracking, analytics SDK, or crash SDK is added.
 - [x] No exact GPS permission is added.
 - [x] No production CMS token is committed.
+- [x] Home and bottom navigation are scoped to Home / Prayer / Session / Settings.
+- [ ] No visible audio CTA is a no-op in the release path.
 
 ## Release Assets
 
@@ -47,6 +49,7 @@ Status: Draft for release/store review.
 - [ ] Store title, subtitle, descriptions, and keywords reviewed.
 - [ ] App icon and splash assets reviewed on Android devices.
 - [ ] Privacy policy hosting URL selected before store submission.
+- [ ] Daily-prayer focused screenshots captured for Home, Prayer, Notification Settings, Manual Location, Privacy Center, and optional Session.
 
 ## Validation
 
@@ -56,6 +59,7 @@ Status: Draft for release/store review.
 - [ ] `flutter build apk --debug`
 - [ ] `flutter run -d emulator-5554`
 - [ ] Real device notification permission QA.
+- [ ] Real device local prayer reminder delivery QA.
 - [ ] iOS cold-start notification tap QA after iOS runtime is available.
 
 ## Not Included In This Milestone

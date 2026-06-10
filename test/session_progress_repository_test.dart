@@ -3,8 +3,7 @@ import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 
 void main() {
-  test('SessionProgressRepository saves and loads in-progress state',
-      () async {
+  test('SessionProgressRepository saves and loads in-progress state', () async {
     final repository = SessionProgressRepository(
       InMemorySessionProgressStore(),
     );
