@@ -26,6 +26,7 @@ void main() {
 
       await continueToHome(tester);
 
+      await scrollUntilFound(tester, find.byKey(SakinahKeys.homeSessionCard));
       expect(find.text("Today's Sakinah Session"), findsOneWidget);
       expect(find.byKey(SakinahKeys.homeSessionStartButton), findsOneWidget);
       expectNoFlutterErrors(tester);
