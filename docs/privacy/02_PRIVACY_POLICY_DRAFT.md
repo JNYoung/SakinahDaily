@@ -3,6 +3,10 @@
 Status: Draft for legal/store review. This is implementation-oriented copy,
 not final legal advice.
 
+App: Sakinah Daily
+Effective date: To be finalized before Google Play submission.
+Contact: To be finalized before Google Play submission.
+
 ## Summary
 
 Sakinah Daily MVP is designed around local-first preferences and approved
@@ -14,8 +18,9 @@ the MVP.
 
 - App language and preference settings.
 - Prayer calculation settings and manual or preset prayer location.
-- Notification enabled state, selected daily session reminder time, and locally
-  scheduled reminder state.
+- Notification enabled state, per-prayer reminder choices, prayer reminder
+  lead-time offset, selected daily session reminder time, and locally scheduled
+  reminder state.
 - Women's Ibadah Mode state, designed local-first.
 - Approved content manifest and bundle cache.
 - Local revoked content IDs so revoked content stays hidden.

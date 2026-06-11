@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/providers/app_providers.dart';
 import '../features/daily_session/daily_session_page.dart';
 import '../features/daily_session/session_completion_page.dart';
 import '../features/dhikr/dhikr_page.dart';
@@ -15,6 +16,8 @@ import '../features/quran/quran_verse_detail_page.dart';
 import '../features/saved/saved_items_page.dart';
 import '../features/prayer/manual_prayer_location_page.dart';
 import '../features/settings/settings_page.dart';
+import '../features/settings/closed_testing_guide_page.dart';
+import '../features/settings/content_sources_page.dart';
 import '../features/settings/delete_local_data_page.dart';
 import '../features/settings/notification_settings_page.dart';
 import '../features/settings/privacy_center_page.dart';
@@ -23,16 +26,27 @@ import '../features/settings/womens_ibadah_mode_page.dart';
 import '../features/splash/splash_page.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  return createSakinahRouter();
+  final environment = ref.watch(appEnvironmentConfigProvider);
+  final freezeSplashForScreenshot = environment.storeScreenshotModeEnabled &&
+      environment.storeScreenshotInitialRoute == '/splash';
+  return createSakinahRouter(
+    initialLocation: environment.storeScreenshotInitialRoute ?? '/splash',
+    splashAutoAdvance: !freezeSplashForScreenshot,
+  );
 });
 
-GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
+GoRouter createSakinahRouter({
+  String initialLocation = '/splash',
+  bool splashAutoAdvance = true,
+}) {
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => const SplashPage(),
+        builder: (context, state) => SplashPage(
+          autoAdvance: splashAutoAdvance,
+        ),
       ),
       GoRoute(
         path: '/onboarding',
@@ -125,6 +139,14 @@ GoRouter createSakinahRouter({String initialLocation = '/splash'}) {
       GoRoute(
         path: '/settings/privacy',
         builder: (context, state) => const PrivacyCenterPage(),
+      ),
+      GoRoute(
+        path: '/settings/content-sources',
+        builder: (context, state) => const ContentSourcesPage(),
+      ),
+      GoRoute(
+        path: '/settings/testing-guide',
+        builder: (context, state) => const ClosedTestingGuidePage(),
       ),
       GoRoute(
         path: '/settings/privacy/data',

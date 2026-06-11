@@ -600,6 +600,10 @@ class WomenIbadahMode {
 }
 
 const defaultDailySessionReminderMinutesAfterMidnight = 20 * 60;
+const defaultPrayerReminderOffsetMinutes = 0;
+const prayerReminderOffsetMinuteOptions = [0, 5, 10, 15];
+const defaultPrayerReminderNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+const closedTestingPromptDayIds = ['day1', 'day3', 'day7', 'day14'];
 const _minutesPerDay = 24 * 60;
 
 int sanitizeDailySessionReminderMinutes(int minutesAfterMidnight) {
@@ -620,6 +624,33 @@ String formatDailySessionReminderTime(int minutesAfterMidnight) {
       '${minute.toString().padLeft(2, '0')}';
 }
 
+List<String> sanitizePrayerReminderNames(Iterable<dynamic>? prayerNames) {
+  if (prayerNames == null) {
+    return List.unmodifiable(defaultPrayerReminderNames);
+  }
+  final selected = prayerNames.whereType<String>().toSet();
+  return List.unmodifiable(
+    defaultPrayerReminderNames.where(selected.contains),
+  );
+}
+
+int sanitizePrayerReminderOffsetMinutes(int minutes) {
+  if (prayerReminderOffsetMinuteOptions.contains(minutes)) {
+    return minutes;
+  }
+  return defaultPrayerReminderOffsetMinutes;
+}
+
+List<String> sanitizeClosedTestingPromptDays(Iterable<dynamic>? promptDays) {
+  if (promptDays == null) {
+    return const [];
+  }
+  final completed = promptDays.whereType<String>().toSet();
+  return List.unmodifiable(
+    closedTestingPromptDayIds.where(completed.contains),
+  );
+}
+
 class UserPreferences {
   const UserPreferences({
     required this.languageCode,
@@ -631,9 +662,18 @@ class UserPreferences {
     this.dailySessionReminderEnabled = false,
     this.dailySessionReminderMinutesAfterMidnight =
         defaultDailySessionReminderMinutesAfterMidnight,
-  }) : assert(
+    this.prayerReminderOffsetMinutes = defaultPrayerReminderOffsetMinutes,
+    this.enabledPrayerReminderNames = defaultPrayerReminderNames,
+    this.completedClosedTestingPromptDays = const [],
+  })  : assert(
           dailySessionReminderMinutesAfterMidnight >= 0 &&
               dailySessionReminderMinutesAfterMidnight < _minutesPerDay,
+        ),
+        assert(
+          prayerReminderOffsetMinutes == 0 ||
+              prayerReminderOffsetMinutes == 5 ||
+              prayerReminderOffsetMinutes == 10 ||
+              prayerReminderOffsetMinutes == 15,
         );
 
   final String languageCode;
@@ -644,6 +684,9 @@ class UserPreferences {
   final bool notificationsEnabled;
   final bool dailySessionReminderEnabled;
   final int dailySessionReminderMinutesAfterMidnight;
+  final int prayerReminderOffsetMinutes;
+  final List<String> enabledPrayerReminderNames;
+  final List<String> completedClosedTestingPromptDays;
 
   factory UserPreferences.defaults() {
     return const UserPreferences(
@@ -669,6 +712,9 @@ class UserPreferences {
     bool? notificationsEnabled,
     bool? dailySessionReminderEnabled,
     int? dailySessionReminderMinutesAfterMidnight,
+    int? prayerReminderOffsetMinutes,
+    List<String>? enabledPrayerReminderNames,
+    List<String>? completedClosedTestingPromptDays,
   }) {
     return UserPreferences(
       languageCode: languageCode ?? this.languageCode,
@@ -685,7 +731,26 @@ class UserPreferences {
               : sanitizeDailySessionReminderMinutes(
                   dailySessionReminderMinutesAfterMidnight,
                 ),
+      prayerReminderOffsetMinutes: prayerReminderOffsetMinutes == null
+          ? this.prayerReminderOffsetMinutes
+          : sanitizePrayerReminderOffsetMinutes(prayerReminderOffsetMinutes),
+      enabledPrayerReminderNames: enabledPrayerReminderNames == null
+          ? this.enabledPrayerReminderNames
+          : sanitizePrayerReminderNames(enabledPrayerReminderNames),
+      completedClosedTestingPromptDays: completedClosedTestingPromptDays == null
+          ? this.completedClosedTestingPromptDays
+          : sanitizeClosedTestingPromptDays(
+              completedClosedTestingPromptDays,
+            ),
     );
+  }
+
+  bool isPrayerReminderEnabled(String prayerName) {
+    return enabledPrayerReminderNames.contains(prayerName);
+  }
+
+  bool isClosedTestingPromptCompleted(String promptDayId) {
+    return completedClosedTestingPromptDays.contains(promptDayId);
   }
 
   Map<String, dynamic> toJson() => {
@@ -698,12 +763,18 @@ class UserPreferences {
         'dailySessionReminderEnabled': dailySessionReminderEnabled,
         'dailySessionReminderMinutesAfterMidnight':
             dailySessionReminderMinutesAfterMidnight,
+        'prayerReminderOffsetMinutes': prayerReminderOffsetMinutes,
+        'enabledPrayerReminderNames': enabledPrayerReminderNames,
+        'completedClosedTestingPromptDays': completedClosedTestingPromptDays,
       };
 
   factory UserPreferences.fromJson(Map<String, dynamic> json) {
     final defaults = UserPreferences.defaults();
     final prayerSettingsJson = json['prayerSettings'];
     final womenIbadahModeJson = json['womenIbadahMode'];
+    final enabledPrayerReminderNamesJson = json['enabledPrayerReminderNames'];
+    final completedClosedTestingPromptDaysJson =
+        json['completedClosedTestingPromptDays'];
     return UserPreferences(
       languageCode: json['languageCode'] as String? ?? defaults.languageCode,
       genderMode: GenderMode.parse(json['genderMode'] as String? ?? ''),
@@ -723,6 +794,19 @@ class UserPreferences {
         json['dailySessionReminderMinutesAfterMidnight'] as int? ??
             defaultDailySessionReminderMinutesAfterMidnight,
       ),
+      prayerReminderOffsetMinutes: sanitizePrayerReminderOffsetMinutes(
+        json['prayerReminderOffsetMinutes'] as int? ??
+            defaultPrayerReminderOffsetMinutes,
+      ),
+      enabledPrayerReminderNames: enabledPrayerReminderNamesJson is List
+          ? sanitizePrayerReminderNames(enabledPrayerReminderNamesJson)
+          : defaults.enabledPrayerReminderNames,
+      completedClosedTestingPromptDays:
+          completedClosedTestingPromptDaysJson is List
+              ? sanitizeClosedTestingPromptDays(
+                  completedClosedTestingPromptDaysJson,
+                )
+              : defaults.completedClosedTestingPromptDays,
     );
   }
 }

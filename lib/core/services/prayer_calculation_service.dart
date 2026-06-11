@@ -14,6 +14,26 @@ class PrayerTime {
   final DateTime time;
 }
 
+class PrayerDayStatus {
+  const PrayerDayStatus({
+    required this.prayers,
+    required this.nextPrayer,
+    this.currentPrayer,
+  });
+
+  final List<PrayerTime> prayers;
+  final PrayerTime? currentPrayer;
+  final PrayerTime nextPrayer;
+
+  bool isCurrent(PrayerTime prayer) => _matches(currentPrayer, prayer);
+
+  bool isNext(PrayerTime prayer) => _matches(nextPrayer, prayer);
+
+  bool _matches(PrayerTime? a, PrayerTime b) {
+    return a?.name == b.name && a?.time == b.time;
+  }
+}
+
 class PrayerCalculationService {
   static bool _timeZonesInitialized = false;
 
@@ -111,13 +131,38 @@ class PrayerCalculationService {
   }
 
   PrayerTime nextPrayer(DateTime now, PrayerSettings settings) {
+    return dayStatus(now, settings).nextPrayer;
+  }
+
+  PrayerDayStatus dayStatus(DateTime now, PrayerSettings settings) {
     final today = calculateForDate(now, settings);
-    for (final prayer in today) {
-      if (prayer.time.isAfter(now)) {
-        return prayer;
+    PrayerTime? currentPrayer;
+
+    for (var index = 0; index < today.length; index += 1) {
+      final prayer = today[index];
+      final nextToday = index + 1 < today.length ? today[index + 1] : null;
+      if (!now.isBefore(prayer.time) &&
+          (nextToday == null || now.isBefore(nextToday.time))) {
+        currentPrayer = prayer;
       }
     }
-    return calculateForDate(now.add(const Duration(days: 1)), settings).first;
+
+    for (final prayer in today) {
+      if (prayer.time.isAfter(now)) {
+        return PrayerDayStatus(
+          prayers: today,
+          currentPrayer: currentPrayer,
+          nextPrayer: prayer,
+        );
+      }
+    }
+
+    return PrayerDayStatus(
+      prayers: today,
+      currentPrayer: currentPrayer ?? today.last,
+      nextPrayer:
+          calculateForDate(now.add(const Duration(days: 1)), settings).first,
+    );
   }
 
   String methodLabel(String methodId) {

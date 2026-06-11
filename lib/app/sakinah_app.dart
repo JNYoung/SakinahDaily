@@ -14,8 +14,10 @@ class SakinahApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = ref.watch(localeProvider);
     final environment = ref.watch(appEnvironmentConfigProvider);
+    final locale = environment.storeScreenshotLanguageCode == null
+        ? ref.watch(localeProvider)
+        : Locale(environment.storeScreenshotLanguageCode!);
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(

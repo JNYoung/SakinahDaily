@@ -2,13 +2,26 @@
 
 Status: Draft for legal/store review. Do not submit as final without review.
 
+Before submission, choose a public HTTPS privacy policy URL and verify it with
+`scripts/verify_google_play_public_links.sh`. The same privacy policy URL must
+be used in Play Console App content, Data safety, and the final store upload
+preflight.
+
 ## Local-Only Data
 
 The MVP stores app preferences, prayer settings, notification enabled state,
-selected daily session reminder time, Women's Ibadah Mode state, saved items,
-session progress/completion history, local content manifests, approved content
-bundles, and revoked content IDs on device. These are cleared through Settings >
-Privacy > Delete local data.
+per-prayer reminder choices, prayer reminder lead-time offset, selected daily
+session reminder time, local closed-testing feedback-sent day markers,
+Women's Ibadah Mode state, saved items, session progress/completion history,
+local
+content manifests, approved content bundles, and revoked content IDs on device.
+These are cleared through Settings > Privacy > Delete local data.
+
+Closed-testing feedback status stores only whether Day 1, Day 3, Day 7, or
+Day 14 was marked sent in the in-app guide. It does not store feedback text,
+tester identity, health details, or Women's Ibadah Mode status.
+The app does not store feedback text, tester identity, health details, or
+Women's Ibadah Mode status.
 
 Women's Ibadah Mode can adjust Home recommendations and Daily Session support
 copy locally. Exact status is not transmitted for remote personalization in the
@@ -39,6 +52,8 @@ not include exact private state terms.
 
 - Notifications: used for local prayer reminders after user explanation and
   permission.
+- Boot completed: used only to restore local scheduled notification reminders
+  after device reboot or package replacement.
 - Location: exact GPS permission is not implemented in MVP. Manual or preset
   prayer location is local by default and is used for prayer times and Qibla.
 

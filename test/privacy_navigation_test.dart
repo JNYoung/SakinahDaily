@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/config/app_environment.dart';
 import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
@@ -20,7 +22,19 @@ void main() {
 
     expect(find.byKey(SakinahKeys.privacyCenterPage), findsOneWidget);
     expect(find.text("Women's Ibadah Mode privacy"), findsOneWidget);
+    expect(
+      find.text(
+        "Women’s Ibadah Mode is designed local-first. Exact status is not sent with remote content requests.",
+      ),
+      findsOneWidget,
+    );
     expect(find.text('Prayer location privacy'), findsOneWidget);
+    expect(
+      find.text(
+        'Prayer location uses manual or preset choices by default for prayer time calculation.',
+      ),
+      findsOneWidget,
+    );
     expect(find.text('Notifications privacy'), findsOneWidget);
     await scrollUntilFound(tester, find.text('Remote content cache'));
     expect(find.text('Remote content cache'), findsOneWidget);
@@ -45,6 +59,71 @@ void main() {
     expect(find.byKey(SakinahKeys.privacyCenterPage), findsOneWidget);
     expect(
         find.textContaining('secret-token-that-must-not-render'), findsNothing);
+  });
+
+  testWidgets('Privacy Center shows and copies configured public policy URL',
+      (tester) async {
+    final copiedValues = <String>[];
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, (call) async {
+      if (call.method == 'Clipboard.setData') {
+        final data = Map<String, dynamic>.from(call.arguments as Map);
+        copiedValues.add(data['text'] as String);
+      }
+      return null;
+    });
+    addTearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null);
+    });
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/privacy',
+      settleSplash: false,
+      appEnvironmentConfig: AppEnvironmentConfig.fromMap(
+        const {
+          'SAKINAH_APP_ENV': 'prod',
+          'SAKINAH_PRIVACY_POLICY_URL': 'https://sakinahdaily.app/privacy',
+        },
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.privacyCenterPage), findsOneWidget);
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.privacyPolicyLinkTile),
+    );
+    expect(find.text('Published privacy policy'), findsOneWidget);
+    expect(find.text('https://sakinahdaily.app/privacy'), findsOneWidget);
+    expect(find.text('Privacy policy draft'), findsNothing);
+
+    await tapByKey(tester, SakinahKeys.privacyPolicyLinkTile);
+
+    expect(copiedValues, contains('https://sakinahdaily.app/privacy'));
+    expect(find.text('Privacy policy link copied.'), findsOneWidget);
+  });
+
+  testWidgets('Privacy Center rejects placeholder privacy policy URLs',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/privacy',
+      settleSplash: false,
+      appEnvironmentConfig: AppEnvironmentConfig.fromMap(
+        const {
+          'SAKINAH_APP_ENV': 'prod',
+          'SAKINAH_PRIVACY_POLICY_URL': 'https://example.com/privacy',
+        },
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.privacyCenterPage), findsOneWidget);
+    await scrollUntilFound(tester, find.text('Privacy policy draft'));
+    expect(find.text('Privacy policy draft'), findsOneWidget);
+    expect(find.textContaining('example.com'), findsNothing);
   });
 
   testWidgets('Delete local data page requires confirmation and resets state',

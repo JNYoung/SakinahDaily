@@ -75,4 +75,22 @@ void main() {
     expect(find.textContaining('machine-generated'), findsNothing);
     expectNoFlutterErrors(tester);
   });
+
+  testWidgets('Quran verse detail shows voice-only no-BGM no-TTS safety copy',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/quran/94:5',
+      settleSplash: false,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.quranVerseSafetyCard), findsOneWidget);
+    expect(find.text('Quran recitation is voice-only'), findsOneWidget);
+    expect(find.text('No background music under Quran recitation'),
+        findsOneWidget);
+    expect(find.text('No Quran TTS'), findsOneWidget);
+    expect(find.byKey(SakinahKeys.audioPlayPauseButton), findsNothing);
+    expectNoFlutterErrors(tester);
+  });
 }

@@ -58,9 +58,22 @@ MVP 第一阶段：
 
 ```text
 flutter pub get
-flutter analyze
+dart analyze
 flutter test
+scripts/verify_local_e2e.sh
 ```
+
+GitHub Actions:
+
+- `.github/workflows/local-e2e.yml` runs on `pull_request` and pushes to
+  `main`.
+- The workflow installs stable Flutter, runs `flutter pub get`, then delegates
+  to `scripts/verify_local_e2e.sh`.
+- CI skips Android launch smoke and release signing by default because GitHub
+  hosted runners do not have the local device, upload keystore, or Play Console
+  state.
+- Android launch smoke and signed release gates remain local/CI-secret gates
+  before Play upload.
 
 后续：
 

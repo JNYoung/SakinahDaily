@@ -37,6 +37,68 @@ void main() {
     expect(service.scheduled, isEmpty);
   });
 
+  test('prayer reminders can be scheduled for selected prayers only', () async {
+    final service = LocalNotificationServiceStub();
+    final prayers = PrayerCalculationService()
+        .calculateForDate(DateTime(2026, 5, 21), settings);
+
+    final scheduled = await service.schedulePrayerReminders(
+      settings,
+      prayers,
+      enabledPrayerNames: const ['Fajr', 'Maghrib'],
+    );
+
+    expect(
+      scheduled.map((reminder) => reminder.prayerName),
+      ['Fajr', 'Maghrib'],
+    );
+    expect(
+      service.scheduled.map((reminder) => reminder.prayerName),
+      ['Fajr', 'Maghrib'],
+    );
+  });
+
+  test('prayer reminders can be scheduled before prayer time', () async {
+    final service = LocalNotificationServiceStub();
+    final prayers = PrayerCalculationService()
+        .calculateForDate(DateTime(2026, 5, 21), settings);
+
+    final scheduled = await service.schedulePrayerReminders(
+      settings,
+      prayers,
+      reminderOffsetMinutes: 10,
+    );
+
+    expect(scheduled, hasLength(5));
+    expect(
+      scheduled.first.time,
+      prayers.first.time.subtract(const Duration(minutes: 10)),
+    );
+    expect(scheduled.first.body, contains('10 minutes'));
+    expect(scheduled.first.body, isNot(contains('It is time')));
+  });
+
+  test('prayer reminder cancellation preserves daily session reminder',
+      () async {
+    final service = LocalNotificationServiceStub();
+    final prayers = PrayerCalculationService()
+        .calculateForDate(DateTime(2026, 5, 21), settings);
+    final session = SeedContentRepository(
+      SeedContent.demo(),
+    ).getDailySession('session_morning_ease')!;
+
+    await service.schedulePrayerReminders(settings, prayers);
+    await service.scheduleDailySessionReminder(session);
+
+    expect(service.scheduled, isNotEmpty);
+    expect(service.dailySessionReminder, isNotNull);
+
+    await service.cancelPrayerReminders();
+
+    expect(service.scheduled, isEmpty);
+    expect(service.dailySessionReminder, isNotNull);
+  });
+
   test('scheduled prayer reminders include a privacy-safe tap payload',
       () async {
     final service = LocalNotificationServiceStub();
@@ -68,6 +130,52 @@ void main() {
     expect(en.body, contains('Fajr'));
     expect(id.body, contains('Subuh'));
     expect(ar.body, contains('الفجر'));
+  });
+
+  test('notification copy stays gentle brief and policy safe', () {
+    final copies = <({String body, String title})>[
+      _prayerCopyParts(PrayerNotificationCopy.forPrayer(
+        languageCode: 'en',
+        prayerName: 'Fajr',
+      )),
+      _prayerCopyParts(PrayerNotificationCopy.forPrayer(
+        languageCode: 'en',
+        prayerName: 'Fajr',
+        reminderOffsetMinutes: 10,
+      )),
+      _prayerCopyParts(PrayerNotificationCopy.forPrayer(
+        languageCode: 'id',
+        prayerName: 'Fajr',
+      )),
+      _prayerCopyParts(PrayerNotificationCopy.forPrayer(
+        languageCode: 'ar',
+        prayerName: 'Fajr',
+      )),
+      _prayerCopyParts(PrayerNotificationCopy.forPrayer(
+        languageCode: 'en',
+        prayerName: 'Fajr',
+        womenIbadahMode: const WomenIbadahMode(
+          enabled: true,
+          status: WomenIbadahStatus.menstruating,
+        ),
+      )),
+      _dailySessionCopyParts(
+        DailySessionNotificationCopy.forSession(languageCode: 'en'),
+      ),
+      _dailySessionCopyParts(
+        DailySessionNotificationCopy.forSession(languageCode: 'id'),
+      ),
+      _dailySessionCopyParts(
+        DailySessionNotificationCopy.forSession(languageCode: 'ar'),
+      ),
+    ];
+
+    for (final copy in copies) {
+      _expectGentleNotificationCopy(copy.title);
+      _expectGentleNotificationCopy(copy.body);
+      expect(copy.title.length, lessThanOrEqualTo(32));
+      expect(copy.body.length, lessThanOrEqualTo(72));
+    }
   });
 
   test('women mode notification copy stays privacy-safe', () {
@@ -159,6 +267,62 @@ void main() {
     expect(service.dailySessionReminder, isNull);
   });
 
+  test('notification smoke test uses short delay and privacy-safe payload',
+      () async {
+    final service = LocalNotificationServiceStub();
+
+    final scheduled = await service.scheduleNotificationSmokeTest(
+      delay: const Duration(seconds: 15),
+    );
+
+    expect(scheduled, isNotNull);
+    expect(scheduled!.time.difference(DateTime.now()).inSeconds, lessThan(20));
+    expect(scheduled.payload, contains('"type":"prayer"'));
+    expect(scheduled.payload, contains('"fallbackRoute":"/prayer"'));
+    _expectNoSensitiveTerms(scheduled.title);
+    _expectNoSensitiveTerms(scheduled.body);
+    _expectNoSensitiveTerms(scheduled.payload);
+  });
+
+  test('notification smoke test respects denied permission', () async {
+    final service = LocalNotificationServiceStub()..permissionGranted = false;
+
+    final scheduled = await service.scheduleNotificationSmokeTest();
+
+    expect(scheduled, isNull);
+  });
+
+  test('prayer reminder smoke test uses prayer copy and safe route payload',
+      () async {
+    final service = LocalNotificationServiceStub();
+
+    final scheduled = await service.schedulePrayerReminderSmokeTest(
+      languageCode: 'id',
+      prayerName: 'Fajr',
+      delay: const Duration(seconds: 15),
+    );
+
+    expect(scheduled, isNotNull);
+    expect(service.prayerReminderSmokeTest, scheduled);
+    expect(scheduled!.prayerName, 'Fajr');
+    expect(scheduled.body, contains('Subuh'));
+    expect(scheduled.time.difference(DateTime.now()).inSeconds, lessThan(20));
+    expect(scheduled.payload, contains('"type":"prayer"'));
+    expect(scheduled.payload, contains('"fallbackRoute":"/prayer"'));
+    _expectNoSensitiveTerms(scheduled.title);
+    _expectNoSensitiveTerms(scheduled.body);
+    _expectNoSensitiveTerms(scheduled.payload);
+  });
+
+  test('prayer reminder smoke test respects denied permission', () async {
+    final service = LocalNotificationServiceStub()..permissionGranted = false;
+
+    final scheduled = await service.schedulePrayerReminderSmokeTest();
+
+    expect(scheduled, isNull);
+    expect(service.prayerReminderSmokeTest, isNull);
+  });
+
   test('next daily session reminder uses selected time and rolls forward', () {
     final sameDay = nextDailySessionReminderTime(
       minutesAfterMidnight: 21 * 60 + 15,
@@ -174,6 +338,18 @@ void main() {
   });
 }
 
+({String body, String title}) _prayerCopyParts(
+  PrayerNotificationCopy copy,
+) {
+  return (body: copy.body, title: copy.title);
+}
+
+({String body, String title}) _dailySessionCopyParts(
+  DailySessionNotificationCopy copy,
+) {
+  return (body: copy.body, title: copy.title);
+}
+
 void _expectNoSensitiveTerms(String value) {
   final lower = value.toLowerCase();
   for (final term in const [
@@ -187,4 +363,25 @@ void _expectNoSensitiveTerms(String value) {
   ]) {
     expect(lower, isNot(contains(term)));
   }
+}
+
+void _expectGentleNotificationCopy(String value) {
+  _expectNoSensitiveTerms(value);
+  final lower = value.toLowerCase();
+  for (final pattern in const [
+    r'(^|[^a-z])sin(s|ful)?([^a-z]|$)',
+    r'(^|[^a-z])punish(ment|ed|es|ing)?([^a-z]|$)',
+    r'(^|[^a-z])haram([^a-z]|$)',
+    r'(^|[^a-z])guilt(y)?([^a-z]|$)',
+    r'(^|[^a-z])shame([^a-z]|$)',
+    r'(^|[^a-z])missed([^a-z]|$)',
+    r'(^|[^a-z])overdue([^a-z]|$)',
+    r'(^|[^a-z])urgent([^a-z]|$)',
+    r'(^|[^a-z])guaranteed([^a-z]|$)',
+    r'(^|[^a-z])fatwa([^a-z]|$)',
+    r'(^|[^a-z])medical([^a-z]|$)',
+  ]) {
+    expect(RegExp(pattern).hasMatch(lower), isFalse, reason: value);
+  }
+  expect(value, isNot(contains('!')));
 }

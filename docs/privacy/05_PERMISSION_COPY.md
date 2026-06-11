@@ -14,6 +14,10 @@ Women's Ibadah Mode status must not appear in lock-screen copy. When Women's
 Mode is enabled, reminder text should stay generic and avoid menstruation,
 postpartum, cycle, or similar private terms.
 
+Android boot permission note: `RECEIVE_BOOT_COMPLETED` is used only to restore
+local scheduled reminders after device reboot or app package replacement. It
+does not upload prayer settings or Women's Ibadah Mode data.
+
 ## Prayer Location
 
 In-app explanation:

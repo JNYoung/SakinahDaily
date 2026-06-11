@@ -47,6 +47,21 @@ void main() {
     expect(next.time.day, isNot(today.last.time.day));
   });
 
+  test('day status marks current and next prayers', () {
+    final service = PrayerCalculationService();
+
+    final status = service.dayStatus(
+      DateTime(2026, 5, 21, 6, 30),
+      makkah,
+    );
+
+    expect(status.currentPrayer?.name, 'Fajr');
+    expect(status.nextPrayer.name, 'Dhuhr');
+    expect(status.isCurrent(status.prayers.first), isTrue);
+    expect(status.isNext(status.prayers[1]), isTrue);
+    expect(status.isNext(status.prayers.first), isFalse);
+  });
+
   test('timezone id overrides longitude fallback when available', () {
     final service = PrayerCalculationService();
     final longitudeFallback = makkah.copyWith(timezoneId: null);

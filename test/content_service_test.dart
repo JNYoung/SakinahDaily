@@ -21,6 +21,38 @@ void main() {
     expect(service.loadHomeContent(), isNotEmpty);
   });
 
+  test('seed fallback covers release-critical offline content types', () {
+    final homeSessions = service.loadHomeContent();
+    final session = service.loadDailySession('session_morning_ease');
+    final sessionContentIds = session!.steps
+        .map((step) => step.contentId)
+        .whereType<String>()
+        .toSet();
+
+    expect(homeSessions.map((session) => session.id),
+        contains('session_morning_ease'));
+    expect(session.isApproved, isTrue);
+    expect(
+      sessionContentIds,
+      containsAll(['94:5', 'reflection_ease', 'dua_ease', 'dhikr_subhanallah']),
+    );
+    expect(service.loadDua('dua_ease')?.isApproved, isTrue);
+    expect(service.loadDhikr('dhikr_subhanallah')?.isApproved, isTrue);
+    expect(service.loadQuranVerse('94:5')?.isApproved, isTrue);
+    expect(service.getReflection('reflection_ease'), isNotNull);
+    expect(
+      service.getSourceItems().map((item) => item.id),
+      contains('source_ease'),
+    );
+    expect(
+      service.getPushTemplates().map((template) => template.id),
+      contains('push_morning_soft'),
+    );
+    final audio = service.getAudioAsset('audio_fatiha_minshawi');
+    expect(audio?.approved, isTrue);
+    expect(audio?.bgmAllowed, isFalse);
+  });
+
   test('seed push deep link loads offline', () async {
     final result = await service.recoverPushDeepLink('session_morning_ease');
 

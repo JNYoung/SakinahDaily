@@ -8,6 +8,7 @@ import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/audio_player_bar.dart';
@@ -35,7 +36,9 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
     super.initState();
     ref
         .read(analyticsServiceProvider)
-        .track('session_started', {'session_id': widget.sessionId});
+        .track(AnalyticsEventCatalog.dailySessionStarted, {
+      'session_id': widget.sessionId,
+    });
     unawaited(_startOrResumeSession());
   }
 
@@ -69,6 +72,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
     return LanguageAwareScaffold(
       title: session.title.resolve(preferences.languageCode),
       darkPattern: true,
+      showAppBar: false,
       selectedNavIndex: 2,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -211,7 +215,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
     String languageCode,
   ) async {
     ref.read(analyticsServiceProvider).track(
-      'session_completed',
+      AnalyticsEventCatalog.dailySessionCompleted,
       {'session_id': widget.sessionId},
     );
     await ref
@@ -389,6 +393,7 @@ class _StepContent extends ConsumerWidget {
 
     if (step.type == 'reflection') {
       final reflection = repo.getReflection(step.contentId ?? '');
+      final isDark = Theme.of(context).brightness == Brightness.dark;
       return AppCard(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -397,6 +402,47 @@ class _StepContent extends ConsumerWidget {
             Text(title, style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 16),
             Text(reflection?.prompt.resolve(languageCode) ?? ''),
+            const SizedBox(height: 18),
+            Container(
+              key: SakinahKeys.sessionReflectionSafetyCard,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.06)
+                    : SakinahColors.ivory,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: SakinahColors.sandGold.withValues(alpha: 0.36),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.info_outline_rounded,
+                    color: SakinahColors.sandGold,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.t('reflectionSafetyTitle'),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(fontWeight: FontWeight.w800),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(l10n.t('reflectionSafetyDescription')),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       );

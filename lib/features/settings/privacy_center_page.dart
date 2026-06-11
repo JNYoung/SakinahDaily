@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/providers/app_providers.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -14,6 +16,8 @@ class PrivacyCenterPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = SakinahLocalizations.of(context);
+    final appEnvironment = ref.watch(appEnvironmentConfigProvider);
+    final privacyPolicyUri = appEnvironment.privacyPolicyUri;
 
     return LanguageAwareScaffold(
       key: SakinahKeys.privacyCenterPage,
@@ -71,10 +75,23 @@ class PrivacyCenterPage extends ConsumerWidget {
                       context.go('/settings/privacy/delete-local-data'),
                 ),
                 const Divider(),
-                SettingsTile(
-                  title: l10n.t('privacyPolicyDraftTitle'),
-                  subtitle: l10n.t('privacyPolicyDraftBody'),
-                ),
+                if (privacyPolicyUri == null)
+                  SettingsTile(
+                    title: l10n.t('privacyPolicyDraftTitle'),
+                    subtitle: l10n.t('privacyPolicyDraftBody'),
+                  )
+                else
+                  SettingsTile(
+                    key: SakinahKeys.privacyPolicyLinkTile,
+                    title: l10n.t('privacyPolicyPublishedTitle'),
+                    subtitle: privacyPolicyUri.toString(),
+                    trailing: const Icon(Icons.copy),
+                    onTap: () => _copyPrivacyPolicyUrl(
+                      context,
+                      l10n,
+                      privacyPolicyUri,
+                    ),
+                  ),
                 const Divider(),
                 SettingsTile(
                   title: l10n.t('storePrivacyDraftTitle'),
@@ -87,6 +104,19 @@ class PrivacyCenterPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+void _copyPrivacyPolicyUrl(
+  BuildContext context,
+  SakinahLocalizations l10n,
+  Uri privacyPolicyUri,
+) {
+  Clipboard.setData(ClipboardData(text: privacyPolicyUri.toString()));
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(content: Text(l10n.t('privacyPolicyLinkCopied'))),
+    );
 }
 
 class _PrivacySection extends StatelessWidget {

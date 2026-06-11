@@ -122,6 +122,7 @@ class QuranVerseDetailPage extends ConsumerWidget {
           ),
           const SizedBox(height: 18),
           AppCard(
+            key: SakinahKeys.quranVerseSafetyCard,
             color: isDark ? SakinahColors.navyCard : const Color(0xFFEAF3E7),
             padding: const EdgeInsets.all(18),
             child: Row(

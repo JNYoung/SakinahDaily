@@ -17,6 +17,10 @@ void main() {
       await pumpSakinahApp(tester, viewport: entry.value);
 
       expect(find.text('Begin with calm worship'), findsOneWidget);
+      await scrollUntilFound(
+        tester,
+        find.byKey(SakinahKeys.onboardingContinueButton),
+      );
       expect(find.byKey(SakinahKeys.onboardingContinueButton), findsOneWidget);
       expectNoFlutterErrors(tester);
 

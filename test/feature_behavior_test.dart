@@ -4,6 +4,7 @@ import 'package:sakinah_daily/core/models/saved_item.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
@@ -68,7 +69,7 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('Daily Session Quran step disables playback for text fallback',
+  testWidgets('Daily Session Quran step hides playback for text fallback',
       (tester) async {
     final player = FakeSakinahAudioPlayer();
     await pumpSakinahApp(tester, audioPlayer: player);
@@ -77,14 +78,29 @@ void main() {
     await tapByKey(tester, SakinahKeys.homeSessionStartButton);
     await tapByKey(tester, SakinahKeys.sessionNextButton);
 
-    expect(find.byKey(SakinahKeys.audioPlayPauseButton), findsOneWidget);
+    expect(find.byKey(SakinahKeys.audioPlayPauseButton), findsNothing);
     expect(find.text('Text-only fallback'), findsWidgets);
-
-    final button = tester.widget<IconButton>(
-      find.byKey(SakinahKeys.audioPlayPauseButton),
-    );
-    expect(button.onPressed, isNull);
     expect(player.currentState.status, AudioPlaybackStatus.idle);
+  });
+
+  testWidgets('Daily Session reflection step shows no-fatwa safety note',
+      (tester) async {
+    await pumpSakinahApp(tester);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.homeSessionStartButton);
+    await tapByKey(tester, SakinahKeys.sessionNextButton);
+    await tapByKey(tester, SakinahKeys.sessionNextButton);
+
+    expect(find.text('Step 3 of 6 · Reflect'), findsOneWidget);
+    expect(find.byKey(SakinahKeys.sessionReflectionSafetyCard), findsOneWidget);
+    expect(
+      find.text(
+        'Reflection is a gentle reminder, not a fatwa or religious ruling.',
+      ),
+      findsOneWidget,
+    );
+    expectNoFlutterErrors(tester);
   });
 
   testWidgets('Arabic RTL renders Daily Session without layout exception',
@@ -114,7 +130,24 @@ void main() {
     expect(find.text('Arabic'), findsOneWidget);
     expect(find.text('Transliteration'), findsOneWidget);
     expect(find.text('Meaning'), findsOneWidget);
+    expect(find.text('Listen'), findsNothing);
+    expect(find.text('Repeat slowly'), findsNothing);
+    expect(find.text('Audio unavailable'), findsOneWidget);
     expect(find.text('Ibn Hibban · approved content'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byKey(SakinahKeys.duaSourceCard),
+        matching: find.textContaining('Ibn Hibban'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byKey(SakinahKeys.duaSourceCard),
+        matching: find.textContaining('approved content'),
+      ),
+      findsOneWidget,
+    );
     expectNoFlutterErrors(tester);
   });
 
@@ -275,6 +308,54 @@ void main() {
 
     expect(find.text('Dubai'), findsOneWidget);
     expect(find.text('Muslim World League'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Prayer page highlights current and next prayers',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      currentDateTime: DateTime(2026, 5, 21, 6, 30),
+    );
+
+    expect(
+      find.descendant(
+        of: find.byKey(SakinahKeys.prayerListItem('Fajr')),
+        matching: find.text('Current'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byKey(SakinahKeys.prayerListItem('Dhuhr')),
+        matching: find.text('Next'),
+      ),
+      findsOneWidget,
+    );
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Prayer page records a privacy-safe view event', (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      currentDateTime: DateTime(2026, 5, 21, 6, 30),
+      analyticsService: analytics,
+    );
+
+    expect(analytics.events, hasLength(1));
+    expect(analytics.events.single.name, AnalyticsEventCatalog.prayerViewed);
+    expect(analytics.events.single.properties, {
+      'screen': 'prayer',
+      'route': '/prayer',
+      'prayer_name': 'Dhuhr',
+      'calculation_method': 'umm_al_qura',
+      'location_method': 'preset',
+    });
     expectNoFlutterErrors(tester);
   });
 

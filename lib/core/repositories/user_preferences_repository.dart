@@ -31,7 +31,10 @@ class SharedPreferencesUserPreferencesStore implements UserPreferencesStore {
 }
 
 class InMemoryUserPreferencesStore implements UserPreferencesStore {
-  final Map<String, String> _values = {};
+  InMemoryUserPreferencesStore([Map<String, String>? initialValues])
+      : _values = {...?initialValues};
+
+  final Map<String, String> _values;
 
   @override
   Future<String?> read(String key) async => _values[key];

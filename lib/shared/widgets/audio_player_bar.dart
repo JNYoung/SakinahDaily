@@ -66,18 +66,28 @@ class _AudioPlayerBarState extends State<AudioPlayerBar> {
         padding: const EdgeInsets.all(18),
         child: Row(
           children: [
-            IconButton.filled(
-              key: SakinahKeys.audioPlayPauseButton,
-              tooltip: textOnly ? l10n.t('audioUnavailable') : tooltip,
-              onPressed: playable ? _togglePlayback : null,
-              style: IconButton.styleFrom(
-                backgroundColor: SakinahColors.sandGold,
-                foregroundColor: SakinahColors.midnightNavy,
-                disabledBackgroundColor: Colors.white.withValues(alpha: 0.12),
-                disabledForegroundColor: Colors.white54,
+            if (textOnly)
+              Tooltip(
+                message: l10n.t('audioUnavailable'),
+                child: const CircleAvatar(
+                  backgroundColor: SakinahColors.sandGold,
+                  foregroundColor: SakinahColors.midnightNavy,
+                  child: Icon(Icons.article_outlined),
+                ),
+              )
+            else
+              IconButton.filled(
+                key: SakinahKeys.audioPlayPauseButton,
+                tooltip: tooltip,
+                onPressed: playable ? _togglePlayback : null,
+                style: IconButton.styleFrom(
+                  backgroundColor: SakinahColors.sandGold,
+                  foregroundColor: SakinahColors.midnightNavy,
+                  disabledBackgroundColor: Colors.white.withValues(alpha: 0.12),
+                  disabledForegroundColor: Colors.white54,
+                ),
+                icon: Icon(icon),
               ),
-              icon: Icon(textOnly ? Icons.article_outlined : icon),
-            ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(

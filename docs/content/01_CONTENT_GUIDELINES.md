@@ -8,6 +8,10 @@
 4. 不在 MVP 做 fatwa 风格问答。
 5. 对存在学派差异的事项，使用中性说明和来源标注。
 
+Remote CMS content must stay hidden unless it is published and approved. The
+client must also filter draft, in-review, rejected, unapproved, and revoked
+items inside otherwise valid bundles.
+
 ## 2. Quran 内容
 
 规则：
@@ -46,6 +50,9 @@
 ## 5. Reflection 内容
 
 Reflection 是生活化解释，不是 fatwa。
+
+客户端 Daily Session 的 Reflection step 必须显示 no-fatwa 安全提示，说明
+reflection 只是温柔提醒，不是 fatwa 或宗教裁决。
 
 语气：
 

@@ -12,6 +12,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'سكينة يومية';
 
   @override
+  String get splashTagline => 'طمأنينة للقلب،\nوذكر لليوم';
+
+  @override
+  String get splashFeatureLine =>
+      'القرآن   ·   الدعاء   ·   الذكر   ·   الصلاة';
+
+  @override
   String get onboardingTitle => 'ابدأ بعبادة هادئة';
 
   @override
@@ -47,6 +54,13 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get prayerReminderConsent =>
       'تطلب تذكيرات الصلاة الإذن بعد هذا الشرح فقط.';
+
+  @override
+  String get onboardingPrayerLocationBody =>
+      'تستخدم أوقات الصلاة والقبلة موقع الصلاة المحلي هذا.';
+
+  @override
+  String get onboardingPrayerNoGps => 'لا يتم طلب إذن GPS في v0.1.';
 
   @override
   String get continueLabel => 'متابعة';
@@ -342,7 +356,33 @@ class AppLocalizationsAr extends AppLocalizations {
   String get prayerReminders => 'تذكيرات الصلاة';
 
   @override
+  String get todaysPrayerTimes => 'أوقات الصلاة اليوم';
+
+  @override
+  String get currentPrayerStatus => 'الحالية';
+
+  @override
+  String get nextPrayerStatus => 'التالية';
+
+  @override
   String get prayerReminderSubtitle => 'يطلب الإذن بعد الشرح.';
+
+  @override
+  String get prayerReminderChoicesTitle => 'اختيارات تذكيرات الصلاة';
+
+  @override
+  String get prayerReminderChoicesBody =>
+      'اختر أوقات الصلاة التي يمكن أن ترسل تذكيرات محلية.';
+
+  @override
+  String get prayerReminderChoiceSubtitle => 'محدد لجدول التذكير';
+
+  @override
+  String get prayerReminderLeadTimeTitle => 'توقيت التذكير';
+
+  @override
+  String get prayerReminderLeadTimeBody =>
+      'أرسل كل تذكير صلاة محدد عند وقت الصلاة أو قبله بدقائق.';
 
   @override
   String get notificationPermissionTitle => 'تفعيل تذكيرات الصلاة؟';
@@ -370,6 +410,74 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get notificationSettingsSubtitle =>
       'إدارة تذكيرات الصلاة والجلسة اليومية.';
+
+  @override
+  String get closedTestingHomeBody =>
+      'استخدم أسئلة اليوم 1 / اليوم 3 / اليوم 7 / اليوم 14 لإرسال ملاحظات دون تفاصيل شخصية.';
+
+  @override
+  String get closedTestingHomeButton => 'فتح الدليل';
+
+  @override
+  String get closedTestingPromptTitle => 'أسئلة الملاحظات';
+
+  @override
+  String get closedTestingPromptBody =>
+      'استخدم هذه المحطات لإرسال ملاحظات تساعد اختبار 14 يوما على تحسين العودة اليومية.';
+
+  @override
+  String get closedTestingPromptDay1Label => 'اليوم 1';
+
+  @override
+  String get closedTestingPromptDay1 =>
+      'هل شرح التهيئة خيارات الموقع والإشعارات بوضوح؟';
+
+  @override
+  String get closedTestingPromptDay3Label => 'اليوم 3';
+
+  @override
+  String get closedTestingPromptDay3 =>
+      'هل كانت أوقات الصلاة والموقع وعناصر التحكم بالتذكير موثوقة وواضحة؟';
+
+  @override
+  String get closedTestingPromptDay7Label => 'اليوم 7';
+
+  @override
+  String get closedTestingPromptDay7 =>
+      'ما الذي جعلك ترغب في فتح التطبيق مرة أخرى أو تجاهله هذا الأسبوع؟';
+
+  @override
+  String get closedTestingPromptDay14Label => 'اليوم 14';
+
+  @override
+  String get closedTestingPromptDay14 =>
+      'ما التغيير الواحد الذي يحسن الاستخدام اليومي قبل إصدار أوسع؟';
+
+  @override
+  String get copyTestingFeedbackPrompt => 'نسخ السؤال';
+
+  @override
+  String get closedTestingPromptCopied => 'تم نسخ سؤال الملاحظات.';
+
+  @override
+  String get closedTestingPromptCopyHeader =>
+      'ملاحظات اختبار Sakinah Daily المغلق';
+
+  @override
+  String get closedTestingPromptCopyPromptLabel => 'السؤال';
+
+  @override
+  String get closedTestingPromptCopyChannelLabel => 'قناة الملاحظات';
+
+  @override
+  String get closedTestingPromptCopyPrivacyLine =>
+      'يرجى تجنب التفاصيل الشخصية أو الصحية الحساسة.';
+
+  @override
+  String get closedTestingPromptFeedbackSent => 'تم إرسال الملاحظات';
+
+  @override
+  String get closedTestingPromptLocalOnlyStatus => 'محفوظ على هذا الجهاز فقط.';
 
   @override
   String get dailySessionReminderTitle => 'تذكير الجلسة اليومية';
@@ -423,6 +531,12 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get womenModeSessionNoteBody =>
       'يبقى وضعك على هذا الجهاز. تحافظ هذه الجلسة على مسار عبادة لطيف.';
+
+  @override
+  String get continueFromSaved => 'تابع من المحفوظ';
+
+  @override
+  String get savedRailLocalNote => 'محفوظ محليا على هذا الجهاز.';
 
   @override
   String get savedItems => 'العناصر المحفوظة';
@@ -554,6 +668,52 @@ class AppLocalizationsAr extends AppLocalizations {
       'توجد مسودة سياسة خصوصية للمراجعة القانونية ومراجعة المتجر.';
 
   @override
+  String get contentSourcesTitle => 'مصادر المحتوى';
+
+  @override
+  String get contentSourcesSubtitle =>
+      'تسميات المصادر وحالة المراجعة وحدود الذكاء الاصطناعي.';
+
+  @override
+  String get contentSourcesIntro =>
+      'تعرض سكينة محتوى العبادة مع ضوابط المصدر والمراجعة حتى يفهم المستخدم ما يقرأه أو يسمعه.';
+
+  @override
+  String get contentSourcesSeedTitle => 'محتوى مبدئي مراجع وحزم معتمدة';
+
+  @override
+  String get contentSourcesSeedBody =>
+      'يجب أن يأتي محتوى القرآن والدعاء والذكر والجلسات المعروض في التطبيق من محتوى مبدئي مراجع أو حزم CMS معتمدة.';
+
+  @override
+  String get contentSourcesApprovalTitle => 'منشور ومعتمد فقط';
+
+  @override
+  String get contentSourcesApprovalBody =>
+      'يخفى محتوى CMS عن بعد ما لم يكن منشورا ومعتمدا معا. تتم تصفية المسودات والمحتوى قيد المراجعة أو المرفوض أو الملغى.';
+
+  @override
+  String get contentSourcesGeneratedTitle => 'غير مولد';
+
+  @override
+  String get contentSourcesGeneratedBody =>
+      'لا يولد العميل نص القرآن أو الترجمات أو الدعاء أو الذكر أو التأمل أو الإجابات الدينية.';
+
+  @override
+  String get contentSourcesAudioTitle => 'سلامة صوت القرآن';
+
+  @override
+  String get contentSourcesAudioBody =>
+      'تستخدم تلاوة القرآن أصولا صوتية معتمدة فقط. لا يوجد TTS عام للقرآن ولا موسيقى خلفية تحت تلاوة القرآن.';
+
+  @override
+  String get contentSourcesFatwaTitle => 'لا فتاوى AI ولا أسئلة دينية AI';
+
+  @override
+  String get contentSourcesFatwaBody =>
+      'عند وجود اختلافات مذهبية أو إقليمية، تستخدم سكينة صياغة محايدة وتسميات مصادر بدلا من ادعاءات تشبه الفتوى.';
+
+  @override
   String get storageLocalDevice => 'الجهاز المحلي';
 
   @override
@@ -620,7 +780,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة والجلسة اليومية مفعلة، مع وقت تذكير الجلسة اليومي المختار.';
+      'تخزن محليا لتذكر حالة تذكيرات الصلاة، واختيارات كل صلاة، ومدة التذكير قبل الصلاة، وحالة تذكير الجلسة اليومية، ووقت تذكير الجلسة اليومي المختار.';
+
+  @override
+  String get privacyDataClosedTestingFeedbackStatus =>
+      'حالة ملاحظات الاختبار المغلق';
+
+  @override
+  String get privacyDataClosedTestingFeedbackStatusNotes =>
+      'يخزن فقط ما إذا تم تحديد ملاحظات اليوم 1 أو اليوم 3 أو اليوم 7 أو اليوم 14 كمرسلة. لا يتم حفظ نص الملاحظات أو التفاصيل الشخصية.';
 
   @override
   String get privacyDataWomenModeState => 'حالة وضع عبادة النساء';
@@ -872,6 +1040,13 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get quranSafetyDescription =>
       'لا يتم تشغيل صوت خلفي تحت تلاوة القرآن.';
+
+  @override
+  String get reflectionSafetyTitle => 'ملاحظة التأمل';
+
+  @override
+  String get reflectionSafetyDescription =>
+      'التأمل تذكير لطيف وليس فتوى أو حكما دينيا.';
 
   @override
   String get completionFallback => 'توقف وتنفس واجعل هذا العمل لله وحده.';

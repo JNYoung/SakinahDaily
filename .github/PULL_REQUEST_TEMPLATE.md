@@ -1,46 +1,29 @@
 ## Summary
+- TBD
+## Files Changed
+- TBD
+## Commands Run
 
-Describe what changed and which milestone this PR implements.
+- [ ] `flutter --no-version-check test`
+- [ ] `dart analyze`
+- [ ] `scripts/verify_local_e2e.sh`
+- [ ] Android launch smoke, if a device/emulator was available
 
-## Milestone
+## Tests / Analyzer Result
 
-- [ ] M01 Flutter Foundation
-- [ ] M02 Models & Seed Content
-- [ ] M03 Design Components
-- [ ] M04 Onboarding
-- [ ] M05 Prayer Times & Notifications
-- [ ] M06 Home
-- [ ] M07 Daily Session
-- [ ] M08 Dua & Dhikr
-- [ ] M09 Settings & Women’s Ibadah Mode
-- [ ] M10 CMS/API Integration
-- [ ] M11 Analytics & QA
+- TBD
 
-## Files changed
+## Product Constraints
 
--
+- [ ] No AI fatwa, AI religious Q&A, UGC, social feed, ads, or tracking SDK.
+- [ ] Quran text/translations come from approved sources, not generation.
+- [ ] Quran recitation has no BGM and no generic Quran TTS.
+- [ ] Dua details keep source and review status visible.
+- [ ] Arabic RTL and Bahasa Indonesia release copy remain covered.
+- [ ] Women's Ibadah Mode remains local-first; exact status is not uploaded or shown in lock-screen copy.
+- [ ] Location remains manual/preset unless a reviewed permission flow is added.
+- [ ] No secrets, keystores, service-role keys, production CMS tokens, full Quran corpus, or licensed audio are committed.
 
-## Screenshots / recordings
+## Screenshots / Evidence
 
-Add screenshots for UI changes.
-
-## Commands run
-
-```text
-flutter pub get
-flutter analyze
-flutter test
-```
-
-## Product constraints checklist
-
-- [ ] No background music under Quran recitation.
-- [ ] No generic TTS for Arabic Quran recitation.
-- [ ] Arabic RTL was considered/tested.
-- [ ] Dua/source/review status rules preserved.
-- [ ] Women’s Ibadah Mode privacy rules preserved.
-- [ ] No AI fatwa / religious Q&A / UGC / ads added.
-
-## Notes / blockers
-
--
+- TBD

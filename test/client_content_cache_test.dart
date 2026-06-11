@@ -285,10 +285,12 @@ void main() {
         'dailySessions': [
           _dailySessionJson('cached_session'),
           _dailySessionJson('draft_session', reviewStatus: 'draft'),
+          _dailySessionJson('unpublished_session', status: 'draft'),
         ],
         'duas': [
           _duaJson('cached_dua'),
           _duaJson('review_dua', reviewStatus: 'inReview'),
+          _duaJson('unpublished_dua', status: 'draft'),
         ],
       },
     );
@@ -305,8 +307,10 @@ void main() {
 
     expect(service.loadDailySession('cached_session'), isNotNull);
     expect(service.loadDailySession('draft_session'), isNull);
+    expect(service.loadDailySession('unpublished_session'), isNull);
     expect(service.loadDua('cached_dua'), isNotNull);
     expect(service.loadDua('review_dua'), isNull);
+    expect(service.loadDua('unpublished_dua'), isNull);
   });
 
   test('language and market incompatible bundle is rejected', () async {
@@ -467,6 +471,7 @@ Map<String, dynamic> _bundleJson({
 
 Map<String, dynamic> _dailySessionJson(
   String id, {
+  String status = 'published',
   String reviewStatus = 'approved',
 }) {
   return {
@@ -480,12 +485,16 @@ Map<String, dynamic> _dailySessionJson(
         'title': {'en': 'Fixture step'},
       }
     ],
-    'status': 'published',
+    'status': status,
     'reviewStatus': reviewStatus,
   };
 }
 
-Map<String, dynamic> _duaJson(String id, {String reviewStatus = 'approved'}) {
+Map<String, dynamic> _duaJson(
+  String id, {
+  String status = 'published',
+  String reviewStatus = 'approved',
+}) {
   return {
     'id': id,
     'category': 'fixture',
@@ -493,7 +502,7 @@ Map<String, dynamic> _duaJson(String id, {String reviewStatus = 'approved'}) {
     'transliteration': 'Fixture transliteration',
     'translations': {'en': 'Fixture meaning'},
     'source': 'Fixture source',
-    'status': 'published',
+    'status': status,
     'reviewStatus': reviewStatus,
   };
 }

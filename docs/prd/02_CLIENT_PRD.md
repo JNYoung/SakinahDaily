@@ -283,7 +283,7 @@ lib/l10n/app_ar.arb
 
 ## 15. Analytics events
 
-先做 interface/stub，避免阻塞：
+先做 interface/stub，避免阻塞。事件名需要保持 Google Analytics 兼容：
 
 ```text
 onboarding_started
@@ -293,6 +293,8 @@ location_method_selected
 gender_mode_selected
 audio_preference_selected
 home_viewed
+prayer_viewed
+prayer_reminder_changed
 daily_session_started
 daily_session_step_viewed
 daily_session_completed
@@ -300,9 +302,14 @@ dua_viewed
 dua_saved
 dhikr_started
 dhikr_completed
-prayer_notification_enabled
 women_ibadah_mode_changed
+closed_test_prompt_copied
+closed_test_prompt_marked_sent
 ```
+
+Analytics SDK 接入前必须经过隐私审核。当前实现只允许白名单事件和非敏感
+枚举/ID 参数；不得上传经文/dua/reflection 文本、反馈文本、坐标、tester
+identity 或 Women's Ibadah Mode exact status。
 
 ## 16. 客户端验收
 

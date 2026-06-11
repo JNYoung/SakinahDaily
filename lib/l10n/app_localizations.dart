@@ -106,6 +106,18 @@ abstract class AppLocalizations {
   /// **'Sakinah Daily'**
   String get appTitle;
 
+  /// No description provided for @splashTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm for the heart,\nremembrance for the day'**
+  String get splashTagline;
+
+  /// No description provided for @splashFeatureLine.
+  ///
+  /// In en, this message translates to:
+  /// **'QURAN   ·   DUA   ·   DHIKR   ·   PRAYER'**
+  String get splashFeatureLine;
+
   /// No description provided for @onboardingTitle.
   ///
   /// In en, this message translates to:
@@ -177,6 +189,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Prayer reminders ask permission only after this explanation.'**
   String get prayerReminderConsent;
+
+  /// No description provided for @onboardingPrayerLocationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer times and Qibla use this local prayer location.'**
+  String get onboardingPrayerLocationBody;
+
+  /// No description provided for @onboardingPrayerNoGps.
+  ///
+  /// In en, this message translates to:
+  /// **'No GPS permission is requested in v0.1.'**
+  String get onboardingPrayerNoGps;
 
   /// No description provided for @continueLabel.
   ///
@@ -748,11 +772,59 @@ abstract class AppLocalizations {
   /// **'Prayer reminders'**
   String get prayerReminders;
 
+  /// No description provided for @todaysPrayerTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s prayer times'**
+  String get todaysPrayerTimes;
+
+  /// No description provided for @currentPrayerStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get currentPrayerStatus;
+
+  /// No description provided for @nextPrayerStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextPrayerStatus;
+
   /// No description provided for @prayerReminderSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Permission is requested after explanation.'**
   String get prayerReminderSubtitle;
+
+  /// No description provided for @prayerReminderChoicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer reminder choices'**
+  String get prayerReminderChoicesTitle;
+
+  /// No description provided for @prayerReminderChoicesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which prayer times can send local reminders.'**
+  String get prayerReminderChoicesBody;
+
+  /// No description provided for @prayerReminderChoiceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected for reminder schedule'**
+  String get prayerReminderChoiceSubtitle;
+
+  /// No description provided for @prayerReminderLeadTimeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder timing'**
+  String get prayerReminderLeadTimeTitle;
+
+  /// No description provided for @prayerReminderLeadTimeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Send each selected prayer reminder at the prayer time or a few minutes before.'**
+  String get prayerReminderLeadTimeBody;
 
   /// No description provided for @notificationPermissionTitle.
   ///
@@ -801,6 +873,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage prayer and daily session reminders.'**
   String get notificationSettingsSubtitle;
+
+  /// No description provided for @closedTestingHomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the Day 1 / Day 3 / Day 7 / Day 14 prompts to send feedback without personal details.'**
+  String get closedTestingHomeBody;
+
+  /// No description provided for @closedTestingHomeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open guide'**
+  String get closedTestingHomeButton;
+
+  /// No description provided for @closedTestingPromptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback prompts'**
+  String get closedTestingPromptTitle;
+
+  /// No description provided for @closedTestingPromptBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Use these checkpoints to send feedback that helps the 14-day closed test improve daily return.'**
+  String get closedTestingPromptBody;
+
+  /// No description provided for @closedTestingPromptDay1Label.
+  ///
+  /// In en, this message translates to:
+  /// **'Day 1'**
+  String get closedTestingPromptDay1Label;
+
+  /// No description provided for @closedTestingPromptDay1.
+  ///
+  /// In en, this message translates to:
+  /// **'Did onboarding explain location and notification choices clearly?'**
+  String get closedTestingPromptDay1;
+
+  /// No description provided for @closedTestingPromptDay3Label.
+  ///
+  /// In en, this message translates to:
+  /// **'Day 3'**
+  String get closedTestingPromptDay3Label;
+
+  /// No description provided for @closedTestingPromptDay3.
+  ///
+  /// In en, this message translates to:
+  /// **'Were prayer times, location, and reminder controls easy to trust?'**
+  String get closedTestingPromptDay3;
+
+  /// No description provided for @closedTestingPromptDay7Label.
+  ///
+  /// In en, this message translates to:
+  /// **'Day 7'**
+  String get closedTestingPromptDay7Label;
+
+  /// No description provided for @closedTestingPromptDay7.
+  ///
+  /// In en, this message translates to:
+  /// **'What made you want to reopen or ignore the app this week?'**
+  String get closedTestingPromptDay7;
+
+  /// No description provided for @closedTestingPromptDay14Label.
+  ///
+  /// In en, this message translates to:
+  /// **'Day 14'**
+  String get closedTestingPromptDay14Label;
+
+  /// No description provided for @closedTestingPromptDay14.
+  ///
+  /// In en, this message translates to:
+  /// **'What one change would most improve daily use before wider release?'**
+  String get closedTestingPromptDay14;
+
+  /// No description provided for @copyTestingFeedbackPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy prompt'**
+  String get copyTestingFeedbackPrompt;
+
+  /// No description provided for @closedTestingPromptCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback prompt copied.'**
+  String get closedTestingPromptCopied;
+
+  /// No description provided for @closedTestingPromptCopyHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Sakinah Daily closed test feedback'**
+  String get closedTestingPromptCopyHeader;
+
+  /// No description provided for @closedTestingPromptCopyPromptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Prompt'**
+  String get closedTestingPromptCopyPromptLabel;
+
+  /// No description provided for @closedTestingPromptCopyChannelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback channel'**
+  String get closedTestingPromptCopyChannelLabel;
+
+  /// No description provided for @closedTestingPromptCopyPrivacyLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Please avoid personal or sensitive health details.'**
+  String get closedTestingPromptCopyPrivacyLine;
+
+  /// No description provided for @closedTestingPromptFeedbackSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback sent'**
+  String get closedTestingPromptFeedbackSent;
+
+  /// No description provided for @closedTestingPromptLocalOnlyStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored only on this device.'**
+  String get closedTestingPromptLocalOnlyStatus;
 
   /// No description provided for @dailySessionReminderTitle.
   ///
@@ -897,6 +1089,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your mode stays on this device. This session keeps a gentle worship-friendly path.'**
   String get womenModeSessionNoteBody;
+
+  /// No description provided for @continueFromSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue from saved'**
+  String get continueFromSaved;
+
+  /// No description provided for @savedRailLocalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved locally on this device.'**
+  String get savedRailLocalNote;
 
   /// No description provided for @savedItems.
   ///
@@ -1126,6 +1330,84 @@ abstract class AppLocalizations {
   /// **'A draft privacy policy exists for legal and store review.'**
   String get privacyPolicyDraftBody;
 
+  /// No description provided for @contentSourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Content Sources'**
+  String get contentSourcesTitle;
+
+  /// No description provided for @contentSourcesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Source labels, review status, and AI limits.'**
+  String get contentSourcesSubtitle;
+
+  /// No description provided for @contentSourcesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Sakinah shows worship content with source and review guardrails so users can understand what they are reading or hearing.'**
+  String get contentSourcesIntro;
+
+  /// No description provided for @contentSourcesSeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed seed and approved bundles'**
+  String get contentSourcesSeedTitle;
+
+  /// No description provided for @contentSourcesSeedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran, Dua, Dhikr, and session content shown in the app must come from reviewed seed content or approved CMS bundles.'**
+  String get contentSourcesSeedBody;
+
+  /// No description provided for @contentSourcesApprovalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Published + approved only'**
+  String get contentSourcesApprovalTitle;
+
+  /// No description provided for @contentSourcesApprovalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote CMS content is hidden unless it is both published and approved. Draft, in-review, rejected, or revoked content is filtered out.'**
+  String get contentSourcesApprovalBody;
+
+  /// No description provided for @contentSourcesGeneratedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not generated'**
+  String get contentSourcesGeneratedTitle;
+
+  /// No description provided for @contentSourcesGeneratedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The client does not generate Quran text, translations, Dua, Dhikr, reflection, or religious answers.'**
+  String get contentSourcesGeneratedBody;
+
+  /// No description provided for @contentSourcesAudioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran audio safety'**
+  String get contentSourcesAudioTitle;
+
+  /// No description provided for @contentSourcesAudioBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Quran recitation uses approved voice assets only. There is no generic Quran TTS and no background music under Quran recitation.'**
+  String get contentSourcesAudioBody;
+
+  /// No description provided for @contentSourcesFatwaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No AI fatwa or religious Q&A'**
+  String get contentSourcesFatwaTitle;
+
+  /// No description provided for @contentSourcesFatwaBody.
+  ///
+  /// In en, this message translates to:
+  /// **'When a topic has school or regional differences, Sakinah uses neutral wording and source labels rather than fatwa-style claims.'**
+  String get contentSourcesFatwaBody;
+
   /// No description provided for @storageLocalDevice.
   ///
   /// In en, this message translates to:
@@ -1249,8 +1531,20 @@ abstract class AppLocalizations {
   /// No description provided for @privacyDataNotificationEnabledStateNotes.
   ///
   /// In en, this message translates to:
-  /// **'Stored locally to remember whether prayer and daily session reminders are enabled, plus the selected daily session reminder time.'**
+  /// **'Stored locally to remember prayer reminder status, per-prayer choices, prayer reminder lead-time offset, daily session reminder status, and the selected daily session reminder time.'**
   String get privacyDataNotificationEnabledStateNotes;
+
+  /// No description provided for @privacyDataClosedTestingFeedbackStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed testing feedback status'**
+  String get privacyDataClosedTestingFeedbackStatus;
+
+  /// No description provided for @privacyDataClosedTestingFeedbackStatusNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores only whether Day 1, Day 3, Day 7, or Day 14 feedback was marked sent. Feedback text and personal details are not stored.'**
+  String get privacyDataClosedTestingFeedbackStatusNotes;
 
   /// No description provided for @privacyDataWomenModeState.
   ///
@@ -1707,6 +2001,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No background sound is played under Qur\'an recitation.'**
   String get quranSafetyDescription;
+
+  /// No description provided for @reflectionSafetyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflection note'**
+  String get reflectionSafetyTitle;
+
+  /// No description provided for @reflectionSafetyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflection is a gentle reminder, not a fatwa or religious ruling.'**
+  String get reflectionSafetyDescription;
 
   /// No description provided for @completionFallback.
   ///

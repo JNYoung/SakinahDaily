@@ -59,6 +59,7 @@
 | `docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md` | Google Play Data Safety 草案 |
 | `docs/privacy/05_PERMISSION_COPY.md` | 权限与同意说明文案草案 |
 | `docs/privacy/06_SDK_AND_API_INVENTORY.md` | SDK/API 隐私清单草案 |
+| `docs/privacy/07_GOOGLE_ANALYTICS_EVENT_PLAN.md` | Google Analytics 事件白名单、敏感字段过滤和未来 SDK 接入门禁 |
 | `docs/release/01_RELEASE_READINESS_CHECKLIST.md` | 客户端 release readiness 总清单 |
 | `docs/release/02_ANDROID_RELEASE_CHECKLIST.md` | Android 包名、签名、权限和构建清单 |
 | `docs/release/03_IOS_RELEASE_CHECKLIST.md` | iOS bundle、签名、隐私和截图清单 |
@@ -66,6 +67,16 @@
 | `docs/release/05_SCREENSHOT_PLAN.md` | Store 截图计划和后续自动化 key |
 | `docs/release/06_PERMISSION_AND_DATA_SAFETY_REVIEW.md` | 权限与 data safety 一致性复核 |
 | `docs/release/07_BUILD_FLAVORS_AND_DART_DEFINE.md` | dev/staging/prod dart-define 配置 |
+| `docs/release/08_VERSION_AND_RELEASE_NOTES.md` | 版本号、构建号与 release notes 候选 |
+| `docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md` | Google Play 封闭测试群组、测试链接、反馈和 12/14 天准备包 |
+| `docs/release/10_ANDROID_UPLOAD_SIGNING_SETUP.md` | Android upload keystore 生成、保管和 Play 上传签名准备 |
+| `docs/release/11_PLAY_PUBLIC_LINKS_AND_FEEDBACK.md` | Google Play 隐私政策 URL 与测试反馈入口托管准备 |
+| `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md` | Google Play 封闭测试 12/14 天证据日志、反馈主题和 Production access 答案草稿 |
+| `docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md` | Google Play Console 提交包、App content、商店列表、闭测 release、`scripts/export_google_play_upload_packet.sh` 上传证据包和人工确认 gate |
+| `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md` | Google Play Production access 回答草稿、证据链接、严格模式 gate，以及 `scripts/export_google_play_production_access_packet.sh` 本地证据包导出 |
+| `docs/release/15_PUBLIC_LINKS_HOSTING_PACKET.md` | Google Play 隐私政策和测试反馈公开链接静态托管包、严格公网 URL gate |
+| `docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md` | Google Play 封闭测试上线当天 checklist、群组优先分享顺序、tester link 复核和 `scripts/verify_google_play_closed_test_launch_day.sh` |
+| `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` | Google Play 封闭测试留存观察计划、D1/D3/D7/D14 反馈主题、Production access 反馈证据模板和 `scripts/export_google_play_closed_test_retention_packet.sh` |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Agent Service 文档

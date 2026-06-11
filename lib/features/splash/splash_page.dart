@@ -5,10 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
+import '../../core/localization/sakinah_localizations.dart';
 import '../../shared/sakinah_keys.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  const SplashPage({
+    super.key,
+    this.autoAdvance = true,
+  });
+
+  final bool autoAdvance;
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -20,6 +26,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    if (!widget.autoAdvance) {
+      return;
+    }
     _timer = Timer(const Duration(milliseconds: 1800), () {
       if (mounted) {
         context.go('/onboarding');
@@ -47,6 +56,7 @@ class _SplashCanvas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = SakinahLocalizations.of(context);
     final size = MediaQuery.sizeOf(context);
     final compact = size.width < 430;
     final brandSize = compact ? 58.0 : 76.0;
@@ -97,7 +107,7 @@ class _SplashCanvas extends StatelessWidget {
                   const _DividerOrnament(),
                   const SizedBox(height: 24),
                   Text(
-                    'Calm for the heart,\nremembrance for the day',
+                    l10n.t('splashTagline'),
                     key: SakinahKeys.splashTagline,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -123,7 +133,7 @@ class _SplashCanvas extends StatelessWidget {
                   const SizedBox(height: 34),
                   FittedBox(
                     child: Text(
-                      'QURAN   ·   DUA   ·   DHIKR   ·   PRAYER',
+                      l10n.t('splashFeatureLine'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: SakinahColors.sandGold.withValues(alpha: 0.96),

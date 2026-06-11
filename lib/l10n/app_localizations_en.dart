@@ -12,6 +12,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Sakinah Daily';
 
   @override
+  String get splashTagline => 'Calm for the heart,\nremembrance for the day';
+
+  @override
+  String get splashFeatureLine => 'QURAN   ·   DUA   ·   DHIKR   ·   PRAYER';
+
+  @override
   String get onboardingTitle => 'Begin with calm worship';
 
   @override
@@ -48,6 +54,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get prayerReminderConsent =>
       'Prayer reminders ask permission only after this explanation.';
+
+  @override
+  String get onboardingPrayerLocationBody =>
+      'Prayer times and Qibla use this local prayer location.';
+
+  @override
+  String get onboardingPrayerNoGps => 'No GPS permission is requested in v0.1.';
 
   @override
   String get continueLabel => 'Continue';
@@ -345,8 +358,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get prayerReminders => 'Prayer reminders';
 
   @override
+  String get todaysPrayerTimes => 'Today\'s prayer times';
+
+  @override
+  String get currentPrayerStatus => 'Current';
+
+  @override
+  String get nextPrayerStatus => 'Next';
+
+  @override
   String get prayerReminderSubtitle =>
       'Permission is requested after explanation.';
+
+  @override
+  String get prayerReminderChoicesTitle => 'Prayer reminder choices';
+
+  @override
+  String get prayerReminderChoicesBody =>
+      'Choose which prayer times can send local reminders.';
+
+  @override
+  String get prayerReminderChoiceSubtitle => 'Selected for reminder schedule';
+
+  @override
+  String get prayerReminderLeadTimeTitle => 'Reminder timing';
+
+  @override
+  String get prayerReminderLeadTimeBody =>
+      'Send each selected prayer reminder at the prayer time or a few minutes before.';
 
   @override
   String get notificationPermissionTitle => 'Enable prayer reminders?';
@@ -374,6 +413,75 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notificationSettingsSubtitle =>
       'Manage prayer and daily session reminders.';
+
+  @override
+  String get closedTestingHomeBody =>
+      'Use the Day 1 / Day 3 / Day 7 / Day 14 prompts to send feedback without personal details.';
+
+  @override
+  String get closedTestingHomeButton => 'Open guide';
+
+  @override
+  String get closedTestingPromptTitle => 'Feedback prompts';
+
+  @override
+  String get closedTestingPromptBody =>
+      'Use these checkpoints to send feedback that helps the 14-day closed test improve daily return.';
+
+  @override
+  String get closedTestingPromptDay1Label => 'Day 1';
+
+  @override
+  String get closedTestingPromptDay1 =>
+      'Did onboarding explain location and notification choices clearly?';
+
+  @override
+  String get closedTestingPromptDay3Label => 'Day 3';
+
+  @override
+  String get closedTestingPromptDay3 =>
+      'Were prayer times, location, and reminder controls easy to trust?';
+
+  @override
+  String get closedTestingPromptDay7Label => 'Day 7';
+
+  @override
+  String get closedTestingPromptDay7 =>
+      'What made you want to reopen or ignore the app this week?';
+
+  @override
+  String get closedTestingPromptDay14Label => 'Day 14';
+
+  @override
+  String get closedTestingPromptDay14 =>
+      'What one change would most improve daily use before wider release?';
+
+  @override
+  String get copyTestingFeedbackPrompt => 'Copy prompt';
+
+  @override
+  String get closedTestingPromptCopied => 'Feedback prompt copied.';
+
+  @override
+  String get closedTestingPromptCopyHeader =>
+      'Sakinah Daily closed test feedback';
+
+  @override
+  String get closedTestingPromptCopyPromptLabel => 'Prompt';
+
+  @override
+  String get closedTestingPromptCopyChannelLabel => 'Feedback channel';
+
+  @override
+  String get closedTestingPromptCopyPrivacyLine =>
+      'Please avoid personal or sensitive health details.';
+
+  @override
+  String get closedTestingPromptFeedbackSent => 'Feedback sent';
+
+  @override
+  String get closedTestingPromptLocalOnlyStatus =>
+      'Stored only on this device.';
 
   @override
   String get dailySessionReminderTitle => 'Daily session reminder';
@@ -428,6 +536,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get womenModeSessionNoteBody =>
       'Your mode stays on this device. This session keeps a gentle worship-friendly path.';
+
+  @override
+  String get continueFromSaved => 'Continue from saved';
+
+  @override
+  String get savedRailLocalNote => 'Saved locally on this device.';
 
   @override
   String get savedItems => 'Saved Items';
@@ -560,6 +674,52 @@ class AppLocalizationsEn extends AppLocalizations {
       'A draft privacy policy exists for legal and store review.';
 
   @override
+  String get contentSourcesTitle => 'Content Sources';
+
+  @override
+  String get contentSourcesSubtitle =>
+      'Source labels, review status, and AI limits.';
+
+  @override
+  String get contentSourcesIntro =>
+      'Sakinah shows worship content with source and review guardrails so users can understand what they are reading or hearing.';
+
+  @override
+  String get contentSourcesSeedTitle => 'Reviewed seed and approved bundles';
+
+  @override
+  String get contentSourcesSeedBody =>
+      'Quran, Dua, Dhikr, and session content shown in the app must come from reviewed seed content or approved CMS bundles.';
+
+  @override
+  String get contentSourcesApprovalTitle => 'Published + approved only';
+
+  @override
+  String get contentSourcesApprovalBody =>
+      'Remote CMS content is hidden unless it is both published and approved. Draft, in-review, rejected, or revoked content is filtered out.';
+
+  @override
+  String get contentSourcesGeneratedTitle => 'Not generated';
+
+  @override
+  String get contentSourcesGeneratedBody =>
+      'The client does not generate Quran text, translations, Dua, Dhikr, reflection, or religious answers.';
+
+  @override
+  String get contentSourcesAudioTitle => 'Quran audio safety';
+
+  @override
+  String get contentSourcesAudioBody =>
+      'Quran recitation uses approved voice assets only. There is no generic Quran TTS and no background music under Quran recitation.';
+
+  @override
+  String get contentSourcesFatwaTitle => 'No AI fatwa or religious Q&A';
+
+  @override
+  String get contentSourcesFatwaBody =>
+      'When a topic has school or regional differences, Sakinah uses neutral wording and source labels rather than fatwa-style claims.';
+
+  @override
   String get storageLocalDevice => 'Local device';
 
   @override
@@ -627,7 +787,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'Stored locally to remember whether prayer and daily session reminders are enabled, plus the selected daily session reminder time.';
+      'Stored locally to remember prayer reminder status, per-prayer choices, prayer reminder lead-time offset, daily session reminder status, and the selected daily session reminder time.';
+
+  @override
+  String get privacyDataClosedTestingFeedbackStatus =>
+      'Closed testing feedback status';
+
+  @override
+  String get privacyDataClosedTestingFeedbackStatusNotes =>
+      'Stores only whether Day 1, Day 3, Day 7, or Day 14 feedback was marked sent. Feedback text and personal details are not stored.';
 
   @override
   String get privacyDataWomenModeState => 'Women\'s Ibadah Mode state';
@@ -882,6 +1050,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get quranSafetyDescription =>
       'No background sound is played under Qur\'an recitation.';
+
+  @override
+  String get reflectionSafetyTitle => 'Reflection note';
+
+  @override
+  String get reflectionSafetyDescription =>
+      'Reflection is a gentle reminder, not a fatwa or religious ruling.';
 
   @override
   String get completionFallback =>

@@ -18,6 +18,11 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    expect(
+      find.text('Stored locally. No GPS permission is required.'),
+      findsOneWidget,
+    );
+
     await tester.enterText(
       find.byKey(SakinahKeys.manualLocationLabelField),
       'Jakarta Selatan',

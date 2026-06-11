@@ -2,16 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
-import '../../core/services/notification_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/settings_tile.dart';
+import 'prayer_reminder_toggle_flow.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -25,6 +26,8 @@ class SettingsPage extends ConsumerWidget {
     final notificationService = ref.watch(notificationServiceProvider);
     final notificationFeedback =
         ref.watch(notificationPermissionFeedbackProvider);
+    final appEnvironment = ref.watch(appEnvironmentConfigProvider);
+    final testingFeedbackChannel = appEnvironment.testingFeedbackChannel;
 
     return LanguageAwareScaffold(
       title: l10n.t('settings'),
@@ -111,7 +114,7 @@ class SettingsPage extends ConsumerWidget {
               value: preferences.notificationsEnabled,
               onChanged: (enabled) {
                 unawaited(
-                  _handleNotificationToggle(
+                  handlePrayerReminderToggle(
                     enabled: enabled,
                     context: context,
                     ref: ref,
@@ -134,6 +137,36 @@ class SettingsPage extends ConsumerWidget {
             onTap: () => context.go('/settings/notifications'),
           ),
           const Divider(),
+          SettingsTile(
+            key: SakinahKeys.settingsContentSourcesTile,
+            title: l10n.t('contentSourcesTitle'),
+            subtitle: l10n.t('contentSourcesSubtitle'),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => context.go('/settings/content-sources'),
+          ),
+          const Divider(),
+          if (testingFeedbackChannel != null) ...[
+            SettingsTile(
+              key: SakinahKeys.settingsClosedTestingGuideTile,
+              title: l10n.t('closedTestingGuideTitle'),
+              subtitle: l10n.t('closedTestingGuideSubtitle'),
+              trailing: const Icon(Icons.chevron_right_rounded),
+              onTap: () => context.go('/settings/testing-guide'),
+            ),
+            const Divider(),
+            SettingsTile(
+              key: SakinahKeys.settingsTestingFeedbackTile,
+              title: l10n.t('testingFeedbackTitle'),
+              subtitle: testingFeedbackChannel,
+              trailing: const Icon(Icons.copy),
+              onTap: () => _copyTestingFeedbackChannel(
+                context,
+                l10n,
+                testingFeedbackChannel,
+              ),
+            ),
+            const Divider(),
+          ],
           SettingsTile(
             key: SakinahKeys.settingsPrivacyTile,
             title: l10n.t('privacy'),
@@ -178,81 +211,15 @@ String _notificationSubtitle(
   };
 }
 
-Future<void> _handleNotificationToggle({
-  required bool enabled,
-  required BuildContext context,
-  required WidgetRef ref,
-  required SakinahLocalizations l10n,
-  required UserPreferencesController controller,
-  required NotificationService notificationService,
-  required PrayerCalculationService prayerService,
-  required UserPreferences preferences,
-}) async {
-  if (!enabled) {
-    await notificationService.cancelAll();
-    await controller.setNotificationsEnabled(false);
-    ref.read(notificationPermissionFeedbackProvider.notifier).state = null;
-    return;
-  }
-
-  final accepted = await _showNotificationExplanation(context, l10n);
-  if (accepted != true) {
-    await controller.setNotificationsEnabled(false);
-    return;
-  }
-
-  final granted = await notificationService.requestPermissionAfterExplanation();
-  if (!granted) {
-    await notificationService.cancelAll();
-    await controller.setNotificationsEnabled(false);
-    ref.read(notificationPermissionFeedbackProvider.notifier).state =
-        NotificationPermissionFeedback.denied;
-    return;
-  }
-
-  final now = DateTime.now();
-  final settings = preferences.prayerSettings;
-  var prayers = prayerService.calculateForDate(now, settings);
-  if (!prayers.any((prayer) => prayer.time.isAfter(now))) {
-    prayers = prayerService.calculateForDate(
-      now.add(const Duration(days: 1)),
-      settings,
-    );
-  }
-  final scheduled = await notificationService.schedulePrayerReminders(
-    settings,
-    prayers,
-    languageCode: preferences.languageCode,
-    womenIbadahMode: preferences.womenIbadahMode,
-  );
-  await controller.setNotificationsEnabled(scheduled.isNotEmpty);
-  ref.read(notificationPermissionFeedbackProvider.notifier).state =
-      scheduled.isEmpty
-          ? NotificationPermissionFeedback.denied
-          : NotificationPermissionFeedback.scheduled;
-}
-
-Future<bool?> _showNotificationExplanation(
+void _copyTestingFeedbackChannel(
   BuildContext context,
   SakinahLocalizations l10n,
+  String testingFeedbackChannel,
 ) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(l10n.t('notificationPermissionTitle')),
-        content: Text(l10n.t('notificationPermissionBody')),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.t('notificationPermissionNotNow')),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n.t('notificationPermissionAllow')),
-          ),
-        ],
-      );
-    },
-  );
+  Clipboard.setData(ClipboardData(text: testingFeedbackChannel));
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(content: Text(l10n.t('testingFeedbackCopied'))),
+    );
 }
