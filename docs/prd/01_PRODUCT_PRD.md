@@ -102,7 +102,7 @@ v0.1 上架 MVP 需要让用户完成以下事情：
 | Notifications | 本地礼拜提醒、每日 session reminder、拒绝权限不影响使用 |
 | Daily Session | 可选短 session；不能出现 Quran BGM/TTS 或无效 audio CTA |
 | Settings | 语言、地区、计算方式、通知、隐私、删除本地数据 |
-| Privacy | 不请求 GPS；位置和 women mode 默认本地；无 ads/tracking/analytics SDK |
+| Privacy | 不请求 GPS；位置和 women mode 默认本地；无 ads/tracking SDK；analytics 默认关闭且需审核启用 |
 
 ### P0 保留但不作为上架主入口
 

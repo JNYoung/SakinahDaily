@@ -92,9 +92,10 @@ and the feedback channel is a real public email or HTTPS URL.
   emails.
 - Review the effective date, contact channel, and data-safety wording before
   publishing.
-- Keep the page aligned with v0.1 behavior: no ads, tracking, analytics SDK,
-  crash SDK, exact GPS permission, account login, social features, AI fatwa,
-  religious Q&A, or remote Women's Ibadah Mode exact status.
+- Keep the page aligned with v0.1 behavior: no ads, tracking SDK, crash SDK,
+  default-on analytics collection, exact GPS permission, account login, social
+  features, AI fatwa, religious Q&A, or remote Women's Ibadah Mode exact
+  status.
 
 ## Related Gates
 

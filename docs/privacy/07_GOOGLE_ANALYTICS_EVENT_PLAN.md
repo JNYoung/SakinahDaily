@@ -1,14 +1,13 @@
 # Google Analytics Event Plan
 
-Status: Privacy-safe implementation plan; no Google Analytics SDK is enabled in
-the v0.1 release build yet.
+Status: Privacy-safe implementation plan; Firebase Analytics SDK dependency is present, but analytics collection is default-off in the v0.1 build.
 
 ## Purpose
 
 Sakinah Daily needs retention and usage visibility for the daily prayer loop
 without weakening the privacy posture that makes the app trustworthy. This plan
-defines a Google Analytics 4 compatible event contract that can later be wired
-to Firebase Analytics after privacy/legal review, updated Google Play Data
+defines a Google Analytics 4 compatible event contract that can be wired to
+Firebase Analytics only after privacy/legal review, updated Google Play Data
 Safety declarations, and final user-facing policy copy.
 
 Current implementation:
@@ -16,14 +15,20 @@ Current implementation:
 - `lib/core/services/analytics_service.dart` defines the event catalog and
   parameter sanitizer.
 - `StubAnalyticsService` is local-only and has no network behavior.
+- `FirebaseAnalyticsService` can forward sanitized events to Firebase
+  Analytics when analytics is explicitly enabled.
+- `FirebaseAnalyticsBootstrap` initializes Firebase and turns analytics
+  collection on only when `SAKINAH_ANALYTICS_ENABLED=true`.
+- Android manifest metadata disables Firebase Analytics automatic collection
+  and automatic screen reporting by default.
 - The Daily Session flow records local `daily_session_started` and
   `daily_session_completed` events.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
   calculation method, route, screen, and coarse location method only.
 - Prayer reminder global and per-prayer changes record local
   `prayer_reminder_changed` events with reminder enabled state and lead time.
-- `SAKINAH_ANALYTICS_ENABLED=true` can enable local event recording for
-  controlled QA, but no `firebase_analytics` dependency is added.
+- `SAKINAH_ANALYTICS_ENABLED=true` can enable controlled QA telemetry only when
+  Firebase project configuration is present.
 - Store screenshot mode always disables analytics recording.
 
 ## Event Scope
@@ -83,18 +88,22 @@ The sanitizer drops sensitive or free-text fields, including:
 - Women's Ibadah Mode exact status, menstruation, postpartum, pregnancy, or
   health-related fields
 
-## Google Analytics SDK Gate
+## Google Analytics Production Gate
 
-Before adding `firebase_analytics` or any Google Analytics runtime dependency:
+Before enabling Firebase Analytics for production or any Play closed-testing
+build that transmits telemetry:
 
 - Update `docs/privacy/02_PRIVACY_POLICY_DRAFT.md`.
 - Update `docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md`.
 - Update `docs/privacy/06_SDK_AND_API_INVENTORY.md`.
+- Add reviewed Firebase project configuration such as `google-services.json`
+  through a secure release process.
 - Decide whether analytics requires explicit in-app consent or a Settings
   opt-out for the target launch markets.
 - Verify no event sends Women's Ibadah Mode exact status, coordinates,
   feedback text, religious text, or personal identifiers.
 - Re-run `flutter test`, `dart analyze`, and the Google Play release gates.
 
-Until then, analytics remains a local event contract and does not transmit
-tester or user data.
+Until a reviewed production build enables `SAKINAH_ANALYTICS_ENABLED=true` with
+valid Firebase configuration, analytics remains default-off and does not
+transmit tester or user data by default.

@@ -190,6 +190,9 @@ void main() {
           File('lib/core/services/analytics_service.dart').readAsStringSync();
       final analyticsTest =
           File('test/analytics_service_test.dart').readAsStringSync();
+      final mainDart = File('lib/main.dart').readAsStringSync();
+      final manifest =
+          File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
       final analyticsPlan =
           File('docs/privacy/07_GOOGLE_ANALYTICS_EVENT_PLAN.md')
               .readAsStringSync();
@@ -207,18 +210,33 @@ void main() {
       expect(analyticsService, contains('women_ibadah_status'));
       expect(analyticsService, contains('latitude'));
       expect(analyticsService, contains('feedback'));
+      expect(analyticsService, contains('FirebaseAnalyticsBootstrap'));
+      expect(analyticsService, contains('FirebaseAnalyticsEventSink'));
+      expect(analyticsService, contains('setAnalyticsCollectionEnabled'));
       expect(
           analyticsTest, contains('Google Analytics compatible event names'));
       expect(analyticsTest, contains('drops sensitive or free-text'));
+      expect(analyticsTest, contains('firebase bootstrap fails closed'));
+      expect(mainDart, contains('FirebaseAnalyticsBootstrap'));
       expect(analyticsPlan, contains('Google Analytics 4 compatible'));
       expect(analyticsPlan, contains('SAKINAH_ANALYTICS_ENABLED=true'));
-      expect(analyticsPlan, contains('no `firebase_analytics` dependency'));
+      expect(analyticsPlan,
+          contains('Firebase Analytics SDK dependency is present'));
       expect(analyticsPlan, contains("Women's Ibadah Mode exact status"));
-      expect(sdkInventory, contains('Analytics event contract / local stub'));
+      expect(sdkInventory, contains('Firebase Analytics SDK'));
+      expect(sdkInventory, contains('default-off'));
       expect(
           sdkInventory, contains('Google Analytics / Firebase Analytics SDK'));
       expect(buildFlavorDoc,
           contains('Store screenshot mode forces analytics off'));
+      expect(
+        manifest,
+        contains('firebase_analytics_collection_enabled'),
+      );
+      expect(
+        manifest,
+        contains('google_analytics_automatic_screen_reporting_enabled'),
+      );
     });
 
     test('privacy policy URL accepts public HTTPS and rejects placeholders',
@@ -1600,7 +1618,11 @@ void main() {
       expect(content, contains('SAKINAH_PRIVACY_POLICY_URL'));
       expect(content, contains('SAKINAH_PLAY_TESTING_FEEDBACK'));
       expect(
-          content, contains('No ads, tracking, analytics SDK, or crash SDK'));
+        content,
+        contains(
+          'No ads, tracking SDK, crash SDK, or default-on analytics collection',
+        ),
+      );
 
       final templateRun = Process.runSync(
         'bash',
@@ -1630,8 +1652,12 @@ void main() {
       expect(privacyHtml, contains('Sakinah Daily Privacy Policy'));
       expect(privacyHtml,
           contains('Settings &gt; Privacy &gt; Delete local data'));
-      expect(privacyHtml,
-          contains('No ads, tracking, analytics SDK, or crash SDK'));
+      expect(
+        privacyHtml,
+        contains(
+          'No ads, tracking SDK, crash SDK, or default-on analytics collection',
+        ),
+      );
       expect(feedbackHtml, contains('Sakinah Daily Closed Testing Feedback'));
       expect(feedbackHtml, contains('Day 1'));
       expect(feedbackHtml, contains('Day 3'));
@@ -2810,10 +2836,19 @@ void main() {
       expect(acceptance, contains('[x] Seed fallback 可用。'));
     });
 
-    test('no analytics crash ads or tracking SDK dependency exists', () {
+    test('Firebase Analytics is gated while crash ads tracking SDKs stay out',
+        () {
       final pubspec = File('pubspec.yaml').readAsStringSync().toLowerCase();
+      final appProvider =
+          File('lib/core/providers/app_providers.dart').readAsStringSync();
+      final analyticsService =
+          File('lib/core/services/analytics_service.dart').readAsStringSync();
+      final manifest =
+          File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
+
+      expect(pubspec, contains('firebase_core'));
+      expect(pubspec, contains('firebase_analytics'));
       for (final forbidden in [
-        'firebase_analytics',
         'firebase_crashlytics',
         'sentry',
         'appsflyer',
@@ -2822,6 +2857,19 @@ void main() {
       ]) {
         expect(pubspec, isNot(contains(forbidden)), reason: forbidden);
       }
+      expect(appProvider, contains('environment.analyticsEnabled'));
+      expect(appProvider, contains('FirebaseAnalyticsService'));
+      expect(analyticsService, contains('AnalyticsParameterPolicy.sanitize'));
+      expect(analyticsService, contains('FirebaseAnalyticsBootstrap'));
+      expect(
+        manifest,
+        contains('firebase_analytics_collection_enabled'),
+      );
+      expect(
+        manifest,
+        contains('google_analytics_automatic_screen_reporting_enabled'),
+      );
+      expect(manifest, contains('android:value="false"'));
     });
 
     test('Android manifest does not request location or sensor permission', () {

@@ -90,8 +90,9 @@ the saved state and does not create duplicate saved items.
 - Qibla uses the selected prayer location already stored for prayer times.
 - Delete local data clears saved items along with preferences, cache, and local
   reminders.
-- No account, remote saved-item sync, analytics SDK, crash SDK, ads, tracking,
-  live CMS calls, or remote deletion API is implemented.
+- No account, remote saved-item sync, crash SDK, ads, tracking SDK, live CMS
+  calls, remote deletion API, or default-on analytics collection is
+  implemented.
 
 ## Future Work
 

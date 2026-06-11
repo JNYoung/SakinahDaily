@@ -208,10 +208,12 @@ Status: Draft for release/store review.
   status fields.
 - [x] Privacy docs are marked draft for legal/store review.
 - [x] Store privacy label drafts exist.
-- [x] No ads, tracking, analytics SDK, or crash SDK is added.
-- [x] Google Analytics-compatible event contract exists as a default-off local
-  stub with event-name whitelist and sensitive-parameter filtering; no
-  `firebase_analytics` SDK is added before privacy/Data Safety review.
+- [x] No ads, tracking SDK, crash SDK, or default-on analytics collection is
+  added.
+- [x] Google Analytics-compatible event contract exists with event-name
+  whitelist, sensitive-parameter filtering, Firebase Analytics integration, and
+  default-off collection. Production telemetry still requires privacy/Data
+  Safety review and Firebase project configuration.
 - [x] No exact GPS permission is added.
 - [x] Onboarding offers preset prayer-location setup and states that GPS
   permission is not requested in v0.1.

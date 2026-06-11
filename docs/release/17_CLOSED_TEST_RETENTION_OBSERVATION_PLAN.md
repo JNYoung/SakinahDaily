@@ -43,9 +43,11 @@ signals:
 - Daily Session Start Rate.
 - Settings Completion Rate.
 
-Because v0.1 has no analytics SDK, these are observation categories, not
-tracked per-user telemetry. Use aggregate tester counts, Play Testing feedback,
-and voluntary tester comments only.
+Because Firebase Analytics is default-off until a reviewed build provides
+Firebase project configuration and `SAKINAH_ANALYTICS_ENABLED=true`, these
+remain observation categories by default. Use aggregate tester counts, Play
+Testing feedback, and voluntary tester comments unless telemetry is explicitly
+approved and declared for the test build.
 
 ## Observation Windows
 

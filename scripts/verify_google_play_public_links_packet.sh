@@ -89,7 +89,7 @@ for needle in \
   'Data That May Leave The Device' \
   'How To Delete Local Data' \
   'Settings &gt; Privacy &gt; Delete local data' \
-  'No ads, tracking, analytics SDK, or crash SDK' \
+  'No ads, tracking SDK, crash SDK, or default-on analytics collection' \
   "Women's Ibadah Mode" \
   'No AI fatwa'; do
   require_text "$privacy_html" "$needle"

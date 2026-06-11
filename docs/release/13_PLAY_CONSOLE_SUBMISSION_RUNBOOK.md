@@ -102,8 +102,8 @@ Complete these Play Console App content sections before the first submission:
   copy prayer-companion focused.
 - Data safety: use `docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md` and
   `docs/privacy/06_SDK_AND_API_INVENTORY.md` as the source of truth. The v0.1
-  app has no account, no ads, no analytics SDK, no crash SDK, no GPS
-  permission, and local-first sensitive women's-mode state.
+  app has no account, no ads, no crash SDK, no GPS permission, default-off
+  Firebase Analytics, and local-first sensitive women's-mode state.
 - Privacy policy: host the reviewed copy from
   `docs/privacy/02_PRIVACY_POLICY_DRAFT.md`, then pass the final URL through
   `SAKINAH_PRIVACY_POLICY_URL`.

@@ -89,7 +89,7 @@ cat >"$out_dir/privacy/index.html" <<EOF
 
       <h2>Summary</h2>
       <p>Sakinah Daily is a privacy-first daily prayer companion. The v0.1 app is designed around local preferences, local prayer reminders, approved content, and clear user controls.</p>
-      <p>No ads, tracking, analytics SDK, or crash SDK are included in the v0.1 release.</p>
+      <p>No ads, tracking SDK, crash SDK, or default-on analytics collection are included in the v0.1 release. Firebase Analytics is present for reviewed retention measurement, but collection is disabled unless a build explicitly enables <code>SAKINAH_ANALYTICS_ENABLED=true</code> with Firebase configuration.</p>
 
       <h2>Data Stored On Device</h2>
       <ul>
@@ -106,7 +106,7 @@ cat >"$out_dir/privacy/index.html" <<EOF
 
       <h2>Not Implemented In MVP</h2>
       <ul>
-        <li>No account login, payments, subscriptions, ads, tracking, analytics SDK, crash-reporting SDK, exact GPS permission, social features, or remote progress sync.</li>
+        <li>No account login, payments, subscriptions, ads, tracking SDK, crash-reporting SDK, exact GPS permission, social features, remote progress sync, or default-on analytics collection.</li>
         <li>No AI fatwa, religious Q&amp;A, community, or user-generated religious content.</li>
       </ul>
 

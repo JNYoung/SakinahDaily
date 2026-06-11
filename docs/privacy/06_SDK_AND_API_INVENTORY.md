@@ -14,11 +14,11 @@ Status: Draft for legal/store review.
 | prayer calculation library | Prayer times | No | Uses local manual/preset settings |
 | audio playback library | Approved audio playback | No by this code | No persistent playback history in MVP |
 | Remote content API client | Manifest and bundle fetch | Yes, request metadata | Disabled by default, no live CMS calls in tests |
-| Analytics event contract / local stub | Privacy-safe event taxonomy and QA-only local recording | No remote send by this code | `SAKINAH_ANALYTICS_ENABLED=true` can enable local stub recording; no Google Analytics SDK dependency is added |
+| Analytics event contract / local stub | Privacy-safe event taxonomy and QA-only local recording | No remote send by this code | default-off; used for tests and local QA |
+| Google Analytics / Firebase Analytics SDK | Optional retention and usage telemetry for reviewed QA or release builds | Yes, only when explicitly enabled and configured | `SAKINAH_ANALYTICS_ENABLED=true` plus Firebase project configuration is required; Android automatic collection and screen reporting are disabled by default; Store screenshot mode forces analytics off |
 
 ## Not Implemented
 
-- Google Analytics / Firebase Analytics SDK.
 - Crash-reporting SDK.
 - Ads SDK.
 - Tracking SDK.

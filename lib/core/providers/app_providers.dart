@@ -464,9 +464,11 @@ final contentRepositoryProvider = Provider<ContentRepository>((ref) {
 });
 
 final analyticsServiceProvider = Provider<AnalyticsService>((ref) {
-  return StubAnalyticsService(
-    enabled: ref.watch(appEnvironmentConfigProvider).analyticsEnabled,
-  );
+  final environment = ref.watch(appEnvironmentConfigProvider);
+  if (environment.analyticsEnabled) {
+    return FirebaseAnalyticsService(enabled: true);
+  }
+  return StubAnalyticsService(enabled: false);
 });
 
 final prayerCalculationServiceProvider = Provider<PrayerCalculationService>(
