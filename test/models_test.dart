@@ -37,4 +37,45 @@ void main() {
     expect(
         preferences.womenIbadahMode.hideCycleSensitiveLockScreenCopy, isTrue);
   });
+
+  test('user preferences persist prayer reminder lead time safely', () {
+    final preferences = UserPreferences.defaults().copyWith(
+      prayerReminderOffsetMinutes: 10,
+    );
+
+    final decoded = UserPreferences.fromJson(preferences.toJson());
+
+    expect(decoded.prayerReminderOffsetMinutes, 10);
+    expect(
+      UserPreferences.fromJson(const {
+        'prayerReminderOffsetMinutes': 999,
+      }).prayerReminderOffsetMinutes,
+      defaultPrayerReminderOffsetMinutes,
+    );
+  });
+
+  test('user preferences persist closed testing prompt completion safely', () {
+    final preferences = UserPreferences.defaults().copyWith(
+      completedClosedTestingPromptDays: [
+        'day7',
+        'unknown',
+        'day3',
+        'day1',
+        'day1',
+      ],
+    );
+
+    final decoded = UserPreferences.fromJson(preferences.toJson());
+
+    expect(decoded.completedClosedTestingPromptDays, ['day1', 'day3', 'day7']);
+    expect(decoded.isClosedTestingPromptCompleted('day1'), isTrue);
+    expect(decoded.isClosedTestingPromptCompleted('day3'), isTrue);
+    expect(decoded.isClosedTestingPromptCompleted('day14'), isFalse);
+    expect(
+      UserPreferences.fromJson(const {
+        'completedClosedTestingPromptDays': ['day14', 'bad-day'],
+      }).completedClosedTestingPromptDays,
+      ['day14'],
+    );
+  });
 }

@@ -12,7 +12,8 @@ classification.
 |---|---:|---:|---:|---:|---:|---|---|---|
 | App preferences | Yes | Yes | No by default | No | Optional | Language, gender mode, audio preference, prayer settings | Settings > Privacy > Delete local data | Local app preference candidate |
 | Prayer location preset / manual location | Yes, when selected | Yes | No by default | No | Optional | Prayer-time and Qibla calculation | Settings > Privacy > Delete local data | Manual/preset location only; no GPS or sensor permission in MVP |
-| Notification preferences | Yes | Yes | No by default | No | Optional | Local reminder scheduling | Settings > Privacy > Delete local data | Notification permission should be declared separately |
+| Notification preferences | Yes | Yes | No by default | No | Optional | Local reminder scheduling, per-prayer choices, prayer reminder lead-time offset, and daily session reminder time | Settings > Privacy > Delete local data | Notification permission should be declared separately |
+| Closed testing feedback status | Yes, when tester marks a prompt sent | Yes | No | No | Optional | Remember whether Day 1, Day 3, Day 7, or Day 14 feedback was marked sent | Settings > Privacy > Delete local data | Stores day IDs only; no feedback text or personal details |
 | Women's Ibadah Mode state | Yes, if enabled | Yes | No | No | Optional | Local privacy-aware reminder behavior and local UI recommendation adjustments | Settings > Privacy > Delete local data | High sensitivity, local-only in MVP |
 | Local content cache | Yes | Yes | No | No | Operational | Store approved published bundles and revocation IDs | Settings > Privacy > Delete local data | Content cache is local device data |
 | Saved items | Yes, when user saves content | Yes | No | No | Optional | Local shortcuts to saved sessions, duas, dhikr, and verse references | Settings > Privacy > Delete local data | Local-only saved content list |

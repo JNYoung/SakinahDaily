@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/app/sakinah_app.dart';
 import 'package:sakinah_daily/app/sakinah_router.dart';
+import 'package:sakinah_daily/core/config/app_environment.dart';
 import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
@@ -29,9 +31,16 @@ Future<void> pumpSakinahApp(
   SavedItemsStore? savedItemsStore,
   SessionProgressStore? sessionProgressStore,
   ContentApiConfig? contentApiConfig,
+  AppEnvironmentConfig? appEnvironmentConfig,
+  AnalyticsService? analyticsService,
   NotificationService? notificationService,
   SakinahAudioPlayer? audioPlayer,
+  DateTime? currentDateTime,
 }) async {
+  final freezeSplashForScreenshot =
+      appEnvironmentConfig?.storeScreenshotModeEnabled == true &&
+          appEnvironmentConfig?.storeScreenshotInitialRoute == '/splash';
+
   tester.view.devicePixelRatio = 1;
   tester.view.physicalSize = viewport;
   if (platformBrightness != null) {
@@ -46,9 +55,11 @@ Future<void> pumpSakinahApp(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        userPreferencesStoreProvider.overrideWithValue(
-          preferencesStore ?? InMemoryUserPreferencesStore(),
-        ),
+        if (preferencesStore != null ||
+            appEnvironmentConfig?.storeScreenshotModeEnabled != true)
+          userPreferencesStoreProvider.overrideWithValue(
+            preferencesStore ?? InMemoryUserPreferencesStore(),
+          ),
         contentCacheStoreProvider.overrideWithValue(
           contentCacheStore ?? InMemoryContentCacheStore(),
         ),
@@ -61,14 +72,25 @@ Future<void> pumpSakinahApp(
         contentApiConfigProvider.overrideWithValue(
           contentApiConfig ?? const ContentApiConfig.disabled(),
         ),
+        if (appEnvironmentConfig != null)
+          appEnvironmentConfigProvider.overrideWithValue(appEnvironmentConfig),
+        if (analyticsService != null)
+          analyticsServiceProvider.overrideWithValue(analyticsService),
         notificationServiceProvider.overrideWithValue(
           notificationService ?? LocalNotificationServiceStub(),
         ),
         audioPlayerProvider.overrideWithValue(
           audioPlayer ?? FakeSakinahAudioPlayer(),
         ),
+        if (currentDateTime != null)
+          currentDateTimeProvider.overrideWithValue(currentDateTime),
         routerProvider.overrideWithValue(
-          createSakinahRouter(initialLocation: initialLocation ?? '/splash'),
+          createSakinahRouter(
+            initialLocation: initialLocation ??
+                appEnvironmentConfig?.storeScreenshotInitialRoute ??
+                '/splash',
+            splashAutoAdvance: !freezeSplashForScreenshot,
+          ),
         ),
       ],
       child: const SakinahApp(),

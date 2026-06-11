@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/saved_item.dart';
+import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -20,6 +21,8 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = SakinahLocalizations.of(context);
     final preferences = ref.watch(userPreferencesProvider);
+    final testingFeedbackChannel =
+        ref.watch(appEnvironmentConfigProvider).testingFeedbackChannel;
     final sessions = ref.watch(dailySessionsProvider);
     final prayerService = ref.watch(prayerCalculationServiceProvider);
     final savedItems = ref.watch(savedItemsProvider);
@@ -27,7 +30,7 @@ class HomePage extends ConsumerWidget {
     final womenModeDecision = ref
         .watch(womenModeContentPolicyProvider)
         .evaluate(preferences.womenIbadahMode);
-    final now = DateTime.now();
+    final now = ref.watch(currentDateTimeProvider);
     final nextPrayer =
         prayerService.nextPrayer(now, preferences.prayerSettings);
     final session = sessions.first;
@@ -44,6 +47,14 @@ class HomePage extends ConsumerWidget {
         : activeProgress != null
             ? l10n.t('resumeSession')
             : null;
+    final sessionReminderLabel = preferences.dailySessionReminderEnabled
+        ? _statusLabel(
+            l10n.t('dailySessionReminderTitle'),
+            formatDailySessionReminderTime(
+              preferences.dailySessionReminderMinutesAfterMidnight,
+            ),
+          )
+        : null;
     final showWomenModeSupport = preferences.womenIbadahMode.enabled &&
         womenModeDecision.flags.any(
           (flag) =>
@@ -56,6 +67,7 @@ class HomePage extends ConsumerWidget {
           item.itemType == SavedItemType.dailySession &&
           item.itemId == session.id,
     );
+    final recentSavedItems = savedItems.take(2).toList(growable: false);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return LanguageAwareScaffold(
@@ -126,25 +138,45 @@ class HomePage extends ConsumerWidget {
             nextPrayerLabel: l10n.t('nextPrayer'),
             nextPrayerName: l10n.prayerName(nextPrayer.name),
             nextPrayerTime: _formatPrayerTime(nextPrayer.time),
-            locationLabel: preferences.prayerSettings.locationLabel,
-            methodLabel: prayerService.methodLabel(
-              preferences.prayerSettings.method,
+            locationLabel: _statusLabel(
+              l10n.t('prayerLocation'),
+              preferences.prayerSettings.locationLabel,
             ),
-            remindersLabel: preferences.notificationsEnabled
-                ? l10n.t('reminderStatusOn')
-                : l10n.t('reminderStatusOff'),
+            methodLabel: _statusLabel(
+              l10n.t('prayerMethod'),
+              prayerService.methodLabel(
+                preferences.prayerSettings.method,
+              ),
+            ),
+            remindersLabel: _statusLabel(
+              l10n.t('prayerReminders'),
+              preferences.notificationsEnabled
+                  ? l10n.t('reminderStatusOn')
+                  : l10n.t('reminderStatusOff'),
+            ),
             openPrayerLabel: l10n.t('viewPrayerTimes'),
             reminderSettingsLabel: l10n.t('manageReminders'),
             onOpenPrayer: () => context.push('/prayer'),
             onReminderSettings: () => context.go('/settings/notifications'),
           ),
           const SizedBox(height: 18),
+          if (testingFeedbackChannel != null) ...[
+            _ClosedTestingHomeCard(
+              key: SakinahKeys.homeClosedTestingGuideCard,
+              title: l10n.t('closedTestingGuideTitle'),
+              body: l10n.t('closedTestingHomeBody'),
+              buttonLabel: l10n.t('closedTestingHomeButton'),
+              onOpenGuide: () => context.go('/settings/testing-guide'),
+            ),
+            const SizedBox(height: 14),
+          ],
           _HeroSessionCard(
             key: SakinahKeys.homeSessionCard,
             eyebrow: l10n.t('todaySession'),
             title: session.title.resolve(preferences.languageCode),
             subtitle: l10n.t('sessionSubtitleMeta'),
             statusLabel: sessionStatusLabel,
+            reminderLabel: sessionReminderLabel,
             supportLabel:
                 showWomenModeSupport ? l10n.t('womenModePrivatePath') : null,
             supportBody: showWomenModeSupport
@@ -160,6 +192,18 @@ class HomePage extends ConsumerWidget {
                 : context.go('/session/${session.id}'),
             onVoiceOnly: () => _showQuranVoiceOnlySheet(context, l10n),
           ),
+          if (recentSavedItems.isNotEmpty) ...[
+            const SizedBox(height: 14),
+            _SavedItemsRail(
+              key: SakinahKeys.homeSavedRail,
+              title: l10n.t('continueFromSaved'),
+              localNote: l10n.t('savedRailLocalNote'),
+              openSavedItemsLabel: l10n.t('openSavedItems'),
+              items: recentSavedItems,
+              onOpenSavedItems: () => context.go('/saved'),
+              onOpenItem: (item) => context.go(_routeForSavedItem(item)),
+            ),
+          ],
           const SizedBox(height: 14),
           AppCard(
             key: SakinahKeys.homeProgressCard,
@@ -259,6 +303,74 @@ class HomePage extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _ClosedTestingHomeCard extends StatelessWidget {
+  const _ClosedTestingHomeCard({
+    required this.title,
+    required this.body,
+    required this.buttonLabel,
+    required this.onOpenGuide,
+    super.key,
+  });
+
+  final String title;
+  final String body;
+  final String buttonLabel;
+  final VoidCallback onOpenGuide;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return AppCard(
+      color: isDark ? SakinahColors.navyCard : null,
+      radius: 8,
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.rate_review_outlined),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(height: 6),
+                    Text(body),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: TextButton.icon(
+              key: SakinahKeys.homeClosedTestingGuideButton,
+              onPressed: onOpenGuide,
+              icon: const Icon(Icons.arrow_forward_rounded),
+              label: Text(buttonLabel),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+String _statusLabel(String label, String value) => '$label · $value';
+
+String _routeForSavedItem(SavedItem item) {
+  return switch (item.itemType) {
+    SavedItemType.dailySession => '/session/${item.itemId}',
+    SavedItemType.dua => '/dua/${item.itemId}',
+    SavedItemType.dhikr => '/dhikr/${item.itemId}',
+    SavedItemType.quranVerse => '/quran/${item.itemId}',
+  };
 }
 
 class _PrayerBadge extends StatelessWidget {
@@ -417,12 +529,135 @@ class _PrayerInfoChip extends StatelessWidget {
   }
 }
 
+class _SavedItemsRail extends StatelessWidget {
+  const _SavedItemsRail({
+    required this.title,
+    required this.localNote,
+    required this.openSavedItemsLabel,
+    required this.items,
+    required this.onOpenSavedItems,
+    required this.onOpenItem,
+    super.key,
+  });
+
+  final String title;
+  final String localNote;
+  final String openSavedItemsLabel;
+  final List<SavedItem> items;
+  final VoidCallback onOpenSavedItems;
+  final ValueChanged<SavedItem> onOpenItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return AppCard(
+      color: isDark ? SakinahColors.navyCard : null,
+      radius: 8,
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+              TextButton.icon(
+                key: SakinahKeys.homeSavedItemsButton,
+                onPressed: onOpenSavedItems,
+                icon: const Icon(Icons.bookmarks_outlined, size: 18),
+                label: Text(openSavedItemsLabel),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            localNote,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: isDark ? Colors.white60 : SakinahColors.mutedText,
+                ),
+          ),
+          const SizedBox(height: 12),
+          for (final item in items) ...[
+            _SavedItemRow(
+              key: SakinahKeys.homeSavedItemTile(item.id),
+              item: item,
+              onTap: () => onOpenItem(item),
+            ),
+            if (item != items.last) const Divider(height: 18),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _SavedItemRow extends StatelessWidget {
+  const _SavedItemRow({
+    required this.item,
+    required this.onTap,
+    super.key,
+  });
+
+  final SavedItem item;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Icon(_iconForSavedItem(item.itemType)),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.titleSnapshot,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  if ((item.sourceLabel ?? item.subtitleSnapshot) != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      item.sourceLabel ?? item.subtitleSnapshot!,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right_rounded),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+IconData _iconForSavedItem(SavedItemType itemType) {
+  return switch (itemType) {
+    SavedItemType.dailySession => Icons.nightlight_round,
+    SavedItemType.dua => Icons.favorite_border_rounded,
+    SavedItemType.dhikr => Icons.radio_button_checked_rounded,
+    SavedItemType.quranVerse => Icons.menu_book_outlined,
+  };
+}
+
 class _HeroSessionCard extends StatelessWidget {
   const _HeroSessionCard({
     required this.eyebrow,
     required this.title,
     required this.subtitle,
     required this.statusLabel,
+    this.reminderLabel,
     this.supportLabel,
     this.supportBody,
     this.localOnlyLabel,
@@ -438,6 +673,7 @@ class _HeroSessionCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String? statusLabel;
+  final String? reminderLabel;
   final String? supportLabel;
   final String? supportBody;
   final String? localOnlyLabel;
@@ -542,13 +778,21 @@ class _HeroSessionCard extends StatelessWidget {
                   ),
                 ),
               ],
-              if (statusLabel != null) ...[
+              if (statusLabel != null || reminderLabel != null) ...[
                 const SizedBox(height: 10),
-                Chip(
-                  label: Text(statusLabel!),
-                  backgroundColor: Colors.white.withValues(alpha: 0.14),
-                  labelStyle: const TextStyle(color: Colors.white),
-                  side: BorderSide.none,
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    if (statusLabel != null)
+                      _SessionStatusChip(label: statusLabel!),
+                    if (reminderLabel != null)
+                      _SessionStatusChip(
+                        key: SakinahKeys.homeSessionReminderStatusChip,
+                        icon: Icons.alarm_outlined,
+                        label: reminderLabel!,
+                      ),
+                  ],
                 ),
               ],
               const SizedBox(height: 22),
@@ -576,6 +820,34 @@ class _HeroSessionCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SessionStatusChip extends StatelessWidget {
+  const _SessionStatusChip({
+    required this.label,
+    this.icon,
+    super.key,
+  });
+
+  final String label;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      avatar: icon == null
+          ? null
+          : Icon(
+              icon,
+              size: 16,
+              color: Colors.white,
+            ),
+      label: Text(label),
+      backgroundColor: Colors.white.withValues(alpha: 0.14),
+      labelStyle: const TextStyle(color: Colors.white),
+      side: BorderSide.none,
     );
   }
 }

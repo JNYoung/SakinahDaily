@@ -87,6 +87,15 @@ abstract final class PrivacyDataInventory {
       notesKey: 'privacyDataNotificationEnabledStateNotes',
     ),
     PrivacyDataCategory(
+      id: 'closed_testing_feedback_status',
+      displayNameKey: 'privacyDataClosedTestingFeedbackStatus',
+      storageLocation: PrivacyStorageLocation.localDevice,
+      sensitivity: PrivacySensitivity.low,
+      leavesDevice: false,
+      userCanDelete: true,
+      notesKey: 'privacyDataClosedTestingFeedbackStatusNotes',
+    ),
+    PrivacyDataCategory(
       id: 'women_ibadah_mode_state',
       displayNameKey: 'privacyDataWomenModeState',
       storageLocation: PrivacyStorageLocation.localDevice,

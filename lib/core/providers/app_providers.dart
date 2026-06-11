@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,11 +31,25 @@ import '../services/women_mode_content_policy.dart';
 
 final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
 
+final currentDateTimeProvider = Provider<DateTime>((ref) => DateTime.now());
+
 final appEnvironmentConfigProvider = Provider<AppEnvironmentConfig>((ref) {
   return AppEnvironmentConfig.fromDartDefine();
 });
 
 final userPreferencesStoreProvider = Provider<UserPreferencesStore>((ref) {
+  final environment = ref.watch(appEnvironmentConfigProvider);
+  if (environment.storeScreenshotModeEnabled) {
+    final languageCode = environment.storeScreenshotLanguageCode ?? 'en';
+    final preferences = UserPreferences.defaults().copyWith(
+      languageCode: languageCode,
+      notificationsEnabled: false,
+      dailySessionReminderEnabled: false,
+    );
+    return InMemoryUserPreferencesStore({
+      'sakinah_user_preferences_v1': jsonEncode(preferences.toJson()),
+    });
+  }
   return SharedPreferencesUserPreferencesStore();
 });
 
@@ -92,6 +107,35 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
     await _commit(state.copyWith(notificationsEnabled: enabled));
   }
 
+  Future<void> setPrayerReminderEnabled(
+    String prayerName,
+    bool enabled,
+  ) async {
+    final selected = state.enabledPrayerReminderNames.toSet();
+    if (enabled) {
+      selected.add(prayerName);
+    } else {
+      selected.remove(prayerName);
+    }
+    await _commit(
+      state.copyWith(
+        enabledPrayerReminderNames: defaultPrayerReminderNames
+            .where(selected.contains)
+            .toList(growable: false),
+      ),
+    );
+  }
+
+  Future<void> setPrayerReminderOffsetMinutes(int minutes) async {
+    await _commit(
+      state.copyWith(
+        prayerReminderOffsetMinutes: sanitizePrayerReminderOffsetMinutes(
+          minutes,
+        ),
+      ),
+    );
+  }
+
   Future<void> setDailySessionReminderEnabled(bool enabled) async {
     await _commit(state.copyWith(dailySessionReminderEnabled: enabled));
   }
@@ -101,6 +145,27 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
       state.copyWith(
         dailySessionReminderMinutesAfterMidnight:
             sanitizeDailySessionReminderMinutes(minutesAfterMidnight),
+      ),
+    );
+  }
+
+  Future<void> setClosedTestingPromptCompleted(
+    String promptDayId,
+    bool completed,
+  ) async {
+    if (!closedTestingPromptDayIds.contains(promptDayId)) {
+      return;
+    }
+    final selected = state.completedClosedTestingPromptDays.toSet();
+    if (completed) {
+      selected.add(promptDayId);
+    } else {
+      selected.remove(promptDayId);
+    }
+    await _commit(
+      state.copyWith(
+        completedClosedTestingPromptDays:
+            closedTestingPromptDayIds.where(selected.contains).toList(),
       ),
     );
   }
@@ -399,7 +464,9 @@ final contentRepositoryProvider = Provider<ContentRepository>((ref) {
 });
 
 final analyticsServiceProvider = Provider<AnalyticsService>((ref) {
-  return StubAnalyticsService();
+  return StubAnalyticsService(
+    enabled: ref.watch(appEnvironmentConfigProvider).analyticsEnabled,
+  );
 });
 
 final prayerCalculationServiceProvider = Provider<PrayerCalculationService>(

@@ -7,6 +7,8 @@ abstract final class SakinahKeys {
 
   static const onboardingContinueButton =
       ValueKey<String>('onboarding_continue_button');
+  static const onboardingPrayerLocationDropdown =
+      ValueKey<String>('onboarding_prayer_location_dropdown');
 
   static const homePrayerBadge = ValueKey<String>('home_prayer_badge');
   static const homePrayerPrimaryCard =
@@ -17,9 +19,18 @@ abstract final class SakinahKeys {
       ValueKey<String>('home_prayer_reminder_settings_button');
   static const homeContentList = ValueKey<String>('home_content_list');
   static const homeSessionCard = ValueKey<String>('home_session_card');
+  static const homeSessionReminderStatusChip =
+      ValueKey<String>('home_session_reminder_status_chip');
   static const homeQuickActionsCard =
       ValueKey<String>('home_quick_actions_card');
   static const homeNightCard = ValueKey<String>('home_night_card');
+  static const homeSavedRail = ValueKey<String>('home_saved_rail');
+  static const homeSavedItemsButton =
+      ValueKey<String>('home_saved_items_button');
+  static const homeClosedTestingGuideCard =
+      ValueKey<String>('home_closed_testing_guide_card');
+  static const homeClosedTestingGuideButton =
+      ValueKey<String>('home_closed_testing_guide_button');
   static const homeSessionStartButton =
       ValueKey<String>('home_session_start_button');
   static const homeVoiceOnlyButton = ValueKey<String>('home_voice_only_button');
@@ -36,6 +47,10 @@ abstract final class SakinahKeys {
       ValueKey<String>('home_women_mode_support_card');
   static const homeWomenModeLocalChip =
       ValueKey<String>('home_women_mode_local_chip');
+
+  static ValueKey<String> homeSavedItemTile(String savedItemId) {
+    return ValueKey<String>('home_saved_item_$savedItemId');
+  }
 
   static const bottomNavHome = ValueKey<String>('bottom_nav_home');
   static const bottomNavPrayer = ValueKey<String>('bottom_nav_prayer');
@@ -66,6 +81,8 @@ abstract final class SakinahKeys {
   static const sessionAudioPlayerBar =
       ValueKey<String>('session_audio_player_bar');
   static const sessionSafetyCard = ValueKey<String>('session_safety_card');
+  static const sessionReflectionSafetyCard =
+      ValueKey<String>('session_reflection_safety_card');
   static const audioPlayPauseButton =
       ValueKey<String>('audio_play_pause_button');
   static const quranSafetyCard = sessionSafetyCard;
@@ -74,6 +91,12 @@ abstract final class SakinahKeys {
   static const settingsWomenModeTile =
       ValueKey<String>('settings_women_mode_tile');
   static const settingsPrivacyTile = ValueKey<String>('settings_privacy_tile');
+  static const settingsContentSourcesTile =
+      ValueKey<String>('settings_content_sources_tile');
+  static const settingsTestingFeedbackTile =
+      ValueKey<String>('settings_testing_feedback_tile');
+  static const settingsClosedTestingGuideTile =
+      ValueKey<String>('settings_closed_testing_guide_tile');
   static const settingsSavedItemsTile =
       ValueKey<String>('settings_saved_items_tile');
   static const settingsNotificationSettingsTile =
@@ -90,18 +113,42 @@ abstract final class SakinahKeys {
       ValueKey<String>('settings_daily_session_reminder_minute_dropdown');
   static const settingsDailySessionReminderTimeSaveButton =
       ValueKey<String>('settings_daily_session_reminder_time_save_button');
+  static const notificationSmokeTestButton =
+      ValueKey<String>('notification_smoke_test_button');
+  static const prayerReminderSmokeTestButton =
+      ValueKey<String>('prayer_reminder_smoke_test_button');
   static const settingsPrayerLocationDropdown =
       ValueKey<String>('settings_prayer_location_dropdown');
   static const settingsPrayerMethodDropdown =
       ValueKey<String>('settings_prayer_method_dropdown');
   static const settingsNotificationSwitch =
       ValueKey<String>('settings_notification_switch');
+  static const settingsPrayerReminderLeadTimeDropdown =
+      ValueKey<String>('settings_prayer_reminder_lead_time_dropdown');
+  static ValueKey<String> settingsPrayerReminderPrayerSwitch(
+    String prayerName,
+  ) {
+    return ValueKey<String>('settings_prayer_reminder_$prayerName');
+  }
+
   static const prayerContentList = ValueKey<String>('prayer_content_list');
+  static const prayerTimesSectionHeader =
+      ValueKey<String>('prayer_times_section_header');
+  static ValueKey<String> prayerListItem(String prayerName) {
+    return ValueKey<String>('prayer_list_item_$prayerName');
+  }
+
+  static ValueKey<String> prayerStatusChip(String prayerName) {
+    return ValueKey<String>('prayer_status_chip_$prayerName');
+  }
+
   static const quranPage = ValueKey<String>('quran_page');
   static const quranOpenFeaturedButton =
       ValueKey<String>('quran_open_featured_button');
   static const quranVerseDetailPage =
       ValueKey<String>('quran_verse_detail_page');
+  static const quranVerseSafetyCard =
+      ValueKey<String>('quran_verse_safety_card');
   static const quranVerseSaveButton =
       ValueKey<String>('quran_verse_save_button');
   static const qiblaPage = ValueKey<String>('qibla_page');
@@ -130,6 +177,37 @@ abstract final class SakinahKeys {
   static const womenModeRecommendedCard =
       ValueKey<String>('women_mode_recommended_card');
   static const privacyCenterPage = ValueKey<String>('privacy_center_page');
+  static const privacyPolicyLinkTile =
+      ValueKey<String>('privacy_policy_link_tile');
+  static const contentSourcesPage = ValueKey<String>('content_sources_page');
+  static const closedTestingGuidePage =
+      ValueKey<String>('closed_testing_guide_page');
+  static const closedTestingPromptDay1 =
+      ValueKey<String>('closed_testing_prompt_day_1');
+  static const closedTestingPromptDay1CopyButton =
+      ValueKey<String>('closed_testing_prompt_day_1_copy_button');
+  static const closedTestingPromptDay1CompletedCheckbox =
+      ValueKey<String>('closed_testing_prompt_day_1_completed_checkbox');
+  static const closedTestingPromptDay3 =
+      ValueKey<String>('closed_testing_prompt_day_3');
+  static const closedTestingPromptDay3CopyButton =
+      ValueKey<String>('closed_testing_prompt_day_3_copy_button');
+  static const closedTestingPromptDay3CompletedCheckbox =
+      ValueKey<String>('closed_testing_prompt_day_3_completed_checkbox');
+  static const closedTestingPromptDay7 =
+      ValueKey<String>('closed_testing_prompt_day_7');
+  static const closedTestingPromptDay7CopyButton =
+      ValueKey<String>('closed_testing_prompt_day_7_copy_button');
+  static const closedTestingPromptDay7CompletedCheckbox =
+      ValueKey<String>('closed_testing_prompt_day_7_completed_checkbox');
+  static const closedTestingPromptDay14 =
+      ValueKey<String>('closed_testing_prompt_day_14');
+  static const closedTestingPromptDay14CopyButton =
+      ValueKey<String>('closed_testing_prompt_day_14_copy_button');
+  static const closedTestingPromptDay14CompletedCheckbox =
+      ValueKey<String>('closed_testing_prompt_day_14_completed_checkbox');
+  static const closedTestingFeedbackCopyButton =
+      ValueKey<String>('closed_testing_feedback_copy_button');
   static const privacyDataInventoryPage =
       ValueKey<String>('privacy_data_inventory_page');
   static const deleteLocalDataPage = ValueKey<String>('delete_local_data_page');

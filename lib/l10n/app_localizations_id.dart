@@ -12,6 +12,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get appTitle => 'Sakinah Daily';
 
   @override
+  String get splashTagline => 'Tenang untuk hati,\nzikir untuk hari ini';
+
+  @override
+  String get splashFeatureLine => 'QURAN   ·   DOA   ·   DZIKIR   ·   SHALAT';
+
+  @override
   String get onboardingTitle => 'Mulai dengan ibadah yang tenang';
 
   @override
@@ -48,6 +54,13 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get prayerReminderConsent =>
       'Pengingat shalat meminta izin hanya setelah penjelasan ini.';
+
+  @override
+  String get onboardingPrayerLocationBody =>
+      'Waktu shalat dan Kiblat memakai lokasi shalat lokal ini.';
+
+  @override
+  String get onboardingPrayerNoGps => 'Izin GPS tidak diminta di v0.1.';
 
   @override
   String get continueLabel => 'Lanjut';
@@ -345,7 +358,33 @@ class AppLocalizationsId extends AppLocalizations {
   String get prayerReminders => 'Pengingat shalat';
 
   @override
+  String get todaysPrayerTimes => 'Waktu shalat hari ini';
+
+  @override
+  String get currentPrayerStatus => 'Saat ini';
+
+  @override
+  String get nextPrayerStatus => 'Berikutnya';
+
+  @override
   String get prayerReminderSubtitle => 'Izin diminta setelah penjelasan.';
+
+  @override
+  String get prayerReminderChoicesTitle => 'Pilihan pengingat shalat';
+
+  @override
+  String get prayerReminderChoicesBody =>
+      'Pilih waktu shalat yang dapat mengirim pengingat lokal.';
+
+  @override
+  String get prayerReminderChoiceSubtitle => 'Dipilih untuk jadwal pengingat';
+
+  @override
+  String get prayerReminderLeadTimeTitle => 'Waktu pengingat';
+
+  @override
+  String get prayerReminderLeadTimeBody =>
+      'Kirim setiap pengingat shalat terpilih saat waktu shalat atau beberapa menit sebelumnya.';
 
   @override
   String get notificationPermissionTitle => 'Aktifkan pengingat shalat?';
@@ -374,6 +413,75 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get notificationSettingsSubtitle =>
       'Kelola pengingat shalat dan sesi harian.';
+
+  @override
+  String get closedTestingHomeBody =>
+      'Gunakan prompt Hari 1 / Hari 3 / Hari 7 / Hari 14 untuk mengirim masukan tanpa detail pribadi.';
+
+  @override
+  String get closedTestingHomeButton => 'Buka panduan';
+
+  @override
+  String get closedTestingPromptTitle => 'Prompt masukan';
+
+  @override
+  String get closedTestingPromptBody =>
+      'Gunakan titik cek ini untuk mengirim masukan yang membantu closed test 14 hari memperbaiki kebiasaan kembali harian.';
+
+  @override
+  String get closedTestingPromptDay1Label => 'Hari 1';
+
+  @override
+  String get closedTestingPromptDay1 =>
+      'Apakah onboarding menjelaskan pilihan lokasi dan notifikasi dengan jelas?';
+
+  @override
+  String get closedTestingPromptDay3Label => 'Hari 3';
+
+  @override
+  String get closedTestingPromptDay3 =>
+      'Apakah waktu shalat, lokasi, dan kontrol pengingat mudah dipercaya?';
+
+  @override
+  String get closedTestingPromptDay7Label => 'Hari 7';
+
+  @override
+  String get closedTestingPromptDay7 =>
+      'Apa yang membuat Anda ingin membuka app lagi atau mengabaikannya minggu ini?';
+
+  @override
+  String get closedTestingPromptDay14Label => 'Hari 14';
+
+  @override
+  String get closedTestingPromptDay14 =>
+      'Satu perubahan apa yang paling membantu penggunaan harian sebelum rilis lebih luas?';
+
+  @override
+  String get copyTestingFeedbackPrompt => 'Salin prompt';
+
+  @override
+  String get closedTestingPromptCopied => 'Prompt masukan disalin.';
+
+  @override
+  String get closedTestingPromptCopyHeader =>
+      'Masukan closed test Sakinah Daily';
+
+  @override
+  String get closedTestingPromptCopyPromptLabel => 'Prompt';
+
+  @override
+  String get closedTestingPromptCopyChannelLabel => 'Kanal masukan';
+
+  @override
+  String get closedTestingPromptCopyPrivacyLine =>
+      'Hindari detail pribadi atau kesehatan yang sensitif.';
+
+  @override
+  String get closedTestingPromptFeedbackSent => 'Masukan terkirim';
+
+  @override
+  String get closedTestingPromptLocalOnlyStatus =>
+      'Disimpan hanya di perangkat ini.';
 
   @override
   String get dailySessionReminderTitle => 'Pengingat sesi harian';
@@ -428,6 +536,12 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get womenModeSessionNoteBody =>
       'Mode Anda tetap di perangkat ini. Sesi ini menjaga jalur ibadah yang lembut.';
+
+  @override
+  String get continueFromSaved => 'Lanjutkan dari tersimpan';
+
+  @override
+  String get savedRailLocalNote => 'Disimpan lokal di perangkat ini.';
 
   @override
   String get savedItems => 'Item Tersimpan';
@@ -561,6 +675,54 @@ class AppLocalizationsId extends AppLocalizations {
       'Draf kebijakan privasi tersedia untuk peninjauan legal dan toko.';
 
   @override
+  String get contentSourcesTitle => 'Sumber Konten';
+
+  @override
+  String get contentSourcesSubtitle =>
+      'Label sumber, status review, dan batas AI.';
+
+  @override
+  String get contentSourcesIntro =>
+      'Sakinah menampilkan konten ibadah dengan batasan sumber dan review agar pengguna memahami yang dibaca atau didengar.';
+
+  @override
+  String get contentSourcesSeedTitle =>
+      'Seed yang ditinjau dan bundle yang disetujui';
+
+  @override
+  String get contentSourcesSeedBody =>
+      'Konten Quran, Doa, Dzikir, dan sesi yang tampil di aplikasi harus berasal dari seed yang ditinjau atau bundle CMS yang disetujui.';
+
+  @override
+  String get contentSourcesApprovalTitle => 'Hanya published + approved';
+
+  @override
+  String get contentSourcesApprovalBody =>
+      'Konten CMS jarak jauh disembunyikan kecuali sudah published dan approved. Konten draf, sedang ditinjau, ditolak, atau dicabut disaring.';
+
+  @override
+  String get contentSourcesGeneratedTitle => 'Tidak dibuat otomatis';
+
+  @override
+  String get contentSourcesGeneratedBody =>
+      'Klien tidak membuat teks Quran, terjemahan, Doa, Dzikir, refleksi, atau jawaban agama secara otomatis.';
+
+  @override
+  String get contentSourcesAudioTitle => 'Keamanan audio Quran';
+
+  @override
+  String get contentSourcesAudioBody =>
+      'Tilawah Quran hanya memakai aset suara yang disetujui. Tidak ada TTS Quran generik dan tidak ada musik latar di bawah tilawah Quran.';
+
+  @override
+  String get contentSourcesFatwaTitle =>
+      'Tanpa fatwa AI atau tanya jawab agama AI';
+
+  @override
+  String get contentSourcesFatwaBody =>
+      'Saat ada perbedaan mazhab atau wilayah, Sakinah memakai kata-kata netral dan label sumber, bukan klaim bergaya fatwa.';
+
+  @override
   String get storageLocalDevice => 'Perangkat lokal';
 
   @override
@@ -627,7 +789,15 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyDataNotificationEnabledStateNotes =>
-      'Disimpan lokal untuk mengingat apakah pengingat shalat dan sesi harian aktif, termasuk waktu pengingat sesi harian yang dipilih.';
+      'Disimpan lokal untuk mengingat status pengingat shalat, pilihan per shalat, jeda waktu pengingat shalat, status pengingat sesi harian, dan waktu pengingat sesi harian yang dipilih.';
+
+  @override
+  String get privacyDataClosedTestingFeedbackStatus =>
+      'Status masukan closed testing';
+
+  @override
+  String get privacyDataClosedTestingFeedbackStatusNotes =>
+      'Hanya menyimpan apakah masukan Hari 1, Hari 3, Hari 7, atau Hari 14 ditandai terkirim. Teks masukan dan detail pribadi tidak disimpan.';
 
   @override
   String get privacyDataWomenModeState => 'Status Mode Ibadah Perempuan';
@@ -882,6 +1052,13 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get quranSafetyDescription =>
       'Tidak ada suara latar di bawah tilawah Qur’an.';
+
+  @override
+  String get reflectionSafetyTitle => 'Catatan renungan';
+
+  @override
+  String get reflectionSafetyDescription =>
+      'Renungan adalah pengingat lembut, bukan fatwa atau putusan agama.';
 
   @override
   String get completionFallback =>

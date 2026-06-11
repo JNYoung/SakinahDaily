@@ -23,6 +23,8 @@ class SakinahLocalizations {
   static const _values = {
     'en': {
       'appTitle': 'Sakinah Daily',
+      'splashTagline': 'Calm for the heart,\nremembrance for the day',
+      'splashFeatureLine': 'QURAN   ·   DUA   ·   DHIKR   ·   PRAYER',
       'onboardingTitle': 'Begin with calm worship',
       'onboardingSubtitle':
           'Choose your language and preferences for a quiet daily companion.',
@@ -37,6 +39,9 @@ class SakinahLocalizations {
       'audioTextFirst': 'Text first',
       'prayerReminderConsent':
           'Prayer reminders ask permission only after this explanation.',
+      'onboardingPrayerLocationBody':
+          'Prayer times and Qibla use this local prayer location.',
+      'onboardingPrayerNoGps': 'No GPS permission is requested in v0.1.',
       'continueLabel': 'Continue',
       'homeGreeting': 'Assalamu alaikum',
       'homeFriend': 'Friend',
@@ -141,10 +146,73 @@ class SakinahLocalizations {
           'Stored locally. No GPS permission is required.',
       'prayerMethod': 'Prayer method',
       'prayerReminders': 'Prayer reminders',
+      'todaysPrayerTimes': "Today's prayer times",
+      'currentPrayerStatus': 'Current',
+      'nextPrayerStatus': 'Next',
       'prayerReminderSubtitle': 'Permission is requested after explanation.',
+      'prayerReminderChoicesTitle': 'Prayer reminder choices',
+      'prayerReminderChoicesBody':
+          'Choose which prayer times can send local reminders.',
+      'prayerReminderChoiceSubtitle': 'Selected for reminder schedule',
+      'prayerReminderLeadTimeTitle': 'Reminder timing',
+      'prayerReminderLeadTimeBody':
+          'Send each selected prayer reminder at the prayer time or a few minutes before.',
       'notificationSettingsTitle': 'Notification settings',
       'notificationSettingsSubtitle':
           'Manage prayer and daily session reminders.',
+      'closedTestingGuideTitle': 'Closed testing guide',
+      'closedTestingGuideSubtitle':
+          'Daily checks for prayer, reminders, session, and privacy.',
+      'closedTestingHomeBody':
+          'Use the Day 1 / Day 3 / Day 7 / Day 14 prompts to send feedback without personal details.',
+      'closedTestingHomeButton': 'Open guide',
+      'closedTestingGuideIntroTitle': 'Help test the daily prayer flow',
+      'closedTestingGuideIntroBody':
+          'Use this checklist during closed testing so feedback covers the parts that matter for launch quality and daily return.',
+      'closedTestingGuideChecklistTitle': 'Daily tester checklist',
+      'closedTestingChecklistDailyOpen':
+          'Open the app once each day and notice whether Home feels useful enough to return.',
+      'closedTestingChecklistPrayer':
+          'Check the next prayer time, prayer location, method, and all-day prayer list.',
+      'closedTestingChecklistReminder':
+          'Review reminder settings and only enable reminders if you are comfortable.',
+      'closedTestingChecklistSession':
+          'Start Today’s Sakinah Session and finish or resume it later.',
+      'closedTestingChecklistPrivacy':
+          'Review Privacy Center, Content Sources, and Delete local data.',
+      'closedTestingChecklistFeedback':
+          'Send feedback about confusing copy, timing issues, layout problems, or anything that made you ignore the app.',
+      'closedTestingPromptTitle': 'Feedback prompts',
+      'closedTestingPromptBody':
+          'Use these checkpoints to send feedback that helps the 14-day closed test improve daily return.',
+      'closedTestingPromptDay1Label': 'Day 1',
+      'closedTestingPromptDay1':
+          'Did onboarding explain location and notification choices clearly?',
+      'closedTestingPromptDay3Label': 'Day 3',
+      'closedTestingPromptDay3':
+          'Were prayer times, location, and reminder controls easy to trust?',
+      'closedTestingPromptDay7Label': 'Day 7',
+      'closedTestingPromptDay7':
+          'What made you want to reopen or ignore the app this week?',
+      'closedTestingPromptDay14Label': 'Day 14',
+      'closedTestingPromptDay14':
+          'What one change would most improve daily use before wider release?',
+      'copyTestingFeedbackPrompt': 'Copy prompt',
+      'closedTestingPromptCopied': 'Feedback prompt copied.',
+      'closedTestingPromptCopyHeader': 'Sakinah Daily closed test feedback',
+      'closedTestingPromptCopyPromptLabel': 'Prompt',
+      'closedTestingPromptCopyChannelLabel': 'Feedback channel',
+      'closedTestingPromptCopyPrivacyLine':
+          'Please avoid personal or sensitive health details.',
+      'closedTestingPromptFeedbackSent': 'Feedback sent',
+      'closedTestingPromptLocalOnlyStatus': 'Stored only on this device.',
+      'closedTestingFeedbackTitle': 'Feedback channel',
+      'closedTestingFeedbackBody':
+          'Copy this channel when reporting closed-test feedback.',
+      'closedTestingFeedbackMissing': 'Testing feedback is not configured yet.',
+      'copyTestingFeedback': 'Copy feedback channel',
+      'testingFeedbackTitle': 'Testing feedback',
+      'testingFeedbackCopied': 'Testing feedback copied.',
       'dailySessionReminderTitle': 'Daily session reminder',
       'dailySessionReminderPrivacyNote':
           'Session reminders are scheduled locally and keep lock-screen text privacy-safe.',
@@ -175,6 +243,8 @@ class SakinahLocalizations {
       'womenModeSessionNoteTitle': 'Local-only mode',
       'womenModeSessionNoteBody':
           'Your mode stays on this device. This session keeps a gentle worship-friendly path.',
+      'continueFromSaved': 'Continue from saved',
+      'savedRailLocalNote': 'Saved locally on this device.',
       'savedItems': 'Saved Items',
       'savedItemsEmptyTitle': 'Nothing saved yet',
       'savedItemsEmptyBody':
@@ -226,6 +296,27 @@ class SakinahLocalizations {
       'privacyPolicyDraftTitle': 'Privacy policy draft',
       'privacyPolicyDraftBody':
           'A draft privacy policy exists for legal and store review.',
+      'privacyPolicyPublishedTitle': 'Published privacy policy',
+      'privacyPolicyLinkCopied': 'Privacy policy link copied.',
+      'contentSourcesTitle': 'Content Sources',
+      'contentSourcesSubtitle': 'Source labels, review status, and AI limits.',
+      'contentSourcesIntro':
+          'Sakinah shows worship content with source and review guardrails so users can understand what they are reading or hearing.',
+      'contentSourcesSeedTitle': 'Reviewed seed and approved bundles',
+      'contentSourcesSeedBody':
+          'Quran, Dua, Dhikr, and session content shown in the app must come from reviewed seed content or approved CMS bundles.',
+      'contentSourcesApprovalTitle': 'Published + approved only',
+      'contentSourcesApprovalBody':
+          'Remote CMS content is hidden unless it is both published and approved. Draft, in-review, rejected, or revoked content is filtered out.',
+      'contentSourcesGeneratedTitle': 'Not generated',
+      'contentSourcesGeneratedBody':
+          'The client does not generate Quran text, translations, Dua, Dhikr, reflection, or religious answers.',
+      'contentSourcesAudioTitle': 'Quran audio safety',
+      'contentSourcesAudioBody':
+          'Quran recitation uses approved voice assets only. There is no generic Quran TTS and no background music under Quran recitation.',
+      'contentSourcesFatwaTitle': 'No AI fatwa or religious Q&A',
+      'contentSourcesFatwaBody':
+          'When a topic has school or regional differences, Sakinah uses neutral wording and source labels rather than fatwa-style claims.',
       'storageLocalDevice': 'Local device',
       'storageRemoteOptional': 'Remote request',
       'storageNotCollected': 'Not collected',
@@ -252,7 +343,11 @@ class SakinahLocalizations {
           'Stored locally by default as a manual or preset location choice.',
       'privacyDataNotificationEnabledState': 'Notification enabled state',
       'privacyDataNotificationEnabledStateNotes':
-          'Stored locally to remember whether prayer and daily session reminders are enabled, plus the selected daily session reminder time.',
+          'Stored locally to remember prayer reminder status, per-prayer choices, prayer reminder lead-time offset, daily session reminder status, and the selected daily session reminder time.',
+      'privacyDataClosedTestingFeedbackStatus':
+          'Closed testing feedback status',
+      'privacyDataClosedTestingFeedbackStatusNotes':
+          'Stores only whether Day 1, Day 3, Day 7, or Day 14 feedback was marked sent. Feedback text and personal details are not stored.',
       'privacyDataWomenModeState': "Women's Ibadah Mode state",
       'privacyDataWomenModeStateNotes':
           'High sensitivity. Designed local-first, may adjust local UI recommendations, and is not sent to remote content APIs.',
@@ -350,6 +445,9 @@ class SakinahLocalizations {
       'quranSafetyTitle': "Qur'an Safety",
       'quranSafetyDescription':
           "No background sound is played under Qur'an recitation.",
+      'reflectionSafetyTitle': 'Reflection note',
+      'reflectionSafetyDescription':
+          'Reflection is a gentle reminder, not a fatwa or religious ruling.',
       'completionFallback':
           'Pause, breathe, and keep this act for Allah alone.',
       'backgroundSoundAllowed': 'Background sound allowed',
@@ -365,6 +463,8 @@ class SakinahLocalizations {
     },
     'id': {
       'appTitle': 'Sakinah Daily',
+      'splashTagline': 'Tenang untuk hati,\nzikir untuk hari ini',
+      'splashFeatureLine': 'QURAN   ·   DOA   ·   DZIKIR   ·   SHALAT',
       'onboardingTitle': 'Mulai dengan ibadah yang tenang',
       'onboardingSubtitle':
           'Pilih bahasa dan preferensi untuk pendamping harian yang lembut.',
@@ -379,6 +479,9 @@ class SakinahLocalizations {
       'audioTextFirst': 'Utamakan teks',
       'prayerReminderConsent':
           'Pengingat shalat meminta izin hanya setelah penjelasan ini.',
+      'onboardingPrayerLocationBody':
+          'Waktu shalat dan Kiblat memakai lokasi shalat lokal ini.',
+      'onboardingPrayerNoGps': 'Izin GPS tidak diminta di v0.1.',
       'continueLabel': 'Lanjut',
       'homeGreeting': 'Assalamu alaikum',
       'homeFriend': 'Sahabat',
@@ -482,10 +585,73 @@ class SakinahLocalizations {
       'locationLocalOnlyNoGps': 'Disimpan lokal. Izin GPS tidak diperlukan.',
       'prayerMethod': 'Metode shalat',
       'prayerReminders': 'Pengingat shalat',
+      'todaysPrayerTimes': 'Waktu shalat hari ini',
+      'currentPrayerStatus': 'Saat ini',
+      'nextPrayerStatus': 'Berikutnya',
       'prayerReminderSubtitle': 'Izin diminta setelah penjelasan.',
+      'prayerReminderChoicesTitle': 'Pilihan pengingat shalat',
+      'prayerReminderChoicesBody':
+          'Pilih waktu shalat yang dapat mengirim pengingat lokal.',
+      'prayerReminderChoiceSubtitle': 'Dipilih untuk jadwal pengingat',
+      'prayerReminderLeadTimeTitle': 'Waktu pengingat',
+      'prayerReminderLeadTimeBody':
+          'Kirim setiap pengingat shalat terpilih saat waktu shalat atau beberapa menit sebelumnya.',
       'notificationSettingsTitle': 'Pengaturan notifikasi',
       'notificationSettingsSubtitle':
           'Kelola pengingat shalat dan sesi harian.',
+      'closedTestingGuideTitle': 'Panduan closed testing',
+      'closedTestingGuideSubtitle':
+          'Cek harian untuk shalat, pengingat, sesi, dan privasi.',
+      'closedTestingHomeBody':
+          'Gunakan prompt Hari 1 / Hari 3 / Hari 7 / Hari 14 untuk mengirim masukan tanpa detail pribadi.',
+      'closedTestingHomeButton': 'Buka panduan',
+      'closedTestingGuideIntroTitle': 'Bantu uji alur shalat harian',
+      'closedTestingGuideIntroBody':
+          'Gunakan daftar ini selama closed testing agar masukan mencakup bagian penting untuk kualitas rilis dan kebiasaan kembali harian.',
+      'closedTestingGuideChecklistTitle': 'Daftar cek tester harian',
+      'closedTestingChecklistDailyOpen':
+          'Buka app sekali setiap hari dan perhatikan apakah Home cukup berguna untuk dibuka lagi.',
+      'closedTestingChecklistPrayer':
+          'Cek waktu shalat berikutnya, lokasi shalat, metode, dan daftar waktu shalat harian.',
+      'closedTestingChecklistReminder':
+          'Tinjau pengaturan pengingat dan aktifkan hanya jika Anda nyaman.',
+      'closedTestingChecklistSession':
+          'Mulai Sesi Sakinah hari ini dan selesaikan atau lanjutkan nanti.',
+      'closedTestingChecklistPrivacy':
+          'Tinjau Pusat Privasi, Sumber Konten, dan Hapus data lokal.',
+      'closedTestingChecklistFeedback':
+          'Kirim masukan tentang teks yang membingungkan, masalah waktu, layout, atau hal yang membuat app diabaikan.',
+      'closedTestingPromptTitle': 'Prompt masukan',
+      'closedTestingPromptBody':
+          'Gunakan titik cek ini untuk mengirim masukan yang membantu closed test 14 hari memperbaiki kebiasaan kembali harian.',
+      'closedTestingPromptDay1Label': 'Hari 1',
+      'closedTestingPromptDay1':
+          'Apakah onboarding menjelaskan pilihan lokasi dan notifikasi dengan jelas?',
+      'closedTestingPromptDay3Label': 'Hari 3',
+      'closedTestingPromptDay3':
+          'Apakah waktu shalat, lokasi, dan kontrol pengingat mudah dipercaya?',
+      'closedTestingPromptDay7Label': 'Hari 7',
+      'closedTestingPromptDay7':
+          'Apa yang membuat Anda ingin membuka app lagi atau mengabaikannya minggu ini?',
+      'closedTestingPromptDay14Label': 'Hari 14',
+      'closedTestingPromptDay14':
+          'Satu perubahan apa yang paling membantu penggunaan harian sebelum rilis lebih luas?',
+      'copyTestingFeedbackPrompt': 'Salin prompt',
+      'closedTestingPromptCopied': 'Prompt masukan disalin.',
+      'closedTestingPromptCopyHeader': 'Masukan closed test Sakinah Daily',
+      'closedTestingPromptCopyPromptLabel': 'Prompt',
+      'closedTestingPromptCopyChannelLabel': 'Kanal masukan',
+      'closedTestingPromptCopyPrivacyLine':
+          'Hindari detail pribadi atau kesehatan yang sensitif.',
+      'closedTestingPromptFeedbackSent': 'Masukan terkirim',
+      'closedTestingPromptLocalOnlyStatus': 'Disimpan hanya di perangkat ini.',
+      'closedTestingFeedbackTitle': 'Kanal masukan',
+      'closedTestingFeedbackBody':
+          'Salin kanal ini saat mengirim masukan closed-test.',
+      'closedTestingFeedbackMissing': 'Masukan pengujian belum dikonfigurasi.',
+      'copyTestingFeedback': 'Salin kanal masukan',
+      'testingFeedbackTitle': 'Masukan pengujian',
+      'testingFeedbackCopied': 'Kontak masukan pengujian disalin.',
       'dailySessionReminderTitle': 'Pengingat sesi harian',
       'dailySessionReminderPrivacyNote':
           'Pengingat sesi dijadwalkan lokal dan teks layar terkunci tetap aman untuk privasi.',
@@ -516,6 +682,8 @@ class SakinahLocalizations {
       'womenModeSessionNoteTitle': 'Mode lokal saja',
       'womenModeSessionNoteBody':
           'Mode Anda tetap di perangkat ini. Sesi ini menjaga jalur ibadah yang lembut.',
+      'continueFromSaved': 'Lanjutkan dari tersimpan',
+      'savedRailLocalNote': 'Disimpan lokal di perangkat ini.',
       'savedItems': 'Item Tersimpan',
       'savedItemsEmptyTitle': 'Belum ada yang tersimpan',
       'savedItemsEmptyBody':
@@ -568,6 +736,27 @@ class SakinahLocalizations {
       'privacyPolicyDraftTitle': 'Draf kebijakan privasi',
       'privacyPolicyDraftBody':
           'Draf kebijakan privasi tersedia untuk peninjauan legal dan toko.',
+      'privacyPolicyPublishedTitle': 'Kebijakan privasi terbit',
+      'privacyPolicyLinkCopied': 'Tautan kebijakan privasi disalin.',
+      'contentSourcesTitle': 'Sumber Konten',
+      'contentSourcesSubtitle': 'Label sumber, status review, dan batas AI.',
+      'contentSourcesIntro':
+          'Sakinah menampilkan konten ibadah dengan batasan sumber dan review agar pengguna memahami yang dibaca atau didengar.',
+      'contentSourcesSeedTitle': 'Seed yang ditinjau dan bundle yang disetujui',
+      'contentSourcesSeedBody':
+          'Konten Quran, Doa, Dzikir, dan sesi yang tampil di aplikasi harus berasal dari seed yang ditinjau atau bundle CMS yang disetujui.',
+      'contentSourcesApprovalTitle': 'Hanya published + approved',
+      'contentSourcesApprovalBody':
+          'Konten CMS jarak jauh disembunyikan kecuali sudah published dan approved. Konten draf, sedang ditinjau, ditolak, atau dicabut disaring.',
+      'contentSourcesGeneratedTitle': 'Tidak dibuat otomatis',
+      'contentSourcesGeneratedBody':
+          'Klien tidak membuat teks Quran, terjemahan, Doa, Dzikir, refleksi, atau jawaban agama secara otomatis.',
+      'contentSourcesAudioTitle': 'Keamanan audio Quran',
+      'contentSourcesAudioBody':
+          'Tilawah Quran hanya memakai aset suara yang disetujui. Tidak ada TTS Quran generik dan tidak ada musik latar di bawah tilawah Quran.',
+      'contentSourcesFatwaTitle': 'Tanpa fatwa AI atau tanya jawab agama AI',
+      'contentSourcesFatwaBody':
+          'Saat ada perbedaan mazhab atau wilayah, Sakinah memakai kata-kata netral dan label sumber, bukan klaim bergaya fatwa.',
       'storageLocalDevice': 'Perangkat lokal',
       'storageRemoteOptional': 'Permintaan jarak jauh',
       'storageNotCollected': 'Tidak dikumpulkan',
@@ -594,7 +783,10 @@ class SakinahLocalizations {
           'Disimpan lokal secara default sebagai pilihan lokasi manual atau preset.',
       'privacyDataNotificationEnabledState': 'Status notifikasi aktif',
       'privacyDataNotificationEnabledStateNotes':
-          'Disimpan lokal untuk mengingat apakah pengingat shalat dan sesi harian aktif, termasuk waktu pengingat sesi harian yang dipilih.',
+          'Disimpan lokal untuk mengingat status pengingat shalat, pilihan per shalat, jeda waktu pengingat shalat, status pengingat sesi harian, dan waktu pengingat sesi harian yang dipilih.',
+      'privacyDataClosedTestingFeedbackStatus': 'Status masukan closed testing',
+      'privacyDataClosedTestingFeedbackStatusNotes':
+          'Hanya menyimpan apakah masukan Hari 1, Hari 3, Hari 7, atau Hari 14 ditandai terkirim. Teks masukan dan detail pribadi tidak disimpan.',
       'privacyDataWomenModeState': 'Status Mode Ibadah Perempuan',
       'privacyDataWomenModeStateNotes':
           'Sensitivitas tinggi. Dirancang lokal terlebih dahulu, dapat menyesuaikan rekomendasi UI lokal, dan tidak dikirim ke API konten jarak jauh.',
@@ -692,6 +884,9 @@ class SakinahLocalizations {
       'quranSafetyTitle': 'Keamanan Qur’an',
       'quranSafetyDescription':
           'Tidak ada suara latar di bawah tilawah Qur’an.',
+      'reflectionSafetyTitle': 'Catatan renungan',
+      'reflectionSafetyDescription':
+          'Renungan adalah pengingat lembut, bukan fatwa atau putusan agama.',
       'completionFallback':
           'Berhenti sejenak, bernapas, dan jaga amal ini hanya untuk Allah.',
       'backgroundSoundAllowed': 'Suara latar diizinkan',
@@ -707,6 +902,8 @@ class SakinahLocalizations {
     },
     'ar': {
       'appTitle': 'سكينة يومية',
+      'splashTagline': 'طمأنينة للقلب،\nوذكر لليوم',
+      'splashFeatureLine': 'القرآن   ·   الدعاء   ·   الذكر   ·   الصلاة',
       'onboardingTitle': 'ابدأ بعبادة هادئة',
       'onboardingSubtitle': 'اختر اللغة والتفضيلات لرفيق يومي مطمئن.',
       'language': 'اللغة',
@@ -719,6 +916,9 @@ class SakinahLocalizations {
       'audioQuietGuidance': 'إرشاد هادئ',
       'audioTextFirst': 'النص أولا',
       'prayerReminderConsent': 'تطلب تذكيرات الصلاة الإذن بعد هذا الشرح فقط.',
+      'onboardingPrayerLocationBody':
+          'تستخدم أوقات الصلاة والقبلة موقع الصلاة المحلي هذا.',
+      'onboardingPrayerNoGps': 'لا يتم طلب إذن GPS في v0.1.',
       'continueLabel': 'متابعة',
       'homeGreeting': 'السلام عليكم',
       'homeFriend': 'رفيق',
@@ -821,9 +1021,72 @@ class SakinahLocalizations {
       'locationLocalOnlyNoGps': 'يحفظ محليا. لا يلزم إذن GPS.',
       'prayerMethod': 'طريقة الصلاة',
       'prayerReminders': 'تذكيرات الصلاة',
+      'todaysPrayerTimes': 'أوقات الصلاة اليوم',
+      'currentPrayerStatus': 'الحالية',
+      'nextPrayerStatus': 'التالية',
       'prayerReminderSubtitle': 'يطلب الإذن بعد الشرح.',
+      'prayerReminderChoicesTitle': 'اختيارات تذكيرات الصلاة',
+      'prayerReminderChoicesBody':
+          'اختر أوقات الصلاة التي يمكن أن ترسل تذكيرات محلية.',
+      'prayerReminderChoiceSubtitle': 'محدد لجدول التذكير',
+      'prayerReminderLeadTimeTitle': 'توقيت التذكير',
+      'prayerReminderLeadTimeBody':
+          'أرسل كل تذكير صلاة محدد عند وقت الصلاة أو قبله بدقائق.',
       'notificationSettingsTitle': 'إعدادات الإشعارات',
       'notificationSettingsSubtitle': 'إدارة تذكيرات الصلاة والجلسة اليومية.',
+      'closedTestingGuideTitle': 'دليل الاختبار المغلق',
+      'closedTestingGuideSubtitle':
+          'فحوصات يومية للصلاة والتذكيرات والجلسة والخصوصية.',
+      'closedTestingHomeBody':
+          'استخدم أسئلة اليوم 1 / اليوم 3 / اليوم 7 / اليوم 14 لإرسال ملاحظات دون تفاصيل شخصية.',
+      'closedTestingHomeButton': 'فتح الدليل',
+      'closedTestingGuideIntroTitle': 'ساعد في اختبار مسار الصلاة اليومي',
+      'closedTestingGuideIntroBody':
+          'استخدم هذه القائمة أثناء الاختبار المغلق حتى تغطي الملاحظات الأجزاء المهمة لجودة الإطلاق والعودة اليومية.',
+      'closedTestingGuideChecklistTitle': 'قائمة فحص المختبر اليومية',
+      'closedTestingChecklistDailyOpen':
+          'افتح التطبيق مرة كل يوم ولاحظ هل تبدو الصفحة الرئيسية مفيدة بما يكفي للعودة.',
+      'closedTestingChecklistPrayer':
+          'راجع وقت الصلاة التالية وموقع الصلاة والطريقة وقائمة أوقات اليوم.',
+      'closedTestingChecklistReminder':
+          'راجع إعدادات التذكير وفعل التذكيرات فقط إذا كان ذلك مناسبا لك.',
+      'closedTestingChecklistSession':
+          'ابدأ جلسة سكينة اليوم وأكملها أو تابعها لاحقا.',
+      'closedTestingChecklistPrivacy':
+          'راجع مركز الخصوصية ومصادر المحتوى وحذف البيانات المحلية.',
+      'closedTestingChecklistFeedback':
+          'أرسل ملاحظات عن النص غير الواضح أو مشاكل التوقيت أو التخطيط أو أي شيء جعلك تتجاهل التطبيق.',
+      'closedTestingPromptTitle': 'أسئلة الملاحظات',
+      'closedTestingPromptBody':
+          'استخدم هذه المحطات لإرسال ملاحظات تساعد اختبار 14 يوما على تحسين العودة اليومية.',
+      'closedTestingPromptDay1Label': 'اليوم 1',
+      'closedTestingPromptDay1':
+          'هل شرح التهيئة خيارات الموقع والإشعارات بوضوح؟',
+      'closedTestingPromptDay3Label': 'اليوم 3',
+      'closedTestingPromptDay3':
+          'هل كانت أوقات الصلاة والموقع وعناصر التحكم بالتذكير موثوقة وواضحة؟',
+      'closedTestingPromptDay7Label': 'اليوم 7',
+      'closedTestingPromptDay7':
+          'ما الذي جعلك ترغب في فتح التطبيق مرة أخرى أو تجاهله هذا الأسبوع؟',
+      'closedTestingPromptDay14Label': 'اليوم 14',
+      'closedTestingPromptDay14':
+          'ما التغيير الواحد الذي يحسن الاستخدام اليومي قبل إصدار أوسع؟',
+      'copyTestingFeedbackPrompt': 'نسخ السؤال',
+      'closedTestingPromptCopied': 'تم نسخ سؤال الملاحظات.',
+      'closedTestingPromptCopyHeader': 'ملاحظات اختبار Sakinah Daily المغلق',
+      'closedTestingPromptCopyPromptLabel': 'السؤال',
+      'closedTestingPromptCopyChannelLabel': 'قناة الملاحظات',
+      'closedTestingPromptCopyPrivacyLine':
+          'يرجى تجنب التفاصيل الشخصية أو الصحية الحساسة.',
+      'closedTestingPromptFeedbackSent': 'تم إرسال الملاحظات',
+      'closedTestingPromptLocalOnlyStatus': 'محفوظ على هذا الجهاز فقط.',
+      'closedTestingFeedbackTitle': 'قناة الملاحظات',
+      'closedTestingFeedbackBody':
+          'انسخ هذه القناة عند إرسال ملاحظات الاختبار المغلق.',
+      'closedTestingFeedbackMissing': 'لم يتم إعداد ملاحظات الاختبار بعد.',
+      'copyTestingFeedback': 'نسخ قناة الملاحظات',
+      'testingFeedbackTitle': 'ملاحظات الاختبار',
+      'testingFeedbackCopied': 'تم نسخ قناة ملاحظات الاختبار.',
       'dailySessionReminderTitle': 'تذكير الجلسة اليومية',
       'dailySessionReminderPrivacyNote':
           'تجدول تذكيرات الجلسة محليا ويبقى نص شاشة القفل آمنا للخصوصية.',
@@ -852,6 +1115,8 @@ class SakinahLocalizations {
       'womenModeSessionNoteTitle': 'وضع محلي فقط',
       'womenModeSessionNoteBody':
           'يبقى وضعك على هذا الجهاز. تحافظ هذه الجلسة على مسار عبادة لطيف.',
+      'continueFromSaved': 'تابع من المحفوظ',
+      'savedRailLocalNote': 'محفوظ محليا على هذا الجهاز.',
       'savedItems': 'العناصر المحفوظة',
       'savedItemsEmptyTitle': 'لا توجد عناصر محفوظة بعد',
       'savedItemsEmptyBody':
@@ -904,6 +1169,28 @@ class SakinahLocalizations {
       'privacyPolicyDraftTitle': 'مسودة سياسة الخصوصية',
       'privacyPolicyDraftBody':
           'توجد مسودة سياسة خصوصية للمراجعة القانونية ومراجعة المتجر.',
+      'privacyPolicyPublishedTitle': 'سياسة الخصوصية المنشورة',
+      'privacyPolicyLinkCopied': 'تم نسخ رابط سياسة الخصوصية.',
+      'contentSourcesTitle': 'مصادر المحتوى',
+      'contentSourcesSubtitle':
+          'تسميات المصادر وحالة المراجعة وحدود الذكاء الاصطناعي.',
+      'contentSourcesIntro':
+          'تعرض سكينة محتوى العبادة مع ضوابط المصدر والمراجعة حتى يفهم المستخدم ما يقرأه أو يسمعه.',
+      'contentSourcesSeedTitle': 'محتوى مبدئي مراجع وحزم معتمدة',
+      'contentSourcesSeedBody':
+          'يجب أن يأتي محتوى القرآن والدعاء والذكر والجلسات المعروض في التطبيق من محتوى مبدئي مراجع أو حزم CMS معتمدة.',
+      'contentSourcesApprovalTitle': 'منشور ومعتمد فقط',
+      'contentSourcesApprovalBody':
+          'يخفى محتوى CMS عن بعد ما لم يكن منشورا ومعتمدا معا. تتم تصفية المسودات والمحتوى قيد المراجعة أو المرفوض أو الملغى.',
+      'contentSourcesGeneratedTitle': 'غير مولد',
+      'contentSourcesGeneratedBody':
+          'لا يولد العميل نص القرآن أو الترجمات أو الدعاء أو الذكر أو التأمل أو الإجابات الدينية.',
+      'contentSourcesAudioTitle': 'سلامة صوت القرآن',
+      'contentSourcesAudioBody':
+          'تستخدم تلاوة القرآن أصولا صوتية معتمدة فقط. لا يوجد TTS عام للقرآن ولا موسيقى خلفية تحت تلاوة القرآن.',
+      'contentSourcesFatwaTitle': 'لا فتاوى AI ولا أسئلة دينية AI',
+      'contentSourcesFatwaBody':
+          'عند وجود اختلافات مذهبية أو إقليمية، تستخدم سكينة صياغة محايدة وتسميات مصادر بدلا من ادعاءات تشبه الفتوى.',
       'storageLocalDevice': 'الجهاز المحلي',
       'storageRemoteOptional': 'طلب عن بعد',
       'storageNotCollected': 'لا تجمع',
@@ -930,7 +1217,10 @@ class SakinahLocalizations {
           'يخزن محليا افتراضيا كاختيار يدوي أو جاهز للموقع.',
       'privacyDataNotificationEnabledState': 'حالة تفعيل الإشعارات',
       'privacyDataNotificationEnabledStateNotes':
-          'تخزن محليا لتذكر ما إذا كانت تذكيرات الصلاة والجلسة اليومية مفعلة، مع وقت تذكير الجلسة اليومي المختار.',
+          'تخزن محليا لتذكر حالة تذكيرات الصلاة، واختيارات كل صلاة، ومدة التذكير قبل الصلاة، وحالة تذكير الجلسة اليومية، ووقت تذكير الجلسة اليومي المختار.',
+      'privacyDataClosedTestingFeedbackStatus': 'حالة ملاحظات الاختبار المغلق',
+      'privacyDataClosedTestingFeedbackStatusNotes':
+          'يخزن فقط ما إذا تم تحديد ملاحظات اليوم 1 أو اليوم 3 أو اليوم 7 أو اليوم 14 كمرسلة. لا يتم حفظ نص الملاحظات أو التفاصيل الشخصية.',
       'privacyDataWomenModeState': 'حالة وضع عبادة النساء',
       'privacyDataWomenModeStateNotes':
           'حساسية عالية. صممت محلية أولا، وقد تضبط توصيات الواجهة المحلية، ولا ترسل إلى واجهات المحتوى عن بعد.',
@@ -1026,6 +1316,9 @@ class SakinahLocalizations {
       'approvedReciterLabel': 'قارئ معتمد',
       'quranSafetyTitle': 'سلامة القرآن',
       'quranSafetyDescription': 'لا يتم تشغيل صوت خلفي تحت تلاوة القرآن.',
+      'reflectionSafetyTitle': 'ملاحظة التأمل',
+      'reflectionSafetyDescription':
+          'التأمل تذكير لطيف وليس فتوى أو حكما دينيا.',
       'completionFallback': 'توقف وتنفس واجعل هذا العمل لله وحده.',
       'backgroundSoundAllowed': 'الصوت الخلفي مسموح',
       'noBackgroundMusic': 'لا موسيقى خلفية تحت تلاوة القرآن',
@@ -1057,6 +1350,21 @@ class SakinahLocalizations {
 
   String prayerCountdown(String name, int hours, int minutes) {
     return '${prayerName(name)} ${t('timeIn')} $hours${t('hourShort')} $minutes${t('minuteShort')}';
+  }
+
+  String prayerReminderLeadTimeLabel(int minutes) {
+    if (minutes <= 0) {
+      return switch (locale.languageCode) {
+        'id' => 'Saat waktu shalat',
+        'ar' => 'عند وقت الصلاة',
+        _ => 'At prayer time',
+      };
+    }
+    return switch (locale.languageCode) {
+      'id' => '$minutes menit sebelumnya',
+      'ar' => 'قبل $minutes دقائق',
+      _ => '$minutes minutes before',
+    };
   }
 
   String quranVerseLabel(String verseKey) {

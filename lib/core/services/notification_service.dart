@@ -43,6 +43,20 @@ class ScheduledDailySessionReminder {
   final String payload;
 }
 
+class ScheduledNotificationSmokeTest {
+  const ScheduledNotificationSmokeTest({
+    required this.time,
+    required this.title,
+    required this.body,
+    required this.payload,
+  });
+
+  final DateTime time;
+  final String title;
+  final String body;
+  final String payload;
+}
+
 class PrayerNotificationCopy {
   const PrayerNotificationCopy({
     required this.title,
@@ -55,6 +69,7 @@ class PrayerNotificationCopy {
   factory PrayerNotificationCopy.forPrayer({
     required String languageCode,
     required String prayerName,
+    int reminderOffsetMinutes = defaultPrayerReminderOffsetMinutes,
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   }) {
     if (womenIbadahMode.enabled) {
@@ -64,6 +79,17 @@ class PrayerNotificationCopy {
       );
     }
     final localizedPrayer = _prayerName(languageCode, prayerName);
+    final offset = sanitizePrayerReminderOffsetMinutes(reminderOffsetMinutes);
+    if (offset > 0) {
+      return PrayerNotificationCopy(
+        title: _title(languageCode),
+        body: switch (languageCode) {
+          'id' => 'Shalat $localizedPrayer dalam $offset menit.',
+          'ar' => 'صلاة $localizedPrayer بعد $offset دقائق.',
+          _ => '$localizedPrayer prayer is in $offset minutes.',
+        },
+      );
+    }
     return PrayerNotificationCopy(
       title: _title(languageCode),
       body: switch (languageCode) {
@@ -140,6 +166,8 @@ abstract class NotificationService {
     PrayerSettings settings,
     List<PrayerTime> prayerTimes, {
     String languageCode = 'en',
+    List<String> enabledPrayerNames = defaultPrayerReminderNames,
+    int reminderOffsetMinutes = defaultPrayerReminderOffsetMinutes,
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   });
   Future<ScheduledDailySessionReminder?> scheduleDailySessionReminder(
@@ -148,6 +176,16 @@ abstract class NotificationService {
     int minutesAfterMidnight = defaultDailySessionReminderMinutesAfterMidnight,
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   });
+  Future<ScheduledNotificationSmokeTest?> scheduleNotificationSmokeTest({
+    Duration delay = const Duration(seconds: 15),
+  });
+  Future<ScheduledPrayerReminder?> schedulePrayerReminderSmokeTest({
+    String languageCode = 'en',
+    String prayerName = 'Fajr',
+    Duration delay = const Duration(seconds: 15),
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  });
+  Future<void> cancelPrayerReminders();
   Future<void> cancelDailySessionReminder();
   Future<void> cancelAll();
 }
@@ -157,11 +195,21 @@ class LocalNotificationServiceStub implements NotificationService {
   String? launchPayload;
   final List<ScheduledPrayerReminder> scheduled = [];
   ScheduledDailySessionReminder? dailySessionReminder;
+  ScheduledNotificationSmokeTest? smokeTestReminder;
+  ScheduledPrayerReminder? prayerReminderSmokeTest;
 
   @override
   Future<void> cancelAll() async {
     scheduled.clear();
     dailySessionReminder = null;
+    smokeTestReminder = null;
+    prayerReminderSmokeTest = null;
+  }
+
+  @override
+  Future<void> cancelPrayerReminders() async {
+    scheduled.clear();
+    prayerReminderSmokeTest = null;
   }
 
   @override
@@ -186,24 +234,29 @@ class LocalNotificationServiceStub implements NotificationService {
     PrayerSettings settings,
     List<PrayerTime> prayerTimes, {
     String languageCode = 'en',
+    List<String> enabledPrayerNames = defaultPrayerReminderNames,
+    int reminderOffsetMinutes = defaultPrayerReminderOffsetMinutes,
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   }) async {
     if (!permissionGranted) {
       return [];
     }
+    final enabled = sanitizePrayerReminderNames(enabledPrayerNames).toSet();
+    final offset = sanitizePrayerReminderOffsetMinutes(reminderOffsetMinutes);
     scheduled
       ..clear()
       ..addAll(
-        prayerTimes.map(
+        prayerTimes.where((prayer) => enabled.contains(prayer.name)).map(
           (prayer) {
             final copy = PrayerNotificationCopy.forPrayer(
               languageCode: languageCode,
               prayerName: prayer.name,
+              reminderOffsetMinutes: offset,
               womenIbadahMode: womenIbadahMode,
             );
             return ScheduledPrayerReminder(
               prayerName: prayer.name,
-              time: prayer.time,
+              time: prayer.time.subtract(Duration(minutes: offset)),
               settings: settings,
               title: copy.title,
               body: copy.body,
@@ -240,6 +293,48 @@ class LocalNotificationServiceStub implements NotificationService {
     );
     return dailySessionReminder;
   }
+
+  @override
+  Future<ScheduledNotificationSmokeTest?> scheduleNotificationSmokeTest({
+    Duration delay = const Duration(seconds: 15),
+  }) async {
+    if (!permissionGranted) {
+      return null;
+    }
+    smokeTestReminder = ScheduledNotificationSmokeTest(
+      time: DateTime.now().add(delay),
+      title: 'Sakinah Daily',
+      body: 'Test notification scheduled for QA.',
+      payload: prayerNotificationPayload(),
+    );
+    return smokeTestReminder;
+  }
+
+  @override
+  Future<ScheduledPrayerReminder?> schedulePrayerReminderSmokeTest({
+    String languageCode = 'en',
+    String prayerName = 'Fajr',
+    Duration delay = const Duration(seconds: 15),
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) async {
+    if (!permissionGranted) {
+      return null;
+    }
+    final copy = PrayerNotificationCopy.forPrayer(
+      languageCode: languageCode,
+      prayerName: prayerName,
+      womenIbadahMode: womenIbadahMode,
+    );
+    prayerReminderSmokeTest = ScheduledPrayerReminder(
+      prayerName: prayerName,
+      time: DateTime.now().add(delay),
+      settings: _qaPrayerSettings,
+      title: copy.title,
+      body: copy.body,
+      payload: prayerNotificationPayload(),
+    );
+    return prayerReminderSmokeTest;
+  }
 }
 
 class FlutterLocalNotificationService implements NotificationService {
@@ -259,6 +354,12 @@ class FlutterLocalNotificationService implements NotificationService {
     await _ensureInitialized();
     await _plugin.cancelAllPendingNotifications();
     await _plugin.cancelAll();
+  }
+
+  @override
+  Future<void> cancelPrayerReminders() async {
+    await _ensureInitialized();
+    await _cancelPrayerReminders();
   }
 
   @override
@@ -314,6 +415,8 @@ class FlutterLocalNotificationService implements NotificationService {
     PrayerSettings settings,
     List<PrayerTime> prayerTimes, {
     String languageCode = 'en',
+    List<String> enabledPrayerNames = defaultPrayerReminderNames,
+    int reminderOffsetMinutes = defaultPrayerReminderOffsetMinutes,
     WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
   }) async {
     if (!_permissionGranted) {
@@ -323,18 +426,23 @@ class FlutterLocalNotificationService implements NotificationService {
       await _ensureInitialized();
       await _cancelPrayerReminders();
       final now = DateTime.now();
+      final enabled = sanitizePrayerReminderNames(enabledPrayerNames).toSet();
+      final offset = sanitizePrayerReminderOffsetMinutes(reminderOffsetMinutes);
       final scheduled = <ScheduledPrayerReminder>[];
-      for (final prayer in prayerTimes.where(
-        (prayer) => prayer.time.isAfter(now),
-      )) {
+      for (final prayer in prayerTimes.where((prayer) {
+        final reminderTime = prayer.time.subtract(Duration(minutes: offset));
+        return reminderTime.isAfter(now) && enabled.contains(prayer.name);
+      })) {
         final copy = PrayerNotificationCopy.forPrayer(
           languageCode: languageCode,
           prayerName: prayer.name,
+          reminderOffsetMinutes: offset,
           womenIbadahMode: womenIbadahMode,
         );
+        final reminderTime = prayer.time.subtract(Duration(minutes: offset));
         final reminder = ScheduledPrayerReminder(
           prayerName: prayer.name,
-          time: prayer.time,
+          time: reminderTime,
           settings: settings,
           title: copy.title,
           body: copy.body,
@@ -344,7 +452,7 @@ class FlutterLocalNotificationService implements NotificationService {
           _notificationId(prayer.name),
           copy.title,
           copy.body,
-          timezone.TZDateTime.from(prayer.time, timezone.local),
+          timezone.TZDateTime.from(reminderTime, timezone.local),
           const NotificationDetails(
             android: AndroidNotificationDetails(
               'sakinah_prayer_reminders',
@@ -415,6 +523,94 @@ class FlutterLocalNotificationService implements NotificationService {
     }
   }
 
+  @override
+  Future<ScheduledNotificationSmokeTest?> scheduleNotificationSmokeTest({
+    Duration delay = const Duration(seconds: 15),
+  }) async {
+    if (!_permissionGranted) {
+      return null;
+    }
+    try {
+      await _ensureInitialized();
+      final reminder = ScheduledNotificationSmokeTest(
+        time: DateTime.now().add(delay),
+        title: 'Sakinah Daily',
+        body: 'Test notification scheduled for QA.',
+        payload: prayerNotificationPayload(),
+      );
+      await _plugin.cancel(_notificationSmokeTestId);
+      await _plugin.zonedSchedule(
+        _notificationSmokeTestId,
+        reminder.title,
+        reminder.body,
+        timezone.TZDateTime.from(reminder.time, timezone.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'sakinah_notification_qa',
+            'Notification QA',
+            channelDescription: 'Local notification smoke tests',
+          ),
+          iOS: DarwinNotificationDetails(),
+          macOS: DarwinNotificationDetails(),
+        ),
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        payload: reminder.payload,
+      );
+      return reminder;
+    } on Object {
+      return null;
+    }
+  }
+
+  @override
+  Future<ScheduledPrayerReminder?> schedulePrayerReminderSmokeTest({
+    String languageCode = 'en',
+    String prayerName = 'Fajr',
+    Duration delay = const Duration(seconds: 15),
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) async {
+    if (!_permissionGranted) {
+      return null;
+    }
+    try {
+      await _ensureInitialized();
+      final copy = PrayerNotificationCopy.forPrayer(
+        languageCode: languageCode,
+        prayerName: prayerName,
+        womenIbadahMode: womenIbadahMode,
+      );
+      final reminder = ScheduledPrayerReminder(
+        prayerName: prayerName,
+        time: DateTime.now().add(delay),
+        settings: _qaPrayerSettings,
+        title: copy.title,
+        body: copy.body,
+        payload: prayerNotificationPayload(),
+      );
+      await _plugin.cancel(_prayerReminderSmokeTestId);
+      await _plugin.zonedSchedule(
+        _prayerReminderSmokeTestId,
+        reminder.title,
+        reminder.body,
+        timezone.TZDateTime.from(reminder.time, timezone.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'sakinah_prayer_reminders',
+            'Prayer reminders',
+            channelDescription: 'Local prayer time reminders',
+          ),
+          iOS: DarwinNotificationDetails(),
+          macOS: DarwinNotificationDetails(),
+        ),
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        payload: reminder.payload,
+      );
+      return reminder;
+    } on Object {
+      return null;
+    }
+  }
+
   Future<void> _ensureInitialized() async {
     if (_initialized) {
       return;
@@ -465,6 +661,7 @@ class FlutterLocalNotificationService implements NotificationService {
     ]) {
       await _plugin.cancel(_notificationId(prayerName));
     }
+    await _plugin.cancel(_prayerReminderSmokeTestId);
   }
 }
 
@@ -508,3 +705,12 @@ DateTime nextDailySessionReminderTime({
 }
 
 const _dailySessionNotificationId = 201;
+const _prayerReminderSmokeTestId = 298;
+const _notificationSmokeTestId = 299;
+const _qaPrayerSettings = PrayerSettings(
+  latitude: 21.3891,
+  longitude: 39.8579,
+  method: 'umm_al_qura',
+  locationLabel: 'Makkah',
+  timezoneId: 'Asia/Riyadh',
+);

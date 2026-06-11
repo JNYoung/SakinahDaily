@@ -1,8 +1,46 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // The Flutter Gradle Plugin must be applied after the Android Gradle plugin.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+val releaseSigningProperties = Properties().apply {
+    val signingFile = rootProject.file("key.properties")
+    if (signingFile.exists()) {
+        signingFile.inputStream().use(::load)
+    }
+}
+
+fun releaseSigningValue(propertyName: String, environmentName: String): String? =
+    providers.environmentVariable(environmentName).orNull
+        ?: releaseSigningProperties.getProperty(propertyName)
+
+val releaseStoreFile = releaseSigningValue("storeFile", "SAKINAH_UPLOAD_STORE_FILE")
+val releaseStorePassword = releaseSigningValue(
+    "storePassword",
+    "SAKINAH_UPLOAD_STORE_PASSWORD",
+)
+val releaseKeyAlias = releaseSigningValue("keyAlias", "SAKINAH_UPLOAD_KEY_ALIAS")
+val releaseKeyPassword = releaseSigningValue(
+    "keyPassword",
+    "SAKINAH_UPLOAD_KEY_PASSWORD",
+)
+val hasReleaseSigning = listOf(
+    releaseStoreFile,
+    releaseStorePassword,
+    releaseKeyAlias,
+    releaseKeyPassword,
+).all { !it.isNullOrBlank() }
+val requireReleaseSigning =
+    providers.environmentVariable("SAKINAH_REQUIRE_RELEASE_SIGNING").orNull == "true"
+
+if (requireReleaseSigning && !hasReleaseSigning) {
+    throw org.gradle.api.GradleException(
+        "Release signing is required. Provide android/key.properties or " +
+            "SAKINAH_UPLOAD_* environment variables.",
+    )
 }
 
 android {
@@ -26,11 +64,26 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(releaseStoreFile!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // Local release builds keep debug signing until production
-            // signing is configured outside the repository.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (hasReleaseSigning) {
+                signingConfigs.getByName("release")
+            } else {
+                // Local release builds keep debug signing unless
+                // SAKINAH_REQUIRE_RELEASE_SIGNING=true is set.
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

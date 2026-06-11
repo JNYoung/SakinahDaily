@@ -6,10 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../core/services/notification_service.dart';
+import '../../core/services/prayer_calculation_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/settings_tile.dart';
+import 'prayer_reminder_toggle_flow.dart';
 
 class NotificationSettingsPage extends ConsumerWidget {
   const NotificationSettingsPage({super.key});
@@ -22,6 +25,10 @@ class NotificationSettingsPage extends ConsumerWidget {
     final session = sessions.isEmpty ? null : sessions.first;
     final controller = ref.read(userPreferencesProvider.notifier);
     final notificationService = ref.watch(notificationServiceProvider);
+    final prayerService = ref.watch(prayerCalculationServiceProvider);
+    final notificationFeedback =
+        ref.watch(notificationPermissionFeedbackProvider);
+    final environment = ref.watch(appEnvironmentConfigProvider);
 
     return LanguageAwareScaffold(
       title: l10n.t('notificationSettingsTitle'),
@@ -29,6 +36,106 @@ class NotificationSettingsPage extends ConsumerWidget {
       body: ListView(
         key: SakinahKeys.notificationSettingsPage,
         children: [
+          SettingsTile(
+            title: l10n.t('prayerReminders'),
+            subtitle: _prayerReminderSubtitle(
+              l10n,
+              preferences,
+              notificationFeedback,
+            ),
+            trailing: Switch(
+              key: SakinahKeys.settingsNotificationSwitch,
+              value: preferences.notificationsEnabled,
+              onChanged: (enabled) {
+                unawaited(
+                  handlePrayerReminderToggle(
+                    enabled: enabled,
+                    context: context,
+                    ref: ref,
+                    l10n: l10n,
+                    controller: controller,
+                    notificationService: notificationService,
+                    prayerService: prayerService,
+                    preferences: preferences,
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.t('prayerReminderChoicesTitle'),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 4),
+          Text(l10n.t('prayerReminderChoicesBody')),
+          const SizedBox(height: 8),
+          Text(
+            l10n.t('prayerReminderLeadTimeTitle'),
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          const SizedBox(height: 4),
+          Text(l10n.t('prayerReminderLeadTimeBody')),
+          const SizedBox(height: 8),
+          DropdownButtonFormField<int>(
+            key: SakinahKeys.settingsPrayerReminderLeadTimeDropdown,
+            initialValue: sanitizePrayerReminderOffsetMinutes(
+              preferences.prayerReminderOffsetMinutes,
+            ),
+            isExpanded: true,
+            decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 8,
+              ),
+            ),
+            items: [
+              for (final minutes in prayerReminderOffsetMinuteOptions)
+                DropdownMenuItem(
+                  value: minutes,
+                  child: Text(l10n.prayerReminderLeadTimeLabel(minutes)),
+                ),
+            ],
+            onChanged: (minutes) {
+              if (minutes == null) {
+                return;
+              }
+              unawaited(
+                _handlePrayerReminderLeadTimeChanged(
+                  minutes: minutes,
+                  ref: ref,
+                  controller: controller,
+                  notificationService: notificationService,
+                  prayerService: prayerService,
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 8),
+          for (final prayerName in defaultPrayerReminderNames)
+            SettingsTile(
+              title: l10n.prayerName(prayerName),
+              subtitle: l10n.t('prayerReminderChoiceSubtitle'),
+              trailing: Checkbox(
+                key: SakinahKeys.settingsPrayerReminderPrayerSwitch(
+                  prayerName,
+                ),
+                value: preferences.isPrayerReminderEnabled(prayerName),
+                onChanged: (enabled) {
+                  unawaited(
+                    _handlePrayerReminderChoiceToggle(
+                      prayerName: prayerName,
+                      enabled: enabled ?? false,
+                      ref: ref,
+                      controller: controller,
+                      notificationService: notificationService,
+                      prayerService: prayerService,
+                    ),
+                  );
+                },
+              ),
+            ),
+          const Divider(),
           SettingsTile(
             title: l10n.t('dailySessionReminderTitle'),
             subtitle: _dailySessionReminderSubtitle(l10n, preferences),
@@ -79,10 +186,58 @@ class NotificationSettingsPage extends ConsumerWidget {
           ),
           const SizedBox(height: 12),
           Text(l10n.t('dailySessionReminderPrivacyNote')),
+          if (environment.notificationQaEnabled) ...[
+            const Divider(height: 32),
+            OutlinedButton.icon(
+              key: SakinahKeys.notificationSmokeTestButton,
+              onPressed: () {
+                unawaited(
+                  _scheduleNotificationSmokeTest(
+                    context: context,
+                    notificationService: notificationService,
+                  ),
+                );
+              },
+              icon: const Icon(Icons.bug_report_outlined),
+              label: const Text('Send test notification'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              key: SakinahKeys.prayerReminderSmokeTestButton,
+              onPressed: () {
+                unawaited(
+                  _schedulePrayerReminderSmokeTest(
+                    context: context,
+                    notificationService: notificationService,
+                    preferences: preferences,
+                  ),
+                );
+              },
+              icon: const Icon(Icons.notifications_active_outlined),
+              label: const Text('Send prayer reminder test'),
+            ),
+          ],
         ],
       ),
     );
   }
+}
+
+String _prayerReminderSubtitle(
+  SakinahLocalizations l10n,
+  UserPreferences preferences,
+  NotificationPermissionFeedback? feedback,
+) {
+  final status = preferences.notificationsEnabled
+      ? l10n.t('reminderStatusOn')
+      : l10n.t('reminderStatusOff');
+  final detail = switch (feedback) {
+    NotificationPermissionFeedback.denied =>
+      l10n.t('notificationPermissionDenied'),
+    NotificationPermissionFeedback.scheduled => l10n.t('notificationScheduled'),
+    null => l10n.t('prayerReminderSubtitle'),
+  };
+  return '$status · $detail';
 }
 
 String _dailySessionReminderSubtitle(
@@ -95,6 +250,109 @@ String _dailySessionReminderSubtitle(
   return '$status · ${formatDailySessionReminderTime(
     preferences.dailySessionReminderMinutesAfterMidnight,
   )}';
+}
+
+Future<void> _handlePrayerReminderChoiceToggle({
+  required String prayerName,
+  required bool enabled,
+  required WidgetRef ref,
+  required UserPreferencesController controller,
+  required NotificationService notificationService,
+  required PrayerCalculationService prayerService,
+}) async {
+  await controller.setPrayerReminderEnabled(prayerName, enabled);
+  _trackPrayerReminderChanged(
+    ref: ref,
+    prayerName: prayerName,
+    enabled: enabled,
+  );
+  await _reschedulePrayerRemindersAfterPreferenceChange(
+    ref: ref,
+    controller: controller,
+    notificationService: notificationService,
+    prayerService: prayerService,
+  );
+}
+
+void _trackPrayerReminderChanged({
+  required WidgetRef ref,
+  required String prayerName,
+  required bool enabled,
+}) {
+  final preferences = ref.read(userPreferencesProvider);
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.prayerReminderChanged,
+    {
+      'prayer_name': prayerName,
+      'enabled': enabled,
+      'reminder_offset_minutes': sanitizePrayerReminderOffsetMinutes(
+        preferences.prayerReminderOffsetMinutes,
+      ),
+    },
+  );
+}
+
+Future<void> _handlePrayerReminderLeadTimeChanged({
+  required int minutes,
+  required WidgetRef ref,
+  required UserPreferencesController controller,
+  required NotificationService notificationService,
+  required PrayerCalculationService prayerService,
+}) async {
+  await controller.setPrayerReminderOffsetMinutes(minutes);
+  await _reschedulePrayerRemindersAfterPreferenceChange(
+    ref: ref,
+    controller: controller,
+    notificationService: notificationService,
+    prayerService: prayerService,
+  );
+}
+
+Future<void> _reschedulePrayerRemindersAfterPreferenceChange({
+  required WidgetRef ref,
+  required UserPreferencesController controller,
+  required NotificationService notificationService,
+  required PrayerCalculationService prayerService,
+}) async {
+  final preferences = ref.read(userPreferencesProvider);
+  if (!preferences.notificationsEnabled) {
+    return;
+  }
+
+  final now = DateTime.now();
+  final settings = preferences.prayerSettings;
+  final offset = sanitizePrayerReminderOffsetMinutes(
+    preferences.prayerReminderOffsetMinutes,
+  );
+  var prayers = prayerService.calculateForDate(now, settings);
+  if (!prayers.any((prayer) => _reminderTime(prayer, offset).isAfter(now))) {
+    prayers = prayerService.calculateForDate(
+      now.add(const Duration(days: 1)),
+      settings,
+    );
+  }
+  final scheduled = await notificationService.schedulePrayerReminders(
+    settings,
+    prayers,
+    languageCode: preferences.languageCode,
+    enabledPrayerNames: preferences.enabledPrayerReminderNames,
+    reminderOffsetMinutes: offset,
+    womenIbadahMode: preferences.womenIbadahMode,
+  );
+
+  if (scheduled.isEmpty) {
+    await notificationService.cancelPrayerReminders();
+    await controller.setNotificationsEnabled(false);
+    ref.read(notificationPermissionFeedbackProvider.notifier).state = null;
+    return;
+  }
+
+  ref.read(notificationPermissionFeedbackProvider.notifier).state =
+      NotificationPermissionFeedback.scheduled;
+}
+
+DateTime _reminderTime(PrayerTime prayer, int offsetMinutes) {
+  return prayer.time.subtract(Duration(minutes: offsetMinutes));
 }
 
 Future<void> _handleDailySessionReminderToggle({
@@ -321,5 +579,65 @@ Future<int?> _showReminderTimeDialog(
 void _showSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(content: Text(message)),
+  );
+}
+
+Future<void> _scheduleNotificationSmokeTest({
+  required BuildContext context,
+  required NotificationService notificationService,
+}) async {
+  final granted = await notificationService.requestPermissionAfterExplanation();
+  if (!context.mounted) {
+    return;
+  }
+  if (!granted) {
+    _showSnackBar(
+      context,
+      'Notifications are off. You can enable them from system settings.',
+    );
+    return;
+  }
+
+  final scheduled = await notificationService.scheduleNotificationSmokeTest();
+  if (!context.mounted) {
+    return;
+  }
+  _showSnackBar(
+    context,
+    scheduled == null
+        ? 'Notifications are off. You can enable them from system settings.'
+        : 'Test notification scheduled.',
+  );
+}
+
+Future<void> _schedulePrayerReminderSmokeTest({
+  required BuildContext context,
+  required NotificationService notificationService,
+  required UserPreferences preferences,
+}) async {
+  final granted = await notificationService.requestPermissionAfterExplanation();
+  if (!context.mounted) {
+    return;
+  }
+  if (!granted) {
+    _showSnackBar(
+      context,
+      'Notifications are off. You can enable them from system settings.',
+    );
+    return;
+  }
+
+  final scheduled = await notificationService.schedulePrayerReminderSmokeTest(
+    languageCode: preferences.languageCode,
+    womenIbadahMode: preferences.womenIbadahMode,
+  );
+  if (!context.mounted) {
+    return;
+  }
+  _showSnackBar(
+    context,
+    scheduled == null
+        ? 'Notifications are off. You can enable them from system settings.'
+        : 'Prayer reminder test scheduled.',
   );
 }

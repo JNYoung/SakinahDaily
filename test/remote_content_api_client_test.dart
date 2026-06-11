@@ -228,6 +228,27 @@ void main() {
     expect(service.loadDailySession('remote_session'), isNull);
   });
 
+  test('unpublished remote bundle is rejected', () async {
+    final raw = _bundleJson(
+      'home_bundle_en_global_001',
+      status: 'draft',
+    );
+    final service = _service(
+      FakeContentHttpClient({
+        _manifestUri().toString(): ContentHttpResponse.ok(
+          _manifestJson(bundleSha256: _sha256(raw)),
+        ),
+        'https://cdn.example.test/bundles/home_bundle_en_global_001.json':
+            ContentHttpResponse.ok(raw),
+      }),
+    );
+
+    await service.refreshRemoteContent(_context());
+
+    expect(service.loadDailySession('remote_session'), isNull);
+    expect(service.loadDailySession('session_morning_ease'), isNotNull);
+  });
+
   test('incompatible language and market bundle is rejected', () async {
     final raw = _bundleJson(
       'home_bundle_en_global_001',

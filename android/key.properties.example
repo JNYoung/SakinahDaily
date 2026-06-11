@@ -1,0 +1,7 @@
+# Copy to android/key.properties for local release signing.
+# Do not commit android/key.properties or keystore files.
+# storeFile may be absolute or relative to android/app.
+storeFile=../upload-keystore.jks
+storePassword=replace-with-local-store-password
+keyAlias=upload
+keyPassword=replace-with-local-key-password

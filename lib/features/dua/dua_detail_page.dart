@@ -122,23 +122,38 @@ class DuaDetailPage extends ConsumerWidget {
                 const SizedBox(height: 10),
                 Text(dua.translations.resolve(languageCode)),
                 const SizedBox(height: 22),
-                Row(
-                  children: [
-                    Expanded(
-                      child: PrimaryButton(
-                        label: l10n.t('listen'),
-                        onPressed: () {},
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.08)
+                        : const Color(0xFFEAF3E7),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.article_outlined,
+                        color: isDark
+                            ? SakinahColors.sandGold
+                            : SakinahColors.deepEmerald,
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: PrimaryButton(
-                        label: l10n.t('repeatSlowly'),
-                        tonal: true,
-                        onPressed: () {},
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.t('audioUnavailable'),
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(l10n.t('textOnlyFallback')),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
