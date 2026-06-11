@@ -22,6 +22,7 @@ android/.gradle/
 # Node
 node_modules/
 npm-debug.log*
+services/content-agent/.generated/
 services/local-push-simulator/dist/
 
 # Python
