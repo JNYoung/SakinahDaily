@@ -133,7 +133,8 @@ scripts/export_google_play_production_access_packet.sh
 "$store_assets_script"
 
 if [[ "${SAKINAH_REQUIRE_PLAY_SUBMISSION_READY:-false}" == "true" ]]; then
-  SAKINAH_REQUIRE_STORE_ASSETS_READY=true "$store_assets_script"
+  SAKINAH_REQUIRE_STORE_ASSETS_READY=true "$store_assets_script" ||
+    fail "store visual assets must be complete before strict Play submission."
 
   require_true_var \
     SAKINAH_PLAY_CONSOLE_APP_CREATED \
