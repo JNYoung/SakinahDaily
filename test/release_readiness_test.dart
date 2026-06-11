@@ -505,6 +505,8 @@ void main() {
 
       final content = script.readAsStringSync();
       expect(content, contains('flutter --no-version-check test'));
+      expect(content, contains('--concurrency=1'));
+      expect(content, contains('SAKINAH_E2E_FLUTTER_TEST_ARGS'));
       expect(content, contains('dart analyze'));
       expect(content, contains('verify_google_play_submission_pack.sh'));
       expect(content, contains('verify_google_play_public_links_packet.sh'));

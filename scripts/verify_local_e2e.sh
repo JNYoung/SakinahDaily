@@ -10,6 +10,14 @@ skip_submission_pack="${SAKINAH_E2E_SKIP_SUBMISSION_PACK:-false}"
 skip_public_links_packet="${SAKINAH_E2E_SKIP_PUBLIC_LINKS_PACKET:-false}"
 skip_android_launch="${SAKINAH_E2E_SKIP_ANDROID_LAUNCH:-false}"
 run_release_gate="${SAKINAH_E2E_RUN_RELEASE_GATE:-false}"
+flutter_test_args=()
+
+if [[ -n "${SAKINAH_E2E_FLUTTER_TEST_ARGS:-}" ]]; then
+  # shellcheck disable=SC2206
+  flutter_test_args=(${SAKINAH_E2E_FLUTTER_TEST_ARGS})
+else
+  flutter_test_args=(--concurrency=1)
+fi
 
 has_android_device() {
   local devices
@@ -26,7 +34,8 @@ run_step() {
 }
 
 if [[ "$skip_flutter_test" != "true" ]]; then
-  run_step "Flutter widget/unit tests" flutter --no-version-check test
+  run_step "Flutter widget/unit tests" \
+    flutter --no-version-check test "${flutter_test_args[@]}"
 else
   printf 'Skipping flutter test because SAKINAH_E2E_SKIP_FLUTTER_TEST=true.\n'
 fi
