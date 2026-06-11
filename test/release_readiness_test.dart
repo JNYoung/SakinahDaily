@@ -523,6 +523,7 @@ void main() {
       expect(workflowContent, contains('pull_request'));
       expect(workflowContent, contains('push'));
       expect(workflowContent, contains('subosito/flutter-action'));
+      expect(workflowContent, contains('python3 -m pip install --user pillow'));
       expect(workflowContent, contains('scripts/verify_local_e2e.sh'));
       expect(workflowContent, contains('SAKINAH_E2E_SKIP_ANDROID_LAUNCH'));
       expect(workflowContent, contains('SAKINAH_E2E_SKIP_FLUTTER_TEST'));

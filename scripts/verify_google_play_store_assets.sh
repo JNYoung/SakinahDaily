@@ -24,6 +24,13 @@ require_file() {
 command -v python3 >/dev/null 2>&1 ||
   fail "python3 is required to generate and inspect store assets."
 
+if ! python3 - <<'PY' >/dev/null 2>&1
+from PIL import Image
+PY
+then
+  fail "Python Pillow is required to generate and inspect store assets."
+fi
+
 require_file "$generator"
 python3 "$generator"
 

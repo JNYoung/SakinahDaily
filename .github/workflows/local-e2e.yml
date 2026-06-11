@@ -28,6 +28,9 @@ jobs:
       - name: Flutter pub get
         run: flutter --no-version-check pub get
 
+      - name: Install Python image dependencies
+        run: python3 -m pip install --user pillow
+
       - name: Run local e2e gate
         env:
           SAKINAH_E2E_SKIP_ANDROID_LAUNCH: "true"
