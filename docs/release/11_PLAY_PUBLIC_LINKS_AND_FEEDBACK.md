@@ -47,7 +47,7 @@ The page should include:
 - Data stored on device.
 - Data that may leave the device.
 - Local-first Women's Ibadah Mode privacy language.
-- No ads, tracking, analytics SDK, or crash SDK in v0.1.
+- No ads, tracking SDK, crash SDK, or default-on analytics collection in v0.1.
 - Delete local data instructions through Settings > Privacy.
 
 Use the final URL in:

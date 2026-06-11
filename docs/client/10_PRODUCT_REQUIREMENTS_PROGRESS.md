@@ -165,10 +165,11 @@ Open product links:
 - Licensed Quran reciter audio is not bundled; current seed audio metadata uses
   empty URL/hash placeholders.
 - Offline audio cache validation, asset rights, and hash checks remain open.
-- Analytics is still local-only, but a Google Analytics-compatible event
-  contract now exists for the prayer/session loop with an event whitelist and
-  sensitive-parameter sanitizer. Product metrics still cannot be transmitted
-  until a reviewed analytics SDK/provider is approved.
+- Analytics now has a Google Analytics-compatible event contract and
+  default-off Firebase Analytics adapter for the prayer/session loop with an
+  event whitelist and sensitive-parameter sanitizer. Product metrics still
+  cannot be transmitted by default until a reviewed Firebase configuration,
+  consent posture, and Play Data Safety declaration are approved.
 - Session history is intentionally small and lacks filters or richer insights.
 - Reminder timing is user-selectable locally, but real-device notification
   permission/OEM scheduling QA remains open.
@@ -269,15 +270,16 @@ release build preparation, not additional content or feature expansion.
 Retention observation preparation:
 
 - North star: Weekly Active Prayer Reminder Users.
-- Closed-test proxy signals remain aggregate-only because v0.1 has no Google
-  Analytics SDK: Prayer Reminder Opt-in Rate, D1 / D7 Retention, prayer view
-  feedback, reminder usefulness or annoyance, Daily Session start signal, and
-  Privacy Center trust.
+- Closed-test proxy signals remain aggregate-only by default because Firebase
+  Analytics is disabled unless `SAKINAH_ANALYTICS_ENABLED=true` and Firebase
+  project configuration are provided: Prayer Reminder Opt-in Rate, D1 / D7
+  Retention, prayer view feedback, reminder usefulness or annoyance, Daily
+  Session start signal, and Privacy Center trust.
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
   prayer reminder changes, Daily Session start/completion, saved Dua/Dhikr
   actions, and closed-test prompt actions. It is default-off and strips
   coordinates, feedback text, religious text, and Women's Ibadah Mode exact
-  status before any future Google Analytics adapter can send events.
+  status before the Firebase Analytics adapter can send events.
 - `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` and
   `scripts/export_google_play_closed_test_retention_packet.sh` prepare local
   Day 1 / Day 3 / Day 7 / Day 14 observation templates for Production access
@@ -285,7 +287,7 @@ Retention observation preparation:
 - Home now exposes the in-app Closed testing guide when
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, keeping Day 1 / Day 3 /
   Day 7 / Day 14 feedback prompts close to the daily prayer habit loop while
-  still avoiding analytics SDKs and personal-data collection.
+  analytics stays default-off and personal-data collection is avoided.
 
 Android release-signing preparation now supports ignored local
 `android/key.properties` or CI `SAKINAH_UPLOAD_*` variables, plus

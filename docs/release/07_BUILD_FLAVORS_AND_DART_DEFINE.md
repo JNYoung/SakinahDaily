@@ -159,14 +159,17 @@ flutter build apk --debug \
 ## Telemetry
 
 `analyticsEnabled` is disabled by default and can be enabled only with
-`SAKINAH_ANALYTICS_ENABLED=true`. The current implementation is a local
-event-contract stub with a Google Analytics-compatible event whitelist and
-sensitive-parameter sanitizer; no Google Analytics or Firebase Analytics SDK is
-added yet. Store screenshot mode forces analytics off.
+`SAKINAH_ANALYTICS_ENABLED=true`. The current implementation includes
+Firebase Core/Firebase Analytics, a Google Analytics-compatible event
+whitelist, and a sensitive-parameter sanitizer. Android automatic analytics
+collection and automatic screen reporting are disabled in the manifest by
+default. When analytics is enabled, startup calls `Firebase.initializeApp()` and
+turns Firebase Analytics collection on only if Firebase project configuration
+is available. Store screenshot mode forces analytics off.
 
 `crashReportingEnabled` remains hard-disabled in `AppEnvironmentConfig`.
-Do not add analytics or crash SDKs until privacy review approves a concrete
-provider and data declaration.
+Do not enable production analytics or add crash SDKs until privacy review
+approves the final provider, consent posture, and data declaration.
 
 ## Example Commands
 

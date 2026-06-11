@@ -84,5 +84,132 @@ void main() {
 
       expect(analytics.events, isEmpty);
     });
+
+    test('firebase adapter sends only sanitized GA4 parameters', () {
+      final sink = _FakeAnalyticsEventSink();
+      final analytics = FirebaseAnalyticsService(
+        enabled: true,
+        sinkFactory: () => sink,
+      );
+
+      analytics.track(
+        AnalyticsEventCatalog.prayerReminderChanged,
+        const {
+          'prayer_name': 'Fajr',
+          'enabled': true,
+          'reminder_offset_minutes': 10,
+          'latitude': 21.4225,
+          'women_status': 'menstruating',
+          'reflection_text': 'private note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(sink.events, hasLength(1));
+      expect(
+        sink.events.single.name,
+        AnalyticsEventCatalog.prayerReminderChanged,
+      );
+      expect(sink.events.single.parameters, {
+        'prayer_name': 'Fajr',
+        'enabled': 1,
+        'reminder_offset_minutes': 10,
+      });
+    });
+
+    test('firebase adapter is disabled unless analytics is explicitly enabled',
+        () {
+      final sink = _FakeAnalyticsEventSink();
+      final analytics = FirebaseAnalyticsService(
+        enabled: false,
+        sinkFactory: () => sink,
+      );
+
+      analytics.track(AnalyticsEventCatalog.prayerViewed, const {
+        'screen': 'prayer',
+      });
+
+      expect(analytics.events, isEmpty);
+      expect(sink.events, isEmpty);
+    });
+
+    test('firebase bootstrap skips initialization until explicitly enabled',
+        () async {
+      var initialized = false;
+      final collectionController = _FakeAnalyticsCollectionController();
+      final bootstrap = FirebaseAnalyticsBootstrap(
+        analyticsEnabled: false,
+        initializeFirebase: () async {
+          initialized = true;
+        },
+        collectionControllerFactory: () => collectionController,
+      );
+
+      final initializedBackend = await bootstrap.initialize();
+
+      expect(initializedBackend, isFalse);
+      expect(initialized, isFalse);
+      expect(collectionController.values, isEmpty);
+    });
+
+    test('firebase bootstrap enables analytics collection after init',
+        () async {
+      var initialized = false;
+      final collectionController = _FakeAnalyticsCollectionController();
+      final bootstrap = FirebaseAnalyticsBootstrap(
+        analyticsEnabled: true,
+        initializeFirebase: () async {
+          initialized = true;
+        },
+        collectionControllerFactory: () => collectionController,
+      );
+
+      final initializedBackend = await bootstrap.initialize();
+
+      expect(initializedBackend, isTrue);
+      expect(initialized, isTrue);
+      expect(collectionController.values, [true]);
+    });
+
+    test('firebase bootstrap fails closed when Firebase is not configured',
+        () async {
+      final collectionController = _FakeAnalyticsCollectionController();
+      final bootstrap = FirebaseAnalyticsBootstrap(
+        analyticsEnabled: true,
+        initializeFirebase: () async => throw StateError('missing config'),
+        collectionControllerFactory: () => collectionController,
+      );
+
+      final initializedBackend = await bootstrap.initialize();
+
+      expect(initializedBackend, isFalse);
+      expect(collectionController.values, isEmpty);
+    });
   });
+}
+
+class _FakeAnalyticsEventSink implements AnalyticsEventSink {
+  final events = <_FakeAnalyticsPayload>[];
+
+  @override
+  Future<void> logEvent(String name, Map<String, Object> parameters) async {
+    events.add(_FakeAnalyticsPayload(name, Map.unmodifiable(parameters)));
+  }
+}
+
+class _FakeAnalyticsPayload {
+  const _FakeAnalyticsPayload(this.name, this.parameters);
+
+  final String name;
+  final Map<String, Object> parameters;
+}
+
+class _FakeAnalyticsCollectionController
+    implements AnalyticsCollectionController {
+  final values = <bool>[];
+
+  @override
+  Future<void> setCollectionEnabled(bool enabled) async {
+    values.add(enabled);
+  }
 }

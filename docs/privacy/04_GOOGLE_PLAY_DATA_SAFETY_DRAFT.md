@@ -48,6 +48,13 @@ No Women's Ibadah Mode exact status is included in remote content requests.
 Notification copy remains generic when Women's Ibadah Mode is enabled and does
 not include exact private state terms.
 
+Firebase Analytics is included as a default-off SDK integration. The default
+v0.1 build does not transmit analytics because Android automatic collection is
+disabled, store screenshot mode forces analytics off, and telemetry requires
+`SAKINAH_ANALYTICS_ENABLED=true` plus reviewed Firebase project configuration.
+If analytics is enabled for Play closed testing or production, Data Safety must
+be reviewed and updated for app activity/analytics collection before upload.
+
 ## Permissions
 
 - Notifications: used for local prayer reminders after user explanation and
@@ -63,14 +70,15 @@ not include exact private state terms.
 - `shared_preferences` for local app storage.
 - `flutter_local_notifications` for local notifications.
 - Audio playback dependencies for approved audio asset playback.
-- No analytics SDK.
+- Firebase Core and Firebase Analytics SDKs, default-off unless explicitly
+  enabled and configured.
 - No crash-reporting SDK.
 - No ads SDK.
 - No tracking SDK.
 
 ## Future Updates
 
-Revisit this draft before adding exact location, compass/sensor permissions,
-FCM/APNs production pushes, analytics, crash reporting, accounts,
-subscriptions, remote saved-item sync, remote progress sync, or any remote
-deletion workflow.
+Revisit this draft before enabling production analytics, adding exact location,
+compass/sensor permissions, FCM/APNs production pushes, crash reporting,
+accounts, subscriptions, remote saved-item sync, remote progress sync, or any
+remote deletion workflow.

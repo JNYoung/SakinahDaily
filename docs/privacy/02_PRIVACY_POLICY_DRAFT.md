@@ -11,8 +11,11 @@ Contact: To be finalized before Google Play submission.
 
 Sakinah Daily MVP is designed around local-first preferences and approved
 content delivery. The app does not include account login, payments, ads,
-analytics SDKs, crash-reporting SDKs, live OpenAI calls, or social features in
-the MVP.
+tracking SDKs, crash-reporting SDKs, live OpenAI calls, or social features in
+the MVP. A Firebase Analytics adapter is present for future retention and usage
+measurement, but analytics collection is disabled by default and can only be
+enabled in a reviewed build with `SAKINAH_ANALYTICS_ENABLED=true` and Firebase
+project configuration.
 
 ## Data Stored On Device
 
@@ -43,6 +46,13 @@ If remote content delivery is enabled, requests may include language, market,
 app version, and schema version. Detail-bundle recovery may include a bundle
 hint. Women's Ibadah Mode exact status is not sent with these requests.
 
+If analytics is explicitly enabled in a reviewed build, the app may send only
+whitelisted Google Analytics 4 events about app flow and prayer/session usage,
+such as screen route, prayer name, reminder enabled state, session ID, language,
+and coarse location method. The analytics sanitizer blocks exact coordinates,
+Women's Ibadah Mode exact status, health terms, feedback text, religious text,
+names, and email addresses.
+
 Notification text stays generic when Women's Ibadah Mode is enabled so private
 state details do not appear on the lock screen.
 
@@ -51,7 +61,7 @@ state details do not appear on the lock screen.
 - Account login.
 - Payments or subscriptions.
 - Ads or tracking.
-- Analytics SDK.
+- Default-on analytics collection.
 - Crash-reporting SDK.
 - Exact GPS permission.
 - Remote deletion API.
@@ -60,5 +70,6 @@ state details do not appear on the lock screen.
 
 ## Future Review Needed
 
-Before enabling analytics, crash reporting, exact location, account login, or
-paid features, update this policy, store declarations, consent copy, and tests.
+Before enabling production analytics, crash reporting, exact location, account
+login, or paid features, update this policy, store declarations, consent copy,
+and tests.

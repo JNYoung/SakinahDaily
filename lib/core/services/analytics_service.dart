@@ -1,3 +1,8 @@
+import 'dart:async';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 class AnalyticsEvent {
   const AnalyticsEvent(this.name, this.properties);
 
@@ -129,6 +134,21 @@ abstract class AnalyticsService {
   List<AnalyticsEvent> get events;
 }
 
+abstract class AnalyticsEventSink {
+  Future<void> logEvent(String name, Map<String, Object> parameters);
+}
+
+typedef AnalyticsEventSinkFactory = AnalyticsEventSink Function();
+
+abstract class AnalyticsCollectionController {
+  Future<void> setCollectionEnabled(bool enabled);
+}
+
+typedef AnalyticsCollectionControllerFactory = AnalyticsCollectionController
+    Function();
+
+typedef FirebaseCoreInitializer = Future<void> Function();
+
 class StubAnalyticsService implements AnalyticsService {
   StubAnalyticsService({this.enabled = true});
 
@@ -145,6 +165,120 @@ class StubAnalyticsService implements AnalyticsService {
     }
     _events.add(
       AnalyticsEvent(name, AnalyticsParameterPolicy.sanitize(properties)),
+    );
+  }
+}
+
+class FirebaseAnalyticsEventSink
+    implements AnalyticsEventSink, AnalyticsCollectionController {
+  FirebaseAnalyticsEventSink({FirebaseAnalytics? analytics})
+      : _analytics = analytics;
+
+  FirebaseAnalytics? _analytics;
+
+  FirebaseAnalytics get _instance => _analytics ??= FirebaseAnalytics.instance;
+
+  @override
+  Future<void> logEvent(String name, Map<String, Object> parameters) {
+    return _instance.logEvent(
+      name: name,
+      parameters: parameters.isEmpty ? null : parameters,
+    );
+  }
+
+  @override
+  Future<void> setCollectionEnabled(bool enabled) {
+    return _instance.setAnalyticsCollectionEnabled(enabled);
+  }
+}
+
+class FirebaseAnalyticsBootstrap {
+  const FirebaseAnalyticsBootstrap({
+    required this.analyticsEnabled,
+    FirebaseCoreInitializer? initializeFirebase,
+    AnalyticsCollectionControllerFactory? collectionControllerFactory,
+  })  : _initializeFirebase = initializeFirebase ?? Firebase.initializeApp,
+        _collectionControllerFactory =
+            collectionControllerFactory ?? FirebaseAnalyticsEventSink.new;
+
+  final bool analyticsEnabled;
+  final FirebaseCoreInitializer _initializeFirebase;
+  final AnalyticsCollectionControllerFactory _collectionControllerFactory;
+
+  Future<bool> initialize() async {
+    if (!analyticsEnabled) {
+      return false;
+    }
+    try {
+      await _initializeFirebase();
+      await _collectionControllerFactory().setCollectionEnabled(true);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+}
+
+class FirebaseAnalyticsService implements AnalyticsService {
+  FirebaseAnalyticsService({
+    required this.enabled,
+    AnalyticsEventSinkFactory? sinkFactory,
+  }) : _sinkFactory = sinkFactory ?? (() => FirebaseAnalyticsEventSink());
+
+  final bool enabled;
+  final AnalyticsEventSinkFactory _sinkFactory;
+  final List<AnalyticsEvent> _events = [];
+  AnalyticsEventSink? _sink;
+  bool _sinkUnavailable = false;
+
+  @override
+  List<AnalyticsEvent> get events => List.unmodifiable(_events);
+
+  @override
+  void track(String name, [Map<String, Object?> properties = const {}]) {
+    if (!enabled || !AnalyticsEventCatalog.isAllowed(name)) {
+      return;
+    }
+    final sanitized = AnalyticsParameterPolicy.sanitize(properties);
+    _events.add(AnalyticsEvent(name, sanitized));
+
+    final sink = _resolveSink();
+    if (sink == null) {
+      return;
+    }
+    unawaited(
+      sink
+          .logEvent(name, _firebaseParameters(sanitized))
+          .catchError((Object _) {
+        _sinkUnavailable = true;
+      }),
+    );
+  }
+
+  AnalyticsEventSink? _resolveSink() {
+    if (_sinkUnavailable) {
+      return null;
+    }
+    try {
+      return _sink ??= _sinkFactory();
+    } catch (_) {
+      _sinkUnavailable = true;
+      return null;
+    }
+  }
+
+  Map<String, Object> _firebaseParameters(Map<String, Object> properties) {
+    return Map.unmodifiable(
+      properties.map((key, value) {
+        final normalized = switch (value) {
+          bool() => value ? 1 : 0,
+          int() => value,
+          double() => value,
+          String() => value,
+          _ => '$value',
+        };
+        return MapEntry(key, normalized);
+      }),
     );
   }
 }
