@@ -481,7 +481,11 @@ Android launch smoke preparation:
 - Android OEM reminder observation preparation now exports
   `build/android-oem-reminder-observation` with long-window reminder,
   reboot-restore, battery-policy, lock-screen-copy, and no-tester-personal-data
-  templates for the next overnight/24-hour device QA pass.
+  templates for the next overnight/24-hour device QA pass. When `adb` and a
+  device serial are available, the packet also includes a non-personal
+  device environment snapshot with Android version, model, package resolution,
+  and battery/device-idle context so the observation owner can compare OEM
+  behavior without recording tester personal data.
 
 Google Play metadata preparation:
 

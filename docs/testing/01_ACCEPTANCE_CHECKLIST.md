@@ -59,7 +59,8 @@
 - [x] 权限拒绝不影响 App 使用。
 - [x] 推送文案温柔克制。
 - [x] Android OEM reminder observation packet 可导出 8h / 24h / reboot /
-  battery policy 长窗口观察模板，且不记录 tester personal data。
+  battery policy 长窗口观察模板和 device environment snapshot，且不记录
+  tester personal data。
 
 ## 7. Engineering
 

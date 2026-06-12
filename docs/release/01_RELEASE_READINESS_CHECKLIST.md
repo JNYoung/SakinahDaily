@@ -113,6 +113,9 @@ Status: Draft for release/store review.
   `scripts/export_android_oem_reminder_observation_packet.sh`; template mode
   writes 8-hour, 24-hour, reboot restore, battery-policy, lock-screen-copy, and
   privacy-safe observation templates into `build/android-oem-reminder-observation`,
+  plus a non-personal `device_environment_snapshot.txt` with Android
+  model/version/package/battery-idle context when `adb` and a device serial are
+  available,
   while strict mode fails until real device long-window reminder evidence,
   reboot restore, battery review, and a human observation owner are confirmed.
 - [x] Local e2e gate exists at `scripts/verify_local_e2e.sh`; it runs
@@ -452,8 +455,8 @@ Status: Draft for release/store review.
 - [x] `scripts/export_android_oem_reminder_observation_packet.sh` exports a
   template-mode Android OEM reminder observation packet at
   `build/android-oem-reminder-observation` with 8-hour, 24-hour, reboot
-  restore, battery-policy, lock-screen-copy, no-tester-personal-data, and
-  strict-mode confirmation templates.
+  restore, battery-policy, device environment snapshot, lock-screen-copy,
+  no-tester-personal-data, and strict-mode confirmation templates.
 - [x] `scripts/verify_google_play_store_assets.sh` passes for the feature
   graphic and local store visual assets.
 - [x] `scripts/verify_local_e2e.sh` is available as the unattended local e2e

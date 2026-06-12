@@ -64,6 +64,98 @@ copy_required_text_evidence() {
   cp "$path" "$target"
 }
 
+find_adb() {
+  if [[ -n "${SAKINAH_ADB:-}" && -x "${SAKINAH_ADB:-}" ]]; then
+    printf '%s\n' "$SAKINAH_ADB"
+    return 0
+  fi
+  command -v adb 2>/dev/null || true
+}
+
+detect_single_adb_device() {
+  local adb_path="$1"
+  "$adb_path" devices 2>/dev/null |
+    awk 'NR > 1 && $2 == "device" { print $1 }' |
+    head -n 2
+}
+
+adb_shell() {
+  local adb_path="$1"
+  local serial="$2"
+  shift 2
+
+  [[ -n "$adb_path" && "$serial" != "record_manually" ]] || return 1
+  "$adb_path" -s "$serial" shell "$@" 2>/dev/null | tr -d '\r' || true
+}
+
+write_device_environment_snapshot() {
+  local path="$1"
+  local adb_path="$2"
+  local serial="$3"
+  local model_hint="$4"
+  local adb_status="unavailable_or_manual"
+  local manufacturer="record_manually"
+  local brand="record_manually"
+  local model="$model_hint"
+  local android_release="record_manually"
+  local android_sdk="record_manually"
+  local deviceidle_whitelist="record_manually"
+  local package_state="record_manually"
+
+  if [[ -n "$adb_path" && "$serial" != "record_manually" ]]; then
+    adb_status="available"
+    manufacturer="$(adb_shell "$adb_path" "$serial" getprop ro.product.manufacturer | head -n 1)"
+    brand="$(adb_shell "$adb_path" "$serial" getprop ro.product.brand | head -n 1)"
+    model="$(adb_shell "$adb_path" "$serial" getprop ro.product.model | head -n 1)"
+    android_release="$(adb_shell "$adb_path" "$serial" getprop ro.build.version.release | head -n 1)"
+    android_sdk="$(adb_shell "$adb_path" "$serial" getprop ro.build.version.sdk | head -n 1)"
+    # Mirrors: adb shell cmd deviceidle whitelist
+    deviceidle_whitelist="$(
+      adb_shell "$adb_path" "$serial" cmd deviceidle whitelist |
+        grep -F "$package_name" |
+        head -n 1 || true
+    )"
+    package_state="$(
+      adb_shell "$adb_path" "$serial" cmd package resolve-activity --brief "$package_name" |
+        head -n 2 |
+        tr '\n' ' ' || true
+    )"
+  fi
+
+  [[ -n "$manufacturer" ]] || manufacturer="record_manually"
+  [[ -n "$brand" ]] || brand="record_manually"
+  [[ -n "$model" ]] || model="record_manually"
+  [[ -n "$android_release" ]] || android_release="record_manually"
+  [[ -n "$android_sdk" ]] || android_sdk="record_manually"
+  [[ -n "$deviceidle_whitelist" ]] ||
+    deviceidle_whitelist="not_whitelisted_or_record_manually"
+  [[ -n "$package_state" ]] || package_state="record_manually"
+
+  cat >"$path" <<EOF
+Android OEM device environment snapshot
+Generated UTC: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+Privacy rule: No tester personal data.
+
+ADB status: $adb_status
+ADB command hint: adb shell getprop ro.product.manufacturer
+Battery command hint: adb shell cmd deviceidle whitelist
+Package: $package_name
+Device serial: $serial
+Manufacturer: $manufacturer
+Brand: $brand
+Model: $model
+Android release: $android_release
+Android SDK: $android_sdk
+Device idle whitelist status: $deviceidle_whitelist
+Package resolve activity: $package_state
+
+Notes:
+- This snapshot captures device/build environment only.
+- Do not add tester names, emails, phone numbers, locations, screenshots with account data, or health/worship notes.
+- Long-window 8-hour, 24-hour, reboot, and battery-policy outcomes still require manual observation.
+EOF
+}
+
 for path in \
   "$docs_index" \
   "$product_progress" \
@@ -117,6 +209,14 @@ mkdir -p "$out_dir"
 
 device_serial="${SAKINAH_ANDROID_SERIAL:-${ANDROID_SERIAL:-record_manually}}"
 oem_model="${SAKINAH_ANDROID_OEM_MODEL:-record_manually}"
+adb_path="$(find_adb)"
+if [[ "$device_serial" == "record_manually" && -n "$adb_path" ]]; then
+  detected_devices="$(detect_single_adb_device "$adb_path")"
+  if [[ "$(wc -l <<<"$detected_devices" | tr -d ' ')" == "1" &&
+        -n "$detected_devices" ]]; then
+    device_serial="$detected_devices"
+  fi
+fi
 
 cat >"$out_dir/long_window_observation_log.csv" <<EOF
 observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_local_time,expected_delivery_window,actual_delivery_result,tap_result,notes_without_personal_data
@@ -137,10 +237,20 @@ $device_serial,$oem_model,record_manually,unknown,record OEM battery/background 
 $device_serial,$oem_model,optimized_or_restricted,aggressive battery-management may delay local notifications,record user-facing guidance decision if delay is observed,pending_manual_observation
 EOF
 
+write_device_environment_snapshot \
+  "$out_dir/device_environment_snapshot.txt" \
+  "$adb_path" \
+  "$device_serial" \
+  "$oem_model"
+
 cat >"$out_dir/oem_observation_checklist.md" <<'EOF'
 # Android OEM Reminder Observation Checklist
 
 Status: template evidence only until long-window device observations are recorded.
+
+Start by reviewing `device_environment_snapshot.txt`. It may be prefilled by
+ADB when a device serial is supplied, or it may contain handoff placeholders
+when no Android device is connected.
 
 ## Scope
 
@@ -201,6 +311,7 @@ Generated observation files:
 - long_window_observation_log.csv
 - reboot_delivery_checklist.csv
 - battery_policy_review.csv
+- device_environment_snapshot.txt
 - oem_observation_checklist.md
 
 Copied evidence:
