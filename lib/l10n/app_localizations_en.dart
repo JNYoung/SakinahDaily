@@ -239,6 +239,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Prayer check-ins stay on this device only.';
 
   @override
+  String get continuePrayerCheckIn => 'Continue prayer check-in';
+
+  @override
+  String get reviewPrayerCheckIn => 'Review prayer check-in';
+
+  @override
   String get prayerWeekProgress => 'Prayer week';
 
   @override

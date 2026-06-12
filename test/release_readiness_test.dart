@@ -3225,6 +3225,7 @@ void main() {
       expect(keys, contains('prayerTopReminderSettingsButton'));
       expect(keys, contains('prayerCompletionCheckbox'));
       expect(keys, contains('homePrayerCompletionMetric'));
+      expect(keys, contains('homePrayerCheckInButton'));
       expect(keys, contains('homePrayerWeekProgress'));
       expect(
         navigationTest,
@@ -3236,6 +3237,10 @@ void main() {
       );
       expect(
           navigationTest, contains('SakinahKeys.prayerListItem(prayerName)'));
+      expect(
+        navigationTest,
+        contains('home progress card opens prayer check-in'),
+      );
       expect(
         featureBehaviorTest,
         contains(

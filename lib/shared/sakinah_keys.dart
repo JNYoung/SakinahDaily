@@ -86,6 +86,8 @@ abstract final class SakinahKeys {
   static const homeProgressCard = ValueKey<String>('home_progress_card');
   static const homePrayerCompletionMetric =
       ValueKey<String>('home_prayer_completion_metric');
+  static const homePrayerCheckInButton =
+      ValueKey<String>('home_prayer_check_in_button');
   static const homePrayerWeekProgress =
       ValueKey<String>('home_prayer_week_progress');
   static const homePrayerWeekDaysMetric =

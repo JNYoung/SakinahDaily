@@ -73,6 +73,8 @@
   "progressLocalOnly": "Progres tetap hanya di perangkat ini.",
   "prayersToday": "Shalat hari ini",
   "prayerCheckInsLocalOnly": "Catatan shalat tetap hanya di perangkat ini.",
+  "continuePrayerCheckIn": "Lanjutkan check-in shalat",
+  "reviewPrayerCheckIn": "Tinjau check-in shalat",
   "prayerWeekProgress": "Pekan shalat",
   "prayerWeekCheckInDays": "Hari check-in",
   "prayerWeekStreak": "Rangkaian shalat",

@@ -73,6 +73,8 @@
   "progressLocalOnly": "يبقى التقدم على هذا الجهاز فقط.",
   "prayersToday": "الصلوات اليوم",
   "prayerCheckInsLocalOnly": "تبقى علامات الصلاة على هذا الجهاز فقط.",
+  "continuePrayerCheckIn": "متابعة تسجيل الصلاة",
+  "reviewPrayerCheckIn": "مراجعة تسجيل الصلاة",
   "prayerWeekProgress": "أسبوع الصلاة",
   "prayerWeekCheckInDays": "أيام المتابعة",
   "prayerWeekStreak": "سلسلة الصلاة",

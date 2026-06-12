@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/config/app_environment.dart';
 import 'package:sakinah_daily/core/models/saved_item.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
+import 'package:sakinah_daily/core/repositories/prayer_completion_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/prayer_calculation_service.dart';
@@ -163,6 +164,60 @@ void main() {
       ),
       findsOneWidget,
     );
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('home progress card opens prayer check-in', (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/home',
+      settleSplash: false,
+      currentDateTime: DateTime(2026, 6, 11, 12),
+    );
+    await tester.pumpAndSettle();
+
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.homePrayerCheckInButton),
+    );
+
+    expect(find.text('Continue prayer check-in'), findsOneWidget);
+
+    await tapByKey(tester, SakinahKeys.homePrayerCheckInButton);
+
+    expect(find.byKey(SakinahKeys.prayerListItem('Fajr')), findsOneWidget);
+    expect(find.byType(NavigationBar), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('home progress card reviews completed prayer check-in',
+      (tester) async {
+    final completionStore = InMemoryPrayerCompletionStore();
+    final repository = PrayerCompletionRepository(completionStore);
+    final now = DateTime(2026, 6, 11, 12);
+    for (final prayerName in defaultPrayerReminderNames) {
+      await repository.markCompleted(prayerName, completedAt: now);
+    }
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/home',
+      settleSplash: false,
+      currentDateTime: now,
+      prayerCompletionStore: completionStore,
+    );
+    await tester.pumpAndSettle();
+
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.homePrayerCheckInButton),
+    );
+
+    expect(find.text('Review prayer check-in'), findsOneWidget);
+
+    await tapByKey(tester, SakinahKeys.homePrayerCheckInButton);
+
+    expect(find.byKey(SakinahKeys.prayerCompletionSummaryCard), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

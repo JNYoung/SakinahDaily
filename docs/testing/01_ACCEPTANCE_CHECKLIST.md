@@ -8,6 +8,7 @@
 - [x] 用户可以选择 preset 或手动 prayer location。
 - [x] 用户可以开启/关闭本地 prayer reminders。
 - [x] 用户可以在 Prayer 页本地标记今日五次礼拜完成状态，五次完成后看到本地完成态，并在 Home 看到今日完成数和本地周进度。
+- [x] 用户可以从 Home 本地进度卡继续或复核 prayer check-in，并回到 Prayer 页。
 - [x] 用户可以管理每日 session reminder。
 - [x] 用户可以可选完成 Daily Session。
 - [x] 用户保存内容后可以从 Home 的本地继续入口返回。
