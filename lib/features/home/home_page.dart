@@ -202,7 +202,9 @@ class HomePage extends ConsumerWidget {
                 ? context.go('/session/${session.id}/completed')
                 : context.go('/session/${session.id}?source=home'),
             onReminderCta: showSessionReminderCta
-                ? () => context.go('/settings/notifications')
+                ? () => context.go(
+                      '/settings/notifications?source=home_session_completion',
+                    )
                 : null,
             onVoiceOnly: () => _showQuranVoiceOnlySheet(context, l10n),
           ),

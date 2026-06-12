@@ -41,8 +41,9 @@ Current implementation:
   or free-text content is not sent.
 - Daily Session reminder opt-in and reminder-setting changes record local
   `daily_session_reminder_changed` events with session ID, enabled state,
-  controlled source, and coarse change type only. Exact reminder time, Women's
-  Ibadah Mode status, routine notes, and other free text are not sent.
+  controlled source such as `settings`, `session_completion`, or
+  `home_session_completion`, and coarse change type only. Exact reminder time,
+  Women's Ibadah Mode status, routine notes, and other free text are not sent.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
   calculation method, route, screen, and coarse location method only.
 - The Home page records a local `home_viewed` event only after local prayer

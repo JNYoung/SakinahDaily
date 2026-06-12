@@ -136,7 +136,9 @@ GoRouter createSakinahRouter({
       ),
       GoRoute(
         path: '/settings/notifications',
-        builder: (context, state) => const NotificationSettingsPage(),
+        builder: (context, state) => NotificationSettingsPage(
+          entrySource: state.uri.queryParameters['source'],
+        ),
       ),
       GoRoute(
         path: '/settings/privacy',
