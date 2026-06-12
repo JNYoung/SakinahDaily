@@ -33,8 +33,8 @@ store Quran, Dua, Dhikr, Hadith, translation text, reflections, or user notes.
 
 Prayer completion check-ins store prayer names and local completion timestamps
 only. They are local progress cues and are not transmitted unless a future
-reviewed analytics build sends only aggregate checklist usage counts after
-user opt-in.
+reviewed analytics build sends only aggregate checklist and Home prayer
+retention usage counts after user opt-in.
 
 Draft note: Google Play Data Safety focuses on data collected from or shared
 off device. Confirm final treatment of local-only data before submission.

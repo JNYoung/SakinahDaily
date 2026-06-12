@@ -502,6 +502,24 @@ abstract class AppLocalizations {
   /// **'Prayer check-ins stay on this device only.'**
   String get prayerCheckInsLocalOnly;
 
+  /// No description provided for @prayerWeekProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer week'**
+  String get prayerWeekProgress;
+
+  /// No description provided for @prayerWeekCheckInDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in days'**
+  String get prayerWeekCheckInDays;
+
+  /// No description provided for @prayerWeekStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer streak'**
+  String get prayerWeekStreak;
+
   /// No description provided for @saveSession.
   ///
   /// In en, this message translates to:

@@ -103,6 +103,37 @@ void main() {
       });
     });
 
+    test('home analytics only keeps aggregate prayer retention fields', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.homeViewed,
+        const {
+          'screen': 'home',
+          'route': '/home',
+          'prayers_completed_today': 1,
+          'prayer_checkins_7d': 4,
+          'prayer_checkin_days_7d': 3,
+          'prayer_checkin_streak_days': 2,
+          'prayer_reminders_enabled': false,
+          'prayer_name': 'Fajr',
+          'location_label': 'Makkah',
+          'last_completed_at': '2026-06-12T05:10:00Z',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'screen': 'home',
+        'route': '/home',
+        'prayers_completed_today': 1,
+        'prayer_checkins_7d': 4,
+        'prayer_checkin_days_7d': 3,
+        'prayer_checkin_streak_days': 2,
+        'prayer_reminders_enabled': false,
+      });
+    });
+
     test('disabled stub is a no-op for release builds before consent', () {
       final analytics = StubAnalyticsService(enabled: false);
 

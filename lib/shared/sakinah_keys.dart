@@ -80,6 +80,12 @@ abstract final class SakinahKeys {
   static const homeProgressCard = ValueKey<String>('home_progress_card');
   static const homePrayerCompletionMetric =
       ValueKey<String>('home_prayer_completion_metric');
+  static const homePrayerWeekProgress =
+      ValueKey<String>('home_prayer_week_progress');
+  static const homePrayerWeekDaysMetric =
+      ValueKey<String>('home_prayer_week_days_metric');
+  static const homePrayerWeekStreakMetric =
+      ValueKey<String>('home_prayer_week_streak_metric');
   static const sessionAudioPlayerBar =
       ValueKey<String>('session_audio_player_bar');
   static const sessionSafetyCard = ValueKey<String>('session_safety_card');

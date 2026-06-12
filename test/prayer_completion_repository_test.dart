@@ -60,6 +60,32 @@ void main() {
     expect(await repository.completionCountLast7Days(now: now), 2);
   });
 
+  test('completionDaysLast7 and currentStreakDays count local check-in days',
+      () async {
+    final repository = PrayerCompletionRepository(
+      InMemoryPrayerCompletionStore(),
+    );
+    final now = DateTime(2026, 6, 12, 12);
+
+    await repository.markCompleted('Fajr', completedAt: now);
+    await repository.markCompleted('Dhuhr', completedAt: now);
+    await repository.markCompleted(
+      'Isha',
+      completedAt: now.subtract(const Duration(days: 1)),
+    );
+    await repository.markCompleted(
+      'Asr',
+      completedAt: now.subtract(const Duration(days: 3)),
+    );
+    await repository.markCompleted(
+      'Maghrib',
+      completedAt: now.subtract(const Duration(days: 8)),
+    );
+
+    expect(await repository.completionDaysLast7(now: now), 3);
+    expect(await repository.currentStreakDays(now: now), 2);
+  });
+
   test('invalid persisted prayer completion data fails closed', () async {
     final store = InMemoryPrayerCompletionStore();
     await store.write('{bad json');

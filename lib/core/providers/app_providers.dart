@@ -312,11 +312,17 @@ class PrayerCompletionState {
     this.completionRecords = const [],
     this.todayCompletedPrayerNames = const [],
     this.completionCountLast7Days = 0,
+    this.completionDaysLast7 = 0,
+    this.currentStreakDays = 0,
+    this.isLoaded = false,
   });
 
   final List<PrayerCompletionRecord> completionRecords;
   final List<String> todayCompletedPrayerNames;
   final int completionCountLast7Days;
+  final int completionDaysLast7;
+  final int currentStreakDays;
+  final bool isLoaded;
 
   int completedCountForDate(DateTime date) {
     final day = prayerCompletionDayKey(date);
@@ -345,11 +351,16 @@ class PrayerCompletionController extends StateNotifier<PrayerCompletionState> {
     final records = await repository.listCompletionRecords();
     final todayRecords = await repository.completionsForDate(date);
     final weekCount = await repository.completionCountLast7Days(now: date);
+    final weekDays = await repository.completionDaysLast7(now: date);
+    final streak = await repository.currentStreakDays(now: date);
     state = PrayerCompletionState(
       completionRecords: records,
       todayCompletedPrayerNames:
           todayRecords.map((record) => record.prayerName).toList(),
       completionCountLast7Days: weekCount,
+      completionDaysLast7: weekDays,
+      currentStreakDays: streak,
+      isLoaded: true,
     );
   }
 
@@ -370,7 +381,7 @@ class PrayerCompletionController extends StateNotifier<PrayerCompletionState> {
 
   Future<void> clearAll() async {
     await repository.clearAll();
-    state = const PrayerCompletionState();
+    state = const PrayerCompletionState(isLoaded: true);
   }
 }
 

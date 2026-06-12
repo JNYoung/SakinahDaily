@@ -29,6 +29,10 @@ Current implementation:
   `daily_session_completed` events.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
   calculation method, route, screen, and coarse location method only.
+- The Home page records a local `home_viewed` event only after local prayer
+  completion state is loaded, with aggregate prayer retention counts only:
+  today's completed count, 7-day check-in count, 7-day check-in days, current
+  check-in streak, and prayer reminder enabled state.
 - Prayer reminder global and per-prayer changes record local
   `prayer_reminder_changed` events with reminder enabled state and lead time.
 - Prayer checklist updates record local `prayer_checklist_updated` events with
@@ -79,7 +83,12 @@ Only enum-like, non-sensitive operational parameters are allowed:
 - `language_code`
 - `location_method`
 - `prompt_day`
+- `prayer_checkin_days_7d`
+- `prayer_checkin_streak_days`
+- `prayer_checkins_7d`
 - `prayer_name`
+- `prayer_reminders_enabled`
+- `prayers_completed_today`
 - `reminder_offset_minutes`
 - `route`
 - `screen`
@@ -94,7 +103,7 @@ The sanitizer drops sensitive or free-text fields, including:
 
 - exact latitude or longitude
 - exact prayer completion names or completion timestamps for prayer checklist
-  updates
+  updates and Home retention summaries
 - tester names, emails, or personal identifiers
 - feedback text, private notes, and free text
 - Quran, Dua, reflection, Arabic, translation, or religious text fields

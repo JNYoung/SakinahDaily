@@ -114,24 +114,36 @@ class PrayerCompletionRepository {
 
   Future<int> completionCountLast7Days({DateTime? now}) async {
     final reference = now ?? DateTime.now();
-    final start = DateTime(
-      reference.year,
-      reference.month,
-      reference.day,
-    ).subtract(const Duration(days: 6));
     final snapshot = await _loadSnapshot();
     return snapshot.records.where((record) {
-      final dayParts = record.localDayKey.split('-');
-      if (dayParts.length != 3) {
-        return false;
-      }
-      final day = DateTime(
-        int.tryParse(dayParts[0]) ?? 0,
-        int.tryParse(dayParts[1]) ?? 1,
-        int.tryParse(dayParts[2]) ?? 1,
-      );
-      return !day.isBefore(start) && !day.isAfter(reference);
+      return _isInLast7DayWindow(record.localDayKey, reference);
     }).length;
+  }
+
+  Future<int> completionDaysLast7({DateTime? now}) async {
+    final reference = now ?? DateTime.now();
+    final snapshot = await _loadSnapshot();
+    final days = snapshot.records
+        .where((record) => _isInLast7DayWindow(record.localDayKey, reference))
+        .map((record) => record.localDayKey)
+        .toSet();
+    return days.length;
+  }
+
+  Future<int> currentStreakDays({DateTime? now}) async {
+    final reference = now ?? DateTime.now();
+    final snapshot = await _loadSnapshot();
+    final completedDays = snapshot.records
+        .map((record) => record.localDayKey)
+        .where((day) => _dayFromKey(day) != null)
+        .toSet();
+    var cursor = DateTime(reference.year, reference.month, reference.day);
+    var streak = 0;
+    while (completedDays.contains(prayerCompletionDayKey(cursor))) {
+      streak += 1;
+      cursor = cursor.subtract(const Duration(days: 1));
+    }
+    return streak;
   }
 
   Future<List<PrayerCompletionRecord>> listCompletionRecords() async {
@@ -167,6 +179,34 @@ class PrayerCompletionRepository {
     await store.write(
       encodePrayerCompletionStore(records: snapshot.records),
     );
+  }
+
+  bool _isInLast7DayWindow(String localDayKey, DateTime reference) {
+    final day = _dayFromKey(localDayKey);
+    if (day == null) {
+      return false;
+    }
+    final referenceDay = DateTime(
+      reference.year,
+      reference.month,
+      reference.day,
+    );
+    final start = referenceDay.subtract(const Duration(days: 6));
+    return !day.isBefore(start) && !day.isAfter(referenceDay);
+  }
+
+  DateTime? _dayFromKey(String localDayKey) {
+    final dayParts = localDayKey.split('-');
+    if (dayParts.length != 3) {
+      return null;
+    }
+    final year = int.tryParse(dayParts[0]);
+    final month = int.tryParse(dayParts[1]);
+    final day = int.tryParse(dayParts[2]);
+    if (year == null || month == null || day == null) {
+      return null;
+    }
+    return DateTime(year, month, day);
   }
 }
 
