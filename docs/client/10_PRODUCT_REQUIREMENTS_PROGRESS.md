@@ -142,6 +142,13 @@ Completed:
   a short-delay local notification during Android device QA.
 - Manual prayer location page saves label, latitude, longitude, optional
   timezone ID, and calculation method locally.
+- Settings prayer location preset changes, prayer calculation-method changes,
+  and manual location saves now emit default-off, opt-in-gated
+  `prayer_location_changed` analytics with only coarse location method,
+  calculation method, controlled source, and coarse change type, so the
+  prayer setup completion loop can be monitored without sending coordinates,
+  manual place labels, timezone IDs, routes, Women's Ibadah Mode status, or
+  free text.
 - Qibla uses the selected prayer location without GPS or sensor permissions.
 - Local prayer reminder taps, including cold-start taps, route to `/prayer`.
 - Women’s Mode notification copy avoids sensitive lock-screen state.
@@ -362,11 +369,12 @@ Retention observation preparation:
   local prayer check-in usage count, reminder usefulness or annoyance, Daily
   Session start signal, and Privacy Center trust.
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
-  prayer reminder changes, aggregate prayer checklist updates, Daily Session
-  start/step/completion, Daily Session reminder opt-in and setting changes,
-  handled local notification opens, analytics consent changes, Dua detail/save
-  actions, Dhikr counter start/completion actions, Women's Ibadah Mode
-  enabled-state changes, and closed-test prompt actions.
+  prayer location/method setup, prayer reminder changes, aggregate prayer
+  checklist updates, Daily Session start/step/completion, Daily Session
+  reminder opt-in and setting changes, handled local notification opens,
+  analytics consent changes, Dua detail/save actions, Dhikr counter
+  start/completion actions, Women's Ibadah Mode enabled-state changes, and
+  closed-test prompt actions.
   Prayer reminder analytics now carries only a controlled source such as
   `settings`, `home_prayer_card`, `prayer_page_card`, or
   `prayer_completion_card`, so Home-card, Prayer-page, and Prayer
@@ -408,6 +416,11 @@ Retention observation preparation:
   calculation method, and controlled source such as `prayer_page_card`, so
   Qibla utility interest can be monitored without sending coordinates, place
   labels, or bearing degrees.
+  Prayer location setup analytics now records only `prayer_location_changed`
+  with coarse location method, calculation method, controlled source, and
+  coarse change type, so manual/preset setup friction can be observed without
+  sending coordinates, manual place labels, timezone IDs, routes, Women's
+  Ibadah Mode status, or free text.
   Dua/Dhikr secondary-feature analytics keeps only content IDs and controlled
   sources, while Women's Ibadah Mode analytics keeps only enabled state and
   `source=women_mode`, so usage can be reviewed without transmitting exact

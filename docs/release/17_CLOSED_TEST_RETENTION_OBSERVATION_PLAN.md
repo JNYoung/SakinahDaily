@@ -44,6 +44,7 @@ signals:
 - Onboarding Completion Rate.
 - Prayer View Rate.
 - Qibla View Rate.
+- Prayer Location/Method Setup Rate.
 - Prayer Reminder Opt-in Rate.
 - Analytics Consent Rate for reviewed QA builds that need DebugView evidence.
 - D1 / D7 Retention.
@@ -80,6 +81,12 @@ location method, calculation method, and controlled source such as
 `prayer_page_card`, so prayer utility interest can be observed without exact
 coordinates, selected place labels, bearing degrees, Women's Ibadah Mode
 status, or free text.
+Prayer location and calculation-method setup should appear only as
+`prayer_location_changed` with coarse location method, calculation method,
+controlled source such as `settings_prayer_location`,
+`settings_prayer_method`, or `manual_location_page`, and coarse change type;
+do not store coordinates, manual place labels, timezone IDs, routes, Women's
+Ibadah Mode status, or free text.
 Prayer reminder permission attempts should appear only as
 `prayer_reminder_permission_result` with enabled result, controlled source,
 coarse outcome, and lead-time offset, so denial or explanation dismissal can be
@@ -176,6 +183,7 @@ When the test ends, summarize only aggregate results:
 - D1 / D3 / D7 / D14 feedback themes.
 - Major product changes or explicit release decisions.
 - Whether testers understood manual/preset prayer location.
+- Whether testers completed prayer location and method setup.
 - Whether local prayer reminders felt useful or annoying.
 - Whether Privacy Center and Delete local data increased trust.
 - Whether Arabic RTL and Bahasa Indonesia copy felt natural.

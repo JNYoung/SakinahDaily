@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -196,6 +197,15 @@ class _ManualPrayerLocationPageState
     if (!mounted) {
       return;
     }
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.prayerLocationChanged,
+      {
+        'location_method': 'manual',
+        'calculation_method': settings.method,
+        'source': 'manual_location_page',
+        'change_type': 'manual_location_saved',
+      },
+    );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(l10n.t('locationSaved'))),
     );

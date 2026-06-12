@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -71,9 +72,15 @@ class SettingsPage extends ConsumerWidget {
               onChanged: (value) {
                 final preset = _presetById(value);
                 if (preset != null) {
-                  unawaited(controller.setPrayerSettings(
-                    preset.toPrayerSettings(),
-                  ));
+                  final settings = preset.toPrayerSettings();
+                  unawaited(controller.setPrayerSettings(settings));
+                  _trackPrayerLocationChanged(
+                    ref,
+                    settings: settings,
+                    locationMethod: 'preset',
+                    source: 'settings_prayer_location',
+                    changeType: 'preset_selected',
+                  );
                 }
               },
             ),
@@ -96,10 +103,19 @@ class SettingsPage extends ConsumerWidget {
               ],
               onChanged: (value) {
                 if (value != null) {
+                  final settings =
+                      preferences.prayerSettings.copyWith(method: value);
                   unawaited(
                     controller.setPrayerSettings(
-                      preferences.prayerSettings.copyWith(method: value),
+                      settings,
                     ),
+                  );
+                  _trackPrayerLocationChanged(
+                    ref,
+                    settings: settings,
+                    locationMethod: _locationMethodForSettings(settings),
+                    source: 'settings_prayer_method',
+                    changeType: 'method_selected',
                   );
                 }
               },
@@ -189,6 +205,28 @@ String? _presetIdFor(PrayerSettings settings) {
     }
   }
   return null;
+}
+
+String _locationMethodForSettings(PrayerSettings settings) {
+  return _presetIdFor(settings) == null ? 'manual' : 'preset';
+}
+
+void _trackPrayerLocationChanged(
+  WidgetRef ref, {
+  required PrayerSettings settings,
+  required String locationMethod,
+  required String source,
+  required String changeType,
+}) {
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.prayerLocationChanged,
+    {
+      'location_method': locationMethod,
+      'calculation_method': settings.method,
+      'source': source,
+      'change_type': changeType,
+    },
+  );
 }
 
 PrayerLocationPreset? _presetById(String? id) {
