@@ -135,6 +135,51 @@ The sanitizer drops sensitive or free-text fields, including:
 - Women's Ibadah Mode exact status, menstruation, postpartum, pregnancy, or
   health-related fields
 
+## DebugView QA Packet
+
+Before any Play closed-testing or release build transmits Firebase Analytics,
+export the local DebugView QA packet:
+
+```sh
+scripts/export_google_analytics_debugview_packet.sh
+```
+
+The packet is written to `build/google-analytics-debugview` and contains a
+Firebase DebugView checklist, a Google Analytics event catalog, a retention
+funnel checklist, a blocked-parameter review CSV, and copied source evidence.
+It follows the official Firebase DebugView workflow at
+`https://firebase.google.com/docs/analytics/debugview`, including the Android
+debug command:
+
+```sh
+adb shell setprop debug.firebase.analytics.app com.sakinahdaily.app
+```
+
+Use this packet only with a reviewed QA build where
+`SAKINAH_ANALYTICS_ENABLED=true`, Firebase project configuration is present,
+and the tester has turned on the Privacy Center usage analytics opt-in. Store
+screenshot mode forces analytics off and is not valid DebugView evidence.
+
+The QA reviewer should verify that `home_viewed`,
+`prayer_reminder_changed`, `daily_session_started`,
+`daily_session_step_viewed`, `daily_session_completed`,
+`daily_session_reminder_changed`, `closed_test_prompt_copied`, and
+`closed_test_prompt_marked_sent` appear only with allowed parameters. No tester
+personal data, exact coordinates, Women's Ibadah Mode exact status, feedback
+text, religious text, or exact reminder time should appear in DebugView.
+
+Strict export mode is available for pre-upload review:
+
+```sh
+SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY=true \
+SAKINAH_ANALYTICS_ENABLED_CONFIRMED=true \
+SAKINAH_FIREBASE_PROJECT_CONFIG_READY=true \
+SAKINAH_ANALYTICS_CONSENT_QA_READY=true \
+SAKINAH_PLAY_DATA_SAFETY_ANALYTICS_REVIEWED=true \
+SAKINAH_DEBUGVIEW_DEVICE_READY=true \
+scripts/export_google_analytics_debugview_packet.sh
+```
+
 ## Google Analytics Production Gate
 
 Before enabling Firebase Analytics for production or any Play closed-testing

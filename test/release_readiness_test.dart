@@ -1515,6 +1515,142 @@ void main() {
           contains('17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md'));
     });
 
+    test('Google Analytics DebugView QA packet can be exported', () {
+      final script =
+          File('scripts/export_google_analytics_debugview_packet.sh');
+      final docsIndex = File('docs/00_DOCS_INDEX.md').readAsStringSync();
+      final analyticsPlan =
+          File('docs/privacy/07_GOOGLE_ANALYTICS_EVENT_PLAN.md')
+              .readAsStringSync();
+      final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
+          .readAsStringSync();
+      final retentionPlan =
+          File('docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md')
+              .readAsStringSync();
+      final versionNotes = File('docs/release/08_VERSION_AND_RELEASE_NOTES.md')
+          .readAsStringSync();
+
+      expect(script.existsSync(), isTrue);
+      final mode = script.statSync().mode;
+      expect(mode & 0x49, isNonZero);
+
+      final content = script.readAsStringSync();
+      expect(content, contains('build/google-analytics-debugview'));
+      expect(content, contains('debugview_checklist.md'));
+      expect(content, contains('analytics_events_catalog.csv'));
+      expect(content, contains('retention_funnel_debugview.csv'));
+      expect(content, contains('blocked_parameter_review.csv'));
+      expect(content, contains('SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY'));
+      expect(content, contains('SAKINAH_ANALYTICS_ENABLED=true'));
+      expect(content, contains('debug.firebase.analytics.app'));
+      expect(content, contains('com.sakinahdaily.app'));
+      expect(content, contains('home_session_completion'));
+      expect(content, contains('daily_session_reminder_changed'));
+
+      final templateRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_analytics_debugview_packet.sh'],
+        environment: {'PATH': Platform.environment['PATH'] ?? ''},
+        includeParentEnvironment: false,
+      );
+      expect(templateRun.exitCode, 0);
+      expect(
+        templateRun.stdout.toString(),
+        contains('Google Analytics DebugView QA packet exported'),
+      );
+
+      final manifest = File('build/google-analytics-debugview/manifest.txt')
+          .readAsStringSync();
+      final checklist =
+          File('build/google-analytics-debugview/debugview_checklist.md')
+              .readAsStringSync();
+      final events =
+          File('build/google-analytics-debugview/analytics_events_catalog.csv')
+              .readAsStringSync();
+      final funnel = File(
+              'build/google-analytics-debugview/retention_funnel_debugview.csv')
+          .readAsStringSync();
+      final blocked =
+          File('build/google-analytics-debugview/blocked_parameter_review.csv')
+              .readAsStringSync();
+
+      expect(manifest, contains('Google Analytics DebugView QA packet'));
+      expect(manifest, contains('No tester personal data'));
+      expect(manifest, contains('SAKINAH_ANALYTICS_ENABLED=true'));
+      expect(manifest, contains('Firebase DebugView'));
+      expect(
+        manifest,
+        contains('https://firebase.google.com/docs/analytics/debugview'),
+      );
+
+      expect(
+        checklist,
+        contains(
+          'adb shell setprop debug.firebase.analytics.app com.sakinahdaily.app',
+        ),
+      );
+      expect(
+        checklist,
+        contains('adb shell setprop debug.firebase.analytics.app .none.'),
+      );
+      expect(checklist, contains('Privacy Center usage analytics opt-in'));
+      expect(checklist, contains('Store screenshot mode forces analytics off'));
+
+      expect(
+        events,
+        contains(
+          'event_name,qa_flow,expected_parameters,forbidden_parameters,retention_signal',
+        ),
+      );
+      expect(events, contains('home_viewed'));
+      expect(events, contains('prayer_reminder_changed'));
+      expect(events, contains('daily_session_started'));
+      expect(events, contains('daily_session_step_viewed'));
+      expect(events, contains('daily_session_completed'));
+      expect(events, contains('daily_session_reminder_changed'));
+      expect(events, contains('home_session_completion'));
+      expect(events, contains('closed_test_prompt_copied'));
+
+      expect(funnel, contains('Prayer Reminder Opt-in Rate'));
+      expect(funnel, contains('Daily Session Start Rate'));
+      expect(funnel, contains('session_to_reminder'));
+      expect(funnel, contains('daily_session_reminder_changed'));
+      expect(funnel, contains('home_session_completion'));
+
+      expect(blocked, contains('latitude'));
+      expect(blocked, contains('longitude'));
+      expect(blocked, contains('women_ibadah_status'));
+      expect(blocked, contains('feedback_text'));
+      expect(blocked, contains('quran_arabic_text'));
+      expect(blocked, contains('reminder_time'));
+
+      final strictRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_analytics_debugview_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictRun.exitCode, isNot(0));
+      expect(
+        strictRun.stderr.toString(),
+        contains('Google Analytics DebugView QA packet failed'),
+      );
+      expect(
+        strictRun.stderr.toString(),
+        contains('SAKINAH_ANALYTICS_ENABLED_CONFIRMED=true'),
+      );
+
+      expect(
+          docsIndex, contains('export_google_analytics_debugview_packet.sh'));
+      expect(analyticsPlan, contains('DebugView QA packet'));
+      expect(readiness, contains('Google Analytics DebugView QA packet'));
+      expect(retentionPlan, contains('DebugView QA packet'));
+      expect(versionNotes, contains('Google Analytics DebugView QA packet'));
+    });
+
     test('Google Play public links are scripted and documented', () {
       final script = File('scripts/verify_google_play_public_links.sh');
       final hostingDoc =

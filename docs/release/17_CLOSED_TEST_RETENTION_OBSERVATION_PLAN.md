@@ -21,6 +21,9 @@ Use it with:
 - The copied in-app feedback prompt and optional public feedback page include a
   suggested aggregate theme key, so feedback can be summarized without storing
   personal text.
+- The optional Google Analytics DebugView QA packet exported by
+  `scripts/export_google_analytics_debugview_packet.sh` when a reviewed
+  analytics QA build is available.
 - `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`.
 - `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`.
 
@@ -51,6 +54,12 @@ Firebase project configuration, `SAKINAH_ANALYTICS_ENABLED=true`, and user
 opt-in from Privacy Center, these remain observation categories by default. Use
 aggregate tester counts, Play Testing feedback, and voluntary tester comments
 unless telemetry is explicitly approved and declared for the test build.
+
+If telemetry is explicitly approved for a closed-testing QA build, export the
+DebugView QA packet and use Firebase DebugView only to verify the whitelisted
+events and blocked fields. Do not replace the aggregate Day 1 / Day 3 / Day 7 /
+Day 14 evidence log with raw analytics exports, and do not store tester
+personal data.
 
 ## Observation Windows
 
