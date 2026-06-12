@@ -64,6 +64,13 @@ Current implementation:
   `prayer_page_card`, `settings`, `manual_location`, or `direct` only. Exact
   coordinates, selected place labels, Qibla bearing degrees/cardinal labels,
   Women's Ibadah Mode status, and free text are not sent.
+- Prayer location and calculation-method changes record local
+  `prayer_location_changed` events with only coarse location method
+  (`preset` or `manual`), calculation method, controlled source such as
+  `settings_prayer_location`, `settings_prayer_method`, or
+  `manual_location_page`, and coarse change type only. Exact coordinates,
+  manual place labels, timezone IDs, routes, Women's Ibadah Mode status, and
+  free text are not sent.
 - Notification Settings records a local `notification_settings_viewed` event
   once per page entry with only screen, controlled entry source, and whether
   prayer reminders are already enabled. Controlled entry sources include
@@ -129,6 +136,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `home_viewed`
 - `prayer_viewed`
 - `qibla_viewed`
+- `prayer_location_changed`
 - `notification_settings_viewed`
 - `prayer_reminder_permission_result`
 - `prayer_reminder_changed`
@@ -185,6 +193,7 @@ The sanitizer drops sensitive or free-text fields, including:
 
 - exact latitude or longitude
 - exact selected place labels or Qibla bearing/cardinal values
+- manual prayer location labels or timezone IDs
 - exact prayer completion names or completion timestamps for prayer checklist
   updates and Home retention summaries
 - exact daily session reminder time
@@ -224,6 +233,7 @@ The QA reviewer should verify that `home_viewed`,
 `analytics_consent_changed`,
 `notification_settings_viewed`,
 `prayer_reminder_permission_result`,
+`prayer_location_changed`,
 `daily_session_started`,
 `daily_session_step_viewed`, `daily_session_completed`,
 `daily_session_reminder_permission_result`,
@@ -237,6 +247,8 @@ text, religious text, or exact reminder time should appear in DebugView.
 controlled source, and reminder lead-time offset.
 `qibla_viewed` must keep only screen, route, coarse location method,
 calculation method, and controlled source.
+`prayer_location_changed` must keep only coarse location method, calculation
+method, controlled source, and coarse change type.
 `notification_settings_viewed` must keep only screen, controlled source, and
 aggregate prayer-reminder enabled state.
 `prayer_reminder_permission_result` must keep only enabled result, controlled

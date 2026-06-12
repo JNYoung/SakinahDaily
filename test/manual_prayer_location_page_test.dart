@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -47,6 +48,47 @@ void main() {
     expect(preferences.prayerSettings.latitude, -6.2088);
     expect(preferences.prayerSettings.longitude, 106.8456);
     expect(preferences.prayerSettings.timezoneId, 'Asia/Jakarta');
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('manual prayer location save records safe analytics',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/prayer-location',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLocationLabelField),
+      'Jakarta Selatan',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLatitudeField),
+      '-6.2088',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLongitudeField),
+      '106.8456',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualTimezoneField),
+      'Asia/Jakarta',
+    );
+    await tapByKey(tester, SakinahKeys.manualLocationSaveButton);
+
+    final event = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.prayerLocationChanged,
+    );
+    expect(event.properties, {
+      'location_method': 'manual',
+      'calculation_method': 'umm_al_qura',
+      'source': 'manual_location_page',
+      'change_type': 'manual_location_saved',
+    });
     expectNoFlutterErrors(tester);
   });
 

@@ -435,6 +435,47 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Settings prayer location changes record safe analytics',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(SakinahKeys.settingsPrayerLocationDropdown));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Jakarta').last);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(SakinahKeys.settingsPrayerMethodDropdown));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Muslim World League').last);
+    await tester.pumpAndSettle();
+
+    final events = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.prayerLocationChanged)
+        .toList(growable: false);
+    expect(events, hasLength(2));
+    expect(events.first.properties, {
+      'location_method': 'preset',
+      'calculation_method': 'indonesia',
+      'source': 'settings_prayer_location',
+      'change_type': 'preset_selected',
+    });
+    expect(events.last.properties, {
+      'location_method': 'preset',
+      'calculation_method': 'muslim_world_league',
+      'source': 'settings_prayer_method',
+      'change_type': 'method_selected',
+    });
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Prayer page highlights current and next prayers',
       (tester) async {
     await pumpSakinahApp(

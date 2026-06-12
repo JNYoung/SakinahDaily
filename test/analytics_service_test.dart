@@ -23,6 +23,7 @@ void main() {
           AnalyticsEventCatalog.onboardingCompleted,
           AnalyticsEventCatalog.homeViewed,
           AnalyticsEventCatalog.prayerViewed,
+          AnalyticsEventCatalog.prayerLocationChanged,
           AnalyticsEventCatalog.notificationSettingsViewed,
           AnalyticsEventCatalog.prayerReminderPermissionResult,
           AnalyticsEventCatalog.prayerReminderChanged,
@@ -305,6 +306,33 @@ void main() {
         'location_method': 'manual',
         'calculation_method': 'indonesia',
         'source': 'settings',
+      });
+    });
+
+    test('prayer location analytics keeps safe settings metadata only', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.prayerLocationChanged,
+        const {
+          'location_method': 'manual',
+          'calculation_method': 'indonesia',
+          'source': 'manual_location_page',
+          'change_type': 'manual_location_saved',
+          'latitude': -6.2088,
+          'longitude': 106.8456,
+          'location_label': 'Jakarta Selatan',
+          'timezone_id': 'Asia/Jakarta',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'location_method': 'manual',
+        'calculation_method': 'indonesia',
+        'source': 'manual_location_page',
+        'change_type': 'manual_location_saved',
       });
     });
 
