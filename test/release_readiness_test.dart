@@ -2269,6 +2269,8 @@ void main() {
       final keys = File('lib/shared/sakinah_keys.dart').readAsStringSync();
       final navigationTest =
           File('test/navigation_flow_test.dart').readAsStringSync();
+      final sessionProgressTest =
+          File('test/session_progress_flow_test.dart').readAsStringSync();
       final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
           .readAsStringSync();
       final productProgress =
@@ -2279,14 +2281,28 @@ void main() {
 
       expect(home, contains('formatDailySessionReminderTime'));
       expect(home, contains('homeSessionReminderStatusChip'));
+      expect(home, contains('homeSessionReminderCtaButton'));
       expect(keys, contains('homeSessionReminderStatusChip'));
+      expect(keys, contains('homeSessionReminderCtaButton'));
       expect(
         navigationTest,
         contains('home session card shows enabled daily reminder time'),
       );
       expect(
+        sessionProgressTest,
+        contains('homeSessionReminderCtaButton'),
+      );
+      expect(
+        readiness,
+        contains('Home offers a Set daily reminder CTA'),
+      );
+      expect(
         readiness,
         contains('Home session card surfaces enabled daily session reminder'),
+      );
+      expect(
+        productProgress,
+        contains('Set daily reminder CTA'),
       );
       expect(
         productProgress,

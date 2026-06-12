@@ -106,6 +106,12 @@ void main() {
 
     expect(find.text('Completed today'), findsOneWidget);
     expect(find.text('Review'), findsOneWidget);
+
+    await tapByKey(tester, SakinahKeys.homeSessionReminderCtaButton);
+
+    expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
+    await scrollUntilFound(tester, find.text('Daily session reminder'));
+    expect(find.text('Daily session reminder'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 }

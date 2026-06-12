@@ -33,6 +33,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('home_closed_testing_guide_button');
   static const homeSessionStartButton =
       ValueKey<String>('home_session_start_button');
+  static const homeSessionReminderCtaButton =
+      ValueKey<String>('home_session_reminder_cta_button');
   static const homeVoiceOnlyButton = ValueKey<String>('home_voice_only_button');
   static const homeSaveTonightButton =
       ValueKey<String>('home_save_tonight_button');

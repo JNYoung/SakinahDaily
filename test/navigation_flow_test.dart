@@ -227,6 +227,7 @@ void main() {
 
     expect(find.byKey(SakinahKeys.homeSessionCard), findsOneWidget);
     expect(find.text('Daily session reminder · 05:30'), findsOneWidget);
+    expect(find.byKey(SakinahKeys.homeSessionReminderCtaButton), findsNothing);
     expectNoFlutterErrors(tester);
   });
 
