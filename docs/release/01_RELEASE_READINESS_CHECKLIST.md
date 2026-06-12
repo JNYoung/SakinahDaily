@@ -87,6 +87,12 @@ Status: Draft for release/store review.
   `build/play-retention-observation` without tester personal data, while
   strict mode fails until the closed-test release is live, feedback channels
   are ready, and a human review owner/schedule is confirmed.
+- [x] Google Analytics DebugView QA packet exists at
+  `scripts/export_google_analytics_debugview_packet.sh`; template mode writes
+  a DebugView checklist, analytics event catalog, retention funnel checklist,
+  and blocked-parameter review into `build/google-analytics-debugview`, while
+  strict mode fails until the reviewed Firebase QA build, Privacy Center opt-in,
+  Data Safety review, and DebugView device setup are confirmed.
 - [x] Google Play store visual assets verifier exists at
   `scripts/verify_google_play_store_assets.sh`; it generates and validates the
   1024 x 500, 24-bit PNG/no-alpha feature graphic and can strictly check the
