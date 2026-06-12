@@ -5,6 +5,7 @@ import 'package:sakinah_daily/core/models/saved_item.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/prayer_calculation_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -116,17 +117,30 @@ void main() {
   testWidgets('home prayer card explains location method and reminder status',
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();
-    await UserPreferencesRepository(preferencesStore).save(
-      UserPreferences.defaults().copyWith(
-        notificationsEnabled: true,
-        prayerSettings: const PrayerSettings(
-          latitude: -6.2088,
-          longitude: 106.8456,
-          method: 'indonesia',
-          locationLabel: 'Jakarta',
-          timezoneId: 'Asia/Jakarta',
+    final now = DateTime(2026, 5, 21, 3);
+    final preferences = UserPreferences.defaults().copyWith(
+      notificationsEnabled: true,
+      prayerReminderOffsetMinutes: 10,
+      prayerSettings: const PrayerSettings(
+        latitude: -6.2088,
+        longitude: 106.8456,
+        method: 'indonesia',
+        locationLabel: 'Jakarta',
+        timezoneId: 'Asia/Jakarta',
+      ),
+    );
+    final expectedPrayer = PrayerCalculationService()
+        .dayStatus(now, preferences.prayerSettings)
+        .nextPrayer;
+    final expectedReminderAt = expectedPrayer.time.subtract(
+      Duration(
+        minutes: sanitizePrayerReminderOffsetMinutes(
+          preferences.prayerReminderOffsetMinutes,
         ),
       ),
+    );
+    await UserPreferencesRepository(preferencesStore).save(
+      preferences,
     );
 
     await pumpSakinahApp(
@@ -134,7 +148,7 @@ void main() {
       initialLocation: '/home',
       settleSplash: false,
       preferencesStore: preferencesStore,
-      currentDateTime: DateTime(2026, 6, 11, 12),
+      currentDateTime: now,
     );
     await tester.pumpAndSettle();
 
@@ -142,6 +156,13 @@ void main() {
     expect(find.text('Prayer location · Jakarta'), findsOneWidget);
     expect(find.text('Prayer method · KEMENAG Indonesia'), findsOneWidget);
     expect(find.text('Prayer reminders · On'), findsOneWidget);
+    expect(
+      find.text(
+        'Next prayer reminder · ${expectedPrayer.name} '
+        '${_formatClockTime(expectedReminderAt)}',
+      ),
+      findsOneWidget,
+    );
     expectNoFlutterErrors(tester);
   });
 
@@ -444,4 +465,9 @@ SavedItem _savedDua() {
     createdAt: DateTime.utc(2026, 6, 10),
     languageCode: 'en',
   );
+}
+
+String _formatClockTime(DateTime time) {
+  return '${time.hour.toString().padLeft(2, '0')}:'
+      '${time.minute.toString().padLeft(2, '0')}';
 }

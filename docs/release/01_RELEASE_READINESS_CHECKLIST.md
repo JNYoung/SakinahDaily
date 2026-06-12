@@ -272,6 +272,9 @@ Status: Draft for release/store review.
 - [x] Home and bottom navigation are scoped to Home / Prayer / Session / Settings.
 - [x] Home first screen explicitly labels the next-prayer context with prayer
   location, calculation method, and prayer reminder status in localized copy.
+- [x] Home first screen previews the next local prayer reminder after reminders
+  are enabled, using only on-device prayer calculation state and local clock
+  display.
 - [x] Home daily prayer companion acceptance is covered by prayer-first
   next-prayer context, Today's Sakinah Session, local progress, night save flow,
   optional saved continue rail, and widget tests that reject the Quran / Dua /

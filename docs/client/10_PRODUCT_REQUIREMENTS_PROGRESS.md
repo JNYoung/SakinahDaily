@@ -104,6 +104,10 @@ Completed:
   location, calculation method, and prayer reminder status in English,
   Indonesian, and Arabic, so users do not have to infer state from icons or
   short On/Off chips.
+- When prayer reminders are enabled, Home's first-screen prayer card now also
+  previews the next local prayer reminder with prayer name and local clock time,
+  helping users trust the reminder loop without opening Settings or uploading
+  exact reminder timing.
 - Onboarding now includes a preset prayer-location step for Makkah, Riyadh,
   Jakarta, Dubai, and Cairo, with no GPS permission request in the v0.1
   baseline.
