@@ -147,6 +147,8 @@
   "notificationSettingsTitle": "إعدادات الإشعارات",
   "notificationSettingsSubtitle": "إدارة تذكيرات الصلاة والجلسة اليومية.",
   "closedTestingHomeBody": "استخدم أسئلة اليوم 1 / اليوم 3 / اليوم 7 / اليوم 14 لإرسال ملاحظات دون تفاصيل شخصية.",
+  "closedTestingNextFeedback": "الملاحظة التالية",
+  "closedTestingAllFeedbackSent": "تم تعليم كل الملاحظات كمرسلة",
   "closedTestingHomeButton": "فتح الدليل",
   "closedTestingPromptTitle": "أسئلة الملاحظات",
   "closedTestingPromptBody": "استخدم هذه المحطات لإرسال ملاحظات تساعد اختبار 14 يوما على تحسين العودة اليومية.",

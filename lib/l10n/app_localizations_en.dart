@@ -475,6 +475,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use the Day 1 / Day 3 / Day 7 / Day 14 prompts to send feedback without personal details.';
 
   @override
+  String get closedTestingNextFeedback => 'Next feedback';
+
+  @override
+  String get closedTestingAllFeedbackSent => 'All feedback marked sent';
+
+  @override
   String get closedTestingHomeButton => 'Open guide';
 
   @override

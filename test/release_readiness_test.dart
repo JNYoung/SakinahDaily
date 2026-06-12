@@ -3312,6 +3312,8 @@ void main() {
       expect(homePage, contains('homeNightCard'));
       expect(homePage, contains('homeSavedRail'));
       expect(homePage, contains('homeClosedTestingGuideCard'));
+      expect(homePage, contains('homeClosedTestingNextPrompt'));
+      expect(homePage, contains('closedTestingNextFeedback'));
       expect(homePage, contains('homeClosedTestingGuideButton'));
       expect(homePage, contains('testingFeedbackChannel'));
       expect(homePage, contains('/settings/testing-guide'));
@@ -3325,6 +3327,7 @@ void main() {
         contains(
             'home surfaces closed testing guide when feedback is configured'),
       );
+      expect(navigationTest, contains('Next feedback'));
       expect(
         navigationTest,
         contains(

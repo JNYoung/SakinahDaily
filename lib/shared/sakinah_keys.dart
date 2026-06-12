@@ -31,6 +31,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('home_saved_items_button');
   static const homeClosedTestingGuideCard =
       ValueKey<String>('home_closed_testing_guide_card');
+  static const homeClosedTestingNextPrompt =
+      ValueKey<String>('home_closed_testing_next_prompt');
   static const homeClosedTestingGuideButton =
       ValueKey<String>('home_closed_testing_guide_button');
   static const homeSessionStartButton =

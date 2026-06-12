@@ -147,6 +147,8 @@
   "notificationSettingsTitle": "Pengaturan notifikasi",
   "notificationSettingsSubtitle": "Kelola pengingat shalat dan sesi harian.",
   "closedTestingHomeBody": "Gunakan prompt Hari 1 / Hari 3 / Hari 7 / Hari 14 untuk mengirim masukan tanpa detail pribadi.",
+  "closedTestingNextFeedback": "Masukan berikutnya",
+  "closedTestingAllFeedbackSent": "Semua masukan ditandai terkirim",
   "closedTestingHomeButton": "Buka panduan",
   "closedTestingPromptTitle": "Prompt masukan",
   "closedTestingPromptBody": "Gunakan titik cek ini untuk mengirim masukan yang membantu closed test 14 hari memperbaiki kebiasaan kembali harian.",

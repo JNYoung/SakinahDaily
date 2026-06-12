@@ -982,6 +982,18 @@ abstract class AppLocalizations {
   /// **'Use the Day 1 / Day 3 / Day 7 / Day 14 prompts to send feedback without personal details.'**
   String get closedTestingHomeBody;
 
+  /// No description provided for @closedTestingNextFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Next feedback'**
+  String get closedTestingNextFeedback;
+
+  /// No description provided for @closedTestingAllFeedbackSent.
+  ///
+  /// In en, this message translates to:
+  /// **'All feedback marked sent'**
+  String get closedTestingAllFeedbackSent;
+
   /// No description provided for @closedTestingHomeButton.
   ///
   /// In en, this message translates to:

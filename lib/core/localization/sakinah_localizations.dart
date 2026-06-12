@@ -185,6 +185,8 @@ class SakinahLocalizations {
           'Daily checks for prayer, reminders, session, and privacy.',
       'closedTestingHomeBody':
           'Use the Day 1 / Day 3 / Day 7 / Day 14 prompts to send feedback without personal details.',
+      'closedTestingNextFeedback': 'Next feedback',
+      'closedTestingAllFeedbackSent': 'All feedback marked sent',
       'closedTestingHomeButton': 'Open guide',
       'closedTestingGuideIntroTitle': 'Help test the daily prayer flow',
       'closedTestingGuideIntroBody':
@@ -663,6 +665,8 @@ class SakinahLocalizations {
           'Cek harian untuk shalat, pengingat, sesi, dan privasi.',
       'closedTestingHomeBody':
           'Gunakan prompt Hari 1 / Hari 3 / Hari 7 / Hari 14 untuk mengirim masukan tanpa detail pribadi.',
+      'closedTestingNextFeedback': 'Masukan berikutnya',
+      'closedTestingAllFeedbackSent': 'Semua masukan ditandai terkirim',
       'closedTestingHomeButton': 'Buka panduan',
       'closedTestingGuideIntroTitle': 'Bantu uji alur shalat harian',
       'closedTestingGuideIntroBody':
@@ -1136,6 +1140,8 @@ class SakinahLocalizations {
           'فحوصات يومية للصلاة والتذكيرات والجلسة والخصوصية.',
       'closedTestingHomeBody':
           'استخدم أسئلة اليوم 1 / اليوم 3 / اليوم 7 / اليوم 14 لإرسال ملاحظات دون تفاصيل شخصية.',
+      'closedTestingNextFeedback': 'الملاحظة التالية',
+      'closedTestingAllFeedbackSent': 'تم تعليم كل الملاحظات كمرسلة',
       'closedTestingHomeButton': 'فتح الدليل',
       'closedTestingGuideIntroTitle': 'ساعد في اختبار مسار الصلاة اليومي',
       'closedTestingGuideIntroBody':

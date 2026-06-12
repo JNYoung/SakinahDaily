@@ -87,6 +87,9 @@ class HomePage extends ConsumerWidget {
           item.itemId == session.id,
     );
     final recentSavedItems = savedItems.take(2).toList(growable: false);
+    final closedTestingFeedbackStatusLabel = testingFeedbackChannel == null
+        ? null
+        : _closedTestingFeedbackStatusLabel(l10n, preferences);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return LanguageAwareScaffold(
@@ -191,6 +194,7 @@ class HomePage extends ConsumerWidget {
               key: SakinahKeys.homeClosedTestingGuideCard,
               title: l10n.t('closedTestingGuideTitle'),
               body: l10n.t('closedTestingHomeBody'),
+              feedbackStatusLabel: closedTestingFeedbackStatusLabel,
               buttonLabel: l10n.t('closedTestingHomeButton'),
               onOpenGuide: () => context.go('/settings/testing-guide'),
             ),
@@ -448,6 +452,7 @@ class _ClosedTestingHomeCard extends StatelessWidget {
   const _ClosedTestingHomeCard({
     required this.title,
     required this.body,
+    required this.feedbackStatusLabel,
     required this.buttonLabel,
     required this.onOpenGuide,
     super.key,
@@ -455,6 +460,7 @@ class _ClosedTestingHomeCard extends StatelessWidget {
 
   final String title;
   final String body;
+  final String? feedbackStatusLabel;
   final String buttonLabel;
   final VoidCallback onOpenGuide;
 
@@ -480,6 +486,16 @@ class _ClosedTestingHomeCard extends StatelessWidget {
                     Text(title, style: Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 6),
                     Text(body),
+                    if (feedbackStatusLabel != null) ...[
+                      const SizedBox(height: 8),
+                      Chip(
+                        key: SakinahKeys.homeClosedTestingNextPrompt,
+                        avatar: const Icon(Icons.flag_outlined, size: 16),
+                        label: Text(feedbackStatusLabel!),
+                        visualDensity: VisualDensity.compact,
+                        side: BorderSide.none,
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -502,6 +518,36 @@ class _ClosedTestingHomeCard extends StatelessWidget {
 }
 
 String _statusLabel(String label, String value) => '$label · $value';
+
+String _closedTestingFeedbackStatusLabel(
+  SakinahLocalizations l10n,
+  UserPreferences preferences,
+) {
+  final nextPromptDayId = closedTestingPromptDayIds.firstWhere(
+    (dayId) => !preferences.isClosedTestingPromptCompleted(dayId),
+    orElse: () => '',
+  );
+  if (nextPromptDayId.isEmpty) {
+    return l10n.t('closedTestingAllFeedbackSent');
+  }
+  return _statusLabel(
+    l10n.t('closedTestingNextFeedback'),
+    _closedTestingPromptDayLabel(l10n, nextPromptDayId),
+  );
+}
+
+String _closedTestingPromptDayLabel(
+  SakinahLocalizations l10n,
+  String promptDayId,
+) {
+  return switch (promptDayId) {
+    'day1' => l10n.t('closedTestingPromptDay1Label'),
+    'day3' => l10n.t('closedTestingPromptDay3Label'),
+    'day7' => l10n.t('closedTestingPromptDay7Label'),
+    'day14' => l10n.t('closedTestingPromptDay14Label'),
+    _ => promptDayId,
+  };
+}
 
 String _routeForSavedItem(SavedItem item) {
   return switch (item.itemType) {
