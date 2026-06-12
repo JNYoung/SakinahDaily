@@ -169,7 +169,7 @@ Open product links:
   default-off Firebase Analytics adapter for the prayer/session loop with an
   event whitelist and sensitive-parameter sanitizer. Product metrics still
   cannot be transmitted by default until a reviewed Firebase configuration,
-  consent posture, and Play Data Safety declaration are approved.
+  user opt-in, and Play Data Safety declaration are approved.
 - Session history is intentionally small and lacks filters or richer insights.
 - Reminder timing is user-selectable locally, but real-device notification
   permission/OEM scheduling QA remains open.
@@ -272,14 +272,16 @@ Retention observation preparation:
 - North star: Weekly Active Prayer Reminder Users.
 - Closed-test proxy signals remain aggregate-only by default because Firebase
   Analytics is disabled unless `SAKINAH_ANALYTICS_ENABLED=true` and Firebase
-  project configuration are provided: Prayer Reminder Opt-in Rate, D1 / D7
-  Retention, prayer view feedback, reminder usefulness or annoyance, Daily
-  Session start signal, and Privacy Center trust.
+  project configuration are provided and the user opts in from Privacy Center:
+  Prayer Reminder Opt-in Rate, D1 / D7 Retention, prayer view feedback,
+  reminder usefulness or annoyance, Daily Session start signal, and Privacy
+  Center trust.
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
   prayer reminder changes, Daily Session start/completion, saved Dua/Dhikr
   actions, and closed-test prompt actions. It is default-off and strips
   coordinates, feedback text, religious text, and Women's Ibadah Mode exact
-  status before the Firebase Analytics adapter can send events.
+  status before the Firebase Analytics adapter can send events. Privacy Center
+  now exposes the user analytics opt-in for analytics-enabled builds.
 - `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` and
   `scripts/export_google_play_closed_test_retention_packet.sh` prepare local
   Day 1 / Day 3 / Day 7 / Day 14 observation templates for Production access

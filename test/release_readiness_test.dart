@@ -190,9 +190,14 @@ void main() {
           File('lib/core/services/analytics_service.dart').readAsStringSync();
       final analyticsTest =
           File('test/analytics_service_test.dart').readAsStringSync();
+      final privacyNavigationTest =
+          File('test/privacy_navigation_test.dart').readAsStringSync();
       final mainDart = File('lib/main.dart').readAsStringSync();
       final manifest =
           File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
+      final privacyCenter =
+          File('lib/features/settings/privacy_center_page.dart')
+              .readAsStringSync();
       final analyticsPlan =
           File('docs/privacy/07_GOOGLE_ANALYTICS_EVENT_PLAN.md')
               .readAsStringSync();
@@ -217,9 +222,17 @@ void main() {
           analyticsTest, contains('Google Analytics compatible event names'));
       expect(analyticsTest, contains('drops sensitive or free-text'));
       expect(analyticsTest, contains('firebase bootstrap fails closed'));
+      expect(analyticsTest, contains('collection disabled'));
+      expect(analyticsTest, contains('provider requires user opt-in'));
+      expect(privacyNavigationTest,
+          contains('Privacy Center stores analytics opt-in'));
       expect(mainDart, contains('FirebaseAnalyticsBootstrap'));
+      expect(privacyCenter, contains('privacyAnalyticsSwitch'));
+      expect(privacyCenter, contains('setAnalyticsOptIn'));
       expect(analyticsPlan, contains('Google Analytics 4 compatible'));
       expect(analyticsPlan, contains('SAKINAH_ANALYTICS_ENABLED=true'));
+      expect(analyticsPlan, contains('analyticsOptIn'));
+      expect(analyticsPlan, contains('collection disabled'));
       expect(analyticsPlan,
           contains('Firebase Analytics SDK dependency is present'));
       expect(analyticsPlan, contains("Women's Ibadah Mode exact status"));
@@ -2843,6 +2856,8 @@ void main() {
           File('lib/core/providers/app_providers.dart').readAsStringSync();
       final analyticsService =
           File('lib/core/services/analytics_service.dart').readAsStringSync();
+      final userPreferences =
+          File('lib/core/models/sakinah_models.dart').readAsStringSync();
       final manifest =
           File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
 
@@ -2858,7 +2873,11 @@ void main() {
         expect(pubspec, isNot(contains(forbidden)), reason: forbidden);
       }
       expect(appProvider, contains('environment.analyticsEnabled'));
+      expect(appProvider, contains('preferences.analyticsOptIn'));
+      expect(appProvider, contains('analyticsCollectionConsentSyncProvider'));
+      expect(appProvider, contains('setCollectionEnabled'));
       expect(appProvider, contains('FirebaseAnalyticsService'));
+      expect(userPreferences, contains('analyticsOptIn'));
       expect(analyticsService, contains('AnalyticsParameterPolicy.sanitize'));
       expect(analyticsService, contains('FirebaseAnalyticsBootstrap'));
       expect(

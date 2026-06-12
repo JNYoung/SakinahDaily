@@ -20,7 +20,8 @@ classification.
 | Session progress and completion history | Yes, when user starts or completes a session | Yes | No | No | Optional | Resume sessions and show local progress summary | Settings > Privacy > Delete local data | Stores session IDs and timestamps only |
 | Remote content request metadata | Yes, when remote API is enabled | No durable client storage by default | Yes | Possible server/CDN logs | Operational | Request manifest/detail bundles | Server log deletion is future work | Language, market, app version, schema version only |
 | Audio playback state | No persistent history in MVP | No | No | No | No | Playback runtime only | Not applicable | No playback history claim for MVP |
-| Default-off analytics events | Only when explicitly enabled and configured | No durable client storage by default | Yes, only when `SAKINAH_ANALYTICS_ENABLED=true` and Firebase configuration is present | Firebase/Google as analytics processor when enabled | Optional | Retention and prayer/session usage analysis after review | Future analytics controls may be added before production enablement | Whitelisted GA4 events only; no exact coordinates, Women's Ibadah Mode exact status, feedback text, religious text, names, or email |
+| Analytics consent preference | Yes | Yes | No | No | Optional | Remember whether usage analytics is allowed in analytics-enabled builds | Settings > Privacy > Delete local data | Default false; local switch controls Firebase Analytics collection |
+| Default-off analytics events | Only when explicitly enabled, configured, and opted in | No durable client storage by default | Yes, only when `SAKINAH_ANALYTICS_ENABLED=true`, Firebase configuration is present, and the user opts in | Firebase/Google as analytics processor when enabled | Optional | Retention and prayer/session usage analysis after review | Turn off usage analytics in Privacy Center; remote deletion is future work | Whitelisted GA4 events only; no exact coordinates, Women's Ibadah Mode exact status, feedback text, religious text, names, or email |
 | Crash reporting | Not implemented | No | No | No | No | Future reliability analysis after review | Not applicable | Do not declare as implemented |
 | Account data | Not implemented | No | No | No | No | Future account features | Not applicable | No account collection in MVP |
 | Payments/subscription | Not implemented | No | No | No | No | Future monetization | Not applicable | No payment collection in MVP |
@@ -44,4 +45,5 @@ classification.
 - Session progress/history must not store Quran, Dua, Dhikr, Hadith, or
   translation text and must not sync remotely in MVP.
 - Analytics is default-off, Android automatic collection is disabled by
-  manifest metadata, and Store screenshot mode forces analytics off.
+  manifest metadata, Store screenshot mode forces analytics off, and the
+  Privacy Center opt-in must be on before events are sent.

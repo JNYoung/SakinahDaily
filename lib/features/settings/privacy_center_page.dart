@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +19,11 @@ class PrivacyCenterPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = SakinahLocalizations.of(context);
     final appEnvironment = ref.watch(appEnvironmentConfigProvider);
+    final preferences = ref.watch(userPreferencesProvider);
+    final userPreferencesController =
+        ref.read(userPreferencesProvider.notifier);
     final privacyPolicyUri = appEnvironment.privacyPolicyUri;
+    final analyticsAvailable = appEnvironment.analyticsEnabled;
 
     return LanguageAwareScaffold(
       key: SakinahKeys.privacyCenterPage,
@@ -61,12 +67,36 @@ class PrivacyCenterPage extends ConsumerWidget {
             title: l10n.t('remoteContentPrivacyTitle'),
             body: l10n.t('remoteContentPrivacyBody'),
           ),
+          _PrivacySection(
+            title: l10n.t('analyticsPrivacyTitle'),
+            body: l10n.t('analyticsPrivacyBody'),
+          ),
           const SizedBox(height: 12),
           AppCard(
             radius: 8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                SettingsTile(
+                  title: l10n.t('analyticsOptInTitle'),
+                  subtitle: analyticsAvailable
+                      ? l10n.t('analyticsOptInAvailableBody')
+                      : l10n.t('analyticsOptInUnavailableBody'),
+                  trailing: Switch(
+                    key: SakinahKeys.privacyAnalyticsSwitch,
+                    value: analyticsAvailable && preferences.analyticsOptIn,
+                    onChanged: analyticsAvailable
+                        ? (enabled) {
+                            unawaited(
+                              userPreferencesController.setAnalyticsOptIn(
+                                enabled,
+                              ),
+                            );
+                          }
+                        : null,
+                  ),
+                ),
+                const Divider(),
                 SettingsTile(
                   title: l10n.t('deleteLocalDataTitle'),
                   subtitle: l10n.t('deleteLocalDataBody'),

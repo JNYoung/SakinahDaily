@@ -51,9 +51,10 @@ not include exact private state terms.
 Firebase Analytics is included as a default-off SDK integration. The default
 v0.1 build does not transmit analytics because Android automatic collection is
 disabled, store screenshot mode forces analytics off, and telemetry requires
-`SAKINAH_ANALYTICS_ENABLED=true` plus reviewed Firebase project configuration.
-If analytics is enabled for Play closed testing or production, Data Safety must
-be reviewed and updated for app activity/analytics collection before upload.
+`SAKINAH_ANALYTICS_ENABLED=true`, reviewed Firebase project configuration, and
+user opt-in from Privacy Center. If analytics is enabled for Play closed
+testing or production, Data Safety must be reviewed and updated for app
+activity/analytics collection before upload.
 
 ## Permissions
 
@@ -71,7 +72,7 @@ be reviewed and updated for app activity/analytics collection before upload.
 - `flutter_local_notifications` for local notifications.
 - Audio playback dependencies for approved audio asset playback.
 - Firebase Core and Firebase Analytics SDKs, default-off unless explicitly
-  enabled and configured.
+  enabled, configured, and opted in by the user.
 - No crash-reporting SDK.
 - No ads SDK.
 - No tracking SDK.

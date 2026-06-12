@@ -44,10 +44,10 @@ signals:
 - Settings Completion Rate.
 
 Because Firebase Analytics is default-off until a reviewed build provides
-Firebase project configuration and `SAKINAH_ANALYTICS_ENABLED=true`, these
-remain observation categories by default. Use aggregate tester counts, Play
-Testing feedback, and voluntary tester comments unless telemetry is explicitly
-approved and declared for the test build.
+Firebase project configuration, `SAKINAH_ANALYTICS_ENABLED=true`, and user
+opt-in from Privacy Center, these remain observation categories by default. Use
+aggregate tester counts, Play Testing feedback, and voluntary tester comments
+unless telemetry is explicitly approved and declared for the test build.
 
 ## Observation Windows
 

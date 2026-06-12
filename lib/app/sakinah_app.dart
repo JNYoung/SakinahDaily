@@ -15,6 +15,7 @@ class SakinahApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final environment = ref.watch(appEnvironmentConfigProvider);
+    ref.watch(analyticsCollectionConsentSyncProvider);
     final locale = environment.storeScreenshotLanguageCode == null
         ? ref.watch(localeProvider)
         : Locale(environment.storeScreenshotLanguageCode!);

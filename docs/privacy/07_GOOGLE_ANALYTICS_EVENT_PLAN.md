@@ -16,9 +16,13 @@ Current implementation:
   parameter sanitizer.
 - `StubAnalyticsService` is local-only and has no network behavior.
 - `FirebaseAnalyticsService` can forward sanitized events to Firebase
-  Analytics when analytics is explicitly enabled.
-- `FirebaseAnalyticsBootstrap` initializes Firebase and turns analytics
-  collection on only when `SAKINAH_ANALYTICS_ENABLED=true`.
+  Analytics when analytics is explicitly enabled and the user has opted in.
+- `FirebaseAnalyticsBootstrap` initializes Firebase only when
+  `SAKINAH_ANALYTICS_ENABLED=true` and immediately sets collection disabled by
+  default.
+- `analyticsCollectionConsentSyncProvider` turns Firebase Analytics collection
+  on only when both the build flag and `analyticsOptIn` preference are true,
+  and turns collection off when the user opts out.
 - Android manifest metadata disables Firebase Analytics automatic collection
   and automatic screen reporting by default.
 - The Daily Session flow records local `daily_session_started` and
@@ -28,7 +32,8 @@ Current implementation:
 - Prayer reminder global and per-prayer changes record local
   `prayer_reminder_changed` events with reminder enabled state and lead time.
 - `SAKINAH_ANALYTICS_ENABLED=true` can enable controlled QA telemetry only when
-  Firebase project configuration is present.
+  Firebase project configuration is present and the user turns usage analytics
+  on in Privacy Center.
 - Store screenshot mode always disables analytics recording.
 
 ## Event Scope
@@ -100,10 +105,11 @@ build that transmits telemetry:
   through a secure release process.
 - Decide whether analytics requires explicit in-app consent or a Settings
   opt-out for the target launch markets.
+- Keep the Privacy Center usage analytics control available and default-off.
 - Verify no event sends Women's Ibadah Mode exact status, coordinates,
   feedback text, religious text, or personal identifiers.
 - Re-run `flutter test`, `dart analyze`, and the Google Play release gates.
 
 Until a reviewed production build enables `SAKINAH_ANALYTICS_ENABLED=true` with
-valid Firebase configuration, analytics remains default-off and does not
-transmit tester or user data by default.
+valid Firebase configuration and the user opts in, analytics remains
+default-off and does not transmit tester or user data by default.

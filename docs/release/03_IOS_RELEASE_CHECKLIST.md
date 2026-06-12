@@ -24,4 +24,5 @@ Future iOS submission checklist:
 - Store metadata reviewed in all languages.
 - App icon and launch screen verified.
 - Real device notification permission QA completed.
-- No analytics/crash SDK enabled before privacy review.
+- No default-on analytics collection or crash SDK enabled before privacy
+  review.

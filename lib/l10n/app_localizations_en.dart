@@ -629,6 +629,24 @@ class AppLocalizationsEn extends AppLocalizations {
       'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.';
 
   @override
+  String get analyticsPrivacyTitle => 'Usage analytics privacy';
+
+  @override
+  String get analyticsPrivacyBody =>
+      'Usage analytics is default-off. If enabled in a reviewed build, Sakinah sends only whitelisted app-flow events and never sends exact coordinates, Women’s Ibadah Mode exact status, feedback text, or religious text.';
+
+  @override
+  String get analyticsOptInTitle => 'Share usage analytics';
+
+  @override
+  String get analyticsOptInAvailableBody =>
+      'Optional. Helps improve prayer reminders and session retention with privacy-safe event names only.';
+
+  @override
+  String get analyticsOptInUnavailableBody =>
+      'Analytics collection is off in this build.';
+
+  @override
   String get deleteLocalDataTitle => 'Delete local data';
 
   @override
@@ -870,12 +888,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Requests may include language, market, app version, and schema version only.';
 
   @override
-  String get privacyDataFutureAnalyticsCrash =>
-      'Future analytics or crash reporting';
+  String get privacyDataAnalyticsConsent => 'Analytics consent preference';
+
+  @override
+  String get privacyDataAnalyticsConsentNotes =>
+      'Stored locally. Turning it off disables Firebase Analytics collection when analytics builds are configured.';
+
+  @override
+  String get privacyDataAnalyticsEvents => 'Default-off analytics events';
+
+  @override
+  String get privacyDataAnalyticsEventsNotes =>
+      'Only sent when analytics is enabled for the build and the user opts in. Events are whitelisted and exclude coordinates, feedback, religious text, and Women’s Ibadah Mode exact status.';
+
+  @override
+  String get privacyDataFutureAnalyticsCrash => 'Crash reporting';
 
   @override
   String get privacyDataFutureAnalyticsCrashNotes =>
-      'No analytics or crash-reporting SDK is implemented in MVP.';
+      'Crash-reporting SDK is not implemented in MVP.';
 
   @override
   String get privacyDataAccountData => 'Account data';

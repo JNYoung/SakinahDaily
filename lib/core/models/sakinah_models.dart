@@ -665,6 +665,7 @@ class UserPreferences {
     this.prayerReminderOffsetMinutes = defaultPrayerReminderOffsetMinutes,
     this.enabledPrayerReminderNames = defaultPrayerReminderNames,
     this.completedClosedTestingPromptDays = const [],
+    this.analyticsOptIn = false,
   })  : assert(
           dailySessionReminderMinutesAfterMidnight >= 0 &&
               dailySessionReminderMinutesAfterMidnight < _minutesPerDay,
@@ -687,6 +688,7 @@ class UserPreferences {
   final int prayerReminderOffsetMinutes;
   final List<String> enabledPrayerReminderNames;
   final List<String> completedClosedTestingPromptDays;
+  final bool analyticsOptIn;
 
   factory UserPreferences.defaults() {
     return const UserPreferences(
@@ -715,6 +717,7 @@ class UserPreferences {
     int? prayerReminderOffsetMinutes,
     List<String>? enabledPrayerReminderNames,
     List<String>? completedClosedTestingPromptDays,
+    bool? analyticsOptIn,
   }) {
     return UserPreferences(
       languageCode: languageCode ?? this.languageCode,
@@ -742,6 +745,7 @@ class UserPreferences {
           : sanitizeClosedTestingPromptDays(
               completedClosedTestingPromptDays,
             ),
+      analyticsOptIn: analyticsOptIn ?? this.analyticsOptIn,
     );
   }
 
@@ -766,6 +770,7 @@ class UserPreferences {
         'prayerReminderOffsetMinutes': prayerReminderOffsetMinutes,
         'enabledPrayerReminderNames': enabledPrayerReminderNames,
         'completedClosedTestingPromptDays': completedClosedTestingPromptDays,
+        'analyticsOptIn': analyticsOptIn,
       };
 
   factory UserPreferences.fromJson(Map<String, dynamic> json) {
@@ -807,6 +812,7 @@ class UserPreferences {
                   completedClosedTestingPromptDaysJson,
                 )
               : defaults.completedClosedTestingPromptDays,
+      analyticsOptIn: json['analyticsOptIn'] as bool? ?? false,
     );
   }
 }

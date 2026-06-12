@@ -623,6 +623,24 @@ class AppLocalizationsAr extends AppLocalizations {
       'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.';
 
   @override
+  String get analyticsPrivacyTitle => 'خصوصية تحليلات الاستخدام';
+
+  @override
+  String get analyticsPrivacyBody =>
+      'تحليلات الاستخدام متوقفة افتراضيا. إذا فعلت في بناء تمت مراجعته، ترسل سكينة أحداث مسار التطبيق المسموح بها فقط ولا ترسل الإحداثيات الدقيقة أو الحالة الدقيقة لوضع عبادة النساء أو نص الملاحظات أو النصوص الدينية.';
+
+  @override
+  String get analyticsOptInTitle => 'مشاركة تحليلات الاستخدام';
+
+  @override
+  String get analyticsOptInAvailableBody =>
+      'اختياري. يساعد على تحسين تذكيرات الصلاة والاحتفاظ بالجلسات باستخدام أسماء أحداث آمنة للخصوصية فقط.';
+
+  @override
+  String get analyticsOptInUnavailableBody =>
+      'جمع التحليلات متوقف في هذا البناء.';
+
+  @override
   String get deleteLocalDataTitle => 'حذف البيانات المحلية';
 
   @override
@@ -862,12 +880,25 @@ class AppLocalizationsAr extends AppLocalizations {
       'قد تتضمن الطلبات اللغة والسوق وإصدار التطبيق وإصدار المخطط فقط.';
 
   @override
-  String get privacyDataFutureAnalyticsCrash =>
-      'تحليلات أو تقارير أعطال مستقبلية';
+  String get privacyDataAnalyticsConsent => 'تفضيل الموافقة على التحليلات';
+
+  @override
+  String get privacyDataAnalyticsConsentNotes =>
+      'يحفظ محليا. إيقافه يعطل جمع Firebase Analytics عندما تكون بناءات التحليلات مهيأة.';
+
+  @override
+  String get privacyDataAnalyticsEvents => 'أحداث تحليلات متوقفة افتراضيا';
+
+  @override
+  String get privacyDataAnalyticsEventsNotes =>
+      'ترسل فقط عندما تكون التحليلات مفعلة للبناء ويوافق المستخدم. الأحداث من قائمة مسموح بها وتستبعد الإحداثيات والملاحظات والنصوص الدينية والحالة الدقيقة لوضع عبادة النساء.';
+
+  @override
+  String get privacyDataFutureAnalyticsCrash => 'تقارير الأعطال';
 
   @override
   String get privacyDataFutureAnalyticsCrashNotes =>
-      'لا توجد SDK للتحليلات أو تقارير الأعطال في نسخة MVP.';
+      'لم يتم تنفيذ SDK لتقارير الأعطال في نسخة MVP.';
 
   @override
   String get privacyDataAccountData => 'بيانات الحساب';

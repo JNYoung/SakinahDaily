@@ -15,7 +15,8 @@ tracking SDKs, crash-reporting SDKs, live OpenAI calls, or social features in
 the MVP. A Firebase Analytics adapter is present for future retention and usage
 measurement, but analytics collection is disabled by default and can only be
 enabled in a reviewed build with `SAKINAH_ANALYTICS_ENABLED=true` and Firebase
-project configuration.
+project configuration after the user turns on usage analytics in Privacy
+Center.
 
 ## Data Stored On Device
 
@@ -46,12 +47,13 @@ If remote content delivery is enabled, requests may include language, market,
 app version, and schema version. Detail-bundle recovery may include a bundle
 hint. Women's Ibadah Mode exact status is not sent with these requests.
 
-If analytics is explicitly enabled in a reviewed build, the app may send only
-whitelisted Google Analytics 4 events about app flow and prayer/session usage,
-such as screen route, prayer name, reminder enabled state, session ID, language,
-and coarse location method. The analytics sanitizer blocks exact coordinates,
-Women's Ibadah Mode exact status, health terms, feedback text, religious text,
-names, and email addresses.
+If analytics is explicitly enabled in a reviewed build and the user opts in,
+the app may send only whitelisted Google Analytics 4 events about app flow and
+prayer/session usage, such as screen route, prayer name, reminder enabled
+state, session ID, language, and coarse location method. The analytics
+sanitizer blocks exact coordinates, Women's Ibadah Mode exact status, health
+terms, feedback text, religious text, names, and email addresses. Turning usage
+analytics off in Privacy Center disables Firebase Analytics collection.
 
 Notification text stays generic when Women's Ibadah Mode is enabled so private
 state details do not appear on the lock screen.

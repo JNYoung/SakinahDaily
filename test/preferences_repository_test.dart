@@ -17,6 +17,7 @@ void main() {
       dailySessionReminderEnabled: true,
       dailySessionReminderMinutesAfterMidnight: 21 * 60 + 15,
       completedClosedTestingPromptDays: ['day1', 'day3', 'day7'],
+      analyticsOptIn: true,
       prayerSettings: PrayerSettings(
         latitude: -6.2088,
         longitude: 106.8456,
@@ -40,6 +41,7 @@ void main() {
     expect(loaded.dailySessionReminderEnabled, isTrue);
     expect(loaded.dailySessionReminderMinutesAfterMidnight, 21 * 60 + 15);
     expect(loaded.completedClosedTestingPromptDays, ['day1', 'day3', 'day7']);
+    expect(loaded.analyticsOptIn, isTrue);
     expect(loaded.prayerSettings.method, 'indonesia');
     expect(loaded.prayerSettings.locationLabel, 'Jakarta');
     expect(loaded.prayerSettings.timezoneId, 'Asia/Jakarta');
@@ -57,6 +59,7 @@ void main() {
         notificationsEnabled: true,
         dailySessionReminderEnabled: true,
         dailySessionReminderMinutesAfterMidnight: 6 * 60 + 30,
+        analyticsOptIn: true,
         womenIbadahMode: const WomenIbadahMode(
           enabled: true,
           status: WomenIbadahStatus.menstruating,
@@ -72,6 +75,7 @@ void main() {
     expect(loaded.dailySessionReminderEnabled, isFalse);
     expect(loaded.dailySessionReminderMinutesAfterMidnight, 20 * 60);
     expect(loaded.completedClosedTestingPromptDays, isEmpty);
+    expect(loaded.analyticsOptIn, isFalse);
     expect(loaded.womenIbadahMode.enabled, isFalse);
   });
 
