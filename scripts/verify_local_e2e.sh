@@ -8,6 +8,7 @@ skip_flutter_test="${SAKINAH_E2E_SKIP_FLUTTER_TEST:-false}"
 skip_dart_analyze="${SAKINAH_E2E_SKIP_DART_ANALYZE:-false}"
 skip_submission_pack="${SAKINAH_E2E_SKIP_SUBMISSION_PACK:-false}"
 skip_public_links_packet="${SAKINAH_E2E_SKIP_PUBLIC_LINKS_PACKET:-false}"
+skip_analytics_debugview_packet="${SAKINAH_E2E_SKIP_ANALYTICS_DEBUGVIEW_PACKET:-false}"
 skip_reviewed_content_pack="${SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK:-false}"
 skip_android_oem_observation_packet="${SAKINAH_E2E_SKIP_ANDROID_OEM_OBSERVATION_PACKET:-false}"
 skip_android_launch="${SAKINAH_E2E_SKIP_ANDROID_LAUNCH:-false}"
@@ -60,6 +61,13 @@ if [[ "$skip_public_links_packet" != "true" ]]; then
     scripts/verify_google_play_public_links_packet.sh
 else
   printf 'Skipping public links packet QA because SAKINAH_E2E_SKIP_PUBLIC_LINKS_PACKET=true.\n'
+fi
+
+if [[ "$skip_analytics_debugview_packet" != "true" ]]; then
+  run_step "Google Analytics DebugView QA packet" \
+    scripts/export_google_analytics_debugview_packet.sh
+else
+  printf 'Skipping analytics DebugView QA packet because SAKINAH_E2E_SKIP_ANALYTICS_DEBUGVIEW_PACKET=true.\n'
 fi
 
 if [[ "$skip_reviewed_content_pack" != "true" ]]; then

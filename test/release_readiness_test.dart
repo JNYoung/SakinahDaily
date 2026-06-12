@@ -726,6 +726,8 @@ void main() {
       expect(content, contains('dart analyze'));
       expect(content, contains('verify_google_play_submission_pack.sh'));
       expect(content, contains('verify_google_play_public_links_packet.sh'));
+      expect(content, contains('export_google_analytics_debugview_packet.sh'));
+      expect(content, contains('SAKINAH_E2E_SKIP_ANALYTICS_DEBUGVIEW_PACKET'));
       expect(content, contains('export_reviewed_content_pack_readiness.sh'));
       expect(content, contains('SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK'));
       expect(content,
@@ -737,9 +739,11 @@ void main() {
       expect(content, contains('SAKINAH_E2E_SKIP_ANDROID_LAUNCH'));
       expect(content, contains('android-arm64'));
       expect(readiness, contains('Local e2e gate'));
+      expect(readiness, contains('Google Analytics DebugView QA packet'));
       expect(readiness, contains('actions/checkout@v6'));
       expect(readiness, contains('Node 24-compatible checkout'));
       expect(acceptance, contains('scripts/verify_local_e2e.sh'));
+      expect(acceptance, contains('Google Analytics DebugView QA packet'));
 
       expect(workflow.existsSync(), isTrue);
       final workflowContent = workflow.readAsStringSync();
