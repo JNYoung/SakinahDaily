@@ -35,7 +35,7 @@
 |---|---|
 | `docs/architecture/01_TECH_ARCHITECTURE.md` | 总体技术架构、模块、数据流、目录结构 |
 | `docs/architecture/02_DATA_MODELS.md` | 客户端模型、CMS 表结构、JSON 示例 |
-| `docs/content/01_CONTENT_GUIDELINES.md` | Quran/Dua/Dhikr/Reflection 内容策略与宗教安全 |
+| `docs/content/01_CONTENT_GUIDELINES.md` | Quran/Dua/Dhikr/Reflection 内容策略与宗教安全；包含 `scripts/export_reviewed_content_pack_readiness.sh` 的 reviewed content pack readiness packet 上线前门禁 |
 | `docs/content/02_DAILY_PUSH_CONTENT_SYSTEM.md` | 每日推送内容模型、选择规则、安全约束 |
 | `docs/content/03_SOURCE_CORPUS_INGESTION.md` | Quran/Tanzil/QuranEnc 语料导入与校验策略 |
 | `docs/cms/supabase_schema.sql` | MVP 级别 Supabase/Postgres schema 草案 |
@@ -60,7 +60,7 @@
 | `docs/privacy/05_PERMISSION_COPY.md` | 权限与同意说明文案草案 |
 | `docs/privacy/06_SDK_AND_API_INVENTORY.md` | SDK/API 隐私清单草案 |
 | `docs/privacy/07_GOOGLE_ANALYTICS_EVENT_PLAN.md` | Google Analytics 事件白名单、敏感字段过滤、`scripts/export_google_analytics_debugview_packet.sh` DebugView QA 包和未来 SDK 接入门禁 |
-| `docs/release/01_RELEASE_READINESS_CHECKLIST.md` | 客户端 release readiness 总清单 |
+| `docs/release/01_RELEASE_READINESS_CHECKLIST.md` | 客户端 release readiness 总清单，含 reviewed content pack readiness packet、Google Play 和 analytics 门禁 |
 | `docs/release/02_ANDROID_RELEASE_CHECKLIST.md` | Android 包名、签名、权限和构建清单 |
 | `docs/release/03_IOS_RELEASE_CHECKLIST.md` | iOS bundle、签名、隐私和截图清单 |
 | `docs/release/04_STORE_METADATA_DRAFT.md` | App Store / Google Play metadata 草案 |

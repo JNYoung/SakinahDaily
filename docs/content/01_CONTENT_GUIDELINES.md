@@ -158,3 +158,16 @@ MVP 建议 80–120 条内容。
 - Reviewer 名单与审核流程。
 - 对每条内容添加 source_label。
 - 对每条内容添加 version 和 reviewed_at。
+
+上线前内容包 readiness：
+
+- 运行 `scripts/export_reviewed_content_pack_readiness.sh` 导出 reviewed content pack readiness packet；模板模式只生成现有 seed 盘点、Quran source
+  placeholder 审查、audio rights 缺口和 beta pack checklist，不代表内容已经
+  production-ready。
+- 严格模式
+  `SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY=true` 只能在 Quran source
+  placeholder 已替换、5-7 个 session、30-50 个 duas、20-30 个 dhikrs、
+  10-20 个 Quran ayah references、licensed reciter audio rights/hash 和人工
+  owner 全部确认后运行通过。
+- 该 packet 不允许新增或生成宗教内容；新增 Quran/Dua/Dhikr/Reflection 必须走
+  approved source、review status、version、reviewed date 和 privacy review。

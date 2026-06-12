@@ -81,6 +81,16 @@ This decision should happen before adding more feature surfaces.
 
 ### P0-B — Reviewed Content Pack
 
+Status: readiness packet added for the current seed-only baseline. Run
+`scripts/export_reviewed_content_pack_readiness.sh` in template mode before
+beta content review. Run strict mode only after external review confirms
+`SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY=true`,
+`SAKINAH_QURAN_SOURCE_PLACEHOLDERS_REPLACED=true`,
+`SAKINAH_BETA_SESSION_PACK_REVIEWED=true`,
+`SAKINAH_DUA_DHIKR_PACK_REVIEWED=true`,
+`SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED=true`, and
+`SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED=true`.
+
 Acceptance:
 
 - No production-facing Quran source placeholder remains.

@@ -93,6 +93,13 @@ Status: Draft for release/store review.
   and blocked-parameter review into `build/google-analytics-debugview`, while
   strict mode fails until the reviewed Firebase QA build, Privacy Center opt-in,
   Data Safety review, and DebugView device setup are confirmed.
+- [x] Reviewed content pack readiness packet exists at
+  `scripts/export_reviewed_content_pack_readiness.sh`; template mode writes
+  current seed inventory, beta content targets, Quran source placeholder
+  review, Quran audio rights/hash review, and a no-generated-religious-content
+  checklist into `build/reviewed-content-pack-readiness`, while strict mode
+  fails until source placeholders, reviewed beta pack coverage, licensed audio
+  rights, and a human content owner are confirmed.
 - [x] Google Play store visual assets verifier exists at
   `scripts/verify_google_play_store_assets.sh`; it generates and validates the
   1024 x 500, 24-bit PNG/no-alpha feature graphic and can strictly check the
@@ -104,8 +111,8 @@ Status: Draft for release/store review.
   in `build/android-launch-smoke`.
 - [x] Local e2e gate exists at `scripts/verify_local_e2e.sh`; it runs
   `flutter test`, `dart analyze`, Play submission/public-links template gates,
-  optional internal release gate, and Android launch smoke when an Android
-  device is available.
+  the reviewed content pack readiness packet, optional internal release gate,
+  and Android launch smoke when an Android device is available.
 - [x] GitHub Actions local e2e workflow exists at
   `.github/workflows/local-e2e.yml`; it runs on pull requests and pushes to
   `main`, uses Node 24-compatible `actions/checkout@v6`, installs Flutter, and
@@ -395,11 +402,16 @@ Status: Draft for release/store review.
 - [x] Home exposes the same Day 1 / Day 3 / Day 7 / Day 14 closed-test guide
   entry when the feedback channel is configured, keeping the retention feedback
   loop visible in the primary prayer habit path.
+- [x] `scripts/export_reviewed_content_pack_readiness.sh` exports a
+  template-mode Reviewed Content Pack readiness packet at
+  `build/reviewed-content-pack-readiness` with seed counts, beta targets,
+  source-placeholder review, audio rights/hash review, and strict-mode
+  confirmation requirements.
 - [x] `scripts/verify_google_play_store_assets.sh` passes for the feature
   graphic and local store visual assets.
 - [x] `scripts/verify_local_e2e.sh` is available as the unattended local e2e
-  wrapper for tests, analyzer, Play template gates, optional release gate, and
-  Android launch smoke.
+  wrapper for tests, analyzer, Play template gates, reviewed content readiness,
+  optional release gate, and Android launch smoke.
 - [x] `.github/workflows/local-e2e.yml` provides the PR-facing CI wrapper for
   the local e2e gate with Node 24-compatible checkout.
 - [ ] `SAKINAH_REQUIRE_CLOSED_TESTING_COMPLETE=true
@@ -440,6 +452,11 @@ Status: Draft for release/store review.
   retention observation owner is assigned, the Day 1 / Day 3 / Day 7 /
   Day 14 review schedule is set, and the evidence log is ready for aggregate
   notes.
+- [ ] `SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY=true
+  scripts/export_reviewed_content_pack_readiness.sh` passes only after Quran
+  source placeholders are replaced, the 5-7 session / 30-50 dua / 20-30 dhikr /
+  10-20 Quran ayah beta pack is reviewed, licensed Quran audio rights and
+  SHA-256 hashes are confirmed, and a human content owner signs off.
 - [x] Android release appbundle native debug-symbol stripping is healthy after
   installing Android SDK cmdline-tools `latest` with `apkanalyzer`.
 - [x] Unsigned Google Play release QA passes locally:
