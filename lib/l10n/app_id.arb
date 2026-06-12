@@ -43,6 +43,8 @@
   "quranVerseSearchHint": "Cari dengan referensi ayat atau makna",
   "quranVerseNoResults": "Tidak ada ayat lokal yang ditinjau cocok dengan pencarian ini.",
   "quranVerseUnavailable": "Ayat Quran tidak tersedia",
+  "quranPreviousVerse": "Ayat sebelumnya",
+  "quranNextVerse": "Ayat berikutnya",
   "saveAyah": "Simpan ayat",
   "savedAyah": "Ayat tersimpan",
   "quranVoiceOnlyTitle": "Tilawah Quran hanya suara",

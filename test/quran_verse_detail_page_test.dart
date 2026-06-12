@@ -62,6 +62,41 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Quran verse detail can move through reviewed local verses',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/quran/13:28',
+      settleSplash: false,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.quranPreviousVerseButton), findsOneWidget);
+    expect(find.byKey(SakinahKeys.quranNextVerseButton), findsOneWidget);
+
+    await tapByKey(tester, SakinahKeys.quranNextVerseButton);
+
+    expect(find.byKey(SakinahKeys.quranVerseDetailPage), findsOneWidget);
+    expect(find.text('Quran 94:5'), findsWidgets);
+    expect(find.byKey(SakinahKeys.quranNextVerseButton), findsNothing);
+    expect(find.byKey(SakinahKeys.quranPreviousVerseButton), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Quran verse detail hides previous action on first local verse',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/quran/1:1',
+      settleSplash: false,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.quranPreviousVerseButton), findsNothing);
+    expect(find.byKey(SakinahKeys.quranNextVerseButton), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Quran verse detail does not display generated content markers',
       (tester) async {
     await pumpSakinahApp(

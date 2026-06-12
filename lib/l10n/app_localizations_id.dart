@@ -143,6 +143,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get quranVerseUnavailable => 'Ayat Quran tidak tersedia';
 
   @override
+  String get quranPreviousVerse => 'Ayat sebelumnya';
+
+  @override
+  String get quranNextVerse => 'Ayat berikutnya';
+
+  @override
   String get saveAyah => 'Simpan ayat';
 
   @override

@@ -43,6 +43,8 @@
   "quranVerseSearchHint": "Search by verse reference or meaning",
   "quranVerseNoResults": "No reviewed local verse matches this search.",
   "quranVerseUnavailable": "Quran verse unavailable",
+  "quranPreviousVerse": "Previous verse",
+  "quranNextVerse": "Next verse",
   "saveAyah": "Save ayah",
   "savedAyah": "Saved ayah",
   "quranVoiceOnlyTitle": "Quran recitation is voice-only",
