@@ -213,6 +213,7 @@ void main() {
       expect(analyticsService, contains('onboarding_completed'));
       expect(analyticsService, contains('daily_session_started'));
       expect(analyticsService, contains('daily_session_step_viewed'));
+      expect(analyticsService, contains('daily_session_reminder_changed'));
       expect(analyticsService, contains('home_viewed'));
       expect(analyticsService, contains('prayer_reminder_changed'));
       expect(analyticsService, contains('prayer_checkin_days_7d'));
@@ -243,6 +244,10 @@ void main() {
       );
       expect(
         analyticsTest,
+        contains('daily session reminder analytics keeps safe reminder'),
+      );
+      expect(
+        analyticsTest,
         contains(
             'daily session completion analytics keeps safe source metadata'),
       );
@@ -260,6 +265,8 @@ void main() {
       expect(analyticsPlan, contains('collection disabled'));
       expect(analyticsPlan, contains('Onboarding flow records local funnel'));
       expect(analyticsPlan, contains('daily_session_step_viewed'));
+      expect(analyticsPlan, contains('daily_session_reminder_changed'));
+      expect(analyticsPlan, contains('exact daily session reminder time'));
       expect(analyticsPlan, contains('Completion analytics keeps only'));
       expect(analyticsPlan, contains('aggregate prayer retention counts'));
       expect(analyticsPlan, contains('prayer_checkin_days_7d'));

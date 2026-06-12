@@ -22,6 +22,7 @@ class AnalyticsEventCatalog {
   static const homeViewed = 'home_viewed';
   static const prayerViewed = 'prayer_viewed';
   static const prayerReminderChanged = 'prayer_reminder_changed';
+  static const dailySessionReminderChanged = 'daily_session_reminder_changed';
   static const prayerChecklistUpdated = 'prayer_checklist_updated';
   static const dailySessionStarted = 'daily_session_started';
   static const dailySessionStepViewed = 'daily_session_step_viewed';
@@ -44,6 +45,7 @@ class AnalyticsEventCatalog {
     homeViewed,
     prayerViewed,
     prayerReminderChanged,
+    dailySessionReminderChanged,
     prayerChecklistUpdated,
     dailySessionStarted,
     dailySessionStepViewed,
@@ -70,6 +72,7 @@ class AnalyticsParameterPolicy {
     'audio_preference',
     'all_prayers_completed',
     'calculation_method',
+    'change_type',
     'completed_count',
     'content_id',
     'content_type',
@@ -131,6 +134,13 @@ class AnalyticsParameterPolicy {
     'screen',
     'completed_count',
     'all_prayers_completed',
+  };
+
+  static const _dailySessionReminderChangedKeys = {
+    'session_id',
+    'enabled',
+    'source',
+    'change_type',
   };
 
   static const _closedTestPromptKeys = {
@@ -220,6 +230,8 @@ class AnalyticsParameterPolicy {
       AnalyticsEventCatalog.homeViewed => _homeViewedKeys.contains(key),
       AnalyticsEventCatalog.prayerChecklistUpdated =>
         _prayerChecklistUpdatedKeys.contains(key),
+      AnalyticsEventCatalog.dailySessionReminderChanged =>
+        _dailySessionReminderChangedKeys.contains(key),
       AnalyticsEventCatalog.closedTestPromptCopied ||
       AnalyticsEventCatalog.closedTestPromptMarkedSent =>
         _closedTestPromptKeys.contains(key),

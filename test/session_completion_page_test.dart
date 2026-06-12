@@ -5,6 +5,7 @@ import 'package:sakinah_daily/core/models/saved_item.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
@@ -62,6 +63,7 @@ void main() {
     final progressStore = InMemorySessionProgressStore();
     final preferencesStore = InMemoryUserPreferencesStore();
     final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
     await UserPreferencesRepository(preferencesStore).save(
       UserPreferences.defaults().copyWith(
         dailySessionReminderMinutesAfterMidnight: 21 * 60 + 15,
@@ -76,6 +78,7 @@ void main() {
       preferencesStore: preferencesStore,
       sessionProgressStore: progressStore,
       notificationService: notifications,
+      analyticsService: analytics,
     );
     await tester.pumpAndSettle();
 
@@ -98,6 +101,17 @@ void main() {
       notifications.dailySessionReminder!.payload,
       contains('"type":"daily_session"'),
     );
+    expect(analytics.events, hasLength(1));
+    expect(
+      analytics.events.single.name,
+      AnalyticsEventCatalog.dailySessionReminderChanged,
+    );
+    expect(analytics.events.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': true,
+      'source': 'session_completion',
+      'change_type': 'enabled',
+    });
     expectNoFlutterErrors(tester);
   });
 }

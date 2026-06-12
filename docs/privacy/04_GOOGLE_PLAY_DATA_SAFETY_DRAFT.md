@@ -36,6 +36,11 @@ only. They are local progress cues and are not transmitted unless a future
 reviewed analytics build sends only aggregate checklist and Home prayer
 retention usage counts after user opt-in.
 
+Daily Session reminder analytics, if enabled in a reviewed build after user
+opt-in, sends only session ID, enabled state, controlled source, and coarse
+change type. It does not send exact reminder time or sensitive Women's Ibadah
+Mode status.
+
 Draft note: Google Play Data Safety focuses on data collected from or shared
 off device. Confirm final treatment of local-only data before submission.
 
