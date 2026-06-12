@@ -500,6 +500,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get closedTestingPromptCopyPromptLabel => 'السؤال';
 
   @override
+  String get closedTestingPromptCopyThemeLabel => 'الموضوع المقترح';
+
+  @override
   String get closedTestingPromptCopyChannelLabel => 'قناة الملاحظات';
 
   @override

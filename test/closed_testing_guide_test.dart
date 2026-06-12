@@ -61,7 +61,15 @@ void main() {
       findsOneWidget,
     );
     expect(
+      find.textContaining('Suggested theme: onboarding_location_clarity'),
+      findsOneWidget,
+    );
+    expect(
       find.textContaining('Were prayer times, location, and reminder'),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('Suggested theme: prayer_time_trust'),
       findsOneWidget,
     );
     expect(
@@ -120,23 +128,27 @@ void main() {
         day: 'Day 1',
         prompt:
             'Did onboarding explain location and notification choices clearly?',
+        theme: 'onboarding_location_clarity',
       ),
       (
         key: SakinahKeys.closedTestingPromptDay3CopyButton,
         day: 'Day 3',
         prompt:
             'Were prayer times, location, and reminder controls easy to trust?',
+        theme: 'prayer_time_trust',
       ),
       (
         key: SakinahKeys.closedTestingPromptDay7CopyButton,
         day: 'Day 7',
         prompt: 'What made you want to reopen or ignore the app this week?',
+        theme: 'retention_reason_to_return',
       ),
       (
         key: SakinahKeys.closedTestingPromptDay14CopyButton,
         day: 'Day 14',
         prompt:
             'What one change would most improve daily use before wider release?',
+        theme: 'retention_reason_to_return',
       ),
     ];
 
@@ -149,6 +161,7 @@ void main() {
           contains('Sakinah Daily closed test feedback'),
           contains(promptCase.day),
           contains('Prompt: ${promptCase.prompt}'),
+          contains('Suggested theme: ${promptCase.theme}'),
           contains('Feedback channel: support@sakinahdaily.app'),
           contains('Please avoid personal or sensitive health details.'),
         ),

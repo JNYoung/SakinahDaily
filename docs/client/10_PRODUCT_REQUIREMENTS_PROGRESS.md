@@ -302,6 +302,10 @@ Retention observation preparation:
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, keeping Day 1 / Day 3 /
   Day 7 / Day 14 feedback prompts close to the daily prayer habit loop while
   analytics stays default-off and personal-data collection is avoided.
+- Closed testing feedback templates now include suggested aggregate theme keys
+  for onboarding clarity, prayer-loop trust, and retention reason-to-return, so
+  Day 14 Production access summaries can be prepared without storing tester
+  personal text.
 
 Android release-signing preparation now supports ignored local
 `android/key.properties` or CI `SAKINAH_UPLOAD_*` variables, plus

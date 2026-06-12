@@ -1030,6 +1030,12 @@ abstract class AppLocalizations {
   /// **'Prompt'**
   String get closedTestingPromptCopyPromptLabel;
 
+  /// No description provided for @closedTestingPromptCopyThemeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested theme'**
+  String get closedTestingPromptCopyThemeLabel;
+
   /// No description provided for @closedTestingPromptCopyChannelLabel.
   ///
   /// In en, this message translates to:

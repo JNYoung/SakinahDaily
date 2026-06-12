@@ -103,6 +103,10 @@ for needle in \
   'Day 3' \
   'Day 7' \
   'Day 14' \
+  'Suggested theme:' \
+  'onboarding_location_clarity' \
+  'prayer_time_trust' \
+  'retention_reason_to_return' \
   'Home next-prayer context' \
   'Prayer times, local reminders' \
   'Privacy Center, Delete local data' \

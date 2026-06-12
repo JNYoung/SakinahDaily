@@ -80,6 +80,7 @@ class ClosedTestingGuidePage extends ConsumerWidget {
                     l10n: l10n,
                     dayLabel: l10n.t(spec.labelKey),
                     text: l10n.t(spec.textKey),
+                    themeKey: spec.themeKey,
                     testingFeedbackChannel: testingFeedbackChannel,
                     isFeedbackSent: preferences.isClosedTestingPromptCompleted(
                       spec.promptDayId,
@@ -156,6 +157,7 @@ const _promptSpecs = [
     completedCheckboxKey: SakinahKeys.closedTestingPromptDay1CompletedCheckbox,
     labelKey: 'closedTestingPromptDay1Label',
     textKey: 'closedTestingPromptDay1',
+    themeKey: 'onboarding_location_clarity',
   ),
   _ClosedTestingPromptSpec(
     promptDayId: 'day3',
@@ -164,6 +166,7 @@ const _promptSpecs = [
     completedCheckboxKey: SakinahKeys.closedTestingPromptDay3CompletedCheckbox,
     labelKey: 'closedTestingPromptDay3Label',
     textKey: 'closedTestingPromptDay3',
+    themeKey: 'prayer_time_trust',
   ),
   _ClosedTestingPromptSpec(
     promptDayId: 'day7',
@@ -172,6 +175,7 @@ const _promptSpecs = [
     completedCheckboxKey: SakinahKeys.closedTestingPromptDay7CompletedCheckbox,
     labelKey: 'closedTestingPromptDay7Label',
     textKey: 'closedTestingPromptDay7',
+    themeKey: 'retention_reason_to_return',
   ),
   _ClosedTestingPromptSpec(
     promptDayId: 'day14',
@@ -180,6 +184,7 @@ const _promptSpecs = [
     completedCheckboxKey: SakinahKeys.closedTestingPromptDay14CompletedCheckbox,
     labelKey: 'closedTestingPromptDay14Label',
     textKey: 'closedTestingPromptDay14',
+    themeKey: 'retention_reason_to_return',
   ),
 ];
 
@@ -191,6 +196,7 @@ class _ClosedTestingPromptSpec {
     required this.completedCheckboxKey,
     required this.labelKey,
     required this.textKey,
+    required this.themeKey,
   });
 
   final String promptDayId;
@@ -199,6 +205,7 @@ class _ClosedTestingPromptSpec {
   final Key completedCheckboxKey;
   final String labelKey;
   final String textKey;
+  final String themeKey;
 }
 
 class _ChecklistItem extends StatelessWidget {
@@ -227,6 +234,7 @@ class _PromptItem extends StatelessWidget {
     required this.l10n,
     required this.dayLabel,
     required this.text,
+    required this.themeKey,
     required this.testingFeedbackChannel,
     required this.isFeedbackSent,
     required this.onFeedbackSentChanged,
@@ -237,6 +245,7 @@ class _PromptItem extends StatelessWidget {
   final SakinahLocalizations l10n;
   final String dayLabel;
   final String text;
+  final String themeKey;
   final String? testingFeedbackChannel;
   final bool isFeedbackSent;
   final ValueChanged<bool> onFeedbackSentChanged;
@@ -270,6 +279,14 @@ class _PromptItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(text),
+                  const SizedBox(height: 6),
+                  Text(
+                    '${l10n.t('closedTestingPromptCopyThemeLabel')}: '
+                    '$themeKey',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                  ),
                   if (testingFeedbackChannel != null) ...[
                     const SizedBox(height: 8),
                     Align(
@@ -281,6 +298,7 @@ class _PromptItem extends StatelessWidget {
                           l10n,
                           dayLabel: dayLabel,
                           prompt: text,
+                          themeKey: themeKey,
                           testingFeedbackChannel: testingFeedbackChannel,
                         ),
                         icon: const Icon(Icons.copy),
@@ -328,12 +346,14 @@ void _copyTestingFeedbackPrompt(
   SakinahLocalizations l10n, {
   required String dayLabel,
   required String prompt,
+  required String themeKey,
   required String testingFeedbackChannel,
 }) {
   final clipboardText = [
     l10n.t('closedTestingPromptCopyHeader'),
     dayLabel,
     '${l10n.t('closedTestingPromptCopyPromptLabel')}: $prompt',
+    '${l10n.t('closedTestingPromptCopyThemeLabel')}: $themeKey',
     '${l10n.t('closedTestingPromptCopyChannelLabel')}: '
         '$testingFeedbackChannel',
     l10n.t('closedTestingPromptCopyPrivacyLine'),

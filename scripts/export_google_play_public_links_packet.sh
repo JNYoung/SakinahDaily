@@ -140,15 +140,19 @@ cat >"$out_dir/feedback/index.html" <<EOF
 
       <h2>Day 1</h2>
       <p>Did onboarding explain language, prayer location, reminders, and privacy clearly enough?</p>
+      <p><strong>Suggested theme:</strong> onboarding_location_clarity</p>
 
       <h2>Day 3</h2>
       <p>Were prayer times, location, and reminder controls easy to trust?</p>
+      <p><strong>Suggested theme:</strong> prayer_time_trust</p>
 
       <h2>Day 7</h2>
       <p>What made you want to reopen the app, and what made daily use harder?</p>
+      <p><strong>Suggested theme:</strong> retention_reason_to_return</p>
 
       <h2>Day 14</h2>
       <p>What one change would most improve daily prayer use before wider release?</p>
+      <p><strong>Suggested theme:</strong> retention_reason_to_return</p>
 
       <h2>Core Areas To Check</h2>
       <ul>
