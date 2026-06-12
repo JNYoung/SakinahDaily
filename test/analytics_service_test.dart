@@ -434,6 +434,70 @@ void main() {
       });
     });
 
+    test('secondary feature analytics keeps only safe usage metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.duaViewed,
+        const {
+          'content_id': 'dua_ease',
+          'screen': 'dua_detail',
+          'source': 'direct',
+          'arabic_text': 'sensitive text should never be sent',
+          'translation': 'religious content should never be sent',
+          'feedback_text': 'private tester note',
+        },
+      );
+      analytics.track(
+        AnalyticsEventCatalog.duaSaved,
+        const {
+          'content_id': 'dua_ease',
+          'enabled': true,
+          'source': 'dua_detail',
+          'title': 'free text title',
+          'body': 'free text body',
+        },
+      );
+      analytics.track(
+        AnalyticsEventCatalog.dhikrCompleted,
+        const {
+          'content_id': 'dhikr_subhanallah',
+          'source': 'dhikr_counter',
+          'arabic_text': 'sensitive text should never be sent',
+          'current_count': 33,
+        },
+      );
+      analytics.track(
+        AnalyticsEventCatalog.womenIbadahModeChanged,
+        const {
+          'enabled': true,
+          'source': 'women_mode',
+          'women_ibadah_status': 'menstruating',
+          'health_note': 'private health detail',
+        },
+      );
+
+      expect(analytics.events, hasLength(4));
+      expect(analytics.events[0].properties, {
+        'content_id': 'dua_ease',
+        'screen': 'dua_detail',
+        'source': 'direct',
+      });
+      expect(analytics.events[1].properties, {
+        'content_id': 'dua_ease',
+        'enabled': true,
+        'source': 'dua_detail',
+      });
+      expect(analytics.events[2].properties, {
+        'content_id': 'dhikr_subhanallah',
+        'source': 'dhikr_counter',
+      });
+      expect(analytics.events[3].properties, {
+        'enabled': true,
+        'source': 'women_mode',
+      });
+    });
+
     test('home analytics only keeps aggregate prayer retention fields', () {
       final analytics = StubAnalyticsService(enabled: true);
 

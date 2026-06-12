@@ -85,6 +85,19 @@ Current implementation:
 - Prayer checklist updates record local `prayer_checklist_updated` events with
   aggregate completed count and all-prayers-completed boolean only; exact
   prayer completion names and timestamps are not sent.
+- Dua detail views and save toggles record local `dua_viewed` and `dua_saved`
+  events with content ID, screen/source, and saved enabled state only. Dua
+  Arabic, transliteration, translations, source text, and free-text notes are
+  never sent.
+- Dhikr counter usage records local `dhikr_started` when the counter moves from
+  0 to 1 and `dhikr_completed` when the target count is reached. These events
+  keep only content ID and `source=dhikr_counter`; current count trails, Arabic,
+  transliteration, translations, and Women's Ibadah Mode exact status are not
+  sent.
+- Women's Ibadah Mode changes record local `women_ibadah_mode_changed` with
+  only enabled state and `source=women_mode`. Exact status values such as
+  menstruation, postpartum, pregnancy, prefer-not-to-track, health notes, or
+  other sensitive details are never sent.
 - Closed-test feedback prompt copy and local sent-marker actions record
   `closed_test_prompt_copied` and `closed_test_prompt_marked_sent` events with
   prompt day, suggested theme key, and screen source only; feedback text,
@@ -203,7 +216,9 @@ The QA reviewer should verify that `home_viewed`,
 `daily_session_started`,
 `daily_session_step_viewed`, `daily_session_completed`,
 `daily_session_reminder_permission_result`,
-`daily_session_reminder_changed`, `closed_test_prompt_copied`, and
+`daily_session_reminder_changed`,
+`dua_viewed`, `dua_saved`, `dhikr_started`, `dhikr_completed`,
+`women_ibadah_mode_changed`, `closed_test_prompt_copied`, and
 `closed_test_prompt_marked_sent` appear only with allowed parameters. No tester
 personal data, exact coordinates, Women's Ibadah Mode exact status, feedback
 text, religious text, or exact reminder time should appear in DebugView.
@@ -217,6 +232,10 @@ source, coarse outcome, and reminder lead-time offset.
 result, controlled source, and coarse outcome.
 `notification_tap_opened` must keep only `content_type` and `source`.
 `analytics_consent_changed` must keep only `enabled` and `source`.
+`dua_viewed` and `dua_saved` must keep only content ID, source/screen, and
+saved enabled state where relevant.
+`dhikr_started` and `dhikr_completed` must keep only content ID and source.
+`women_ibadah_mode_changed` must keep only enabled state and source.
 
 Strict export mode is available for pre-upload review:
 

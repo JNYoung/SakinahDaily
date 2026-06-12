@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +8,7 @@ import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -18,7 +21,6 @@ class WomensIbadahModePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = SakinahLocalizations.of(context);
     final preferences = ref.watch(userPreferencesProvider);
-    final controller = ref.read(userPreferencesProvider.notifier);
     final status = preferences.womenIbadahMode.status;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -54,35 +56,44 @@ class WomensIbadahModePage extends ConsumerWidget {
                       key: SakinahKeys.womenModeNormalChip,
                       label: l10n.t('modeNormal'),
                       selected: status == WomenIbadahStatus.normal,
-                      onTap: () => controller
-                          .setWomenModeStatus(WomenIbadahStatus.normal),
+                      onTap: () => _setWomenModeStatus(
+                        ref,
+                        WomenIbadahStatus.normal,
+                      ),
                     ),
                     _ModeChip(
                       key: SakinahKeys.womenModeMenstruatingChip,
                       label: l10n.t('modeMenstruating'),
                       selected: status == WomenIbadahStatus.menstruating,
-                      onTap: () => controller
-                          .setWomenModeStatus(WomenIbadahStatus.menstruating),
+                      onTap: () => _setWomenModeStatus(
+                        ref,
+                        WomenIbadahStatus.menstruating,
+                      ),
                     ),
                     _ModeChip(
                       key: SakinahKeys.womenModePostpartumChip,
                       label: l10n.t('modePostpartum'),
                       selected: status == WomenIbadahStatus.postpartum,
-                      onTap: () => controller
-                          .setWomenModeStatus(WomenIbadahStatus.postpartum),
+                      onTap: () => _setWomenModeStatus(
+                        ref,
+                        WomenIbadahStatus.postpartum,
+                      ),
                     ),
                     _ModeChip(
                       key: SakinahKeys.womenModePregnancyChip,
                       label: l10n.t('modePregnancy'),
                       selected: status == WomenIbadahStatus.pregnancy,
-                      onTap: () => controller
-                          .setWomenModeStatus(WomenIbadahStatus.pregnancy),
+                      onTap: () => _setWomenModeStatus(
+                        ref,
+                        WomenIbadahStatus.pregnancy,
+                      ),
                     ),
                     _ModeChip(
                       key: SakinahKeys.womenModePreferNotToTrackChip,
                       label: l10n.t('modePreferNotToTrack'),
                       selected: status == WomenIbadahStatus.preferNotToTrack,
-                      onTap: () => controller.setWomenModeStatus(
+                      onTap: () => _setWomenModeStatus(
+                        ref,
                         WomenIbadahStatus.preferNotToTrack,
                       ),
                     ),
@@ -211,6 +222,19 @@ class WomensIbadahModePage extends ConsumerWidget {
       ),
     );
   }
+}
+
+void _setWomenModeStatus(WidgetRef ref, WomenIbadahStatus status) {
+  unawaited(
+    ref.read(userPreferencesProvider.notifier).setWomenModeStatus(status),
+  );
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.womenIbadahModeChanged,
+    {
+      'enabled': status != WomenIbadahStatus.normal,
+      'source': 'women_mode',
+    },
+  );
 }
 
 class _ModeChip extends StatelessWidget {
