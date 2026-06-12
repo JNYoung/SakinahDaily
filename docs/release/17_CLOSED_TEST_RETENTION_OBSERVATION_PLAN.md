@@ -76,9 +76,10 @@ Notification Settings views should appear only as
 prayer-reminder enabled state, so setup interest can be observed separately
 from reminder opt-in.
 Qibla views should appear only as `qibla_viewed` with screen, route, coarse
-location method, calculation method, and controlled source, so prayer utility
-interest can be observed without exact coordinates, selected place labels,
-bearing degrees, Women's Ibadah Mode status, or free text.
+location method, calculation method, and controlled source such as
+`prayer_page_card`, so prayer utility interest can be observed without exact
+coordinates, selected place labels, bearing degrees, Women's Ibadah Mode
+status, or free text.
 Prayer reminder permission attempts should appear only as
 `prayer_reminder_permission_result` with enabled result, controlled source,
 coarse outcome, and lead-time offset, so denial or explanation dismissal can be

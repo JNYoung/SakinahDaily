@@ -151,6 +151,7 @@ String _locationMethodFor(String locationLabel) {
 
 String _normalizeQiblaSource(String? source) {
   return switch (source) {
+    'prayer_page_card' => 'prayer_page_card',
     'settings' => 'settings',
     'manual_location' => 'manual_location',
     _ => 'direct',

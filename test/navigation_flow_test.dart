@@ -6,6 +6,7 @@ import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/prayer_completion_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/core/services/prayer_calculation_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
@@ -22,6 +23,10 @@ void main() {
 
     await tapByKey(tester, SakinahKeys.homePrayerBadge);
 
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.prayerListItem('Fajr')),
+    );
     expect(find.byKey(SakinahKeys.prayerListItem('Fajr')), findsOneWidget);
     await scrollUntilFound(
       tester,
@@ -44,6 +49,10 @@ void main() {
     await continueToHome(tester);
 
     await tapByKey(tester, SakinahKeys.bottomNavPrayer);
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.prayerListItem('Fajr')),
+    );
     expect(find.byKey(SakinahKeys.prayerListItem('Fajr')), findsOneWidget);
     await scrollUntilFound(
       tester,
@@ -185,6 +194,10 @@ void main() {
 
     await tapByKey(tester, SakinahKeys.homePrayerCheckInButton);
 
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.prayerListItem('Fajr')),
+    );
     expect(find.byKey(SakinahKeys.prayerListItem('Fajr')), findsOneWidget);
     expect(find.byType(NavigationBar), findsOneWidget);
     expectNoFlutterErrors(tester);
@@ -296,6 +309,29 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('prayer page opens Qibla direction from prayer context',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.prayerTopQiblaButton);
+
+    expect(find.byKey(SakinahKeys.qiblaPage), findsOneWidget);
+    final event = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.qiblaViewed,
+    );
+    expect(event.properties, containsPair('source', 'prayer_page_card'));
+    expect(event.properties, containsPair('route', '/qibla'));
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('home session card shows enabled daily reminder time',
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();
@@ -381,6 +417,10 @@ void main() {
     await continueToHome(tester);
 
     await tapByKey(tester, SakinahKeys.homePrayerTimesButton);
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.prayerListItem('Fajr')),
+    );
     expect(find.byKey(SakinahKeys.prayerListItem('Fajr')), findsOneWidget);
 
     await tester.pageBack();
