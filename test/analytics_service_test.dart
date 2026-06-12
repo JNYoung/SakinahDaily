@@ -164,6 +164,32 @@ void main() {
       });
     });
 
+    test('daily session step analytics keeps only step funnel metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.dailySessionStepViewed,
+        const {
+          'session_id': 'session_morning_ease',
+          'step_id': 'quran',
+          'step_index': 2,
+          'source': 'daily_session',
+          'content_id': '94:5',
+          'content_type': 'quran',
+          'quran_arabic_text': 'sensitive text should never be sent',
+          'reflection_text': 'private note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'session_id': 'session_morning_ease',
+        'step_id': 'quran',
+        'step_index': 2,
+        'source': 'daily_session',
+      });
+    });
+
     test('home analytics only keeps aggregate prayer retention fields', () {
       final analytics = StubAnalyticsService(enabled: true);
 

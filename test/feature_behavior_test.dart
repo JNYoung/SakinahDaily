@@ -84,6 +84,45 @@ void main() {
     expect(player.currentState.status, AudioPlaybackStatus.idle);
   });
 
+  testWidgets('Daily Session records privacy-safe step view analytics',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(tester, analyticsService: analytics);
+    await continueToHome(tester);
+
+    await tapByKey(tester, SakinahKeys.homeSessionStartButton);
+    await tester.pumpAndSettle();
+    await tapByKey(tester, SakinahKeys.sessionNextButton);
+
+    expect(
+      analytics.events.map((event) => event.name),
+      containsAllInOrder([
+        AnalyticsEventCatalog.dailySessionStarted,
+        AnalyticsEventCatalog.dailySessionStepViewed,
+        AnalyticsEventCatalog.dailySessionStepViewed,
+      ]),
+    );
+    final stepEvents = analytics.events
+        .where(
+          (event) => event.name == AnalyticsEventCatalog.dailySessionStepViewed,
+        )
+        .toList();
+    expect(stepEvents, hasLength(2));
+    expect(stepEvents.first.properties, {
+      'session_id': 'session_morning_ease',
+      'step_id': 'intention',
+      'step_index': 1,
+      'source': 'daily_session',
+    });
+    expect(stepEvents.last.properties, {
+      'session_id': 'session_morning_ease',
+      'step_id': 'quran',
+      'step_index': 2,
+      'source': 'daily_session',
+    });
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Daily Session reflection step shows no-fatwa safety note',
       (tester) async {
     await pumpSakinahApp(tester);
