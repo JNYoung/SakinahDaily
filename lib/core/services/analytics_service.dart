@@ -22,6 +22,7 @@ class AnalyticsEventCatalog {
   static const homeViewed = 'home_viewed';
   static const prayerViewed = 'prayer_viewed';
   static const prayerReminderChanged = 'prayer_reminder_changed';
+  static const analyticsConsentChanged = 'analytics_consent_changed';
   static const dailySessionReminderChanged = 'daily_session_reminder_changed';
   static const prayerChecklistUpdated = 'prayer_checklist_updated';
   static const dailySessionStarted = 'daily_session_started';
@@ -45,6 +46,7 @@ class AnalyticsEventCatalog {
     homeViewed,
     prayerViewed,
     prayerReminderChanged,
+    analyticsConsentChanged,
     dailySessionReminderChanged,
     prayerChecklistUpdated,
     dailySessionStarted,
@@ -143,6 +145,11 @@ class AnalyticsParameterPolicy {
     'change_type',
   };
 
+  static const _analyticsConsentChangedKeys = {
+    'enabled',
+    'source',
+  };
+
   static const _closedTestPromptKeys = {
     'prompt_day',
     'theme_key',
@@ -232,6 +239,8 @@ class AnalyticsParameterPolicy {
         _prayerChecklistUpdatedKeys.contains(key),
       AnalyticsEventCatalog.dailySessionReminderChanged =>
         _dailySessionReminderChangedKeys.contains(key),
+      AnalyticsEventCatalog.analyticsConsentChanged =>
+        _analyticsConsentChangedKeys.contains(key),
       AnalyticsEventCatalog.closedTestPromptCopied ||
       AnalyticsEventCatalog.closedTestPromptMarkedSent =>
         _closedTestPromptKeys.contains(key),
@@ -381,13 +390,17 @@ class FirebaseAnalyticsService implements AnalyticsService {
     if (sink == null) {
       return;
     }
-    unawaited(
-      sink
-          .logEvent(name, _firebaseParameters(sanitized))
-          .catchError((Object _) {
-        _sinkUnavailable = true;
-      }),
-    );
+    try {
+      unawaited(
+        sink.logEvent(name, _firebaseParameters(sanitized)).catchError((
+          Object _,
+        ) {
+          _sinkUnavailable = true;
+        }),
+      );
+    } catch (_) {
+      _sinkUnavailable = true;
+    }
   }
 
   AnalyticsEventSink? _resolveSink() {

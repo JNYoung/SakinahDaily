@@ -210,6 +210,10 @@ Open product links:
   Quran, Dua, Dhikr, reflection, translation, or free-text content. Product
   metrics still cannot be transmitted by default until a reviewed Firebase
   configuration, user opt-in, and Play Data Safety declaration are approved.
+- Privacy Center now emits `analytics_consent_changed` with only enabled state
+  and `source=privacy_center`, giving the Google Analytics DebugView QA packet
+  a consent-funnel signal without tester identity, location, Women's Ibadah
+  Mode status, feedback text, or religious content.
 - Session history is intentionally small and lacks filters or richer insights.
 - Reminder timing is user-selectable locally, but real-device notification
   permission/OEM scheduling QA remains open.
@@ -328,7 +332,8 @@ Retention observation preparation:
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
   prayer reminder changes, aggregate prayer checklist updates, Daily Session
   start/step/completion, Daily Session reminder opt-in and setting changes,
-  saved Dua/Dhikr actions, and closed-test prompt actions.
+  analytics consent changes, saved Dua/Dhikr actions, and closed-test prompt
+  actions.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback

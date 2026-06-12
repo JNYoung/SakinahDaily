@@ -41,6 +41,10 @@ opt-in, sends only session ID, enabled state, controlled source, and coarse
 change type. It does not send exact reminder time or sensitive Women's Ibadah
 Mode status.
 
+Analytics consent changes, if enabled in a reviewed build, send only enabled
+state and `source=privacy_center`; tester identity, location, feedback text,
+Women's Ibadah Mode status, and religious content are not sent.
+
 Draft note: Google Play Data Safety focuses on data collected from or shared
 off device. Confirm final treatment of local-only data before submission.
 
@@ -64,7 +68,8 @@ disabled, store screenshot mode forces analytics off, and telemetry requires
 `SAKINAH_ANALYTICS_ENABLED=true`, reviewed Firebase project configuration, and
 user opt-in from Privacy Center. If analytics is enabled for Play closed
 testing or production, Data Safety must be reviewed and updated for app
-activity/analytics collection before upload.
+activity/analytics collection, including the privacy-safe consent event, before
+upload.
 
 ## Permissions
 

@@ -7,6 +7,7 @@ import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
@@ -115,6 +116,54 @@ void main() {
     );
     expect(analyticsSwitch.value, isTrue);
     expect((await preferencesRepository.load()).analyticsOptIn, isTrue);
+  });
+
+  testWidgets('Privacy Center records analytics consent changes safely',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final preferencesRepository = UserPreferencesRepository(preferencesStore);
+    final analytics = StubAnalyticsService(enabled: true);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/privacy',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      analyticsService: analytics,
+      appEnvironmentConfig: AppEnvironmentConfig.fromMap(
+        const {
+          'SAKINAH_APP_ENV': 'prod',
+          'SAKINAH_ANALYTICS_ENABLED': 'true',
+        },
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.privacyAnalyticsSwitch),
+    );
+    await tester.tap(find.byKey(SakinahKeys.privacyAnalyticsSwitch));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(SakinahKeys.privacyAnalyticsSwitch));
+    await tester.pumpAndSettle();
+
+    expect((await preferencesRepository.load()).analyticsOptIn, isFalse);
+    expect(
+      analytics.events.map((event) => event.name),
+      [
+        AnalyticsEventCatalog.analyticsConsentChanged,
+        AnalyticsEventCatalog.analyticsConsentChanged,
+      ],
+    );
+    expect(analytics.events.first.properties, {
+      'enabled': true,
+      'source': 'privacy_center',
+    });
+    expect(analytics.events.last.properties, {
+      'enabled': false,
+      'source': 'privacy_center',
+    });
   });
 
   testWidgets('Privacy Center shows and copies configured public policy URL',

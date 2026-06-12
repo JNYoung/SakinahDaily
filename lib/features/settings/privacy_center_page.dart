@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/providers/app_providers.dart';
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/services/analytics_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -88,7 +89,9 @@ class PrivacyCenterPage extends ConsumerWidget {
                     onChanged: analyticsAvailable
                         ? (enabled) {
                             unawaited(
-                              userPreferencesController.setAnalyticsOptIn(
+                              _setAnalyticsOptInFromPrivacyCenter(
+                                ref,
+                                userPreferencesController,
                                 enabled,
                               ),
                             );
@@ -133,6 +136,48 @@ class PrivacyCenterPage extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+Future<void> _setAnalyticsOptInFromPrivacyCenter(
+  WidgetRef ref,
+  UserPreferencesController userPreferencesController,
+  bool enabled,
+) async {
+  if (!enabled) {
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.analyticsConsentChanged,
+      const {
+        'enabled': false,
+        'source': 'privacy_center',
+      },
+    );
+    await userPreferencesController.setAnalyticsOptIn(false);
+    await _setAnalyticsCollectionEnabled(ref, false);
+    return;
+  }
+
+  await userPreferencesController.setAnalyticsOptIn(true);
+  await _setAnalyticsCollectionEnabled(ref, true);
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.analyticsConsentChanged,
+    const {
+      'enabled': true,
+      'source': 'privacy_center',
+    },
+  );
+}
+
+Future<void> _setAnalyticsCollectionEnabled(WidgetRef ref, bool enabled) async {
+  if (!ref.read(appEnvironmentConfigProvider).analyticsEnabled) {
+    return;
+  }
+  try {
+    await ref
+        .read(analyticsCollectionControllerProvider)
+        .setCollectionEnabled(enabled);
+  } catch (_) {
+    // Firebase may be absent in local tests or unconfigured QA builds.
   }
 }
 

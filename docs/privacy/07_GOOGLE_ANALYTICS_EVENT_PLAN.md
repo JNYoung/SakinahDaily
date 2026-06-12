@@ -23,6 +23,10 @@ Current implementation:
 - `analyticsCollectionConsentSyncProvider` turns Firebase Analytics collection
   on only when both the build flag and `analyticsOptIn` preference are true,
   and turns collection off when the user opts out.
+- Privacy Center records `analytics_consent_changed` when usage analytics is
+  toggled in an analytics-enabled build. The event keeps only enabled state and
+  `source=privacy_center`, so consent funnel QA never sends tester identity,
+  location, Women's Ibadah Mode status, feedback text, or religious content.
 - Android manifest metadata disables Firebase Analytics automatic collection
   and automatic screen reporting by default.
 - The Onboarding flow records local funnel events for start, language,
@@ -77,6 +81,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `home_viewed`
 - `prayer_viewed`
 - `prayer_reminder_changed`
+- `analytics_consent_changed`
 - `daily_session_reminder_changed`
 - `prayer_checklist_updated`
 - `daily_session_started`
@@ -161,12 +166,14 @@ and the tester has turned on the Privacy Center usage analytics opt-in. Store
 screenshot mode forces analytics off and is not valid DebugView evidence.
 
 The QA reviewer should verify that `home_viewed`,
-`prayer_reminder_changed`, `daily_session_started`,
+`prayer_reminder_changed`, `analytics_consent_changed`,
+`daily_session_started`,
 `daily_session_step_viewed`, `daily_session_completed`,
 `daily_session_reminder_changed`, `closed_test_prompt_copied`, and
 `closed_test_prompt_marked_sent` appear only with allowed parameters. No tester
 personal data, exact coordinates, Women's Ibadah Mode exact status, feedback
 text, religious text, or exact reminder time should appear in DebugView.
+`analytics_consent_changed` must keep only `enabled` and `source`.
 
 Strict export mode is available for pre-upload review:
 
