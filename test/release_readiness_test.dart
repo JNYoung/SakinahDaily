@@ -578,6 +578,8 @@ void main() {
       expect(content, contains('SAKINAH_E2E_SKIP_ANDROID_LAUNCH'));
       expect(content, contains('android-arm64'));
       expect(readiness, contains('Local e2e gate'));
+      expect(readiness, contains('actions/checkout@v6'));
+      expect(readiness, contains('Node 24-compatible checkout'));
       expect(acceptance, contains('scripts/verify_local_e2e.sh'));
 
       expect(workflow.existsSync(), isTrue);
@@ -585,6 +587,8 @@ void main() {
       expect(workflowContent, contains('name: Local E2E'));
       expect(workflowContent, contains('pull_request'));
       expect(workflowContent, contains('push'));
+      expect(workflowContent, contains('actions/checkout@v6'));
+      expect(workflowContent, isNot(contains('actions/checkout@v4')));
       expect(workflowContent, contains('subosito/flutter-action'));
       expect(workflowContent, contains('python3 -m pip install --user pillow'));
       expect(workflowContent, contains('scripts/verify_local_e2e.sh'));
