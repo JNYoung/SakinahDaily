@@ -60,8 +60,8 @@
 | `docs/privacy/05_PERMISSION_COPY.md` | 权限与同意说明文案草案 |
 | `docs/privacy/06_SDK_AND_API_INVENTORY.md` | SDK/API 隐私清单草案 |
 | `docs/privacy/07_GOOGLE_ANALYTICS_EVENT_PLAN.md` | Google Analytics 事件白名单、敏感字段过滤、`scripts/export_google_analytics_debugview_packet.sh` DebugView QA 包和未来 SDK 接入门禁 |
-| `docs/release/01_RELEASE_READINESS_CHECKLIST.md` | 客户端 release readiness 总清单，含 reviewed content pack readiness packet、Google Play 和 analytics 门禁 |
-| `docs/release/02_ANDROID_RELEASE_CHECKLIST.md` | Android 包名、签名、权限和构建清单 |
+| `docs/release/01_RELEASE_READINESS_CHECKLIST.md` | 客户端 release readiness 总清单，含 reviewed content pack readiness packet、Android OEM reminder observation packet、Google Play 和 analytics 门禁 |
+| `docs/release/02_ANDROID_RELEASE_CHECKLIST.md` | Android 包名、签名、权限、构建清单和 `scripts/export_android_oem_reminder_observation_packet.sh` 长窗口提醒观察包 |
 | `docs/release/03_IOS_RELEASE_CHECKLIST.md` | iOS bundle、签名、隐私和截图清单 |
 | `docs/release/04_STORE_METADATA_DRAFT.md` | App Store / Google Play metadata 草案 |
 | `docs/release/05_SCREENSHOT_PLAN.md` | Store 截图计划和后续自动化 key |

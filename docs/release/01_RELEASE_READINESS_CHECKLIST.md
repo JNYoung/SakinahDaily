@@ -109,10 +109,17 @@ Status: Draft for release/store review.
   installs it on a connected Android device or requested emulator, launches
   `com.sakinahdaily.app`, checks the app process, and captures local evidence
   in `build/android-launch-smoke`.
+- [x] Android OEM reminder observation packet exists at
+  `scripts/export_android_oem_reminder_observation_packet.sh`; template mode
+  writes 8-hour, 24-hour, reboot restore, battery-policy, lock-screen-copy, and
+  privacy-safe observation templates into `build/android-oem-reminder-observation`,
+  while strict mode fails until real device long-window reminder evidence,
+  reboot restore, battery review, and a human observation owner are confirmed.
 - [x] Local e2e gate exists at `scripts/verify_local_e2e.sh`; it runs
   `flutter test`, `dart analyze`, Play submission/public-links template gates,
-  the reviewed content pack readiness packet, optional internal release gate,
-  and Android launch smoke when an Android device is available.
+  the reviewed content pack readiness packet, the Android OEM reminder
+  observation packet, optional internal release gate, and Android launch smoke
+  when an Android device is available.
 - [x] GitHub Actions local e2e workflow exists at
   `.github/workflows/local-e2e.yml`; it runs on pull requests and pushes to
   `main`, uses Node 24-compatible `actions/checkout@v6`, installs Flutter, and
@@ -407,11 +414,17 @@ Status: Draft for release/store review.
   `build/reviewed-content-pack-readiness` with seed counts, beta targets,
   source-placeholder review, audio rights/hash review, and strict-mode
   confirmation requirements.
+- [x] `scripts/export_android_oem_reminder_observation_packet.sh` exports a
+  template-mode Android OEM reminder observation packet at
+  `build/android-oem-reminder-observation` with 8-hour, 24-hour, reboot
+  restore, battery-policy, lock-screen-copy, no-tester-personal-data, and
+  strict-mode confirmation templates.
 - [x] `scripts/verify_google_play_store_assets.sh` passes for the feature
   graphic and local store visual assets.
 - [x] `scripts/verify_local_e2e.sh` is available as the unattended local e2e
   wrapper for tests, analyzer, Play template gates, reviewed content readiness,
-  optional release gate, and Android launch smoke.
+  Android OEM reminder observation, optional release gate, and Android launch
+  smoke.
 - [x] `.github/workflows/local-e2e.yml` provides the PR-facing CI wrapper for
   the local e2e gate with Node 24-compatible checkout.
 - [ ] `SAKINAH_REQUIRE_CLOSED_TESTING_COMPLETE=true
@@ -457,6 +470,12 @@ Status: Draft for release/store review.
   source placeholders are replaced, the 5-7 session / 30-50 dua / 20-30 dhikr /
   10-20 Quran ayah beta pack is reviewed, licensed Quran audio rights and
   SHA-256 hashes are confirmed, and a human content owner signs off.
+- [ ] `SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY=true
+  scripts/export_android_oem_reminder_observation_packet.sh` passes only after
+  the Android OEM test device is confirmed, 8-hour and 24-hour prayer reminder
+  delivery/tap routing are observed, reminder restore after reboot is observed,
+  aggressive battery-management policy is reviewed, and a human observation
+  owner signs off.
 - [x] Android release appbundle native debug-symbol stripping is healthy after
   installing Android SDK cmdline-tools `latest` with `apkanalyzer`.
 - [x] Unsigned Google Play release QA passes locally:

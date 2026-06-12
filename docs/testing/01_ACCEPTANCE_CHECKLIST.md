@@ -15,7 +15,8 @@
   Day 3 / Day 7 / Day 14 反馈节奏。
 - [x] App 不像工具堆叠，而像 daily prayer companion。
 - [x] 本地 e2e 总闸脚本 `scripts/verify_local_e2e.sh` 可无人值守运行测试、
-  analyzer、Play 模板门禁和 Android launch smoke。
+  analyzer、Play 模板门禁、内容 readiness、Android OEM reminder observation
+  packet 和 Android launch smoke。
 - [x] GitHub Actions workflow `.github/workflows/local-e2e.yml` 可在 PR 上运行
   本地 e2e 门禁的 CI 版本；PR 模板要求填写命令、测试和产品约束。
 
@@ -57,6 +58,8 @@
 - [x] Daily reminder 可开启/关闭。
 - [x] 权限拒绝不影响 App 使用。
 - [x] 推送文案温柔克制。
+- [x] Android OEM reminder observation packet 可导出 8h / 24h / reboot /
+  battery policy 长窗口观察模板，且不记录 tester personal data。
 
 ## 7. Engineering
 

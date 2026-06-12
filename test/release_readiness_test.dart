@@ -561,6 +561,123 @@ void main() {
       expect(productProgress, contains('Android launch smoke'));
     });
 
+    test('Android OEM reminder observation packet is scripted', () {
+      final script =
+          File('scripts/export_android_oem_reminder_observation_packet.sh');
+      final docsIndex = File('docs/00_DOCS_INDEX.md').readAsStringSync();
+      final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
+          .readAsStringSync();
+      final androidChecklist =
+          File('docs/release/02_ANDROID_RELEASE_CHECKLIST.md')
+              .readAsStringSync();
+      final productProgress =
+          File('docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md')
+              .readAsStringSync();
+      final acceptance =
+          File('docs/testing/01_ACCEPTANCE_CHECKLIST.md').readAsStringSync();
+      final versionNotes = File('docs/release/08_VERSION_AND_RELEASE_NOTES.md')
+          .readAsStringSync();
+
+      expect(script.existsSync(), isTrue);
+      final mode = script.statSync().mode;
+      expect(mode & 0x49, isNonZero);
+
+      final content = script.readAsStringSync();
+      expect(content, contains('build/android-oem-reminder-observation'));
+      expect(content, contains('long_window_observation_log.csv'));
+      expect(content, contains('reboot_delivery_checklist.csv'));
+      expect(content, contains('battery_policy_review.csv'));
+      expect(content, contains('oem_observation_checklist.md'));
+      expect(content,
+          contains('SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY'));
+      expect(content, contains('SAKINAH_ANDROID_OEM_TEST_DEVICE_CONFIRMED'));
+      expect(content, contains('SAKINAH_8H_PRAYER_REMINDER_OBSERVED'));
+      expect(content, contains('SAKINAH_24H_PRAYER_REMINDER_OBSERVED'));
+      expect(content, contains('SAKINAH_REBOOT_REMINDER_RESTORE_OBSERVED'));
+      expect(content, contains('SAKINAH_BATTERY_POLICY_REVIEWED'));
+      expect(content, contains('SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED'));
+      expect(content, contains('RECEIVE_BOOT_COMPLETED'));
+      expect(content, contains('No tester personal data'));
+
+      final templateRun = Process.runSync(
+        'bash',
+        ['scripts/export_android_oem_reminder_observation_packet.sh'],
+        environment: {'PATH': Platform.environment['PATH'] ?? ''},
+        includeParentEnvironment: false,
+      );
+      expect(templateRun.exitCode, 0);
+      expect(
+        templateRun.stdout.toString(),
+        contains('Android OEM reminder observation packet exported'),
+      );
+
+      final manifest =
+          File('build/android-oem-reminder-observation/manifest.txt')
+              .readAsStringSync();
+      final observation = File(
+              'build/android-oem-reminder-observation/long_window_observation_log.csv')
+          .readAsStringSync();
+      final reboot = File(
+              'build/android-oem-reminder-observation/reboot_delivery_checklist.csv')
+          .readAsStringSync();
+      final battery = File(
+              'build/android-oem-reminder-observation/battery_policy_review.csv')
+          .readAsStringSync();
+      final checklist = File(
+              'build/android-oem-reminder-observation/oem_observation_checklist.md')
+          .readAsStringSync();
+
+      expect(manifest, contains('Android OEM reminder observation packet'));
+      expect(manifest, contains('com.sakinahdaily.app'));
+      expect(manifest, contains('No tester personal data'));
+      expect(
+        observation,
+        contains(
+          'observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_local_time,expected_delivery_window,actual_delivery_result,tap_result,notes_without_personal_data',
+        ),
+      );
+      expect(observation, contains('8h'));
+      expect(observation, contains('24h'));
+      expect(reboot, contains('reboot_restore'));
+      expect(reboot, contains('RECEIVE_BOOT_COMPLETED'));
+      expect(battery, contains('battery_policy_state'));
+      expect(battery, contains('aggressive battery-management'));
+      expect(checklist, contains('8-hour prayer reminder'));
+      expect(checklist, contains('24-hour prayer reminder'));
+      expect(checklist, contains('after device reboot'));
+      expect(checklist, contains('do not record tester personal data'));
+      expect(checklist, contains('lock-screen copy'));
+
+      final strictRun = Process.runSync(
+        'bash',
+        ['scripts/export_android_oem_reminder_observation_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictRun.exitCode, isNot(0));
+      expect(
+        strictRun.stderr.toString(),
+        contains('Android OEM reminder observation packet failed'),
+      );
+      expect(
+        strictRun.stderr.toString(),
+        contains('SAKINAH_ANDROID_OEM_TEST_DEVICE_CONFIRMED=true'),
+      );
+
+      expect(docsIndex,
+          contains('export_android_oem_reminder_observation_packet.sh'));
+      expect(readiness, contains('Android OEM reminder observation packet'));
+      expect(androidChecklist,
+          contains('Android OEM reminder observation packet'));
+      expect(
+          productProgress, contains('Android OEM reminder observation packet'));
+      expect(acceptance, contains('Android OEM reminder observation packet'));
+      expect(versionNotes, contains('Android OEM reminder observation packet'));
+    });
+
     test('local e2e gate is scripted and documented', () {
       final script = File('scripts/verify_local_e2e.sh');
       final workflow = File('.github/workflows/local-e2e.yml');
@@ -583,6 +700,10 @@ void main() {
       expect(content, contains('verify_google_play_public_links_packet.sh'));
       expect(content, contains('export_reviewed_content_pack_readiness.sh'));
       expect(content, contains('SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK'));
+      expect(content,
+          contains('export_android_oem_reminder_observation_packet.sh'));
+      expect(
+          content, contains('SAKINAH_E2E_SKIP_ANDROID_OEM_OBSERVATION_PACKET'));
       expect(content, contains('verify_android_launch_smoke.sh'));
       expect(content, contains('SAKINAH_E2E_RUN_RELEASE_GATE'));
       expect(content, contains('SAKINAH_E2E_SKIP_ANDROID_LAUNCH'));
