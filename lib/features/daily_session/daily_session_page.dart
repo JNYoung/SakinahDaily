@@ -30,6 +30,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
   int index = 0;
   int dhikrCount = 0;
   bool resumedFromProgress = false;
+  final Set<int> _trackedStepIndexes = <int>{};
 
   @override
   void initState() {
@@ -177,6 +178,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
                 index = nextIndex;
                 resumedFromProgress = false;
               });
+              _trackStepViewed(session, nextIndex);
               unawaited(
                 ref
                     .read(sessionProgressControllerProvider.notifier)
@@ -208,6 +210,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
       index = nextIndex;
       resumedFromProgress = nextIndex > 0;
     });
+    _trackStepViewed(session, nextIndex);
   }
 
   Future<void> _finishSession(
@@ -225,6 +228,22 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
       return;
     }
     context.go('/session/${session.id}/completed');
+  }
+
+  void _trackStepViewed(DailySession session, int stepIndex) {
+    if (!_trackedStepIndexes.add(stepIndex)) {
+      return;
+    }
+    final step = session.steps[stepIndex];
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.dailySessionStepViewed,
+      {
+        'session_id': session.id,
+        'step_id': step.id,
+        'step_index': stepIndex + 1,
+        'source': 'daily_session',
+      },
+    );
   }
 }
 

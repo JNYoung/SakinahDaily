@@ -176,9 +176,11 @@ Open product links:
 - Analytics now has a Google Analytics-compatible event contract and
   default-off Firebase Analytics adapter for the onboarding, prayer/session,
   and closed-test feedback loops with an event whitelist and
-  sensitive-parameter sanitizer. Product metrics still cannot be transmitted by
-  default until a reviewed Firebase configuration, user opt-in, and Play Data
-  Safety declaration are approved.
+  sensitive-parameter sanitizer. Daily Session step view analytics can show
+  where users drop off by stable step ID and 1-based step index without sending
+  Quran, Dua, Dhikr, reflection, translation, or free-text content. Product
+  metrics still cannot be transmitted by default until a reviewed Firebase
+  configuration, user opt-in, and Play Data Safety declaration are approved.
 - Session history is intentionally small and lacks filters or richer insights.
 - Reminder timing is user-selectable locally, but real-device notification
   permission/OEM scheduling QA remains open.
