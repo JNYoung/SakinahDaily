@@ -70,6 +70,7 @@ done
 require_executable scripts/verify_google_play_public_links.sh
 require_executable scripts/export_google_play_public_links_packet.sh
 require_executable scripts/verify_google_play_public_links_packet.sh
+require_executable scripts/export_google_analytics_debugview_packet.sh
 require_executable scripts/verify_google_play_upload_preflight.sh
 require_executable scripts/export_google_play_upload_packet.sh
 require_executable scripts/verify_google_play_closed_testing_evidence.sh
@@ -104,6 +105,7 @@ for needle in \
   'scripts/verify_google_play_upload_preflight.sh' \
   'scripts/export_google_play_public_links_packet.sh' \
   'scripts/verify_google_play_public_links_packet.sh' \
+  'scripts/export_google_analytics_debugview_packet.sh' \
   'scripts/export_google_play_upload_packet.sh' \
   'scripts/verify_google_play_closed_test_launch_day.sh' \
   'scripts/verify_google_play_closed_testing_evidence.sh' \
@@ -127,6 +129,7 @@ require_text "$version_notes" 'Release Notes Candidate'
 scripts/verify_google_play_closed_testing_evidence.sh
 scripts/export_google_play_public_links_packet.sh
 scripts/verify_google_play_public_links_packet.sh
+scripts/export_google_analytics_debugview_packet.sh
 scripts/export_google_play_upload_packet.sh
 scripts/verify_google_play_production_access_pack.sh
 scripts/export_google_play_production_access_packet.sh

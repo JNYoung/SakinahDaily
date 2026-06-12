@@ -1247,6 +1247,10 @@ void main() {
           runbook, contains('scripts/verify_google_play_upload_preflight.sh'));
       expect(
         runbook,
+        contains('scripts/export_google_analytics_debugview_packet.sh'),
+      );
+      expect(
+        runbook,
         contains('scripts/verify_google_play_closed_testing_evidence.sh'),
       );
       expect(
@@ -1277,6 +1281,10 @@ void main() {
       expect(scriptContent, contains('verify_google_play_upload_preflight.sh'));
       expect(
         scriptContent,
+        contains('export_google_analytics_debugview_packet.sh'),
+      );
+      expect(
+        scriptContent,
         contains('verify_google_play_closed_testing_evidence.sh'),
       );
 
@@ -1290,6 +1298,13 @@ void main() {
       expect(
         templateRun.stdout.toString(),
         contains('Google Play submission pack passed'),
+      );
+      final analyticsManifest =
+          File('build/google-analytics-debugview/manifest.txt')
+              .readAsStringSync();
+      expect(
+        analyticsManifest,
+        contains('Google Analytics DebugView QA packet'),
       );
 
       final strictRun = Process.runSync(
