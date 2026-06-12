@@ -135,6 +135,35 @@ void main() {
       });
     });
 
+    test('prayer completion card reminder analytics keeps safe source metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.prayerReminderChanged,
+        const {
+          'prayer_name': 'all',
+          'enabled': true,
+          'source': 'prayer_completion_card',
+          'reminder_offset_minutes': 0,
+          'route': '/settings/notifications',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'pregnant',
+          'feedback_text': 'private tester note',
+          'reminder_time': '05:00',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'prayer_name': 'all',
+        'enabled': true,
+        'source': 'prayer_completion_card',
+        'reminder_offset_minutes': 0,
+      });
+    });
+
     test('prayer checklist analytics only keeps aggregate usage fields', () {
       final analytics = StubAnalyticsService(enabled: true);
 

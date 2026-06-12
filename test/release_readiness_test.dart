@@ -275,6 +275,7 @@ void main() {
         contains('daily session reminder analytics keeps safe reminder'),
       );
       expect(analyticsTest, contains('home_prayer_card'));
+      expect(analyticsTest, contains('prayer_completion_card'));
       expect(
         analyticsTest,
         contains(
@@ -299,6 +300,7 @@ void main() {
       expect(analyticsPlan, contains('analytics_consent_changed'));
       expect(analyticsPlan, contains('home_session_completion'));
       expect(analyticsPlan, contains('home_prayer_card'));
+      expect(analyticsPlan, contains('prayer_completion_card'));
       expect(analyticsPlan, contains('exact daily session reminder time'));
       expect(analyticsPlan, contains('Completion analytics keeps only'));
       expect(analyticsPlan, contains('aggregate prayer retention counts'));
@@ -1722,6 +1724,9 @@ void main() {
       expect(content, contains('daily_session_reminder_changed'));
       expect(content, contains('analytics_consent_changed'));
       expect(content, contains('notification_tap_opened'));
+      expect(content, contains('prayer_completion_card'));
+      expect(readiness, contains('prayer_completion_card'));
+      expect(retentionPlan, contains('prayer_completion_card'));
 
       final templateRun = Process.runSync(
         'bash',
@@ -1781,6 +1786,7 @@ void main() {
       expect(events, contains('home_viewed'));
       expect(events, contains('prayer_reminder_changed'));
       expect(events, contains('home_prayer_card'));
+      expect(events, contains('prayer_completion_card'));
       expect(events, contains('notification_tap_opened'));
       expect(events, contains('analytics_consent_changed'));
       expect(events, contains('daily_session_started'));
@@ -1792,6 +1798,7 @@ void main() {
 
       expect(funnel, contains('Prayer Reminder Opt-in Rate'));
       expect(funnel, contains('home_prayer_card'));
+      expect(funnel, contains('prayer_completion_card'));
       expect(funnel, contains('Push Open Rate'));
       expect(funnel, contains('Analytics Consent Rate'));
       expect(funnel, contains('Daily Session Start Rate'));
@@ -2800,6 +2807,7 @@ void main() {
       expect(sessionPage, contains('reflectionSafetyDescription'));
       expect(keys, contains('sessionReflectionSafetyCard'));
       expect(keys, contains('prayerCompletionStartSessionButton'));
+      expect(keys, contains('prayerCompletionReminderSettingsButton'));
       expect(
         featureTest,
         contains('Daily Session reflection step shows no-fatwa safety note'),
@@ -2807,6 +2815,10 @@ void main() {
       expect(
         featureTest,
         contains('Prayer complete state starts Daily Session'),
+      );
+      expect(
+        featureTest,
+        contains('Prayer complete state can open reminder settings'),
       );
       expect(
         featureTest,

@@ -56,9 +56,9 @@ Current implementation:
   check-in streak, and prayer reminder enabled state.
 - Prayer reminder global and per-prayer changes record local
   `prayer_reminder_changed` events with reminder enabled state, lead time, and
-  a controlled source such as `settings` or `home_prayer_card`. Routes, exact
-  reminder times, locations, Women's Ibadah Mode status, and free text are not
-  sent.
+  a controlled source such as `settings`, `home_prayer_card`, or
+  `prayer_completion_card`. Routes, exact reminder times, locations, Women's
+  Ibadah Mode status, and free text are not sent.
 - Handled local notification taps record `notification_tap_opened` with only a
   coarse content type such as `prayer`, `daily_session`, `quran`, `dua`, or
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,

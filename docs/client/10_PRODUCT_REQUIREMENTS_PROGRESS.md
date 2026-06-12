@@ -91,6 +91,11 @@ Completed:
   loop can be observed without sending prayer names or timestamps. If today's
   session is already complete, the same Prayer completion card changes to
   Review and opens the local completion page instead of restarting the session.
+  When prayer reminders are still off, the same complete-state card also offers
+  a Manage reminders CTA into Notification Settings with
+  `source=prayer_completion_card`, so a full-day prayer completion moment can
+  convert into reminder opt-in without sending prayer names, timestamps,
+  routes, or Women's Ibadah Mode status.
 - Home now shows a local-only "Prayer week" summary with recent check-in days
   and current prayer streak, helping users see a lightweight weekly habit loop
   without account sync or remote prayer history.
@@ -342,9 +347,10 @@ Retention observation preparation:
   handled local notification opens, analytics consent changes, saved Dua/Dhikr
   actions, and closed-test prompt actions.
   Prayer reminder analytics now carries only a controlled source such as
-  `settings` or `home_prayer_card`, so Home-card reminder opt-ins can be
-  separated from ordinary Settings changes without sending routes, coordinates,
-  exact reminder times, Women's Ibadah Mode status, or free text.
+  `settings`, `home_prayer_card`, or `prayer_completion_card`, so Home-card and
+  Prayer completion-card reminder opt-ins can be separated from ordinary
+  Settings changes without sending routes, coordinates, exact reminder times,
+  Women's Ibadah Mode status, or free text.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback

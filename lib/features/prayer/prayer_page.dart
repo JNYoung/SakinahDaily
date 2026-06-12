@@ -208,6 +208,23 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
                       ),
                     ),
                   ],
+                  if (allPrayersCompleted &&
+                      !preferences.notificationsEnabled) ...[
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: PrimaryButton(
+                        key: SakinahKeys.prayerCompletionReminderSettingsButton,
+                        label: l10n.t('manageReminders'),
+                        tonal: true,
+                        icon: Icons.notifications_active_outlined,
+                        onPressed: () => context.go(
+                          '/settings/notifications'
+                          '?source=prayer_completion_card',
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             );
