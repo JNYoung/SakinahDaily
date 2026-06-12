@@ -362,6 +362,10 @@ Retention observation preparation:
   completion-card reminder opt-ins can be separated from ordinary Settings
   changes without sending routes, coordinates, exact reminder times, Women's
   Ibadah Mode status, or free text.
+  Notification Settings view analytics now records
+  `notification_settings_viewed` once per page entry with only screen,
+  controlled source, and aggregate prayer-reminder enabled state, so the
+  reminder setup funnel can be observed before the opt-in event.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback

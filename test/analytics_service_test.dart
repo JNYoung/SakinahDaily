@@ -23,6 +23,7 @@ void main() {
           AnalyticsEventCatalog.onboardingCompleted,
           AnalyticsEventCatalog.homeViewed,
           AnalyticsEventCatalog.prayerViewed,
+          AnalyticsEventCatalog.notificationSettingsViewed,
           AnalyticsEventCatalog.prayerReminderChanged,
           AnalyticsEventCatalog.notificationTapOpened,
           AnalyticsEventCatalog.analyticsConsentChanged,
@@ -293,6 +294,34 @@ void main() {
       expect(analytics.events.single.properties, {
         'content_type': 'daily_session',
         'source': 'local_notification',
+      });
+    });
+
+    test(
+        'notification settings view analytics keeps safe reminder state metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.notificationSettingsViewed,
+        const {
+          'screen': 'notification_settings',
+          'source': 'prayer_page_card',
+          'prayer_reminders_enabled': true,
+          'route': '/settings/notifications?source=prayer_page_card',
+          'reminder_time': '05:00',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'menstruating',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'screen': 'notification_settings',
+        'source': 'prayer_page_card',
+        'prayer_reminders_enabled': true,
       });
     });
 

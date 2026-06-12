@@ -251,6 +251,9 @@ Status: Draft for release/store review.
   state, controlled source such as `settings`, `home_prayer_card`,
   `prayer_page_card`, or `prayer_completion_card`, and lead-time offset; routes
   and exact reminder times are not sent.
+  Notification Settings view analytics is observable only as
+  `notification_settings_viewed` with screen, controlled source, and aggregate
+  prayer-reminder enabled state.
   Notification tap analytics is observable only as `notification_tap_opened`
   with coarse content type and `source=local_notification`.
   Daily Session reminder analytics is limited to enabled state, source, change

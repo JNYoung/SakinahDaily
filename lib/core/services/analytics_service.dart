@@ -21,6 +21,7 @@ class AnalyticsEventCatalog {
   static const audioPreferenceSelected = 'audio_preference_selected';
   static const homeViewed = 'home_viewed';
   static const prayerViewed = 'prayer_viewed';
+  static const notificationSettingsViewed = 'notification_settings_viewed';
   static const prayerReminderChanged = 'prayer_reminder_changed';
   static const notificationTapOpened = 'notification_tap_opened';
   static const analyticsConsentChanged = 'analytics_consent_changed';
@@ -46,6 +47,7 @@ class AnalyticsEventCatalog {
     audioPreferenceSelected,
     homeViewed,
     prayerViewed,
+    notificationSettingsViewed,
     prayerReminderChanged,
     notificationTapOpened,
     analyticsConsentChanged,
@@ -145,6 +147,12 @@ class AnalyticsParameterPolicy {
     'enabled',
     'source',
     'reminder_offset_minutes',
+  };
+
+  static const _notificationSettingsViewedKeys = {
+    'screen',
+    'source',
+    'prayer_reminders_enabled',
   };
 
   static const _dailySessionReminderChangedKeys = {
@@ -251,6 +259,8 @@ class AnalyticsParameterPolicy {
       AnalyticsEventCatalog.homeViewed => _homeViewedKeys.contains(key),
       AnalyticsEventCatalog.prayerReminderChanged =>
         _prayerReminderChangedKeys.contains(key),
+      AnalyticsEventCatalog.notificationSettingsViewed =>
+        _notificationSettingsViewedKeys.contains(key),
       AnalyticsEventCatalog.prayerChecklistUpdated =>
         _prayerChecklistUpdatedKeys.contains(key),
       AnalyticsEventCatalog.dailySessionReminderChanged =>

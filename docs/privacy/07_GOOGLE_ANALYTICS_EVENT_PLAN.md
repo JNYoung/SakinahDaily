@@ -50,6 +50,12 @@ Current implementation:
   Women's Ibadah Mode status, routine notes, and other free text are not sent.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
   calculation method, route, screen, and coarse location method only.
+- Notification Settings records a local `notification_settings_viewed` event
+  once per page entry with only screen, controlled entry source, and whether
+  prayer reminders are already enabled. Controlled entry sources include
+  reminder setup entries from Home, Prayer, completion, and Daily Session
+  completion surfaces. Routes, exact reminder times, locations, Women's Ibadah
+  Mode status, and free text are not sent.
 - The Home page records a local `home_viewed` event only after local prayer
   completion state is loaded, with aggregate prayer retention counts only:
   today's completed count, 7-day check-in count, 7-day check-in days, current
@@ -88,6 +94,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `audio_preference_selected`
 - `home_viewed`
 - `prayer_viewed`
+- `notification_settings_viewed`
 - `prayer_reminder_changed`
 - `notification_tap_opened`
 - `analytics_consent_changed`
@@ -177,6 +184,7 @@ screenshot mode forces analytics off and is not valid DebugView evidence.
 The QA reviewer should verify that `home_viewed`,
 `prayer_reminder_changed`, `notification_tap_opened`,
 `analytics_consent_changed`,
+`notification_settings_viewed`,
 `daily_session_started`,
 `daily_session_step_viewed`, `daily_session_completed`,
 `daily_session_reminder_changed`, `closed_test_prompt_copied`, and
@@ -185,6 +193,8 @@ personal data, exact coordinates, Women's Ibadah Mode exact status, feedback
 text, religious text, or exact reminder time should appear in DebugView.
 `prayer_reminder_changed` must keep only prayer scope, enabled state,
 controlled source, and reminder lead-time offset.
+`notification_settings_viewed` must keep only screen, controlled source, and
+aggregate prayer-reminder enabled state.
 `notification_tap_opened` must keep only `content_type` and `source`.
 `analytics_consent_changed` must keep only `enabled` and `source`.
 

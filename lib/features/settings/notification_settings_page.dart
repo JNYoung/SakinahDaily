@@ -14,13 +14,43 @@ import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/settings_tile.dart';
 import 'prayer_reminder_toggle_flow.dart';
 
-class NotificationSettingsPage extends ConsumerWidget {
+class NotificationSettingsPage extends ConsumerStatefulWidget {
   const NotificationSettingsPage({this.entrySource, super.key});
 
   final String? entrySource;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NotificationSettingsPage> createState() =>
+      _NotificationSettingsPageState();
+}
+
+class _NotificationSettingsPageState
+    extends ConsumerState<NotificationSettingsPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _trackNotificationSettingsViewed();
+    });
+  }
+
+  void _trackNotificationSettingsViewed() {
+    final preferences = ref.read(userPreferencesProvider);
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.notificationSettingsViewed,
+      {
+        'screen': 'notification_settings',
+        'source': _normalizeNotificationSettingsSource(widget.entrySource),
+        'prayer_reminders_enabled': preferences.notificationsEnabled,
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = SakinahLocalizations.of(context);
     final preferences = ref.watch(userPreferencesProvider);
     final sessions = ref.watch(dailySessionsProvider);
@@ -33,9 +63,9 @@ class NotificationSettingsPage extends ConsumerWidget {
         ref.watch(notificationPermissionFeedbackProvider);
     final environment = ref.watch(appEnvironmentConfigProvider);
     final prayerReminderAnalyticsSource =
-        _normalizePrayerReminderSource(entrySource);
+        _normalizePrayerReminderSource(widget.entrySource);
     final dailySessionReminderAnalyticsSource =
-        _normalizeDailySessionReminderSource(entrySource);
+        _normalizeDailySessionReminderSource(widget.entrySource);
     final nextPrayerReminderPreview = _nextPrayerReminderPreview(
       now: now,
       preferences: preferences,
@@ -602,6 +632,18 @@ String _normalizePrayerReminderSource(String? source) {
     'home_prayer_card' => 'home_prayer_card',
     'prayer_page_card' => 'prayer_page_card',
     'prayer_completion_card' => 'prayer_completion_card',
+    'settings' || null => 'settings',
+    _ => 'settings',
+  };
+}
+
+String _normalizeNotificationSettingsSource(String? source) {
+  return switch (source) {
+    'home_prayer_card' => 'home_prayer_card',
+    'prayer_page_card' => 'prayer_page_card',
+    'prayer_completion_card' => 'prayer_completion_card',
+    'home_session_completion' => 'home_session_completion',
+    'session_completion' => 'session_completion',
     'settings' || null => 'settings',
     _ => 'settings',
   };
