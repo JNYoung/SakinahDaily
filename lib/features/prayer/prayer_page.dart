@@ -325,6 +325,7 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
         'completed_count': completedCount,
         'all_prayers_completed':
             completedCount >= defaultPrayerReminderNames.length,
+        'source': 'prayer_page_checklist',
       },
     );
   }

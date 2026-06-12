@@ -518,6 +518,7 @@ void main() {
       'screen': 'prayer',
       'completed_count': 1,
       'all_prayers_completed': false,
+      'source': 'prayer_page_checklist',
     });
 
     await tapByKey(tester, SakinahKeys.bottomNavHome);

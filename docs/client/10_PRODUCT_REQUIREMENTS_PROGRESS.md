@@ -367,6 +367,11 @@ Retention observation preparation:
   completion-card reminder opt-ins can be separated from ordinary Settings
   changes without sending routes, coordinates, exact reminder times, Women's
   Ibadah Mode status, or free text.
+  Prayer checklist analytics now records only aggregate completion count,
+  all-prayers-completed state, and `source=prayer_page_checklist`, so core
+  check-in usage can be separated from future entry points without sending
+  prayer names, completion timestamps, locations, Women's Ibadah Mode status,
+  or free text.
   Notification Settings view analytics now records
   `notification_settings_viewed` once per page entry with only screen,
   controlled source, and aggregate prayer-reminder enabled state, so the

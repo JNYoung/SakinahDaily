@@ -334,6 +334,7 @@ void main() {
       expect(analyticsPlan, contains('home_prayer_card'));
       expect(analyticsPlan, contains('prayer_page_card'));
       expect(analyticsPlan, contains('prayer_completion_card'));
+      expect(analyticsPlan, contains('prayer_page_checklist'));
       expect(analyticsPlan, contains('exact daily session reminder time'));
       expect(analyticsPlan, contains('Completion analytics keeps only'));
       expect(analyticsPlan, contains('aggregate prayer retention counts'));
@@ -715,7 +716,8 @@ void main() {
       expect(reboot, contains('RECEIVE_BOOT_COMPLETED'));
       expect(battery, contains('battery_policy_state'));
       expect(battery, contains('aggressive battery-management'));
-      expect(deviceSnapshot, contains('Android OEM device environment snapshot'));
+      expect(
+          deviceSnapshot, contains('Android OEM device environment snapshot'));
       expect(deviceSnapshot, contains('Privacy rule: No tester personal data'));
       expect(checklist, contains('8-hour prayer reminder'));
       expect(checklist, contains('24-hour prayer reminder'));
@@ -1773,6 +1775,7 @@ void main() {
       expect(content, contains('notification_tap_opened'));
       expect(content, contains('prayer_page_card'));
       expect(content, contains('prayer_completion_card'));
+      expect(content, contains('prayer_page_checklist'));
       expect(readiness, contains('prayer_page_card'));
       expect(readiness, contains('prayer_completion_card'));
       expect(retentionPlan, contains('notification_settings_viewed'));
@@ -1781,6 +1784,7 @@ void main() {
           retentionPlan, contains('daily_session_reminder_permission_result'));
       expect(retentionPlan, contains('prayer_page_card'));
       expect(retentionPlan, contains('prayer_completion_card'));
+      expect(retentionPlan, contains('prayer_page_checklist'));
 
       final templateRun = Process.runSync(
         'bash',
@@ -1844,6 +1848,7 @@ void main() {
       expect(events, contains('home_prayer_card'));
       expect(events, contains('prayer_page_card'));
       expect(events, contains('prayer_completion_card'));
+      expect(events, contains('prayer_page_checklist'));
       expect(events, contains('notification_tap_opened'));
       expect(events, contains('analytics_consent_changed'));
       expect(events, contains('daily_session_started'));
