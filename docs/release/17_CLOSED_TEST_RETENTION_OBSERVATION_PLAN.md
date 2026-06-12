@@ -70,6 +70,10 @@ prayer scope, enabled state, controlled source such as `settings`,
 `home_prayer_card`, `prayer_page_card`, or `prayer_completion_card`, and
 lead-time offset; do not store routes, exact reminder times, coordinates,
 Women's Ibadah Mode status, or free text.
+Notification Settings views should appear only as
+`notification_settings_viewed` with screen, controlled source, and aggregate
+prayer-reminder enabled state, so setup interest can be observed separately
+from reminder opt-in.
 Local notification opens should appear only as `notification_tap_opened` with
 coarse content type and `source=local_notification`; do not store raw payloads,
 routes, content IDs, prayer names, or religious text.

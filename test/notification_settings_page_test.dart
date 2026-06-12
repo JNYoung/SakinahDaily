@@ -127,12 +127,16 @@ void main() {
     expect(notifications.dailySessionReminder, isNotNull);
     expect(notifications.dailySessionReminder!.time.hour, 20);
     expect(notifications.dailySessionReminder!.time.minute, 0);
-    expect(analytics.events, hasLength(1));
-    expect(
-      analytics.events.single.name,
+    var reminderEvents = _eventsNamed(
+      analytics,
       AnalyticsEventCatalog.dailySessionReminderChanged,
     );
-    expect(analytics.events.single.properties, {
+    expect(reminderEvents, hasLength(1));
+    expect(
+      reminderEvents.single.name,
+      AnalyticsEventCatalog.dailySessionReminderChanged,
+    );
+    expect(reminderEvents.single.properties, {
       'session_id': 'session_morning_ease',
       'enabled': true,
       'source': 'settings',
@@ -167,8 +171,12 @@ void main() {
     expect(preferences.dailySessionReminderEnabled, isTrue);
     expect(notifications.dailySessionReminder!.time.hour, 21);
     expect(notifications.dailySessionReminder!.time.minute, 15);
-    expect(analytics.events, hasLength(2));
-    expect(analytics.events.last.properties, {
+    reminderEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.dailySessionReminderChanged,
+    );
+    expect(reminderEvents, hasLength(2));
+    expect(reminderEvents.last.properties, {
       'session_id': 'session_morning_ease',
       'enabled': true,
       'source': 'settings',
@@ -181,8 +189,12 @@ void main() {
     preferences = await UserPreferencesRepository(preferencesStore).load();
     expect(preferences.dailySessionReminderEnabled, isFalse);
     expect(notifications.dailySessionReminder, isNull);
-    expect(analytics.events, hasLength(3));
-    expect(analytics.events.last.properties, {
+    reminderEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.dailySessionReminderChanged,
+    );
+    expect(reminderEvents, hasLength(3));
+    expect(reminderEvents.last.properties, {
       'session_id': 'session_morning_ease',
       'enabled': false,
       'source': 'settings',
@@ -222,10 +234,16 @@ void main() {
     var preferences = await UserPreferencesRepository(preferencesStore).load();
     expect(preferences.notificationsEnabled, isTrue);
     expect(notifications.scheduled, isNotEmpty);
-    expect(analytics.events, hasLength(1));
-    expect(analytics.events.single.name,
-        AnalyticsEventCatalog.prayerReminderChanged);
-    expect(analytics.events.single.properties, {
+    var prayerReminderEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.prayerReminderChanged,
+    );
+    expect(prayerReminderEvents, hasLength(1));
+    expect(
+      prayerReminderEvents.single.name,
+      AnalyticsEventCatalog.prayerReminderChanged,
+    );
+    expect(prayerReminderEvents.single.properties, {
       'prayer_name': 'all',
       'enabled': true,
       'source': 'settings',
@@ -245,8 +263,12 @@ void main() {
     preferences = await UserPreferencesRepository(preferencesStore).load();
     expect(preferences.notificationsEnabled, isFalse);
     expect(notifications.scheduled, isEmpty);
-    expect(analytics.events, hasLength(2));
-    expect(analytics.events.last.properties, {
+    prayerReminderEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.prayerReminderChanged,
+    );
+    expect(prayerReminderEvents, hasLength(2));
+    expect(prayerReminderEvents.last.properties, {
       'prayer_name': 'all',
       'enabled': false,
       'source': 'settings',
@@ -333,6 +355,32 @@ void main() {
       'enabled': true,
       'source': 'prayer_page_card',
       'reminder_offset_minutes': 0,
+    });
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Notification settings records view analytics with safe source',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications?source=home_session_completion',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    final viewEvents = analytics.events
+        .where(
+          (event) =>
+              event.name == AnalyticsEventCatalog.notificationSettingsViewed,
+        )
+        .toList();
+    expect(viewEvents, hasLength(1));
+    expect(viewEvents.single.properties, {
+      'screen': 'notification_settings',
+      'source': 'home_session_completion',
+      'prayer_reminders_enabled': false,
     });
     expectNoFlutterErrors(tester);
   });
@@ -519,12 +567,16 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(analytics.events, hasLength(1));
-    expect(
-      analytics.events.single.name,
+    final prayerReminderEvents = _eventsNamed(
+      analytics,
       AnalyticsEventCatalog.prayerReminderChanged,
     );
-    expect(analytics.events.single.properties, {
+    expect(prayerReminderEvents, hasLength(1));
+    expect(
+      prayerReminderEvents.single.name,
+      AnalyticsEventCatalog.prayerReminderChanged,
+    );
+    expect(prayerReminderEvents.single.properties, {
       'prayer_name': 'Dhuhr',
       'enabled': false,
       'source': 'settings',
@@ -608,6 +660,15 @@ void main() {
     );
     expectNoFlutterErrors(tester);
   });
+}
+
+List<AnalyticsEvent> _eventsNamed(
+  StubAnalyticsService analytics,
+  String eventName,
+) {
+  return analytics.events
+      .where((event) => event.name == eventName)
+      .toList(growable: false);
 }
 
 String _formatClockTime(DateTime time) {
