@@ -265,9 +265,9 @@ Status: Draft for release/store review.
   Prayer location/method setting analytics is observable only as
   `prayer_location_changed` with coarse location method, calculation method,
   controlled source such as `settings_prayer_location`,
-  `settings_prayer_method`, or `manual_location_page`, and coarse change type;
-  exact coordinates, manual place labels, timezone IDs, routes, Women's Ibadah
-  Mode status, and free text are not sent.
+  `settings_prayer_method`, `manual_location_page`, or `prayer_page_card`, and
+  coarse change type; exact coordinates, manual place labels, timezone IDs,
+  routes, Women's Ibadah Mode status, and free text are not sent.
   Prayer reminder permission analytics is observable only as
   `prayer_reminder_permission_result` with enabled result, controlled source,
   coarse outcome, and lead-time offset; routes, exact reminder times,

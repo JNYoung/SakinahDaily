@@ -154,6 +154,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('prayer_top_reminder_settings_button');
   static const prayerTopQiblaButton =
       ValueKey<String>('prayer_top_qibla_button');
+  static const prayerTopLocationButton =
+      ValueKey<String>('prayer_top_location_button');
   static const prayerTimesSectionHeader =
       ValueKey<String>('prayer_times_section_header');
   static const prayerCompletionSummaryCard =

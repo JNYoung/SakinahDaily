@@ -92,6 +92,39 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('manual prayer location save keeps prayer page source',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/prayer-location?source=prayer_page_card',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLocationLabelField),
+      'Jakarta Selatan',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLatitudeField),
+      '-6.2088',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLongitudeField),
+      '106.8456',
+    );
+    await tapByKey(tester, SakinahKeys.manualLocationSaveButton);
+
+    final event = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.prayerLocationChanged,
+    );
+    expect(event.properties, containsPair('source', 'prayer_page_card'));
+    expect(event.properties, containsPair('location_method', 'manual'));
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('manual prayer location page rejects invalid coordinates',
       (tester) async {
     await pumpSakinahApp(

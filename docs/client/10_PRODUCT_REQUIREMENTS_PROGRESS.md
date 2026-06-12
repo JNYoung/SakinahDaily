@@ -124,6 +124,11 @@ Completed:
 - Prayer page now also exposes a Qibla context action in the next-prayer card,
   opening `/qibla?source=prayer_page_card` so the prayer-time-to-direction
   loop is visible without turning Home into a generic tool grid.
+- Prayer page's Change location action now opens manual prayer location setup
+  with `source=prayer_page_card`, so testers can fix prayer location from the
+  Prayer surface and reviewed DebugView QA can separate Prayer-page setup
+  recovery from ordinary Settings changes without sending coordinates or place
+  labels.
 - Notification Settings now supports per-prayer reminder controls for Fajr,
   Dhuhr, Asr, Maghrib, and Isha; disabled prayers are excluded from local
   reminder scheduling.
@@ -418,9 +423,9 @@ Retention observation preparation:
   labels, or bearing degrees.
   Prayer location setup analytics now records only `prayer_location_changed`
   with coarse location method, calculation method, controlled source, and
-  coarse change type, so manual/preset setup friction can be observed without
-  sending coordinates, manual place labels, timezone IDs, routes, Women's
-  Ibadah Mode status, or free text.
+  coarse change type, so manual/preset setup friction and Prayer-page recovery
+  can be observed without sending coordinates, manual place labels, timezone
+  IDs, routes, Women's Ibadah Mode status, or free text.
   Dua/Dhikr secondary-feature analytics keeps only content IDs and controlled
   sources, while Women's Ibadah Mode analytics keeps only enabled state and
   `source=women_mode`, so usage can be reviewed without transmitting exact

@@ -15,7 +15,12 @@ import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
 
 class ManualPrayerLocationPage extends ConsumerStatefulWidget {
-  const ManualPrayerLocationPage({super.key});
+  const ManualPrayerLocationPage({
+    this.entrySource,
+    super.key,
+  });
+
+  final String? entrySource;
 
   @override
   ConsumerState<ManualPrayerLocationPage> createState() =>
@@ -202,7 +207,7 @@ class _ManualPrayerLocationPageState
       {
         'location_method': 'manual',
         'calculation_method': settings.method,
-        'source': 'manual_location_page',
+        'source': widget.entrySource ?? 'manual_location_page',
         'change_type': 'manual_location_saved',
       },
     );
