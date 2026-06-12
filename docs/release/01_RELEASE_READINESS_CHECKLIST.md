@@ -254,6 +254,10 @@ Status: Draft for release/store review.
   Notification Settings view analytics is observable only as
   `notification_settings_viewed` with screen, controlled source, and aggregate
   prayer-reminder enabled state.
+  Prayer reminder permission analytics is observable only as
+  `prayer_reminder_permission_result` with enabled result, controlled source,
+  coarse outcome, and lead-time offset; routes, exact reminder times,
+  coordinates, Women's Ibadah Mode status, and free text are not sent.
   Notification tap analytics is observable only as `notification_tap_opened`
   with coarse content type and `source=local_notification`.
   Daily Session reminder analytics is limited to enabled state, source, change

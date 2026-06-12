@@ -366,6 +366,11 @@ Retention observation preparation:
   `notification_settings_viewed` once per page entry with only screen,
   controlled source, and aggregate prayer-reminder enabled state, so the
   reminder setup funnel can be observed before the opt-in event.
+  Prayer reminder permission analytics now records
+  `prayer_reminder_permission_result` with only enabled result, controlled
+  source, coarse outcome, and lead-time offset, so permission denial or
+  explanation dismissal can be diagnosed without sending routes, locations,
+  exact reminder times, Women's Ibadah Mode status, or free text.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback

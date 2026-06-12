@@ -24,6 +24,7 @@ void main() {
           AnalyticsEventCatalog.homeViewed,
           AnalyticsEventCatalog.prayerViewed,
           AnalyticsEventCatalog.notificationSettingsViewed,
+          AnalyticsEventCatalog.prayerReminderPermissionResult,
           AnalyticsEventCatalog.prayerReminderChanged,
           AnalyticsEventCatalog.notificationTapOpened,
           AnalyticsEventCatalog.analyticsConsentChanged,
@@ -322,6 +323,35 @@ void main() {
         'screen': 'notification_settings',
         'source': 'prayer_page_card',
         'prayer_reminders_enabled': true,
+      });
+    });
+
+    test('prayer reminder permission analytics keeps safe outcome metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.prayerReminderPermissionResult,
+        const {
+          'enabled': false,
+          'source': 'prayer_page_card',
+          'change_type': 'permission_denied',
+          'reminder_offset_minutes': 10,
+          'route': '/settings/notifications',
+          'reminder_time': '05:00',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'menstruating',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'enabled': false,
+        'source': 'prayer_page_card',
+        'change_type': 'permission_denied',
+        'reminder_offset_minutes': 10,
       });
     });
 

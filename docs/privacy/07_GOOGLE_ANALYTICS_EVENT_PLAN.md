@@ -65,6 +65,12 @@ Current implementation:
   a controlled source such as `settings`, `home_prayer_card`,
   `prayer_page_card`, or `prayer_completion_card`. Routes, exact reminder
   times, locations, Women's Ibadah Mode status, and free text are not sent.
+- Prayer reminder permission attempts record local
+  `prayer_reminder_permission_result` events with enabled result, controlled
+  source, coarse outcome such as `scheduled`, `permission_denied`,
+  `explanation_dismissed`, or `schedule_empty`, and lead-time offset only.
+  Routes, exact reminder times, locations, Women's Ibadah Mode status, and
+  free text are not sent.
 - Handled local notification taps record `notification_tap_opened` with only a
   coarse content type such as `prayer`, `daily_session`, `quran`, `dua`, or
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
@@ -95,6 +101,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `home_viewed`
 - `prayer_viewed`
 - `notification_settings_viewed`
+- `prayer_reminder_permission_result`
 - `prayer_reminder_changed`
 - `notification_tap_opened`
 - `analytics_consent_changed`
@@ -185,6 +192,7 @@ The QA reviewer should verify that `home_viewed`,
 `prayer_reminder_changed`, `notification_tap_opened`,
 `analytics_consent_changed`,
 `notification_settings_viewed`,
+`prayer_reminder_permission_result`,
 `daily_session_started`,
 `daily_session_step_viewed`, `daily_session_completed`,
 `daily_session_reminder_changed`, `closed_test_prompt_copied`, and
@@ -195,6 +203,8 @@ text, religious text, or exact reminder time should appear in DebugView.
 controlled source, and reminder lead-time offset.
 `notification_settings_viewed` must keep only screen, controlled source, and
 aggregate prayer-reminder enabled state.
+`prayer_reminder_permission_result` must keep only enabled result, controlled
+source, coarse outcome, and reminder lead-time offset.
 `notification_tap_opened` must keep only `content_type` and `source`.
 `analytics_consent_changed` must keep only `enabled` and `source`.
 

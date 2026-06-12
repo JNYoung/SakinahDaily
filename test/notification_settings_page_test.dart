@@ -390,12 +390,14 @@ void main() {
     final preferencesStore = InMemoryUserPreferencesStore();
     final notifications = LocalNotificationServiceStub()
       ..permissionGranted = false;
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/settings/notifications',
       settleSplash: false,
       preferencesStore: preferencesStore,
       notificationService: notifications,
+      analyticsService: analytics,
     );
     await tester.pumpAndSettle();
 
@@ -416,6 +418,57 @@ void main() {
           'Off · Notifications are off. You can enable them from system settings.'),
       findsOneWidget,
     );
+    final permissionEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.prayerReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'enabled': false,
+      'source': 'settings',
+      'change_type': 'permission_denied',
+      'reminder_offset_minutes': 0,
+    });
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Prayer reminder explanation dismissal is tracked safely',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications?source=home_prayer_card',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    expect(find.text('Enable prayer reminders?'), findsOneWidget);
+
+    await tester.tap(find.text('Not now'));
+    await tester.pumpAndSettle();
+
+    final preferences =
+        await UserPreferencesRepository(preferencesStore).load();
+    expect(preferences.notificationsEnabled, isFalse);
+    expect(notifications.scheduled, isEmpty);
+    final permissionEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.prayerReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'enabled': false,
+      'source': 'home_prayer_card',
+      'change_type': 'explanation_dismissed',
+      'reminder_offset_minutes': 0,
+    });
     expectNoFlutterErrors(tester);
   });
 

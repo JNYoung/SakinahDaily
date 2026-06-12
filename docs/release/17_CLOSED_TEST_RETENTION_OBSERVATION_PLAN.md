@@ -74,6 +74,11 @@ Notification Settings views should appear only as
 `notification_settings_viewed` with screen, controlled source, and aggregate
 prayer-reminder enabled state, so setup interest can be observed separately
 from reminder opt-in.
+Prayer reminder permission attempts should appear only as
+`prayer_reminder_permission_result` with enabled result, controlled source,
+coarse outcome, and lead-time offset, so denial or explanation dismissal can be
+observed without storing routes, exact reminder times, coordinates, Women's
+Ibadah Mode status, or free text.
 Local notification opens should appear only as `notification_tap_opened` with
 coarse content type and `source=local_notification`; do not store raw payloads,
 routes, content IDs, prayer names, or religious text.
