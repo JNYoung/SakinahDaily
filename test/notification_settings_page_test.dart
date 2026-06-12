@@ -230,7 +230,10 @@ void main() {
       'reminder_offset_minutes': 0,
     });
     expect(
-      find.text('On · Local prayer reminders are scheduled.'),
+      find.text(
+        'On · Fajr, Dhuhr, Asr, Maghrib, Isha · At prayer time · '
+        'Local prayer reminders are scheduled.',
+      ),
       findsOneWidget,
     );
 
@@ -367,6 +370,46 @@ void main() {
       notifications.scheduled.map((reminder) => reminder.prayerName),
       containsAll(['Fajr', 'Asr', 'Maghrib', 'Isha']),
     );
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Notification settings summarizes enabled prayer reminders',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub();
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(
+      find.byKey(SakinahKeys.settingsPrayerReminderPrayerSwitch('Dhuhr')),
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.settingsPrayerReminderLeadTimeDropdown);
+    await tester.tap(find.text('10 minutes before').last);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    expect(find.text('Enable prayer reminders?'), findsOneWidget);
+
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+        'On · Fajr, Asr, Maghrib, Isha · 10 minutes before · '
+        'Local prayer reminders are scheduled.',
+      ),
+      findsOneWidget,
+    );
+    expect(notifications.scheduled, isNotEmpty);
     expectNoFlutterErrors(tester);
   });
 

@@ -116,6 +116,9 @@ Completed:
 - Notification Settings now supports prayer reminder lead-time offset controls
   for at prayer time, 5 minutes before, 10 minutes before, and 15 minutes
   before; local scheduling applies the selected offset to each selected prayer.
+- Notification Settings now summarizes selected prayer names and lead time in
+  the enabled reminder status, so users can confirm the exact local reminder
+  scope without opening each per-prayer control.
 - Android evidence for per-prayer reminder controls:
   `build/store-screenshots/android-safety/en-notification-settings-per-prayer.png`.
 - Notification Settings has an opt-in dev-only smoke-test button for scheduling

@@ -249,7 +249,16 @@ String _prayerReminderSubtitle(
     NotificationPermissionFeedback.scheduled => l10n.t('notificationScheduled'),
     null => l10n.t('prayerReminderSubtitle'),
   };
-  return '$status · $detail';
+  if (!preferences.notificationsEnabled) {
+    return '$status · $detail';
+  }
+  final enabledPrayers =
+      preferences.enabledPrayerReminderNames.map(l10n.prayerName).join(', ');
+  final leadTime = l10n.prayerReminderLeadTimeLabel(
+    sanitizePrayerReminderOffsetMinutes(
+        preferences.prayerReminderOffsetMinutes),
+  );
+  return '$status · $enabledPrayers · $leadTime · $detail';
 }
 
 String _dailySessionReminderSubtitle(
