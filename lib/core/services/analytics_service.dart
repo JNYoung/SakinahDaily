@@ -91,6 +91,7 @@ class AnalyticsParameterPolicy {
     'source',
     'step_id',
     'step_index',
+    'theme_key',
   };
 
   static const _blockedKeyFragments = [
@@ -132,6 +133,12 @@ class AnalyticsParameterPolicy {
     'all_prayers_completed',
   };
 
+  static const _closedTestPromptKeys = {
+    'prompt_day',
+    'theme_key',
+    'source',
+  };
+
   static Map<String, Object> sanitize(
     Map<String, Object?> properties, {
     String? eventName,
@@ -164,6 +171,9 @@ class AnalyticsParameterPolicy {
       AnalyticsEventCatalog.homeViewed => _homeViewedKeys.contains(key),
       AnalyticsEventCatalog.prayerChecklistUpdated =>
         _prayerChecklistUpdatedKeys.contains(key),
+      AnalyticsEventCatalog.closedTestPromptCopied ||
+      AnalyticsEventCatalog.closedTestPromptMarkedSent =>
+        _closedTestPromptKeys.contains(key),
       _ => true,
     };
   }

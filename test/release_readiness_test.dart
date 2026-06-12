@@ -215,6 +215,7 @@ void main() {
       expect(analyticsService, contains('prayer_checkin_days_7d'));
       expect(analyticsService, contains('prayers_completed_today'));
       expect(analyticsService, contains('closed_test_prompt_copied'));
+      expect(analyticsService, contains('theme_key'));
       expect(analyticsService, contains('women_ibadah_status'));
       expect(analyticsService, contains('latitude'));
       expect(analyticsService, contains('feedback'));
@@ -242,6 +243,8 @@ void main() {
       expect(analyticsPlan, contains('collection disabled'));
       expect(analyticsPlan, contains('aggregate prayer retention counts'));
       expect(analyticsPlan, contains('prayer_checkin_days_7d'));
+      expect(analyticsPlan, contains('closed_test_prompt_marked_sent'));
+      expect(analyticsPlan, contains('theme_key'));
       expect(analyticsPlan,
           contains('Firebase Analytics SDK dependency is present'));
       expect(analyticsPlan, contains("Women's Ibadah Mode exact status"));
