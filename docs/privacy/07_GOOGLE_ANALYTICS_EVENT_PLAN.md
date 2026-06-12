@@ -31,6 +31,9 @@ Current implementation:
   calculation method, route, screen, and coarse location method only.
 - Prayer reminder global and per-prayer changes record local
   `prayer_reminder_changed` events with reminder enabled state and lead time.
+- Prayer checklist updates record local `prayer_checklist_updated` events with
+  aggregate completed count and all-prayers-completed boolean only; exact
+  prayer completion names and timestamps are not sent.
 - `SAKINAH_ANALYTICS_ENABLED=true` can enable controlled QA telemetry only when
   Firebase project configuration is present and the user turns usage analytics
   on in Privacy Center.
@@ -49,6 +52,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `home_viewed`
 - `prayer_viewed`
 - `prayer_reminder_changed`
+- `prayer_checklist_updated`
 - `daily_session_started`
 - `daily_session_step_viewed`
 - `daily_session_completed`
@@ -65,7 +69,9 @@ Allowed events are intentionally focused on the prayer app loop:
 Only enum-like, non-sensitive operational parameters are allowed:
 
 - `audio_preference`
+- `all_prayers_completed`
 - `calculation_method`
+- `completed_count`
 - `content_id`
 - `content_type`
 - `enabled`
@@ -87,6 +93,8 @@ Only enum-like, non-sensitive operational parameters are allowed:
 The sanitizer drops sensitive or free-text fields, including:
 
 - exact latitude or longitude
+- exact prayer completion names or completion timestamps for prayer checklist
+  updates
 - tester names, emails, or personal identifiers
 - feedback text, private notes, and free text
 - Quran, Dua, reflection, Arabic, translation, or religious text fields

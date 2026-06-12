@@ -490,6 +490,18 @@ abstract class AppLocalizations {
   /// **'Progress stays on this device only.'**
   String get progressLocalOnly;
 
+  /// No description provided for @prayersToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayers today'**
+  String get prayersToday;
+
+  /// No description provided for @prayerCheckInsLocalOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer check-ins stay on this device only.'**
+  String get prayerCheckInsLocalOnly;
+
   /// No description provided for @saveSession.
   ///
   /// In en, this message translates to:
@@ -789,6 +801,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next'**
   String get nextPrayerStatus;
+
+  /// No description provided for @todaysPrayerCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s prayer check-in'**
+  String get todaysPrayerCheckIn;
+
+  /// No description provided for @prayerCheckInBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark prayers you have completed. Stored locally only.'**
+  String get prayerCheckInBody;
+
+  /// No description provided for @prayerCompletedStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get prayerCompletedStatus;
 
   /// No description provided for @prayerReminderSubtitle.
   ///
@@ -1647,6 +1677,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Session progress and completion records store session IDs and timestamps locally only.'**
   String get privacyDataSessionProgressHistoryNotes;
+
+  /// No description provided for @privacyDataPrayerCompletionHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer completion history'**
+  String get privacyDataPrayerCompletionHistory;
+
+  /// No description provided for @privacyDataPrayerCompletionHistoryNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer check-ins store prayer names and local completion timestamps on this device only.'**
+  String get privacyDataPrayerCompletionHistoryNotes;
 
   /// No description provided for @privacyDataLocalPushDebug.
   ///

@@ -27,6 +27,7 @@ class HomePage extends ConsumerWidget {
     final prayerService = ref.watch(prayerCalculationServiceProvider);
     final savedItems = ref.watch(savedItemsProvider);
     final sessionProgress = ref.watch(sessionProgressControllerProvider);
+    final prayerCompletion = ref.watch(prayerCompletionControllerProvider);
     final womenModeDecision = ref
         .watch(womenModeContentPolicyProvider)
         .evaluate(preferences.womenIbadahMode);
@@ -232,10 +233,20 @@ class HomePage extends ConsumerWidget {
                         value: '${sessionProgress.completionCountLast7Days}',
                       ),
                     ),
+                    Expanded(
+                      child: _ProgressMetric(
+                        key: SakinahKeys.homePrayerCompletionMetric,
+                        label: l10n.t('prayersToday'),
+                        value: '${prayerCompletion.completedCountForDate(now)}/'
+                            '${defaultPrayerReminderNames.length}',
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 Text(l10n.t('progressLocalOnly')),
+                const SizedBox(height: 4),
+                Text(l10n.t('prayerCheckInsLocalOnly')),
               ],
             ),
           ),
@@ -856,6 +867,7 @@ class _ProgressMetric extends StatelessWidget {
   const _ProgressMetric({
     required this.label,
     required this.value,
+    super.key,
   });
 
   final String label;

@@ -70,6 +70,17 @@ void main() {
     expect(category.userCanDelete, isTrue);
   });
 
+  test('prayer completion history is marked medium sensitivity and local only',
+      () {
+    final category =
+        PrivacyDataInventory.categoryById('prayer_completion_history');
+
+    expect(category.storageLocation, PrivacyStorageLocation.localDevice);
+    expect(category.sensitivity, PrivacySensitivity.medium);
+    expect(category.leavesDevice, isFalse);
+    expect(category.userCanDelete, isTrue);
+  });
+
   test('content request context does not retain women exact status', () {
     final context = ContentRequestContext(
       languageCode: 'en',
@@ -107,6 +118,8 @@ void main() {
       'privacyDataSavedItemsNotes',
       'privacyDataSessionProgressHistory',
       'privacyDataSessionProgressHistoryNotes',
+      'privacyDataPrayerCompletionHistory',
+      'privacyDataPrayerCompletionHistoryNotes',
       'privacyDataAnalyticsConsent',
       'privacyDataAnalyticsConsentNotes',
       'privacyDataAnalyticsEvents',

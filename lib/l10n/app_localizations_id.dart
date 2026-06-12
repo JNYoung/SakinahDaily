@@ -212,6 +212,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get progressLocalOnly => 'Progres tetap hanya di perangkat ini.';
 
   @override
+  String get prayersToday => 'Shalat hari ini';
+
+  @override
+  String get prayerCheckInsLocalOnly =>
+      'Catatan shalat tetap hanya di perangkat ini.';
+
+  @override
   String get saveSession => 'Simpan sesi';
 
   @override
@@ -365,6 +372,16 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get nextPrayerStatus => 'Berikutnya';
+
+  @override
+  String get todaysPrayerCheckIn => 'Catatan shalat hari ini';
+
+  @override
+  String get prayerCheckInBody =>
+      'Tandai shalat yang sudah kamu selesaikan. Disimpan hanya di perangkat ini.';
+
+  @override
+  String get prayerCompletedStatus => 'Selesai';
 
   @override
   String get prayerReminderSubtitle => 'Izin diminta setelah penjelasan.';
@@ -858,6 +875,14 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get privacyDataSessionProgressHistoryNotes =>
       'Progres sesi dan catatan selesai hanya menyimpan ID sesi dan waktu secara lokal.';
+
+  @override
+  String get privacyDataPrayerCompletionHistory =>
+      'Riwayat penyelesaian shalat';
+
+  @override
+  String get privacyDataPrayerCompletionHistoryNotes =>
+      'Catatan shalat menyimpan nama shalat dan waktu selesai lokal hanya di perangkat ini.';
 
   @override
   String get privacyDataLocalPushDebug => 'Data debug payload push lokal';

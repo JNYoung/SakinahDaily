@@ -2531,6 +2531,12 @@ void main() {
       final keys = File('lib/shared/sakinah_keys.dart').readAsStringSync();
       final navigationTest =
           File('test/navigation_flow_test.dart').readAsStringSync();
+      final featureBehaviorTest =
+          File('test/feature_behavior_test.dart').readAsStringSync();
+      final privacyInventory =
+          File('docs/privacy/01_PRIVACY_DATA_INVENTORY.md').readAsStringSync();
+      final localDeletionTest =
+          File('test/local_data_deletion_service_test.dart').readAsStringSync();
       final notificationSettingsTest =
           File('test/notification_settings_page_test.dart').readAsStringSync();
       final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
@@ -2542,7 +2548,11 @@ void main() {
           File('docs/testing/01_ACCEPTANCE_CHECKLIST.md').readAsStringSync();
 
       expect(prayerPage, contains('todaysPrayerTimes'));
+      expect(prayerPage, contains('todaysPrayerCheckIn'));
+      expect(prayerPage, contains('prayerChecklistUpdated'));
       expect(keys, contains('prayerTimesSectionHeader'));
+      expect(keys, contains('prayerCompletionCheckbox'));
+      expect(keys, contains('homePrayerCompletionMetric'));
       expect(
         navigationTest,
         contains('prayer page shows all five daily prayer times'),
@@ -2554,6 +2564,22 @@ void main() {
       expect(
           navigationTest, contains('SakinahKeys.prayerListItem(prayerName)'));
       expect(
+        featureBehaviorTest,
+        contains(
+          'Prayer page stores local prayer check-in and Home summarizes it',
+        ),
+      );
+      expect(featureBehaviorTest, contains('Prayers today'));
+      expect(featureBehaviorTest, contains('1/5'));
+      expect(
+        privacyInventory,
+        contains('Prayer completion history'),
+      );
+      expect(
+        localDeletionTest,
+        contains('prayerCompletionRepository.listCompletionRecords()'),
+      );
+      expect(
         notificationSettingsTest,
         contains('Notification settings manage prayer reminders'),
       );
@@ -2563,8 +2589,16 @@ void main() {
             'Prayer page exposes a localized all-day prayer-times section'),
       );
       expect(
+        readiness,
+        contains('Prayer completion check-ins are local-only'),
+      );
+      expect(
         productProgress,
         contains('Prayer page now gives the full-day list'),
+      );
+      expect(
+        productProgress,
+        contains('Prayer page now includes a local-only'),
       );
       expect(
         productProgress,
@@ -2577,6 +2611,10 @@ void main() {
         ),
       );
       expect(acceptance, contains('[x] 用户可以开启/关闭本地 prayer reminders。'));
+      expect(
+        acceptance,
+        contains('用户可以在 Prayer 页本地标记今日五次礼拜完成状态'),
+      );
       expect(acceptance, contains('[x] Prayer reminders 可开启/关闭。'));
     });
 

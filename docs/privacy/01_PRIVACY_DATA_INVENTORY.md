@@ -18,6 +18,7 @@ classification.
 | Local content cache | Yes | Yes | No | No | Operational | Store approved published bundles and revocation IDs | Settings > Privacy > Delete local data | Content cache is local device data |
 | Saved items | Yes, when user saves content | Yes | No | No | Optional | Local shortcuts to saved sessions, duas, dhikr, and verse references | Settings > Privacy > Delete local data | Local-only saved content list |
 | Session progress and completion history | Yes, when user starts or completes a session | Yes | No | No | Optional | Resume sessions and show local progress summary | Settings > Privacy > Delete local data | Stores session IDs and timestamps only |
+| Prayer completion history | Yes, when user marks a prayer complete | Yes | No | No | Optional | Show today's local prayer check-in count and support daily return | Settings > Privacy > Delete local data | Stores prayer names and local completion timestamps only |
 | Remote content request metadata | Yes, when remote API is enabled | No durable client storage by default | Yes | Possible server/CDN logs | Operational | Request manifest/detail bundles | Server log deletion is future work | Language, market, app version, schema version only |
 | Audio playback state | No persistent history in MVP | No | No | No | No | Playback runtime only | Not applicable | No playback history claim for MVP |
 | Analytics consent preference | Yes | Yes | No | No | Optional | Remember whether usage analytics is allowed in analytics-enabled builds | Settings > Privacy > Delete local data | Default false; local switch controls Firebase Analytics collection |
@@ -37,8 +38,8 @@ classification.
   menstruation, postpartum, cycle, or similar sensitive terms.
 - Content API tokens must not be displayed in the Privacy Center.
 - Delete local data must clear preferences, saved items, cached manifests,
-  cached bundles, revoked content IDs, session progress/history, and scheduled
-  local reminders.
+  cached bundles, revoked content IDs, prayer completion history, session
+  progress/history, and scheduled local reminders.
 - Delete local data must not delete seed assets or bundled app files.
 - Manual prayer location remains local-only in MVP and must not trigger exact
   GPS, coarse location, compass, or sensor permissions.

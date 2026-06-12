@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../core/services/analytics_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
@@ -60,6 +62,7 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
       now,
       preferences.prayerSettings,
     );
+    final prayerCompletion = ref.watch(prayerCompletionControllerProvider);
     final nextPrayer = prayerStatus.nextPrayer;
 
     return LanguageAwareScaffold(
@@ -67,7 +70,8 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
       selectedNavIndex: 1,
       body: ListView.separated(
         key: SakinahKeys.prayerContentList,
-        itemCount: prayerStatus.prayers.length + 3,
+        scrollCacheExtent: const ScrollCacheExtent.pixels(1000),
+        itemCount: prayerStatus.prayers.length + 4,
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {
           if (index == 0) {
@@ -123,6 +127,40 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
             );
           }
           if (index == 2) {
+            return AppCard(
+              key: SakinahKeys.prayerCompletionSummaryCard,
+              padding: const EdgeInsets.all(18),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.check_circle_outline_rounded),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.t('todaysPrayerCheckIn'),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(l10n.t('prayerCheckInBody')),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    '${prayerCompletion.completedCountForDate(now)}/'
+                    '${defaultPrayerReminderNames.length}',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
+                  ),
+                ],
+              ),
+            );
+          }
+          if (index == 3) {
             return Padding(
               key: SakinahKeys.prayerTimesSectionHeader,
               padding: const EdgeInsets.only(top: 4),
@@ -134,9 +172,25 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
               ),
             );
           }
-          final prayer = prayerStatus.prayers[index - 3];
+          final prayer = prayerStatus.prayers[index - 4];
           final isCurrent = prayerStatus.isCurrent(prayer);
           final isNext = prayerStatus.isNext(prayer);
+          final isCompleted = prayerCompletion.isCompleted(prayer.name, now);
+          final statusChips = [
+            if (isCurrent || isNext)
+              _PrayerStatusChip(
+                key: SakinahKeys.prayerStatusChip(prayer.name),
+                label: isCurrent
+                    ? l10n.t('currentPrayerStatus')
+                    : l10n.t('nextPrayerStatus'),
+                isCurrent: isCurrent,
+              ),
+            if (isCompleted)
+              _PrayerStatusChip(
+                label: l10n.t('prayerCompletedStatus'),
+                isCurrent: false,
+              ),
+          ];
           return ListTile(
             key: SakinahKeys.prayerListItem(prayer.name),
             contentPadding: EdgeInsets.zero,
@@ -146,31 +200,60 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
                   : Icons.access_time_rounded,
             ),
             title: Text(l10n.prayerName(prayer.name)),
-            subtitle: isCurrent || isNext
+            subtitle: statusChips.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: _PrayerStatusChip(
-                        key: SakinahKeys.prayerStatusChip(prayer.name),
-                        label: isCurrent
-                            ? l10n.t('currentPrayerStatus')
-                            : l10n.t('nextPrayerStatus'),
-                        isCurrent: isCurrent,
-                      ),
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 6,
+                      children: statusChips,
                     ),
                   )
                 : null,
-            trailing: Text(
-              _formatPrayerTime(prayer.time),
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight:
-                        isCurrent || isNext ? FontWeight.w800 : FontWeight.w600,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  _formatPrayerTime(prayer.time),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: isCurrent || isNext
+                            ? FontWeight.w800
+                            : FontWeight.w600,
+                      ),
+                ),
+                const SizedBox(width: 8),
+                Checkbox(
+                  key: SakinahKeys.prayerCompletionCheckbox(prayer.name),
+                  value: isCompleted,
+                  onChanged: (value) => _setPrayerCompleted(
+                    prayer.name,
+                    value ?? false,
                   ),
+                ),
+              ],
             ),
           );
         },
       ),
+    );
+  }
+
+  Future<void> _setPrayerCompleted(String prayerName, bool completed) async {
+    final now = ref.read(currentDateTimeProvider);
+    final completedCount = await ref
+        .read(prayerCompletionControllerProvider.notifier)
+        .setPrayerCompleted(prayerName, completed, date: now);
+    if (!mounted) {
+      return;
+    }
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.prayerChecklistUpdated,
+      {
+        'screen': 'prayer',
+        'completed_count': completedCount,
+        'all_prayers_completed':
+            completedCount >= defaultPrayerReminderNames.length,
+      },
     );
   }
 

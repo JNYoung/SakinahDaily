@@ -12,10 +12,10 @@ preflight.
 The MVP stores app preferences, prayer settings, notification enabled state,
 per-prayer reminder choices, prayer reminder lead-time offset, selected daily
 session reminder time, local closed-testing feedback-sent day markers,
-Women's Ibadah Mode state, saved items, session progress/completion history,
-local
-content manifests, approved content bundles, and revoked content IDs on device.
-These are cleared through Settings > Privacy > Delete local data.
+Women's Ibadah Mode state, saved items, prayer completion check-ins, session
+progress/completion history, local content manifests, approved content bundles,
+and revoked content IDs on device. These are cleared through Settings >
+Privacy > Delete local data.
 
 Closed-testing feedback status stores only whether Day 1, Day 3, Day 7, or
 Day 14 was marked sent in the in-app guide. It does not store feedback text,
@@ -30,6 +30,11 @@ MVP.
 Session progress/completion history stores local session IDs, step index,
 timestamps, duration, language code, and total step count only. It does not
 store Quran, Dua, Dhikr, Hadith, translation text, reflections, or user notes.
+
+Prayer completion check-ins store prayer names and local completion timestamps
+only. They are local progress cues and are not transmitted unless a future
+reviewed analytics build sends only aggregate checklist usage counts after
+user opt-in.
 
 Draft note: Google Play Data Safety focuses on data collected from or shared
 off device. Confirm final treatment of local-only data before submission.

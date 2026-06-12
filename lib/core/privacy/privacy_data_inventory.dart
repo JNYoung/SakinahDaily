@@ -150,6 +150,15 @@ abstract final class PrivacyDataInventory {
       notesKey: 'privacyDataSessionProgressHistoryNotes',
     ),
     PrivacyDataCategory(
+      id: 'prayer_completion_history',
+      displayNameKey: 'privacyDataPrayerCompletionHistory',
+      storageLocation: PrivacyStorageLocation.localDevice,
+      sensitivity: PrivacySensitivity.medium,
+      leavesDevice: false,
+      userCanDelete: true,
+      notesKey: 'privacyDataPrayerCompletionHistoryNotes',
+    ),
+    PrivacyDataCategory(
       id: 'local_push_payload_debug_data',
       displayNameKey: 'privacyDataLocalPushDebug',
       storageLocation: PrivacyStorageLocation.notCollected,

@@ -21,6 +21,10 @@ void main() {
     await tapByKey(tester, SakinahKeys.homePrayerBadge);
 
     expect(find.byKey(SakinahKeys.prayerListItem('Fajr')), findsOneWidget);
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.prayerListItem('Dhuhr')),
+    );
     expect(find.byKey(SakinahKeys.prayerListItem('Dhuhr')), findsOneWidget);
     expect(find.byType(NavigationBar), findsOneWidget);
 
@@ -39,6 +43,10 @@ void main() {
 
     await tapByKey(tester, SakinahKeys.bottomNavPrayer);
     expect(find.byKey(SakinahKeys.prayerListItem('Fajr')), findsOneWidget);
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.prayerListItem('Dhuhr')),
+    );
     expect(find.byKey(SakinahKeys.prayerListItem('Dhuhr')), findsOneWidget);
 
     await tapByKey(tester, SakinahKeys.bottomNavSession);

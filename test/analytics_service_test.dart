@@ -24,6 +24,7 @@ void main() {
           AnalyticsEventCatalog.homeViewed,
           AnalyticsEventCatalog.prayerViewed,
           AnalyticsEventCatalog.prayerReminderChanged,
+          AnalyticsEventCatalog.prayerChecklistUpdated,
           AnalyticsEventCatalog.dailySessionStarted,
           AnalyticsEventCatalog.dailySessionCompleted,
           AnalyticsEventCatalog.closedTestPromptCopied,
@@ -76,6 +77,29 @@ void main() {
         'prayer_name': 'Fajr',
         'enabled': true,
         'reminder_offset_minutes': 10,
+      });
+    });
+
+    test('prayer checklist analytics only keeps aggregate usage fields', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.prayerChecklistUpdated,
+        const {
+          'screen': 'prayer',
+          'completed_count': 3,
+          'all_prayers_completed': false,
+          'prayer_name': 'Fajr',
+          'location_label': 'Makkah',
+          'completed_at': '2026-06-12T05:10:00Z',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'screen': 'prayer',
+        'completed_count': 3,
+        'all_prayers_completed': false,
       });
     });
 

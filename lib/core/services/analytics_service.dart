@@ -22,6 +22,7 @@ class AnalyticsEventCatalog {
   static const homeViewed = 'home_viewed';
   static const prayerViewed = 'prayer_viewed';
   static const prayerReminderChanged = 'prayer_reminder_changed';
+  static const prayerChecklistUpdated = 'prayer_checklist_updated';
   static const dailySessionStarted = 'daily_session_started';
   static const dailySessionStepViewed = 'daily_session_step_viewed';
   static const dailySessionCompleted = 'daily_session_completed';
@@ -43,6 +44,7 @@ class AnalyticsEventCatalog {
     homeViewed,
     prayerViewed,
     prayerReminderChanged,
+    prayerChecklistUpdated,
     dailySessionStarted,
     dailySessionStepViewed,
     dailySessionCompleted,
@@ -66,7 +68,9 @@ class AnalyticsParameterPolicy {
 
   static const allowedKeys = {
     'audio_preference',
+    'all_prayers_completed',
     'calculation_method',
+    'completed_count',
     'content_id',
     'content_type',
     'enabled',
@@ -107,11 +111,20 @@ class AnalyticsParameterPolicy {
     'women_status',
   ];
 
-  static Map<String, Object> sanitize(Map<String, Object?> properties) {
+  static Map<String, Object> sanitize(
+    Map<String, Object?> properties, {
+    String? eventName,
+  }) {
     final sanitized = <String, Object>{};
     for (final entry in properties.entries) {
       final key = entry.key.trim();
       final lowerKey = key.toLowerCase();
+      if (eventName == AnalyticsEventCatalog.prayerChecklistUpdated &&
+          key != 'screen' &&
+          key != 'completed_count' &&
+          key != 'all_prayers_completed') {
+        continue;
+      }
       if (!allowedKeys.contains(key) ||
           _blockedKeyFragments.any(lowerKey.contains)) {
         continue;
@@ -164,7 +177,10 @@ class StubAnalyticsService implements AnalyticsService {
       return;
     }
     _events.add(
-      AnalyticsEvent(name, AnalyticsParameterPolicy.sanitize(properties)),
+      AnalyticsEvent(
+        name,
+        AnalyticsParameterPolicy.sanitize(properties, eventName: name),
+      ),
     );
   }
 }
@@ -239,7 +255,10 @@ class FirebaseAnalyticsService implements AnalyticsService {
     if (!enabled || !AnalyticsEventCatalog.isAllowed(name)) {
       return;
     }
-    final sanitized = AnalyticsParameterPolicy.sanitize(properties);
+    final sanitized = AnalyticsParameterPolicy.sanitize(
+      properties,
+      eventName: name,
+    );
     _events.add(AnalyticsEvent(name, sanitized));
 
     final sink = _resolveSink();
