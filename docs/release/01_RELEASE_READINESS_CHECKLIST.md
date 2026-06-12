@@ -173,7 +173,7 @@ Status: Draft for release/store review.
   card, and the release test verifies both fields independently.
 - [x] Daily Session progress/history is local-only and cleared by Delete local data.
 - [x] Prayer completion check-ins are local-only, visible as today's Prayer/Home
-  progress, and cleared by Delete local data.
+  progress plus local weekly Home progress, and cleared by Delete local data.
 - [x] Daily Session can be completed optionally from the Home session card and
   records local completion state.
 - [x] Daily Session Reflection step displays a localized no-fatwa note so
@@ -242,6 +242,9 @@ Status: Draft for release/store review.
 - [x] Prayer page exposes a localized local-only prayer check-in checklist for
   Fajr, Dhuhr, Asr, Maghrib, and Isha, and Home summarizes today's completed
   count without account sync.
+- [x] Home exposes a localized local-only Prayer week summary with check-in
+  days and streak, while analytics can only receive aggregate retention counts
+  after the default-off Firebase gate and user opt-in.
 - [x] Android build toolchain is pinned to Gradle 8.14+, AGP 8.11.1+, and Kotlin 2.2.20+.
 - [x] No visible audio CTA is a no-op in the release path.
 - [x] Android app module no longer applies the Kotlin Gradle Plugin directly.

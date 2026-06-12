@@ -210,7 +210,10 @@ void main() {
       expect(analyticsService, contains('AnalyticsEventCatalog'));
       expect(analyticsService, contains('AnalyticsParameterPolicy'));
       expect(analyticsService, contains('daily_session_started'));
+      expect(analyticsService, contains('home_viewed'));
       expect(analyticsService, contains('prayer_reminder_changed'));
+      expect(analyticsService, contains('prayer_checkin_days_7d'));
+      expect(analyticsService, contains('prayers_completed_today'));
       expect(analyticsService, contains('closed_test_prompt_copied'));
       expect(analyticsService, contains('women_ibadah_status'));
       expect(analyticsService, contains('latitude'));
@@ -221,6 +224,10 @@ void main() {
       expect(
           analyticsTest, contains('Google Analytics compatible event names'));
       expect(analyticsTest, contains('drops sensitive or free-text'));
+      expect(
+        analyticsTest,
+        contains('home analytics only keeps aggregate prayer retention fields'),
+      );
       expect(analyticsTest, contains('firebase bootstrap fails closed'));
       expect(analyticsTest, contains('collection disabled'));
       expect(analyticsTest, contains('provider requires user opt-in'));
@@ -233,6 +240,8 @@ void main() {
       expect(analyticsPlan, contains('SAKINAH_ANALYTICS_ENABLED=true'));
       expect(analyticsPlan, contains('analyticsOptIn'));
       expect(analyticsPlan, contains('collection disabled'));
+      expect(analyticsPlan, contains('aggregate prayer retention counts'));
+      expect(analyticsPlan, contains('prayer_checkin_days_7d'));
       expect(analyticsPlan,
           contains('Firebase Analytics SDK dependency is present'));
       expect(analyticsPlan, contains("Women's Ibadah Mode exact status"));
@@ -2553,6 +2562,7 @@ void main() {
       expect(keys, contains('prayerTimesSectionHeader'));
       expect(keys, contains('prayerCompletionCheckbox'));
       expect(keys, contains('homePrayerCompletionMetric'));
+      expect(keys, contains('homePrayerWeekProgress'));
       expect(
         navigationTest,
         contains('prayer page shows all five daily prayer times'),
@@ -2572,8 +2582,20 @@ void main() {
       expect(featureBehaviorTest, contains('Prayers today'));
       expect(featureBehaviorTest, contains('1/5'));
       expect(
+        featureBehaviorTest,
+        contains(
+            'Home shows prayer weekly progress and aggregate view analytics'),
+      );
+      expect(featureBehaviorTest, contains('Prayer week'));
+      expect(featureBehaviorTest, contains('3/7'));
+      expect(featureBehaviorTest, contains('prayer_checkin_days_7d'));
+      expect(
         privacyInventory,
         contains('Prayer completion history'),
+      );
+      expect(
+        privacyInventory,
+        contains('Home/prayer checklist retention fields are aggregate counts'),
       );
       expect(
         localDeletionTest,
@@ -2592,6 +2614,7 @@ void main() {
         readiness,
         contains('Prayer completion check-ins are local-only'),
       );
+      expect(readiness, contains('Prayer week summary'));
       expect(
         productProgress,
         contains('Prayer page now gives the full-day list'),
@@ -2600,6 +2623,8 @@ void main() {
         productProgress,
         contains('Prayer page now includes a local-only'),
       );
+      expect(productProgress, contains('Home now shows a local-only'));
+      expect(productProgress, contains('Home view analytics includes only'));
       expect(
         productProgress,
         contains('prayer times" heading'),
@@ -2615,6 +2640,7 @@ void main() {
         acceptance,
         contains('用户可以在 Prayer 页本地标记今日五次礼拜完成状态'),
       );
+      expect(acceptance, contains('本地周进度'));
       expect(acceptance, contains('[x] Prayer reminders 可开启/关闭。'));
     });
 

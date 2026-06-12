@@ -78,7 +78,12 @@ class AnalyticsParameterPolicy {
     'language_code',
     'location_method',
     'prompt_day',
+    'prayer_checkin_days_7d',
+    'prayer_checkin_streak_days',
+    'prayer_checkins_7d',
     'prayer_name',
+    'prayer_reminders_enabled',
+    'prayers_completed_today',
     'reminder_offset_minutes',
     'route',
     'screen',
@@ -111,6 +116,22 @@ class AnalyticsParameterPolicy {
     'women_status',
   ];
 
+  static const _homeViewedKeys = {
+    'screen',
+    'route',
+    'prayers_completed_today',
+    'prayer_checkins_7d',
+    'prayer_checkin_days_7d',
+    'prayer_checkin_streak_days',
+    'prayer_reminders_enabled',
+  };
+
+  static const _prayerChecklistUpdatedKeys = {
+    'screen',
+    'completed_count',
+    'all_prayers_completed',
+  };
+
   static Map<String, Object> sanitize(
     Map<String, Object?> properties, {
     String? eventName,
@@ -119,10 +140,7 @@ class AnalyticsParameterPolicy {
     for (final entry in properties.entries) {
       final key = entry.key.trim();
       final lowerKey = key.toLowerCase();
-      if (eventName == AnalyticsEventCatalog.prayerChecklistUpdated &&
-          key != 'screen' &&
-          key != 'completed_count' &&
-          key != 'all_prayers_completed') {
+      if (!_isAllowedForEvent(key, eventName)) {
         continue;
       }
       if (!allowedKeys.contains(key) ||
@@ -139,6 +157,15 @@ class AnalyticsParameterPolicy {
       }
     }
     return Map.unmodifiable(sanitized);
+  }
+
+  static bool _isAllowedForEvent(String key, String? eventName) {
+    return switch (eventName) {
+      AnalyticsEventCatalog.homeViewed => _homeViewedKeys.contains(key),
+      AnalyticsEventCatalog.prayerChecklistUpdated =>
+        _prayerChecklistUpdatedKeys.contains(key),
+      _ => true,
+    };
   }
 }
 

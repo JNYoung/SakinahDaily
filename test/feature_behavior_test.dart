@@ -409,6 +409,55 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Home shows prayer weekly progress and aggregate view analytics',
+      (tester) async {
+    final completionStore = InMemoryPrayerCompletionStore();
+    final repository = PrayerCompletionRepository(completionStore);
+    final now = DateTime(2026, 5, 21, 6, 30);
+    await repository.markCompleted('Fajr', completedAt: now);
+    await repository.markCompleted(
+      'Dhuhr',
+      completedAt: now.subtract(const Duration(days: 1)),
+    );
+    await repository.markCompleted(
+      'Asr',
+      completedAt: now.subtract(const Duration(days: 3)),
+    );
+    final analytics = StubAnalyticsService(enabled: true);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/home',
+      settleSplash: false,
+      currentDateTime: now,
+      prayerCompletionStore: completionStore,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+    await scrollUntilFound(tester, find.byKey(SakinahKeys.homeProgressCard));
+
+    expect(find.byKey(SakinahKeys.homePrayerWeekProgress), findsOneWidget);
+    expect(find.text('Prayer week'), findsOneWidget);
+    expect(find.text('Check-in days'), findsOneWidget);
+    expect(find.text('3/7'), findsOneWidget);
+    expect(find.text('Prayer streak'), findsOneWidget);
+    expect(find.text('2'), findsOneWidget);
+
+    final homeEvent = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.homeViewed,
+    );
+    expect(homeEvent.properties, {
+      'screen': 'home',
+      'route': '/home',
+      'prayers_completed_today': 1,
+      'prayer_checkins_7d': 3,
+      'prayer_checkin_days_7d': 3,
+      'prayer_checkin_streak_days': 2,
+      'prayer_reminders_enabled': false,
+    });
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Notification permission denied keeps toggle off',
       (tester) async {
     final notifications = LocalNotificationServiceStub()

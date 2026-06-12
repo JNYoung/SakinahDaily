@@ -79,6 +79,9 @@ Completed:
 - Prayer page now includes a local-only "Today's prayer check-in" checklist for
   Fajr, Dhuhr, Asr, Maghrib, and Isha, and Home summarizes the completed count
   as "Prayers today" inside the local progress card.
+- Home now shows a local-only "Prayer week" summary with recent check-in days
+  and current prayer streak, helping users see a lightweight weekly habit loop
+  without account sync or remote prayer history.
 - Home can show next prayer countdown from the active prayer settings.
 - Home's first-screen prayer card explicitly labels the selected prayer
   location, calculation method, and prayer reminder status in English,
@@ -281,11 +284,14 @@ Retention observation preparation:
   Session start signal, and Privacy Center trust.
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
   prayer reminder changes, aggregate prayer checklist updates, Daily Session
-  start/completion, saved Dua/Dhikr actions, and closed-test prompt actions. It
-  is default-off and strips coordinates, feedback text, religious text, exact
-  prayer completion names for checklist updates, and Women's Ibadah Mode exact
-  status before the Firebase Analytics adapter can send events. Privacy Center
-  now exposes the user analytics opt-in for analytics-enabled builds.
+  start/completion, saved Dua/Dhikr actions, and closed-test prompt actions.
+  Home view analytics includes only aggregate prayer retention counts such as
+  today's completed count, 7-day check-in count, 7-day check-in days, and
+  current check-in streak. It is default-off and strips coordinates, feedback
+  text, religious text, exact prayer completion names/timestamps for checklist
+  and Home retention events, and Women's Ibadah Mode exact status before the
+  Firebase Analytics adapter can send events. Privacy Center now exposes the
+  user analytics opt-in for analytics-enabled builds.
 - `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` and
   `scripts/export_google_play_closed_test_retention_packet.sh` prepare local
   Day 1 / Day 3 / Day 7 / Day 14 observation templates for Production access

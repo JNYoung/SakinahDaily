@@ -9,6 +9,7 @@ import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/saved_item.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -85,6 +86,11 @@ class HomePage extends ConsumerWidget {
       body: ListView(
         key: SakinahKeys.homeContentList,
         children: [
+          _HomeAnalyticsTracker(
+            prayerCompletion: prayerCompletion,
+            now: now,
+            prayerRemindersEnabled: preferences.notificationsEnabled,
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -243,6 +249,38 @@ class HomePage extends ConsumerWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 14),
+                Column(
+                  key: SakinahKeys.homePrayerWeekProgress,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Divider(height: 1),
+                    const SizedBox(height: 12),
+                    Text(
+                      l10n.t('prayerWeekProgress'),
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _ProgressMetric(
+                            key: SakinahKeys.homePrayerWeekDaysMetric,
+                            label: l10n.t('prayerWeekCheckInDays'),
+                            value: '${prayerCompletion.completionDaysLast7}/7',
+                          ),
+                        ),
+                        Expanded(
+                          child: _ProgressMetric(
+                            key: SakinahKeys.homePrayerWeekStreakMetric,
+                            label: l10n.t('prayerWeekStreak'),
+                            value: '${prayerCompletion.currentStreakDays}',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 8),
                 Text(l10n.t('progressLocalOnly')),
                 const SizedBox(height: 4),
@@ -312,6 +350,70 @@ class HomePage extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _HomeAnalyticsTracker extends ConsumerStatefulWidget {
+  const _HomeAnalyticsTracker({
+    required this.prayerCompletion,
+    required this.now,
+    required this.prayerRemindersEnabled,
+  });
+
+  final PrayerCompletionState prayerCompletion;
+  final DateTime now;
+  final bool prayerRemindersEnabled;
+
+  @override
+  ConsumerState<_HomeAnalyticsTracker> createState() =>
+      _HomeAnalyticsTrackerState();
+}
+
+class _HomeAnalyticsTrackerState extends ConsumerState<_HomeAnalyticsTracker> {
+  bool _tracked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scheduleTrack();
+  }
+
+  @override
+  void didUpdateWidget(covariant _HomeAnalyticsTracker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _scheduleTrack();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _scheduleTrack();
+    return const SizedBox.shrink();
+  }
+
+  void _scheduleTrack() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _trackIfReady();
+    });
+  }
+
+  void _trackIfReady() {
+    if (_tracked || !mounted || !widget.prayerCompletion.isLoaded) {
+      return;
+    }
+    _tracked = true;
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.homeViewed,
+      {
+        'screen': 'home',
+        'route': '/home',
+        'prayers_completed_today':
+            widget.prayerCompletion.completedCountForDate(widget.now),
+        'prayer_checkins_7d': widget.prayerCompletion.completionCountLast7Days,
+        'prayer_checkin_days_7d': widget.prayerCompletion.completionDaysLast7,
+        'prayer_checkin_streak_days': widget.prayerCompletion.currentStreakDays,
+        'prayer_reminders_enabled': widget.prayerRemindersEnabled,
+      },
     );
   }
 }
