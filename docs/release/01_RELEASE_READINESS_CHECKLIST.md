@@ -258,6 +258,10 @@ Status: Draft for release/store review.
   Notification Settings view analytics is observable only as
   `notification_settings_viewed` with screen, controlled source, and aggregate
   prayer-reminder enabled state.
+  Qibla view analytics is observable only as `qibla_viewed` with screen, route,
+  coarse location method, calculation method, and controlled source; exact
+  coordinates, selected place labels, bearing degrees, Women's Ibadah Mode
+  status, and free text are not sent.
   Prayer reminder permission analytics is observable only as
   `prayer_reminder_permission_result` with enabled result, controlled source,
   coarse outcome, and lead-time offset; routes, exact reminder times,

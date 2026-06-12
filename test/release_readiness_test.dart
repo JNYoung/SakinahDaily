@@ -241,6 +241,7 @@ void main() {
       expect(analyticsService, contains('daily_session_step_viewed'));
       expect(analyticsService, contains('daily_session_reminder_changed'));
       expect(analyticsService, contains('home_viewed'));
+      expect(analyticsService, contains('qibla_viewed'));
       expect(analyticsService, contains('prayer_reminder_changed'));
       expect(analyticsService, contains('notification_settings_viewed'));
       expect(analyticsService, contains('prayer_reminder_permission_result'));
@@ -266,6 +267,10 @@ void main() {
       expect(
           analyticsTest, contains('Google Analytics compatible event names'));
       expect(analyticsTest, contains('drops sensitive or free-text'));
+      expect(
+        analyticsTest,
+        contains('qibla view analytics keeps coarse prayer-location metadata'),
+      );
       expect(
         analyticsTest,
         contains('home analytics only keeps aggregate prayer retention fields'),
@@ -332,6 +337,8 @@ void main() {
           analyticsPlan, contains('daily_session_reminder_permission_result'));
       expect(analyticsPlan, contains('home_session_completion'));
       expect(analyticsPlan, contains('home_prayer_badge'));
+      expect(analyticsPlan, contains('qibla_viewed'));
+      expect(analyticsPlan, contains('Qibla page records a local'));
       expect(analyticsPlan, contains('home_prayer_card'));
       expect(analyticsPlan, contains('home_progress_card'));
       expect(analyticsPlan, contains('prayer_page_card'));
@@ -1786,6 +1793,7 @@ void main() {
       expect(content, contains('analytics_consent_changed'));
       expect(content, contains('notification_settings_viewed'));
       expect(content, contains('prayer_reminder_permission_result'));
+      expect(content, contains('qibla_viewed'));
       expect(content, contains('notification_tap_opened'));
       expect(content, contains('home_prayer_badge'));
       expect(content, contains('prayer_page_card'));
@@ -1858,6 +1866,7 @@ void main() {
         ),
       );
       expect(events, contains('home_viewed'));
+      expect(events, contains('qibla_viewed'));
       expect(events, contains('prayer_reminder_changed'));
       expect(events, contains('notification_settings_viewed'));
       expect(events, contains('prayer_reminder_permission_result'));
@@ -1883,6 +1892,7 @@ void main() {
       expect(events, contains('closed_test_prompt_copied'));
 
       expect(funnel, contains('Prayer Reminder Opt-in Rate'));
+      expect(funnel, contains('Qibla View Rate'));
       expect(funnel, contains('Reminder Setup View Rate'));
       expect(funnel, contains('notification_settings_viewed'));
       expect(funnel, contains('Prayer Reminder Permission Outcome Rate'));
@@ -1907,6 +1917,8 @@ void main() {
 
       expect(blocked, contains('latitude'));
       expect(blocked, contains('longitude'));
+      expect(blocked, contains('location_label'));
+      expect(blocked, contains('qibla_bearing'));
       expect(blocked, contains('women_ibadah_status'));
       expect(blocked, contains('feedback_text'));
       expect(blocked, contains('quran_arabic_text'));
@@ -1937,6 +1949,7 @@ void main() {
       expect(readiness, contains('Google Analytics DebugView QA packet'));
       expect(readiness, contains('notification_settings_viewed'));
       expect(readiness, contains('prayer_reminder_permission_result'));
+      expect(readiness, contains('qibla_viewed'));
       expect(readiness, contains('daily_session_reminder_permission_result'));
       expect(retentionPlan, contains('DebugView QA packet'));
       expect(versionNotes, contains('Google Analytics DebugView QA packet'));

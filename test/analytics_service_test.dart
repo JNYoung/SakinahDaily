@@ -26,6 +26,7 @@ void main() {
           AnalyticsEventCatalog.notificationSettingsViewed,
           AnalyticsEventCatalog.prayerReminderPermissionResult,
           AnalyticsEventCatalog.prayerReminderChanged,
+          AnalyticsEventCatalog.qiblaViewed,
           AnalyticsEventCatalog.notificationTapOpened,
           AnalyticsEventCatalog.analyticsConsentChanged,
           AnalyticsEventCatalog.dailySessionReminderPermissionResult,
@@ -274,6 +275,36 @@ void main() {
         'prompt_day': 'day3',
         'theme_key': 'prayer_time_trust',
         'source': 'closed_testing_guide',
+      });
+    });
+
+    test('qibla view analytics keeps coarse prayer-location metadata only', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.qiblaViewed,
+        const {
+          'screen': 'qibla',
+          'route': '/qibla',
+          'location_method': 'manual',
+          'calculation_method': 'indonesia',
+          'source': 'settings',
+          'latitude': -6.2088,
+          'longitude': 106.8456,
+          'location_label': 'Jakarta',
+          'qibla_bearing_degrees': 295,
+          'women_ibadah_status': 'sensitive',
+          'note': 'private place detail',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'screen': 'qibla',
+        'route': '/qibla',
+        'location_method': 'manual',
+        'calculation_method': 'indonesia',
+        'source': 'settings',
       });
     });
 

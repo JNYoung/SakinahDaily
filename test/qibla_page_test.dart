@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -48,6 +49,43 @@ void main() {
 
     expect(find.byKey(SakinahKeys.qiblaPage), findsOneWidget);
     expect(find.text('Qibla'), findsWidgets);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Qibla page records safe view analytics', (tester) async {
+    final store = InMemoryUserPreferencesStore();
+    await UserPreferencesRepository(store).save(
+      UserPreferences.defaults().copyWith(
+        prayerSettings: const PrayerSettings(
+          latitude: -6.2088,
+          longitude: 106.8456,
+          method: 'indonesia',
+          locationLabel: 'Jakarta',
+          timezoneId: 'Asia/Jakarta',
+        ),
+      ),
+    );
+    final analytics = StubAnalyticsService(enabled: true);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/qibla?source=settings',
+      settleSplash: false,
+      preferencesStore: store,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    final event = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.qiblaViewed,
+    );
+    expect(event.properties, {
+      'screen': 'qibla',
+      'route': '/qibla',
+      'location_method': 'preset',
+      'calculation_method': 'indonesia',
+      'source': 'settings',
+    });
     expectNoFlutterErrors(tester);
   });
 
