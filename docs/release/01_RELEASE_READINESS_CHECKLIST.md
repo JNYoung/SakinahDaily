@@ -117,9 +117,9 @@ Status: Draft for release/store review.
   reboot restore, battery review, and a human observation owner are confirmed.
 - [x] Local e2e gate exists at `scripts/verify_local_e2e.sh`; it runs
   `flutter test`, `dart analyze`, Play submission/public-links template gates,
-  the reviewed content pack readiness packet, the Android OEM reminder
-  observation packet, optional internal release gate, and Android launch smoke
-  when an Android device is available.
+  the Google Analytics DebugView QA packet, the reviewed content pack readiness
+  packet, the Android OEM reminder observation packet, optional internal
+  release gate, and Android launch smoke when an Android device is available.
 - [x] GitHub Actions local e2e workflow exists at
   `.github/workflows/local-e2e.yml`; it runs on pull requests and pushes to
   `main`, uses Node 24-compatible `actions/checkout@v6`, installs Flutter, and
