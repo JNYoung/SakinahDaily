@@ -531,6 +531,7 @@ Future<void> _changeDailySessionReminderTime({
 String _normalizePrayerReminderSource(String? source) {
   return switch (source) {
     'home_prayer_card' => 'home_prayer_card',
+    'prayer_page_card' => 'prayer_page_card',
     'prayer_completion_card' => 'prayer_completion_card',
     'settings' || null => 'settings',
     _ => 'settings',

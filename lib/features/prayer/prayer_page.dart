@@ -103,9 +103,12 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
                     runSpacing: 10,
                     children: [
                       PrimaryButton(
+                        key: SakinahKeys.prayerTopReminderSettingsButton,
                         label: l10n.t('manageReminders'),
                         tonal: true,
-                        onPressed: () => context.go('/settings/notifications'),
+                        onPressed: () => context.go(
+                          '/settings/notifications?source=prayer_page_card',
+                        ),
                       ),
                       PrimaryButton(
                         label: l10n.t('changeLocation'),
