@@ -401,6 +401,9 @@ Retention observation preparation:
   and Home retention events, and Women's Ibadah Mode exact status before the
   Firebase Analytics adapter can send events. Privacy Center now exposes the
   user analytics opt-in for analytics-enabled builds.
+  Qibla view analytics now records only screen, route, coarse location method,
+  calculation method, and controlled source, so Qibla utility interest can be
+  monitored without sending coordinates, place labels, or bearing degrees.
   Dua/Dhikr secondary-feature analytics keeps only content IDs and controlled
   sources, while Women's Ibadah Mode analytics keeps only enabled state and
   `source=women_mode`, so usage can be reviewed without transmitting exact

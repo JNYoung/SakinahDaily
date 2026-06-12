@@ -112,7 +112,9 @@ GoRouter createSakinahRouter({
       ),
       GoRoute(
         path: '/qibla',
-        builder: (context, state) => const QiblaPage(),
+        builder: (context, state) => QiblaPage(
+          entrySource: state.uri.queryParameters['source'],
+        ),
       ),
       GoRoute(
         path: '/quran',

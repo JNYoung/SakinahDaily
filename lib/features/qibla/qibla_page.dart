@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -6,17 +7,60 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
+import '../../core/services/prayer_calculation_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
 
-class QiblaPage extends ConsumerWidget {
-  const QiblaPage({super.key});
+class QiblaPage extends ConsumerStatefulWidget {
+  const QiblaPage({
+    this.entrySource,
+    super.key,
+  });
+
+  final String? entrySource;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<QiblaPage> createState() => _QiblaPageState();
+}
+
+class _QiblaPageState extends ConsumerState<QiblaPage> {
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_trackQiblaViewed());
+  }
+
+  Future<void> _trackQiblaViewed() async {
+    final currentSettings = ref.read(userPreferencesProvider).prayerSettings;
+    final persistedSettings =
+        (await ref.read(userPreferencesRepositoryProvider).load())
+            .prayerSettings;
+    if (!mounted) {
+      return;
+    }
+    final settings =
+        _shouldPreferPersistedSettings(currentSettings, persistedSettings)
+            ? persistedSettings
+            : currentSettings;
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.qiblaViewed,
+      {
+        'screen': 'qibla',
+        'route': '/qibla',
+        'location_method': _locationMethodFor(settings.locationLabel),
+        'calculation_method': settings.method,
+        'source': _normalizeQiblaSource(widget.entrySource),
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = SakinahLocalizations.of(context);
     final preferences = ref.watch(userPreferencesProvider);
     final bearing = ref
@@ -79,6 +123,38 @@ class QiblaPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+bool _shouldPreferPersistedSettings(
+  PrayerSettings currentSettings,
+  PrayerSettings persistedSettings,
+) {
+  return _isDefaultPrayerSettings(currentSettings) &&
+      !_isDefaultPrayerSettings(persistedSettings);
+}
+
+bool _isDefaultPrayerSettings(PrayerSettings settings) {
+  final defaults = UserPreferences.defaults().prayerSettings;
+  return settings.latitude == defaults.latitude &&
+      settings.longitude == defaults.longitude &&
+      settings.method == defaults.method &&
+      settings.locationLabel == defaults.locationLabel &&
+      settings.timezoneId == defaults.timezoneId;
+}
+
+String _locationMethodFor(String locationLabel) {
+  final usesPreset = PrayerCalculationService.locationPresets.any(
+    (preset) => preset.label == locationLabel,
+  );
+  return usesPreset ? 'preset' : 'manual';
+}
+
+String _normalizeQiblaSource(String? source) {
+  return switch (source) {
+    'settings' => 'settings',
+    'manual_location' => 'manual_location',
+    _ => 'direct',
+  };
 }
 
 class _StaticCompass extends StatelessWidget {

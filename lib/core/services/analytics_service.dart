@@ -21,6 +21,7 @@ class AnalyticsEventCatalog {
   static const audioPreferenceSelected = 'audio_preference_selected';
   static const homeViewed = 'home_viewed';
   static const prayerViewed = 'prayer_viewed';
+  static const qiblaViewed = 'qibla_viewed';
   static const notificationSettingsViewed = 'notification_settings_viewed';
   static const prayerReminderPermissionResult =
       'prayer_reminder_permission_result';
@@ -51,6 +52,7 @@ class AnalyticsEventCatalog {
     audioPreferenceSelected,
     homeViewed,
     prayerViewed,
+    qiblaViewed,
     notificationSettingsViewed,
     prayerReminderPermissionResult,
     prayerReminderChanged,
@@ -146,6 +148,14 @@ class AnalyticsParameterPolicy {
     'screen',
     'route',
     'prayer_name',
+    'calculation_method',
+    'location_method',
+    'source',
+  };
+
+  static const _qiblaViewedKeys = {
+    'screen',
+    'route',
     'calculation_method',
     'location_method',
     'source',
@@ -315,6 +325,7 @@ class AnalyticsParameterPolicy {
     return switch (eventName) {
       AnalyticsEventCatalog.homeViewed => _homeViewedKeys.contains(key),
       AnalyticsEventCatalog.prayerViewed => _prayerViewedKeys.contains(key),
+      AnalyticsEventCatalog.qiblaViewed => _qiblaViewedKeys.contains(key),
       AnalyticsEventCatalog.prayerReminderChanged =>
         _prayerReminderChangedKeys.contains(key),
       AnalyticsEventCatalog.notificationSettingsViewed =>

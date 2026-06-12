@@ -59,6 +59,11 @@ Current implementation:
   Home entry source such as `home_prayer_badge`, `home_prayer_card`, or
   `home_progress_card` only. Exact coordinates, session IDs, content IDs,
   Women's Ibadah Mode status, and free text are not sent.
+- The Qibla page records a local `qibla_viewed` event with screen, route,
+  coarse location method, calculation method, and a controlled source such as
+  `settings`, `manual_location`, or `direct` only. Exact coordinates, selected
+  place labels, Qibla bearing degrees/cardinal labels, Women's Ibadah Mode
+  status, and free text are not sent.
 - Notification Settings records a local `notification_settings_viewed` event
   once per page entry with only screen, controlled entry source, and whether
   prayer reminders are already enabled. Controlled entry sources include
@@ -123,6 +128,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `audio_preference_selected`
 - `home_viewed`
 - `prayer_viewed`
+- `qibla_viewed`
 - `notification_settings_viewed`
 - `prayer_reminder_permission_result`
 - `prayer_reminder_changed`
@@ -178,6 +184,7 @@ Only enum-like, non-sensitive operational parameters are allowed:
 The sanitizer drops sensitive or free-text fields, including:
 
 - exact latitude or longitude
+- exact selected place labels or Qibla bearing/cardinal values
 - exact prayer completion names or completion timestamps for prayer checklist
   updates and Home retention summaries
 - exact daily session reminder time
@@ -213,7 +220,7 @@ and the tester has turned on the Privacy Center usage analytics opt-in. Store
 screenshot mode forces analytics off and is not valid DebugView evidence.
 
 The QA reviewer should verify that `home_viewed`,
-`prayer_reminder_changed`, `notification_tap_opened`,
+`prayer_reminder_changed`, `qibla_viewed`, `notification_tap_opened`,
 `analytics_consent_changed`,
 `notification_settings_viewed`,
 `prayer_reminder_permission_result`,
@@ -228,6 +235,8 @@ personal data, exact coordinates, Women's Ibadah Mode exact status, feedback
 text, religious text, or exact reminder time should appear in DebugView.
 `prayer_reminder_changed` must keep only prayer scope, enabled state,
 controlled source, and reminder lead-time offset.
+`qibla_viewed` must keep only screen, route, coarse location method,
+calculation method, and controlled source.
 `notification_settings_viewed` must keep only screen, controlled source, and
 aggregate prayer-reminder enabled state.
 `prayer_reminder_permission_result` must keep only enabled result, controlled
