@@ -145,6 +145,10 @@ Template mode exports `build/android-oem-reminder-observation` with:
 - `reboot_delivery_checklist.csv` for `RECEIVE_BOOT_COMPLETED` reminder restore
   checks after reboot or package replacement.
 - `battery_policy_review.csv` for aggressive battery-management notes.
+- `device_environment_snapshot.txt` for non-personal Android device/build
+  environment, prefilled from `adb shell getprop` and
+  `adb shell cmd deviceidle whitelist` when a device is connected, otherwise
+  left as a manual handoff template.
 - `oem_observation_checklist.md` for lock-screen copy and privacy-safe
   observation rules.
 
@@ -302,6 +306,9 @@ Real-device notification QA:
   Prayer tab.
 - Longer-window OEM scheduling behavior, including reboot and aggressive
   battery-management cases, still needs observation before broad beta.
+  The OEM observation packet now includes `device_environment_snapshot.txt` so
+  the observation owner can confirm the Android version, model, package state,
+  and battery/device-idle context without recording tester personal data.
 
 Not currently used:
 

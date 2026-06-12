@@ -654,7 +654,10 @@ void main() {
       expect(content, contains('long_window_observation_log.csv'));
       expect(content, contains('reboot_delivery_checklist.csv'));
       expect(content, contains('battery_policy_review.csv'));
+      expect(content, contains('device_environment_snapshot.txt'));
       expect(content, contains('oem_observation_checklist.md'));
+      expect(content, contains('adb shell getprop'));
+      expect(content, contains('cmd deviceidle whitelist'));
       expect(content,
           contains('SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY'));
       expect(content, contains('SAKINAH_ANDROID_OEM_TEST_DEVICE_CONFIRMED'));
@@ -690,6 +693,9 @@ void main() {
       final battery = File(
               'build/android-oem-reminder-observation/battery_policy_review.csv')
           .readAsStringSync();
+      final deviceSnapshot = File(
+              'build/android-oem-reminder-observation/device_environment_snapshot.txt')
+          .readAsStringSync();
       final checklist = File(
               'build/android-oem-reminder-observation/oem_observation_checklist.md')
           .readAsStringSync();
@@ -709,8 +715,11 @@ void main() {
       expect(reboot, contains('RECEIVE_BOOT_COMPLETED'));
       expect(battery, contains('battery_policy_state'));
       expect(battery, contains('aggressive battery-management'));
+      expect(deviceSnapshot, contains('Android OEM device environment snapshot'));
+      expect(deviceSnapshot, contains('Privacy rule: No tester personal data'));
       expect(checklist, contains('8-hour prayer reminder'));
       expect(checklist, contains('24-hour prayer reminder'));
+      expect(checklist, contains('device_environment_snapshot.txt'));
       expect(checklist, contains('after device reboot'));
       expect(checklist, contains('do not record tester personal data'));
       expect(checklist, contains('lock-screen copy'));
@@ -739,8 +748,10 @@ void main() {
       expect(readiness, contains('Android OEM reminder observation packet'));
       expect(androidChecklist,
           contains('Android OEM reminder observation packet'));
+      expect(androidChecklist, contains('device_environment_snapshot.txt'));
       expect(
           productProgress, contains('Android OEM reminder observation packet'));
+      expect(productProgress, contains('device environment snapshot'));
       expect(acceptance, contains('Android OEM reminder observation packet'));
       expect(versionNotes, contains('Android OEM reminder observation packet'));
     });
