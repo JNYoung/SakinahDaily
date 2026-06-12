@@ -14,7 +14,12 @@ import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
 
 class PrayerPage extends ConsumerStatefulWidget {
-  const PrayerPage({super.key});
+  const PrayerPage({
+    this.entrySource,
+    super.key,
+  });
+
+  final String? entrySource;
 
   @override
   ConsumerState<PrayerPage> createState() => _PrayerPageState();
@@ -40,16 +45,20 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
       ref.read(currentDateTimeProvider),
       settings,
     );
-    ref.read(analyticsServiceProvider).track(
-      AnalyticsEventCatalog.prayerViewed,
-      {
-        'screen': 'prayer',
-        'route': '/prayer',
-        'prayer_name': prayerStatus.nextPrayer.name,
-        'calculation_method': settings.method,
-        'location_method': _locationMethodFor(settings.locationLabel),
-      },
-    );
+    final properties = <String, Object>{
+      'screen': 'prayer',
+      'route': '/prayer',
+      'prayer_name': prayerStatus.nextPrayer.name,
+      'calculation_method': settings.method,
+      'location_method': _locationMethodFor(settings.locationLabel),
+    };
+    final source = widget.entrySource;
+    if (source != null && source.isNotEmpty) {
+      properties['source'] = source;
+    }
+    ref
+        .read(analyticsServiceProvider)
+        .track(AnalyticsEventCatalog.prayerViewed, properties);
   }
 
   @override

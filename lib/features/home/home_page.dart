@@ -158,7 +158,7 @@ class HomePage extends ConsumerWidget {
                       .remainder(60)
                       .clamp(0, 59),
                 ),
-                onTap: () => context.push('/prayer'),
+                onTap: () => context.push('/prayer?source=home_prayer_badge'),
               ),
             ],
           ),
@@ -188,7 +188,7 @@ class HomePage extends ConsumerWidget {
             nextReminderPreviewLabel: nextPrayerReminderPreviewLabel,
             openPrayerLabel: l10n.t('viewPrayerTimes'),
             reminderSettingsLabel: l10n.t('manageReminders'),
-            onOpenPrayer: () => context.push('/prayer'),
+            onOpenPrayer: () => context.push('/prayer?source=home_prayer_card'),
             onReminderSettings: () =>
                 context.go('/settings/notifications?source=home_prayer_card'),
           ),
@@ -329,7 +329,8 @@ class HomePage extends ConsumerWidget {
                         : l10n.t('continuePrayerCheckIn'),
                     icon: Icons.fact_check_outlined,
                     tonal: true,
-                    onPressed: () => context.go('/prayer'),
+                    onPressed: () =>
+                        context.go('/prayer?source=home_progress_card'),
                   ),
                 ),
               ],

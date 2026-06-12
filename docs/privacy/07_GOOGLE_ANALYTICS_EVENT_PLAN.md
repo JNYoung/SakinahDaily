@@ -55,7 +55,10 @@ Current implementation:
   Exact reminder time, routes, Women's Ibadah Mode status, routine notes, and
   other free text are not sent.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
-  calculation method, route, screen, and coarse location method only.
+  calculation method, route, screen, coarse location method, and a controlled
+  Home entry source such as `home_prayer_badge`, `home_prayer_card`, or
+  `home_progress_card` only. Exact coordinates, session IDs, content IDs,
+  Women's Ibadah Mode status, and free text are not sent.
 - Notification Settings records a local `notification_settings_viewed` event
   once per page entry with only screen, controlled entry source, and whether
   prayer reminders are already enabled. Controlled entry sources include

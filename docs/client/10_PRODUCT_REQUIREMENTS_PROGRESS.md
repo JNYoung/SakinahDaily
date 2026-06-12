@@ -375,6 +375,11 @@ Retention observation preparation:
   check-in usage can be separated from future entry points without sending
   prayer names, completion timestamps, locations, Women's Ibadah Mode status,
   or free text.
+  Prayer view analytics now carries only a controlled Home entry source such
+  as `home_prayer_badge`, `home_prayer_card`, or `home_progress_card`, so
+  Prayer-page interest can be separated by Home entry point without sending
+  coordinates, session IDs, content IDs, Women's Ibadah Mode status, or free
+  text.
   Notification Settings view analytics now records
   `notification_settings_viewed` once per page entry with only screen,
   controlled source, and aggregate prayer-reminder enabled state, so the

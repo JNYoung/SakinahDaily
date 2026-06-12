@@ -142,6 +142,15 @@ class AnalyticsParameterPolicy {
     'prayer_reminders_enabled',
   };
 
+  static const _prayerViewedKeys = {
+    'screen',
+    'route',
+    'prayer_name',
+    'calculation_method',
+    'location_method',
+    'source',
+  };
+
   static const _prayerChecklistUpdatedKeys = {
     'screen',
     'completed_count',
@@ -305,6 +314,7 @@ class AnalyticsParameterPolicy {
   static bool _isAllowedForEvent(String key, String? eventName) {
     return switch (eventName) {
       AnalyticsEventCatalog.homeViewed => _homeViewedKeys.contains(key),
+      AnalyticsEventCatalog.prayerViewed => _prayerViewedKeys.contains(key),
       AnalyticsEventCatalog.prayerReminderChanged =>
         _prayerReminderChangedKeys.contains(key),
       AnalyticsEventCatalog.notificationSettingsViewed =>

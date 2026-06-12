@@ -61,6 +61,38 @@ void main() {
       });
     });
 
+    test('prayer view analytics keeps controlled entry source only', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.prayerViewed,
+        const {
+          'screen': 'prayer',
+          'route': '/prayer',
+          'prayer_name': 'Dhuhr',
+          'calculation_method': 'umm_al_qura',
+          'location_method': 'preset',
+          'source': 'home_progress_card',
+          'session_id': 'session_morning_ease',
+          'content_id': 'dua_ease',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'sensitive',
+          'feedback_text': 'private note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'screen': 'prayer',
+        'route': '/prayer',
+        'prayer_name': 'Dhuhr',
+        'calculation_method': 'umm_al_qura',
+        'location_method': 'preset',
+        'source': 'home_progress_card',
+      });
+    });
+
     test('daily session start analytics keeps safe source metadata', () {
       final analytics = StubAnalyticsService(enabled: true);
 
