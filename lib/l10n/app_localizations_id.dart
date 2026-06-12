@@ -503,6 +503,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get closedTestingPromptCopyPromptLabel => 'Prompt';
 
   @override
+  String get closedTestingPromptCopyThemeLabel => 'Tema yang disarankan';
+
+  @override
   String get closedTestingPromptCopyChannelLabel => 'Kanal masukan';
 
   @override

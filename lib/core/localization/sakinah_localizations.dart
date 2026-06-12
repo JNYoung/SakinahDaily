@@ -213,6 +213,7 @@ class SakinahLocalizations {
       'closedTestingPromptCopied': 'Feedback prompt copied.',
       'closedTestingPromptCopyHeader': 'Sakinah Daily closed test feedback',
       'closedTestingPromptCopyPromptLabel': 'Prompt',
+      'closedTestingPromptCopyThemeLabel': 'Suggested theme',
       'closedTestingPromptCopyChannelLabel': 'Feedback channel',
       'closedTestingPromptCopyPrivacyLine':
           'Please avoid personal or sensitive health details.',
@@ -681,6 +682,7 @@ class SakinahLocalizations {
       'closedTestingPromptCopied': 'Prompt masukan disalin.',
       'closedTestingPromptCopyHeader': 'Masukan closed test Sakinah Daily',
       'closedTestingPromptCopyPromptLabel': 'Prompt',
+      'closedTestingPromptCopyThemeLabel': 'Tema yang disarankan',
       'closedTestingPromptCopyChannelLabel': 'Kanal masukan',
       'closedTestingPromptCopyPrivacyLine':
           'Hindari detail pribadi atau kesehatan yang sensitif.',
@@ -1145,6 +1147,7 @@ class SakinahLocalizations {
       'closedTestingPromptCopied': 'تم نسخ سؤال الملاحظات.',
       'closedTestingPromptCopyHeader': 'ملاحظات اختبار Sakinah Daily المغلق',
       'closedTestingPromptCopyPromptLabel': 'السؤال',
+      'closedTestingPromptCopyThemeLabel': 'الموضوع المقترح',
       'closedTestingPromptCopyChannelLabel': 'قناة الملاحظات',
       'closedTestingPromptCopyPrivacyLine':
           'يرجى تجنب التفاصيل الشخصية أو الصحية الحساسة.',

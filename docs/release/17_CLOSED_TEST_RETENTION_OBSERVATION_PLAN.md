@@ -18,6 +18,9 @@ Use it with:
   prompts.
 - The Home Closed testing guide entry that appears only when the feedback
   channel is configured.
+- The copied in-app feedback prompt and optional public feedback page include a
+  suggested aggregate theme key, so feedback can be summarized without storing
+  personal text.
 - `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`.
 - `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`.
 
@@ -58,6 +61,13 @@ unless telemetry is explicitly approved and declared for the test build.
 | Day 3 | Prayer loop | Were prayer times, selected location, and reminder controls understandable? |
 | Day 7 | Retention friction | What made testers want to reopen or ignore the app? |
 | Day 14 | Production readiness | What one change would most improve daily use before wider release? |
+
+The in-app prompt templates suggest these aggregate theme keys by default:
+
+- Day 1: `onboarding_location_clarity`
+- Day 3: `prayer_time_trust`
+- Day 7: `retention_reason_to_return`
+- Day 14: `retention_reason_to_return`
 
 ## Feedback Theme Taxonomy
 

@@ -143,8 +143,8 @@ Production access notes to prepare:
   use before wider release.
 - Copyable feedback templates: when `SAKINAH_PLAY_TESTING_FEEDBACK` is
   configured, each Day 1 / Day 3 / Day 7 / Day 14 prompt has a copy action
-  that prepares a structured feedback message with the prompt, feedback
-  channel, and privacy line:
+  that prepares a structured feedback message with the prompt, suggested
+  aggregate theme key, feedback channel, and privacy line:
   "Please avoid personal or sensitive health details."
 - Local feedback-sent checklist: testers can mark each Day 1 / Day 3 /
   Day 7 / Day 14 prompt as sent. This stores only the day marker on the device

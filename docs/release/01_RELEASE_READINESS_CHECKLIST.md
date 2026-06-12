@@ -127,8 +127,8 @@ Status: Draft for release/store review.
   configured, and it gives testers a daily checklist for Home return intent,
   prayer times, reminders, Daily Session, Privacy Center, feedback, and Day 1 /
   Day 3 / Day 7 / Day 14 feedback prompts with copyable structured feedback
-  templates plus local feedback-sent checkboxes for closed-test retention
-  evidence.
+  templates, suggested aggregate theme keys, and local feedback-sent checkboxes
+  for closed-test retention evidence.
 - [x] Home also surfaces a Closed testing guide entry when
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, so testers can reach the
   Day 1 / Day 3 / Day 7 / Day 14 prompts from the daily prayer surface without
@@ -380,7 +380,8 @@ Status: Draft for release/store review.
 - [x] `scripts/export_google_play_closed_test_retention_packet.sh` exports a
   template-mode closed-test retention observation packet at
   `build/play-retention-observation` for aggregate Day 1 / Day 3 / Day 7 /
-  Day 14 feedback review and Production access answer preparation.
+  Day 14 feedback review, suggested theme-key grouping, and Production access
+  answer preparation.
 - [x] Home exposes the same Day 1 / Day 3 / Day 7 / Day 14 closed-test guide
   entry when the feedback channel is configured, keeping the retention feedback
   loop visible in the primary prayer habit path.

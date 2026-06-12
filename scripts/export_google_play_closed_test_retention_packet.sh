@@ -124,12 +124,12 @@ for path in \
 done
 
 cat >"$out_dir/daily_observation_template.csv" <<'EOF'
-test_day,calendar_date,version_code,opted_in_testers,active_install_signal,prayer_view_signal,reminder_opt_in_signal,daily_session_signal,feedback_reviewed,decision_or_follow_up,evidence_note
-Day 0,TBD,1,TBD,release visible to testers,TBD,TBD,TBD,TBD,launch observation started,no tester personal data
-Day 1,TBD,1,TBD,TBD,TBD,TBD,TBD,onboarding/location/notification clarity,TBD,Please avoid personal or sensitive health details
-Day 3,TBD,1,TBD,TBD,prayer time and location clarity,reminder usefulness or annoyance,TBD,prayer loop feedback,TBD,aggregate only
-Day 7,TBD,1,TBD,TBD,TBD,TBD,TBD,retention friction,TBD,What made testers want to reopen or ignore the app?
-Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,production readiness feedback,TBD,What one change would most improve daily use?
+test_day,calendar_date,version_code,opted_in_testers,active_install_signal,prayer_view_signal,reminder_opt_in_signal,daily_session_signal,suggested_theme_key,feedback_reviewed,decision_or_follow_up,evidence_note
+Day 0,TBD,1,TBD,release visible to testers,TBD,TBD,TBD,play_install_or_opt_in_access,TBD,launch observation started,no tester personal data
+Day 1,TBD,1,TBD,TBD,TBD,TBD,TBD,onboarding_location_clarity,onboarding/location/notification clarity,TBD,Please avoid personal or sensitive health details
+Day 3,TBD,1,TBD,TBD,prayer time and location clarity,reminder usefulness or annoyance,TBD,prayer_time_trust,prayer loop feedback,TBD,aggregate only
+Day 7,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,retention friction,TBD,What made testers want to reopen or ignore the app?
+Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,production readiness feedback,TBD,What one change would most improve daily use?
 EOF
 
 cat >"$out_dir/feedback_theme_template.csv" <<'EOF'

@@ -155,6 +155,7 @@
   "closedTestingPromptCopied": "تم نسخ سؤال الملاحظات.",
   "closedTestingPromptCopyHeader": "ملاحظات اختبار Sakinah Daily المغلق",
   "closedTestingPromptCopyPromptLabel": "السؤال",
+  "closedTestingPromptCopyThemeLabel": "الموضوع المقترح",
   "closedTestingPromptCopyChannelLabel": "قناة الملاحظات",
   "closedTestingPromptCopyPrivacyLine": "يرجى تجنب التفاصيل الشخصية أو الصحية الحساسة.",
   "closedTestingPromptFeedbackSent": "تم إرسال الملاحظات",

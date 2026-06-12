@@ -155,6 +155,7 @@
   "closedTestingPromptCopied": "Feedback prompt copied.",
   "closedTestingPromptCopyHeader": "Sakinah Daily closed test feedback",
   "closedTestingPromptCopyPromptLabel": "Prompt",
+  "closedTestingPromptCopyThemeLabel": "Suggested theme",
   "closedTestingPromptCopyChannelLabel": "Feedback channel",
   "closedTestingPromptCopyPrivacyLine": "Please avoid personal or sensitive health details.",
   "closedTestingPromptFeedbackSent": "Feedback sent",

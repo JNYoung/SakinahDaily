@@ -693,6 +693,10 @@ void main() {
       );
       expect(testingGuidePage, contains('setClosedTestingPromptCompleted'));
       expect(testingGuidePage, contains('closedTestingPromptCopyHeader'));
+      expect(testingGuidePage, contains('closedTestingPromptCopyThemeLabel'));
+      expect(testingGuidePage, contains('onboarding_location_clarity'));
+      expect(testingGuidePage, contains('prayer_time_trust'));
+      expect(testingGuidePage, contains('retention_reason_to_return'));
       expect(testingGuidePage, contains('closedTestingPromptCopyPrivacyLine'));
       expect(testingGuidePage, contains('closedTestingPromptFeedbackSent'));
       expect(testingGuidePage, contains('closedTestingPromptLocalOnlyStatus'));
@@ -705,7 +709,15 @@ void main() {
       expect(testingGuideTest, contains('Did onboarding explain location'));
       expect(
         testingGuideTest,
+        contains('Suggested theme: onboarding_location_clarity'),
+      );
+      expect(
+        testingGuideTest,
         contains('Were prayer times, location, and reminder controls'),
+      );
+      expect(
+        testingGuideTest,
+        contains('Suggested theme: prayer_time_trust'),
       );
       expect(testingGuideTest, contains('What made you want to reopen'));
       expect(
@@ -1419,6 +1431,9 @@ void main() {
       expect(dailyCsv, contains('Day 14'));
       expect(dailyCsv, contains('prayer_view_signal'));
       expect(dailyCsv, contains('reminder_opt_in_signal'));
+      expect(dailyCsv, contains('suggested_theme_key'));
+      expect(dailyCsv, contains('prayer_time_trust'));
+      expect(dailyCsv, contains('retention_reason_to_return'));
       expect(feedbackCsv, contains('theme,severity,source,decision'));
       expect(feedbackCsv, contains('onboarding_location_clarity'));
       expect(feedbackCsv, contains('reminder_usefulness_or_annoyance'));
@@ -1685,6 +1700,10 @@ void main() {
       expect(feedbackHtml, contains('Day 3'));
       expect(feedbackHtml, contains('Day 7'));
       expect(feedbackHtml, contains('Day 14'));
+      expect(feedbackHtml, contains('Suggested theme:'));
+      expect(feedbackHtml, contains('onboarding_location_clarity'));
+      expect(feedbackHtml, contains('prayer_time_trust'));
+      expect(feedbackHtml, contains('retention_reason_to_return'));
       expect(feedbackHtml,
           contains('Please avoid personal or sensitive health details'));
 
