@@ -84,6 +84,7 @@ for needle in \
   'notification_settings_viewed' \
   'prayer_reminder_permission_result' \
   'notification_tap_opened' \
+  'daily_session_reminder_permission_result' \
   'daily_session_reminder_changed' \
   'home_session_completion' \
   'DebugView QA packet'; do
@@ -101,6 +102,7 @@ require_text "$analytics_service" 'notification_tap_opened'
 require_text "$analytics_service" 'analytics_consent_changed'
 require_text "$analytics_service" 'notification_settings_viewed'
 require_text "$analytics_service" 'prayer_reminder_permission_result'
+require_text "$analytics_service" 'daily_session_reminder_permission_result'
 require_text "$analytics_service" 'daily_session_reminder_changed'
 require_text "$analytics_service" 'prayer_checkin_days_7d'
 require_text "$privacy_center" 'privacyAnalyticsSwitch'
@@ -161,6 +163,7 @@ prayer_checklist_updated,prayer_checkin,"screen|completed_count|all_prayers_comp
 daily_session_started,session_start,"session_id|language_code|source","quran_arabic_text|reflection_text|translation|feedback_text",Daily Session Start Rate
 daily_session_step_viewed,session_step,"session_id|step_id|step_index|source","content_id|quran_arabic_text|reflection_text|translation",Daily Session Step Drop-off
 daily_session_completed,session_complete,"session_id|source","quran_arabic_text|reflection_text|translation|feedback_text",Daily Session Completion Rate
+daily_session_reminder_permission_result,session_reminder_permission,"session_id|enabled|source|change_type","reminder_time|route|women_ibadah_status|feedback_text|note",Daily Session Reminder Permission Outcome Rate
 daily_session_reminder_changed,session_to_reminder,"session_id|enabled|source=home_session_completion|change_type","reminder_time|women_ibadah_status|feedback_text",Daily Session Reminder Opt-in Rate
 closed_test_prompt_copied,closed_test_feedback,"prompt_day|theme_key|source","feedback_text|email|tester_name",Closed-test prompt usage
 closed_test_prompt_marked_sent,closed_test_feedback,"prompt_day|theme_key|source","feedback_text|email|tester_name",Closed-test prompt usage
@@ -178,6 +181,7 @@ Analytics Consent Rate,/settings/privacy,analytics_consent_changed,privacy_cente
 Prayer To Session,/prayer complete state,daily_session_started,prayer_completion,session starts after five check-ins,no prayer completion names/timestamps
 Daily Session Start Rate,/session/:id,daily_session_started,home or bottom_navigation,session starts,no religious text
 Daily Session Step Drop-off,/session/:id,daily_session_step_viewed,home or prayer_completion,step_id and step_index only,no quran/dua/reflection text
+Daily Session Reminder Permission Outcome Rate,session reminder permission flow,daily_session_reminder_permission_result,"settings, session_completion, or home_session_completion",scheduled or denied outcome only,no route exact reminder time women mode status routine notes or free text
 Session To Reminder,/home completed-session CTA,daily_session_reminder_changed,home_session_completion,session_to_reminder enabled true,no exact reminder time
 Closed-test Prompt Usage,/settings/testing-guide,closed_test_prompt_copied,closed_testing_guide,prompt_day and theme_key only,no feedback text/email
 EOF
@@ -241,6 +245,7 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Verify \`prayer_reminder_permission_result\` keeps only enabled result, controlled source, coarse outcome, and reminder lead-time offset.
 - Verify \`notification_tap_opened\` keeps only coarse content type and source.
 - Verify \`analytics_consent_changed\` keeps only enabled state and source.
+- Verify \`daily_session_reminder_permission_result\` keeps only session ID, enabled result, controlled source, and coarse outcome.
 - Verify \`daily_session_reminder_changed\` keeps only session ID, enabled state, controlled source, and coarse change type.
 - Verify Home retention events keep aggregate counts only.
 EOF

@@ -28,6 +28,7 @@ void main() {
           AnalyticsEventCatalog.prayerReminderChanged,
           AnalyticsEventCatalog.notificationTapOpened,
           AnalyticsEventCatalog.analyticsConsentChanged,
+          AnalyticsEventCatalog.dailySessionReminderPermissionResult,
           AnalyticsEventCatalog.dailySessionReminderChanged,
           AnalyticsEventCatalog.prayerChecklistUpdated,
           AnalyticsEventCatalog.dailySessionStarted,
@@ -106,6 +107,36 @@ void main() {
         'enabled': true,
         'source': 'session_completion',
         'change_type': 'enabled',
+      });
+    });
+
+    test(
+        'daily session reminder permission analytics keeps safe outcome metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.dailySessionReminderPermissionResult,
+        const {
+          'session_id': 'session_morning_ease',
+          'enabled': false,
+          'source': 'home_session_completion',
+          'change_type': 'permission_denied',
+          'reminder_time': '21:15',
+          'route': '/settings/notifications',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'menstruating',
+          'note': 'private routine detail',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'session_id': 'session_morning_ease',
+        'enabled': false,
+        'source': 'home_session_completion',
+        'change_type': 'permission_denied',
       });
     });
 
