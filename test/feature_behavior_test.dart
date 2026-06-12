@@ -444,6 +444,10 @@ void main() {
       currentDateTime: DateTime(2026, 5, 21, 6, 30),
     );
 
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.prayerListItem('Fajr')),
+    );
     expect(
       find.descendant(
         of: find.byKey(SakinahKeys.prayerListItem('Fajr')),

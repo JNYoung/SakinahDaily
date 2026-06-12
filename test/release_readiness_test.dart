@@ -3252,8 +3252,11 @@ void main() {
       expect(prayerPage, contains('todaysPrayerTimes'));
       expect(prayerPage, contains('todaysPrayerCheckIn'));
       expect(prayerPage, contains('prayerChecklistUpdated'));
+      expect(prayerPage, contains('prayerTopQiblaButton'));
+      expect(prayerPage, contains('/qibla?source=prayer_page_card'));
       expect(keys, contains('prayerTimesSectionHeader'));
       expect(keys, contains('prayerTopReminderSettingsButton'));
+      expect(keys, contains('prayerTopQiblaButton'));
       expect(keys, contains('prayerCompletionCheckbox'));
       expect(keys, contains('homePrayerCompletionMetric'));
       expect(keys, contains('homePrayerCheckInButton'));
@@ -3261,6 +3264,10 @@ void main() {
       expect(
         navigationTest,
         contains('prayer page shows all five daily prayer times'),
+      );
+      expect(
+        navigationTest,
+        contains('prayer page opens Qibla direction from prayer context'),
       );
       expect(
         navigationTest,
@@ -3325,6 +3332,7 @@ void main() {
       expect(readiness, contains('complete state after all five'));
       expect(readiness, contains('Prayer week summary'));
       expect(readiness, contains('prayer_page_card'));
+      expect(readiness, contains('Qibla view analytics'));
       expect(
         productProgress,
         contains('Prayer page now gives the full-day list'),
@@ -3337,6 +3345,7 @@ void main() {
       expect(productProgress, contains('Home now shows a local-only'));
       expect(productProgress, contains('Home view analytics includes only'));
       expect(productProgress, contains('prayer_page_card'));
+      expect(productProgress, contains('Qibla context action'));
       expect(
         productProgress,
         contains('prayer times" heading'),
@@ -3355,6 +3364,7 @@ void main() {
       expect(acceptance, contains('本地完成态'));
       expect(acceptance, contains('本地周进度'));
       expect(acceptance, contains('[x] Prayer reminders 可开启/关闭。'));
+      expect(acceptance, contains('Prayer 页上下文动作进入 Qibla'));
     });
 
     test('Home daily prayer companion acceptance is covered', () {

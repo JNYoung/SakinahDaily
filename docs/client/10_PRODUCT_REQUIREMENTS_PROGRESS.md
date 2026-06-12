@@ -121,6 +121,9 @@ Completed:
   `source=prayer_page_card`, so reviewed DebugView QA can separate ordinary
   Prayer-page reminder opt-ins from Home-card, completion-card, and Settings
   changes without sending routes or prayer completion details.
+- Prayer page now also exposes a Qibla context action in the next-prayer card,
+  opening `/qibla?source=prayer_page_card` so the prayer-time-to-direction
+  loop is visible without turning Home into a generic tool grid.
 - Notification Settings now supports per-prayer reminder controls for Fajr,
   Dhuhr, Asr, Maghrib, and Isha; disabled prayers are excluded from local
   reminder scheduling.
@@ -402,8 +405,9 @@ Retention observation preparation:
   Firebase Analytics adapter can send events. Privacy Center now exposes the
   user analytics opt-in for analytics-enabled builds.
   Qibla view analytics now records only screen, route, coarse location method,
-  calculation method, and controlled source, so Qibla utility interest can be
-  monitored without sending coordinates, place labels, or bearing degrees.
+  calculation method, and controlled source such as `prayer_page_card`, so
+  Qibla utility interest can be monitored without sending coordinates, place
+  labels, or bearing degrees.
   Dua/Dhikr secondary-feature analytics keeps only content IDs and controlled
   sources, while Women's Ibadah Mode analytics keeps only enabled state and
   `source=women_mode`, so usage can be reviewed without transmitting exact

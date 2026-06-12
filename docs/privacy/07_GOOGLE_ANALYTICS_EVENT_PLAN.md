@@ -61,9 +61,9 @@ Current implementation:
   Women's Ibadah Mode status, and free text are not sent.
 - The Qibla page records a local `qibla_viewed` event with screen, route,
   coarse location method, calculation method, and a controlled source such as
-  `settings`, `manual_location`, or `direct` only. Exact coordinates, selected
-  place labels, Qibla bearing degrees/cardinal labels, Women's Ibadah Mode
-  status, and free text are not sent.
+  `prayer_page_card`, `settings`, `manual_location`, or `direct` only. Exact
+  coordinates, selected place labels, Qibla bearing degrees/cardinal labels,
+  Women's Ibadah Mode status, and free text are not sent.
 - Notification Settings records a local `notification_settings_viewed` event
   once per page entry with only screen, controlled entry source, and whether
   prayer reminders are already enabled. Controlled entry sources include

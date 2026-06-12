@@ -120,6 +120,15 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
                         ),
                       ),
                       PrimaryButton(
+                        key: SakinahKeys.prayerTopQiblaButton,
+                        label: l10n.t('qibla'),
+                        icon: Icons.explore_outlined,
+                        tonal: true,
+                        onPressed: () => context.go(
+                          '/qibla?source=prayer_page_card',
+                        ),
+                      ),
+                      PrimaryButton(
                         label: l10n.t('changeLocation'),
                         tonal: true,
                         onPressed: () =>
