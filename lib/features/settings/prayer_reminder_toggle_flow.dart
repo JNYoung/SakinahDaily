@@ -17,6 +17,7 @@ Future<void> handlePrayerReminderToggle({
   required NotificationService notificationService,
   required PrayerCalculationService prayerService,
   required UserPreferences preferences,
+  required String analyticsSource,
 }) async {
   if (!enabled) {
     await notificationService.cancelPrayerReminders();
@@ -26,6 +27,7 @@ Future<void> handlePrayerReminderToggle({
       ref: ref,
       preferences: preferences,
       enabled: false,
+      source: analyticsSource,
     );
     return;
   }
@@ -78,6 +80,7 @@ Future<void> handlePrayerReminderToggle({
       ref: ref,
       preferences: preferences,
       enabled: true,
+      source: analyticsSource,
     );
   }
 }
@@ -86,12 +89,14 @@ void _trackGlobalPrayerReminderChanged({
   required WidgetRef ref,
   required UserPreferences preferences,
   required bool enabled,
+  required String source,
 }) {
   ref.read(analyticsServiceProvider).track(
     AnalyticsEventCatalog.prayerReminderChanged,
     {
       'prayer_name': 'all',
       'enabled': enabled,
+      'source': source,
       'reminder_offset_minutes': sanitizePrayerReminderOffsetMinutes(
         preferences.prayerReminderOffsetMinutes,
       ),

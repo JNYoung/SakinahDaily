@@ -166,7 +166,8 @@ class HomePage extends ConsumerWidget {
             openPrayerLabel: l10n.t('viewPrayerTimes'),
             reminderSettingsLabel: l10n.t('manageReminders'),
             onOpenPrayer: () => context.push('/prayer'),
-            onReminderSettings: () => context.go('/settings/notifications'),
+            onReminderSettings: () =>
+                context.go('/settings/notifications?source=home_prayer_card'),
           ),
           const SizedBox(height: 18),
           if (testingFeedbackChannel != null) ...[
