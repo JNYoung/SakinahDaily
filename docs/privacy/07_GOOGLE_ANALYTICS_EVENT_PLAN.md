@@ -36,8 +36,9 @@ Current implementation:
   entry source such as `home`, `bottom_navigation`, `prayer_completion`, or
   `direct`; unrecognized route source values are normalized to `direct`. Step
   view analytics keeps only session ID, stable step ID, 1-based step index, and
-  source; Quran, Dua, Dhikr, reflection, translation, and other religious or
-  free-text content is not sent.
+  source. Completion analytics keeps only session ID and the same controlled
+  entry source; Quran, Dua, Dhikr, reflection, translation, and other religious
+  or free-text content is not sent.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
   calculation method, route, screen, and coarse location method only.
 - The Home page records a local `home_viewed` event only after local prayer

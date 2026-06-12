@@ -225,7 +225,10 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
   ) async {
     ref.read(analyticsServiceProvider).track(
       AnalyticsEventCatalog.dailySessionCompleted,
-      {'session_id': widget.sessionId},
+      {
+        'session_id': widget.sessionId,
+        'source': widget.entrySource,
+      },
     );
     await ref
         .read(sessionProgressControllerProvider.notifier)

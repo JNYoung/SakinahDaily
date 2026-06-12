@@ -533,6 +533,34 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Daily Session completion records safe entry source analytics',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/session/session_morning_ease?source=prayer_completion',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    for (var i = 0; i < 5; i += 1) {
+      await tapByKey(tester, SakinahKeys.sessionNextButton);
+    }
+    await tapByKey(tester, SakinahKeys.sessionFinishButton);
+    await tester.pumpAndSettle();
+
+    final completionEvent = analytics.events.lastWhere(
+      (event) => event.name == AnalyticsEventCatalog.dailySessionCompleted,
+    );
+    expect(completionEvent.properties, {
+      'session_id': 'session_morning_ease',
+      'source': 'prayer_completion',
+    });
+    expect(find.byKey(SakinahKeys.sessionCompletionPage), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Home shows prayer weekly progress and aggregate view analytics',
       (tester) async {
     final completionStore = InMemoryPrayerCompletionStore();
