@@ -65,6 +65,10 @@ Day 14 evidence log with raw analytics exports, and do not store tester
 personal data.
 Privacy Center consent toggles should appear only as
 `analytics_consent_changed` with enabled state and `source=privacy_center`.
+Prayer reminder changes should appear only as `prayer_reminder_changed` with
+prayer scope, enabled state, controlled source such as `settings` or
+`home_prayer_card`, and lead-time offset; do not store routes, exact reminder
+times, coordinates, Women's Ibadah Mode status, or free text.
 Local notification opens should appear only as `notification_tap_opened` with
 coarse content type and `source=local_notification`; do not store raw payloads,
 routes, content IDs, prayer names, or religious text.

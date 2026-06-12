@@ -274,6 +274,7 @@ void main() {
         analyticsTest,
         contains('daily session reminder analytics keeps safe reminder'),
       );
+      expect(analyticsTest, contains('home_prayer_card'));
       expect(
         analyticsTest,
         contains(
@@ -297,6 +298,7 @@ void main() {
       expect(analyticsPlan, contains('notification_tap_opened'));
       expect(analyticsPlan, contains('analytics_consent_changed'));
       expect(analyticsPlan, contains('home_session_completion'));
+      expect(analyticsPlan, contains('home_prayer_card'));
       expect(analyticsPlan, contains('exact daily session reminder time'));
       expect(analyticsPlan, contains('Completion analytics keeps only'));
       expect(analyticsPlan, contains('aggregate prayer retention counts'));
@@ -1778,6 +1780,7 @@ void main() {
       );
       expect(events, contains('home_viewed'));
       expect(events, contains('prayer_reminder_changed'));
+      expect(events, contains('home_prayer_card'));
       expect(events, contains('notification_tap_opened'));
       expect(events, contains('analytics_consent_changed'));
       expect(events, contains('daily_session_started'));
@@ -1788,6 +1791,7 @@ void main() {
       expect(events, contains('closed_test_prompt_copied'));
 
       expect(funnel, contains('Prayer Reminder Opt-in Rate'));
+      expect(funnel, contains('home_prayer_card'));
       expect(funnel, contains('Push Open Rate'));
       expect(funnel, contains('Analytics Consent Rate'));
       expect(funnel, contains('Daily Session Start Rate'));

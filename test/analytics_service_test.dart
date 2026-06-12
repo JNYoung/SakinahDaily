@@ -115,7 +115,9 @@ void main() {
         const {
           'prayer_name': 'Fajr',
           'enabled': true,
+          'source': 'home_prayer_card',
           'reminder_offset_minutes': 10,
+          'route': '/settings/notifications',
           'latitude': 21.4225,
           'longitude': 39.8262,
           'women_ibadah_status': 'menstruating',
@@ -128,6 +130,7 @@ void main() {
       expect(analytics.events.single.properties, {
         'prayer_name': 'Fajr',
         'enabled': true,
+        'source': 'home_prayer_card',
         'reminder_offset_minutes': 10,
       });
     });

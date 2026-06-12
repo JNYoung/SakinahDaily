@@ -123,6 +123,7 @@ class SettingsPage extends ConsumerWidget {
                     notificationService: notificationService,
                     prayerService: prayerService,
                     preferences: preferences,
+                    analyticsSource: 'settings',
                   ),
                 );
               },

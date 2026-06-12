@@ -226,6 +226,7 @@ void main() {
     expect(analytics.events.single.properties, {
       'prayer_name': 'all',
       'enabled': true,
+      'source': 'settings',
       'reminder_offset_minutes': 0,
     });
     expect(
@@ -243,12 +244,52 @@ void main() {
     expect(analytics.events.last.properties, {
       'prayer_name': 'all',
       'enabled': false,
+      'source': 'settings',
       'reminder_offset_minutes': 0,
     });
     expect(
       find.text('Off · Permission is requested after explanation.'),
       findsOneWidget,
     );
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Home prayer reminder CTA records home source analytics',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/home',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.homePrayerReminderSettingsButton);
+    expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
+
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    expect(find.text('Enable prayer reminders?'), findsOneWidget);
+
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
+
+    final prayerReminderEvents = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.prayerReminderChanged)
+        .toList();
+    expect(prayerReminderEvents, hasLength(1));
+    expect(prayerReminderEvents.single.properties, {
+      'prayer_name': 'all',
+      'enabled': true,
+      'source': 'home_prayer_card',
+      'reminder_offset_minutes': 0,
+    });
     expectNoFlutterErrors(tester);
   });
 
@@ -357,6 +398,7 @@ void main() {
     expect(analytics.events.single.properties, {
       'prayer_name': 'Dhuhr',
       'enabled': false,
+      'source': 'settings',
       'reminder_offset_minutes': 0,
     });
     expectNoFlutterErrors(tester);

@@ -140,6 +140,13 @@ class AnalyticsParameterPolicy {
     'all_prayers_completed',
   };
 
+  static const _prayerReminderChangedKeys = {
+    'prayer_name',
+    'enabled',
+    'source',
+    'reminder_offset_minutes',
+  };
+
   static const _dailySessionReminderChangedKeys = {
     'session_id',
     'enabled',
@@ -242,6 +249,8 @@ class AnalyticsParameterPolicy {
   static bool _isAllowedForEvent(String key, String? eventName) {
     return switch (eventName) {
       AnalyticsEventCatalog.homeViewed => _homeViewedKeys.contains(key),
+      AnalyticsEventCatalog.prayerReminderChanged =>
+        _prayerReminderChangedKeys.contains(key),
       AnalyticsEventCatalog.prayerChecklistUpdated =>
         _prayerChecklistUpdatedKeys.contains(key),
       AnalyticsEventCatalog.dailySessionReminderChanged =>

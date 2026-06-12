@@ -339,6 +339,10 @@ Retention observation preparation:
   start/step/completion, Daily Session reminder opt-in and setting changes,
   handled local notification opens, analytics consent changes, saved Dua/Dhikr
   actions, and closed-test prompt actions.
+  Prayer reminder analytics now carries only a controlled source such as
+  `settings` or `home_prayer_card`, so Home-card reminder opt-ins can be
+  separated from ordinary Settings changes without sending routes, coordinates,
+  exact reminder times, Women's Ibadah Mode status, or free text.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback

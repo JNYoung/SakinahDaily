@@ -31,6 +31,8 @@ class NotificationSettingsPage extends ConsumerWidget {
     final notificationFeedback =
         ref.watch(notificationPermissionFeedbackProvider);
     final environment = ref.watch(appEnvironmentConfigProvider);
+    final prayerReminderAnalyticsSource =
+        _normalizePrayerReminderSource(entrySource);
     final dailySessionReminderAnalyticsSource =
         _normalizeDailySessionReminderSource(entrySource);
 
@@ -61,6 +63,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                     notificationService: notificationService,
                     prayerService: prayerService,
                     preferences: preferences,
+                    analyticsSource: prayerReminderAnalyticsSource,
                   ),
                 );
               },
@@ -134,6 +137,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                       controller: controller,
                       notificationService: notificationService,
                       prayerService: prayerService,
+                      analyticsSource: prayerReminderAnalyticsSource,
                     ),
                   );
                 },
@@ -267,12 +271,14 @@ Future<void> _handlePrayerReminderChoiceToggle({
   required UserPreferencesController controller,
   required NotificationService notificationService,
   required PrayerCalculationService prayerService,
+  required String analyticsSource,
 }) async {
   await controller.setPrayerReminderEnabled(prayerName, enabled);
   _trackPrayerReminderChanged(
     ref: ref,
     prayerName: prayerName,
     enabled: enabled,
+    source: analyticsSource,
   );
   await _reschedulePrayerRemindersAfterPreferenceChange(
     ref: ref,
@@ -286,6 +292,7 @@ void _trackPrayerReminderChanged({
   required WidgetRef ref,
   required String prayerName,
   required bool enabled,
+  required String source,
 }) {
   final preferences = ref.read(userPreferencesProvider);
   ref.read(analyticsServiceProvider).track(
@@ -293,6 +300,7 @@ void _trackPrayerReminderChanged({
     {
       'prayer_name': prayerName,
       'enabled': enabled,
+      'source': source,
       'reminder_offset_minutes': sanitizePrayerReminderOffsetMinutes(
         preferences.prayerReminderOffsetMinutes,
       ),
@@ -509,6 +517,14 @@ Future<void> _changeDailySessionReminderTime({
     changeType: 'time_updated',
   );
   _showSnackBar(context, l10n.t('reminderTimeSaved'));
+}
+
+String _normalizePrayerReminderSource(String? source) {
+  return switch (source) {
+    'home_prayer_card' => 'home_prayer_card',
+    'settings' || null => 'settings',
+    _ => 'settings',
+  };
 }
 
 String _normalizeDailySessionReminderSource(String? source) {

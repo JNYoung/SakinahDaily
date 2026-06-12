@@ -55,7 +55,10 @@ Current implementation:
   today's completed count, 7-day check-in count, 7-day check-in days, current
   check-in streak, and prayer reminder enabled state.
 - Prayer reminder global and per-prayer changes record local
-  `prayer_reminder_changed` events with reminder enabled state and lead time.
+  `prayer_reminder_changed` events with reminder enabled state, lead time, and
+  a controlled source such as `settings` or `home_prayer_card`. Routes, exact
+  reminder times, locations, Women's Ibadah Mode status, and free text are not
+  sent.
 - Handled local notification taps record `notification_tap_opened` with only a
   coarse content type such as `prayer`, `daily_session`, `quran`, `dua`, or
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
@@ -180,6 +183,8 @@ The QA reviewer should verify that `home_viewed`,
 `closed_test_prompt_marked_sent` appear only with allowed parameters. No tester
 personal data, exact coordinates, Women's Ibadah Mode exact status, feedback
 text, religious text, or exact reminder time should appear in DebugView.
+`prayer_reminder_changed` must keep only prayer scope, enabled state,
+controlled source, and reminder lead-time offset.
 `notification_tap_opened` must keep only `content_type` and `source`.
 `analytics_consent_changed` must keep only `enabled` and `source`.
 
