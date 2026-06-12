@@ -213,7 +213,8 @@ Status: Draft for release/store review.
 - [x] Google Analytics-compatible event contract exists with event-name
   whitelist, sensitive-parameter filtering, Firebase Analytics integration, and
   default-off collection. Production telemetry still requires privacy/Data
-  Safety review and Firebase project configuration.
+  Safety review, Firebase project configuration, and user opt-in from Privacy
+  Center.
 - [x] No exact GPS permission is added.
 - [x] Onboarding offers preset prayer-location setup and states that GPS
   permission is not requested in v0.1.

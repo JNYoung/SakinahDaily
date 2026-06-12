@@ -278,6 +278,14 @@ class SakinahLocalizations {
       'remoteContentPrivacyTitle': 'Remote content cache',
       'remoteContentPrivacyBody':
           'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.',
+      'analyticsPrivacyTitle': 'Usage analytics privacy',
+      'analyticsPrivacyBody':
+          'Usage analytics is default-off. If enabled in a reviewed build, Sakinah sends only whitelisted app-flow events and never sends exact coordinates, Women’s Ibadah Mode exact status, feedback text, or religious text.',
+      'analyticsOptInTitle': 'Share usage analytics',
+      'analyticsOptInAvailableBody':
+          'Optional. Helps improve prayer reminders and session retention with privacy-safe event names only.',
+      'analyticsOptInUnavailableBody':
+          'Analytics collection is off in this build.',
       'deleteLocalDataTitle': 'Delete local data',
       'deleteLocalDataBody':
           'Reset app preferences, saved items, session progress, women’s mode state, local content cache, and scheduled reminders on this device.',
@@ -379,9 +387,15 @@ class SakinahLocalizations {
           'Remote content request metadata',
       'remoteContentRequestMetadataNotes':
           'Requests may include language, market, app version, and schema version only.',
-      'privacyDataFutureAnalyticsCrash': 'Future analytics or crash reporting',
+      'privacyDataAnalyticsConsent': 'Analytics consent preference',
+      'privacyDataAnalyticsConsentNotes':
+          'Stored locally. Turning it off disables Firebase Analytics collection when analytics builds are configured.',
+      'privacyDataAnalyticsEvents': 'Default-off analytics events',
+      'privacyDataAnalyticsEventsNotes':
+          'Only sent when analytics is enabled for the build and the user opts in. Events are whitelisted and exclude coordinates, feedback, religious text, and Women’s Ibadah Mode exact status.',
+      'privacyDataFutureAnalyticsCrash': 'Crash reporting',
       'privacyDataFutureAnalyticsCrashNotes':
-          'No analytics or crash-reporting SDK is implemented in MVP.',
+          'Crash-reporting SDK is not implemented in MVP.',
       'privacyDataAccountData': 'Account data',
       'privacyDataAccountDataNotes': 'Account login is not implemented in MVP.',
       'privacyDataPaymentsSubscriptions': 'Payments and subscriptions',
@@ -718,6 +732,14 @@ class SakinahLocalizations {
       'remoteContentPrivacyTitle': 'Cache konten jarak jauh',
       'remoteContentPrivacyBody':
           'Bundle konten yang disetujui dapat disimpan di perangkat ini. Permintaan konten jarak jauh dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.',
+      'analyticsPrivacyTitle': 'Privasi analitik penggunaan',
+      'analyticsPrivacyBody':
+          'Analitik penggunaan nonaktif secara default. Jika diaktifkan dalam build yang ditinjau, Sakinah hanya mengirim event alur aplikasi yang diizinkan dan tidak pernah mengirim koordinat persis, status persis Mode Ibadah Perempuan, teks masukan, atau teks keagamaan.',
+      'analyticsOptInTitle': 'Bagikan analitik penggunaan',
+      'analyticsOptInAvailableBody':
+          'Opsional. Membantu meningkatkan pengingat shalat dan retensi sesi hanya dengan nama event yang aman untuk privasi.',
+      'analyticsOptInUnavailableBody':
+          'Pengumpulan analitik nonaktif dalam build ini.',
       'deleteLocalDataTitle': 'Hapus data lokal',
       'deleteLocalDataBody':
           'Reset preferensi aplikasi, item tersimpan, progres sesi, status mode perempuan, cache konten lokal, dan pengingat terjadwal di perangkat ini.',
@@ -818,9 +840,15 @@ class SakinahLocalizations {
           'Metadata permintaan konten jarak jauh',
       'remoteContentRequestMetadataNotes':
           'Permintaan hanya dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.',
-      'privacyDataFutureAnalyticsCrash': 'Analitik atau crash reporting nanti',
+      'privacyDataAnalyticsConsent': 'Preferensi persetujuan analitik',
+      'privacyDataAnalyticsConsentNotes':
+          'Disimpan lokal. Mematikannya menonaktifkan pengumpulan Firebase Analytics saat build analitik dikonfigurasi.',
+      'privacyDataAnalyticsEvents': 'Event analitik default-nonaktif',
+      'privacyDataAnalyticsEventsNotes':
+          'Hanya dikirim saat analitik diaktifkan untuk build dan pengguna menyetujui. Event memakai daftar yang diizinkan dan mengecualikan koordinat, masukan, teks keagamaan, dan status persis Mode Ibadah Perempuan.',
+      'privacyDataFutureAnalyticsCrash': 'Crash reporting',
       'privacyDataFutureAnalyticsCrashNotes':
-          'Tidak ada SDK analitik atau crash reporting yang diterapkan di MVP.',
+          'SDK crash-reporting belum diterapkan di MVP.',
       'privacyDataAccountData': 'Data akun',
       'privacyDataAccountDataNotes': 'Login akun belum diterapkan di MVP.',
       'privacyDataPaymentsSubscriptions': 'Pembayaran dan langganan',
@@ -1150,6 +1178,13 @@ class SakinahLocalizations {
       'remoteContentPrivacyTitle': 'ذاكرة المحتوى عن بعد',
       'remoteContentPrivacyBody':
           'يمكن تخزين حزم المحتوى المعتمدة على هذا الجهاز. قد تتضمن طلبات المحتوى اللغة والسوق وإصدار التطبيق وإصدار المخطط.',
+      'analyticsPrivacyTitle': 'خصوصية تحليلات الاستخدام',
+      'analyticsPrivacyBody':
+          'تحليلات الاستخدام متوقفة افتراضيا. إذا فعلت في بناء تمت مراجعته، ترسل سكينة أحداث مسار التطبيق المسموح بها فقط ولا ترسل الإحداثيات الدقيقة أو الحالة الدقيقة لوضع عبادة النساء أو نص الملاحظات أو النصوص الدينية.',
+      'analyticsOptInTitle': 'مشاركة تحليلات الاستخدام',
+      'analyticsOptInAvailableBody':
+          'اختياري. يساعد على تحسين تذكيرات الصلاة والاحتفاظ بالجلسات باستخدام أسماء أحداث آمنة للخصوصية فقط.',
+      'analyticsOptInUnavailableBody': 'جمع التحليلات متوقف في هذا البناء.',
       'deleteLocalDataTitle': 'حذف البيانات المحلية',
       'deleteLocalDataBody':
           'إعادة ضبط تفضيلات التطبيق والعناصر المحفوظة وتقدم الجلسات وحالة وضع النساء وذاكرة المحتوى المحلية والتذكيرات المجدولة على هذا الجهاز.',
@@ -1251,9 +1286,15 @@ class SakinahLocalizations {
       'privacyDataRemoteContentRequestMetadata': 'بيانات طلب المحتوى عن بعد',
       'remoteContentRequestMetadataNotes':
           'قد تتضمن الطلبات اللغة والسوق وإصدار التطبيق وإصدار المخطط فقط.',
-      'privacyDataFutureAnalyticsCrash': 'تحليلات أو تقارير أعطال مستقبلية',
+      'privacyDataAnalyticsConsent': 'تفضيل الموافقة على التحليلات',
+      'privacyDataAnalyticsConsentNotes':
+          'يحفظ محليا. إيقافه يعطل جمع Firebase Analytics عندما تكون بناءات التحليلات مهيأة.',
+      'privacyDataAnalyticsEvents': 'أحداث تحليلات متوقفة افتراضيا',
+      'privacyDataAnalyticsEventsNotes':
+          'ترسل فقط عندما تكون التحليلات مفعلة للبناء ويوافق المستخدم. الأحداث من قائمة مسموح بها وتستبعد الإحداثيات والملاحظات والنصوص الدينية والحالة الدقيقة لوضع عبادة النساء.',
+      'privacyDataFutureAnalyticsCrash': 'تقارير الأعطال',
       'privacyDataFutureAnalyticsCrashNotes':
-          'لا توجد SDK للتحليلات أو تقارير الأعطال في نسخة MVP.',
+          'لم يتم تنفيذ SDK لتقارير الأعطال في نسخة MVP.',
       'privacyDataAccountData': 'بيانات الحساب',
       'privacyDataAccountDataNotes': 'تسجيل الدخول غير مطبق في نسخة MVP.',
       'privacyDataPaymentsSubscriptions': 'المدفوعات والاشتراكات',

@@ -16,14 +16,38 @@ void main() {
     expect(category.userCanDelete, isTrue);
   });
 
-  test('remote content request metadata is the only leaves-device content item',
+  test('remote content and opted-in analytics are leaves-device categories',
       () {
-    final category =
-        PrivacyDataInventory.categoryById('remote_content_request_metadata');
+    final leavesDeviceIds = PrivacyDataInventory.categories
+        .where((category) => category.leavesDevice)
+        .map((category) => category.id);
 
-    expect(category.storageLocation, PrivacyStorageLocation.remoteOptional);
-    expect(category.leavesDevice, isTrue);
-    expect(category.notesKey, 'remoteContentRequestMetadataNotes');
+    expect(
+        leavesDeviceIds,
+        unorderedEquals([
+          'remote_content_request_metadata',
+          'default_off_analytics_events',
+        ]));
+    expect(
+      PrivacyDataInventory.categoryById('remote_content_request_metadata')
+          .notesKey,
+      'remoteContentRequestMetadataNotes',
+    );
+    expect(
+      PrivacyDataInventory.categoryById('default_off_analytics_events')
+          .notesKey,
+      'privacyDataAnalyticsEventsNotes',
+    );
+  });
+
+  test('analytics consent preference is local and deletable', () {
+    final category =
+        PrivacyDataInventory.categoryById('analytics_consent_preference');
+
+    expect(category.storageLocation, PrivacyStorageLocation.localDevice);
+    expect(category.sensitivity, PrivacySensitivity.low);
+    expect(category.leavesDevice, isFalse);
+    expect(category.userCanDelete, isTrue);
   });
 
   test('saved items are marked medium sensitivity and local only', () {
@@ -83,6 +107,10 @@ void main() {
       'privacyDataSavedItemsNotes',
       'privacyDataSessionProgressHistory',
       'privacyDataSessionProgressHistoryNotes',
+      'privacyDataAnalyticsConsent',
+      'privacyDataAnalyticsConsentNotes',
+      'privacyDataAnalyticsEvents',
+      'privacyDataAnalyticsEventsNotes',
       'storePrivacyDraftTitle',
       'privacyPolicyDraftTitle',
       'quranPageTitle',

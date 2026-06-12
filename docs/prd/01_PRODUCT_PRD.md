@@ -19,7 +19,8 @@ v0.1 明确采用：
 - Seed-reviewed minimum content only；不要求 staging CMS。
 - Text-first/session-safe Quran handling；不要求 licensed audio 才能上架，但
   不允许可见 no-op audio CTA。
-- No analytics/crash SDK、no ads、no account、no subscription。
+- Analytics 默认关闭且需用户 opt-in、no crash SDK、no ads、no account、no
+  subscription。
 
 ## 1. 产品定位
 

@@ -163,9 +163,10 @@ flutter build apk --debug \
 Firebase Core/Firebase Analytics, a Google Analytics-compatible event
 whitelist, and a sensitive-parameter sanitizer. Android automatic analytics
 collection and automatic screen reporting are disabled in the manifest by
-default. When analytics is enabled, startup calls `Firebase.initializeApp()` and
-turns Firebase Analytics collection on only if Firebase project configuration
-is available. Store screenshot mode forces analytics off.
+default. When analytics is enabled, startup calls `Firebase.initializeApp()`,
+sets Firebase Analytics collection disabled by default, and then the app-level
+consent sync turns collection on only when Firebase project configuration is
+available and the user has enabled usage analytics in Privacy Center. Store screenshot mode forces analytics off.
 
 `crashReportingEnabled` remains hard-disabled in `AppEnvironmentConfig`.
 Do not enable production analytics or add crash SDKs until privacy review

@@ -630,6 +630,24 @@ class AppLocalizationsId extends AppLocalizations {
       'Bundle konten yang disetujui dapat disimpan di perangkat ini. Permintaan konten jarak jauh dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.';
 
   @override
+  String get analyticsPrivacyTitle => 'Privasi analitik penggunaan';
+
+  @override
+  String get analyticsPrivacyBody =>
+      'Analitik penggunaan nonaktif secara default. Jika diaktifkan dalam build yang ditinjau, Sakinah hanya mengirim event alur aplikasi yang diizinkan dan tidak pernah mengirim koordinat persis, status persis Mode Ibadah Perempuan, teks masukan, atau teks keagamaan.';
+
+  @override
+  String get analyticsOptInTitle => 'Bagikan analitik penggunaan';
+
+  @override
+  String get analyticsOptInAvailableBody =>
+      'Opsional. Membantu meningkatkan pengingat shalat dan retensi sesi hanya dengan nama event yang aman untuk privasi.';
+
+  @override
+  String get analyticsOptInUnavailableBody =>
+      'Pengumpulan analitik nonaktif dalam build ini.';
+
+  @override
   String get deleteLocalDataTitle => 'Hapus data lokal';
 
   @override
@@ -872,12 +890,25 @@ class AppLocalizationsId extends AppLocalizations {
       'Permintaan hanya dapat menyertakan bahasa, pasar, versi aplikasi, dan versi skema.';
 
   @override
-  String get privacyDataFutureAnalyticsCrash =>
-      'Analitik atau crash reporting nanti';
+  String get privacyDataAnalyticsConsent => 'Preferensi persetujuan analitik';
+
+  @override
+  String get privacyDataAnalyticsConsentNotes =>
+      'Disimpan lokal. Mematikannya menonaktifkan pengumpulan Firebase Analytics saat build analitik dikonfigurasi.';
+
+  @override
+  String get privacyDataAnalyticsEvents => 'Event analitik default-nonaktif';
+
+  @override
+  String get privacyDataAnalyticsEventsNotes =>
+      'Hanya dikirim saat analitik diaktifkan untuk build dan pengguna menyetujui. Event memakai daftar yang diizinkan dan mengecualikan koordinat, masukan, teks keagamaan, dan status persis Mode Ibadah Perempuan.';
+
+  @override
+  String get privacyDataFutureAnalyticsCrash => 'Crash reporting';
 
   @override
   String get privacyDataFutureAnalyticsCrashNotes =>
-      'Tidak ada SDK analitik atau crash reporting yang diterapkan di MVP.';
+      'SDK crash-reporting belum diterapkan di MVP.';
 
   @override
   String get privacyDataAccountData => 'Data akun';

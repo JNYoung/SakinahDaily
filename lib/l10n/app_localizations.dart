@@ -1252,6 +1252,36 @@ abstract class AppLocalizations {
   /// **'Approved content bundles can be cached on this device. Remote content requests may include language, market, app version, and schema version.'**
   String get remoteContentPrivacyBody;
 
+  /// No description provided for @analyticsPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage analytics privacy'**
+  String get analyticsPrivacyTitle;
+
+  /// No description provided for @analyticsPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage analytics is default-off. If enabled in a reviewed build, Sakinah sends only whitelisted app-flow events and never sends exact coordinates, Women’s Ibadah Mode exact status, feedback text, or religious text.'**
+  String get analyticsPrivacyBody;
+
+  /// No description provided for @analyticsOptInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share usage analytics'**
+  String get analyticsOptInTitle;
+
+  /// No description provided for @analyticsOptInAvailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Helps improve prayer reminders and session retention with privacy-safe event names only.'**
+  String get analyticsOptInAvailableBody;
+
+  /// No description provided for @analyticsOptInUnavailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics collection is off in this build.'**
+  String get analyticsOptInUnavailableBody;
+
   /// No description provided for @deleteLocalDataTitle.
   ///
   /// In en, this message translates to:
@@ -1666,16 +1696,40 @@ abstract class AppLocalizations {
   /// **'Requests may include language, market, app version, and schema version only.'**
   String get remoteContentRequestMetadataNotes;
 
+  /// No description provided for @privacyDataAnalyticsConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics consent preference'**
+  String get privacyDataAnalyticsConsent;
+
+  /// No description provided for @privacyDataAnalyticsConsentNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored locally. Turning it off disables Firebase Analytics collection when analytics builds are configured.'**
+  String get privacyDataAnalyticsConsentNotes;
+
+  /// No description provided for @privacyDataAnalyticsEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Default-off analytics events'**
+  String get privacyDataAnalyticsEvents;
+
+  /// No description provided for @privacyDataAnalyticsEventsNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Only sent when analytics is enabled for the build and the user opts in. Events are whitelisted and exclude coordinates, feedback, religious text, and Women’s Ibadah Mode exact status.'**
+  String get privacyDataAnalyticsEventsNotes;
+
   /// No description provided for @privacyDataFutureAnalyticsCrash.
   ///
   /// In en, this message translates to:
-  /// **'Future analytics or crash reporting'**
+  /// **'Crash reporting'**
   String get privacyDataFutureAnalyticsCrash;
 
   /// No description provided for @privacyDataFutureAnalyticsCrashNotes.
   ///
   /// In en, this message translates to:
-  /// **'No analytics or crash-reporting SDK is implemented in MVP.'**
+  /// **'Crash-reporting SDK is not implemented in MVP.'**
   String get privacyDataFutureAnalyticsCrashNotes;
 
   /// No description provided for @privacyDataAccountData.

@@ -89,7 +89,7 @@ cat >"$out_dir/privacy/index.html" <<EOF
 
       <h2>Summary</h2>
       <p>Sakinah Daily is a privacy-first daily prayer companion. The v0.1 app is designed around local preferences, local prayer reminders, approved content, and clear user controls.</p>
-      <p>No ads, tracking SDK, crash SDK, or default-on analytics collection are included in the v0.1 release. Firebase Analytics is present for reviewed retention measurement, but collection is disabled unless a build explicitly enables <code>SAKINAH_ANALYTICS_ENABLED=true</code> with Firebase configuration.</p>
+      <p>No ads, tracking SDK, crash SDK, or default-on analytics collection are included in the v0.1 release. Firebase Analytics is present for reviewed retention measurement, but collection is disabled unless a build explicitly enables <code>SAKINAH_ANALYTICS_ENABLED=true</code> with Firebase configuration and the user turns on usage analytics in Privacy Center.</p>
 
       <h2>Data Stored On Device</h2>
       <ul>

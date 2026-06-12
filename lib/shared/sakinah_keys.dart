@@ -179,6 +179,8 @@ abstract final class SakinahKeys {
   static const privacyCenterPage = ValueKey<String>('privacy_center_page');
   static const privacyPolicyLinkTile =
       ValueKey<String>('privacy_policy_link_tile');
+  static const privacyAnalyticsSwitch =
+      ValueKey<String>('privacy_analytics_switch');
   static const contentSourcesPage = ValueKey<String>('content_sources_page');
   static const closedTestingGuidePage =
       ValueKey<String>('closed_testing_guide_page');

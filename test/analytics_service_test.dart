@@ -1,4 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sakinah_daily/core/config/app_environment.dart';
+import 'package:sakinah_daily/core/providers/app_providers.dart';
+import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/analytics_service.dart';
 
 void main() {
@@ -152,7 +156,7 @@ void main() {
       expect(collectionController.values, isEmpty);
     });
 
-    test('firebase bootstrap enables analytics collection after init',
+    test('firebase bootstrap initializes Firebase with collection disabled',
         () async {
       var initialized = false;
       final collectionController = _FakeAnalyticsCollectionController();
@@ -168,22 +172,68 @@ void main() {
 
       expect(initializedBackend, isTrue);
       expect(initialized, isTrue);
-      expect(collectionController.values, [true]);
+      expect(collectionController.values, [false]);
     });
 
     test('firebase bootstrap fails closed when Firebase is not configured',
         () async {
-      final collectionController = _FakeAnalyticsCollectionController();
       final bootstrap = FirebaseAnalyticsBootstrap(
         analyticsEnabled: true,
         initializeFirebase: () async => throw StateError('missing config'),
-        collectionControllerFactory: () => collectionController,
       );
 
       final initializedBackend = await bootstrap.initialize();
 
       expect(initializedBackend, isFalse);
-      expect(collectionController.values, isEmpty);
+    });
+
+    test('provider requires user opt-in and syncs collection consent',
+        () async {
+      final preferencesStore = InMemoryUserPreferencesStore();
+      final collectionController = _FakeAnalyticsCollectionController();
+      final container = ProviderContainer(
+        overrides: [
+          appEnvironmentConfigProvider.overrideWithValue(
+            AppEnvironmentConfig.fromMap(
+              const {
+                'SAKINAH_APP_ENV': 'prod',
+                'SAKINAH_ANALYTICS_ENABLED': 'true',
+              },
+            ),
+          ),
+          userPreferencesStoreProvider.overrideWithValue(preferencesStore),
+          analyticsCollectionControllerProvider.overrideWithValue(
+            collectionController,
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      await container.read(userPreferencesProvider.notifier).load();
+
+      expect(container.read(analyticsServiceProvider),
+          isA<StubAnalyticsService>());
+      container.read(analyticsCollectionConsentSyncProvider);
+      expect(collectionController.values.last, isFalse);
+
+      await container
+          .read(userPreferencesProvider.notifier)
+          .setAnalyticsOptIn(true);
+
+      expect(
+        container.read(analyticsServiceProvider),
+        isA<FirebaseAnalyticsService>(),
+      );
+      container.read(analyticsCollectionConsentSyncProvider);
+      expect(collectionController.values.last, isTrue);
+
+      await container
+          .read(userPreferencesProvider.notifier)
+          .setAnalyticsOptIn(false);
+
+      expect(container.read(analyticsServiceProvider),
+          isA<StubAnalyticsService>());
+      container.read(analyticsCollectionConsentSyncProvider);
+      expect(collectionController.values.last, isFalse);
     });
   });
 }

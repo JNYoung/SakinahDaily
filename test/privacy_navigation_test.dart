@@ -61,6 +61,62 @@ void main() {
         find.textContaining('secret-token-that-must-not-render'), findsNothing);
   });
 
+  testWidgets('Privacy Center disables analytics control in default builds',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/privacy',
+      settleSplash: false,
+    );
+    await tester.pumpAndSettle();
+
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.privacyAnalyticsSwitch),
+    );
+    final analyticsSwitch = tester.widget<Switch>(
+      find.byKey(SakinahKeys.privacyAnalyticsSwitch),
+    );
+
+    expect(analyticsSwitch.value, isFalse);
+    expect(analyticsSwitch.onChanged, isNull);
+    expect(find.text('Analytics collection is off in this build.'),
+        findsOneWidget);
+  });
+
+  testWidgets('Privacy Center stores analytics opt-in when build allows it',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final preferencesRepository = UserPreferencesRepository(preferencesStore);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/privacy',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      appEnvironmentConfig: AppEnvironmentConfig.fromMap(
+        const {
+          'SAKINAH_APP_ENV': 'prod',
+          'SAKINAH_ANALYTICS_ENABLED': 'true',
+        },
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.privacyAnalyticsSwitch),
+    );
+    await tester.tap(find.byKey(SakinahKeys.privacyAnalyticsSwitch));
+    await tester.pumpAndSettle();
+
+    final analyticsSwitch = tester.widget<Switch>(
+      find.byKey(SakinahKeys.privacyAnalyticsSwitch),
+    );
+    expect(analyticsSwitch.value, isTrue);
+    expect((await preferencesRepository.load()).analyticsOptIn, isTrue);
+  });
+
   testWidgets('Privacy Center shows and copies configured public policy URL',
       (tester) async {
     final copiedValues = <String>[];

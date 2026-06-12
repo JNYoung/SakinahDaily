@@ -61,8 +61,8 @@ Required statements remain true in MVP:
 - No tracking SDK.
 - Firebase Analytics SDK is present but default-off; Android automatic
   collection is disabled, and production telemetry requires
-  `SAKINAH_ANALYTICS_ENABLED=true`, Firebase project configuration, and reviewed
-  Data Safety declarations.
+  `SAKINAH_ANALYTICS_ENABLED=true`, Firebase project configuration, user opt-in
+  from Privacy Center, and reviewed Data Safety declarations.
 - No crash-reporting SDK.
 - No account login.
 - No payments.

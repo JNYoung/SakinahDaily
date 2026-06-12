@@ -149,6 +149,10 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
     );
   }
 
+  Future<void> setAnalyticsOptIn(bool enabled) async {
+    await _commit(state.copyWith(analyticsOptIn: enabled));
+  }
+
   Future<void> setClosedTestingPromptCompleted(
     String promptDayId,
     bool completed,
@@ -465,11 +469,45 @@ final contentRepositoryProvider = Provider<ContentRepository>((ref) {
 
 final analyticsServiceProvider = Provider<AnalyticsService>((ref) {
   final environment = ref.watch(appEnvironmentConfigProvider);
-  if (environment.analyticsEnabled) {
+  final preferences = ref.watch(userPreferencesProvider);
+  if (environment.analyticsEnabled && preferences.analyticsOptIn) {
     return FirebaseAnalyticsService(enabled: true);
   }
   return StubAnalyticsService(enabled: false);
 });
+
+final analyticsCollectionControllerProvider =
+    Provider<AnalyticsCollectionController>((ref) {
+  return FirebaseAnalyticsEventSink();
+});
+
+final analyticsCollectionConsentSyncProvider = Provider<void>((ref) {
+  final environment = ref.watch(appEnvironmentConfigProvider);
+  if (!environment.analyticsEnabled) {
+    return;
+  }
+  final preferences = ref.watch(userPreferencesProvider);
+  final collectionController = ref.watch(analyticsCollectionControllerProvider);
+  _setAnalyticsCollectionEnabledSafely(
+    collectionController,
+    preferences.analyticsOptIn,
+  );
+});
+
+void _setAnalyticsCollectionEnabledSafely(
+  AnalyticsCollectionController collectionController,
+  bool enabled,
+) {
+  try {
+    unawaited(
+      collectionController
+          .setCollectionEnabled(enabled)
+          .catchError((Object _) {}),
+    );
+  } catch (_) {
+    // Firebase may be absent in local tests or unconfigured builds.
+  }
+}
 
 final prayerCalculationServiceProvider = Provider<PrayerCalculationService>(
   (ref) => PrayerCalculationService(),

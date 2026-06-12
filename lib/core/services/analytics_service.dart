@@ -211,7 +211,7 @@ class FirebaseAnalyticsBootstrap {
     }
     try {
       await _initializeFirebase();
-      await _collectionControllerFactory().setCollectionEnabled(true);
+      await _collectionControllerFactory().setCollectionEnabled(false);
       return true;
     } catch (_) {
       return false;
