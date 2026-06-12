@@ -247,6 +247,33 @@ class AnalyticsParameterPolicy {
     'source',
   };
 
+  static const _duaViewedKeys = {
+    'content_id',
+    'screen',
+    'source',
+  };
+
+  static const _duaSavedKeys = {
+    'content_id',
+    'enabled',
+    'source',
+  };
+
+  static const _dhikrStartedKeys = {
+    'content_id',
+    'source',
+  };
+
+  static const _dhikrCompletedKeys = {
+    'content_id',
+    'source',
+  };
+
+  static const _womenIbadahModeChangedKeys = {
+    'enabled',
+    'source',
+  };
+
   static Map<String, Object> sanitize(
     Map<String, Object?> properties, {
     String? eventName,
@@ -314,6 +341,12 @@ class AnalyticsParameterPolicy {
         _dailySessionStepViewedKeys.contains(key),
       AnalyticsEventCatalog.dailySessionCompleted =>
         _dailySessionCompletedKeys.contains(key),
+      AnalyticsEventCatalog.duaViewed => _duaViewedKeys.contains(key),
+      AnalyticsEventCatalog.duaSaved => _duaSavedKeys.contains(key),
+      AnalyticsEventCatalog.dhikrStarted => _dhikrStartedKeys.contains(key),
+      AnalyticsEventCatalog.dhikrCompleted => _dhikrCompletedKeys.contains(key),
+      AnalyticsEventCatalog.womenIbadahModeChanged =>
+        _womenIbadahModeChangedKeys.contains(key),
       _ => true,
     };
   }

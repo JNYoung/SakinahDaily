@@ -358,8 +358,9 @@ Retention observation preparation:
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
   prayer reminder changes, aggregate prayer checklist updates, Daily Session
   start/step/completion, Daily Session reminder opt-in and setting changes,
-  handled local notification opens, analytics consent changes, saved Dua/Dhikr
-  actions, and closed-test prompt actions.
+  handled local notification opens, analytics consent changes, Dua detail/save
+  actions, Dhikr counter start/completion actions, Women's Ibadah Mode
+  enabled-state changes, and closed-test prompt actions.
   Prayer reminder analytics now carries only a controlled source such as
   `settings`, `home_prayer_card`, `prayer_page_card`, or
   `prayer_completion_card`, so Home-card, Prayer-page, and Prayer
@@ -387,6 +388,10 @@ Retention observation preparation:
   and Home retention events, and Women's Ibadah Mode exact status before the
   Firebase Analytics adapter can send events. Privacy Center now exposes the
   user analytics opt-in for analytics-enabled builds.
+  Dua/Dhikr secondary-feature analytics keeps only content IDs and controlled
+  sources, while Women's Ibadah Mode analytics keeps only enabled state and
+  `source=women_mode`, so usage can be reviewed without transmitting exact
+  status, health notes, Arabic text, translations, or free text.
 - `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` and
   `scripts/export_google_play_closed_test_retention_packet.sh` prepare local
   Day 1 / Day 3 / Day 7 / Day 14 observation templates for Production access

@@ -267,6 +267,11 @@ Status: Draft for release/store review.
   with coarse content type and `source=local_notification`.
   Daily Session reminder analytics is limited to enabled state, source, change
   type, and session ID; exact reminder time is not sent.
+  Dua detail/save analytics is limited to content ID, source/screen, and saved
+  enabled state. Dhikr counter analytics is limited to start/completion content
+  ID and source. Women's Ibadah Mode analytics is limited to enabled state and
+  source; exact status, health details, religious text, and free text are not
+  sent.
 - [x] No exact GPS permission is added.
 - [x] Onboarding offers preset prayer-location setup and states that GPS
   permission is not requested in v0.1.

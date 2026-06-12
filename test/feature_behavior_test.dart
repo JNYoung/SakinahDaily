@@ -193,6 +193,38 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Dua detail records privacy-safe view and save analytics',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/dua/dua_ease',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+
+    final viewEvent = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.duaViewed,
+    );
+    expect(viewEvent.properties, {
+      'content_id': 'dua_ease',
+      'screen': 'dua_detail',
+      'source': 'direct',
+    });
+
+    await tapByKey(tester, SakinahKeys.duaSaveButton);
+
+    final saveEvent = analytics.events.lastWhere(
+      (event) => event.name == AnalyticsEventCatalog.duaSaved,
+    );
+    expect(saveEvent.properties, {
+      'content_id': 'dua_ease',
+      'enabled': true,
+      'source': 'dua_detail',
+    });
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Dua library filters by category and searches content',
       (tester) async {
     await pumpSakinahApp(
@@ -263,12 +295,55 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Dhikr counter records start and completion analytics',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/dhikr/dhikr_subhanallah',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+
+    final counter = find.byKey(SakinahKeys.dhikrCounter);
+    expect(counter, findsOneWidget);
+
+    await tester.tap(counter);
+    await tester.pumpAndSettle();
+
+    final startEvent = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.dhikrStarted,
+    );
+    expect(startEvent.properties, {
+      'content_id': 'dhikr_subhanallah',
+      'source': 'dhikr_counter',
+    });
+
+    for (var tapCount = 1; tapCount < 33; tapCount += 1) {
+      await tester.tap(counter);
+      await tester.pump();
+    }
+    await tester.pumpAndSettle();
+
+    final completionEvent = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.dhikrCompleted,
+    );
+    expect(completionEvent.properties, {
+      'content_id': 'dhikr_subhanallah',
+      'source': 'dhikr_counter',
+    });
+    expect(find.text('33 / 33'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Women mode stays local and toggles sensitive-day state',
       (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/settings/women',
       settleSplash: false,
+      analyticsService: analytics,
     );
 
     expect(find.text('Data stays local by default'), findsOneWidget);
@@ -283,6 +358,13 @@ void main() {
     );
     expect(
         _choiceChip(tester, SakinahKeys.womenModeNormalChip).selected, isFalse);
+    final enabledEvent = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.womenIbadahModeChanged,
+    );
+    expect(enabledEvent.properties, {
+      'enabled': true,
+      'source': 'women_mode',
+    });
 
     await tester.scrollUntilVisible(find.text('What changes locally'), 240);
     expect(find.text('What changes locally'), findsOneWidget);

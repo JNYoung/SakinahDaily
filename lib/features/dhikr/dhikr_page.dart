@@ -8,6 +8,7 @@ import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/saved_item.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../shared/content_discovery.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -30,6 +31,7 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
   String selectedCategory = allContentCategory;
   String? selectedId;
   int count = 0;
+  String? _completedDhikrId;
 
   @override
   void initState() {
@@ -92,7 +94,7 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
             onChanged: (_) {
               setState(() {
                 selectedId = null;
-                count = 0;
+                _resetCounter();
               });
             },
           ),
@@ -110,7 +112,7 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
                     setState(() {
                       selectedCategory = category;
                       selectedId = null;
-                      count = 0;
+                      _resetCounter();
                     });
                   },
                 ),
@@ -153,7 +155,7 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
                       onTap: () {
                         setState(() {
                           selectedId = dhikr.id;
-                          count = 0;
+                          _resetCounter();
                         });
                       },
                       padding: const EdgeInsets.all(16),
@@ -197,7 +199,7 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
                 key: SakinahKeys.dhikrCounter,
                 count: count,
                 target: selected.targetCount,
-                onTap: () => setState(() => count += 1),
+                onTap: () => _incrementDhikr(selected),
               ),
             ),
             const SizedBox(height: 24),
@@ -238,6 +240,35 @@ class _DhikrPageState extends ConsumerState<DhikrPage> {
             .where((dhikr) => dhikr.id == selectedId)
             .firstOrNull ??
         filteredDhikrs.first;
+  }
+
+  void _resetCounter() {
+    count = 0;
+    _completedDhikrId = null;
+  }
+
+  void _incrementDhikr(DhikrItem selected) {
+    final nextCount = count + 1;
+    if (count == 0) {
+      ref.read(analyticsServiceProvider).track(
+        AnalyticsEventCatalog.dhikrStarted,
+        {
+          'content_id': selected.id,
+          'source': 'dhikr_counter',
+        },
+      );
+    }
+    if (nextCount >= selected.targetCount && _completedDhikrId != selected.id) {
+      _completedDhikrId = selected.id;
+      ref.read(analyticsServiceProvider).track(
+        AnalyticsEventCatalog.dhikrCompleted,
+        {
+          'content_id': selected.id,
+          'source': 'dhikr_counter',
+        },
+      );
+    }
+    setState(() => count = nextCount);
   }
 }
 

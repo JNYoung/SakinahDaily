@@ -7,24 +7,32 @@ import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/saved_item.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
 import '../../shared/widgets/source_chip.dart';
 
-class DuaDetailPage extends ConsumerWidget {
+class DuaDetailPage extends ConsumerStatefulWidget {
   const DuaDetailPage({required this.duaId, super.key});
 
   final String duaId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DuaDetailPage> createState() => _DuaDetailPageState();
+}
+
+class _DuaDetailPageState extends ConsumerState<DuaDetailPage> {
+  String? _trackedDuaId;
+
+  @override
+  Widget build(BuildContext context) {
     final repo = ref.watch(contentRepositoryProvider);
     final languageCode = ref.watch(userPreferencesProvider).languageCode;
     final savedItems = ref.watch(savedItemsProvider);
     final l10n = SakinahLocalizations.of(context);
-    final dua = repo.getDua(duaId);
+    final dua = repo.getDua(widget.duaId);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     if (dua == null) {
@@ -37,6 +45,17 @@ class DuaDetailPage extends ConsumerWidget {
     final isSaved = savedItems.any(
       (item) => item.itemType == SavedItemType.dua && item.itemId == dua.id,
     );
+    if (_trackedDuaId != dua.id) {
+      _trackedDuaId = dua.id;
+      ref.read(analyticsServiceProvider).track(
+        AnalyticsEventCatalog.duaViewed,
+        {
+          'content_id': dua.id,
+          'screen': 'dua_detail',
+          'source': 'direct',
+        },
+      );
+    }
 
     return LanguageAwareScaffold(
       title: l10n.t('makeDua'),
@@ -79,6 +98,14 @@ class DuaDetailPage extends ConsumerWidget {
                     );
                     unawaited(
                       ref.read(savedItemsProvider.notifier).toggle(item),
+                    );
+                    ref.read(analyticsServiceProvider).track(
+                      AnalyticsEventCatalog.duaSaved,
+                      {
+                        'content_id': dua.id,
+                        'enabled': !isSaved,
+                        'source': 'dua_detail',
+                      },
                     );
                   },
                 ),

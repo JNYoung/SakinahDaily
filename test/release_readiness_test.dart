@@ -251,6 +251,11 @@ void main() {
       expect(analyticsService, contains('prayer_checkin_days_7d'));
       expect(analyticsService, contains('prayers_completed_today'));
       expect(analyticsService, contains('closed_test_prompt_copied'));
+      expect(analyticsService, contains('dua_viewed'));
+      expect(analyticsService, contains('dua_saved'));
+      expect(analyticsService, contains('dhikr_started'));
+      expect(analyticsService, contains('dhikr_completed'));
+      expect(analyticsService, contains('women_ibadah_mode_changed'));
       expect(analyticsService, contains('theme_key'));
       expect(analyticsService, contains('women_ibadah_status'));
       expect(analyticsService, contains('latitude'));
@@ -278,6 +283,10 @@ void main() {
         analyticsTest,
         contains(
             'notification settings view analytics keeps safe reminder state metadata'),
+      );
+      expect(
+        analyticsTest,
+        contains('secondary feature analytics keeps only safe usage metadata'),
       );
       expect(
         analyticsTest,
@@ -1832,6 +1841,11 @@ void main() {
       expect(events, contains('daily_session_reminder_permission_result'));
       expect(events, contains('daily_session_reminder_changed'));
       expect(events, contains('home_session_completion'));
+      expect(events, contains('dua_viewed'));
+      expect(events, contains('dua_saved'));
+      expect(events, contains('dhikr_started'));
+      expect(events, contains('dhikr_completed'));
+      expect(events, contains('women_ibadah_mode_changed'));
       expect(events, contains('closed_test_prompt_copied'));
 
       expect(funnel, contains('Prayer Reminder Opt-in Rate'));
@@ -1853,6 +1867,9 @@ void main() {
       expect(funnel, contains('session_to_reminder'));
       expect(funnel, contains('daily_session_reminder_changed'));
       expect(funnel, contains('home_session_completion'));
+      expect(funnel, contains('Dua Detail View Rate'));
+      expect(funnel, contains('Dhikr Completion Rate'));
+      expect(funnel, contains('Women Mode Trust Signal'));
 
       expect(blocked, contains('latitude'));
       expect(blocked, contains('longitude'));

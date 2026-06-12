@@ -86,6 +86,11 @@ for needle in \
   'notification_tap_opened' \
   'daily_session_reminder_permission_result' \
   'daily_session_reminder_changed' \
+  'dua_viewed' \
+  'dua_saved' \
+  'dhikr_started' \
+  'dhikr_completed' \
+  'women_ibadah_mode_changed' \
   'home_session_completion' \
   'DebugView QA packet'; do
   require_text "$analytics_plan" "$needle"
@@ -104,6 +109,11 @@ require_text "$analytics_service" 'notification_settings_viewed'
 require_text "$analytics_service" 'prayer_reminder_permission_result'
 require_text "$analytics_service" 'daily_session_reminder_permission_result'
 require_text "$analytics_service" 'daily_session_reminder_changed'
+require_text "$analytics_service" 'dua_viewed'
+require_text "$analytics_service" 'dua_saved'
+require_text "$analytics_service" 'dhikr_started'
+require_text "$analytics_service" 'dhikr_completed'
+require_text "$analytics_service" 'women_ibadah_mode_changed'
 require_text "$analytics_service" 'prayer_checkin_days_7d'
 require_text "$privacy_center" 'privacyAnalyticsSwitch'
 require_text "$privacy_center" 'setAnalyticsOptIn'
@@ -165,6 +175,11 @@ daily_session_step_viewed,session_step,"session_id|step_id|step_index|source","c
 daily_session_completed,session_complete,"session_id|source","quran_arabic_text|reflection_text|translation|feedback_text",Daily Session Completion Rate
 daily_session_reminder_permission_result,session_reminder_permission,"session_id|enabled|source|change_type","reminder_time|route|women_ibadah_status|feedback_text|note",Daily Session Reminder Permission Outcome Rate
 daily_session_reminder_changed,session_to_reminder,"session_id|enabled|source=home_session_completion|change_type","reminder_time|women_ibadah_status|feedback_text",Daily Session Reminder Opt-in Rate
+dua_viewed,dua_detail,"content_id|screen|source","arabic_text|translation|feedback_text",Dua Detail View Rate
+dua_saved,dua_save,"content_id|enabled|source","arabic_text|translation|title|body|feedback_text",Dua Save Rate
+dhikr_started,dhikr_counter,"content_id|source","arabic_text|translation|current_count|women_ibadah_status",Dhikr Start Rate
+dhikr_completed,dhikr_counter,"content_id|source","arabic_text|translation|current_count|women_ibadah_status",Dhikr Completion Rate
+women_ibadah_mode_changed,women_mode,"enabled|source","women_ibadah_status|health_note|menstruation|postpartum|pregnancy",Women Mode Trust Signal
 closed_test_prompt_copied,closed_test_feedback,"prompt_day|theme_key|source","feedback_text|email|tester_name",Closed-test prompt usage
 closed_test_prompt_marked_sent,closed_test_feedback,"prompt_day|theme_key|source","feedback_text|email|tester_name",Closed-test prompt usage
 EOF
@@ -183,6 +198,11 @@ Daily Session Start Rate,/session/:id,daily_session_started,home or bottom_navig
 Daily Session Step Drop-off,/session/:id,daily_session_step_viewed,home or prayer_completion,step_id and step_index only,no quran/dua/reflection text
 Daily Session Reminder Permission Outcome Rate,session reminder permission flow,daily_session_reminder_permission_result,"settings, session_completion, or home_session_completion",scheduled or denied outcome only,no route exact reminder time women mode status routine notes or free text
 Session To Reminder,/home completed-session CTA,daily_session_reminder_changed,home_session_completion,session_to_reminder enabled true,no exact reminder time
+Dua Detail View Rate,/dua/:id,dua_viewed,direct,content_id screen and source only,no dua text or translation
+Dua Save Rate,/dua/:id save toggle,dua_saved,dua_detail,enabled state only,no dua text title or feedback
+Dhikr Start Rate,/dhikr counter first tap,dhikr_started,dhikr_counter,content_id and source only,no dhikr text or count trail
+Dhikr Completion Rate,/dhikr counter reaches target,dhikr_completed,dhikr_counter,content_id and source only,no dhikr text or count trail
+Women Mode Trust Signal,/settings/women,women_ibadah_mode_changed,women_mode,enabled state only,no exact women mode status or health details
 Closed-test Prompt Usage,/settings/testing-guide,closed_test_prompt_copied,closed_testing_guide,prompt_day and theme_key only,no feedback text/email
 EOF
 
@@ -235,6 +255,9 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Five local prayer check-ins leading to a Daily Session entry point.
 - Daily Session start, step view, and completion.
 - Home completed-session CTA to Notification Settings, then daily session reminder opt-in with source \`home_session_completion\`.
+- Dua detail open and save toggle.
+- Dhikr counter first tap and target completion.
+- Women's Ibadah Mode enabled/disabled change.
 - Closed testing guide prompt copy.
 
 ## DebugView Privacy Review
@@ -247,6 +270,9 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Verify \`analytics_consent_changed\` keeps only enabled state and source.
 - Verify \`daily_session_reminder_permission_result\` keeps only session ID, enabled result, controlled source, and coarse outcome.
 - Verify \`daily_session_reminder_changed\` keeps only session ID, enabled state, controlled source, and coarse change type.
+- Verify \`dua_viewed\` and \`dua_saved\` keep only content ID, source/screen, and enabled state where relevant.
+- Verify \`dhikr_started\` and \`dhikr_completed\` keep only content ID and source.
+- Verify \`women_ibadah_mode_changed\` keeps only enabled state and source.
 - Verify Home retention events keep aggregate counts only.
 EOF
 
