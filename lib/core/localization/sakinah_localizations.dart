@@ -95,6 +95,8 @@ class SakinahLocalizations {
       'currentStreak': 'Current streak',
       'completedThisWeek': 'Completed this week',
       'progressLocalOnly': 'Progress stays on this device only.',
+      'prayersToday': 'Prayers today',
+      'prayerCheckInsLocalOnly': 'Prayer check-ins stay on this device only.',
       'saveSession': 'Save session',
       'sessionSaved': 'Session saved',
       'openSavedItems': 'Open Saved Items',
@@ -149,6 +151,10 @@ class SakinahLocalizations {
       'todaysPrayerTimes': "Today's prayer times",
       'currentPrayerStatus': 'Current',
       'nextPrayerStatus': 'Next',
+      'todaysPrayerCheckIn': "Today's prayer check-in",
+      'prayerCheckInBody':
+          'Mark prayers you have completed. Stored locally only.',
+      'prayerCompletedStatus': 'Completed',
       'prayerReminderSubtitle': 'Permission is requested after explanation.',
       'prayerReminderChoicesTitle': 'Prayer reminder choices',
       'prayerReminderChoicesBody':
@@ -374,6 +380,9 @@ class SakinahLocalizations {
       'privacyDataSessionProgressHistory': 'Session progress history',
       'privacyDataSessionProgressHistoryNotes':
           'Session progress and completion records store session IDs and timestamps locally only.',
+      'privacyDataPrayerCompletionHistory': 'Prayer completion history',
+      'privacyDataPrayerCompletionHistoryNotes':
+          'Prayer check-ins store prayer names and local completion timestamps on this device only.',
       'privacyDataLocalPushDebug': 'Local push payload debug data',
       'privacyDataLocalPushDebugNotes':
           'No persistent client-side debug queue is collected in MVP.',
@@ -549,6 +558,8 @@ class SakinahLocalizations {
       'currentStreak': 'Rangkaian hari',
       'completedThisWeek': 'Selesai pekan ini',
       'progressLocalOnly': 'Progres tetap hanya di perangkat ini.',
+      'prayersToday': 'Shalat hari ini',
+      'prayerCheckInsLocalOnly': 'Catatan shalat tetap hanya di perangkat ini.',
       'saveSession': 'Simpan sesi',
       'sessionSaved': 'Sesi tersimpan',
       'openSavedItems': 'Buka Item Tersimpan',
@@ -602,6 +613,10 @@ class SakinahLocalizations {
       'todaysPrayerTimes': 'Waktu shalat hari ini',
       'currentPrayerStatus': 'Saat ini',
       'nextPrayerStatus': 'Berikutnya',
+      'todaysPrayerCheckIn': 'Catatan shalat hari ini',
+      'prayerCheckInBody':
+          'Tandai shalat yang sudah kamu selesaikan. Disimpan hanya di perangkat ini.',
+      'prayerCompletedStatus': 'Selesai',
       'prayerReminderSubtitle': 'Izin diminta setelah penjelasan.',
       'prayerReminderChoicesTitle': 'Pilihan pengingat shalat',
       'prayerReminderChoicesBody':
@@ -827,6 +842,9 @@ class SakinahLocalizations {
       'privacyDataSessionProgressHistory': 'Riwayat progres sesi',
       'privacyDataSessionProgressHistoryNotes':
           'Progres sesi dan catatan selesai hanya menyimpan ID sesi dan waktu secara lokal.',
+      'privacyDataPrayerCompletionHistory': 'Riwayat penyelesaian shalat',
+      'privacyDataPrayerCompletionHistoryNotes':
+          'Catatan shalat menyimpan nama shalat dan waktu selesai lokal hanya di perangkat ini.',
       'privacyDataLocalPushDebug': 'Data debug payload push lokal',
       'privacyDataLocalPushDebugNotes':
           'Tidak ada antrean debug klien yang persisten di MVP.',
@@ -999,6 +1017,8 @@ class SakinahLocalizations {
       'currentStreak': 'السلسلة الحالية',
       'completedThisWeek': 'اكتمل هذا الأسبوع',
       'progressLocalOnly': 'يبقى التقدم على هذا الجهاز فقط.',
+      'prayersToday': 'الصلوات اليوم',
+      'prayerCheckInsLocalOnly': 'تبقى علامات الصلاة على هذا الجهاز فقط.',
       'saveSession': 'حفظ الجلسة',
       'sessionSaved': 'تم حفظ الجلسة',
       'openSavedItems': 'فتح العناصر المحفوظة',
@@ -1052,6 +1072,10 @@ class SakinahLocalizations {
       'todaysPrayerTimes': 'أوقات الصلاة اليوم',
       'currentPrayerStatus': 'الحالية',
       'nextPrayerStatus': 'التالية',
+      'todaysPrayerCheckIn': 'متابعة صلوات اليوم',
+      'prayerCheckInBody':
+          'علّم الصلوات التي أديتها. تُحفظ على هذا الجهاز فقط.',
+      'prayerCompletedStatus': 'مكتملة',
       'prayerReminderSubtitle': 'يطلب الإذن بعد الشرح.',
       'prayerReminderChoicesTitle': 'اختيارات تذكيرات الصلاة',
       'prayerReminderChoicesBody':
@@ -1274,6 +1298,9 @@ class SakinahLocalizations {
       'privacyDataSessionProgressHistory': 'سجل تقدم الجلسات',
       'privacyDataSessionProgressHistoryNotes':
           'يحفظ تقدم الجلسات وسجلات الإكمال معرفات الجلسات والأوقات محليا فقط.',
+      'privacyDataPrayerCompletionHistory': 'سجل إكمال الصلاة',
+      'privacyDataPrayerCompletionHistoryNotes':
+          'تحفظ علامات الصلاة أسماء الصلوات وأوقات الإكمال المحلية على هذا الجهاز فقط.',
       'privacyDataLocalPushDebug': 'بيانات تصحيح رسائل الدفع المحلية',
       'privacyDataLocalPushDebugNotes':
           'لا تجمع قائمة تصحيح مستمرة على العميل في نسخة MVP.',

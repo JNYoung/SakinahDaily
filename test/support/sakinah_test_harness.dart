@@ -7,6 +7,7 @@ import 'package:sakinah_daily/core/config/app_environment.dart';
 import 'package:sakinah_daily/core/config/content_api_config.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
+import 'package:sakinah_daily/core/repositories/prayer_completion_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
@@ -29,6 +30,7 @@ Future<void> pumpSakinahApp(
   UserPreferencesStore? preferencesStore,
   ContentCacheStore? contentCacheStore,
   SavedItemsStore? savedItemsStore,
+  PrayerCompletionStore? prayerCompletionStore,
   SessionProgressStore? sessionProgressStore,
   ContentApiConfig? contentApiConfig,
   AppEnvironmentConfig? appEnvironmentConfig,
@@ -65,6 +67,9 @@ Future<void> pumpSakinahApp(
         ),
         savedItemsStoreProvider.overrideWithValue(
           savedItemsStore ?? InMemorySavedItemsStore(),
+        ),
+        prayerCompletionStoreProvider.overrideWithValue(
+          prayerCompletionStore ?? InMemoryPrayerCompletionStore(),
         ),
         sessionProgressStoreProvider.overrideWithValue(
           sessionProgressStore ?? InMemorySessionProgressStore(),

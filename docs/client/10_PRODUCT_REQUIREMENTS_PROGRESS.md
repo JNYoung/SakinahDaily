@@ -76,6 +76,9 @@ Completed:
 - Prayer page now gives the full-day list an explicit localized "Today's
   prayer times" heading, so users can recognize it as the all-day Fajr, Dhuhr,
   Asr, Maghrib, and Isha schedule rather than a loose utility list.
+- Prayer page now includes a local-only "Today's prayer check-in" checklist for
+  Fajr, Dhuhr, Asr, Maghrib, and Isha, and Home summarizes the completed count
+  as "Prayers today" inside the local progress card.
 - Home can show next prayer countdown from the active prayer settings.
 - Home's first-screen prayer card explicitly labels the selected prayer
   location, calculation method, and prayer reminder status in English,
@@ -103,8 +106,8 @@ Completed:
 - Local prayer reminder taps, including cold-start taps, route to `/prayer`.
 - Women’s Mode notification copy avoids sensitive lock-screen state.
 - Android store screenshots now verify Home/Prayer current-next prayer labels,
-  notification settings, manual location, privacy copy, and Arabic RTL layout
-  across English, Bahasa Indonesia, and Arabic.
+  prayer check-ins, notification settings, manual location, privacy copy, and
+  Arabic RTL layout across English, Bahasa Indonesia, and Arabic.
 - Real-device short-delay prayer reminder QA on `SC65XWPZ7DLNUSTC` delivered
   through `sakinah_prayer_reminders` with the user-visible Fajr prayer copy, and
   tapping the notification opened the Prayer tab.
@@ -274,12 +277,13 @@ Retention observation preparation:
   Analytics is disabled unless `SAKINAH_ANALYTICS_ENABLED=true` and Firebase
   project configuration are provided and the user opts in from Privacy Center:
   Prayer Reminder Opt-in Rate, D1 / D7 Retention, prayer view feedback,
-  reminder usefulness or annoyance, Daily Session start signal, and Privacy
-  Center trust.
+  local prayer check-in usage count, reminder usefulness or annoyance, Daily
+  Session start signal, and Privacy Center trust.
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
-  prayer reminder changes, Daily Session start/completion, saved Dua/Dhikr
-  actions, and closed-test prompt actions. It is default-off and strips
-  coordinates, feedback text, religious text, and Women's Ibadah Mode exact
+  prayer reminder changes, aggregate prayer checklist updates, Daily Session
+  start/completion, saved Dua/Dhikr actions, and closed-test prompt actions. It
+  is default-off and strips coordinates, feedback text, religious text, exact
+  prayer completion names for checklist updates, and Women's Ibadah Mode exact
   status before the Firebase Analytics adapter can send events. Privacy Center
   now exposes the user analytics opt-in for analytics-enabled builds.
 - `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` and

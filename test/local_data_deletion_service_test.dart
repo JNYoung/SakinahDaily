@@ -5,6 +5,7 @@ import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/privacy/local_data_deletion_service.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/content_repository.dart';
+import 'package:sakinah_daily/core/repositories/prayer_completion_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
@@ -21,6 +22,9 @@ void main() {
     final cacheRepository = ContentCacheRepository(cacheStore);
     final savedStore = InMemorySavedItemsStore();
     final savedRepository = SavedItemsRepository(savedStore);
+    final prayerCompletionStore = InMemoryPrayerCompletionStore();
+    final prayerCompletionRepository =
+        PrayerCompletionRepository(prayerCompletionStore);
     final progressStore = InMemorySessionProgressStore();
     final progressRepository = SessionProgressRepository(progressStore);
     final notifications = LocalNotificationServiceStub();
@@ -85,6 +89,10 @@ void main() {
         totalSteps: 6,
       ),
     );
+    await prayerCompletionRepository.markCompleted(
+      'Fajr',
+      completedAt: DateTime.utc(2026, 5, 22, 5, 10),
+    );
     notifications.scheduled.add(
       ScheduledPrayerReminder(
         prayerName: 'Fajr',
@@ -99,6 +107,7 @@ void main() {
       preferencesRepository: preferencesRepository,
       contentCacheRepository: cacheRepository,
       savedItemsRepository: savedRepository,
+      prayerCompletionRepository: prayerCompletionRepository,
       sessionProgressRepository: progressRepository,
       notificationService: notifications,
     ).deleteLocalData();
@@ -114,6 +123,7 @@ void main() {
     expect(await cacheRepository.listBundles(), isEmpty);
     expect(await cacheRepository.revokedContentIds(), isEmpty);
     expect(await savedRepository.listSavedItems(), isEmpty);
+    expect(await prayerCompletionRepository.listCompletionRecords(), isEmpty);
     expect(
         await progressRepository.loadProgress('session_morning_ease'), isNull);
     expect(await progressRepository.listCompletionRecords(), isEmpty);
@@ -127,6 +137,9 @@ void main() {
           UserPreferencesRepository(InMemoryUserPreferencesStore()),
       contentCacheRepository: cacheRepository,
       savedItemsRepository: SavedItemsRepository(InMemorySavedItemsStore()),
+      prayerCompletionRepository: PrayerCompletionRepository(
+        InMemoryPrayerCompletionStore(),
+      ),
       sessionProgressRepository: SessionProgressRepository(
         InMemorySessionProgressStore(),
       ),

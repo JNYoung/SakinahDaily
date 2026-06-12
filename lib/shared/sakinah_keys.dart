@@ -78,6 +78,8 @@ abstract final class SakinahKeys {
   static const sessionCompletionSavedItemsButton =
       ValueKey<String>('session_completion_saved_items_button');
   static const homeProgressCard = ValueKey<String>('home_progress_card');
+  static const homePrayerCompletionMetric =
+      ValueKey<String>('home_prayer_completion_metric');
   static const sessionAudioPlayerBar =
       ValueKey<String>('session_audio_player_bar');
   static const sessionSafetyCard = ValueKey<String>('session_safety_card');
@@ -134,8 +136,14 @@ abstract final class SakinahKeys {
   static const prayerContentList = ValueKey<String>('prayer_content_list');
   static const prayerTimesSectionHeader =
       ValueKey<String>('prayer_times_section_header');
+  static const prayerCompletionSummaryCard =
+      ValueKey<String>('prayer_completion_summary_card');
   static ValueKey<String> prayerListItem(String prayerName) {
     return ValueKey<String>('prayer_list_item_$prayerName');
+  }
+
+  static ValueKey<String> prayerCompletionCheckbox(String prayerName) {
+    return ValueKey<String>('prayer_completion_checkbox_$prayerName');
   }
 
   static ValueKey<String> prayerStatusChip(String prayerName) {

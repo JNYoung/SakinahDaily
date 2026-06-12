@@ -212,6 +212,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progressLocalOnly => 'Progress stays on this device only.';
 
   @override
+  String get prayersToday => 'Prayers today';
+
+  @override
+  String get prayerCheckInsLocalOnly =>
+      'Prayer check-ins stay on this device only.';
+
+  @override
   String get saveSession => 'Save session';
 
   @override
@@ -365,6 +372,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nextPrayerStatus => 'Next';
+
+  @override
+  String get todaysPrayerCheckIn => 'Today\'s prayer check-in';
+
+  @override
+  String get prayerCheckInBody =>
+      'Mark prayers you have completed. Stored locally only.';
+
+  @override
+  String get prayerCompletedStatus => 'Completed';
 
   @override
   String get prayerReminderSubtitle =>
@@ -856,6 +873,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacyDataSessionProgressHistoryNotes =>
       'Session progress and completion records store session IDs and timestamps locally only.';
+
+  @override
+  String get privacyDataPrayerCompletionHistory => 'Prayer completion history';
+
+  @override
+  String get privacyDataPrayerCompletionHistoryNotes =>
+      'Prayer check-ins store prayer names and local completion timestamps on this device only.';
 
   @override
   String get privacyDataLocalPushDebug => 'Local push payload debug data';

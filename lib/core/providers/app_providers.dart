@@ -7,12 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/app_environment.dart';
 import '../config/content_api_config.dart';
 import '../models/saved_item.dart';
+import '../models/prayer_completion.dart';
 import '../models/sakinah_models.dart';
 import '../models/session_progress.dart';
 import '../privacy/local_data_deletion_service.dart';
 import '../privacy/privacy_data_inventory.dart';
 import '../repositories/content_cache_repository.dart';
 import '../repositories/content_repository.dart';
+import '../repositories/prayer_completion_repository.dart';
 import '../repositories/saved_items_repository.dart';
 import '../repositories/session_progress_repository.dart';
 import '../repositories/user_preferences_repository.dart';
@@ -284,6 +286,94 @@ class SavedItemsController extends StateNotifier<List<SavedItem>> {
   }
 }
 
+final prayerCompletionStoreProvider = Provider<PrayerCompletionStore>((ref) {
+  return const SharedPreferencesPrayerCompletionStore();
+});
+
+final prayerCompletionRepositoryProvider =
+    Provider<PrayerCompletionRepository>((ref) {
+  return PrayerCompletionRepository(ref.watch(prayerCompletionStoreProvider));
+});
+
+final prayerCompletionControllerProvider =
+    StateNotifierProvider<PrayerCompletionController, PrayerCompletionState>(
+        (ref) {
+  final now = ref.watch(currentDateTimeProvider);
+  final controller = PrayerCompletionController(
+    ref.watch(prayerCompletionRepositoryProvider),
+    now: () => ref.read(currentDateTimeProvider),
+  );
+  unawaited(controller.reload(reference: now));
+  return controller;
+});
+
+class PrayerCompletionState {
+  const PrayerCompletionState({
+    this.completionRecords = const [],
+    this.todayCompletedPrayerNames = const [],
+    this.completionCountLast7Days = 0,
+  });
+
+  final List<PrayerCompletionRecord> completionRecords;
+  final List<String> todayCompletedPrayerNames;
+  final int completionCountLast7Days;
+
+  int completedCountForDate(DateTime date) {
+    final day = prayerCompletionDayKey(date);
+    return completionRecords
+        .where((record) => record.localDayKey == day)
+        .length;
+  }
+
+  bool isCompleted(String prayerName, DateTime date) {
+    final id = prayerCompletionRecordId(prayerName, date);
+    return completionRecords.any((record) => record.id == id);
+  }
+}
+
+class PrayerCompletionController extends StateNotifier<PrayerCompletionState> {
+  PrayerCompletionController(
+    this.repository, {
+    required this.now,
+  }) : super(const PrayerCompletionState());
+
+  final PrayerCompletionRepository repository;
+  final DateTime Function() now;
+
+  Future<void> reload({DateTime? reference}) async {
+    final date = reference ?? now();
+    final records = await repository.listCompletionRecords();
+    final todayRecords = await repository.completionsForDate(date);
+    final weekCount = await repository.completionCountLast7Days(now: date);
+    state = PrayerCompletionState(
+      completionRecords: records,
+      todayCompletedPrayerNames:
+          todayRecords.map((record) => record.prayerName).toList(),
+      completionCountLast7Days: weekCount,
+    );
+  }
+
+  Future<int> setPrayerCompleted(
+    String prayerName,
+    bool completed, {
+    DateTime? date,
+  }) async {
+    final completedAt = date ?? now();
+    if (completed) {
+      await repository.markCompleted(prayerName, completedAt: completedAt);
+    } else {
+      await repository.clearCompletion(prayerName, completedAt);
+    }
+    await reload(reference: completedAt);
+    return state.completedCountForDate(completedAt);
+  }
+
+  Future<void> clearAll() async {
+    await repository.clearAll();
+    state = const PrayerCompletionState();
+  }
+}
+
 final sessionProgressStoreProvider = Provider<SessionProgressStore>((ref) {
   return const SharedPreferencesSessionProgressStore();
 });
@@ -437,6 +527,7 @@ final localDataDeletionServiceProvider = Provider<LocalDataDeletionService>(
     preferencesRepository: ref.watch(userPreferencesRepositoryProvider),
     contentCacheRepository: ref.watch(contentCacheRepositoryProvider),
     savedItemsRepository: ref.watch(savedItemsRepositoryProvider),
+    prayerCompletionRepository: ref.watch(prayerCompletionRepositoryProvider),
     sessionProgressRepository: ref.watch(sessionProgressRepositoryProvider),
     notificationService: ref.watch(notificationServiceProvider),
   ),

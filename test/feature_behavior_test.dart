@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/saved_item.dart';
+import 'package:sakinah_daily/core/repositories/prayer_completion_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
@@ -327,6 +328,10 @@ void main() {
       ),
       findsOneWidget,
     );
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.prayerListItem('Dhuhr')),
+    );
     expect(
       find.descendant(
         of: find.byKey(SakinahKeys.prayerListItem('Dhuhr')),
@@ -356,6 +361,51 @@ void main() {
       'calculation_method': 'umm_al_qura',
       'location_method': 'preset',
     });
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Prayer page stores local prayer check-in and Home summarizes it',
+      (tester) async {
+    final completionStore = InMemoryPrayerCompletionStore();
+    final analytics = StubAnalyticsService(enabled: true);
+    final now = DateTime(2026, 5, 21, 6, 30);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      currentDateTime: now,
+      prayerCompletionStore: completionStore,
+      analyticsService: analytics,
+    );
+
+    expect(find.text("Today's prayer check-in"), findsOneWidget);
+    expect(find.text('0/5'), findsOneWidget);
+
+    await tapByKey(tester, SakinahKeys.prayerCompletionCheckbox('Fajr'));
+
+    final repository = PrayerCompletionRepository(completionStore);
+    expect(await repository.isCompleted('Fajr', now), isTrue);
+    expect(await repository.completedCountForDate(now), 1);
+    expect(find.text('1/5'), findsOneWidget);
+    expect(
+      analytics.events.map((event) => event.name),
+      contains(AnalyticsEventCatalog.prayerChecklistUpdated),
+    );
+    expect(analytics.events.last.properties, {
+      'screen': 'prayer',
+      'completed_count': 1,
+      'all_prayers_completed': false,
+    });
+
+    await tapByKey(tester, SakinahKeys.bottomNavHome);
+    await scrollUntilFound(tester, find.byKey(SakinahKeys.homeProgressCard));
+
+    expect(find.text('Prayers today'), findsOneWidget);
+    expect(find.text('1/5'), findsOneWidget);
+    expect(
+      find.text('Prayer check-ins stay on this device only.'),
+      findsOneWidget,
+    );
     expectNoFlutterErrors(tester);
   });
 

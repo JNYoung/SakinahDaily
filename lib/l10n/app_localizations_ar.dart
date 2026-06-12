@@ -212,6 +212,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get progressLocalOnly => 'يبقى التقدم على هذا الجهاز فقط.';
 
   @override
+  String get prayersToday => 'الصلوات اليوم';
+
+  @override
+  String get prayerCheckInsLocalOnly =>
+      'تبقى علامات الصلاة على هذا الجهاز فقط.';
+
+  @override
   String get saveSession => 'حفظ الجلسة';
 
   @override
@@ -363,6 +370,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get nextPrayerStatus => 'التالية';
+
+  @override
+  String get todaysPrayerCheckIn => 'متابعة صلوات اليوم';
+
+  @override
+  String get prayerCheckInBody =>
+      'علّم الصلوات التي أديتها. تُحفظ على هذا الجهاز فقط.';
+
+  @override
+  String get prayerCompletedStatus => 'مكتملة';
 
   @override
   String get prayerReminderSubtitle => 'يطلب الإذن بعد الشرح.';
@@ -849,6 +866,13 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get privacyDataSessionProgressHistoryNotes =>
       'يحفظ تقدم الجلسات وسجلات الإكمال معرفات الجلسات والأوقات محليا فقط.';
+
+  @override
+  String get privacyDataPrayerCompletionHistory => 'سجل إكمال الصلاة';
+
+  @override
+  String get privacyDataPrayerCompletionHistoryNotes =>
+      'تحفظ علامات الصلاة أسماء الصلوات وأوقات الإكمال المحلية على هذا الجهاز فقط.';
 
   @override
   String get privacyDataLocalPushDebug => 'بيانات تصحيح رسائل الدفع المحلية';
