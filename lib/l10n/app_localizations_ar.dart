@@ -388,6 +388,13 @@ class AppLocalizationsAr extends AppLocalizations {
       'علّم الصلوات التي أديتها. تُحفظ على هذا الجهاز فقط.';
 
   @override
+  String get todaysPrayerCheckInComplete => 'تمت متابعة صلوات اليوم';
+
+  @override
+  String get prayerCheckInCompleteBody =>
+      'تم حفظ علامات الصلوات الخمس على هذا الجهاز فقط.';
+
+  @override
   String get prayerCompletedStatus => 'مكتملة';
 
   @override

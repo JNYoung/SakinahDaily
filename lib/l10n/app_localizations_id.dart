@@ -390,6 +390,13 @@ class AppLocalizationsId extends AppLocalizations {
       'Tandai shalat yang sudah kamu selesaikan. Disimpan hanya di perangkat ini.';
 
   @override
+  String get todaysPrayerCheckInComplete => 'Shalat hari ini sudah ditandai';
+
+  @override
+  String get prayerCheckInCompleteBody =>
+      'Lima catatan shalat Anda tersimpan hanya di perangkat ini.';
+
+  @override
   String get prayerCompletedStatus => 'Selesai';
 
   @override

@@ -122,6 +122,8 @@
   "nextPrayerStatus": "Next",
   "todaysPrayerCheckIn": "Today's prayer check-in",
   "prayerCheckInBody": "Mark prayers you have completed. Stored locally only.",
+  "todaysPrayerCheckInComplete": "Today's prayers are checked in",
+  "prayerCheckInCompleteBody": "Your five prayer check-ins are saved on this device only.",
   "prayerCompletedStatus": "Completed",
   "prayerReminderSubtitle": "Permission is requested after explanation.",
   "prayerReminderChoicesTitle": "Prayer reminder choices",

@@ -157,6 +157,9 @@ class SakinahLocalizations {
       'todaysPrayerCheckIn': "Today's prayer check-in",
       'prayerCheckInBody':
           'Mark prayers you have completed. Stored locally only.',
+      'todaysPrayerCheckInComplete': "Today's prayers are checked in",
+      'prayerCheckInCompleteBody':
+          'Your five prayer check-ins are saved on this device only.',
       'prayerCompletedStatus': 'Completed',
       'prayerReminderSubtitle': 'Permission is requested after explanation.',
       'prayerReminderChoicesTitle': 'Prayer reminder choices',
@@ -622,6 +625,9 @@ class SakinahLocalizations {
       'todaysPrayerCheckIn': 'Catatan shalat hari ini',
       'prayerCheckInBody':
           'Tandai shalat yang sudah kamu selesaikan. Disimpan hanya di perangkat ini.',
+      'todaysPrayerCheckInComplete': 'Shalat hari ini sudah ditandai',
+      'prayerCheckInCompleteBody':
+          'Lima catatan shalat Anda tersimpan hanya di perangkat ini.',
       'prayerCompletedStatus': 'Selesai',
       'prayerReminderSubtitle': 'Izin diminta setelah penjelasan.',
       'prayerReminderChoicesTitle': 'Pilihan pengingat shalat',
@@ -1084,6 +1090,9 @@ class SakinahLocalizations {
       'todaysPrayerCheckIn': 'متابعة صلوات اليوم',
       'prayerCheckInBody':
           'علّم الصلوات التي أديتها. تُحفظ على هذا الجهاز فقط.',
+      'todaysPrayerCheckInComplete': 'تمت متابعة صلوات اليوم',
+      'prayerCheckInCompleteBody':
+          'تم حفظ علامات الصلوات الخمس على هذا الجهاز فقط.',
       'prayerCompletedStatus': 'مكتملة',
       'prayerReminderSubtitle': 'يطلب الإذن بعد الشرح.',
       'prayerReminderChoicesTitle': 'اختيارات تذكيرات الصلاة',

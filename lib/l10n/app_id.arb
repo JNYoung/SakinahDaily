@@ -122,6 +122,8 @@
   "nextPrayerStatus": "Berikutnya",
   "todaysPrayerCheckIn": "Catatan shalat hari ini",
   "prayerCheckInBody": "Tandai shalat yang sudah kamu selesaikan. Disimpan hanya di perangkat ini.",
+  "todaysPrayerCheckInComplete": "Shalat hari ini sudah ditandai",
+  "prayerCheckInCompleteBody": "Lima catatan shalat Anda tersimpan hanya di perangkat ini.",
   "prayerCompletedStatus": "Selesai",
   "prayerReminderSubtitle": "Izin diminta setelah penjelasan.",
   "prayerReminderChoicesTitle": "Pilihan pengingat shalat",
