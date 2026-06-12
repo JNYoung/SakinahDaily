@@ -24,6 +24,7 @@ void main() {
           AnalyticsEventCatalog.homeViewed,
           AnalyticsEventCatalog.prayerViewed,
           AnalyticsEventCatalog.prayerReminderChanged,
+          AnalyticsEventCatalog.dailySessionReminderChanged,
           AnalyticsEventCatalog.prayerChecklistUpdated,
           AnalyticsEventCatalog.dailySessionStarted,
           AnalyticsEventCatalog.dailySessionCompleted,
@@ -76,6 +77,31 @@ void main() {
         'session_id': 'session_morning_ease',
         'language_code': 'en',
         'source': 'prayer_completion',
+      });
+    });
+
+    test('daily session reminder analytics keeps safe reminder metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.dailySessionReminderChanged,
+        const {
+          'session_id': 'session_morning_ease',
+          'enabled': true,
+          'source': 'session_completion',
+          'change_type': 'enabled',
+          'reminder_time': '21:15',
+          'women_ibadah_status': 'menstruating',
+          'note': 'private routine detail',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'session_id': 'session_morning_ease',
+        'enabled': true,
+        'source': 'session_completion',
+        'change_type': 'enabled',
       });
     });
 

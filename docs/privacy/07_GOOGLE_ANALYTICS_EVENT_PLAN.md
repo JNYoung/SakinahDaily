@@ -39,6 +39,10 @@ Current implementation:
   source. Completion analytics keeps only session ID and the same controlled
   entry source; Quran, Dua, Dhikr, reflection, translation, and other religious
   or free-text content is not sent.
+- Daily Session reminder opt-in and reminder-setting changes record local
+  `daily_session_reminder_changed` events with session ID, enabled state,
+  controlled source, and coarse change type only. Exact reminder time, Women's
+  Ibadah Mode status, routine notes, and other free text are not sent.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
   calculation method, route, screen, and coarse location method only.
 - The Home page records a local `home_viewed` event only after local prayer
@@ -72,6 +76,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `home_viewed`
 - `prayer_viewed`
 - `prayer_reminder_changed`
+- `daily_session_reminder_changed`
 - `prayer_checklist_updated`
 - `daily_session_started`
 - `daily_session_step_viewed`
@@ -91,6 +96,7 @@ Only enum-like, non-sensitive operational parameters are allowed:
 - `audio_preference`
 - `all_prayers_completed`
 - `calculation_method`
+- `change_type`
 - `completed_count`
 - `content_id`
 - `content_type`
@@ -121,6 +127,7 @@ The sanitizer drops sensitive or free-text fields, including:
 - exact latitude or longitude
 - exact prayer completion names or completion timestamps for prayer checklist
   updates and Home retention summaries
+- exact daily session reminder time
 - tester names, emails, or personal identifiers
 - feedback text, private notes, and free text
 - Quran, Dua, reflection, Arabic, translation, or religious text fields

@@ -153,6 +153,10 @@ Completed:
   reflection is a gentle reminder rather than a religious ruling.
 - Completion page supports save session, open Saved Items, and set a local daily
   session reminder.
+- Completion-page and Settings daily session reminder changes now emit a
+  privacy-safe `daily_session_reminder_changed` analytics event when analytics
+  is enabled and the user opts in, so the session-to-reminder retention loop can
+  be monitored without sending exact reminder time or sensitive mode data.
 - Saved sessions can reappear on Home through the local continue rail, giving
   users a lightweight return path without social sharing, accounts, or remote
   saved-item sync.
@@ -293,7 +297,8 @@ Retention observation preparation:
   Session start signal, and Privacy Center trust.
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
   prayer reminder changes, aggregate prayer checklist updates, Daily Session
-  start/completion, saved Dua/Dhikr actions, and closed-test prompt actions.
+  start/step/completion, Daily Session reminder opt-in and setting changes,
+  saved Dua/Dhikr actions, and closed-test prompt actions.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback

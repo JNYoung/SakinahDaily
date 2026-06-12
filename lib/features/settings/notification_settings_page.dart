@@ -149,6 +149,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                         _handleDailySessionReminderToggle(
                           enabled: enabled,
                           context: context,
+                          ref: ref,
                           l10n: l10n,
                           controller: controller,
                           notificationService: notificationService,
@@ -168,6 +169,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                     unawaited(
                       _changeDailySessionReminderTime(
                         context: context,
+                        ref: ref,
                         l10n: l10n,
                         controller: controller,
                         notificationService: notificationService,
@@ -358,6 +360,7 @@ DateTime _reminderTime(PrayerTime prayer, int offsetMinutes) {
 Future<void> _handleDailySessionReminderToggle({
   required bool enabled,
   required BuildContext context,
+  required WidgetRef ref,
   required SakinahLocalizations l10n,
   required UserPreferencesController controller,
   required NotificationService notificationService,
@@ -367,6 +370,13 @@ Future<void> _handleDailySessionReminderToggle({
   if (!enabled) {
     await notificationService.cancelDailySessionReminder();
     await controller.setDailySessionReminderEnabled(false);
+    _trackDailySessionReminderChanged(
+      ref: ref,
+      sessionId: session.id,
+      enabled: false,
+      source: 'settings',
+      changeType: 'disabled',
+    );
     return;
   }
 
@@ -408,6 +418,13 @@ Future<void> _handleDailySessionReminderToggle({
   }
 
   await controller.setDailySessionReminderEnabled(true);
+  _trackDailySessionReminderChanged(
+    ref: ref,
+    sessionId: session.id,
+    enabled: true,
+    source: 'settings',
+    changeType: 'enabled',
+  );
   if (context.mounted) {
     _showSnackBar(context, l10n.t('dailyReminderSet'));
   }
@@ -415,6 +432,7 @@ Future<void> _handleDailySessionReminderToggle({
 
 Future<void> _changeDailySessionReminderTime({
   required BuildContext context,
+  required WidgetRef ref,
   required SakinahLocalizations l10n,
   required UserPreferencesController controller,
   required NotificationService notificationService,
@@ -432,6 +450,13 @@ Future<void> _changeDailySessionReminderTime({
 
   await controller.setDailySessionReminderTime(minutes);
   if (!preferences.dailySessionReminderEnabled) {
+    _trackDailySessionReminderChanged(
+      ref: ref,
+      sessionId: session.id,
+      enabled: false,
+      source: 'settings',
+      changeType: 'time_saved',
+    );
     if (context.mounted) {
       _showSnackBar(context, l10n.t('reminderTimeSaved'));
     }
@@ -468,7 +493,32 @@ Future<void> _changeDailySessionReminderTime({
     _showSnackBar(context, l10n.t('notificationPermissionDenied'));
     return;
   }
+  _trackDailySessionReminderChanged(
+    ref: ref,
+    sessionId: session.id,
+    enabled: true,
+    source: 'settings',
+    changeType: 'time_updated',
+  );
   _showSnackBar(context, l10n.t('reminderTimeSaved'));
+}
+
+void _trackDailySessionReminderChanged({
+  required WidgetRef ref,
+  required String sessionId,
+  required bool enabled,
+  required String source,
+  required String changeType,
+}) {
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.dailySessionReminderChanged,
+    {
+      'session_id': sessionId,
+      'enabled': enabled,
+      'source': source,
+      'change_type': changeType,
+    },
+  );
 }
 
 Future<bool?> _showSessionReminderExplanation(

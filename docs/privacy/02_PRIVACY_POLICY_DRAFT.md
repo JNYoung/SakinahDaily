@@ -56,12 +56,13 @@ If analytics is explicitly enabled in a reviewed build and the user opts in,
 the app may send only whitelisted Google Analytics 4 events about app flow and
 prayer/session usage, such as screen route, prayer name, reminder enabled
 state, aggregate prayer checklist count, aggregate Home prayer retention counts,
-session ID, language, and coarse location method. Prayer checklist and Home
-retention analytics do not send exact prayer completion names or completion
-timestamps. The analytics sanitizer blocks exact coordinates, Women's Ibadah
-Mode exact status, health terms, feedback text, religious text, names, and
-email addresses. Turning usage analytics off in Privacy Center disables
-Firebase Analytics collection.
+Daily Session reminder enabled state/source/change type, session ID, language,
+and coarse location method. Prayer checklist and Home retention analytics do
+not send exact prayer completion names or completion timestamps. Daily Session
+reminder analytics does not send exact reminder time. The analytics sanitizer
+blocks exact coordinates, Women's Ibadah Mode exact status, health terms,
+feedback text, religious text, names, and email addresses. Turning usage
+analytics off in Privacy Center disables Firebase Analytics collection.
 
 Notification text stays generic when Women's Ibadah Mode is enabled so private
 state details do not appear on the lock screen.

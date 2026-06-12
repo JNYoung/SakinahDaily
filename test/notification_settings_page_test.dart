@@ -96,12 +96,14 @@ void main() {
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();
     final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/settings/notifications',
       settleSplash: false,
       preferencesStore: preferencesStore,
       notificationService: notifications,
+      analyticsService: analytics,
     );
     await tester.pumpAndSettle();
 
@@ -123,6 +125,17 @@ void main() {
     expect(notifications.dailySessionReminder, isNotNull);
     expect(notifications.dailySessionReminder!.time.hour, 20);
     expect(notifications.dailySessionReminder!.time.minute, 0);
+    expect(analytics.events, hasLength(1));
+    expect(
+      analytics.events.single.name,
+      AnalyticsEventCatalog.dailySessionReminderChanged,
+    );
+    expect(analytics.events.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': true,
+      'source': 'settings',
+      'change_type': 'enabled',
+    });
     expect(find.text('On · 20:00'), findsOneWidget);
 
     await tapByKey(tester, SakinahKeys.settingsDailySessionReminderTimeButton);
@@ -152,6 +165,13 @@ void main() {
     expect(preferences.dailySessionReminderEnabled, isTrue);
     expect(notifications.dailySessionReminder!.time.hour, 21);
     expect(notifications.dailySessionReminder!.time.minute, 15);
+    expect(analytics.events, hasLength(2));
+    expect(analytics.events.last.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': true,
+      'source': 'settings',
+      'change_type': 'time_updated',
+    });
     expect(find.text('On · 21:15'), findsOneWidget);
 
     await tapByKey(tester, SakinahKeys.settingsDailySessionReminderSwitch);
@@ -159,6 +179,13 @@ void main() {
     preferences = await UserPreferencesRepository(preferencesStore).load();
     expect(preferences.dailySessionReminderEnabled, isFalse);
     expect(notifications.dailySessionReminder, isNull);
+    expect(analytics.events, hasLength(3));
+    expect(analytics.events.last.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': false,
+      'source': 'settings',
+      'change_type': 'disabled',
+    });
     expect(find.text('Off · 21:15'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });

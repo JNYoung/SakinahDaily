@@ -9,6 +9,7 @@ import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/saved_item.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -234,11 +235,36 @@ Future<void> _setDailyReminder({
   await ref
       .read(userPreferencesProvider.notifier)
       .setDailySessionReminderEnabled(true);
+  _trackDailySessionReminderChanged(
+    ref: ref,
+    sessionId: session.id,
+    enabled: true,
+    source: 'session_completion',
+    changeType: 'enabled',
+  );
   if (context.mounted) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(l10n.t('dailyReminderSet'))),
     );
   }
+}
+
+void _trackDailySessionReminderChanged({
+  required WidgetRef ref,
+  required String sessionId,
+  required bool enabled,
+  required String source,
+  required String changeType,
+}) {
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.dailySessionReminderChanged,
+    {
+      'session_id': sessionId,
+      'enabled': enabled,
+      'source': source,
+      'change_type': changeType,
+    },
+  );
 }
 
 class _Metric extends StatelessWidget {
