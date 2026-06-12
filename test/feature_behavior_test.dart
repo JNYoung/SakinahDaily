@@ -513,6 +513,59 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets(
+      'Prayer complete state can open reminder settings with source analytics',
+      (tester) async {
+    final completionStore = InMemoryPrayerCompletionStore();
+    final repository = PrayerCompletionRepository(completionStore);
+    final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
+    final now = DateTime(2026, 5, 21, 21, 30);
+    for (final prayerName in ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']) {
+      await repository.markCompleted(prayerName, completedAt: now);
+    }
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      currentDateTime: now,
+      prayerCompletionStore: completionStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text("Today's prayers are checked in"), findsOneWidget);
+    expect(
+      find.byKey(SakinahKeys.prayerCompletionReminderSettingsButton),
+      findsOneWidget,
+    );
+
+    await tapByKey(tester, SakinahKeys.prayerCompletionReminderSettingsButton);
+    await tester.pumpAndSettle();
+    expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
+
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    expect(find.text('Enable prayer reminders?'), findsOneWidget);
+
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
+
+    expect(notifications.scheduled, isNotEmpty);
+    final prayerReminderEvent = analytics.events.lastWhere(
+      (event) => event.name == AnalyticsEventCatalog.prayerReminderChanged,
+    );
+    expect(prayerReminderEvent.properties, {
+      'prayer_name': 'all',
+      'enabled': true,
+      'source': 'prayer_completion_card',
+      'reminder_offset_minutes': 0,
+    });
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Prayer complete state reviews completed Daily Session',
       (tester) async {
     final completionStore = InMemoryPrayerCompletionStore();

@@ -148,6 +148,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('prayer_completion_summary_card');
   static const prayerCompletionStartSessionButton =
       ValueKey<String>('prayer_completion_start_session_button');
+  static const prayerCompletionReminderSettingsButton =
+      ValueKey<String>('prayer_completion_reminder_settings_button');
   static ValueKey<String> prayerListItem(String prayerName) {
     return ValueKey<String>('prayer_list_item_$prayerName');
   }

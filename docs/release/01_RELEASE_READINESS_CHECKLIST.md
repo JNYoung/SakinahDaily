@@ -242,8 +242,9 @@ Status: Draft for release/store review.
   Center. Privacy Center analytics consent changes are observable only as
   `analytics_consent_changed` with enabled state and `source=privacy_center`.
   Prayer reminder analytics is observable only with prayer scope, enabled
-  state, controlled source such as `settings` or `home_prayer_card`, and
-  lead-time offset; routes and exact reminder times are not sent.
+  state, controlled source such as `settings`, `home_prayer_card`, or
+  `prayer_completion_card`, and lead-time offset; routes and exact reminder
+  times are not sent.
   Notification tap analytics is observable only as `notification_tap_opened`
   with coarse content type and `source=local_notification`.
   Daily Session reminder analytics is limited to enabled state, source, change
