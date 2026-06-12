@@ -69,6 +69,8 @@ GitHub Actions:
   `main`.
 - The workflow installs stable Flutter, runs `flutter pub get`, then delegates
   to `scripts/verify_local_e2e.sh`.
+- The workflow uses `actions/checkout@v6` so the CI wrapper stays compatible
+  with GitHub Actions' Node 24 runtime.
 - CI skips Android launch smoke and release signing by default because GitHub
   hosted runners do not have the local device, upload keystore, or Play Console
   state.

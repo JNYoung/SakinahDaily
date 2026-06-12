@@ -102,8 +102,9 @@ Status: Draft for release/store review.
   device is available.
 - [x] GitHub Actions local e2e workflow exists at
   `.github/workflows/local-e2e.yml`; it runs on pull requests and pushes to
-  `main`, installs Flutter, and delegates to `scripts/verify_local_e2e.sh`
-  without requiring Android devices or upload signing secrets.
+  `main`, uses Node 24-compatible `actions/checkout@v6`, installs Flutter, and
+  delegates to `scripts/verify_local_e2e.sh` without requiring Android devices
+  or upload signing secrets.
 - [x] Pull request template exists at `.github/PULL_REQUEST_TEMPLATE.md` with
   commands run, tests/analyzer result, screenshots/evidence, and product
   constraints for religious safety, privacy, RTL, and secret handling.
@@ -391,7 +392,7 @@ Status: Draft for release/store review.
   wrapper for tests, analyzer, Play template gates, optional release gate, and
   Android launch smoke.
 - [x] `.github/workflows/local-e2e.yml` provides the PR-facing CI wrapper for
-  the local e2e gate.
+  the local e2e gate with Node 24-compatible checkout.
 - [ ] `SAKINAH_REQUIRE_CLOSED_TESTING_COMPLETE=true
   scripts/verify_google_play_closed_testing_evidence.sh` passes after the real
   14-day closed test and before Production access application submission.
