@@ -10,6 +10,7 @@ import '../../core/models/saved_item.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../core/services/analytics_service.dart';
+import '../../core/services/prayer_reminder_preview_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -35,6 +36,20 @@ class HomePage extends ConsumerWidget {
     final now = ref.watch(currentDateTimeProvider);
     final nextPrayer =
         prayerService.nextPrayer(now, preferences.prayerSettings);
+    final nextPrayerReminderPreview = calculateNextPrayerReminderPreview(
+      now: now,
+      preferences: preferences,
+      prayerService: prayerService,
+    );
+    final nextPrayerReminderPreviewLabel = nextPrayerReminderPreview == null
+        ? null
+        : _statusLabel(
+            l10n.t('nextPrayerReminderPreview'),
+            '${l10n.prayerName(nextPrayerReminderPreview.prayerName)} '
+            '${formatPrayerReminderClockTime(
+              nextPrayerReminderPreview.reminderAt,
+            )}',
+          );
     final session = sessions.first;
     final activeProgress = sessionProgress.progressFor(session.id);
     final completedToday =
@@ -163,6 +178,7 @@ class HomePage extends ConsumerWidget {
                   ? l10n.t('reminderStatusOn')
                   : l10n.t('reminderStatusOff'),
             ),
+            nextReminderPreviewLabel: nextPrayerReminderPreviewLabel,
             openPrayerLabel: l10n.t('viewPrayerTimes'),
             reminderSettingsLabel: l10n.t('manageReminders'),
             onOpenPrayer: () => context.push('/prayer'),
@@ -529,6 +545,7 @@ class _PrayerReleaseCard extends StatelessWidget {
     required this.locationLabel,
     required this.methodLabel,
     required this.remindersLabel,
+    required this.nextReminderPreviewLabel,
     required this.openPrayerLabel,
     required this.reminderSettingsLabel,
     required this.onOpenPrayer,
@@ -543,6 +560,7 @@ class _PrayerReleaseCard extends StatelessWidget {
   final String locationLabel;
   final String methodLabel;
   final String remindersLabel;
+  final String? nextReminderPreviewLabel;
   final String openPrayerLabel;
   final String reminderSettingsLabel;
   final VoidCallback onOpenPrayer;
@@ -608,6 +626,12 @@ class _PrayerReleaseCard extends StatelessWidget {
                 icon: Icons.notifications_active_outlined,
                 label: remindersLabel,
               ),
+              if (nextReminderPreviewLabel != null)
+                _PrayerInfoChip(
+                  key: SakinahKeys.homePrayerNextReminderPreview,
+                  icon: Icons.schedule_outlined,
+                  label: nextReminderPreviewLabel!,
+                ),
             ],
           ),
           const SizedBox(height: 18),
@@ -636,7 +660,11 @@ class _PrayerReleaseCard extends StatelessWidget {
 }
 
 class _PrayerInfoChip extends StatelessWidget {
-  const _PrayerInfoChip({required this.icon, required this.label});
+  const _PrayerInfoChip({
+    required this.icon,
+    required this.label,
+    super.key,
+  });
 
   final IconData icon;
   final String label;

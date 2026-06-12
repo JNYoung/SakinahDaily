@@ -9,6 +9,7 @@ import '../../core/providers/app_providers.dart';
 import '../../core/services/analytics_service.dart';
 import '../../core/services/notification_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
+import '../../core/services/prayer_reminder_preview_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/settings_tile.dart';
@@ -66,7 +67,7 @@ class _NotificationSettingsPageState
         _normalizePrayerReminderSource(widget.entrySource);
     final dailySessionReminderAnalyticsSource =
         _normalizeDailySessionReminderSource(widget.entrySource);
-    final nextPrayerReminderPreview = _nextPrayerReminderPreview(
+    final nextPrayerReminderPreview = calculateNextPrayerReminderPreview(
       now: now,
       preferences: preferences,
       prayerService: prayerService,
@@ -114,7 +115,9 @@ class _NotificationSettingsPageState
               title: Text(
                 '${l10n.t('nextPrayerReminderPreview')} · '
                 '${l10n.prayerName(nextPrayerReminderPreview.prayerName)} '
-                '${_formatClockTime(nextPrayerReminderPreview.reminderAt)}',
+                '${formatPrayerReminderClockTime(
+                  nextPrayerReminderPreview.reminderAt,
+                )}',
               ),
             ),
           ],
@@ -399,7 +402,9 @@ Future<void> _reschedulePrayerRemindersAfterPreferenceChange({
     preferences.prayerReminderOffsetMinutes,
   );
   var prayers = prayerService.calculateForDate(now, settings);
-  if (!prayers.any((prayer) => _reminderTime(prayer, offset).isAfter(now))) {
+  if (!prayers.any(
+    (prayer) => prayerReminderTime(prayer, offset).isAfter(now),
+  )) {
     prayers = prayerService.calculateForDate(
       now.add(const Duration(days: 1)),
       settings,
@@ -423,60 +428,6 @@ Future<void> _reschedulePrayerRemindersAfterPreferenceChange({
 
   ref.read(notificationPermissionFeedbackProvider.notifier).state =
       NotificationPermissionFeedback.scheduled;
-}
-
-DateTime _reminderTime(PrayerTime prayer, int offsetMinutes) {
-  return prayer.time.subtract(Duration(minutes: offsetMinutes));
-}
-
-_PrayerReminderPreview? _nextPrayerReminderPreview({
-  required DateTime now,
-  required UserPreferences preferences,
-  required PrayerCalculationService prayerService,
-}) {
-  if (!preferences.notificationsEnabled ||
-      preferences.enabledPrayerReminderNames.isEmpty) {
-    return null;
-  }
-
-  final offset = sanitizePrayerReminderOffsetMinutes(
-    preferences.prayerReminderOffsetMinutes,
-  );
-  for (final date in [now, now.add(const Duration(days: 1))]) {
-    final prayers = prayerService.calculateForDate(
-      date,
-      preferences.prayerSettings,
-    );
-    for (final prayer in prayers) {
-      if (!preferences.enabledPrayerReminderNames.contains(prayer.name)) {
-        continue;
-      }
-      final reminderAt = _reminderTime(prayer, offset);
-      if (reminderAt.isAfter(now)) {
-        return _PrayerReminderPreview(
-          prayerName: prayer.name,
-          reminderAt: reminderAt,
-        );
-      }
-    }
-  }
-
-  return null;
-}
-
-String _formatClockTime(DateTime time) {
-  return '${time.hour.toString().padLeft(2, '0')}:'
-      '${time.minute.toString().padLeft(2, '0')}';
-}
-
-class _PrayerReminderPreview {
-  const _PrayerReminderPreview({
-    required this.prayerName,
-    required this.reminderAt,
-  });
-
-  final String prayerName;
-  final DateTime reminderAt;
 }
 
 Future<void> _handleDailySessionReminderToggle({

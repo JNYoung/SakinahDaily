@@ -3286,6 +3286,8 @@ void main() {
         contains('不在 Home 放 Quran / Dua / Dhikr / Qibla 工具宫格。'),
       );
       expect(homePage, contains('homePrayerPrimaryCard'));
+      expect(homePage, contains('calculateNextPrayerReminderPreview'));
+      expect(homePage, contains('homePrayerNextReminderPreview'));
       expect(homePage, contains('homeSessionCard'));
       expect(homePage, contains('homeProgressCard'));
       expect(homePage, contains('homeNightCard'));
@@ -3310,6 +3312,7 @@ void main() {
             'home hides closed testing guide without feedback configuration'),
       );
       expect(navigationTest, contains('Daily prayer at the center'));
+      expect(navigationTest, contains('Next prayer reminder'));
       expect(navigationTest, contains("Today's Sakinah Session"));
       expect(navigationTest, contains('Local progress'));
       expect(navigationTest, contains('Sleep with Ayat al-Kursi'));
