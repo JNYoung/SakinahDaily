@@ -126,6 +126,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openAyah => 'فتح الآية';
 
   @override
+  String get quranAvailableVerses => 'آيات متاحة';
+
+  @override
+  String get quranLocalOnlyBrowserBody =>
+      'تصفح آيات البذرة المحلية التي تمت مراجعتها فقط. يتطلب المزيد من محتوى القرآن مصادر معتمدة.';
+
+  @override
+  String get quranVerseSearchHint => 'ابحث بمرجع الآية أو المعنى';
+
+  @override
+  String get quranVerseNoResults => 'لا توجد آية محلية مراجعة تطابق هذا البحث.';
+
+  @override
   String get quranVerseUnavailable => 'آية القرآن غير متاحة';
 
   @override

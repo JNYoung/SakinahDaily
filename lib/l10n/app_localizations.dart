@@ -328,6 +328,30 @@ abstract class AppLocalizations {
   /// **'Open ayah'**
   String get openAyah;
 
+  /// No description provided for @quranAvailableVerses.
+  ///
+  /// In en, this message translates to:
+  /// **'Available verses'**
+  String get quranAvailableVerses;
+
+  /// No description provided for @quranLocalOnlyBrowserBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse reviewed local seed ayahs only. More Quran content requires approved sources.'**
+  String get quranLocalOnlyBrowserBody;
+
+  /// No description provided for @quranVerseSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by verse reference or meaning'**
+  String get quranVerseSearchHint;
+
+  /// No description provided for @quranVerseNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviewed local verse matches this search.'**
+  String get quranVerseNoResults;
+
   /// No description provided for @quranVerseUnavailable.
   ///
   /// In en, this message translates to:

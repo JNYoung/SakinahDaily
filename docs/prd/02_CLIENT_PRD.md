@@ -332,7 +332,7 @@ identity 或 Women's Ibadah Mode exact status。
 |---|---|---|
 | Prayer | 手动/预设位置、礼拜时间、通知开关、冷启动通知路由已具备 MVP 骨架 | 是否做 device location 的范围决策、per-prayer 提醒配置、真实设备权限 QA |
 | Daily Session | seed session 可端到端完成，进度/完成历史本地保存，完成页 Set daily reminder CTA 可用，Settings 可管理每日 session 提醒时间，冷启动可进 session | 更多 reviewed session 内容、真实设备通知 QA、授权音频资产与 hash 校验 |
-| Quran | 本地 approved seed ayah 入口和 `/quran/:verseKey` 详情可用，冷启动可进 verse | approved corpus 导入、生产来源替换、licensed reciter/offline audio |
+| Quran | 本地 approved seed ayah 入口、有限 browse/search、`/quran/:verseKey` 详情和冷启动进 verse 可用 | approved corpus 导入、生产来源替换、licensed reciter/offline audio |
 | Dua / Dhikr | library/detail/save/source/review status、分类筛选/搜索、Dhikr counter、冷启动进 dua detail 可用 | Listen/Repeat audio 行为、更多 reviewed CMS 内容、剩余 PRD 分类覆盖 |
 
 当前 v0.1 最需要产品决策的三件事：

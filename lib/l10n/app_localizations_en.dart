@@ -126,6 +126,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openAyah => 'Open ayah';
 
   @override
+  String get quranAvailableVerses => 'Available verses';
+
+  @override
+  String get quranLocalOnlyBrowserBody =>
+      'Browse reviewed local seed ayahs only. More Quran content requires approved sources.';
+
+  @override
+  String get quranVerseSearchHint => 'Search by verse reference or meaning';
+
+  @override
+  String get quranVerseNoResults =>
+      'No reviewed local verse matches this search.';
+
+  @override
   String get quranVerseUnavailable => 'Quran verse unavailable';
 
   @override
