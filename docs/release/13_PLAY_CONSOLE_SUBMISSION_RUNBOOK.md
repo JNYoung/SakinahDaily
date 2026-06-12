@@ -17,6 +17,7 @@ The local template gate is:
 ```sh
 scripts/export_google_play_public_links_packet.sh
 scripts/verify_google_play_public_links_packet.sh
+scripts/export_google_analytics_debugview_packet.sh
 scripts/export_google_play_upload_packet.sh
 scripts/verify_google_play_submission_pack.sh
 scripts/verify_google_play_production_access_pack.sh
@@ -113,6 +114,10 @@ Complete these Play Console App content sections before the first submission:
   preflight. Run `scripts/verify_google_play_public_links_packet.sh` before
   publishing to catch missing sections, placeholder copy, and feedback forms
   that could collect sensitive tester details.
+- Google Analytics DebugView packet: prepare
+  `build/google-analytics-debugview` with
+  `scripts/export_google_analytics_debugview_packet.sh` before any reviewed
+  analytics QA build transmits telemetry.
 - Store settings: confirm category, contact email, website/privacy links,
   countries/regions, and app availability before release review.
 
@@ -196,6 +201,9 @@ available:
   `scripts/export_google_play_public_links_packet.sh`.
 - Public links hosting packet QA:
   `scripts/verify_google_play_public_links_packet.sh`.
+- Google Analytics DebugView QA packet:
+  `build/google-analytics-debugview`, exported by
+  `scripts/export_google_analytics_debugview_packet.sh`.
 - Closed-testing launch pack:
   `docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md`.
 - Closed-test launch day checklist:
