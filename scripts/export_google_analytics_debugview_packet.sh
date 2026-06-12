@@ -169,7 +169,7 @@ prayer_reminder_permission_result,notification_permission,"enabled|source|change
 prayer_reminder_changed,notification_settings,"prayer_name|enabled|source=settings|source=home_prayer_card|source=prayer_page_card|source=prayer_completion_card|reminder_offset_minutes","route|latitude|longitude|women_ibadah_status|feedback_text",Prayer Reminder Opt-in Rate
 notification_tap_opened,local_notification_open,"content_type|source=local_notification","route|content_id|session_id|prayer_name|quran_arabic_text|women_ibadah_status|feedback_text",Push Open Rate
 analytics_consent_changed,privacy_center,"enabled|source=privacy_center","email|tester_name|latitude|longitude|women_ibadah_status|feedback_text",Analytics Consent Rate
-prayer_checklist_updated,prayer_checkin,"screen|completed_count|all_prayers_completed","prayer_name|completed_at|latitude|longitude",local prayer check-in usage
+prayer_checklist_updated,prayer_checkin,"screen|completed_count|all_prayers_completed|source=prayer_page_checklist","prayer_name|completed_at|latitude|longitude",local prayer check-in usage
 daily_session_started,session_start,"session_id|language_code|source","quran_arabic_text|reflection_text|translation|feedback_text",Daily Session Start Rate
 daily_session_step_viewed,session_step,"session_id|step_id|step_index|source","content_id|quran_arabic_text|reflection_text|translation",Daily Session Step Drop-off
 daily_session_completed,session_complete,"session_id|source","quran_arabic_text|reflection_text|translation|feedback_text",Daily Session Completion Rate

@@ -146,6 +146,7 @@ class AnalyticsParameterPolicy {
     'screen',
     'completed_count',
     'all_prayers_completed',
+    'source',
   };
 
   static const _prayerReminderChangedKeys = {

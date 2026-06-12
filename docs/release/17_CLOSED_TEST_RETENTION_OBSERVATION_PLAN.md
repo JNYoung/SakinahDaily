@@ -79,6 +79,10 @@ Prayer reminder permission attempts should appear only as
 coarse outcome, and lead-time offset, so denial or explanation dismissal can be
 observed without storing routes, exact reminder times, coordinates, Women's
 Ibadah Mode status, or free text.
+Prayer checklist updates should appear only as `prayer_checklist_updated` with
+screen, aggregate completed count, all-prayers-completed state, and
+`source=prayer_page_checklist`; do not store prayer names, completion
+timestamps, coordinates, Women's Ibadah Mode status, or free text.
 Daily Session reminder permission attempts should appear only as
 `daily_session_reminder_permission_result` with session ID, enabled result,
 controlled source, and coarse outcome, so the session-to-reminder funnel can be

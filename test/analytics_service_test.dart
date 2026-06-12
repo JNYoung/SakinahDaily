@@ -206,6 +206,7 @@ void main() {
           'screen': 'prayer',
           'completed_count': 3,
           'all_prayers_completed': false,
+          'source': 'prayer_page_checklist',
           'prayer_name': 'Fajr',
           'location_label': 'Makkah',
           'completed_at': '2026-06-12T05:10:00Z',
@@ -217,6 +218,7 @@ void main() {
         'screen': 'prayer',
         'completed_count': 3,
         'all_prayers_completed': false,
+        'source': 'prayer_page_checklist',
       });
     });
 

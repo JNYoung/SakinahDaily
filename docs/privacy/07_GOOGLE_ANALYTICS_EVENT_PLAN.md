@@ -83,8 +83,9 @@ Current implementation:
   prayer names, exact reminder times, Women's Ibadah Mode status, and religious
   text are not sent.
 - Prayer checklist updates record local `prayer_checklist_updated` events with
-  aggregate completed count and all-prayers-completed boolean only; exact
-  prayer completion names and timestamps are not sent.
+  aggregate completed count, all-prayers-completed boolean, and the controlled
+  `source=prayer_page_checklist` entry label only; exact prayer completion
+  names and timestamps are not sent.
 - Dua detail views and save toggles record local `dua_viewed` and `dua_saved`
   events with content ID, screen/source, and saved enabled state only. Dua
   Arabic, transliteration, translations, source text, and free-text notes are
