@@ -165,6 +165,9 @@ Completed:
 - When today's session is already complete and the local daily session reminder
   is still off, Home now shows a Set daily reminder CTA that opens Notification
   settings, giving the completed-session path a clear next-day return loop.
+  Reminder analytics preserves a controlled `home_session_completion` source
+  when that CTA leads to reminder opt-in, so the Home retention prompt can be
+  measured separately from ordinary Settings changes.
 - Settings exposes Notification settings where the daily session reminder can be
   enabled, disabled, and rescheduled to a user-selected local time.
 - Turning prayer reminders off no longer clears the local daily session reminder

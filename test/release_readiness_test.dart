@@ -266,6 +266,7 @@ void main() {
       expect(analyticsPlan, contains('Onboarding flow records local funnel'));
       expect(analyticsPlan, contains('daily_session_step_viewed'));
       expect(analyticsPlan, contains('daily_session_reminder_changed'));
+      expect(analyticsPlan, contains('home_session_completion'));
       expect(analyticsPlan, contains('exact daily session reminder time'));
       expect(analyticsPlan, contains('Completion analytics keeps only'));
       expect(analyticsPlan, contains('aggregate prayer retention counts'));
@@ -2304,6 +2305,7 @@ void main() {
         productProgress,
         contains('Set daily reminder CTA'),
       );
+      expect(productProgress, contains('home_session_completion'));
       expect(
         productProgress,
         contains('Home session card now surfaces the enabled daily session'),

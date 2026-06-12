@@ -15,7 +15,9 @@ import '../../shared/widgets/settings_tile.dart';
 import 'prayer_reminder_toggle_flow.dart';
 
 class NotificationSettingsPage extends ConsumerWidget {
-  const NotificationSettingsPage({super.key});
+  const NotificationSettingsPage({this.entrySource, super.key});
+
+  final String? entrySource;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,6 +31,8 @@ class NotificationSettingsPage extends ConsumerWidget {
     final notificationFeedback =
         ref.watch(notificationPermissionFeedbackProvider);
     final environment = ref.watch(appEnvironmentConfigProvider);
+    final dailySessionReminderAnalyticsSource =
+        _normalizeDailySessionReminderSource(entrySource);
 
     return LanguageAwareScaffold(
       title: l10n.t('notificationSettingsTitle'),
@@ -155,6 +159,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                           notificationService: notificationService,
                           preferences: preferences,
                           session: session,
+                          analyticsSource: dailySessionReminderAnalyticsSource,
                         ),
                       );
                     },
@@ -175,6 +180,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                         notificationService: notificationService,
                         preferences: preferences,
                         session: session,
+                        analyticsSource: dailySessionReminderAnalyticsSource,
                       ),
                     );
                   },
@@ -366,6 +372,7 @@ Future<void> _handleDailySessionReminderToggle({
   required NotificationService notificationService,
   required UserPreferences preferences,
   required DailySession session,
+  required String analyticsSource,
 }) async {
   if (!enabled) {
     await notificationService.cancelDailySessionReminder();
@@ -374,7 +381,7 @@ Future<void> _handleDailySessionReminderToggle({
       ref: ref,
       sessionId: session.id,
       enabled: false,
-      source: 'settings',
+      source: analyticsSource,
       changeType: 'disabled',
     );
     return;
@@ -422,7 +429,7 @@ Future<void> _handleDailySessionReminderToggle({
     ref: ref,
     sessionId: session.id,
     enabled: true,
-    source: 'settings',
+    source: analyticsSource,
     changeType: 'enabled',
   );
   if (context.mounted) {
@@ -438,6 +445,7 @@ Future<void> _changeDailySessionReminderTime({
   required NotificationService notificationService,
   required UserPreferences preferences,
   required DailySession session,
+  required String analyticsSource,
 }) async {
   final minutes = await _showReminderTimeDialog(
     context,
@@ -454,7 +462,7 @@ Future<void> _changeDailySessionReminderTime({
       ref: ref,
       sessionId: session.id,
       enabled: false,
-      source: 'settings',
+      source: analyticsSource,
       changeType: 'time_saved',
     );
     if (context.mounted) {
@@ -497,10 +505,19 @@ Future<void> _changeDailySessionReminderTime({
     ref: ref,
     sessionId: session.id,
     enabled: true,
-    source: 'settings',
+    source: analyticsSource,
     changeType: 'time_updated',
   );
   _showSnackBar(context, l10n.t('reminderTimeSaved'));
+}
+
+String _normalizeDailySessionReminderSource(String? source) {
+  return switch (source) {
+    'home_session_completion' => 'home_session_completion',
+    'session_completion' => 'session_completion',
+    'settings' || null => 'settings',
+    _ => 'settings',
+  };
 }
 
 void _trackDailySessionReminderChanged({

@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
+import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -85,6 +87,8 @@ void main() {
 
   testWidgets('Home shows Completed Today after completion', (tester) async {
     final store = InMemorySessionProgressStore();
+    final analytics = StubAnalyticsService(enabled: true);
+    final notifications = LocalNotificationServiceStub();
     await SessionProgressRepository(store).markCompleted(
       SessionCompletionRecord(
         id: 'session_morning_ease_${DateTime.now().toIso8601String()}',
@@ -101,6 +105,8 @@ void main() {
       initialLocation: '/home',
       settleSplash: false,
       sessionProgressStore: store,
+      analyticsService: analytics,
+      notificationService: notifications,
     );
     await tester.pumpAndSettle();
 
@@ -112,6 +118,24 @@ void main() {
     expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
     await scrollUntilFound(tester, find.text('Daily session reminder'));
     expect(find.text('Daily session reminder'), findsOneWidget);
+
+    await tapByKey(tester, SakinahKeys.settingsDailySessionReminderSwitch);
+    expect(find.text('Set daily reminder?'), findsOneWidget);
+
+    await tester.tap(find.text('Set reminder'));
+    await tester.pumpAndSettle();
+
+    final reminderEvents = analytics.events.where(
+      (event) =>
+          event.name == AnalyticsEventCatalog.dailySessionReminderChanged,
+    );
+    expect(reminderEvents, hasLength(1));
+    expect(reminderEvents.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': true,
+      'source': 'home_session_completion',
+      'change_type': 'enabled',
+    });
     expectNoFlutterErrors(tester);
   });
 }
