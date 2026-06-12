@@ -2707,6 +2707,8 @@ void main() {
       final settingsPage =
           File('lib/features/settings/notification_settings_page.dart')
               .readAsStringSync();
+      final notificationSettingsTest =
+          File('test/notification_settings_page_test.dart').readAsStringSync();
       final notificationService =
           File('lib/core/services/notification_service.dart')
               .readAsStringSync();
@@ -2724,12 +2726,19 @@ void main() {
       expect(settingsPage, contains('prayerReminderChoicesTitle'));
       expect(settingsPage, contains('settingsPrayerReminderPrayerSwitch'));
       expect(settingsPage, contains('settingsPrayerReminderLeadTimeDropdown'));
+      expect(settingsPage, contains('enabledPrayerReminderNames'));
+      expect(
+        notificationSettingsTest,
+        contains('Notification settings summarizes enabled prayer reminders'),
+      );
       expect(notificationService, contains('enabledPrayerNames'));
       expect(notificationService, contains('reminderOffsetMinutes'));
       expect(readiness, contains('per-prayer local reminder controls'));
       expect(readiness, contains('prayer reminder lead-time choices'));
+      expect(readiness, contains('selected prayer names and lead time'));
       expect(productProgress, contains('per-prayer reminder controls'));
       expect(productProgress, contains('lead-time offset controls'));
+      expect(productProgress, contains('selected prayer names and lead time'));
       expect(research, contains('per-prayer reminder control implemented'));
       expect(research, contains('lead-time offset control implemented'));
     });
