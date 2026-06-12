@@ -214,6 +214,28 @@ void main() {
       });
     });
 
+    test('daily session completion analytics keeps safe source metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.dailySessionCompleted,
+        const {
+          'session_id': 'session_morning_ease',
+          'source': 'prayer_completion',
+          'content_id': '94:5',
+          'content_type': 'quran',
+          'quran_arabic_text': 'sensitive text should never be sent',
+          'reflection_text': 'private note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'session_id': 'session_morning_ease',
+        'source': 'prayer_completion',
+      });
+    });
+
     test('home analytics only keeps aggregate prayer retention fields', () {
       final analytics = StubAnalyticsService(enabled: true);
 

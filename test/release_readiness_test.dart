@@ -241,6 +241,11 @@ void main() {
         contains(
             'daily session step analytics keeps only step funnel metadata'),
       );
+      expect(
+        analyticsTest,
+        contains(
+            'daily session completion analytics keeps safe source metadata'),
+      );
       expect(analyticsTest, contains('firebase bootstrap fails closed'));
       expect(analyticsTest, contains('collection disabled'));
       expect(analyticsTest, contains('provider requires user opt-in'));
@@ -255,6 +260,7 @@ void main() {
       expect(analyticsPlan, contains('collection disabled'));
       expect(analyticsPlan, contains('Onboarding flow records local funnel'));
       expect(analyticsPlan, contains('daily_session_step_viewed'));
+      expect(analyticsPlan, contains('Completion analytics keeps only'));
       expect(analyticsPlan, contains('aggregate prayer retention counts'));
       expect(analyticsPlan, contains('prayer_checkin_days_7d'));
       expect(analyticsPlan, contains('closed_test_prompt_marked_sent'));

@@ -183,6 +183,11 @@ class AnalyticsParameterPolicy {
     'source',
   };
 
+  static const _dailySessionCompletedKeys = {
+    'session_id',
+    'source',
+  };
+
   static Map<String, Object> sanitize(
     Map<String, Object?> properties, {
     String? eventName,
@@ -234,6 +239,8 @@ class AnalyticsParameterPolicy {
         _dailySessionStartedKeys.contains(key),
       AnalyticsEventCatalog.dailySessionStepViewed =>
         _dailySessionStepViewedKeys.contains(key),
+      AnalyticsEventCatalog.dailySessionCompleted =>
+        _dailySessionCompletedKeys.contains(key),
       _ => true,
     };
   }
