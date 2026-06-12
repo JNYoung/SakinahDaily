@@ -81,6 +81,10 @@ class HomePage extends ConsumerWidget {
               flag == 'gentle_support' ||
               flag == 'privacy_safe_copy',
         );
+    final todayPrayerCompletionCount =
+        prayerCompletion.completedCountForDate(now);
+    final allPrayersCompleted =
+        todayPrayerCompletionCount >= defaultPrayerReminderNames.length;
     final isTonightSaved = savedItems.any(
       (item) =>
           item.itemType == SavedItemType.dailySession &&
@@ -273,7 +277,7 @@ class HomePage extends ConsumerWidget {
                       child: _ProgressMetric(
                         key: SakinahKeys.homePrayerCompletionMetric,
                         label: l10n.t('prayersToday'),
-                        value: '${prayerCompletion.completedCountForDate(now)}/'
+                        value: '$todayPrayerCompletionCount/'
                             '${defaultPrayerReminderNames.length}',
                       ),
                     ),
@@ -315,6 +319,19 @@ class HomePage extends ConsumerWidget {
                 Text(l10n.t('progressLocalOnly')),
                 const SizedBox(height: 4),
                 Text(l10n.t('prayerCheckInsLocalOnly')),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: PrimaryButton(
+                    key: SakinahKeys.homePrayerCheckInButton,
+                    label: allPrayersCompleted
+                        ? l10n.t('reviewPrayerCheckIn')
+                        : l10n.t('continuePrayerCheckIn'),
+                    icon: Icons.fact_check_outlined,
+                    tonal: true,
+                    onPressed: () => context.go('/prayer'),
+                  ),
+                ),
               ],
             ),
           ),

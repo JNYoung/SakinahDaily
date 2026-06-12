@@ -238,6 +238,12 @@ class AppLocalizationsAr extends AppLocalizations {
       'تبقى علامات الصلاة على هذا الجهاز فقط.';
 
   @override
+  String get continuePrayerCheckIn => 'متابعة تسجيل الصلاة';
+
+  @override
+  String get reviewPrayerCheckIn => 'مراجعة تسجيل الصلاة';
+
+  @override
   String get prayerWeekProgress => 'أسبوع الصلاة';
 
   @override

@@ -239,6 +239,12 @@ class AppLocalizationsId extends AppLocalizations {
       'Catatan shalat tetap hanya di perangkat ini.';
 
   @override
+  String get continuePrayerCheckIn => 'Lanjutkan check-in shalat';
+
+  @override
+  String get reviewPrayerCheckIn => 'Tinjau check-in shalat';
+
+  @override
   String get prayerWeekProgress => 'Pekan shalat';
 
   @override

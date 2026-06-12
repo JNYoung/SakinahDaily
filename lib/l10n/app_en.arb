@@ -73,6 +73,8 @@
   "progressLocalOnly": "Progress stays on this device only.",
   "prayersToday": "Prayers today",
   "prayerCheckInsLocalOnly": "Prayer check-ins stay on this device only.",
+  "continuePrayerCheckIn": "Continue prayer check-in",
+  "reviewPrayerCheckIn": "Review prayer check-in",
   "prayerWeekProgress": "Prayer week",
   "prayerWeekCheckInDays": "Check-in days",
   "prayerWeekStreak": "Prayer streak",
