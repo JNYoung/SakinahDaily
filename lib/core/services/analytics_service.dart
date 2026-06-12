@@ -22,6 +22,7 @@ class AnalyticsEventCatalog {
   static const homeViewed = 'home_viewed';
   static const prayerViewed = 'prayer_viewed';
   static const prayerReminderChanged = 'prayer_reminder_changed';
+  static const notificationTapOpened = 'notification_tap_opened';
   static const analyticsConsentChanged = 'analytics_consent_changed';
   static const dailySessionReminderChanged = 'daily_session_reminder_changed';
   static const prayerChecklistUpdated = 'prayer_checklist_updated';
@@ -46,6 +47,7 @@ class AnalyticsEventCatalog {
     homeViewed,
     prayerViewed,
     prayerReminderChanged,
+    notificationTapOpened,
     analyticsConsentChanged,
     dailySessionReminderChanged,
     prayerChecklistUpdated,
@@ -150,6 +152,11 @@ class AnalyticsParameterPolicy {
     'source',
   };
 
+  static const _notificationTapOpenedKeys = {
+    'content_type',
+    'source',
+  };
+
   static const _closedTestPromptKeys = {
     'prompt_day',
     'theme_key',
@@ -241,6 +248,8 @@ class AnalyticsParameterPolicy {
         _dailySessionReminderChangedKeys.contains(key),
       AnalyticsEventCatalog.analyticsConsentChanged =>
         _analyticsConsentChangedKeys.contains(key),
+      AnalyticsEventCatalog.notificationTapOpened =>
+        _notificationTapOpenedKeys.contains(key),
       AnalyticsEventCatalog.closedTestPromptCopied ||
       AnalyticsEventCatalog.closedTestPromptMarkedSent =>
         _closedTestPromptKeys.contains(key),

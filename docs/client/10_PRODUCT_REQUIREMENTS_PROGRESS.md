@@ -183,6 +183,11 @@ Completed:
   habit loop.
 - Daily session reminders use privacy-safe lock-screen copy and local
   `daily_session` tap payloads that route back to the session.
+- Handled local notification taps now emit default-off, opt-in-gated
+  `notification_tap_opened` analytics with only coarse content type and
+  `source=local_notification`, allowing reviewed DebugView QA to observe Push
+  Open Rate without raw payloads, routes, content IDs, prayer names, women mode
+  status, or religious text.
 - Quran step enforces no BGM and no Quran TTS.
 - Dua step displays source and review status.
 - Women’s Mode can show local, privacy-safe support notes.
@@ -332,8 +337,8 @@ Retention observation preparation:
 - A privacy-safe analytics event contract now covers onboarding, Home, Prayer,
   prayer reminder changes, aggregate prayer checklist updates, Daily Session
   start/step/completion, Daily Session reminder opt-in and setting changes,
-  analytics consent changes, saved Dua/Dhikr actions, and closed-test prompt
-  actions.
+  handled local notification opens, analytics consent changes, saved Dua/Dhikr
+  actions, and closed-test prompt actions.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback

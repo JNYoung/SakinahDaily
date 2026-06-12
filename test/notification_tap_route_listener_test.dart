@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/app/sakinah_app.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/core/services/notification_tap_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
@@ -39,10 +40,12 @@ void main() {
 
   testWidgets('notification tap result navigates to prayer route',
       (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/home',
       settleSplash: false,
+      analyticsService: analytics,
     );
     final container = _container(tester);
 
@@ -50,11 +53,21 @@ void main() {
         const NotificationTapResult(
       handled: true,
       route: '/prayer',
+      analyticsContentType: 'prayer',
       flags: ['notification_tap_fallback_prayer'],
     );
     await tester.pumpAndSettle();
 
+    final notificationTapEvents = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.notificationTapOpened)
+        .toList();
     expect(find.byKey(SakinahKeys.prayerContentList), findsOneWidget);
+    expect(notificationTapEvents, hasLength(1));
+    expect(notificationTapEvents.single.properties, {
+      'content_type': 'prayer',
+      'source': 'local_notification',
+    });
     expect(container.read(notificationTapResultProvider), isNull);
     expectNoFlutterErrors(tester);
   });
@@ -72,6 +85,7 @@ void main() {
         const NotificationTapResult(
       handled: false,
       route: '/prayer',
+      analyticsContentType: 'prayer',
       flags: ['malformed_payload'],
     );
     await tester.pumpAndSettle();
@@ -84,10 +98,12 @@ void main() {
 
   testWidgets('handled notification tap is not replayed after rebuild',
       (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/home',
       settleSplash: false,
+      analyticsService: analytics,
     );
     final container = _container(tester);
 
@@ -95,6 +111,7 @@ void main() {
         const NotificationTapResult(
       handled: true,
       route: '/prayer',
+      analyticsContentType: 'prayer',
       flags: ['notification_tap_fallback_prayer'],
     );
     await tester.pumpAndSettle();
@@ -104,6 +121,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(SakinahKeys.prayerContentList), findsOneWidget);
+    expect(
+      analytics.events.where(
+          (event) => event.name == AnalyticsEventCatalog.notificationTapOpened),
+      hasLength(1),
+    );
     expect(container.read(notificationTapResultProvider), isNull);
     expectNoFlutterErrors(tester);
   });

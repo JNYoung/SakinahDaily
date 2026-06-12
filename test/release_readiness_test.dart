@@ -242,6 +242,7 @@ void main() {
       expect(analyticsService, contains('daily_session_reminder_changed'));
       expect(analyticsService, contains('home_viewed'));
       expect(analyticsService, contains('prayer_reminder_changed'));
+      expect(analyticsService, contains('notification_tap_opened'));
       expect(analyticsService, contains('analytics_consent_changed'));
       expect(analyticsService, contains('prayer_checkin_days_7d'));
       expect(analyticsService, contains('prayers_completed_today'));
@@ -293,6 +294,7 @@ void main() {
       expect(analyticsPlan, contains('Onboarding flow records local funnel'));
       expect(analyticsPlan, contains('daily_session_step_viewed'));
       expect(analyticsPlan, contains('daily_session_reminder_changed'));
+      expect(analyticsPlan, contains('notification_tap_opened'));
       expect(analyticsPlan, contains('analytics_consent_changed'));
       expect(analyticsPlan, contains('home_session_completion'));
       expect(analyticsPlan, contains('exact daily session reminder time'));
@@ -1717,6 +1719,7 @@ void main() {
       expect(content, contains('home_session_completion'));
       expect(content, contains('daily_session_reminder_changed'));
       expect(content, contains('analytics_consent_changed'));
+      expect(content, contains('notification_tap_opened'));
 
       final templateRun = Process.runSync(
         'bash',
@@ -1775,6 +1778,7 @@ void main() {
       );
       expect(events, contains('home_viewed'));
       expect(events, contains('prayer_reminder_changed'));
+      expect(events, contains('notification_tap_opened'));
       expect(events, contains('analytics_consent_changed'));
       expect(events, contains('daily_session_started'));
       expect(events, contains('daily_session_step_viewed'));
@@ -1784,6 +1788,7 @@ void main() {
       expect(events, contains('closed_test_prompt_copied'));
 
       expect(funnel, contains('Prayer Reminder Opt-in Rate'));
+      expect(funnel, contains('Push Open Rate'));
       expect(funnel, contains('Analytics Consent Rate'));
       expect(funnel, contains('Daily Session Start Rate'));
       expect(funnel, contains('session_to_reminder'));

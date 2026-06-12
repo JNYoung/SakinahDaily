@@ -241,6 +241,8 @@ Status: Draft for release/store review.
   Safety review, Firebase project configuration, and user opt-in from Privacy
   Center. Privacy Center analytics consent changes are observable only as
   `analytics_consent_changed` with enabled state and `source=privacy_center`.
+  Notification tap analytics is observable only as `notification_tap_opened`
+  with coarse content type and `source=local_notification`.
   Daily Session reminder analytics is limited to enabled state, source, change
   type, and session ID; exact reminder time is not sent.
 - [x] No exact GPS permission is added.

@@ -3,8 +3,8 @@
 Status: MVP client foundation.
 
 This milestone closes three client-side usability gaps without adding live
-push services, GPS, compass sensors, remote saved-item sync, analytics, or
-new religious content.
+push services, GPS, compass sensors, remote saved-item sync, default-on
+analytics, or new religious content.
 
 ## Notification Tap Flow
 
@@ -34,6 +34,12 @@ Prayer reminders use a local JSON tap payload:
 ```
 
 The payload intentionally does not include Women's Ibadah Mode exact status.
+
+When a reviewed analytics QA build is enabled and the user opts in from Privacy
+Center, a handled local notification tap can record `notification_tap_opened`
+with only coarse `content_type` and `source=local_notification`. The app does
+not send raw payloads, routes, content IDs, prayer names, reminder times,
+Women's Ibadah Mode status, or religious text for notification tap analytics.
 
 ## Local Push Compatibility
 
@@ -92,7 +98,7 @@ the saved state and does not create duplicate saved items.
   reminders.
 - No account, remote saved-item sync, crash SDK, ads, tracking SDK, live CMS
   calls, remote deletion API, or default-on analytics collection is
-  implemented.
+  implemented. Notification tap analytics remains default-off and opt-in gated.
 
 ## Future Work
 
