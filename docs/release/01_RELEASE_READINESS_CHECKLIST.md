@@ -280,9 +280,9 @@ Status: Draft for release/store review.
   launch compatibility.
 - [x] Android manifest declares local scheduled-notification receivers and
   reboot restore permission required by `flutter_local_notifications`.
-- [ ] Flutter Built-in Kotlin warning remains for the transitive
-  `audio_session` plugin until an upstream migration is available through
-  `just_audio`.
+- [ ] Flutter Built-in Kotlin warning remains for `audio_session` and
+  `firebase_analytics` Android plugins until upstream Built-in Kotlin
+  migrations are available through `just_audio` / Firebase Flutter packages.
 
 ## Release Assets
 

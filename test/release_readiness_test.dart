@@ -91,13 +91,39 @@ void main() {
 
     test('Android plugin dependency patches reduce KGP warning surface', () {
       final lockfile = File('pubspec.lock').readAsStringSync();
+      final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
+          .readAsStringSync();
+      final androidChecklist =
+          File('docs/release/02_ANDROID_RELEASE_CHECKLIST.md')
+              .readAsStringSync();
+      final versionNotes = File('docs/release/08_VERSION_AND_RELEASE_NOTES.md')
+          .readAsStringSync();
       final sharedPreferencesAndroidVersion =
           _versionFromLockfile(lockfile, 'shared_preferences_android');
+      final audioSessionVersion =
+          _versionFromLockfile(lockfile, 'audio_session');
+      final firebaseAnalyticsVersion =
+          _versionFromLockfile(lockfile, 'firebase_analytics');
 
       expect(
         sharedPreferencesAndroidVersion.compareTo(const _Version(2, 4, 26)),
         isNonNegative,
       );
+      expect(
+        audioSessionVersion.compareTo(const _Version(0, 2, 3)),
+        isNonNegative,
+      );
+      expect(
+        firebaseAnalyticsVersion.compareTo(const _Version(12, 4, 2)),
+        isNonNegative,
+      );
+      expect(readiness, contains('Flutter Built-in Kotlin warning remains'));
+      expect(readiness, contains('audio_session'));
+      expect(readiness, contains('firebase_analytics'));
+      expect(androidChecklist, contains('flutter pub outdated --show-all'));
+      expect(androidChecklist, contains('audio_session` `0.2.3`'));
+      expect(androidChecklist, contains('firebase_analytics` `12.4.2`'));
+      expect(versionNotes, contains('Kotlin Gradle Plugin warning'));
     });
 
     test('Android release signing can be supplied without tracked secrets', () {

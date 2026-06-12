@@ -340,12 +340,13 @@ Build toolchain baseline:
 
 Known toolchain warning:
 
-- Flutter still warns that the transitive `audio_session` Android plugin
-  applies the Kotlin Gradle Plugin instead of Built-in Kotlin. Current debug
-  builds pass. On 2026-06-11, `flutter pub outdated --show-all` confirmed
-  `audio_session` `0.2.3` and `just_audio` `0.10.5` are the current latest
+- Flutter still warns that the `audio_session` and `firebase_analytics`
+  Android plugins apply the Kotlin Gradle Plugin instead of Built-in Kotlin.
+  Current debug builds pass. `flutter pub outdated --show-all` currently
+  reports `audio_session` `0.2.3`, `just_audio` `0.10.5`,
+  `firebase_analytics` `12.4.2`, and `firebase_core` `4.10.0` as the latest
   resolvable versions, so there is no package upgrade available yet to clear
-  this warning.
+  these plugin warnings.
 - On 2026-06-11, Android SDK cmdline-tools `latest` was installed into
   `/Users/zhengjinyang/Library/Android/sdk/cmdline-tools/latest`; `sdkmanager`
   reports version `20.0`, and the release gate finds `apkanalyzer` there.

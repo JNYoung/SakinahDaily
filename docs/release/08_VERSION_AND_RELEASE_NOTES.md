@@ -116,6 +116,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
 - Android OEM reminder observation packet strict mode after 8-hour, 24-hour,
   reboot restore, and aggressive battery-management reminder behavior is
   observed on a real Android device and a human observation owner signs off.
+- Kotlin Gradle Plugin warning tracker remains open for `audio_session` and
+  `firebase_analytics` until upstream Flutter plugin Built-in Kotlin migrations
+  are available; current packages are already latest/resolvable.
 - Google Group and Play Console closed-testing track setup.
 - Real 14-day closed-testing evidence log and feedback summary.
 - Production access answer draft strict mode after feedback themes, changes
