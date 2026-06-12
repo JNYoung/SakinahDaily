@@ -35,6 +35,15 @@ Future<void> handlePrayerReminderToggle({
   final accepted = await showPrayerReminderExplanation(context, l10n);
   if (accepted != true || !context.mounted) {
     await controller.setNotificationsEnabled(false);
+    if (context.mounted) {
+      _trackPrayerReminderPermissionResult(
+        ref: ref,
+        preferences: preferences,
+        enabled: false,
+        source: analyticsSource,
+        changeType: 'explanation_dismissed',
+      );
+    }
     return;
   }
 
@@ -47,6 +56,13 @@ Future<void> handlePrayerReminderToggle({
     await controller.setNotificationsEnabled(false);
     ref.read(notificationPermissionFeedbackProvider.notifier).state =
         NotificationPermissionFeedback.denied;
+    _trackPrayerReminderPermissionResult(
+      ref: ref,
+      preferences: preferences,
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'permission_denied',
+    );
     return;
   }
 
@@ -76,11 +92,26 @@ Future<void> handlePrayerReminderToggle({
       ? NotificationPermissionFeedback.scheduled
       : NotificationPermissionFeedback.denied;
   if (scheduledAny) {
+    _trackPrayerReminderPermissionResult(
+      ref: ref,
+      preferences: preferences,
+      enabled: true,
+      source: analyticsSource,
+      changeType: 'scheduled',
+    );
     _trackGlobalPrayerReminderChanged(
       ref: ref,
       preferences: preferences,
       enabled: true,
       source: analyticsSource,
+    );
+  } else {
+    _trackPrayerReminderPermissionResult(
+      ref: ref,
+      preferences: preferences,
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'schedule_empty',
     );
   }
 }
@@ -97,6 +128,26 @@ void _trackGlobalPrayerReminderChanged({
       'prayer_name': 'all',
       'enabled': enabled,
       'source': source,
+      'reminder_offset_minutes': sanitizePrayerReminderOffsetMinutes(
+        preferences.prayerReminderOffsetMinutes,
+      ),
+    },
+  );
+}
+
+void _trackPrayerReminderPermissionResult({
+  required WidgetRef ref,
+  required UserPreferences preferences,
+  required bool enabled,
+  required String source,
+  required String changeType,
+}) {
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.prayerReminderPermissionResult,
+    {
+      'enabled': enabled,
+      'source': source,
+      'change_type': changeType,
       'reminder_offset_minutes': sanitizePrayerReminderOffsetMinutes(
         preferences.prayerReminderOffsetMinutes,
       ),
