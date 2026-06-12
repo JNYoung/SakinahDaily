@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/saved_item.dart';
+import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -25,6 +27,7 @@ class QuranVerseDetailPage extends ConsumerWidget {
     final l10n = SakinahLocalizations.of(context);
     final ayah = repo.getQuranAyah(verseKey);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final neighborAyahs = _neighborAyahs(repo.getQuranAyahs(), verseKey);
 
     if (ayah == null) {
       return LanguageAwareScaffold(
@@ -149,8 +152,81 @@ class QuranVerseDetailPage extends ConsumerWidget {
               ],
             ),
           ),
+          if (neighborAyahs.previous != null || neighborAyahs.next != null) ...[
+            const SizedBox(height: 18),
+            _QuranVerseNeighborNav(neighborAyahs: neighborAyahs),
+          ],
         ],
       ),
+    );
+  }
+
+  _QuranVerseNeighbors _neighborAyahs(
+    List<QuranAyah> ayahs,
+    String currentVerseKey,
+  ) {
+    final sorted = [...ayahs]..sort((a, b) {
+        final surahCompare = a.surah.compareTo(b.surah);
+        if (surahCompare != 0) {
+          return surahCompare;
+        }
+        return a.ayah.compareTo(b.ayah);
+      });
+    final index = sorted.indexWhere((ayah) => ayah.verseKey == currentVerseKey);
+    if (index == -1) {
+      return const _QuranVerseNeighbors();
+    }
+    return _QuranVerseNeighbors(
+      previous: index > 0 ? sorted[index - 1] : null,
+      next: index < sorted.length - 1 ? sorted[index + 1] : null,
+    );
+  }
+}
+
+class _QuranVerseNeighbors {
+  const _QuranVerseNeighbors({this.previous, this.next});
+
+  final QuranAyah? previous;
+  final QuranAyah? next;
+}
+
+class _QuranVerseNeighborNav extends StatelessWidget {
+  const _QuranVerseNeighborNav({required this.neighborAyahs});
+
+  final _QuranVerseNeighbors neighborAyahs;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = SakinahLocalizations.of(context);
+    return Row(
+      children: [
+        if (neighborAyahs.previous != null)
+          Expanded(
+            child: PrimaryButton(
+              key: SakinahKeys.quranPreviousVerseButton,
+              label: l10n.t('quranPreviousVerse'),
+              icon: Icons.arrow_back_rounded,
+              tonal: true,
+              onPressed: () {
+                context.go('/quran/${neighborAyahs.previous!.verseKey}');
+              },
+            ),
+          ),
+        if (neighborAyahs.previous != null && neighborAyahs.next != null)
+          const SizedBox(width: 12),
+        if (neighborAyahs.next != null)
+          Expanded(
+            child: PrimaryButton(
+              key: SakinahKeys.quranNextVerseButton,
+              label: l10n.t('quranNextVerse'),
+              icon: Icons.arrow_forward_rounded,
+              tonal: true,
+              onPressed: () {
+                context.go('/quran/${neighborAyahs.next!.verseKey}');
+              },
+            ),
+          ),
+      ],
     );
   }
 }

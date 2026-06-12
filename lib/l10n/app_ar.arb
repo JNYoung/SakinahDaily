@@ -43,6 +43,8 @@
   "quranVerseSearchHint": "ابحث بمرجع الآية أو المعنى",
   "quranVerseNoResults": "لا توجد آية محلية مراجعة تطابق هذا البحث.",
   "quranVerseUnavailable": "آية القرآن غير متاحة",
+  "quranPreviousVerse": "الآية السابقة",
+  "quranNextVerse": "الآية التالية",
   "saveAyah": "حفظ الآية",
   "savedAyah": "الآية محفوظة",
   "quranVoiceOnlyTitle": "تلاوة القرآن صوت فقط",

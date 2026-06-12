@@ -142,6 +142,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quranVerseUnavailable => 'آية القرآن غير متاحة';
 
   @override
+  String get quranPreviousVerse => 'الآية السابقة';
+
+  @override
+  String get quranNextVerse => 'الآية التالية';
+
+  @override
   String get saveAyah => 'حفظ الآية';
 
   @override

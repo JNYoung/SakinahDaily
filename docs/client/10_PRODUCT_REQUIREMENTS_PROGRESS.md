@@ -218,6 +218,8 @@ Completed:
   without fetching or generating Quran content.
 - Quran verse detail route `/quran/:verseKey` displays Arabic, translation,
   source, and voice-only safety copy.
+- Quran verse detail supports previous/next navigation within the approved
+  local seed ayah list only.
 - Saved Quran verse references route back to verse detail.
 - Local push/Quran notification taps, including cold-start taps, route to an
   available local verse before falling back to a session route.
@@ -228,8 +230,8 @@ Open product links:
 - Full approved Quran corpus routing is not shipped.
 - Seed Quran source labels still say “replace with approved Quran source before
   production”; this is not store-production content.
-- Surah/Juz browse and broader verse navigation are not shipped; local search
-  is limited to the current reviewed seed ayahs.
+- Surah/Juz browse and broader corpus navigation are not shipped; local search
+  and previous/next navigation are limited to the current reviewed seed ayahs.
 - Licensed reciter assets, offline audio cache, and hash validation are open.
 - Tafsir and Quran Arabic TTS remain outside MVP.
 

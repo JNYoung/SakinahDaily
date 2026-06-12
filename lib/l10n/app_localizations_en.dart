@@ -143,6 +143,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quranVerseUnavailable => 'Quran verse unavailable';
 
   @override
+  String get quranPreviousVerse => 'Previous verse';
+
+  @override
+  String get quranNextVerse => 'Next verse';
+
+  @override
   String get saveAyah => 'Save ayah';
 
   @override

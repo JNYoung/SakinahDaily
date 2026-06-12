@@ -173,6 +173,10 @@ abstract final class SakinahKeys {
       ValueKey<String>('quran_verse_safety_card');
   static const quranVerseSaveButton =
       ValueKey<String>('quran_verse_save_button');
+  static const quranPreviousVerseButton =
+      ValueKey<String>('quran_previous_verse_button');
+  static const quranNextVerseButton =
+      ValueKey<String>('quran_next_verse_button');
   static ValueKey<String> quranVerseCard(String verseKey) {
     return ValueKey<String>('quran_verse_card_$verseKey');
   }

@@ -358,6 +358,18 @@ abstract class AppLocalizations {
   /// **'Quran verse unavailable'**
   String get quranVerseUnavailable;
 
+  /// No description provided for @quranPreviousVerse.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous verse'**
+  String get quranPreviousVerse;
+
+  /// No description provided for @quranNextVerse.
+  ///
+  /// In en, this message translates to:
+  /// **'Next verse'**
+  String get quranNextVerse;
+
   /// No description provided for @saveAyah.
   ///
   /// In en, this message translates to:
