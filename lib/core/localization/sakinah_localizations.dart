@@ -176,6 +176,7 @@ class SakinahLocalizations {
       'prayerReminderLeadTimeTitle': 'Reminder timing',
       'prayerReminderLeadTimeBody':
           'Send each selected prayer reminder at the prayer time or a few minutes before.',
+      'nextPrayerReminderPreview': 'Next prayer reminder',
       'notificationSettingsTitle': 'Notification settings',
       'notificationSettingsSubtitle':
           'Manage prayer and daily session reminders.',
@@ -653,6 +654,7 @@ class SakinahLocalizations {
       'prayerReminderLeadTimeTitle': 'Waktu pengingat',
       'prayerReminderLeadTimeBody':
           'Kirim setiap pengingat shalat terpilih saat waktu shalat atau beberapa menit sebelumnya.',
+      'nextPrayerReminderPreview': 'Pengingat shalat berikutnya',
       'notificationSettingsTitle': 'Pengaturan notifikasi',
       'notificationSettingsSubtitle':
           'Kelola pengingat shalat dan sesi harian.',
@@ -1126,6 +1128,7 @@ class SakinahLocalizations {
       'prayerReminderLeadTimeTitle': 'توقيت التذكير',
       'prayerReminderLeadTimeBody':
           'أرسل كل تذكير صلاة محدد عند وقت الصلاة أو قبله بدقائق.',
+      'nextPrayerReminderPreview': 'تذكير الصلاة التالي',
       'notificationSettingsTitle': 'إعدادات الإشعارات',
       'notificationSettingsSubtitle': 'إدارة تذكيرات الصلاة والجلسة اليومية.',
       'closedTestingGuideTitle': 'دليل الاختبار المغلق',

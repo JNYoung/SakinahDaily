@@ -215,6 +215,9 @@ Status: Draft for release/store review.
 - [x] Notification Settings shows selected prayer names and lead time in the
   enabled prayer reminder status, so testers can verify the local reminder
   scope without checking every per-prayer control.
+- [x] Notification Settings previews the next local prayer reminder with prayer
+  name and local clock time after reminders are enabled, without uploading the
+  exact reminder time.
 - [x] Notification permission denial keeps Prayer and Daily Session reminders off
   while the Settings flow remains usable.
 - [x] Notification copy remains gentle, brief, and privacy-safe across prayer

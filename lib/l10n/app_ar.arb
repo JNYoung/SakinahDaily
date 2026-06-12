@@ -137,6 +137,7 @@
   "prayerReminderChoiceSubtitle": "محدد لجدول التذكير",
   "prayerReminderLeadTimeTitle": "توقيت التذكير",
   "prayerReminderLeadTimeBody": "أرسل كل تذكير صلاة محدد عند وقت الصلاة أو قبله بدقائق.",
+  "nextPrayerReminderPreview": "تذكير الصلاة التالي",
   "notificationPermissionTitle": "تفعيل تذكيرات الصلاة؟",
   "notificationPermissionBody": "تجدول سكينة تذكيرات صلاة محلية بعد الإذن فقط. تبقى تذكيرات وضع النساء آمنة على شاشة القفل.",
   "notificationPermissionAllow": "تفعيل التذكيرات",

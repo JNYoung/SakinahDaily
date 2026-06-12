@@ -437,6 +437,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'أرسل كل تذكير صلاة محدد عند وقت الصلاة أو قبله بدقائق.';
 
   @override
+  String get nextPrayerReminderPreview => 'تذكير الصلاة التالي';
+
+  @override
   String get notificationPermissionTitle => 'تفعيل تذكيرات الصلاة؟';
 
   @override

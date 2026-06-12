@@ -133,6 +133,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('settings_prayer_method_dropdown');
   static const settingsNotificationSwitch =
       ValueKey<String>('settings_notification_switch');
+  static const settingsPrayerNextReminderPreview =
+      ValueKey<String>('settings_prayer_next_reminder_preview');
   static const settingsPrayerReminderLeadTimeDropdown =
       ValueKey<String>('settings_prayer_reminder_lead_time_dropdown');
   static ValueKey<String> settingsPrayerReminderPrayerSwitch(

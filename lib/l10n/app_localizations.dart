@@ -922,6 +922,12 @@ abstract class AppLocalizations {
   /// **'Send each selected prayer reminder at the prayer time or a few minutes before.'**
   String get prayerReminderLeadTimeBody;
 
+  /// No description provided for @nextPrayerReminderPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Next prayer reminder'**
+  String get nextPrayerReminderPreview;
+
   /// No description provided for @notificationPermissionTitle.
   ///
   /// In en, this message translates to:
