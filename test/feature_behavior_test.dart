@@ -475,6 +475,64 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets(
+      'Prayer complete state starts Daily Session with source analytics',
+      (tester) async {
+    final completionStore = InMemoryPrayerCompletionStore();
+    final repository = PrayerCompletionRepository(completionStore);
+    final analytics = StubAnalyticsService(enabled: true);
+    final now = DateTime(2026, 5, 21, 21, 30);
+    for (final prayerName in ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']) {
+      await repository.markCompleted(prayerName, completedAt: now);
+    }
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      currentDateTime: now,
+      prayerCompletionStore: completionStore,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text("Today's prayers are checked in"), findsOneWidget);
+    await tapByKey(tester, SakinahKeys.prayerCompletionStartSessionButton);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Step 1 of 6 · Set intention'), findsOneWidget);
+    final startEvent = analytics.events.lastWhere(
+      (event) => event.name == AnalyticsEventCatalog.dailySessionStarted,
+    );
+    expect(startEvent.properties, {
+      'session_id': 'session_morning_ease',
+      'source': 'prayer_completion',
+    });
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Daily Session normalizes untrusted route source analytics',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation:
+          '/session/session_morning_ease?source=quran_arabic_text_private',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    final startEvent = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.dailySessionStarted,
+    );
+    expect(startEvent.properties, {
+      'session_id': 'session_morning_ease',
+      'source': 'direct',
+    });
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Home shows prayer weekly progress and aggregate view analytics',
       (tester) async {
     final completionStore = InMemoryPrayerCompletionStore();

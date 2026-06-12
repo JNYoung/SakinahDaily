@@ -63,6 +63,8 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
       preferences.prayerSettings,
     );
     final prayerCompletion = ref.watch(prayerCompletionControllerProvider);
+    final sessions = ref.watch(dailySessionsProvider);
+    final dailySession = sessions.isEmpty ? null : sessions.first;
     final nextPrayer = prayerStatus.nextPrayer;
 
     return LanguageAwareScaffold(
@@ -133,45 +135,66 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
             return AppCard(
               key: SakinahKeys.prayerCompletionSummaryCard,
               padding: const EdgeInsets.all(18),
-              child: Row(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    allPrayersCompleted
-                        ? Icons.task_alt_rounded
-                        : Icons.check_circle_outline_rounded,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        allPrayersCompleted
+                            ? Icons.task_alt_rounded
+                            : Icons.check_circle_outline_rounded,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.t(
+                                allPrayersCompleted
+                                    ? 'todaysPrayerCheckInComplete'
+                                    : 'todaysPrayerCheckIn',
+                              ),
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              l10n.t(
+                                allPrayersCompleted
+                                    ? 'prayerCheckInCompleteBody'
+                                    : 'prayerCheckInBody',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '$completedCount/${defaultPrayerReminderNames.length}',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.t(
-                            allPrayersCompleted
-                                ? 'todaysPrayerCheckInComplete'
-                                : 'todaysPrayerCheckIn',
-                          ),
-                          style: Theme.of(context).textTheme.titleMedium,
+                  if (allPrayersCompleted && dailySession != null) ...[
+                    const SizedBox(height: 14),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: PrimaryButton(
+                        key: SakinahKeys.prayerCompletionStartSessionButton,
+                        label: l10n.t('startSession'),
+                        tonal: true,
+                        icon: Icons.nightlight_outlined,
+                        onPressed: () => context.go(
+                          '/session/${dailySession.id}'
+                          '?source=prayer_completion',
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          l10n.t(
-                            allPrayersCompleted
-                                ? 'prayerCheckInCompleteBody'
-                                : 'prayerCheckInBody',
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    '$completedCount/${defaultPrayerReminderNames.length}',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w800,
-                        ),
-                  ),
+                  ],
                 ],
               ),
             );

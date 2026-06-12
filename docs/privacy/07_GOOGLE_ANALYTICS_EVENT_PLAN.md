@@ -31,8 +31,11 @@ Current implementation:
   fields are kept, while exact location labels, coordinates, and specific
   gender mode values are dropped.
 - The Daily Session flow records local `daily_session_started`,
-  `daily_session_step_viewed`, and `daily_session_completed` events. Step view
-  analytics keeps only session ID, stable step ID, 1-based step index, and
+  `daily_session_step_viewed`, and `daily_session_completed` events. Start
+  analytics keeps only session ID, optional language code, and a controlled
+  entry source such as `home`, `bottom_navigation`, `prayer_completion`, or
+  `direct`; unrecognized route source values are normalized to `direct`. Step
+  view analytics keeps only session ID, stable step ID, 1-based step index, and
   source; Quran, Dua, Dhikr, reflection, translation, and other religious or
   free-text content is not sent.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,

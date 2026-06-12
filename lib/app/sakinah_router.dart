@@ -61,6 +61,7 @@ GoRouter createSakinahRouter({
         builder: (context, state) {
           return DailySessionPage(
             sessionId: state.pathParameters['sessionId']!,
+            entrySource: state.uri.queryParameters['source'],
           );
         },
       ),
@@ -77,6 +78,7 @@ GoRouter createSakinahRouter({
         builder: (context, state) {
           return DailySessionPage(
             sessionId: state.pathParameters['sessionId']!,
+            entrySource: state.uri.queryParameters['source'],
           );
         },
       ),

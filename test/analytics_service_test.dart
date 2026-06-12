@@ -55,6 +55,30 @@ void main() {
       });
     });
 
+    test('daily session start analytics keeps safe source metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.dailySessionStarted,
+        const {
+          'session_id': 'session_morning_ease',
+          'language_code': 'en',
+          'source': 'prayer_completion',
+          'content_id': '94:5',
+          'content_type': 'quran',
+          'quran_arabic_text': 'sensitive text should never be sent',
+          'reflection_text': 'private note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'session_id': 'session_morning_ease',
+        'language_code': 'en',
+        'source': 'prayer_completion',
+      });
+    });
+
     test('stub drops sensitive or free-text parameters', () {
       final analytics = StubAnalyticsService(enabled: true);
 
