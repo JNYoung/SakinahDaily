@@ -457,6 +457,15 @@ Future<void> _handleDailySessionReminderToggle({
   final accepted = await _showSessionReminderExplanation(context, l10n);
   if (accepted != true || !context.mounted) {
     await controller.setDailySessionReminderEnabled(false);
+    if (context.mounted) {
+      _trackDailySessionReminderPermissionResult(
+        ref: ref,
+        sessionId: session.id,
+        enabled: false,
+        source: analyticsSource,
+        changeType: 'explanation_dismissed',
+      );
+    }
     return;
   }
 
@@ -469,6 +478,13 @@ Future<void> _handleDailySessionReminderToggle({
     if (!context.mounted) {
       return;
     }
+    _trackDailySessionReminderPermissionResult(
+      ref: ref,
+      sessionId: session.id,
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'permission_denied',
+    );
     _showSnackBar(context, l10n.t('notificationPermissionDenied'));
     return;
   }
@@ -487,11 +503,25 @@ Future<void> _handleDailySessionReminderToggle({
     if (!context.mounted) {
       return;
     }
+    _trackDailySessionReminderPermissionResult(
+      ref: ref,
+      sessionId: session.id,
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'schedule_failed',
+    );
     _showSnackBar(context, l10n.t('notificationPermissionDenied'));
     return;
   }
 
   await controller.setDailySessionReminderEnabled(true);
+  _trackDailySessionReminderPermissionResult(
+    ref: ref,
+    sessionId: session.id,
+    enabled: true,
+    source: analyticsSource,
+    changeType: 'scheduled',
+  );
   _trackDailySessionReminderChanged(
     ref: ref,
     sessionId: session.id,
@@ -618,6 +648,24 @@ void _trackDailySessionReminderChanged({
 }) {
   ref.read(analyticsServiceProvider).track(
     AnalyticsEventCatalog.dailySessionReminderChanged,
+    {
+      'session_id': sessionId,
+      'enabled': enabled,
+      'source': source,
+      'change_type': changeType,
+    },
+  );
+}
+
+void _trackDailySessionReminderPermissionResult({
+  required WidgetRef ref,
+  required String sessionId,
+  required bool enabled,
+  required String source,
+  required String changeType,
+}) {
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.dailySessionReminderPermissionResult,
     {
       'session_id': sessionId,
       'enabled': enabled,

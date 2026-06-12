@@ -127,6 +127,17 @@ void main() {
     expect(notifications.dailySessionReminder, isNotNull);
     expect(notifications.dailySessionReminder!.time.hour, 20);
     expect(notifications.dailySessionReminder!.time.minute, 0);
+    final permissionEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.dailySessionReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': true,
+      'source': 'settings',
+      'change_type': 'scheduled',
+    });
     var reminderEvents = _eventsNamed(
       analytics,
       AnalyticsEventCatalog.dailySessionReminderChanged,
@@ -682,12 +693,14 @@ void main() {
     final preferencesStore = InMemoryUserPreferencesStore();
     final notifications = LocalNotificationServiceStub()
       ..permissionGranted = false;
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/settings/notifications',
       settleSplash: false,
       preferencesStore: preferencesStore,
       notificationService: notifications,
+      analyticsService: analytics,
     );
     await tester.pumpAndSettle();
 
@@ -711,6 +724,60 @@ void main() {
           'Notifications are off. You can enable them from system settings.'),
       findsOneWidget,
     );
+    final permissionEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.dailySessionReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': false,
+      'source': 'settings',
+      'change_type': 'permission_denied',
+    });
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Daily session reminder explanation dismissal is tracked safely',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications?source=session_completion',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.settingsDailySessionReminderSwitch),
+    );
+    await tapByKey(tester, SakinahKeys.settingsDailySessionReminderSwitch);
+    expect(find.text('Set daily reminder?'), findsOneWidget);
+
+    await tester.tap(find.text('Not now'));
+    await tester.pumpAndSettle();
+
+    final preferences =
+        await UserPreferencesRepository(preferencesStore).load();
+    expect(preferences.dailySessionReminderEnabled, isFalse);
+    expect(notifications.dailySessionReminder, isNull);
+    final permissionEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.dailySessionReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': false,
+      'source': 'session_completion',
+      'change_type': 'explanation_dismissed',
+    });
     expectNoFlutterErrors(tester);
   });
 }

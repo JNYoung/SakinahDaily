@@ -246,6 +246,8 @@ void main() {
       expect(analyticsService, contains('prayer_reminder_permission_result'));
       expect(analyticsService, contains('notification_tap_opened'));
       expect(analyticsService, contains('analytics_consent_changed'));
+      expect(analyticsService,
+          contains('daily_session_reminder_permission_result'));
       expect(analyticsService, contains('prayer_checkin_days_7d'));
       expect(analyticsService, contains('prayers_completed_today'));
       expect(analyticsService, contains('closed_test_prompt_copied'));
@@ -286,6 +288,11 @@ void main() {
         analyticsTest,
         contains('daily session reminder analytics keeps safe reminder'),
       );
+      expect(
+        analyticsTest,
+        contains(
+            'daily session reminder permission analytics keeps safe outcome metadata'),
+      );
       expect(analyticsTest, contains('home_prayer_card'));
       expect(analyticsTest, contains('prayer_completion_card'));
       expect(
@@ -312,6 +319,8 @@ void main() {
       expect(analyticsPlan, contains('prayer_reminder_permission_result'));
       expect(analyticsPlan, contains('notification_tap_opened'));
       expect(analyticsPlan, contains('analytics_consent_changed'));
+      expect(
+          analyticsPlan, contains('daily_session_reminder_permission_result'));
       expect(analyticsPlan, contains('home_session_completion'));
       expect(analyticsPlan, contains('home_prayer_card'));
       expect(analyticsPlan, contains('prayer_page_card'));
@@ -1737,6 +1746,7 @@ void main() {
       expect(content, contains('com.sakinahdaily.app'));
       expect(content, contains('home_session_completion'));
       expect(content, contains('daily_session_reminder_changed'));
+      expect(content, contains('daily_session_reminder_permission_result'));
       expect(content, contains('analytics_consent_changed'));
       expect(content, contains('notification_settings_viewed'));
       expect(content, contains('prayer_reminder_permission_result'));
@@ -1747,6 +1757,8 @@ void main() {
       expect(readiness, contains('prayer_completion_card'));
       expect(retentionPlan, contains('notification_settings_viewed'));
       expect(retentionPlan, contains('prayer_reminder_permission_result'));
+      expect(
+          retentionPlan, contains('daily_session_reminder_permission_result'));
       expect(retentionPlan, contains('prayer_page_card'));
       expect(retentionPlan, contains('prayer_completion_card'));
 
@@ -1817,6 +1829,7 @@ void main() {
       expect(events, contains('daily_session_started'));
       expect(events, contains('daily_session_step_viewed'));
       expect(events, contains('daily_session_completed'));
+      expect(events, contains('daily_session_reminder_permission_result'));
       expect(events, contains('daily_session_reminder_changed'));
       expect(events, contains('home_session_completion'));
       expect(events, contains('closed_test_prompt_copied'));
@@ -1832,6 +1845,11 @@ void main() {
       expect(funnel, contains('Push Open Rate'));
       expect(funnel, contains('Analytics Consent Rate'));
       expect(funnel, contains('Daily Session Start Rate'));
+      expect(
+        funnel,
+        contains('Daily Session Reminder Permission Outcome Rate'),
+      );
+      expect(funnel, contains('daily_session_reminder_permission_result'));
       expect(funnel, contains('session_to_reminder'));
       expect(funnel, contains('daily_session_reminder_changed'));
       expect(funnel, contains('home_session_completion'));
@@ -1868,6 +1886,7 @@ void main() {
       expect(readiness, contains('Google Analytics DebugView QA packet'));
       expect(readiness, contains('notification_settings_viewed'));
       expect(readiness, contains('prayer_reminder_permission_result'));
+      expect(readiness, contains('daily_session_reminder_permission_result'));
       expect(retentionPlan, contains('DebugView QA packet'));
       expect(versionNotes, contains('Google Analytics DebugView QA packet'));
     });

@@ -79,6 +79,11 @@ Prayer reminder permission attempts should appear only as
 coarse outcome, and lead-time offset, so denial or explanation dismissal can be
 observed without storing routes, exact reminder times, coordinates, Women's
 Ibadah Mode status, or free text.
+Daily Session reminder permission attempts should appear only as
+`daily_session_reminder_permission_result` with session ID, enabled result,
+controlled source, and coarse outcome, so the session-to-reminder funnel can be
+diagnosed without storing exact reminder time, routes, Women's Ibadah Mode
+status, routine notes, or free text.
 Local notification opens should appear only as `notification_tap_opened` with
 coarse content type and `source=local_notification`; do not store raw payloads,
 routes, content IDs, prayer names, or religious text.

@@ -48,6 +48,12 @@ Current implementation:
   controlled source such as `settings`, `session_completion`, or
   `home_session_completion`, and coarse change type only. Exact reminder time,
   Women's Ibadah Mode status, routine notes, and other free text are not sent.
+- Daily Session reminder permission attempts record local
+  `daily_session_reminder_permission_result` events with session ID, enabled
+  result, controlled source, and coarse outcome such as `scheduled`,
+  `permission_denied`, `explanation_dismissed`, or `schedule_failed` only.
+  Exact reminder time, routes, Women's Ibadah Mode status, routine notes, and
+  other free text are not sent.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
   calculation method, route, screen, and coarse location method only.
 - Notification Settings records a local `notification_settings_viewed` event
@@ -105,6 +111,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `prayer_reminder_changed`
 - `notification_tap_opened`
 - `analytics_consent_changed`
+- `daily_session_reminder_permission_result`
 - `daily_session_reminder_changed`
 - `prayer_checklist_updated`
 - `daily_session_started`
@@ -195,6 +202,7 @@ The QA reviewer should verify that `home_viewed`,
 `prayer_reminder_permission_result`,
 `daily_session_started`,
 `daily_session_step_viewed`, `daily_session_completed`,
+`daily_session_reminder_permission_result`,
 `daily_session_reminder_changed`, `closed_test_prompt_copied`, and
 `closed_test_prompt_marked_sent` appear only with allowed parameters. No tester
 personal data, exact coordinates, Women's Ibadah Mode exact status, feedback
@@ -205,6 +213,8 @@ controlled source, and reminder lead-time offset.
 aggregate prayer-reminder enabled state.
 `prayer_reminder_permission_result` must keep only enabled result, controlled
 source, coarse outcome, and reminder lead-time offset.
+`daily_session_reminder_permission_result` must keep only session ID, enabled
+result, controlled source, and coarse outcome.
 `notification_tap_opened` must keep only `content_type` and `source`.
 `analytics_consent_changed` must keep only `enabled` and `source`.
 

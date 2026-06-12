@@ -375,6 +375,11 @@ Retention observation preparation:
   source, coarse outcome, and lead-time offset, so permission denial or
   explanation dismissal can be diagnosed without sending routes, locations,
   exact reminder times, Women's Ibadah Mode status, or free text.
+  Daily Session reminder permission analytics now records
+  `daily_session_reminder_permission_result` with only session ID, enabled
+  result, controlled source, and coarse outcome, so completion-to-reminder
+  friction can be diagnosed without sending exact reminder times, routes,
+  Women's Ibadah Mode status, routine notes, or free text.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback

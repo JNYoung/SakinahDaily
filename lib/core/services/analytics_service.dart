@@ -27,6 +27,8 @@ class AnalyticsEventCatalog {
   static const prayerReminderChanged = 'prayer_reminder_changed';
   static const notificationTapOpened = 'notification_tap_opened';
   static const analyticsConsentChanged = 'analytics_consent_changed';
+  static const dailySessionReminderPermissionResult =
+      'daily_session_reminder_permission_result';
   static const dailySessionReminderChanged = 'daily_session_reminder_changed';
   static const prayerChecklistUpdated = 'prayer_checklist_updated';
   static const dailySessionStarted = 'daily_session_started';
@@ -54,6 +56,7 @@ class AnalyticsEventCatalog {
     prayerReminderChanged,
     notificationTapOpened,
     analyticsConsentChanged,
+    dailySessionReminderPermissionResult,
     dailySessionReminderChanged,
     prayerChecklistUpdated,
     dailySessionStarted,
@@ -172,6 +175,13 @@ class AnalyticsParameterPolicy {
     'change_type',
   };
 
+  static const _dailySessionReminderPermissionResultKeys = {
+    'session_id',
+    'enabled',
+    'source',
+    'change_type',
+  };
+
   static const _analyticsConsentChangedKeys = {
     'enabled',
     'source',
@@ -277,6 +287,8 @@ class AnalyticsParameterPolicy {
         _prayerChecklistUpdatedKeys.contains(key),
       AnalyticsEventCatalog.dailySessionReminderChanged =>
         _dailySessionReminderChangedKeys.contains(key),
+      AnalyticsEventCatalog.dailySessionReminderPermissionResult =>
+        _dailySessionReminderPermissionResultKeys.contains(key),
       AnalyticsEventCatalog.analyticsConsentChanged =>
         _analyticsConsentChangedKeys.contains(key),
       AnalyticsEventCatalog.notificationTapOpened =>
