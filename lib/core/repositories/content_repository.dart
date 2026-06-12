@@ -66,6 +66,7 @@ abstract class ContentRepository {
   DuaItem? getDua(String id);
   List<DhikrItem> getDhikrs();
   DhikrItem? getDhikr(String id);
+  List<QuranAyah> getQuranAyahs();
   QuranAyah? getQuranAyah(String verseKey);
   ReflectionItem? getReflection(String id);
   List<SourceItem> getSourceItems();
@@ -120,9 +121,14 @@ class SeedContentRepository implements ContentRepository {
   }
 
   @override
+  List<QuranAyah> getQuranAyahs() {
+    return content.quranAyahs.where((ayah) => ayah.isApproved).toList();
+  }
+
+  @override
   QuranAyah? getQuranAyah(String verseKey) {
-    return content.quranAyahs
-        .where((ayah) => ayah.isApproved && ayah.verseKey == verseKey)
+    return getQuranAyahs()
+        .where((ayah) => ayah.verseKey == verseKey)
         .firstOrNull;
   }
 

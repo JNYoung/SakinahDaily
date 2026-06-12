@@ -63,6 +63,11 @@ class SakinahLocalizations {
       'quranPageTitle': 'Quran',
       'featuredAyah': 'Featured ayah',
       'openAyah': 'Open ayah',
+      'quranAvailableVerses': 'Available verses',
+      'quranLocalOnlyBrowserBody':
+          'Browse reviewed local seed ayahs only. More Quran content requires approved sources.',
+      'quranVerseSearchHint': 'Search by verse reference or meaning',
+      'quranVerseNoResults': 'No reviewed local verse matches this search.',
       'quranVerseUnavailable': 'Quran verse unavailable',
       'saveAyah': 'Save ayah',
       'savedAyah': 'Saved ayah',
@@ -533,6 +538,12 @@ class SakinahLocalizations {
       'quranPageTitle': 'Quran',
       'featuredAyah': 'Ayat pilihan',
       'openAyah': 'Buka ayat',
+      'quranAvailableVerses': 'Ayat tersedia',
+      'quranLocalOnlyBrowserBody':
+          'Jelajahi hanya ayat seed lokal yang sudah ditinjau. Konten Quran tambahan memerlukan sumber yang disetujui.',
+      'quranVerseSearchHint': 'Cari dengan referensi ayat atau makna',
+      'quranVerseNoResults':
+          'Tidak ada ayat lokal yang ditinjau cocok dengan pencarian ini.',
       'quranVerseUnavailable': 'Ayat Quran tidak tersedia',
       'saveAyah': 'Simpan ayat',
       'savedAyah': 'Ayat tersimpan',
@@ -1000,6 +1011,11 @@ class SakinahLocalizations {
       'quranPageTitle': 'القرآن',
       'featuredAyah': 'آية مختارة',
       'openAyah': 'فتح الآية',
+      'quranAvailableVerses': 'آيات متاحة',
+      'quranLocalOnlyBrowserBody':
+          'تصفح آيات البذرة المحلية التي تمت مراجعتها فقط. يتطلب المزيد من محتوى القرآن مصادر معتمدة.',
+      'quranVerseSearchHint': 'ابحث بمرجع الآية أو المعنى',
+      'quranVerseNoResults': 'لا توجد آية محلية مراجعة تطابق هذا البحث.',
       'quranVerseUnavailable': 'آية القرآن غير متاحة',
       'saveAyah': 'حفظ الآية',
       'savedAyah': 'الآية محفوظة',

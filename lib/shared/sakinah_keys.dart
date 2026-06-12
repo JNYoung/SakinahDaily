@@ -163,12 +163,20 @@ abstract final class SakinahKeys {
   static const quranPage = ValueKey<String>('quran_page');
   static const quranOpenFeaturedButton =
       ValueKey<String>('quran_open_featured_button');
+  static const quranVerseSearchField =
+      ValueKey<String>('quran_verse_search_field');
+  static const quranVerseEmptyState =
+      ValueKey<String>('quran_verse_empty_state');
   static const quranVerseDetailPage =
       ValueKey<String>('quran_verse_detail_page');
   static const quranVerseSafetyCard =
       ValueKey<String>('quran_verse_safety_card');
   static const quranVerseSaveButton =
       ValueKey<String>('quran_verse_save_button');
+  static ValueKey<String> quranVerseCard(String verseKey) {
+    return ValueKey<String>('quran_verse_card_$verseKey');
+  }
+
   static const qiblaPage = ValueKey<String>('qibla_page');
   static const savedItemsPage = ValueKey<String>('saved_items_page');
   static const duaSearchField = ValueKey<String>('dua_search_field');

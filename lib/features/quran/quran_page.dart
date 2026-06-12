@@ -13,11 +13,18 @@ import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
 
-class QuranPage extends ConsumerWidget {
+class QuranPage extends ConsumerStatefulWidget {
   const QuranPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<QuranPage> createState() => _QuranPageState();
+}
+
+class _QuranPageState extends ConsumerState<QuranPage> {
+  String _query = '';
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = SakinahLocalizations.of(context);
     final preferences = ref.watch(userPreferencesProvider);
     final repo = ref.watch(contentRepositoryProvider);
@@ -26,6 +33,11 @@ class QuranPage extends ConsumerWidget {
     final savedVerses = savedItems
         .where((item) => item.itemType == SavedItemType.quranVerse)
         .toList();
+    final ayahs = _filterAyahs(
+      repo.getQuranAyahs(),
+      preferences.languageCode,
+      _query,
+    );
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return LanguageAwareScaffold(
@@ -72,6 +84,14 @@ class QuranPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 22),
+          _QuranVerseBrowser(
+            ayahs: ayahs,
+            languageCode: preferences.languageCode,
+            onQueryChanged: (value) {
+              setState(() => _query = value);
+            },
+          ),
+          const SizedBox(height: 22),
           Text(
             l10n.t('savedItems'),
             style: Theme.of(context).textTheme.titleLarge,
@@ -113,6 +133,37 @@ class QuranPage extends ConsumerWidget {
     );
   }
 
+  List<QuranAyah> _filterAyahs(
+    List<QuranAyah> ayahs,
+    String languageCode,
+    String query,
+  ) {
+    final normalizedQuery = query.trim().toLowerCase();
+    final sorted = [...ayahs]..sort((a, b) {
+        final surahCompare = a.surah.compareTo(b.surah);
+        if (surahCompare != 0) {
+          return surahCompare;
+        }
+        return a.ayah.compareTo(b.ayah);
+      });
+
+    if (normalizedQuery.isEmpty) {
+      return sorted;
+    }
+
+    return sorted.where((ayah) {
+      final haystack = [
+        ayah.verseKey,
+        ayah.surah.toString(),
+        ayah.ayah.toString(),
+        ayah.arabicText,
+        ayah.translations.resolve(languageCode),
+        ayah.source,
+      ].join(' ').toLowerCase();
+      return haystack.contains(normalizedQuery);
+    }).toList();
+  }
+
   QuranAyah? _featuredAyah(WidgetRef ref, ContentRepository repo) {
     final sessions = ref.watch(dailySessionsProvider);
     for (final session in sessions) {
@@ -123,6 +174,94 @@ class QuranPage extends ConsumerWidget {
       }
     }
     return repo.getQuranAyah('94:5');
+  }
+}
+
+class _QuranVerseBrowser extends StatelessWidget {
+  const _QuranVerseBrowser({
+    required this.ayahs,
+    required this.languageCode,
+    required this.onQueryChanged,
+  });
+
+  final List<QuranAyah> ayahs;
+  final String languageCode;
+  final ValueChanged<String> onQueryChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = SakinahLocalizations.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          l10n.t('quranAvailableVerses'),
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        const SizedBox(height: 6),
+        Text(l10n.t('quranLocalOnlyBrowserBody')),
+        const SizedBox(height: 12),
+        TextField(
+          key: SakinahKeys.quranVerseSearchField,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.search_rounded),
+            labelText: l10n.t('quranVerseSearchHint'),
+            border: const OutlineInputBorder(),
+          ),
+          textInputAction: TextInputAction.search,
+          onChanged: onQueryChanged,
+        ),
+        const SizedBox(height: 12),
+        if (ayahs.isEmpty)
+          AppCard(
+            key: SakinahKeys.quranVerseEmptyState,
+            color: isDark ? SakinahColors.navyCard : const Color(0xFFEAF3E7),
+            padding: const EdgeInsets.all(18),
+            child: Text(l10n.t('quranVerseNoResults')),
+          )
+        else
+          for (final ayah in ayahs) ...[
+            AppCard(
+              key: SakinahKeys.quranVerseCard(ayah.verseKey),
+              onTap: () => context.go('/quran/${ayah.verseKey}'),
+              color: isDark ? SakinahColors.navyCard : null,
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    l10n.quranVerseLabel(ayah.verseKey),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    ayah.arabicText,
+                    textAlign: TextAlign.end,
+                    textDirection: TextDirection.rtl,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          height: 1.7,
+                          color:
+                              isDark ? Colors.white : SakinahColors.deepEmerald,
+                          fontWeight: FontWeight.w800,
+                        ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(ayah.translations.resolve(languageCode)),
+                  const SizedBox(height: 8),
+                  Text(
+                    ayah.source,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+      ],
+    );
   }
 }
 

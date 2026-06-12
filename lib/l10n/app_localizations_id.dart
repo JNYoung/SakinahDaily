@@ -126,6 +126,20 @@ class AppLocalizationsId extends AppLocalizations {
   String get openAyah => 'Buka ayat';
 
   @override
+  String get quranAvailableVerses => 'Ayat tersedia';
+
+  @override
+  String get quranLocalOnlyBrowserBody =>
+      'Jelajahi hanya ayat seed lokal yang sudah ditinjau. Konten Quran tambahan memerlukan sumber yang disetujui.';
+
+  @override
+  String get quranVerseSearchHint => 'Cari dengan referensi ayat atau makna';
+
+  @override
+  String get quranVerseNoResults =>
+      'Tidak ada ayat lokal yang ditinjau cocok dengan pencarian ini.';
+
+  @override
   String get quranVerseUnavailable => 'Ayat Quran tidak tersedia';
 
   @override

@@ -205,6 +205,18 @@ class ContentService implements ContentRepository {
   @override
   QuranAyah? getQuranAyah(String verseKey) => loadQuranVerse(verseKey);
 
+  @override
+  List<QuranAyah> getQuranAyahs() {
+    final cached = _cachedQuranAyahs();
+    if (cached.isNotEmpty) {
+      return cached.where((ayah) => !_isRevoked(ayah.verseKey)).toList();
+    }
+    return seedRepository
+        .getQuranAyahs()
+        .where((ayah) => !_isRevoked(ayah.verseKey))
+        .toList();
+  }
+
   QuranAyah? loadQuranVerse(String verseKey) {
     if (_isRevoked(verseKey)) {
       return null;
