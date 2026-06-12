@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/config/app_environment.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
+import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -249,6 +250,75 @@ void main() {
           )
           .value,
       isFalse,
+    );
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Closed testing prompt analytics uses aggregate metadata',
+      (tester) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, (call) async {
+      return null;
+    });
+    addTearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null);
+    });
+
+    final analytics = StubAnalyticsService(enabled: true);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/testing-guide',
+      settleSplash: false,
+      analyticsService: analytics,
+      appEnvironmentConfig: AppEnvironmentConfig.fromMap(
+        const {
+          'SAKINAH_APP_ENV': 'prod',
+          'SAKINAH_PLAY_TESTING_FEEDBACK': 'support@sakinahdaily.app',
+        },
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.closedTestingPromptDay3CopyButton);
+    await tapByKey(
+      tester,
+      SakinahKeys.closedTestingPromptDay3CompletedCheckbox,
+    );
+
+    expect(
+      analytics.events.map((event) => event.name),
+      containsAllInOrder([
+        AnalyticsEventCatalog.closedTestPromptCopied,
+        AnalyticsEventCatalog.closedTestPromptMarkedSent,
+      ]),
+    );
+    expect(
+      analytics.events
+          .firstWhere(
+            (event) =>
+                event.name == AnalyticsEventCatalog.closedTestPromptCopied,
+          )
+          .properties,
+      {
+        'prompt_day': 'day3',
+        'theme_key': 'prayer_time_trust',
+        'source': 'closed_testing_guide',
+      },
+    );
+    expect(
+      analytics.events
+          .firstWhere(
+            (event) =>
+                event.name == AnalyticsEventCatalog.closedTestPromptMarkedSent,
+          )
+          .properties,
+      {
+        'prompt_day': 'day3',
+        'theme_key': 'prayer_time_trust',
+        'source': 'closed_testing_guide',
+      },
     );
     expectNoFlutterErrors(tester);
   });

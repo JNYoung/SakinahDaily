@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -20,6 +21,7 @@ class ClosedTestingGuidePage extends ConsumerWidget {
         ref.watch(appEnvironmentConfigProvider).testingFeedbackChannel;
     final preferences = ref.watch(userPreferencesProvider);
     final preferencesController = ref.read(userPreferencesProvider.notifier);
+    final analytics = ref.watch(analyticsServiceProvider);
 
     return LanguageAwareScaffold(
       key: SakinahKeys.closedTestingGuidePage,
@@ -85,6 +87,11 @@ class ClosedTestingGuidePage extends ConsumerWidget {
                     isFeedbackSent: preferences.isClosedTestingPromptCompleted(
                       spec.promptDayId,
                     ),
+                    onPromptCopied: () => _trackClosedTestingPrompt(
+                      analytics,
+                      AnalyticsEventCatalog.closedTestPromptCopied,
+                      spec,
+                    ),
                     onFeedbackSentChanged: (completed) {
                       unawaited(
                         preferencesController.setClosedTestingPromptCompleted(
@@ -92,6 +99,13 @@ class ClosedTestingGuidePage extends ConsumerWidget {
                           completed,
                         ),
                       );
+                      if (completed) {
+                        _trackClosedTestingPrompt(
+                          analytics,
+                          AnalyticsEventCatalog.closedTestPromptMarkedSent,
+                          spec,
+                        );
+                      }
                     },
                   ),
                   if (spec != _promptSpecs.last) const SizedBox(height: 8),
@@ -237,6 +251,7 @@ class _PromptItem extends StatelessWidget {
     required this.themeKey,
     required this.testingFeedbackChannel,
     required this.isFeedbackSent,
+    required this.onPromptCopied,
     required this.onFeedbackSentChanged,
   });
 
@@ -248,6 +263,7 @@ class _PromptItem extends StatelessWidget {
   final String themeKey;
   final String? testingFeedbackChannel;
   final bool isFeedbackSent;
+  final VoidCallback onPromptCopied;
   final ValueChanged<bool> onFeedbackSentChanged;
 
   @override
@@ -300,6 +316,7 @@ class _PromptItem extends StatelessWidget {
                           prompt: text,
                           themeKey: themeKey,
                           testingFeedbackChannel: testingFeedbackChannel,
+                          onCopied: onPromptCopied,
                         ),
                         icon: const Icon(Icons.copy),
                         label: Text(l10n.t('copyTestingFeedbackPrompt')),
@@ -348,6 +365,7 @@ void _copyTestingFeedbackPrompt(
   required String prompt,
   required String themeKey,
   required String testingFeedbackChannel,
+  required VoidCallback onCopied,
 }) {
   final clipboardText = [
     l10n.t('closedTestingPromptCopyHeader'),
@@ -360,9 +378,22 @@ void _copyTestingFeedbackPrompt(
   ].join('\n');
 
   Clipboard.setData(ClipboardData(text: clipboardText));
+  onCopied();
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(content: Text(l10n.t('closedTestingPromptCopied'))),
     );
+}
+
+void _trackClosedTestingPrompt(
+  AnalyticsService analytics,
+  String eventName,
+  _ClosedTestingPromptSpec spec,
+) {
+  analytics.track(eventName, {
+    'prompt_day': spec.promptDayId,
+    'theme_key': spec.themeKey,
+    'source': 'closed_testing_guide',
+  });
 }

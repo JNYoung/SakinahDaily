@@ -38,6 +38,10 @@ Current implementation:
 - Prayer checklist updates record local `prayer_checklist_updated` events with
   aggregate completed count and all-prayers-completed boolean only; exact
   prayer completion names and timestamps are not sent.
+- Closed-test feedback prompt copy and local sent-marker actions record
+  `closed_test_prompt_copied` and `closed_test_prompt_marked_sent` events with
+  prompt day, suggested theme key, and screen source only; feedback text,
+  feedback channel, tester names, and email addresses are never sent.
 - `SAKINAH_ANALYTICS_ENABLED=true` can enable controlled QA telemetry only when
   Firebase project configuration is present and the user turns usage analytics
   on in Privacy Center.
@@ -96,6 +100,7 @@ Only enum-like, non-sensitive operational parameters are allowed:
 - `source`
 - `step_id`
 - `step_index`
+- `theme_key`
 
 ## Blocked Data
 

@@ -103,6 +103,29 @@ void main() {
       });
     });
 
+    test('closed test prompt analytics keeps only aggregate prompt metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.closedTestPromptCopied,
+        const {
+          'prompt_day': 'day3',
+          'theme_key': 'prayer_time_trust',
+          'source': 'closed_testing_guide',
+          'feedback_text': 'private tester note',
+          'email': 'tester@example.com',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'prompt_day': 'day3',
+        'theme_key': 'prayer_time_trust',
+        'source': 'closed_testing_guide',
+      });
+    });
+
     test('home analytics only keeps aggregate prayer retention fields', () {
       final analytics = StubAnalyticsService(enabled: true);
 
