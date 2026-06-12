@@ -162,6 +162,9 @@ Completed:
   saved-item sync.
 - Home session card now surfaces the enabled daily session reminder time, so
   users can confirm their local habit loop without digging back into Settings.
+- When today's session is already complete and the local daily session reminder
+  is still off, Home now shows a Set daily reminder CTA that opens Notification
+  settings, giving the completed-session path a clear next-day return loop.
 - Settings exposes Notification settings where the daily session reminder can be
   enabled, disabled, and rescheduled to a user-selected local time.
 - Turning prayer reminders off no longer clears the local daily session reminder

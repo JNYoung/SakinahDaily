@@ -57,6 +57,8 @@ class HomePage extends ConsumerWidget {
             ),
           )
         : null;
+    final showSessionReminderCta =
+        completedToday && !preferences.dailySessionReminderEnabled;
     final showWomenModeSupport = preferences.womenIbadahMode.enabled &&
         womenModeDecision.flags.any(
           (flag) =>
@@ -193,10 +195,15 @@ class HomePage extends ConsumerWidget {
                 showWomenModeSupport ? l10n.t('localOnlyMode') : null,
             startButtonKey: SakinahKeys.homeSessionStartButton,
             startLabel: sessionButtonLabel,
+            reminderCtaLabel:
+                showSessionReminderCta ? l10n.t('setDailyReminder') : null,
             voiceOnlyLabel: l10n.t('voiceOnly'),
             onStart: () => completedToday
                 ? context.go('/session/${session.id}/completed')
                 : context.go('/session/${session.id}?source=home'),
+            onReminderCta: showSessionReminderCta
+                ? () => context.go('/settings/notifications')
+                : null,
             onVoiceOnly: () => _showQuranVoiceOnlySheet(context, l10n),
           ),
           if (recentSavedItems.isNotEmpty) ...[
@@ -776,8 +783,10 @@ class _HeroSessionCard extends StatelessWidget {
     this.localOnlyLabel,
     required this.startButtonKey,
     required this.startLabel,
+    this.reminderCtaLabel,
     required this.voiceOnlyLabel,
     required this.onStart,
+    this.onReminderCta,
     required this.onVoiceOnly,
     super.key,
   });
@@ -792,8 +801,10 @@ class _HeroSessionCard extends StatelessWidget {
   final String? localOnlyLabel;
   final Key startButtonKey;
   final String startLabel;
+  final String? reminderCtaLabel;
   final String voiceOnlyLabel;
   final VoidCallback onStart;
+  final VoidCallback? onReminderCta;
   final VoidCallback onVoiceOnly;
 
   @override
@@ -929,6 +940,16 @@ class _HeroSessionCard extends StatelessWidget {
                   ),
                 ],
               ),
+              if (reminderCtaLabel != null && onReminderCta != null) ...[
+                const SizedBox(height: 12),
+                PrimaryButton(
+                  key: SakinahKeys.homeSessionReminderCtaButton,
+                  label: reminderCtaLabel!,
+                  icon: Icons.notifications_active_outlined,
+                  tonal: true,
+                  onPressed: onReminderCta,
+                ),
+              ],
             ],
           ),
         ],
