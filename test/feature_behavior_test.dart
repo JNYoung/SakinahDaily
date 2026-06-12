@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/saved_item.dart';
+import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/repositories/prayer_completion_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
+import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
 import 'package:sakinah_daily/core/services/audio_player_service.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/analytics_service.dart';
@@ -508,6 +510,55 @@ void main() {
       'session_id': 'session_morning_ease',
       'source': 'prayer_completion',
     });
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Prayer complete state reviews completed Daily Session',
+      (tester) async {
+    final completionStore = InMemoryPrayerCompletionStore();
+    final completionRepository = PrayerCompletionRepository(completionStore);
+    final sessionProgressStore = InMemorySessionProgressStore();
+    final sessionProgressRepository =
+        SessionProgressRepository(sessionProgressStore);
+    final now = DateTime(2026, 5, 21, 21, 30);
+    for (final prayerName in ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']) {
+      await completionRepository.markCompleted(prayerName, completedAt: now);
+    }
+    await sessionProgressRepository.markCompleted(
+      SessionCompletionRecord(
+        id: 'session_morning_ease_2026-05-21',
+        sessionId: 'session_morning_ease',
+        completedAt: now,
+        durationSeconds: 360,
+        languageCode: 'en',
+        totalSteps: 6,
+      ),
+    );
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      currentDateTime: now,
+      prayerCompletionStore: completionStore,
+      sessionProgressStore: sessionProgressStore,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text("Today's prayers are checked in"), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byKey(SakinahKeys.prayerCompletionSummaryCard),
+        matching: find.text('Review'),
+      ),
+      findsOneWidget,
+    );
+
+    await tapByKey(tester, SakinahKeys.prayerCompletionStartSessionButton);
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.sessionCompletionPage), findsOneWidget);
+    expect(find.text('Session complete'), findsWidgets);
     expectNoFlutterErrors(tester);
   });
 

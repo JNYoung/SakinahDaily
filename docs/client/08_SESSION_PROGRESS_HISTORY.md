@@ -55,6 +55,11 @@ Home uses the same local state to show:
 - Completed today / Review for sessions completed today.
 - Current streak and completed-this-week summary.
 
+The Prayer completion card uses the same local completion state. After all five
+daily prayers are checked in, it starts Today's Sakinah session when the session
+has not been completed yet, and changes to Review with a direct completion-page
+route once today's session is already complete.
+
 Women's Ibadah Mode may add a local-only support note around the session entry,
 but session progress records still store only IDs and timestamps.
 

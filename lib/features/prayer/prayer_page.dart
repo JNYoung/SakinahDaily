@@ -63,6 +63,7 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
       preferences.prayerSettings,
     );
     final prayerCompletion = ref.watch(prayerCompletionControllerProvider);
+    final sessionProgress = ref.watch(sessionProgressControllerProvider);
     final sessions = ref.watch(dailySessionsProvider);
     final dailySession = sessions.isEmpty ? null : sessions.first;
     final nextPrayer = prayerStatus.nextPrayer;
@@ -132,6 +133,12 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
             final completedCount = prayerCompletion.completedCountForDate(now);
             final allPrayersCompleted =
                 completedCount >= defaultPrayerReminderNames.length;
+            final isDailySessionCompletedToday = dailySession != null &&
+                sessionProgress.completionForDate(
+                      now,
+                      sessionId: dailySession.id,
+                    ) !=
+                    null;
             return AppCard(
               key: SakinahKeys.prayerCompletionSummaryCard,
               padding: const EdgeInsets.all(18),
@@ -185,12 +192,18 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
                       alignment: AlignmentDirectional.centerStart,
                       child: PrimaryButton(
                         key: SakinahKeys.prayerCompletionStartSessionButton,
-                        label: l10n.t('startSession'),
+                        label: l10n.t(
+                          isDailySessionCompletedToday
+                              ? 'reviewSession'
+                              : 'startSession',
+                        ),
                         tonal: true,
                         icon: Icons.nightlight_outlined,
                         onPressed: () => context.go(
-                          '/session/${dailySession.id}'
-                          '?source=prayer_completion',
+                          isDailySessionCompletedToday
+                              ? '/session/${dailySession.id}/completed'
+                              : '/session/${dailySession.id}'
+                                  '?source=prayer_completion',
                         ),
                       ),
                     ),
