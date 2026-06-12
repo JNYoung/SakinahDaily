@@ -906,6 +906,9 @@ void main() {
       expect(versionNotes, contains('closed-testing launch pack'));
       expect(settingsPage, contains('settingsClosedTestingGuideTile'));
       expect(settingsPage, contains('/settings/testing-guide'));
+      expect(testingGuidePage, contains('closedTestingGuideNextPrompt'));
+      expect(testingGuidePage, contains('closedTestingNextFeedback'));
+      expect(testingGuidePage, contains('closedTestingAllFeedbackSent'));
       expect(testingGuidePage, contains('closedTestingChecklistDailyOpen'));
       expect(testingGuidePage, contains('closedTestingChecklistPrayer'));
       expect(testingGuidePage, contains('closedTestingChecklistSession'));
@@ -980,6 +983,14 @@ void main() {
         testingGuideTest,
         contains('Closed testing prompt completion is local and persistent'),
       );
+      expect(
+        testingGuideTest,
+        contains('Closed testing guide surfaces next unsent feedback prompt'),
+      );
+      expect(
+        testingGuideTest,
+        contains('Closed testing guide summarizes all feedback sent'),
+      );
       expect(testingGuideTest, contains('Stored only on this device.'));
       expect(models, contains('completedClosedTestingPromptDays'));
       expect(models, contains('closedTestingPromptDayIds'));
@@ -990,6 +1001,7 @@ void main() {
       );
       expect(keys, contains('settingsClosedTestingGuideTile'));
       expect(keys, contains('closedTestingGuidePage'));
+      expect(keys, contains('closedTestingGuideNextPrompt'));
       expect(keys, contains('closedTestingPromptDay1'));
       expect(keys, contains('closedTestingPromptDay3'));
       expect(keys, contains('closedTestingPromptDay7'));

@@ -134,6 +134,9 @@ Production access notes to prepare:
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured. It summarizes a Daily tester
   checklist for Home return intent, prayer times, reminders, Today's Sakinah
   Session, Privacy Center, and feedback.
+- Guide feedback status: the top of the Closed testing guide mirrors the next
+  unsent Day 1 / Day 3 / Day 7 / Day 14 prompt from local-only sent markers and
+  switches to an all-sent state after every checkpoint is marked complete.
 - Home closed-test entry: the Home daily prayer surface also exposes the Closed
   testing guide when the same feedback channel is configured, so testers can
   reach Day 1 / Day 3 / Day 7 / Day 14 prompts from the main retention path.

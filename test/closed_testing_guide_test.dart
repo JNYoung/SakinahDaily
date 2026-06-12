@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/config/app_environment.dart';
+import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
@@ -251,6 +252,82 @@ void main() {
           .value,
       isFalse,
     );
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Closed testing guide surfaces next unsent feedback prompt',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final config = AppEnvironmentConfig.fromMap(
+      const {
+        'SAKINAH_APP_ENV': 'prod',
+        'SAKINAH_PLAY_TESTING_FEEDBACK': 'support@sakinahdaily.app',
+      },
+    );
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/testing-guide',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      appEnvironmentConfig: config,
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(SakinahKeys.closedTestingGuideNextPrompt),
+      findsOneWidget,
+    );
+    expect(find.text('Next feedback · Day 1'), findsOneWidget);
+
+    await tapByKey(
+      tester,
+      SakinahKeys.closedTestingPromptDay1CompletedCheckbox,
+    );
+    await tester.pumpAndSettle();
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.closedTestingGuideNextPrompt),
+      delta: -240,
+    );
+
+    expect(find.text('Next feedback · Day 3'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Closed testing guide summarizes all feedback sent',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    await UserPreferencesRepository(preferencesStore).save(
+      UserPreferences.defaults().copyWith(
+        completedClosedTestingPromptDays: const [
+          'day1',
+          'day3',
+          'day7',
+          'day14',
+        ],
+      ),
+    );
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/testing-guide',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      appEnvironmentConfig: AppEnvironmentConfig.fromMap(
+        const {
+          'SAKINAH_APP_ENV': 'prod',
+          'SAKINAH_PLAY_TESTING_FEEDBACK': 'support@sakinahdaily.app',
+        },
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(SakinahKeys.closedTestingGuideNextPrompt),
+      findsOneWidget,
+    );
+    expect(find.text('All feedback marked sent'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

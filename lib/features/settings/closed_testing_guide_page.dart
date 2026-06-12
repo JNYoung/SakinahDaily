@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../core/services/analytics_service.dart';
 import '../../shared/sakinah_keys.dart';
@@ -40,6 +41,27 @@ class ClosedTestingGuidePage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(l10n.t('closedTestingGuideIntroBody')),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          AppCard(
+            key: SakinahKeys.closedTestingGuideNextPrompt,
+            radius: 8,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.flag_outlined,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    _closedTestingFeedbackStatusLabel(l10n, preferences),
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
               ],
             ),
           ),
@@ -162,6 +184,34 @@ const _checklistKeys = [
   'closedTestingChecklistPrivacy',
   'closedTestingChecklistFeedback',
 ];
+
+String _closedTestingFeedbackStatusLabel(
+  SakinahLocalizations l10n,
+  UserPreferences preferences,
+) {
+  final nextPromptDayId = closedTestingPromptDayIds.firstWhere(
+    (dayId) => !preferences.isClosedTestingPromptCompleted(dayId),
+    orElse: () => '',
+  );
+  if (nextPromptDayId.isEmpty) {
+    return l10n.t('closedTestingAllFeedbackSent');
+  }
+  return '${l10n.t('closedTestingNextFeedback')} · '
+      '${_closedTestingPromptDayLabel(l10n, nextPromptDayId)}';
+}
+
+String _closedTestingPromptDayLabel(
+  SakinahLocalizations l10n,
+  String promptDayId,
+) {
+  return switch (promptDayId) {
+    'day1' => l10n.t('closedTestingPromptDay1Label'),
+    'day3' => l10n.t('closedTestingPromptDay3Label'),
+    'day7' => l10n.t('closedTestingPromptDay7Label'),
+    'day14' => l10n.t('closedTestingPromptDay14Label'),
+    _ => promptDayId,
+  };
+}
 
 const _promptSpecs = [
   _ClosedTestingPromptSpec(
