@@ -5,8 +5,8 @@ Status: MVP client foundation.
 This milestone completes app-facing routing for local notification taps, adds a
 small Quran entry/detail surface, and gives prayer location a manual settings
 page. It does not add GPS, compass/sensor permissions, FCM/APNs server push,
-analytics, crash reporting, live CMS calls, full Quran corpus downloads, Quran
-TTS, or new religious content.
+default-on analytics, crash reporting, live CMS calls, full Quran corpus
+downloads, Quran TTS, or new religious content.
 
 ## Notification Tap Routing
 

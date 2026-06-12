@@ -45,6 +45,11 @@ Analytics consent changes, if enabled in a reviewed build, send only enabled
 state and `source=privacy_center`; tester identity, location, feedback text,
 Women's Ibadah Mode status, and religious content are not sent.
 
+Notification tap analytics, if enabled in a reviewed build after user opt-in,
+sends only a coarse content type and `source=local_notification`. Raw payloads,
+routes, content IDs, prayer names, reminder times, Women's Ibadah Mode status,
+and religious content are not sent.
+
 Draft note: Google Play Data Safety focuses on data collected from or shared
 off device. Confirm final treatment of local-only data before submission.
 

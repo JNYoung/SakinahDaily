@@ -56,6 +56,11 @@ Current implementation:
   check-in streak, and prayer reminder enabled state.
 - Prayer reminder global and per-prayer changes record local
   `prayer_reminder_changed` events with reminder enabled state and lead time.
+- Handled local notification taps record `notification_tap_opened` with only a
+  coarse content type such as `prayer`, `daily_session`, `quran`, `dua`, or
+  `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
+  prayer names, exact reminder times, Women's Ibadah Mode status, and religious
+  text are not sent.
 - Prayer checklist updates record local `prayer_checklist_updated` events with
   aggregate completed count and all-prayers-completed boolean only; exact
   prayer completion names and timestamps are not sent.
@@ -81,6 +86,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `home_viewed`
 - `prayer_viewed`
 - `prayer_reminder_changed`
+- `notification_tap_opened`
 - `analytics_consent_changed`
 - `daily_session_reminder_changed`
 - `prayer_checklist_updated`
@@ -166,13 +172,15 @@ and the tester has turned on the Privacy Center usage analytics opt-in. Store
 screenshot mode forces analytics off and is not valid DebugView evidence.
 
 The QA reviewer should verify that `home_viewed`,
-`prayer_reminder_changed`, `analytics_consent_changed`,
+`prayer_reminder_changed`, `notification_tap_opened`,
+`analytics_consent_changed`,
 `daily_session_started`,
 `daily_session_step_viewed`, `daily_session_completed`,
 `daily_session_reminder_changed`, `closed_test_prompt_copied`, and
 `closed_test_prompt_marked_sent` appear only with allowed parameters. No tester
 personal data, exact coordinates, Women's Ibadah Mode exact status, feedback
 text, religious text, or exact reminder time should appear in DebugView.
+`notification_tap_opened` must keep only `content_type` and `source`.
 `analytics_consent_changed` must keep only `enabled` and `source`.
 
 Strict export mode is available for pre-upload review:

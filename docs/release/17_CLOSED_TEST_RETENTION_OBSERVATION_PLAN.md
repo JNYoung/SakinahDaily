@@ -7,8 +7,8 @@ Last checked against Google Play Help on 2026-06-11.
 ## Purpose
 
 This plan turns the Sakinah Daily closed test into a lightweight retention and
-user-experience observation loop without adding analytics, crash SDKs, ads,
-accounts, or remote personal-data collection.
+user-experience observation loop without adding default-on analytics, crash
+SDKs, ads, accounts, or remote personal-data collection.
 
 Use it with:
 
@@ -46,7 +46,9 @@ signals:
 - Prayer Reminder Opt-in Rate.
 - Analytics Consent Rate for reviewed QA builds that need DebugView evidence.
 - D1 / D7 Retention.
-- Push Open Rate when testers voluntarily mention reminder opens.
+- Push Open Rate from aggregate tester feedback by default, or
+  `notification_tap_opened` DebugView evidence when reviewed analytics QA is
+  explicitly approved.
 - Daily Session Start Rate.
 - Settings Completion Rate.
 
@@ -63,6 +65,9 @@ Day 14 evidence log with raw analytics exports, and do not store tester
 personal data.
 Privacy Center consent toggles should appear only as
 `analytics_consent_changed` with enabled state and `source=privacy_center`.
+Local notification opens should appear only as `notification_tap_opened` with
+coarse content type and `source=local_notification`; do not store raw payloads,
+routes, content IDs, prayer names, or religious text.
 
 ## Observation Windows
 

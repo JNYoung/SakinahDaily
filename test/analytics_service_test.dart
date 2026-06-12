@@ -24,6 +24,7 @@ void main() {
           AnalyticsEventCatalog.homeViewed,
           AnalyticsEventCatalog.prayerViewed,
           AnalyticsEventCatalog.prayerReminderChanged,
+          AnalyticsEventCatalog.notificationTapOpened,
           AnalyticsEventCatalog.analyticsConsentChanged,
           AnalyticsEventCatalog.dailySessionReminderChanged,
           AnalyticsEventCatalog.prayerChecklistUpdated,
@@ -235,6 +236,31 @@ void main() {
       expect(analytics.events.single.properties, {
         'enabled': true,
         'source': 'privacy_center',
+      });
+    });
+
+    test('notification tap analytics keeps only coarse open metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.notificationTapOpened,
+        const {
+          'content_type': 'daily_session',
+          'source': 'local_notification',
+          'route': '/session/session_morning_ease',
+          'content_id': 'session_morning_ease',
+          'session_id': 'session_morning_ease',
+          'prayer_name': 'Fajr',
+          'quran_arabic_text': 'sensitive text should never be sent',
+          'women_ibadah_status': 'menstruating',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'content_type': 'daily_session',
+        'source': 'local_notification',
       });
     });
 

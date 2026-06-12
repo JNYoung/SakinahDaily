@@ -49,11 +49,13 @@ class NotificationTapResult {
   const NotificationTapResult({
     required this.handled,
     required this.flags,
+    this.analyticsContentType,
     this.route,
   });
 
   final bool handled;
   final String? route;
+  final String? analyticsContentType;
   final List<String> flags;
 }
 
@@ -112,6 +114,7 @@ class NotificationTapService {
       return const NotificationTapResult(
         handled: true,
         route: '/prayer',
+        analyticsContentType: 'prayer',
         flags: ['notification_tap_fallback_prayer'],
       );
     }
@@ -124,6 +127,7 @@ class NotificationTapService {
           return NotificationTapResult(
             handled: true,
             route: result.route,
+            analyticsContentType: _analyticsContentType(payload.type),
             flags: result.flags,
           );
         }
@@ -131,6 +135,7 @@ class NotificationTapService {
           return NotificationTapResult(
             handled: true,
             route: payload.fallbackRoute,
+            analyticsContentType: _analyticsContentType(payload.type),
             flags: [...result.flags, 'fallback_route_used'],
           );
         }
@@ -139,6 +144,7 @@ class NotificationTapService {
           return NotificationTapResult(
             handled: true,
             route: directRoute,
+            analyticsContentType: _analyticsContentType(payload.type),
             flags: [...result.flags, 'direct_route_fallback'],
           );
         }
@@ -154,6 +160,7 @@ class NotificationTapService {
       return NotificationTapResult(
         handled: true,
         route: directRoute,
+        analyticsContentType: _analyticsContentType(payload.type),
         flags: const ['direct_route_fallback'],
       );
     }
@@ -162,6 +169,7 @@ class NotificationTapService {
       return NotificationTapResult(
         handled: true,
         route: payload.fallbackRoute,
+        analyticsContentType: _analyticsContentType(payload.type),
         flags: const ['fallback_route_used'],
       );
     }
@@ -176,6 +184,17 @@ class NotificationTapService {
     return switch (type) {
       'daily_session' || 'dailySession' || 'dua' || 'dhikr' || 'quran' => true,
       _ => false,
+    };
+  }
+
+  String? _analyticsContentType(String type) {
+    return switch (type) {
+      'daily_session' || 'dailySession' => 'daily_session',
+      'prayer' => 'prayer',
+      'quran' => 'quran',
+      'dua' => 'dua',
+      'dhikr' => 'dhikr',
+      _ => null,
     };
   }
 

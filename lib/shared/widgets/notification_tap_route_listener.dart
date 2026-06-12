@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../core/services/notification_tap_service.dart';
 
 class NotificationTapRouteListener extends ConsumerStatefulWidget {
@@ -56,12 +57,27 @@ class _NotificationTapRouteListenerState
           } else {
             context.go(route);
           }
+          _trackNotificationTapOpened(result);
         }
         ref.read(notificationTapResultProvider.notifier).state = null;
         _scheduledResult = null;
       });
     }
     return widget.child;
+  }
+
+  void _trackNotificationTapOpened(NotificationTapResult result) {
+    final contentType = result.analyticsContentType;
+    if (contentType == null || contentType.isEmpty) {
+      return;
+    }
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.notificationTapOpened,
+      {
+        'content_type': contentType,
+        'source': 'local_notification',
+      },
+    );
   }
 
   Future<void> _resolveLaunchPayload() async {
