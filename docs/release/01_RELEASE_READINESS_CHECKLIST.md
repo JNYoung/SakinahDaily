@@ -239,8 +239,10 @@ Status: Draft for release/store review.
   whitelist, sensitive-parameter filtering, Firebase Analytics integration, and
   default-off collection. Production telemetry still requires privacy/Data
   Safety review, Firebase project configuration, and user opt-in from Privacy
-  Center. Daily Session reminder analytics is limited to enabled state, source,
-  change type, and session ID; exact reminder time is not sent.
+  Center. Privacy Center analytics consent changes are observable only as
+  `analytics_consent_changed` with enabled state and `source=privacy_center`.
+  Daily Session reminder analytics is limited to enabled state, source, change
+  type, and session ID; exact reminder time is not sent.
 - [x] No exact GPS permission is added.
 - [x] Onboarding offers preset prayer-location setup and states that GPS
   permission is not requested in v0.1.

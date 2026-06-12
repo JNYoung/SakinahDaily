@@ -44,6 +44,7 @@ signals:
 - Onboarding Completion Rate.
 - Prayer View Rate.
 - Prayer Reminder Opt-in Rate.
+- Analytics Consent Rate for reviewed QA builds that need DebugView evidence.
 - D1 / D7 Retention.
 - Push Open Rate when testers voluntarily mention reminder opens.
 - Daily Session Start Rate.
@@ -60,6 +61,8 @@ DebugView QA packet and use Firebase DebugView only to verify the whitelisted
 events and blocked fields. Do not replace the aggregate Day 1 / Day 3 / Day 7 /
 Day 14 evidence log with raw analytics exports, and do not store tester
 personal data.
+Privacy Center consent toggles should appear only as
+`analytics_consent_changed` with enabled state and `source=privacy_center`.
 
 ## Observation Windows
 

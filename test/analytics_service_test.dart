@@ -24,6 +24,7 @@ void main() {
           AnalyticsEventCatalog.homeViewed,
           AnalyticsEventCatalog.prayerViewed,
           AnalyticsEventCatalog.prayerReminderChanged,
+          AnalyticsEventCatalog.analyticsConsentChanged,
           AnalyticsEventCatalog.dailySessionReminderChanged,
           AnalyticsEventCatalog.prayerChecklistUpdated,
           AnalyticsEventCatalog.dailySessionStarted,
@@ -211,6 +212,29 @@ void main() {
       });
       expect(analytics.events.last.properties, {
         'source': 'onboarding',
+      });
+    });
+
+    test('analytics consent analytics keeps only consent funnel metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.analyticsConsentChanged,
+        const {
+          'enabled': true,
+          'source': 'privacy_center',
+          'email': 'tester@example.com',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'menstruating',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'enabled': true,
+        'source': 'privacy_center',
       });
     });
 
