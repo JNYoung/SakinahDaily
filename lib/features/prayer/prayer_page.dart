@@ -127,31 +127,47 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
             );
           }
           if (index == 2) {
+            final completedCount = prayerCompletion.completedCountForDate(now);
+            final allPrayersCompleted =
+                completedCount >= defaultPrayerReminderNames.length;
             return AppCard(
               key: SakinahKeys.prayerCompletionSummaryCard,
               padding: const EdgeInsets.all(18),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.check_circle_outline_rounded),
+                  Icon(
+                    allPrayersCompleted
+                        ? Icons.task_alt_rounded
+                        : Icons.check_circle_outline_rounded,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          l10n.t('todaysPrayerCheckIn'),
+                          l10n.t(
+                            allPrayersCompleted
+                                ? 'todaysPrayerCheckInComplete'
+                                : 'todaysPrayerCheckIn',
+                          ),
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 4),
-                        Text(l10n.t('prayerCheckInBody')),
+                        Text(
+                          l10n.t(
+                            allPrayersCompleted
+                                ? 'prayerCheckInCompleteBody'
+                                : 'prayerCheckInBody',
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    '${prayerCompletion.completedCountForDate(now)}/'
-                    '${defaultPrayerReminderNames.length}',
+                    '$completedCount/${defaultPrayerReminderNames.length}',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.w800,
                         ),

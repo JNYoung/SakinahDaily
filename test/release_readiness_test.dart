@@ -2579,6 +2579,11 @@ void main() {
           'Prayer page stores local prayer check-in and Home summarizes it',
         ),
       );
+      expect(
+        featureBehaviorTest,
+        contains('Prayer page shows complete state for five local check-ins'),
+      );
+      expect(featureBehaviorTest, contains("Today's prayers are checked in"));
       expect(featureBehaviorTest, contains('Prayers today'));
       expect(featureBehaviorTest, contains('1/5'));
       expect(
@@ -2614,6 +2619,7 @@ void main() {
         readiness,
         contains('Prayer completion check-ins are local-only'),
       );
+      expect(readiness, contains('complete state after all five'));
       expect(readiness, contains('Prayer week summary'));
       expect(
         productProgress,
@@ -2623,6 +2629,7 @@ void main() {
         productProgress,
         contains('Prayer page now includes a local-only'),
       );
+      expect(productProgress, contains('complete-state summary'));
       expect(productProgress, contains('Home now shows a local-only'));
       expect(productProgress, contains('Home view analytics includes only'));
       expect(
@@ -2640,6 +2647,7 @@ void main() {
         acceptance,
         contains('用户可以在 Prayer 页本地标记今日五次礼拜完成状态'),
       );
+      expect(acceptance, contains('本地完成态'));
       expect(acceptance, contains('本地周进度'));
       expect(acceptance, contains('[x] Prayer reminders 可开启/关闭。'));
     });

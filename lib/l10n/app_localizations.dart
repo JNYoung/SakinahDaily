@@ -832,6 +832,18 @@ abstract class AppLocalizations {
   /// **'Mark prayers you have completed. Stored locally only.'**
   String get prayerCheckInBody;
 
+  /// No description provided for @todaysPrayerCheckInComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s prayers are checked in'**
+  String get todaysPrayerCheckInComplete;
+
+  /// No description provided for @prayerCheckInCompleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your five prayer check-ins are saved on this device only.'**
+  String get prayerCheckInCompleteBody;
+
   /// No description provided for @prayerCompletedStatus.
   ///
   /// In en, this message translates to:

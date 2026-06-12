@@ -79,6 +79,8 @@ Completed:
 - Prayer page now includes a local-only "Today's prayer check-in" checklist for
   Fajr, Dhuhr, Asr, Maghrib, and Isha, and Home summarizes the completed count
   as "Prayers today" inside the local progress card.
+- When all five daily prayers are checked in, Prayer shows a localized
+  complete-state summary that confirms the five check-ins remain on device.
 - Home now shows a local-only "Prayer week" summary with recent check-in days
   and current prayer streak, helping users see a lightweight weekly habit loop
   without account sync or remote prayer history.

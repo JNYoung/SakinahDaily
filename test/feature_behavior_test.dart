@@ -409,6 +409,33 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Prayer page shows complete state for five local check-ins',
+      (tester) async {
+    final completionStore = InMemoryPrayerCompletionStore();
+    final repository = PrayerCompletionRepository(completionStore);
+    final now = DateTime(2026, 5, 21, 21, 30);
+    for (final prayerName in ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']) {
+      await repository.markCompleted(prayerName, completedAt: now);
+    }
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      currentDateTime: now,
+      prayerCompletionStore: completionStore,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text("Today's prayers are checked in"), findsOneWidget);
+    expect(
+      find.text('Your five prayer check-ins are saved on this device only.'),
+      findsOneWidget,
+    );
+    expect(find.text('5/5'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Home shows prayer weekly progress and aggregate view analytics',
       (tester) async {
     final completionStore = InMemoryPrayerCompletionStore();

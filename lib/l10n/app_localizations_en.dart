@@ -390,6 +390,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Mark prayers you have completed. Stored locally only.';
 
   @override
+  String get todaysPrayerCheckInComplete => 'Today\'s prayers are checked in';
+
+  @override
+  String get prayerCheckInCompleteBody =>
+      'Your five prayer check-ins are saved on this device only.';
+
+  @override
   String get prayerCompletedStatus => 'Completed';
 
   @override

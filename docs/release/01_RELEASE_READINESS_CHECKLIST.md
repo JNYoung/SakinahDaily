@@ -242,6 +242,8 @@ Status: Draft for release/store review.
 - [x] Prayer page exposes a localized local-only prayer check-in checklist for
   Fajr, Dhuhr, Asr, Maghrib, and Isha, and Home summarizes today's completed
   count without account sync.
+- [x] Prayer page shows a localized local-only complete state after all five
+  daily prayer check-ins are marked on the same day.
 - [x] Home exposes a localized local-only Prayer week summary with check-in
   days and streak, while analytics can only receive aggregate retention counts
   after the default-off Firebase gate and user opt-in.
