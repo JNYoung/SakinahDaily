@@ -2809,6 +2809,10 @@ void main() {
         contains('Prayer complete state starts Daily Session'),
       );
       expect(
+        featureTest,
+        contains('Prayer complete state reviews completed Daily Session'),
+      );
+      expect(
         navigationTest,
         contains('daily session start advances and finishes to completion'),
       );
@@ -2825,6 +2829,7 @@ void main() {
         productProgress,
         contains('five-prayer complete state now offers a Start session CTA'),
       );
+      expect(productProgress, contains('opens the local completion page'));
       expect(acceptance, contains('[x] 用户可以可选完成 Daily Session。'));
       expect(acceptance, contains('[x] Reflection 不提供 fatwa 风格结论。'));
     });

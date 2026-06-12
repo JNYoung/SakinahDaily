@@ -88,7 +88,9 @@ Completed:
 - The five-prayer complete state now offers a Start session CTA into Today's
   Sakinah session, carrying a privacy-safe `prayer_completion` source on the
   existing Daily Session start and completion events so the prayer-to-session
-  loop can be observed without sending prayer names or timestamps.
+  loop can be observed without sending prayer names or timestamps. If today's
+  session is already complete, the same Prayer completion card changes to
+  Review and opens the local completion page instead of restarting the session.
 - Home now shows a local-only "Prayer week" summary with recent check-in days
   and current prayer streak, helping users see a lightweight weekly habit loop
   without account sync or remote prayer history.
