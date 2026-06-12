@@ -129,6 +129,38 @@ Useful options:
 - `SAKINAH_PLAY_TESTING_FEEDBACK=<email-or-url>` passes the closed-testing
   feedback channel into the dev build when verifying tester-facing surfaces.
 
+## Android OEM Reminder Observation Packet
+
+Use the Android OEM reminder observation packet before broad beta to prepare
+long-window local reminder evidence without tester personal data:
+
+```sh
+scripts/export_android_oem_reminder_observation_packet.sh
+```
+
+Template mode exports `build/android-oem-reminder-observation` with:
+
+- `long_window_observation_log.csv` for 8-hour and 24-hour prayer reminder
+  delivery/tap observations.
+- `reboot_delivery_checklist.csv` for `RECEIVE_BOOT_COMPLETED` reminder restore
+  checks after reboot or package replacement.
+- `battery_policy_review.csv` for aggressive battery-management notes.
+- `oem_observation_checklist.md` for lock-screen copy and privacy-safe
+  observation rules.
+
+Strict mode should pass only after real device evidence is complete:
+
+```sh
+SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY=true \
+SAKINAH_ANDROID_OEM_TEST_DEVICE_CONFIRMED=true \
+SAKINAH_8H_PRAYER_REMINDER_OBSERVED=true \
+SAKINAH_24H_PRAYER_REMINDER_OBSERVED=true \
+SAKINAH_REBOOT_REMINDER_RESTORE_OBSERVED=true \
+SAKINAH_BATTERY_POLICY_REVIEWED=true \
+SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED=true \
+scripts/export_android_oem_reminder_observation_packet.sh
+```
+
 Template mode exports `build/play-upload` for local review. Strict mode requires
 the same upload signing, public privacy/feedback links, Google Group,
 closed-track binding, app-content/store-listing confirmations, signed AAB

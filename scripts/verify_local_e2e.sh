@@ -9,6 +9,7 @@ skip_dart_analyze="${SAKINAH_E2E_SKIP_DART_ANALYZE:-false}"
 skip_submission_pack="${SAKINAH_E2E_SKIP_SUBMISSION_PACK:-false}"
 skip_public_links_packet="${SAKINAH_E2E_SKIP_PUBLIC_LINKS_PACKET:-false}"
 skip_reviewed_content_pack="${SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK:-false}"
+skip_android_oem_observation_packet="${SAKINAH_E2E_SKIP_ANDROID_OEM_OBSERVATION_PACKET:-false}"
 skip_android_launch="${SAKINAH_E2E_SKIP_ANDROID_LAUNCH:-false}"
 run_release_gate="${SAKINAH_E2E_RUN_RELEASE_GATE:-false}"
 flutter_test_args=()
@@ -66,6 +67,13 @@ if [[ "$skip_reviewed_content_pack" != "true" ]]; then
     scripts/export_reviewed_content_pack_readiness.sh
 else
   printf 'Skipping reviewed content pack readiness packet because SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK=true.\n'
+fi
+
+if [[ "$skip_android_oem_observation_packet" != "true" ]]; then
+  run_step "Android OEM reminder observation packet" \
+    scripts/export_android_oem_reminder_observation_packet.sh
+else
+  printf 'Skipping Android OEM reminder observation packet because SAKINAH_E2E_SKIP_ANDROID_OEM_OBSERVATION_PACKET=true.\n'
 fi
 
 if [[ "$run_release_gate" == "true" ]]; then

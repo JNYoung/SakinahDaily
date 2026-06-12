@@ -30,7 +30,8 @@ Current high-priority release work:
 1. Debug/release Android build validation with Flutter available on PATH.
 2. Upload-key provisioning, version/build number, privacy policy URL, and final
    legal/store approval for the Google Play listing candidate.
-3. Longer-window Android OEM scheduling observation for local reminders.
+3. Longer-window Android OEM scheduling observation for local reminders, using
+   the Android OEM reminder observation packet before broad beta.
 4. Reviewed content pack readiness packet strict mode after Quran source
    placeholders, beta session/dua/dhikr coverage, licensed Quran audio rights,
    and a human content owner are externally confirmed.
@@ -132,6 +133,11 @@ Open product links:
   P1.
 - Longer-window OEM scheduling behavior remains open for observation, especially
   after reboot or aggressive battery-management states.
+- `scripts/export_android_oem_reminder_observation_packet.sh` now exports an
+  Android OEM reminder observation packet with 8-hour, 24-hour, reboot restore,
+  battery-policy, privacy-safe notes, and strict-mode confirmation templates.
+  Template mode does not claim delivery success; strict mode waits for real
+  device observation.
 
 Suggested next milestone:
 
@@ -413,6 +419,10 @@ Android launch smoke preparation:
   as `emulator-5554` with `SAKINAH_ANDROID_SKIP_BUILD=true`; evidence:
   `build/android-launch-smoke/emulator-5554-launch.png` and
   `build/android-launch-smoke/emulator-5554-manifest.txt`.
+- Android OEM reminder observation preparation now exports
+  `build/android-oem-reminder-observation` with long-window reminder,
+  reboot-restore, battery-policy, lock-screen-copy, and no-tester-personal-data
+  templates for the next overnight/24-hour device QA pass.
 
 Google Play metadata preparation:
 

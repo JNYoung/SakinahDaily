@@ -74,6 +74,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
 - Reviewed content pack readiness packet:
   `build/reviewed-content-pack-readiness`, exported by
   `scripts/export_reviewed_content_pack_readiness.sh`.
+- Android OEM reminder observation packet:
+  `build/android-oem-reminder-observation`, exported by
+  `scripts/export_android_oem_reminder_observation_packet.sh`.
 - Production access answer pack:
   `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md` and
   `scripts/verify_google_play_production_access_pack.sh`.
@@ -110,6 +113,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   placeholders are replaced, beta session/dua/dhikr coverage is reviewed,
   licensed Quran audio rights and hashes are confirmed, and a human content
   owner signs off.
+- Android OEM reminder observation packet strict mode after 8-hour, 24-hour,
+  reboot restore, and aggressive battery-management reminder behavior is
+  observed on a real Android device and a human observation owner signs off.
 - Google Group and Play Console closed-testing track setup.
 - Real 14-day closed-testing evidence log and feedback summary.
 - Production access answer draft strict mode after feedback themes, changes
