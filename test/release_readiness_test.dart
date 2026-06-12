@@ -2302,9 +2302,14 @@ void main() {
 
       expect(sessionPage, contains('reflectionSafetyDescription'));
       expect(keys, contains('sessionReflectionSafetyCard'));
+      expect(keys, contains('prayerCompletionStartSessionButton'));
       expect(
         featureTest,
         contains('Daily Session reflection step shows no-fatwa safety note'),
+      );
+      expect(
+        featureTest,
+        contains('Prayer complete state starts Daily Session'),
       );
       expect(
         navigationTest,
@@ -2318,6 +2323,10 @@ void main() {
       expect(
         productProgress,
         contains('Reflection step now shows a localized no-fatwa note'),
+      );
+      expect(
+        productProgress,
+        contains('five-prayer complete state now offers a Start session CTA'),
       );
       expect(acceptance, contains('[x] 用户可以可选完成 Daily Session。'));
       expect(acceptance, contains('[x] Reflection 不提供 fatwa 风格结论。'));

@@ -49,7 +49,9 @@ class SakinahBottomNav extends StatelessWidget {
                   context.go('/prayer');
                   return;
                 case 2:
-                  context.go('/session/session_morning_ease');
+                  context.go(
+                    '/session/session_morning_ease?source=bottom_navigation',
+                  );
                   return;
                 case 3:
                   context.go('/settings');

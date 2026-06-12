@@ -81,6 +81,10 @@ Completed:
   as "Prayers today" inside the local progress card.
 - When all five daily prayers are checked in, Prayer shows a localized
   complete-state summary that confirms the five check-ins remain on device.
+- The five-prayer complete state now offers a Start session CTA into Today's
+  Sakinah session, carrying a privacy-safe `prayer_completion` source on the
+  existing Daily Session start event so the prayer-to-session loop can be
+  observed without sending prayer names or timestamps.
 - Home now shows a local-only "Prayer week" summary with recent check-in days
   and current prayer streak, helping users see a lightweight weekly habit loop
   without account sync or remote prayer history.

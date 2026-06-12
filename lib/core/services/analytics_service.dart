@@ -170,6 +170,12 @@ class AnalyticsParameterPolicy {
     'source',
   };
 
+  static const _dailySessionStartedKeys = {
+    'session_id',
+    'language_code',
+    'source',
+  };
+
   static const _dailySessionStepViewedKeys = {
     'session_id',
     'step_id',
@@ -224,6 +230,8 @@ class AnalyticsParameterPolicy {
         _audioPreferenceSelectedKeys.contains(key),
       AnalyticsEventCatalog.onboardingCompleted =>
         _onboardingCompletedKeys.contains(key),
+      AnalyticsEventCatalog.dailySessionStarted =>
+        _dailySessionStartedKeys.contains(key),
       AnalyticsEventCatalog.dailySessionStepViewed =>
         _dailySessionStepViewedKeys.contains(key),
       _ => true,

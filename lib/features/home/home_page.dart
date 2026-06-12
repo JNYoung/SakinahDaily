@@ -196,7 +196,7 @@ class HomePage extends ConsumerWidget {
             voiceOnlyLabel: l10n.t('voiceOnly'),
             onStart: () => completedToday
                 ? context.go('/session/${session.id}/completed')
-                : context.go('/session/${session.id}'),
+                : context.go('/session/${session.id}?source=home'),
             onVoiceOnly: () => _showQuranVoiceOnlySheet(context, l10n),
           ),
           if (recentSavedItems.isNotEmpty) ...[

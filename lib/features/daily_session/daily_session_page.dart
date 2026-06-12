@@ -18,9 +18,14 @@ import '../../shared/widgets/primary_button.dart';
 import '../../shared/widgets/source_chip.dart';
 
 class DailySessionPage extends ConsumerStatefulWidget {
-  const DailySessionPage({required this.sessionId, super.key});
+  DailySessionPage({
+    required this.sessionId,
+    String? entrySource,
+    super.key,
+  }) : entrySource = _safeDailySessionEntrySource(entrySource);
 
   final String sessionId;
+  final String entrySource;
 
   @override
   ConsumerState<DailySessionPage> createState() => _DailySessionPageState();
@@ -39,6 +44,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
         .read(analyticsServiceProvider)
         .track(AnalyticsEventCatalog.dailySessionStarted, {
       'session_id': widget.sessionId,
+      'source': widget.entrySource,
     });
     unawaited(_startOrResumeSession());
   }
@@ -245,6 +251,18 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
       },
     );
   }
+}
+
+String _safeDailySessionEntrySource(String? source) {
+  return switch (source) {
+    'home' ||
+    'prayer_completion' ||
+    'bottom_navigation' ||
+    'saved_items' ||
+    'notification' =>
+      source!,
+    _ => 'direct',
+  };
 }
 
 class _StepContent extends ConsumerWidget {
