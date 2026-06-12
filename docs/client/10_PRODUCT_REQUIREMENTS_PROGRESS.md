@@ -123,6 +123,9 @@ Completed:
 - Notification Settings now summarizes selected prayer names and lead time in
   the enabled reminder status, so users can confirm the exact local reminder
   scope without opening each per-prayer control.
+- Notification Settings now previews the next local prayer reminder with prayer
+  name and local clock time after reminders are enabled, helping testers verify
+  the habit loop without uploading reminder timing.
 - Android evidence for per-prayer reminder controls:
   `build/store-screenshots/android-safety/en-notification-settings-per-prayer.png`.
 - Notification Settings has an opt-in dev-only smoke-test button for scheduling

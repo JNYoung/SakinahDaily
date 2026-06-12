@@ -137,6 +137,7 @@
   "prayerReminderChoiceSubtitle": "Dipilih untuk jadwal pengingat",
   "prayerReminderLeadTimeTitle": "Waktu pengingat",
   "prayerReminderLeadTimeBody": "Kirim setiap pengingat shalat terpilih saat waktu shalat atau beberapa menit sebelumnya.",
+  "nextPrayerReminderPreview": "Pengingat shalat berikutnya",
   "notificationPermissionTitle": "Aktifkan pengingat shalat?",
   "notificationPermissionBody": "Sakinah menjadwalkan pengingat shalat lokal hanya setelah izin. Pengingat mode perempuan tetap aman untuk layar terkunci.",
   "notificationPermissionAllow": "Aktifkan pengingat",

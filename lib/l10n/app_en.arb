@@ -137,6 +137,7 @@
   "prayerReminderChoiceSubtitle": "Selected for reminder schedule",
   "prayerReminderLeadTimeTitle": "Reminder timing",
   "prayerReminderLeadTimeBody": "Send each selected prayer reminder at the prayer time or a few minutes before.",
+  "nextPrayerReminderPreview": "Next prayer reminder",
   "notificationPermissionTitle": "Enable prayer reminders?",
   "notificationPermissionBody": "Sakinah schedules local prayer reminders only after permission. Women's mode reminders stay privacy-safe on the lock screen.",
   "notificationPermissionAllow": "Enable reminders",

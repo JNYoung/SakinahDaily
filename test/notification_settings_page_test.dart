@@ -1,8 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/config/app_environment.dart';
+import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
+import 'package:sakinah_daily/core/services/prayer_calculation_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
 
 import 'support/sakinah_test_harness.dart';
@@ -452,6 +454,51 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Notification settings previews the next local prayer reminder',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub();
+    final now = DateTime(2026, 5, 21, 3);
+    final preferences = UserPreferences.defaults();
+    final expectedPrayer = PrayerCalculationService()
+        .dayStatus(now, preferences.prayerSettings)
+        .nextPrayer;
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications',
+      settleSplash: false,
+      currentDateTime: now,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(SakinahKeys.settingsPrayerNextReminderPreview),
+      findsNothing,
+    );
+
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    expect(find.text('Enable prayer reminders?'), findsOneWidget);
+
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(SakinahKeys.settingsPrayerNextReminderPreview),
+      findsOneWidget,
+    );
+    expect(
+      find.text(
+        'Next prayer reminder · ${expectedPrayer.name} '
+        '${_formatClockTime(expectedPrayer.time)}',
+      ),
+      findsOneWidget,
+    );
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Notification settings records prayer reminder choice analytics',
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();
@@ -561,4 +608,9 @@ void main() {
     );
     expectNoFlutterErrors(tester);
   });
+}
+
+String _formatClockTime(DateTime time) {
+  return '${time.hour.toString().padLeft(2, '0')}:'
+      '${time.minute.toString().padLeft(2, '0')}';
 }

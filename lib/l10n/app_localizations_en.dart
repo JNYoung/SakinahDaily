@@ -441,6 +441,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Send each selected prayer reminder at the prayer time or a few minutes before.';
 
   @override
+  String get nextPrayerReminderPreview => 'Next prayer reminder';
+
+  @override
   String get notificationPermissionTitle => 'Enable prayer reminders?';
 
   @override

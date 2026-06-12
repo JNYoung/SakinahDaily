@@ -440,6 +440,9 @@ class AppLocalizationsId extends AppLocalizations {
       'Kirim setiap pengingat shalat terpilih saat waktu shalat atau beberapa menit sebelumnya.';
 
   @override
+  String get nextPrayerReminderPreview => 'Pengingat shalat berikutnya';
+
+  @override
   String get notificationPermissionTitle => 'Aktifkan pengingat shalat?';
 
   @override
