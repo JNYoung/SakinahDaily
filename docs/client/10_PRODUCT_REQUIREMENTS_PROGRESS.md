@@ -31,6 +31,9 @@ Current high-priority release work:
 2. Upload-key provisioning, version/build number, privacy policy URL, and final
    legal/store approval for the Google Play listing candidate.
 3. Longer-window Android OEM scheduling observation for local reminders.
+4. Reviewed content pack readiness packet strict mode after Quran source
+   placeholders, beta session/dua/dhikr coverage, licensed Quran audio rights,
+   and a human content owner are externally confirmed.
 
 ## 1. Cold-Start Notification Routing
 
@@ -184,6 +187,12 @@ Open product links:
 
 - There is only one seed session; a production beta needs a small reviewed
   session pack or staging CMS content.
+- `scripts/export_reviewed_content_pack_readiness.sh` now exports a reviewed
+  content pack readiness packet with current seed counts, beta targets,
+  Quran source placeholder review, Quran audio rights/hash gaps, and a
+  no-generated-religious-content checklist. Template mode is local evidence
+  only; strict mode must wait for external source, reviewer, and rights
+  confirmations.
 - Licensed Quran reciter audio is not bundled; current seed audio metadata uses
   empty URL/hash placeholders.
 - Offline audio cache validation, asset rights, and hash checks remain open.
@@ -230,6 +239,9 @@ Open product links:
 - Full approved Quran corpus routing is not shipped.
 - Seed Quran source labels still say “replace with approved Quran source before
   production”; this is not store-production content.
+- The reviewed content pack readiness packet lists all current Quran source
+  placeholders so the smallest approved Quran slice can be reviewed without
+  generating Quran text.
 - Surah/Juz browse and broader corpus navigation are not shipped; local search
   and previous/next navigation are limited to the current reviewed seed ayahs.
 - Licensed reciter assets, offline audio cache, and hash validation are open.

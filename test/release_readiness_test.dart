@@ -581,6 +581,8 @@ void main() {
       expect(content, contains('dart analyze'));
       expect(content, contains('verify_google_play_submission_pack.sh'));
       expect(content, contains('verify_google_play_public_links_packet.sh'));
+      expect(content, contains('export_reviewed_content_pack_readiness.sh'));
+      expect(content, contains('SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK'));
       expect(content, contains('verify_android_launch_smoke.sh'));
       expect(content, contains('SAKINAH_E2E_RUN_RELEASE_GATE'));
       expect(content, contains('SAKINAH_E2E_SKIP_ANDROID_LAUNCH'));
@@ -1649,6 +1651,150 @@ void main() {
       expect(readiness, contains('Google Analytics DebugView QA packet'));
       expect(retentionPlan, contains('DebugView QA packet'));
       expect(versionNotes, contains('Google Analytics DebugView QA packet'));
+    });
+
+    test('reviewed content pack readiness packet can be exported', () {
+      final script = File('scripts/export_reviewed_content_pack_readiness.sh');
+      final docsIndex = File('docs/00_DOCS_INDEX.md').readAsStringSync();
+      final productProgress =
+          File('docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md')
+              .readAsStringSync();
+      final research =
+          File('docs/research/01_COMPETITOR_FEATURE_GAP_PRIORITY.md')
+              .readAsStringSync();
+      final contentGuidelines =
+          File('docs/content/01_CONTENT_GUIDELINES.md').readAsStringSync();
+      final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
+          .readAsStringSync();
+      final versionNotes = File('docs/release/08_VERSION_AND_RELEASE_NOTES.md')
+          .readAsStringSync();
+
+      expect(script.existsSync(), isTrue);
+      final mode = script.statSync().mode;
+      expect(mode & 0x49, isNonZero);
+
+      final content = script.readAsStringSync();
+      expect(content, contains('build/reviewed-content-pack-readiness'));
+      expect(content, contains('content_inventory.csv'));
+      expect(content, contains('source_placeholder_review.csv'));
+      expect(content, contains('audio_asset_rights_review.csv'));
+      expect(content, contains('beta_pack_gap_checklist.md'));
+      expect(content, contains('SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY'));
+      expect(content, contains('SAKINAH_QURAN_SOURCE_PLACEHOLDERS_REPLACED'));
+      expect(content, contains('SAKINAH_BETA_SESSION_PACK_REVIEWED'));
+      expect(content, contains('SAKINAH_DUA_DHIKR_PACK_REVIEWED'));
+      expect(content, contains('SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED'));
+      expect(content, contains('SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED'));
+      expect(
+        content,
+        contains(
+          'Seed metadata; replace with approved Quran source before production',
+        ),
+      );
+      expect(content, contains('session_target_min,5'));
+      expect(content, contains('dua_target_min,30'));
+      expect(content, contains('dhikr_target_min,20'));
+      expect(content, contains('quran_ayah_target_min,10'));
+      expect(content, contains('No generated religious content'));
+
+      final templateRun = Process.runSync(
+        'bash',
+        ['scripts/export_reviewed_content_pack_readiness.sh'],
+        environment: {'PATH': Platform.environment['PATH'] ?? ''},
+        includeParentEnvironment: false,
+      );
+      expect(templateRun.exitCode, 0);
+      expect(
+        templateRun.stdout.toString(),
+        contains('Reviewed content pack readiness packet exported'),
+      );
+
+      final manifest =
+          File('build/reviewed-content-pack-readiness/manifest.txt')
+              .readAsStringSync();
+      final inventory =
+          File('build/reviewed-content-pack-readiness/content_inventory.csv')
+              .readAsStringSync();
+      final sourceReview = File(
+              'build/reviewed-content-pack-readiness/source_placeholder_review.csv')
+          .readAsStringSync();
+      final audioReview = File(
+              'build/reviewed-content-pack-readiness/audio_asset_rights_review.csv')
+          .readAsStringSync();
+      final checklist = File(
+              'build/reviewed-content-pack-readiness/beta_pack_gap_checklist.md')
+          .readAsStringSync();
+
+      expect(manifest, contains('Reviewed content pack readiness packet'));
+      expect(manifest, contains('No generated religious content'));
+      expect(manifest, contains('Seed-only v0.1 baseline'));
+      expect(manifest, contains('com.sakinahdaily.app'));
+
+      expect(inventory, contains('content_type,metric,value'));
+      expect(inventory, contains('daily_session,current_count,1'));
+      expect(inventory, contains('daily_session,reviewed_beta_target_min,5'));
+      expect(inventory, contains('quran_ayah,current_count,3'));
+      expect(inventory, contains('quran_ayah,reviewed_beta_target_min,10'));
+      expect(inventory, contains('quran_ayah,source_placeholder_count,3'));
+      expect(inventory, contains('dua,current_count,5'));
+      expect(inventory, contains('dua,reviewed_beta_target_min,30'));
+      expect(inventory, contains('dhikr,current_count,5'));
+      expect(inventory, contains('dhikr,reviewed_beta_target_min,20'));
+      expect(inventory, contains('audio_asset,missing_sha256_count,1'));
+
+      expect(
+        sourceReview,
+        contains('content_type,content_id,current_source,required_action'),
+      );
+      expect(sourceReview, contains('quran_ayah,1:1'));
+      expect(sourceReview, contains('quran_ayah,94:5'));
+      expect(sourceReview, contains('quran_ayah,13:28'));
+      expect(sourceReview, contains('replace with approved Quran source'));
+
+      expect(
+        audioReview,
+        contains(
+          'audio_asset_id,asset_type,approved,url_present,sha256_present,rights_status,required_action',
+        ),
+      );
+      expect(audioReview, contains('audio_fatiha_minshawi'));
+      expect(audioReview, contains('true,false,false'));
+      expect(audioReview, contains('licensed reciter'));
+
+      expect(checklist, contains('5-7 reviewed sessions'));
+      expect(checklist, contains('30-50 reviewed duas'));
+      expect(checklist, contains('20-30 reviewed dhikrs'));
+      expect(checklist, contains('10-20 reviewed Quran ayah references'));
+      expect(checklist, contains('No Quran source placeholder'));
+      expect(checklist, contains('No generated religious content'));
+
+      final strictRun = Process.runSync(
+        'bash',
+        ['scripts/export_reviewed_content_pack_readiness.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictRun.exitCode, isNot(0));
+      expect(
+        strictRun.stderr.toString(),
+        contains('reviewed content pack readiness failed'),
+      );
+      expect(
+        strictRun.stderr.toString(),
+        contains('SAKINAH_QURAN_SOURCE_PLACEHOLDERS_REPLACED=true'),
+      );
+
+      expect(docsIndex, contains('export_reviewed_content_pack_readiness.sh'));
+      expect(
+          productProgress, contains('reviewed content pack readiness packet'));
+      expect(research, contains('SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY'));
+      expect(contentGuidelines,
+          contains('reviewed content pack readiness packet'));
+      expect(readiness, contains('Reviewed content pack readiness packet'));
+      expect(versionNotes, contains('Reviewed content pack readiness packet'));
     });
 
     test('Google Play public links are scripted and documented', () {

@@ -8,6 +8,7 @@ skip_flutter_test="${SAKINAH_E2E_SKIP_FLUTTER_TEST:-false}"
 skip_dart_analyze="${SAKINAH_E2E_SKIP_DART_ANALYZE:-false}"
 skip_submission_pack="${SAKINAH_E2E_SKIP_SUBMISSION_PACK:-false}"
 skip_public_links_packet="${SAKINAH_E2E_SKIP_PUBLIC_LINKS_PACKET:-false}"
+skip_reviewed_content_pack="${SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK:-false}"
 skip_android_launch="${SAKINAH_E2E_SKIP_ANDROID_LAUNCH:-false}"
 run_release_gate="${SAKINAH_E2E_RUN_RELEASE_GATE:-false}"
 flutter_test_args=()
@@ -58,6 +59,13 @@ if [[ "$skip_public_links_packet" != "true" ]]; then
     scripts/verify_google_play_public_links_packet.sh
 else
   printf 'Skipping public links packet QA because SAKINAH_E2E_SKIP_PUBLIC_LINKS_PACKET=true.\n'
+fi
+
+if [[ "$skip_reviewed_content_pack" != "true" ]]; then
+  run_step "Reviewed content pack readiness packet" \
+    scripts/export_reviewed_content_pack_readiness.sh
+else
+  printf 'Skipping reviewed content pack readiness packet because SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK=true.\n'
 fi
 
 if [[ "$run_release_gate" == "true" ]]; then
