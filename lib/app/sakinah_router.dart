@@ -174,8 +174,19 @@ GoRouter createSakinahRouter({
       ),
       GoRoute(
         path: '/prayer',
-        builder: (context, state) => const PrayerPage(),
+        builder: (context, state) => PrayerPage(
+          entrySource: _safePrayerEntrySource(
+            state.uri.queryParameters['source'],
+          ),
+        ),
       ),
     ],
   );
+}
+
+String? _safePrayerEntrySource(String? source) {
+  return switch (source) {
+    'home_prayer_badge' || 'home_prayer_card' || 'home_progress_card' => source,
+    _ => null,
+  };
 }

@@ -331,7 +331,9 @@ void main() {
       expect(
           analyticsPlan, contains('daily_session_reminder_permission_result'));
       expect(analyticsPlan, contains('home_session_completion'));
+      expect(analyticsPlan, contains('home_prayer_badge'));
       expect(analyticsPlan, contains('home_prayer_card'));
+      expect(analyticsPlan, contains('home_progress_card'));
       expect(analyticsPlan, contains('prayer_page_card'));
       expect(analyticsPlan, contains('prayer_completion_card'));
       expect(analyticsPlan, contains('prayer_page_checklist'));
@@ -1773,7 +1775,9 @@ void main() {
       expect(content, contains('notification_settings_viewed'));
       expect(content, contains('prayer_reminder_permission_result'));
       expect(content, contains('notification_tap_opened'));
+      expect(content, contains('home_prayer_badge'));
       expect(content, contains('prayer_page_card'));
+      expect(content, contains('home_progress_card'));
       expect(content, contains('prayer_completion_card'));
       expect(content, contains('prayer_page_checklist'));
       expect(readiness, contains('prayer_page_card'));
@@ -1846,6 +1850,8 @@ void main() {
       expect(events, contains('notification_settings_viewed'));
       expect(events, contains('prayer_reminder_permission_result'));
       expect(events, contains('home_prayer_card'));
+      expect(events, contains('home_prayer_badge'));
+      expect(events, contains('home_progress_card'));
       expect(events, contains('prayer_page_card'));
       expect(events, contains('prayer_completion_card'));
       expect(events, contains('prayer_page_checklist'));

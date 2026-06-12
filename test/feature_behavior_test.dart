@@ -469,7 +469,7 @@ void main() {
     final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
-      initialLocation: '/prayer',
+      initialLocation: '/prayer?source=home_progress_card',
       settleSplash: false,
       currentDateTime: DateTime(2026, 5, 21, 6, 30),
       analyticsService: analytics,
@@ -483,6 +483,7 @@ void main() {
       'prayer_name': 'Dhuhr',
       'calculation_method': 'umm_al_qura',
       'location_method': 'preset',
+      'source': 'home_progress_card',
     });
     expectNoFlutterErrors(tester);
   });
