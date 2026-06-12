@@ -126,6 +126,44 @@ void main() {
       });
     });
 
+    test('onboarding analytics keeps only safe funnel metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.onboardingCompleted,
+        const {
+          'language_code': 'id',
+          'location_method': 'preset',
+          'audio_preference': 'textFirst',
+          'source': 'onboarding',
+          'gender_mode': 'female',
+          'location_label': 'Jakarta',
+          'prayer_name': 'Fajr',
+          'latitude': -6.2088,
+          'longitude': 106.8456,
+        },
+      );
+      analytics.track(
+        AnalyticsEventCatalog.genderModeSelected,
+        const {
+          'source': 'onboarding',
+          'gender_mode': 'female',
+          'women_ibadah_status': 'menstruating',
+        },
+      );
+
+      expect(analytics.events, hasLength(2));
+      expect(analytics.events.first.properties, {
+        'language_code': 'id',
+        'location_method': 'preset',
+        'audio_preference': 'textFirst',
+        'source': 'onboarding',
+      });
+      expect(analytics.events.last.properties, {
+        'source': 'onboarding',
+      });
+    });
+
     test('home analytics only keeps aggregate prayer retention fields', () {
       final analytics = StubAnalyticsService(enabled: true);
 

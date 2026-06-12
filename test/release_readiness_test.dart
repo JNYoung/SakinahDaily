@@ -209,6 +209,8 @@ void main() {
 
       expect(analyticsService, contains('AnalyticsEventCatalog'));
       expect(analyticsService, contains('AnalyticsParameterPolicy'));
+      expect(analyticsService, contains('onboarding_started'));
+      expect(analyticsService, contains('onboarding_completed'));
       expect(analyticsService, contains('daily_session_started'));
       expect(analyticsService, contains('home_viewed'));
       expect(analyticsService, contains('prayer_reminder_changed'));
@@ -229,6 +231,10 @@ void main() {
         analyticsTest,
         contains('home analytics only keeps aggregate prayer retention fields'),
       );
+      expect(
+        analyticsTest,
+        contains('onboarding analytics keeps only safe funnel metadata'),
+      );
       expect(analyticsTest, contains('firebase bootstrap fails closed'));
       expect(analyticsTest, contains('collection disabled'));
       expect(analyticsTest, contains('provider requires user opt-in'));
@@ -241,6 +247,7 @@ void main() {
       expect(analyticsPlan, contains('SAKINAH_ANALYTICS_ENABLED=true'));
       expect(analyticsPlan, contains('analyticsOptIn'));
       expect(analyticsPlan, contains('collection disabled'));
+      expect(analyticsPlan, contains('Onboarding flow records local funnel'));
       expect(analyticsPlan, contains('aggregate prayer retention counts'));
       expect(analyticsPlan, contains('prayer_checkin_days_7d'));
       expect(analyticsPlan, contains('closed_test_prompt_marked_sent'));

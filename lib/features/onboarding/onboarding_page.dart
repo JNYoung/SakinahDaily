@@ -7,16 +7,34 @@ import 'package:go_router/go_router.dart';
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
+import '../../core/services/analytics_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
 
-class OnboardingPage extends ConsumerWidget {
+class OnboardingPage extends ConsumerStatefulWidget {
   const OnboardingPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<OnboardingPage> createState() => _OnboardingPageState();
+}
+
+class _OnboardingPageState extends ConsumerState<OnboardingPage> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.onboardingStarted,
+      const {
+        'screen': 'onboarding',
+        'source': 'onboarding',
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = SakinahLocalizations.of(context);
     final preferences = ref.watch(userPreferencesProvider);
     final controller = ref.read(userPreferencesProvider.notifier);
@@ -45,7 +63,15 @@ class OnboardingPage extends ConsumerWidget {
             ],
             selected: {preferences.languageCode},
             onSelectionChanged: (selection) {
-              unawaited(controller.setLanguage(selection.first));
+              final languageCode = selection.first;
+              unawaited(controller.setLanguage(languageCode));
+              _trackOnboardingEvent(
+                ref,
+                AnalyticsEventCatalog.languageSelected,
+                {
+                  'language_code': languageCode,
+                },
+              );
             },
           ),
           const SizedBox(height: 24),
@@ -75,6 +101,13 @@ class OnboardingPage extends ConsumerWidget {
                   .firstWhere((preset) => preset.id == value);
               unawaited(
                   controller.setPrayerSettings(preset.toPrayerSettings()));
+              _trackOnboardingEvent(
+                ref,
+                AnalyticsEventCatalog.locationMethodSelected,
+                const {
+                  'location_method': 'preset',
+                },
+              );
             },
           ),
           const SizedBox(height: 8),
@@ -108,6 +141,10 @@ class OnboardingPage extends ConsumerWidget {
             onChanged: (value) {
               if (value != null) {
                 unawaited(controller.setGenderMode(value));
+                _trackOnboardingEvent(
+                  ref,
+                  AnalyticsEventCatalog.genderModeSelected,
+                );
               }
             },
           ),
@@ -137,6 +174,13 @@ class OnboardingPage extends ConsumerWidget {
             onChanged: (value) {
               if (value != null) {
                 unawaited(controller.setAudioPreference(value));
+                _trackOnboardingEvent(
+                  ref,
+                  AnalyticsEventCatalog.audioPreferenceSelected,
+                  {
+                    'audio_preference': value.name,
+                  },
+                );
               }
             },
           ),
@@ -152,6 +196,17 @@ class OnboardingPage extends ConsumerWidget {
             icon: Icons.arrow_forward_rounded,
             onPressed: () async {
               await controller.saveCurrent();
+              final savedPreferences = ref.read(userPreferencesProvider);
+              _trackOnboardingEvent(
+                ref,
+                AnalyticsEventCatalog.onboardingCompleted,
+                {
+                  'language_code': savedPreferences.languageCode,
+                  'location_method':
+                      _locationMethodFor(savedPreferences.prayerSettings),
+                  'audio_preference': savedPreferences.audioPreference.name,
+                },
+              );
               if (context.mounted) {
                 context.go('/home');
               }
@@ -173,4 +228,22 @@ String? _matchingPresetId(PrayerSettings settings) {
     }
   }
   return null;
+}
+
+String _locationMethodFor(PrayerSettings settings) {
+  return _matchingPresetId(settings) == null ? 'manual' : 'preset';
+}
+
+void _trackOnboardingEvent(
+  WidgetRef ref,
+  String eventName, [
+  Map<String, Object?> properties = const {},
+]) {
+  ref.read(analyticsServiceProvider).track(
+    eventName,
+    {
+      ...properties,
+      'source': 'onboarding',
+    },
+  );
 }

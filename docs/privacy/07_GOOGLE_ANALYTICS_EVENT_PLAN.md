@@ -25,6 +25,11 @@ Current implementation:
   and turns collection off when the user opts out.
 - Android manifest metadata disables Firebase Analytics automatic collection
   and automatic screen reporting by default.
+- The Onboarding flow records local funnel events for start, language,
+  location method, gender step, audio preference, and completion; only enum-like
+  language, preset/manual location method, audio preference, source, and screen
+  fields are kept, while exact location labels, coordinates, and specific
+  gender mode values are dropped.
 - The Daily Session flow records local `daily_session_started` and
   `daily_session_completed` events.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
