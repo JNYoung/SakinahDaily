@@ -139,6 +139,37 @@ class AnalyticsParameterPolicy {
     'source',
   };
 
+  static const _onboardingStartedKeys = {
+    'screen',
+    'source',
+  };
+
+  static const _languageSelectedKeys = {
+    'language_code',
+    'source',
+  };
+
+  static const _locationMethodSelectedKeys = {
+    'location_method',
+    'source',
+  };
+
+  static const _genderModeSelectedKeys = {
+    'source',
+  };
+
+  static const _audioPreferenceSelectedKeys = {
+    'audio_preference',
+    'source',
+  };
+
+  static const _onboardingCompletedKeys = {
+    'language_code',
+    'location_method',
+    'audio_preference',
+    'source',
+  };
+
   static Map<String, Object> sanitize(
     Map<String, Object?> properties, {
     String? eventName,
@@ -174,6 +205,18 @@ class AnalyticsParameterPolicy {
       AnalyticsEventCatalog.closedTestPromptCopied ||
       AnalyticsEventCatalog.closedTestPromptMarkedSent =>
         _closedTestPromptKeys.contains(key),
+      AnalyticsEventCatalog.onboardingStarted =>
+        _onboardingStartedKeys.contains(key),
+      AnalyticsEventCatalog.languageSelected =>
+        _languageSelectedKeys.contains(key),
+      AnalyticsEventCatalog.locationMethodSelected =>
+        _locationMethodSelectedKeys.contains(key),
+      AnalyticsEventCatalog.genderModeSelected =>
+        _genderModeSelectedKeys.contains(key),
+      AnalyticsEventCatalog.audioPreferenceSelected =>
+        _audioPreferenceSelectedKeys.contains(key),
+      AnalyticsEventCatalog.onboardingCompleted =>
+        _onboardingCompletedKeys.contains(key),
       _ => true,
     };
   }
