@@ -296,6 +296,45 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Prayer page reminder CTA records prayer page source analytics',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.prayerTopReminderSettingsButton);
+    expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
+
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    expect(find.text('Enable prayer reminders?'), findsOneWidget);
+
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
+
+    final prayerReminderEvents = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.prayerReminderChanged)
+        .toList();
+    expect(prayerReminderEvents, hasLength(1));
+    expect(prayerReminderEvents.single.properties, {
+      'prayer_name': 'all',
+      'enabled': true,
+      'source': 'prayer_page_card',
+      'reminder_offset_minutes': 0,
+    });
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Prayer reminder permission denial keeps app usable',
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();

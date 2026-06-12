@@ -300,6 +300,7 @@ void main() {
       expect(analyticsPlan, contains('analytics_consent_changed'));
       expect(analyticsPlan, contains('home_session_completion'));
       expect(analyticsPlan, contains('home_prayer_card'));
+      expect(analyticsPlan, contains('prayer_page_card'));
       expect(analyticsPlan, contains('prayer_completion_card'));
       expect(analyticsPlan, contains('exact daily session reminder time'));
       expect(analyticsPlan, contains('Completion analytics keeps only'));
@@ -1724,8 +1725,11 @@ void main() {
       expect(content, contains('daily_session_reminder_changed'));
       expect(content, contains('analytics_consent_changed'));
       expect(content, contains('notification_tap_opened'));
+      expect(content, contains('prayer_page_card'));
       expect(content, contains('prayer_completion_card'));
+      expect(readiness, contains('prayer_page_card'));
       expect(readiness, contains('prayer_completion_card'));
+      expect(retentionPlan, contains('prayer_page_card'));
       expect(retentionPlan, contains('prayer_completion_card'));
 
       final templateRun = Process.runSync(
@@ -1786,6 +1790,7 @@ void main() {
       expect(events, contains('home_viewed'));
       expect(events, contains('prayer_reminder_changed'));
       expect(events, contains('home_prayer_card'));
+      expect(events, contains('prayer_page_card'));
       expect(events, contains('prayer_completion_card'));
       expect(events, contains('notification_tap_opened'));
       expect(events, contains('analytics_consent_changed'));
@@ -1798,6 +1803,7 @@ void main() {
 
       expect(funnel, contains('Prayer Reminder Opt-in Rate'));
       expect(funnel, contains('home_prayer_card'));
+      expect(funnel, contains('prayer_page_card'));
       expect(funnel, contains('prayer_completion_card'));
       expect(funnel, contains('Push Open Rate'));
       expect(funnel, contains('Analytics Consent Rate'));
@@ -3128,6 +3134,7 @@ void main() {
       expect(prayerPage, contains('todaysPrayerCheckIn'));
       expect(prayerPage, contains('prayerChecklistUpdated'));
       expect(keys, contains('prayerTimesSectionHeader'));
+      expect(keys, contains('prayerTopReminderSettingsButton'));
       expect(keys, contains('prayerCompletionCheckbox'));
       expect(keys, contains('homePrayerCompletionMetric'));
       expect(keys, contains('homePrayerWeekProgress'));
@@ -3179,6 +3186,10 @@ void main() {
         contains('Notification settings manage prayer reminders'),
       );
       expect(
+        notificationSettingsTest,
+        contains('Prayer page reminder CTA records prayer page source'),
+      );
+      expect(
         readiness,
         contains(
             'Prayer page exposes a localized all-day prayer-times section'),
@@ -3189,6 +3200,7 @@ void main() {
       );
       expect(readiness, contains('complete state after all five'));
       expect(readiness, contains('Prayer week summary'));
+      expect(readiness, contains('prayer_page_card'));
       expect(
         productProgress,
         contains('Prayer page now gives the full-day list'),
@@ -3200,6 +3212,7 @@ void main() {
       expect(productProgress, contains('complete-state summary'));
       expect(productProgress, contains('Home now shows a local-only'));
       expect(productProgress, contains('Home view analytics includes only'));
+      expect(productProgress, contains('prayer_page_card'));
       expect(
         productProgress,
         contains('prayer times" heading'),

@@ -110,6 +110,10 @@ Completed:
 - Settings exposes prayer method and notification toggle.
 - Notification Settings now exposes prayer reminder status and enable/disable
   control alongside the daily session reminder controls.
+- Prayer page Manage reminders opens Notification Settings with
+  `source=prayer_page_card`, so reviewed DebugView QA can separate ordinary
+  Prayer-page reminder opt-ins from Home-card, completion-card, and Settings
+  changes without sending routes or prayer completion details.
 - Notification Settings now supports per-prayer reminder controls for Fajr,
   Dhuhr, Asr, Maghrib, and Isha; disabled prayers are excluded from local
   reminder scheduling.
@@ -350,10 +354,11 @@ Retention observation preparation:
   handled local notification opens, analytics consent changes, saved Dua/Dhikr
   actions, and closed-test prompt actions.
   Prayer reminder analytics now carries only a controlled source such as
-  `settings`, `home_prayer_card`, or `prayer_completion_card`, so Home-card and
-  Prayer completion-card reminder opt-ins can be separated from ordinary
-  Settings changes without sending routes, coordinates, exact reminder times,
-  Women's Ibadah Mode status, or free text.
+  `settings`, `home_prayer_card`, `prayer_page_card`, or
+  `prayer_completion_card`, so Home-card, Prayer-page, and Prayer
+  completion-card reminder opt-ins can be separated from ordinary Settings
+  changes without sending routes, coordinates, exact reminder times, Women's
+  Ibadah Mode status, or free text.
   Home view analytics includes only aggregate prayer retention counts such as
   today's completed count, 7-day check-in count, 7-day check-in days, and
   current check-in streak. It is default-off and strips coordinates, feedback
