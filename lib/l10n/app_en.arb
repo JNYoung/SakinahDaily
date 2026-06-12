@@ -147,6 +147,8 @@
   "notificationSettingsTitle": "Notification settings",
   "notificationSettingsSubtitle": "Manage prayer and daily session reminders.",
   "closedTestingHomeBody": "Use the Day 1 / Day 3 / Day 7 / Day 14 prompts to send feedback without personal details.",
+  "closedTestingNextFeedback": "Next feedback",
+  "closedTestingAllFeedbackSent": "All feedback marked sent",
   "closedTestingHomeButton": "Open guide",
   "closedTestingPromptTitle": "Feedback prompts",
   "closedTestingPromptBody": "Use these checkpoints to send feedback that helps the 14-day closed test improve daily return.",

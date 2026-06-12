@@ -153,7 +153,8 @@ Status: Draft for release/store review.
 - [x] Home also surfaces a Closed testing guide entry when
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, so testers can reach the
   Day 1 / Day 3 / Day 7 / Day 14 prompts from the daily prayer surface without
-  adding analytics or personal-data collection.
+  adding analytics or personal-data collection. The Home card also shows the
+  next unsent feedback checkpoint from local-only sent markers.
 - [x] Analytics and crash reporting remain disabled.
 - [x] v0.1 daily-prayer release baseline does not require staging CMS.
 - [x] v0.1 daily-prayer release baseline does not require production CMS.
@@ -436,7 +437,8 @@ Status: Draft for release/store review.
   answer preparation.
 - [x] Home exposes the same Day 1 / Day 3 / Day 7 / Day 14 closed-test guide
   entry when the feedback channel is configured, keeping the retention feedback
-  loop visible in the primary prayer habit path.
+  loop visible in the primary prayer habit path. It also highlights the next
+  unsent prompt from local sent-state only, without storing feedback text.
 - [x] `scripts/export_reviewed_content_pack_readiness.sh` exports a
   template-mode Reviewed Content Pack readiness packet at
   `build/reviewed-content-pack-readiness` with seed counts, beta targets,

@@ -168,10 +168,12 @@ void main() {
 
   testWidgets('home surfaces closed testing guide when feedback is configured',
       (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
     await pumpSakinahApp(
       tester,
       initialLocation: '/home',
       settleSplash: false,
+      preferencesStore: preferencesStore,
       appEnvironmentConfig: AppEnvironmentConfig.fromMap(
         const {
           'SAKINAH_APP_ENV': 'prod',
@@ -183,6 +185,7 @@ void main() {
 
     expect(find.byKey(SakinahKeys.homeClosedTestingGuideCard), findsOneWidget);
     expect(find.text('Closed testing guide'), findsOneWidget);
+    expect(find.text('Next feedback · Day 1'), findsOneWidget);
     expect(
         find.textContaining('Day 1 / Day 3 / Day 7 / Day 14'), findsOneWidget);
 
@@ -190,6 +193,16 @@ void main() {
 
     expect(find.byKey(SakinahKeys.closedTestingGuidePage), findsOneWidget);
     expect(find.text('Daily tester checklist'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+
+    await tapByKey(
+      tester,
+      SakinahKeys.closedTestingPromptDay1CompletedCheckbox,
+    );
+    await tapByKey(tester, SakinahKeys.bottomNavHome);
+
+    expect(find.byKey(SakinahKeys.homeClosedTestingGuideCard), findsOneWidget);
+    expect(find.text('Next feedback · Day 3'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

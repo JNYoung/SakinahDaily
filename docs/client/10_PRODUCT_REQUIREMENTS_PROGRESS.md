@@ -395,6 +395,9 @@ Retention observation preparation:
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, keeping Day 1 / Day 3 /
   Day 7 / Day 14 feedback prompts close to the daily prayer habit loop while
   analytics stays default-off and personal-data collection is avoided.
+  The Home closed-testing card now highlights the next unsent Day 1 / Day 3 /
+  Day 7 / Day 14 feedback prompt from local-only sent markers, so testers know
+  which aggregate checkpoint to send next without storing feedback text.
 - Closed testing feedback templates now include suggested aggregate theme keys
   for onboarding clarity, prayer-loop trust, and retention reason-to-return, so
   Day 14 Production access summaries can be prepared without storing tester

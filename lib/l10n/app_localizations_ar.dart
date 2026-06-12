@@ -471,6 +471,12 @@ class AppLocalizationsAr extends AppLocalizations {
       'استخدم أسئلة اليوم 1 / اليوم 3 / اليوم 7 / اليوم 14 لإرسال ملاحظات دون تفاصيل شخصية.';
 
   @override
+  String get closedTestingNextFeedback => 'الملاحظة التالية';
+
+  @override
+  String get closedTestingAllFeedbackSent => 'تم تعليم كل الملاحظات كمرسلة';
+
+  @override
   String get closedTestingHomeButton => 'فتح الدليل';
 
   @override

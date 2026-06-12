@@ -475,6 +475,12 @@ class AppLocalizationsId extends AppLocalizations {
       'Gunakan prompt Hari 1 / Hari 3 / Hari 7 / Hari 14 untuk mengirim masukan tanpa detail pribadi.';
 
   @override
+  String get closedTestingNextFeedback => 'Masukan berikutnya';
+
+  @override
+  String get closedTestingAllFeedbackSent => 'Semua masukan ditandai terkirim';
+
+  @override
   String get closedTestingHomeButton => 'Buka panduan';
 
   @override
