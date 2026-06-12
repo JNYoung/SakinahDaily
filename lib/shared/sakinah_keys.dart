@@ -226,6 +226,8 @@ abstract final class SakinahKeys {
   static const contentSourcesPage = ValueKey<String>('content_sources_page');
   static const closedTestingGuidePage =
       ValueKey<String>('closed_testing_guide_page');
+  static const closedTestingGuideNextPrompt =
+      ValueKey<String>('closed_testing_guide_next_prompt');
   static const closedTestingPromptDay1 =
       ValueKey<String>('closed_testing_prompt_day_1');
   static const closedTestingPromptDay1CopyButton =

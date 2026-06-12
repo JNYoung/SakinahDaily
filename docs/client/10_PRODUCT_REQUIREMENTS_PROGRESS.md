@@ -416,6 +416,10 @@ Retention observation preparation:
   The Home closed-testing card now highlights the next unsent Day 1 / Day 3 /
   Day 7 / Day 14 feedback prompt from local-only sent markers, so testers know
   which aggregate checkpoint to send next without storing feedback text.
+- The Closed testing guide itself mirrors the same next-unsent feedback summary
+  at the top of the page and switches to an all-sent state when Day 1 / Day 3 /
+  Day 7 / Day 14 are locally marked complete, keeping the retention feedback
+  loop understandable after testers enter Settings from Home.
 - Closed testing feedback templates now include suggested aggregate theme keys
   for onboarding clarity, prayer-loop trust, and retention reason-to-return, so
   Day 14 Production access summaries can be prepared without storing tester

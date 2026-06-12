@@ -12,8 +12,9 @@
 - [x] 用户可以管理每日 session reminder。
 - [x] 用户可以可选完成 Daily Session。
 - [x] 用户保存内容后可以从 Home 的本地继续入口返回。
-- [x] 配置闭测反馈渠道后，Home 可进入 Closed testing guide，并提示 Day 1 /
-  Day 3 / Day 7 / Day 14 反馈节奏。
+- [x] 配置闭测反馈渠道后，Home 可进入 Closed testing guide；Guide 顶部会
+  根据本地 sent marker 提示下一条 Day 1 / Day 3 / Day 7 / Day 14
+  待发反馈，全部完成后显示 all sent 状态。
 - [x] App 不像工具堆叠，而像 daily prayer companion。
 - [x] 本地 e2e 总闸脚本 `scripts/verify_local_e2e.sh` 可无人值守运行测试、
   analyzer、Play 模板门禁、Google Analytics DebugView QA packet、内容
