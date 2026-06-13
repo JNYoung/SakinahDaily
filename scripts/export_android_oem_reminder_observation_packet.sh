@@ -134,6 +134,8 @@ write_device_environment_snapshot() {
   local android_sdk="record_manually"
   local deviceidle_whitelist="record_manually"
   local package_state="record_manually"
+  local post_notifications_appops="record_manually"
+  local post_notifications_package="record_manually"
 
   if [[ -n "$adb_path" && "$serial" != "record_manually" ]]; then
     adb_status="available"
@@ -153,6 +155,16 @@ write_device_environment_snapshot() {
         head -n 2 |
         tr '\n' ' ' || true
     )"
+    post_notifications_appops="$(
+      adb_shell "$adb_path" "$serial" appops get "$package_name" POST_NOTIFICATION |
+        head -n 1 || true
+    )"
+    post_notifications_package="$(
+      adb_shell "$adb_path" "$serial" dumpsys package "$package_name" |
+        grep -E 'POST_NOTIFICATIONS|android.permission.POST_NOTIFICATIONS|granted=' |
+        head -n 8 |
+        tr '\n' ' ' || true
+    )"
   fi
 
   [[ -n "$manufacturer" ]] || manufacturer="record_manually"
@@ -163,6 +175,10 @@ write_device_environment_snapshot() {
   [[ -n "$deviceidle_whitelist" ]] ||
     deviceidle_whitelist="not_whitelisted_or_record_manually"
   [[ -n "$package_state" ]] || package_state="record_manually"
+  [[ -n "$post_notifications_appops" ]] ||
+    post_notifications_appops="record_manually"
+  [[ -n "$post_notifications_package" ]] ||
+    post_notifications_package="record_manually"
 
   cat >"$path" <<EOF
 Android OEM device environment snapshot
@@ -181,6 +197,8 @@ Android release: $android_release
 Android SDK: $android_sdk
 Device idle whitelist status: $deviceidle_whitelist
 Package resolve activity: $package_state
+POST_NOTIFICATIONS appops: $post_notifications_appops
+POST_NOTIFICATIONS package state: $post_notifications_package
 
 Notes:
 - This snapshot captures device/build environment only.
@@ -209,6 +227,7 @@ require_text "$product_progress" 'Android OEM reminder observation packet'
 require_text "$readiness" 'Android OEM reminder observation packet'
 require_text "$android_checklist" 'Android OEM reminder observation packet'
 require_text "$android_checklist" 'adb_observation_commands.sh'
+require_text "$android_checklist" 'notification_permission_state.csv'
 require_text "$acceptance" 'Android OEM reminder observation packet'
 require_text "$version_notes" 'Android OEM reminder observation packet'
 require_text "$permission_review" 'RECEIVE_BOOT_COMPLETED'
@@ -246,6 +265,9 @@ if [[ "$require_strict" == "true" ]]; then
   require_env_file \
     SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE \
     "recording OEM battery/background policy review outcomes"
+  require_env_file \
+    SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE \
+    "recording Android notification permission, appops, and channel state"
   validate_completed_oem_evidence \
     "$SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE" \
     "long-window OEM reminder observation" \
@@ -267,6 +289,14 @@ if [[ "$require_strict" == "true" ]]; then
     'battery_policy_state' \
     'observed_result' \
     'reviewed'
+  validate_completed_oem_evidence \
+    "$SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE" \
+    "notification permission OEM observation" \
+    'POST_NOTIFICATIONS' \
+    'app_notification_importance' \
+    'notification_channel_state' \
+    'reviewed' \
+    'No tester personal data'
 fi
 
 rm -rf "$out_dir"
@@ -302,6 +332,13 @@ $device_serial,$oem_model,record_manually,unknown,record OEM battery/background 
 $device_serial,$oem_model,optimized_or_restricted,aggressive battery-management may delay local notifications,record user-facing guidance decision if delay is observed,pending_manual_observation
 EOF
 
+cat >"$out_dir/notification_permission_state.csv" <<EOF
+permission_check,device_serial,android_sdk,post_notifications_state,app_notification_importance,notification_channel_state,qa_result,notes_without_personal_data
+initial,$device_serial,record_manually,POST_NOTIFICATIONS_record_manually,record_manually,record_manually,pending_manual_observation,No tester personal data
+after_prompt,$device_serial,record_manually,POST_NOTIFICATIONS_record_manually,record_manually,record_manually,pending_manual_observation,No tester personal data
+after_recovery,$device_serial,record_manually,POST_NOTIFICATIONS_record_manually,record_manually,record_manually,pending_manual_observation,No tester personal data
+EOF
+
 if [[ "$require_strict" == "true" ]]; then
   cp "$SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE" \
     "$out_dir/long_window_observation_log.csv"
@@ -309,6 +346,8 @@ if [[ "$require_strict" == "true" ]]; then
     "$out_dir/reboot_delivery_checklist.csv"
   cp "$SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE" \
     "$out_dir/battery_policy_review.csv"
+  cp "$SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE" \
+    "$out_dir/notification_permission_state.csv"
 fi
 
 write_device_environment_snapshot \
@@ -355,6 +394,8 @@ capture_shell package_resolve cmd package resolve-activity --brief "$PACKAGE_NAM
 capture_shell package_path pm path "$PACKAGE_NAME"
 capture_shell device_model getprop ro.product.model
 capture_shell android_version getprop ro.build.version.release
+capture_shell notification_appops appops get "$PACKAGE_NAME" POST_NOTIFICATION
+capture_shell package_notification_permission dumpsys package "$PACKAGE_NAME"
 capture_package_filtered_shell deviceidle_whitelist cmd deviceidle whitelist
 capture_package_filtered_shell dumpsys_alarm dumpsys alarm
 capture_package_filtered_shell dumpsys_notification dumpsys notification
@@ -392,6 +433,7 @@ window to capture package-filtered ADB evidence without tester personal data.
 - 8-hour prayer reminder delivery and tap route.
 - 24-hour prayer reminder delivery and tap route.
 - Daily session reminder delivery after the app is idle.
+- POST_NOTIFICATIONS permission, app notification importance, and notification channel state.
 - Reminder restore after device reboot.
 - OEM battery or background policy review for aggressive battery-management behavior.
 
@@ -449,6 +491,7 @@ Generated observation files:
 - long_window_observation_log.csv
 - reboot_delivery_checklist.csv
 - battery_policy_review.csv
+- notification_permission_state.csv
 - device_environment_snapshot.txt
 - adb_observation_commands.sh
 - oem_observation_checklist.md
@@ -477,6 +520,7 @@ Strict mode requires:
 - SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE=<completed long-window CSV>
 - SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE=<completed reboot CSV>
 - SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE=<completed battery-policy CSV>
+- SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE=<completed notification permission CSV>
 EOF
 
 printf 'Android OEM reminder observation packet exported.\n'

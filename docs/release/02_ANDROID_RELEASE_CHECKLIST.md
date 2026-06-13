@@ -147,13 +147,16 @@ Template mode exports `build/android-oem-reminder-observation` with:
 - `reboot_delivery_checklist.csv` for `RECEIVE_BOOT_COMPLETED` reminder restore
   checks after reboot or package replacement.
 - `battery_policy_review.csv` for aggressive battery-management notes.
+- `notification_permission_state.csv` for Android 13+ `POST_NOTIFICATIONS`,
+  app notification importance, and notification channel state observations.
 - `device_environment_snapshot.txt` for non-personal Android device/build
   environment, prefilled from `adb shell getprop` and
   `adb shell cmd deviceidle whitelist` when a device is connected, otherwise
   left as a manual handoff template.
 - `adb_observation_commands.sh` for package-filtered ADB capture commands
-  covering package resolution, device-idle state, alarm/notification hints, and
-  crash-buffer review without tester personal data.
+  covering package resolution, `POST_NOTIFICATION` appops, package permission
+  state, device-idle state, alarm/notification hints, and crash-buffer review
+  without tester personal data.
 - `oem_observation_checklist.md` for lock-screen copy and privacy-safe
   observation rules.
 
@@ -170,10 +173,11 @@ SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED=true \
 SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE=path/to/completed-long-window.csv \
 SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE=path/to/completed-reboot.csv \
 SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE=path/to/completed-battery.csv \
+SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE=path/to/completed-permission.csv \
 scripts/export_android_oem_reminder_observation_packet.sh
 ```
 
-The three strict evidence CSVs are copied into the packet and must not contain
+The strict evidence CSVs are copied into the packet and must not contain
 template placeholders such as `pending_manual_observation`,
 `pending_tap_route`, `record_manually`, `TBD`, or `unknown`. This keeps strict
 mode tied to completed device evidence rather than environment flags alone.

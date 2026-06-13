@@ -88,7 +88,8 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `scripts/export_reviewed_content_pack_readiness.sh`.
 - Android OEM reminder observation packet:
   `build/android-oem-reminder-observation`, exported by
-  `scripts/export_android_oem_reminder_observation_packet.sh`.
+  `scripts/export_android_oem_reminder_observation_packet.sh`, now including
+  Android notification permission/appops/channel state evidence.
 - Production access answer pack:
   `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md` and
   `scripts/verify_google_play_production_access_pack.sh`.
@@ -141,9 +142,10 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   licensed Quran audio rights and hashes are confirmed, and a human content
   owner signs off.
 - Android OEM reminder observation packet strict mode after 8-hour, 24-hour,
-  reboot restore, and aggressive battery-management reminder behavior is
-  observed on a real Android device, completed evidence CSVs contain no
-  template placeholders, and a human observation owner signs off.
+  notification permission state, reboot restore, and aggressive
+  battery-management reminder behavior is observed on a real Android device,
+  completed evidence CSVs contain no template placeholders, and a human
+  observation owner signs off.
 - Kotlin Gradle Plugin warning tracker remains open for `audio_session` and
   `firebase_analytics` until upstream Flutter plugin Built-in Kotlin migrations
   are available; current packages are already latest/resolvable.
