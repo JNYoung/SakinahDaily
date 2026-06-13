@@ -155,7 +155,15 @@ Status: Draft for release/store review.
   count, Quran audio rights/hash review, and a no-generated-religious-content
   checklist into `build/reviewed-content-pack-readiness`, while strict mode
   fails until any source placeholder is removed, reviewed beta pack coverage,
-  licensed audio rights, and a human content owner are confirmed.
+  licensed audio rights, and a human content owner are confirmed. Strict mode
+  also requires completed evidence CSVs through
+  `SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE`,
+  `SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE`,
+  `SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE`, and
+  `SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE`; they must contain no template
+  placeholders or tester personal data. Completed runs copy the CSVs into
+  `build/reviewed-content-pack-readiness/completed-evidence` and write
+  `Strict evidence inputs: validated` into the manifest.
 - [x] Google Play store visual assets verifier exists at
   `scripts/verify_google_play_store_assets.sh`; it generates and validates the
   1024 x 500, 24-bit PNG/no-alpha feature graphic and can strictly check the
@@ -603,7 +611,9 @@ Status: Draft for release/store review.
   template-mode Reviewed Content Pack readiness packet at
   `build/reviewed-content-pack-readiness` with seed counts, beta targets,
   source-placeholder count, audio rights/hash review, and strict-mode
-  confirmation requirements.
+  confirmation requirements. Strict completed-evidence mode validates and
+  copies reviewed inventory, Quran source, audio rights, and content owner CSVs
+  before the manifest can show `Strict evidence inputs: validated`.
 - [x] `scripts/export_android_oem_reminder_observation_packet.sh` exports a
   template-mode Android OEM reminder observation packet at
   `build/android-oem-reminder-observation` with 8-hour, 24-hour, reboot
@@ -674,7 +684,13 @@ Status: Draft for release/store review.
   scripts/export_reviewed_content_pack_readiness.sh` passes only after Quran
   source placeholders are replaced, the 5-7 session / 30-50 dua / 20-30 dhikr /
   10-20 Quran ayah beta pack is reviewed, licensed Quran audio rights and
-  SHA-256 hashes are confirmed, and a human content owner signs off.
+  SHA-256 hashes are confirmed, and a human content owner signs off. Strict mode
+  must also receive completed
+  `SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE`,
+  `SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE`,
+  `SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE`, and
+  `SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE` CSVs with no template placeholders
+  or tester personal data.
 - [ ] `SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY=true
   scripts/export_android_oem_reminder_observation_packet.sh` passes only after
   the Android OEM test device is confirmed, 8-hour and 24-hour prayer reminder
