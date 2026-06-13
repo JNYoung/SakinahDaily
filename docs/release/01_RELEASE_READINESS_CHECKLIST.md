@@ -120,7 +120,8 @@ Status: Draft for release/store review.
 - [x] Google Play store visual assets verifier exists at
   `scripts/verify_google_play_store_assets.sh`; it generates and validates the
   1024 x 500, 24-bit PNG/no-alpha feature graphic and can strictly check the
-  Android screenshot matrix plus contact sheet.
+  27 required Android screenshot filenames, PNG/RGB/no-alpha properties,
+  portrait phone bounds, and contact sheet.
 - [x] Android launch smoke gate exists at
   `scripts/verify_android_launch_smoke.sh`; it builds a dev debug APK,
   installs it on a connected Android device or requested emulator, launches

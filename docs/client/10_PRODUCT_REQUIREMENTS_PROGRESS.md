@@ -551,7 +551,8 @@ Store screenshot preparation:
   on a whitelisted release route, seed local preferences in memory, and disable
   remote content.
 - `scripts/capture_android_store_screenshot.sh` captures one Android screen at
-  a time from a connected device into `build/store-screenshots/android/`.
+  a time from a connected device into `build/store-screenshots/android/` and
+  normalizes Android `screencap` output to RGB/no-alpha PNG.
 - `scripts/capture_android_store_screenshots.sh` runs the full screenshot
   matrix and supports narrowing/resuming through `SAKINAH_SCREENSHOT_LOCALES`,
   `SAKINAH_SCREENSHOT_ROUTES`, and `SAKINAH_SCREENSHOT_SKIP_EXISTING`.
@@ -560,6 +561,10 @@ Store screenshot preparation:
   Indonesia, and Arabic RTL across Splash / brand, onboarding, Home, Prayer,
   Settings, Notification Settings, Manual Prayer Location, Privacy Center, and
   Daily Session start.
+- `scripts/verify_google_play_store_assets.sh` strict mode now verifies the
+  expected 27 Android screenshot filenames plus PNG, RGB/no-alpha, Google Play
+  image bounds, portrait phone orientation, and contact sheet presence before
+  upload evidence can claim the visual matrix is ready.
 - Quran safety screenshot evidence at
   `build/store-screenshots/android-safety/en-quran-94-5.png` verifies the Quran
   verse detail route shows voice-only / no-BGM / no-Quran-TTS copy without a

@@ -221,7 +221,8 @@ fields and delegates to `scripts/verify_google_play_upload_preflight.sh`.
 The store visual assets gate generates and checks
 `build/store-assets/google-play-feature-graphic.png` as a 1024 x 500,
 24-bit PNG/no-alpha Google Play feature graphic, and strict mode checks the
-Android screenshot matrix plus contact sheet.
+27 required Android screenshot filenames, RGB/no-alpha PNG properties,
+portrait phone bounds, and contact sheet.
 
 Closed-test launch day gate:
 
