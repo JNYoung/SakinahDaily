@@ -167,8 +167,16 @@ SAKINAH_24H_PRAYER_REMINDER_OBSERVED=true \
 SAKINAH_REBOOT_REMINDER_RESTORE_OBSERVED=true \
 SAKINAH_BATTERY_POLICY_REVIEWED=true \
 SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED=true \
+SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE=path/to/completed-long-window.csv \
+SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE=path/to/completed-reboot.csv \
+SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE=path/to/completed-battery.csv \
 scripts/export_android_oem_reminder_observation_packet.sh
 ```
+
+The three strict evidence CSVs are copied into the packet and must not contain
+template placeholders such as `pending_manual_observation`,
+`pending_tap_route`, `record_manually`, `TBD`, or `unknown`. This keeps strict
+mode tied to completed device evidence rather than environment flags alone.
 
 Template mode exports `build/play-upload` for local review. Strict mode requires
 the same upload signing, public privacy/feedback links, Google Group,

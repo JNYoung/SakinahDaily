@@ -611,7 +611,10 @@ Status: Draft for release/store review.
   the Android OEM test device is confirmed, 8-hour and 24-hour prayer reminder
   delivery/tap routing are observed, reminder restore after reboot is observed,
   aggressive battery-management policy is reviewed, and a human observation
-  owner signs off.
+  owner signs off. Strict mode must also receive completed
+  `SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE`,
+  `SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE`, and
+  `SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE` CSVs with no template placeholders.
 - [x] Android release appbundle native debug-symbol stripping is healthy after
   installing Android SDK cmdline-tools `latest` with `apkanalyzer`.
 - [x] Unsigned Google Play release QA passes locally:

@@ -690,6 +690,16 @@ void main() {
       expect(content, contains('SAKINAH_REBOOT_REMINDER_RESTORE_OBSERVED'));
       expect(content, contains('SAKINAH_BATTERY_POLICY_REVIEWED'));
       expect(content, contains('SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED'));
+      expect(
+        content,
+        contains('SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE'),
+      );
+      expect(content, contains('SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE'));
+      expect(content, contains('SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE'));
+      expect(content, contains('validate_completed_oem_evidence'));
+      expect(content, contains('pending_manual_observation'));
+      expect(content, contains('pending_tap_route'));
+      expect(content, contains('record_manually'));
       expect(content, contains('RECEIVE_BOOT_COMPLETED'));
       expect(content, contains('No tester personal data'));
 
@@ -783,11 +793,98 @@ void main() {
         contains('SAKINAH_ANDROID_OEM_TEST_DEVICE_CONFIRMED=true'),
       );
 
+      final strictEvidenceDir =
+          Directory.systemTemp.createTempSync('sakinah_oem_evidence_');
+      addTearDown(() {
+        if (strictEvidenceDir.existsSync()) {
+          strictEvidenceDir.deleteSync(recursive: true);
+        }
+      });
+      final longWindowEvidence =
+          File('${strictEvidenceDir.path}/long_window_observation_log.csv')
+            ..writeAsStringSync('''
+observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_local_time,expected_delivery_window,actual_delivery_result,tap_result,notes_without_personal_data
+8h,SC65XWPZ7DLNUSTC,Pixel test,prayer_reminder,redacted,8-hour prayer reminder within configured local schedule,delivered,tapped,No tester personal data
+24h,SC65XWPZ7DLNUSTC,Pixel test,prayer_reminder,redacted,24-hour prayer reminder within configured local schedule,delivered,tapped,No tester personal data
+daily_session,SC65XWPZ7DLNUSTC,Pixel test,daily_session_reminder,redacted,next local reminder window,delivered,tapped,No tester personal data
+''');
+      final rebootEvidence =
+          File('${strictEvidenceDir.path}/reboot_delivery_checklist.csv')
+            ..writeAsStringSync('''
+scenario,device_serial,required_android_capability,pre_reboot_action,post_reboot_expected_result,observed_result,notes_without_personal_data
+reboot_restore,SC65XWPZ7DLNUSTC,RECEIVE_BOOT_COMPLETED,schedule prayer reminder then reboot device,local reminder remains scheduled or is restored by flutter_local_notifications,restored_after_reboot,No tester personal data
+package_replace,SC65XWPZ7DLNUSTC,ScheduledNotificationBootReceiver,install updated debug or release candidate,local reminder behavior is rechecked after package replacement,rechecked_after_update,No tester personal data
+''');
+      final batteryEvidence =
+          File('${strictEvidenceDir.path}/battery_policy_review.csv')
+            ..writeAsStringSync('''
+device_serial,oem_or_model,battery_policy_state,aggressive battery-management risk,review_action,observed_result
+SC65XWPZ7DLNUSTC,Pixel test,reviewed,no_delay_observed,record OEM battery/background policy and whether reminders are delayed,reviewed_no_user_guidance_needed
+''');
+
+      final strictEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_android_oem_reminder_observation_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY': 'true',
+          'SAKINAH_ANDROID_OEM_TEST_DEVICE_CONFIRMED': 'true',
+          'SAKINAH_8H_PRAYER_REMINDER_OBSERVED': 'true',
+          'SAKINAH_24H_PRAYER_REMINDER_OBSERVED': 'true',
+          'SAKINAH_REBOOT_REMINDER_RESTORE_OBSERVED': 'true',
+          'SAKINAH_BATTERY_POLICY_REVIEWED': 'true',
+          'SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED': 'true',
+          'SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE': longWindowEvidence.path,
+          'SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE': rebootEvidence.path,
+          'SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE': batteryEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictEvidenceRun.exitCode, 0);
+      expect(
+        strictEvidenceRun.stdout.toString(),
+        contains('Android OEM reminder observation packet exported'),
+      );
+      final strictManifest =
+          File('build/android-oem-reminder-observation/manifest.txt')
+              .readAsStringSync();
+      expect(strictManifest, contains('Strict evidence inputs: validated'));
+
+      longWindowEvidence.writeAsStringSync('''
+observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_local_time,expected_delivery_window,actual_delivery_result,tap_result,notes_without_personal_data
+8h,SC65XWPZ7DLNUSTC,Pixel test,prayer_reminder,record_manually,8-hour prayer reminder within configured local schedule,pending_manual_observation,pending_tap_route,No tester personal data
+''');
+      final incompleteEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_android_oem_reminder_observation_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY': 'true',
+          'SAKINAH_ANDROID_OEM_TEST_DEVICE_CONFIRMED': 'true',
+          'SAKINAH_8H_PRAYER_REMINDER_OBSERVED': 'true',
+          'SAKINAH_24H_PRAYER_REMINDER_OBSERVED': 'true',
+          'SAKINAH_REBOOT_REMINDER_RESTORE_OBSERVED': 'true',
+          'SAKINAH_BATTERY_POLICY_REVIEWED': 'true',
+          'SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED': 'true',
+          'SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE': longWindowEvidence.path,
+          'SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE': rebootEvidence.path,
+          'SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE': batteryEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(incompleteEvidenceRun.exitCode, isNot(0));
+      expect(
+        incompleteEvidenceRun.stderr.toString(),
+        contains('strict evidence still contains placeholder'),
+      );
+
       expect(docsIndex,
           contains('export_android_oem_reminder_observation_packet.sh'));
       expect(readiness, contains('Android OEM reminder observation packet'));
       expect(androidChecklist,
           contains('Android OEM reminder observation packet'));
+      expect(androidChecklist,
+          contains('SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE'));
       expect(androidChecklist, contains('device_environment_snapshot.txt'));
       expect(androidChecklist, contains('adb_observation_commands.sh'));
       expect(
