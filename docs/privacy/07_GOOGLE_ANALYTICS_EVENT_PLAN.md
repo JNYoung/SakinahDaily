@@ -52,8 +52,9 @@ Current implementation:
   `daily_session_reminder_permission_result` events with session ID, enabled
   result, controlled source, and coarse outcome such as `scheduled`,
   `permission_denied`, `explanation_dismissed`, or `schedule_failed` only.
-  Exact reminder time, routes, Women's Ibadah Mode status, routine notes, and
-  other free text are not sent.
+  This includes enabled-reminder time reschedule attempts when platform
+  permission or scheduling fails. Exact reminder time, routes, Women's Ibadah
+  Mode status, routine notes, and other free text are not sent.
 - The Prayer page records a local `prayer_viewed` event with the next prayer,
   calculation method, route, screen, coarse location method, and a controlled
   Home entry source such as `home_prayer_badge`, `home_prayer_card`, or
