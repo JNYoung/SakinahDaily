@@ -196,6 +196,7 @@ if [[ "$require_complete" == "true" ]]; then
     "Google Analytics DebugView retention evidence" \
     'analytics_decision' \
     'home_viewed' \
+    'notification_permission_prompt_viewed' \
     'notification_schedule_result' \
     'notification_tap_opened' \
     'no_forbidden_parameters' \
@@ -248,6 +249,7 @@ EOF
 cat >"$out_dir/analytics_debugview_retention_evidence.csv" <<'EOF'
 qa_item,analytics_decision,event_name,expected_result,privacy_result,evidence_note,privacy_rule
 retention_loop,TBD,home_viewed,TBD,TBD,TBD,No tester personal data
+push_prompt,TBD,notification_permission_prompt_viewed,TBD,TBD,TBD,No tester personal data
 push_schedule,TBD,notification_schedule_result,TBD,TBD,TBD,No tester personal data
 push_open,TBD,notification_tap_opened,TBD,TBD,TBD,No tester personal data
 daily_session_return,TBD,daily_session_reminder_changed,TBD,TBD,TBD,No tester personal data

@@ -44,6 +44,11 @@ Future<void> handlePrayerReminderToggle({
     return;
   }
 
+  trackNotificationPermissionPromptViewed(
+    ref: ref,
+    reminderType: 'prayer',
+    source: analyticsSource,
+  );
   final accepted = await showPrayerReminderExplanation(context, l10n);
   if (accepted != true || !context.mounted) {
     await controller.setNotificationsEnabled(false);

@@ -245,6 +245,8 @@ void main() {
       expect(analyticsService, contains('prayer_location_changed'));
       expect(analyticsService, contains('prayer_reminder_changed'));
       expect(analyticsService, contains('notification_settings_viewed'));
+      expect(
+          analyticsService, contains('notification_permission_prompt_viewed'));
       expect(analyticsService, contains('prayer_reminder_permission_result'));
       expect(analyticsService, contains('notification_schedule_result'));
       expect(analyticsService, contains('notification_tap_opened'));
@@ -336,6 +338,7 @@ void main() {
       expect(analyticsPlan, contains('daily_session_step_viewed'));
       expect(analyticsPlan, contains('daily_session_reminder_changed'));
       expect(analyticsPlan, contains('notification_settings_viewed'));
+      expect(analyticsPlan, contains('notification_permission_prompt_viewed'));
       expect(analyticsPlan, contains('prayer_reminder_permission_result'));
       expect(analyticsPlan, contains('notification_schedule_result'));
       expect(analyticsPlan, contains('notification_tap_opened'));
@@ -1885,6 +1888,7 @@ decision_date,feedback_theme,change_or_decision,evidence,release_status,producti
         '${completedRetentionDir.path}/analytics_debugview_retention_evidence.csv',
       ).writeAsStringSync('''
 qa_item,analytics_decision,event_name,expected_result,privacy_result,evidence_note,privacy_rule
+push_prompt,approved_for_debugview,notification_permission_prompt_viewed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 push_schedule,approved_for_debugview,notification_schedule_result,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 push_open,approved_for_debugview,notification_tap_opened,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 ''');
@@ -2166,6 +2170,7 @@ decision_date,feedback_theme,change_or_decision,evidence,release_status,producti
             ..writeAsStringSync('''
 qa_item,analytics_decision,event_name,expected_result,privacy_result,evidence_note,privacy_rule
 retention_loop,approved_for_debugview,home_viewed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+push_prompt,approved_for_debugview,notification_permission_prompt_viewed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 push_schedule,approved_for_debugview,notification_schedule_result,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 push_open,approved_for_debugview,notification_tap_opened,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 daily_session_return,approved_for_debugview,daily_session_reminder_changed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
@@ -4482,6 +4487,8 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(tapListener, contains('notificationTapOpened'));
 
       expect(analyticsService, contains('notification_settings_viewed'));
+      expect(
+          analyticsService, contains('notification_permission_prompt_viewed'));
       expect(analyticsService, contains('prayer_reminder_permission_result'));
       expect(analyticsService, contains('prayer_reminder_changed'));
       expect(analyticsService, contains('notification_schedule_result'));
@@ -4562,6 +4569,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
         analyticsPlan,
         contains('Push/reminder module analytics coverage is complete'),
       );
+      expect(analyticsPlan, contains('notification_permission_prompt_viewed'));
       expect(analyticsPlan, contains('notification_schedule_result'));
       expect(analyticsPlan, contains('cold-start launch payloads'));
       expect(
@@ -4572,6 +4580,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
         readiness,
         contains('Push module completion audit: v0.1 local reminder loop'),
       );
+      expect(readiness, contains('notification_permission_prompt_viewed'));
       expect(readiness, contains('notification_schedule_result'));
       expect(readiness, contains('cold-start prayer, Daily Session, Quran'));
       expect(readiness, contains('notification_permission_recovery_opened'));
@@ -4583,6 +4592,8 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
         contains('notification_permission_recovery_opened'),
       );
       expect(debugViewExporter, contains('Push/reminder module'));
+      expect(
+          debugViewExporter, contains('notification_permission_prompt_viewed'));
       expect(debugViewExporter, contains('notification_schedule_result'));
       expect(debugViewExporter, contains('cold-start notification tap'));
       expect(

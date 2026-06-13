@@ -107,6 +107,7 @@ Status: Draft for release/store review.
   reviewed Firebase QA build, Privacy Center opt-in, Data Safety review, and
   DebugView device setup are confirmed. The loop checklist explicitly walks
   Home → Prayer → Daily Session → Reminder/Feedback and verifies
+  `notification_permission_prompt_viewed`,
   `notification_schedule_result`,
   `notification_smoke_test_result`,
   `notification_permission_recovery_opened`, and
@@ -305,6 +306,11 @@ Status: Draft for release/store review.
   Notification Settings view analytics is observable only as
   `notification_settings_viewed` with screen, controlled source, and aggregate
   prayer-reminder enabled state.
+  Reminder permission prompt analytics is observable only as
+  `notification_permission_prompt_viewed` with reminder type and controlled
+  source; raw payloads, routes, exact reminder times, lock-screen copy,
+  coordinates, Women's Ibadah Mode status, feedback text, and religious text
+  are not sent.
   Qibla view analytics is observable only as `qibla_viewed` with screen, route,
   coarse location method, calculation method, and controlled source such as
   `prayer_page_card`; exact coordinates, selected place labels, bearing

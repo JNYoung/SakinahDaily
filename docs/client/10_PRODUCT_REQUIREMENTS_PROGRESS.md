@@ -50,6 +50,8 @@ Push/reminder analytics coverage for the completed local loop uses only the
 existing privacy-safe events:
 
 - `notification_settings_viewed` for reminder setup interest and entry source.
+- `notification_permission_prompt_viewed` for privacy-safe reminder permission
+  education prompt exposure, split only by reminder type and controlled source.
 - `prayer_reminder_permission_result` for accepted, dismissed, denied, or
   empty-schedule prayer reminder attempts.
 - `prayer_reminder_changed` for global, per-prayer, and lead-time reminder
@@ -465,6 +467,12 @@ Retention observation preparation:
   `notification_settings_viewed` once per page entry with only screen,
   controlled source, and aggregate prayer-reminder enabled state, so the
   reminder setup funnel can be observed before the opt-in event.
+  Reminder permission prompt analytics now records
+  `notification_permission_prompt_viewed` before prayer or Daily Session
+  reminder explanation dialogs, with only reminder type and controlled source,
+  so opt-in education exposure can be reviewed without sending routes,
+  payloads, exact reminder times, locations, Women's Ibadah Mode status,
+  lock-screen copy, feedback text, or religious text.
   Prayer reminder permission analytics now records
   `prayer_reminder_permission_result` with only enabled result, controlled
   source, coarse outcome, and lead-time offset, so permission denial or

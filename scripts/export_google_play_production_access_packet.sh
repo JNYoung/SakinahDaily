@@ -54,6 +54,7 @@ require_completed_retention_packet() {
   require_text "$feedback" 'No tester personal data'
   require_text "$decisions" 'production_access_answer_note'
   require_text "$decisions" 'No tester personal data'
+  require_text "$debugview" 'notification_permission_prompt_viewed'
   require_text "$debugview" 'notification_schedule_result'
   require_text "$debugview" 'notification_tap_opened'
   require_text "$debugview" 'no_forbidden_parameters'

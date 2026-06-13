@@ -198,7 +198,8 @@ Evidence sources:
   `Completed retention evidence inputs: validated` from
   `SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true`, and the packet includes
   `analytics_debugview_retention_evidence.csv` with no forbidden parameters or
-  tester personal data.
+  tester personal data, including `notification_permission_prompt_viewed` for
+  reminder education exposure.
 - [ ] Release readiness checklist reflects the tested build.
 - [ ] Signed AAB checksum is available before upload / Production access
   review, and `SAKINAH_RELEASE_AAB_PATH` matches

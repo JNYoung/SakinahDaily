@@ -40,6 +40,11 @@ Future<void> handleDailySessionReminderToggle({
     return;
   }
 
+  trackNotificationPermissionPromptViewed(
+    ref: ref,
+    reminderType: 'daily_session',
+    source: analyticsSource,
+  );
   final accepted = await showDailySessionReminderExplanation(context, l10n);
   if (accepted != true || !context.mounted) {
     await controller.setDailySessionReminderEnabled(false);

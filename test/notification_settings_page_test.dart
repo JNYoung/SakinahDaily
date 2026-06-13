@@ -879,6 +879,15 @@ void main() {
     await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
     await tester.pumpAndSettle();
     expect(find.text('Enable prayer reminders?'), findsOneWidget);
+    final promptEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationPermissionPromptViewed,
+    );
+    expect(promptEvents, hasLength(1));
+    expect(promptEvents.single.properties, {
+      'reminder_type': 'prayer',
+      'source': 'home_prayer_card',
+    });
 
     await tester.tap(find.text('Not now'));
     await tester.pumpAndSettle();
@@ -1201,6 +1210,15 @@ void main() {
     );
     await tapByKey(tester, SakinahKeys.settingsDailySessionReminderSwitch);
     expect(find.text('Set daily reminder?'), findsOneWidget);
+    final promptEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationPermissionPromptViewed,
+    );
+    expect(promptEvents, hasLength(1));
+    expect(promptEvents.single.properties, {
+      'reminder_type': 'daily_session',
+      'source': 'session_completion',
+    });
 
     await tester.tap(find.text('Not now'));
     await tester.pumpAndSettle();

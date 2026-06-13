@@ -79,6 +79,12 @@ Current implementation:
   reminder setup entries from Home, Prayer, completion, and Daily Session
   completion surfaces. Routes, exact reminder times, locations, Women's Ibadah
   Mode status, and free text are not sent.
+- Reminder permission education prompts record
+  `notification_permission_prompt_viewed` with only `reminder_type` and a
+  controlled source before the system permission request. This measures
+  opt-in funnel exposure for prayer and Daily Session reminders without
+  sending routes, exact reminder times, payloads, locations, Women's Ibadah
+  Mode status, lock-screen copy, feedback text, or religious text.
 - The Home page records a local `home_viewed` event only after local prayer
   completion state is loaded, with aggregate prayer retention counts only:
   today's completed count, 7-day check-in count, 7-day check-in days, current
@@ -125,9 +131,10 @@ Current implementation:
   lock-screen copy, prayer names, device model, coordinates, Women's Ibadah
   Mode status, feedback text, and religious text are not sent.
 - Push/reminder module analytics coverage is complete for the v0.1 local
-  reminder loop without adding new sensitive events. Reminder setup interest is
-  covered by `notification_settings_viewed`; prayer reminder outcomes and
-  changes are covered by `prayer_reminder_permission_result` and
+  reminder loop without adding sensitive events. Reminder setup interest is
+  covered by `notification_settings_viewed`; permission education exposure is
+  covered by `notification_permission_prompt_viewed`; prayer reminder outcomes
+  and changes are covered by `prayer_reminder_permission_result` and
   `prayer_reminder_changed`; local scheduling health is covered by
   `notification_schedule_result`; Notification Settings QA smoke outcomes are
   covered by `notification_smoke_test_result`; denied-permission recovery is
@@ -183,6 +190,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `qibla_viewed`
 - `prayer_location_changed`
 - `notification_settings_viewed`
+- `notification_permission_prompt_viewed`
 - `prayer_reminder_permission_result`
 - `prayer_reminder_changed`
 - `notification_schedule_result`
@@ -285,6 +293,7 @@ The QA reviewer should verify that `home_viewed`,
 `prayer_reminder_changed`, `qibla_viewed`, `notification_tap_opened`,
 `analytics_consent_changed`,
 `notification_settings_viewed`,
+`notification_permission_prompt_viewed`,
 `prayer_reminder_permission_result`,
 `notification_schedule_result`,
 `notification_smoke_test_result`,
@@ -306,6 +315,8 @@ calculation method, and controlled source.
 method, controlled source, and coarse change type.
 `notification_settings_viewed` must keep only screen, controlled source, and
 aggregate prayer-reminder enabled state.
+`notification_permission_prompt_viewed` must keep only `reminder_type` and
+controlled `source`.
 `prayer_reminder_permission_result` must keep only enabled result, controlled
 source, coarse outcome, and reminder lead-time offset.
 `notification_schedule_result` must keep only reminder type, enabled state,
@@ -328,7 +339,7 @@ Session → Reminder/Feedback path and verify `home_viewed → prayer_viewed`,
 `prayer_checklist_updated`, `daily_session_started`,
 `daily_session_completed`, `daily_session_reminder_permission_result`,
 `daily_session_reminder_changed`, `notification_schedule_result`,
-`notification_smoke_test_result`,
+`notification_permission_prompt_viewed`, `notification_smoke_test_result`,
 `notification_permission_recovery_opened`,
 `notification_tap_opened`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` without raw

@@ -177,7 +177,8 @@ Sources:
   `build/play-retention-observation/manifest.txt` shows
   `Completed retention evidence inputs: validated` and
   `analytics_debugview_retention_evidence.csv` is included without tester
-  personal data.
+  personal data, including reminder prompt exposure, schedule health, and
+  coarse notification open evidence.
 - Run `scripts/verify_google_play_closed_testing_evidence.sh` during launch
   prep and strict mode after the real 14-day test.
 - Run `scripts/verify_google_play_production_access_pack.sh` in template mode
