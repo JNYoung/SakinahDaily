@@ -92,6 +92,10 @@ Prayer reminder permission attempts should appear only as
 coarse outcome, and lead-time offset, so denial or explanation dismissal can be
 observed without storing routes, exact reminder times, coordinates, Women's
 Ibadah Mode status, or free text.
+Prayer-page direct reminder enable should use `source=prayer_page_card` and
+keep the user on Prayer after local scheduling, so closed-test reviewers can
+compare Prayer-page opt-in friction against Home, Settings, and completion-card
+entry points without collecting routes or exact reminder times.
 Prayer checklist updates should appear only as `prayer_checklist_updated` with
 screen, aggregate completed count, all-prayers-completed state, and
 `source=prayer_page_checklist`; do not store prayer names, completion

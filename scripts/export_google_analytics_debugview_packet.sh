@@ -172,7 +172,7 @@ qibla_viewed,qibla_open,"screen|route|calculation_method|location_method|source=
 prayer_location_changed,prayer_location_settings,"location_method|calculation_method|source=settings_prayer_location|source=settings_prayer_method|source=manual_location_page|source=prayer_page_card|source=qibla_page|change_type","latitude|longitude|location_label|timezone_id|route|women_ibadah_status|feedback_text",Prayer Settings Completion Rate
 notification_settings_viewed,notification_settings_open,"screen|source|prayer_reminders_enabled","route|latitude|longitude|women_ibadah_status|feedback_text|reminder_time",Reminder Setup View Rate
 prayer_reminder_permission_result,notification_permission,"enabled|source|change_type|reminder_offset_minutes","route|latitude|longitude|women_ibadah_status|feedback_text|reminder_time",Prayer Reminder Permission Outcome Rate
-prayer_reminder_changed,notification_settings,"prayer_name|enabled|source=settings|source=home_prayer_card|source=prayer_page_card|source=prayer_completion_card|reminder_offset_minutes","route|latitude|longitude|women_ibadah_status|feedback_text",Prayer Reminder Opt-in Rate
+prayer_reminder_changed,notification_settings_or_prayer_page,"prayer_name|enabled|source=settings|source=home_prayer_card|source=prayer_page_card|source=prayer_completion_card|reminder_offset_minutes","route|latitude|longitude|women_ibadah_status|feedback_text",Prayer Reminder Opt-in Rate
 notification_tap_opened,local_notification_open,"content_type|source=local_notification","route|content_id|session_id|prayer_name|quran_arabic_text|women_ibadah_status|feedback_text",Push Open Rate
 analytics_consent_changed,privacy_center,"enabled|source=privacy_center","email|tester_name|latitude|longitude|women_ibadah_status|feedback_text",Analytics Consent Rate
 prayer_checklist_updated,prayer_checkin,"screen|completed_count|all_prayers_completed|source=prayer_page_checklist","prayer_name|completed_at|latitude|longitude",local prayer check-in usage
@@ -198,7 +198,7 @@ Qibla View Rate,/qibla,qibla_viewed,"prayer_page_card, settings, manual_location
 Prayer Settings Completion Rate,"/settings prayer location, prayer method, Prayer page location action, Qibla location action, or manual location save",prayer_location_changed,"settings_prayer_location, settings_prayer_method, manual_location_page, prayer_page_card, or qibla_page",coarse method source and change_type only,no coordinates location labels timezone IDs routes or free text
 Reminder Setup View Rate,/settings/notifications,notification_settings_viewed,"settings, home_prayer_card, prayer_page_card, prayer_completion_card, home_session_completion, or session_completion",source and aggregate enabled state only,no route exact reminder time location women mode status or free text
 Prayer Reminder Permission Outcome Rate,notification permission flow,prayer_reminder_permission_result,"settings, home_prayer_card, prayer_page_card, or prayer_completion_card",scheduled or denied outcome only,no route exact reminder time location women mode status or free text
-Prayer Reminder Opt-in Rate,"/settings/notifications, Home prayer card, Prayer page card, or Prayer completion card",prayer_reminder_changed,"settings, home_prayer_card, prayer_page_card, or prayer_completion_card",enabled true,no route exact location women mode status or free text
+Prayer Reminder Opt-in Rate,"/settings/notifications, Home prayer card, Prayer page direct enable, or Prayer completion card",prayer_reminder_changed,"settings, home_prayer_card, prayer_page_card, or prayer_completion_card",enabled true,no route exact location women mode status or free text
 Push Open Rate,notification tap,notification_tap_opened,local_notification,coarse content_type only,no route content ID prayer name or raw payload
 Analytics Consent Rate,/settings/privacy,analytics_consent_changed,privacy_center,usage analytics opt-in or opt-out,no tester identity location or women mode status
 Prayer To Session,/prayer complete state,daily_session_started,prayer_completion,session starts after five check-ins,no prayer completion names/timestamps
@@ -258,7 +258,7 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Onboarding start and completion.
 - Privacy Center usage analytics opt-in and opt-out.
 - Home prayer card to prayer reminder opt-in.
-- Prayer page card to prayer reminder opt-in.
+- Prayer page direct Enable reminders CTA to prayer reminder opt-in.
 - Prayer completion card to prayer reminder opt-in.
 - Local prayer reminder tap and Daily Session reminder tap.
 - Home open after local prayer completion state loads.

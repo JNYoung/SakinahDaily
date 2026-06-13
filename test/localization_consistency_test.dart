@@ -196,7 +196,8 @@ void main() {
         languageCode: 'en',
         homeTitle: 'Daily prayer at the center',
         prayerTimesButton: 'View prayer times',
-        reminderButton: 'Manage reminders',
+        homeReminderButton: 'Manage reminders',
+        prayerReminderButton: 'Enable reminders',
         sessionTitle: "Today's Sakinah Session",
         sessionMeta: '7 min · Ayah · Reflection · Dua · Dhikr',
         startButton: 'Start',
@@ -219,7 +220,8 @@ void main() {
         languageCode: 'id',
         homeTitle: 'Shalat harian sebagai pusat',
         prayerTimesButton: 'Lihat waktu shalat',
-        reminderButton: 'Kelola pengingat',
+        homeReminderButton: 'Kelola pengingat',
+        prayerReminderButton: 'Aktifkan pengingat',
         sessionTitle: 'Sesi Sakinah Hari Ini',
         sessionMeta: '7 menit · Ayat · Refleksi · Doa · Dzikir',
         startButton: 'Mulai',
@@ -240,6 +242,7 @@ void main() {
         forbiddenButtonLabels: [
           'View prayer times',
           'Manage reminders',
+          'Enable reminders',
           'Change location',
           'Start',
         ],
@@ -248,7 +251,8 @@ void main() {
         languageCode: 'ar',
         homeTitle: 'الصلاة اليومية في المركز',
         prayerTimesButton: 'عرض أوقات الصلاة',
-        reminderButton: 'إدارة التذكيرات',
+        homeReminderButton: 'إدارة التذكيرات',
+        prayerReminderButton: 'تفعيل التذكيرات',
         sessionTitle: 'جلسة السكينة اليوم',
         sessionMeta: '7 دقائق · آية · تأمل · دعاء · ذكر',
         startButton: 'ابدأ',
@@ -270,6 +274,7 @@ void main() {
         forbiddenButtonLabels: [
           'View prayer times',
           'Manage reminders',
+          'Enable reminders',
           'Change location',
           'Start',
         ],
@@ -474,7 +479,7 @@ Future<void> _expectLocalizedReleasePath(
 
   expect(find.text(expected.homeTitle), findsOneWidget);
   expect(find.text(expected.prayerTimesButton), findsOneWidget);
-  expect(find.text(expected.reminderButton), findsOneWidget);
+  expect(find.text(expected.homeReminderButton), findsOneWidget);
   expect(find.text(expected.sessionTitle), findsOneWidget);
   expect(find.text(expected.sessionMeta), findsOneWidget);
   expect(find.text(expected.startButton), findsOneWidget);
@@ -512,7 +517,7 @@ Future<void> _expectLocalizedReleasePath(
 
   expect(find.text(expected.prayerTitle), findsWidgets);
   expect(find.text(expected.nextPrayer), findsOneWidget);
-  expect(find.text(expected.reminderButton), findsOneWidget);
+  expect(find.text(expected.prayerReminderButton), findsOneWidget);
   expect(find.text(expected.changeLocationButton), findsOneWidget);
   expect(find.text(expected.todaysPrayerTimes), findsOneWidget);
 
@@ -544,7 +549,8 @@ class _ReleasePathExpectations {
     required this.languageCode,
     required this.homeTitle,
     required this.prayerTimesButton,
-    required this.reminderButton,
+    required this.homeReminderButton,
+    required this.prayerReminderButton,
     required this.sessionTitle,
     required this.sessionMeta,
     required this.startButton,
@@ -569,7 +575,8 @@ class _ReleasePathExpectations {
   final String languageCode;
   final String homeTitle;
   final String prayerTimesButton;
-  final String reminderButton;
+  final String homeReminderButton;
+  final String prayerReminderButton;
   final String sessionTitle;
   final String sessionMeta;
   final String startButton;

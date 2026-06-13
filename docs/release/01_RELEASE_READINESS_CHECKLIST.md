@@ -258,7 +258,10 @@ Status: Draft for release/store review.
   Prayer reminder analytics is observable only with prayer scope, enabled
   state, controlled source such as `settings`, `home_prayer_card`,
   `prayer_page_card`, or `prayer_completion_card`, and lead-time offset; routes
-  and exact reminder times are not sent.
+  and exact reminder times are not sent. The Prayer page can enable reminders
+  directly from its top card when reminders are off, using the same
+  `source=prayer_page_card` as its reminder-settings path and staying on
+  Prayer after local scheduling succeeds.
   Notification Settings view analytics is observable only as
   `notification_settings_viewed` with screen, controlled source, and aggregate
   prayer-reminder enabled state.

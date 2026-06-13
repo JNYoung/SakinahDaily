@@ -9,6 +9,7 @@ import '../../core/providers/app_providers.dart';
 import '../../core/services/analytics_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../shared/sakinah_keys.dart';
+import '../../shared/prayer_reminder_toggle_flow.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/primary_button.dart';
@@ -111,14 +112,28 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
                     spacing: 10,
                     runSpacing: 10,
                     children: [
-                      PrimaryButton(
-                        key: SakinahKeys.prayerTopReminderSettingsButton,
-                        label: l10n.t('manageReminders'),
-                        tonal: true,
-                        onPressed: () => context.go(
-                          '/settings/notifications?source=prayer_page_card',
+                      if (preferences.notificationsEnabled)
+                        PrimaryButton(
+                          key: SakinahKeys.prayerTopReminderSettingsButton,
+                          label: l10n.t('manageReminders'),
+                          icon: Icons.notifications_active_outlined,
+                          tonal: true,
+                          onPressed: () => context.go(
+                            '/settings/notifications?source=prayer_page_card',
+                          ),
+                        )
+                      else
+                        PrimaryButton(
+                          key: SakinahKeys.prayerTopEnableRemindersButton,
+                          label: l10n.t('notificationPermissionAllow'),
+                          icon: Icons.notifications_active_outlined,
+                          tonal: true,
+                          onPressed: () => _enablePrayerReminders(
+                            l10n: l10n,
+                            preferences: preferences,
+                            prayerService: service,
+                          ),
                         ),
-                      ),
                       PrimaryButton(
                         key: SakinahKeys.prayerTopQiblaButton,
                         label: l10n.t('qibla'),
@@ -329,6 +344,41 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
         },
       ),
     );
+  }
+
+  Future<void> _enablePrayerReminders({
+    required SakinahLocalizations l10n,
+    required UserPreferences preferences,
+    required PrayerCalculationService prayerService,
+  }) async {
+    await handlePrayerReminderToggle(
+      enabled: true,
+      context: context,
+      ref: ref,
+      l10n: l10n,
+      controller: ref.read(userPreferencesProvider.notifier),
+      notificationService: ref.read(notificationServiceProvider),
+      prayerService: prayerService,
+      preferences: preferences,
+      analyticsSource: 'prayer_page_card',
+    );
+    if (!mounted) {
+      return;
+    }
+    final feedback = ref.read(notificationPermissionFeedbackProvider);
+    final message = switch (feedback) {
+      NotificationPermissionFeedback.scheduled =>
+        l10n.t('notificationScheduled'),
+      NotificationPermissionFeedback.denied =>
+        l10n.t('notificationPermissionDenied'),
+      null => null,
+    };
+    if (message == null) {
+      return;
+    }
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _setPrayerCompleted(String prayerName, bool completed) async {
