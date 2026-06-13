@@ -13,6 +13,7 @@ void main() {
       languageCode: 'id',
       genderMode: GenderMode.female,
       audioPreference: AudioPreference.quietGuidance,
+      hasCompletedOnboarding: true,
       notificationsEnabled: true,
       dailySessionReminderEnabled: true,
       dailySessionReminderMinutesAfterMidnight: 21 * 60 + 15,
@@ -37,6 +38,7 @@ void main() {
     expect(loaded.languageCode, 'id');
     expect(loaded.genderMode, GenderMode.female);
     expect(loaded.audioPreference, AudioPreference.quietGuidance);
+    expect(loaded.hasCompletedOnboarding, isTrue);
     expect(loaded.notificationsEnabled, isTrue);
     expect(loaded.dailySessionReminderEnabled, isTrue);
     expect(loaded.dailySessionReminderMinutesAfterMidnight, 21 * 60 + 15);
@@ -50,12 +52,33 @@ void main() {
     expect(loaded.womenIbadahMode.localOnly, isTrue);
   });
 
+  test('onboarding completion defaults to false until setup is finished',
+      () async {
+    final repository =
+        UserPreferencesRepository(InMemoryUserPreferencesStore());
+
+    final loaded = await repository.load();
+
+    expect(loaded.hasCompletedOnboarding, isFalse);
+  });
+
+  test('legacy saved preferences count as completed onboarding', () async {
+    final store = InMemoryUserPreferencesStore();
+    final repository = UserPreferencesRepository(store);
+    await store.write(repository.storageKey, '{"languageCode":"en"}');
+
+    final loaded = await repository.load();
+
+    expect(loaded.hasCompletedOnboarding, isTrue);
+  });
+
   test('preferences reset returns defaults and disables women mode', () async {
     final store = InMemoryUserPreferencesStore();
     final repository = UserPreferencesRepository(store);
     await repository.save(
       UserPreferences.defaults().copyWith(
         languageCode: 'ar',
+        hasCompletedOnboarding: true,
         notificationsEnabled: true,
         dailySessionReminderEnabled: true,
         dailySessionReminderMinutesAfterMidnight: 6 * 60 + 30,
@@ -71,6 +94,7 @@ void main() {
 
     final loaded = await repository.load();
     expect(loaded.languageCode, 'en');
+    expect(loaded.hasCompletedOnboarding, isFalse);
     expect(loaded.notificationsEnabled, isFalse);
     expect(loaded.dailySessionReminderEnabled, isFalse);
     expect(loaded.dailySessionReminderMinutesAfterMidnight, 20 * 60);

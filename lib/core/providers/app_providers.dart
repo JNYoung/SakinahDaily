@@ -207,6 +207,10 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
     await repository.save(state);
   }
 
+  Future<void> completeOnboarding() async {
+    await _commit(state.copyWith(hasCompletedOnboarding: true));
+  }
+
   Future<void> resetToDefaults() async {
     _hasLocalChanges = true;
     await repository.reset();

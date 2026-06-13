@@ -658,6 +658,7 @@ class UserPreferences {
     required this.audioPreference,
     required this.prayerSettings,
     required this.womenIbadahMode,
+    this.hasCompletedOnboarding = false,
     this.notificationsEnabled = false,
     this.dailySessionReminderEnabled = false,
     this.dailySessionReminderMinutesAfterMidnight =
@@ -682,6 +683,7 @@ class UserPreferences {
   final AudioPreference audioPreference;
   final PrayerSettings prayerSettings;
   final WomenIbadahMode womenIbadahMode;
+  final bool hasCompletedOnboarding;
   final bool notificationsEnabled;
   final bool dailySessionReminderEnabled;
   final int dailySessionReminderMinutesAfterMidnight;
@@ -711,6 +713,7 @@ class UserPreferences {
     AudioPreference? audioPreference,
     PrayerSettings? prayerSettings,
     WomenIbadahMode? womenIbadahMode,
+    bool? hasCompletedOnboarding,
     bool? notificationsEnabled,
     bool? dailySessionReminderEnabled,
     int? dailySessionReminderMinutesAfterMidnight,
@@ -725,6 +728,8 @@ class UserPreferences {
       audioPreference: audioPreference ?? this.audioPreference,
       prayerSettings: prayerSettings ?? this.prayerSettings,
       womenIbadahMode: womenIbadahMode ?? this.womenIbadahMode,
+      hasCompletedOnboarding:
+          hasCompletedOnboarding ?? this.hasCompletedOnboarding,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       dailySessionReminderEnabled:
           dailySessionReminderEnabled ?? this.dailySessionReminderEnabled,
@@ -763,6 +768,7 @@ class UserPreferences {
         'audioPreference': audioPreference.name,
         'prayerSettings': prayerSettings.toJson(),
         'womenIbadahMode': womenIbadahMode.toJson(),
+        'hasCompletedOnboarding': hasCompletedOnboarding,
         'notificationsEnabled': notificationsEnabled,
         'dailySessionReminderEnabled': dailySessionReminderEnabled,
         'dailySessionReminderMinutesAfterMidnight':
@@ -791,6 +797,7 @@ class UserPreferences {
       womenIbadahMode: womenIbadahModeJson is Map<String, dynamic>
           ? WomenIbadahMode.fromJson(womenIbadahModeJson)
           : defaults.womenIbadahMode,
+      hasCompletedOnboarding: _onboardingCompletedFromJson(json),
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? false,
       dailySessionReminderEnabled:
           json['dailySessionReminderEnabled'] as bool? ?? false,
@@ -815,6 +822,16 @@ class UserPreferences {
       analyticsOptIn: json['analyticsOptIn'] as bool? ?? false,
     );
   }
+}
+
+bool _onboardingCompletedFromJson(Map<String, dynamic> json) {
+  if (json.containsKey('hasCompletedOnboarding')) {
+    return json['hasCompletedOnboarding'] as bool? ?? false;
+  }
+  if (json.containsKey('onboardingCompleted')) {
+    return json['onboardingCompleted'] as bool? ?? false;
+  }
+  return true;
 }
 
 class SourceItem {

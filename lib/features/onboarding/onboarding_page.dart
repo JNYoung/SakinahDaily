@@ -195,7 +195,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
             label: l10n.t('continueLabel'),
             icon: Icons.arrow_forward_rounded,
             onPressed: () async {
-              await controller.saveCurrent();
+              await controller.completeOnboarding();
               final savedPreferences = ref.read(userPreferencesProvider);
               _trackOnboardingEvent(
                 ref,
