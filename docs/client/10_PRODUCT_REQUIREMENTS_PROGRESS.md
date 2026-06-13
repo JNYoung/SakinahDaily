@@ -246,21 +246,23 @@ Completed:
   reflection is a gentle reminder rather than a religious ruling.
 - Completion page supports save session, open Saved Items, and set a local daily
   session reminder.
-- Completion-page and Settings daily session reminder changes now emit a
-  privacy-safe `daily_session_reminder_changed` analytics event when analytics
-  is enabled and the user opts in, so the session-to-reminder retention loop can
-  be monitored without sending exact reminder time or sensitive mode data.
+- Completion-page, Home completed-session, and Settings daily session reminder
+  changes now emit privacy-safe `daily_session_reminder_permission_result` and
+  `daily_session_reminder_changed` analytics when analytics is enabled and the
+  user opts in, so the session-to-reminder retention loop can be monitored
+  without sending exact reminder time or sensitive mode data.
 - Saved sessions can reappear on Home through the local continue rail, giving
   users a lightweight return path without social sharing, accounts, or remote
   saved-item sync.
 - Home session card now surfaces the enabled daily session reminder time, so
   users can confirm their local habit loop without digging back into Settings.
 - When today's session is already complete and the local daily session reminder
-  is still off, Home now shows a Set daily reminder CTA that opens Notification
-  settings, giving the completed-session path a clear next-day return loop.
-  Reminder analytics preserves a controlled `home_session_completion` source
-  when that CTA leads to reminder opt-in, so the Home retention prompt can be
-  measured separately from ordinary Settings changes.
+  is still off, Home now shows a Set daily reminder CTA that enables the
+  reminder in place after the existing permission explanation, giving the
+  completed-session path a clear next-day return loop without a Settings
+  detour. Reminder analytics preserves a controlled `home_session_completion`
+  source for both the permission result and reminder-enabled event, so the Home
+  retention prompt can be measured separately from ordinary Settings changes.
 - Settings exposes Notification settings where the daily session reminder can be
   enabled, disabled, and rescheduled to a user-selected local time.
 - Turning prayer reminders off no longer clears the local daily session reminder

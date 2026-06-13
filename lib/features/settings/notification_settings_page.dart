@@ -10,6 +10,7 @@ import '../../core/services/analytics_service.dart';
 import '../../core/services/notification_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../core/services/prayer_reminder_preview_service.dart';
+import '../../shared/daily_session_reminder_toggle_flow.dart';
 import '../../shared/prayer_reminder_toggle_flow.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -206,7 +207,7 @@ class _NotificationSettingsPageState
                   ? null
                   : (enabled) {
                       unawaited(
-                        _handleDailySessionReminderToggle(
+                        handleDailySessionReminderToggle(
                           enabled: enabled,
                           context: context,
                           ref: ref,
@@ -430,110 +431,6 @@ Future<void> _reschedulePrayerRemindersAfterPreferenceChange({
       NotificationPermissionFeedback.scheduled;
 }
 
-Future<void> _handleDailySessionReminderToggle({
-  required bool enabled,
-  required BuildContext context,
-  required WidgetRef ref,
-  required SakinahLocalizations l10n,
-  required UserPreferencesController controller,
-  required NotificationService notificationService,
-  required UserPreferences preferences,
-  required DailySession session,
-  required String analyticsSource,
-}) async {
-  if (!enabled) {
-    await notificationService.cancelDailySessionReminder();
-    await controller.setDailySessionReminderEnabled(false);
-    _trackDailySessionReminderChanged(
-      ref: ref,
-      sessionId: session.id,
-      enabled: false,
-      source: analyticsSource,
-      changeType: 'disabled',
-    );
-    return;
-  }
-
-  final accepted = await _showSessionReminderExplanation(context, l10n);
-  if (accepted != true || !context.mounted) {
-    await controller.setDailySessionReminderEnabled(false);
-    if (context.mounted) {
-      _trackDailySessionReminderPermissionResult(
-        ref: ref,
-        sessionId: session.id,
-        enabled: false,
-        source: analyticsSource,
-        changeType: 'explanation_dismissed',
-      );
-    }
-    return;
-  }
-
-  final granted = await notificationService.requestPermissionAfterExplanation();
-  if (!context.mounted) {
-    return;
-  }
-  if (!granted) {
-    await controller.setDailySessionReminderEnabled(false);
-    if (!context.mounted) {
-      return;
-    }
-    _trackDailySessionReminderPermissionResult(
-      ref: ref,
-      sessionId: session.id,
-      enabled: false,
-      source: analyticsSource,
-      changeType: 'permission_denied',
-    );
-    _showSnackBar(context, l10n.t('notificationPermissionDenied'));
-    return;
-  }
-
-  final scheduled = await notificationService.scheduleDailySessionReminder(
-    session,
-    languageCode: preferences.languageCode,
-    minutesAfterMidnight: preferences.dailySessionReminderMinutesAfterMidnight,
-    womenIbadahMode: preferences.womenIbadahMode,
-  );
-  if (!context.mounted) {
-    return;
-  }
-  if (scheduled == null) {
-    await controller.setDailySessionReminderEnabled(false);
-    if (!context.mounted) {
-      return;
-    }
-    _trackDailySessionReminderPermissionResult(
-      ref: ref,
-      sessionId: session.id,
-      enabled: false,
-      source: analyticsSource,
-      changeType: 'schedule_failed',
-    );
-    _showSnackBar(context, l10n.t('notificationPermissionDenied'));
-    return;
-  }
-
-  await controller.setDailySessionReminderEnabled(true);
-  _trackDailySessionReminderPermissionResult(
-    ref: ref,
-    sessionId: session.id,
-    enabled: true,
-    source: analyticsSource,
-    changeType: 'scheduled',
-  );
-  _trackDailySessionReminderChanged(
-    ref: ref,
-    sessionId: session.id,
-    enabled: true,
-    source: analyticsSource,
-    changeType: 'enabled',
-  );
-  if (context.mounted) {
-    _showSnackBar(context, l10n.t('dailyReminderSet'));
-  }
-}
-
 Future<void> _changeDailySessionReminderTime({
   required BuildContext context,
   required WidgetRef ref,
@@ -555,7 +452,7 @@ Future<void> _changeDailySessionReminderTime({
 
   await controller.setDailySessionReminderTime(minutes);
   if (!preferences.dailySessionReminderEnabled) {
-    _trackDailySessionReminderChanged(
+    trackDailySessionReminderChanged(
       ref: ref,
       sessionId: session.id,
       enabled: false,
@@ -598,7 +495,7 @@ Future<void> _changeDailySessionReminderTime({
     _showSnackBar(context, l10n.t('notificationPermissionDenied'));
     return;
   }
-  _trackDailySessionReminderChanged(
+  trackDailySessionReminderChanged(
     ref: ref,
     sessionId: session.id,
     enabled: true,
@@ -637,67 +534,6 @@ String _normalizeDailySessionReminderSource(String? source) {
     'settings' || null => 'settings',
     _ => 'settings',
   };
-}
-
-void _trackDailySessionReminderChanged({
-  required WidgetRef ref,
-  required String sessionId,
-  required bool enabled,
-  required String source,
-  required String changeType,
-}) {
-  ref.read(analyticsServiceProvider).track(
-    AnalyticsEventCatalog.dailySessionReminderChanged,
-    {
-      'session_id': sessionId,
-      'enabled': enabled,
-      'source': source,
-      'change_type': changeType,
-    },
-  );
-}
-
-void _trackDailySessionReminderPermissionResult({
-  required WidgetRef ref,
-  required String sessionId,
-  required bool enabled,
-  required String source,
-  required String changeType,
-}) {
-  ref.read(analyticsServiceProvider).track(
-    AnalyticsEventCatalog.dailySessionReminderPermissionResult,
-    {
-      'session_id': sessionId,
-      'enabled': enabled,
-      'source': source,
-      'change_type': changeType,
-    },
-  );
-}
-
-Future<bool?> _showSessionReminderExplanation(
-  BuildContext context,
-  SakinahLocalizations l10n,
-) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(l10n.t('sessionReminderPermissionTitle')),
-        content: Text(l10n.t('sessionReminderPermissionBody')),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.t('sessionReminderPermissionNotNow')),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n.t('sessionReminderPermissionAllow')),
-          ),
-        ],
-      );
-    },
-  );
 }
 
 Future<int?> _showReminderTimeDialog(

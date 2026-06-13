@@ -278,7 +278,7 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Settings prayer location preset, prayer method change, Prayer page Change location, Qibla Change prayer location, and manual location save.
 - Five local prayer check-ins leading to a Daily Session entry point.
 - Daily Session start, step view, and completion.
-- Home completed-session CTA to Notification Settings, then daily session reminder opt-in with source \`home_session_completion\`.
+- Home completed-session Set daily reminder CTA to in-place daily session reminder opt-in with source \`home_session_completion\`.
 - Dua detail open and save toggle.
 - Dhikr counter first tap and target completion.
 - Women's Ibadah Mode enabled/disabled change.

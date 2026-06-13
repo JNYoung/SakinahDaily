@@ -2915,6 +2915,8 @@ void main() {
       expect(home, contains('formatDailySessionReminderTime'));
       expect(home, contains('homeSessionReminderStatusChip'));
       expect(home, contains('homeSessionReminderCtaButton'));
+      expect(home, contains('handleDailySessionReminderToggle'));
+      expect(home, contains("analyticsSource: 'home_session_completion'"));
       expect(keys, contains('homeSessionReminderStatusChip'));
       expect(keys, contains('homeSessionReminderCtaButton'));
       expect(
@@ -2926,8 +2928,12 @@ void main() {
         contains('homeSessionReminderCtaButton'),
       );
       expect(
+        sessionProgressTest,
+        contains('dailySessionReminderPermissionResult'),
+      );
+      expect(
         readiness,
-        contains('Home offers a Set daily reminder CTA'),
+        contains('Home offers an in-place Set daily reminder CTA'),
       );
       expect(
         readiness,
@@ -2935,7 +2941,7 @@ void main() {
       );
       expect(
         productProgress,
-        contains('Set daily reminder CTA'),
+        matches(RegExp(r'enables the\s+reminder in place')),
       );
       expect(productProgress, contains('home_session_completion'));
       expect(
@@ -3622,6 +3628,9 @@ void main() {
       final prayerReminderToggleFlow =
           File('lib/shared/prayer_reminder_toggle_flow.dart')
               .readAsStringSync();
+      final dailySessionReminderToggleFlow =
+          File('lib/shared/daily_session_reminder_toggle_flow.dart')
+              .readAsStringSync();
       final homePage =
           File('lib/features/home/home_page.dart').readAsStringSync();
       final prayerPage =
@@ -3678,10 +3687,14 @@ void main() {
       expect(notificationService, contains('dailySessionNotificationPayload'));
       expect(notificationSettings, contains('notificationSettingsViewed'));
       expect(
-          notificationSettings, contains('_trackDailySessionReminderChanged'));
+          notificationSettings, contains('handleDailySessionReminderToggle'));
       expect(
-        notificationSettings,
-        contains('_trackDailySessionReminderPermissionResult'),
+        dailySessionReminderToggleFlow,
+        contains('trackDailySessionReminderChanged'),
+      );
+      expect(
+        dailySessionReminderToggleFlow,
+        contains('trackDailySessionReminderPermissionResult'),
       );
       expect(
         prayerReminderToggleFlow,
@@ -3690,6 +3703,7 @@ void main() {
       expect(prayerReminderToggleFlow, contains('prayerReminderChanged'));
       expect(homePage, contains('homePrayerEnableRemindersButton'));
       expect(homePage, contains("analyticsSource: 'home_prayer_card'"));
+      expect(homePage, contains("analyticsSource: 'home_session_completion'"));
       expect(prayerPage, contains('prayerTopEnableRemindersButton'));
       expect(prayerPage, contains("analyticsSource: 'prayer_page_card'"));
       expect(tapListener, contains('notificationTapOpened'));

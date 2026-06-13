@@ -12,6 +12,7 @@ import '../../core/providers/app_providers.dart';
 import '../../core/services/analytics_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../core/services/prayer_reminder_preview_service.dart';
+import '../../shared/daily_session_reminder_toggle_flow.dart';
 import '../../shared/prayer_reminder_toggle_flow.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
@@ -245,8 +246,14 @@ class HomePage extends ConsumerWidget {
                 ? context.go('/session/${session.id}/completed')
                 : context.go('/session/${session.id}?source=home'),
             onReminderCta: showSessionReminderCta
-                ? () => context.go(
-                      '/settings/notifications?source=home_session_completion',
+                ? () => unawaited(
+                      _enableHomeDailySessionReminder(
+                        context: context,
+                        ref: ref,
+                        l10n: l10n,
+                        preferences: preferences,
+                        session: session,
+                      ),
                     )
                 : null,
             onVoiceOnly: () => _showQuranVoiceOnlySheet(context, l10n),
@@ -445,6 +452,26 @@ Future<void> _enableHomePrayerReminders({
     context: context,
     l10n: l10n,
     feedback: ref.read(notificationPermissionFeedbackProvider),
+  );
+}
+
+Future<void> _enableHomeDailySessionReminder({
+  required BuildContext context,
+  required WidgetRef ref,
+  required SakinahLocalizations l10n,
+  required UserPreferences preferences,
+  required DailySession session,
+}) {
+  return handleDailySessionReminderToggle(
+    enabled: true,
+    context: context,
+    ref: ref,
+    l10n: l10n,
+    controller: ref.read(userPreferencesProvider.notifier),
+    notificationService: ref.read(notificationServiceProvider),
+    preferences: preferences,
+    session: session,
+    analyticsSource: 'home_session_completion',
   );
 }
 

@@ -109,10 +109,12 @@ Current implementation:
   `prayer_reminder_changed`; Daily Session reminder outcomes and changes are
   covered by `daily_session_reminder_permission_result` and
   `daily_session_reminder_changed`; local notification opens are covered by
-  `notification_tap_opened`. The Home and Prayer direct opt-in surfaces use
-  controlled `source=home_prayer_card` and `source=prayer_page_card`, while
-  exact reminder times, routes, payloads, coordinates, Women's Ibadah Mode
-  exact status, feedback text, and religious text remain blocked.
+  `notification_tap_opened`. The Home and Prayer direct prayer opt-in surfaces
+  use controlled `source=home_prayer_card` and `source=prayer_page_card`, while
+  Daily Session reminder sources stay controlled as `settings`,
+  `session_completion`, or `home_session_completion`. Exact reminder times,
+  routes, payloads, coordinates, Women's Ibadah Mode exact status, feedback
+  text, and religious text remain blocked.
 - Prayer checklist updates record local `prayer_checklist_updated` events with
   aggregate completed count, all-prayers-completed boolean, and the controlled
   `source=prayer_page_checklist` entry label only; exact prayer completion

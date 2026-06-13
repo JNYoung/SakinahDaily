@@ -101,12 +101,24 @@ void main() {
       notifications.dailySessionReminder!.payload,
       contains('"type":"daily_session"'),
     );
-    expect(analytics.events, hasLength(1));
-    expect(
-      analytics.events.single.name,
-      AnalyticsEventCatalog.dailySessionReminderChanged,
+    final permissionEvents = analytics.events.where(
+      (event) =>
+          event.name ==
+          AnalyticsEventCatalog.dailySessionReminderPermissionResult,
     );
-    expect(analytics.events.single.properties, {
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': true,
+      'source': 'session_completion',
+      'change_type': 'scheduled',
+    });
+    final reminderEvents = analytics.events.where(
+      (event) =>
+          event.name == AnalyticsEventCatalog.dailySessionReminderChanged,
+    );
+    expect(reminderEvents, hasLength(1));
+    expect(reminderEvents.single.properties, {
       'session_id': 'session_morning_ease',
       'enabled': true,
       'source': 'session_completion',

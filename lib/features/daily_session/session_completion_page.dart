@@ -9,7 +9,7 @@ import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/saved_item.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
-import '../../core/services/analytics_service.dart';
+import '../../shared/daily_session_reminder_toggle_flow.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -146,15 +146,24 @@ class SessionCompletionPage extends ConsumerWidget {
             onPressed: session == null
                 ? null
                 : preferences.dailySessionReminderEnabled
-                    ? () => context.go('/settings/notifications')
+                    ? () => context.go(
+                          '/settings/notifications?source=session_completion',
+                        )
                     : () async {
-                        await _setDailyReminder(
+                        await handleDailySessionReminderToggle(
+                          enabled: true,
                           context: context,
                           ref: ref,
                           l10n: l10n,
-                          session: session,
-                          languageCode: languageCode,
+                          controller: ref.read(
+                            userPreferencesProvider.notifier,
+                          ),
+                          notificationService: ref.read(
+                            notificationServiceProvider,
+                          ),
                           preferences: preferences,
+                          session: session,
+                          analyticsSource: 'session_completion',
                         );
                       },
           ),
@@ -170,101 +179,6 @@ class SessionCompletionPage extends ConsumerWidget {
       ),
     );
   }
-}
-
-Future<void> _setDailyReminder({
-  required BuildContext context,
-  required WidgetRef ref,
-  required SakinahLocalizations l10n,
-  required DailySession session,
-  required String languageCode,
-  required UserPreferences preferences,
-}) async {
-  final accepted = await showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(l10n.t('sessionReminderPermissionTitle')),
-        content: Text(l10n.t('sessionReminderPermissionBody')),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.t('sessionReminderPermissionNotNow')),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n.t('sessionReminderPermissionAllow')),
-          ),
-        ],
-      );
-    },
-  );
-  if (accepted != true || !context.mounted) {
-    return;
-  }
-
-  final notificationService = ref.read(notificationServiceProvider);
-  final permissionGranted =
-      await notificationService.requestPermissionAfterExplanation();
-  if (!context.mounted) {
-    return;
-  }
-  if (!permissionGranted) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.t('notificationPermissionDenied'))),
-    );
-    return;
-  }
-
-  final scheduled = await notificationService.scheduleDailySessionReminder(
-    session,
-    languageCode: languageCode,
-    minutesAfterMidnight: preferences.dailySessionReminderMinutesAfterMidnight,
-    womenIbadahMode: preferences.womenIbadahMode,
-  );
-  if (!context.mounted) {
-    return;
-  }
-  if (scheduled == null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.t('notificationPermissionDenied'))),
-    );
-    return;
-  }
-
-  await ref
-      .read(userPreferencesProvider.notifier)
-      .setDailySessionReminderEnabled(true);
-  _trackDailySessionReminderChanged(
-    ref: ref,
-    sessionId: session.id,
-    enabled: true,
-    source: 'session_completion',
-    changeType: 'enabled',
-  );
-  if (context.mounted) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.t('dailyReminderSet'))),
-    );
-  }
-}
-
-void _trackDailySessionReminderChanged({
-  required WidgetRef ref,
-  required String sessionId,
-  required bool enabled,
-  required String source,
-  required String changeType,
-}) {
-  ref.read(analyticsServiceProvider).track(
-    AnalyticsEventCatalog.dailySessionReminderChanged,
-    {
-      'session_id': sessionId,
-      'enabled': enabled,
-      'source': source,
-      'change_type': changeType,
-    },
-  );
 }
 
 class _Metric extends StatelessWidget {
