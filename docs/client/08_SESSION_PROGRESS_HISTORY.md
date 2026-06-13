@@ -42,7 +42,8 @@ links back Home or to Saved Items, and offers a privacy-safe Set daily reminder
 CTA. The completion page and Home completed-session CTA both use the same local
 permission explanation and daily-session reminder scheduling flow. When the
 reminder is already enabled, the same CTA becomes a Manage daily reminder entry
-that opens Settings > Notification settings.
+that opens Settings > Notification settings; Home also keeps that manage entry
+visible next to the enabled reminder time on the session card.
 
 ## Resume Behavior
 

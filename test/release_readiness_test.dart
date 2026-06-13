@@ -2923,6 +2923,7 @@ void main() {
         navigationTest,
         contains('home session card shows enabled daily reminder time'),
       );
+      expect(navigationTest, contains('Manage daily reminder'));
       expect(
         sessionProgressTest,
         contains('homeSessionReminderCtaButton'),
@@ -2948,6 +2949,7 @@ void main() {
         productProgress,
         contains('Home session card now surfaces the enabled daily session'),
       );
+      expect(productProgress, contains('Manage daily reminder'));
       expect(acceptance, contains('[x] 用户可以管理每日 session reminder。'));
       expect(acceptance, contains('[x] Daily reminder 可开启/关闭。'));
     });

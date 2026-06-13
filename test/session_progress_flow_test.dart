@@ -131,7 +131,7 @@ void main() {
       find.byKey(SakinahKeys.homeSessionReminderStatusChip),
       findsOneWidget,
     );
-    expect(find.byKey(SakinahKeys.homeSessionReminderCtaButton), findsNothing);
+    expect(find.text('Manage daily reminder'), findsOneWidget);
     expect(find.text('Daily reminder set'), findsOneWidget);
 
     final permissionEvents = analytics.events.where(
