@@ -175,6 +175,7 @@ require_text "$docs_index" 'export_android_oem_reminder_observation_packet.sh'
 require_text "$product_progress" 'Android OEM reminder observation packet'
 require_text "$readiness" 'Android OEM reminder observation packet'
 require_text "$android_checklist" 'Android OEM reminder observation packet'
+require_text "$android_checklist" 'adb_observation_commands.sh'
 require_text "$acceptance" 'Android OEM reminder observation packet'
 require_text "$version_notes" 'Android OEM reminder observation packet'
 require_text "$permission_review" 'RECEIVE_BOOT_COMPLETED'
@@ -243,6 +244,65 @@ write_device_environment_snapshot \
   "$device_serial" \
   "$oem_model"
 
+cat >"$out_dir/adb_observation_commands.sh" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+PACKAGE_NAME="com.sakinahdaily.app"
+ADB="${SAKINAH_ADB:-adb}"
+ADB_SERIAL="${SAKINAH_ANDROID_SERIAL:-${ANDROID_SERIAL:-}}"
+OUT_DIR="${SAKINAH_ANDROID_OEM_CAPTURE_DIR:-android-oem-adb-capture}"
+
+adb_args=()
+if [[ -n "$ADB_SERIAL" ]]; then
+  adb_args=(-s "$ADB_SERIAL")
+fi
+
+mkdir -p "$OUT_DIR"
+
+capture_shell() {
+  local label="$1"
+  shift
+  printf 'Capturing %s...\n' "$label"
+  "$ADB" "${adb_args[@]}" shell "$@" >"$OUT_DIR/$label.txt" 2>&1 || true
+}
+
+capture_package_filtered_shell() {
+  local label="$1"
+  shift
+  printf 'Capturing %s filtered to %s...\n' "$label" "$PACKAGE_NAME"
+  "$ADB" "${adb_args[@]}" shell "$@" 2>/dev/null |
+    grep -F "$PACKAGE_NAME" >"$OUT_DIR/$label.txt" || true
+}
+
+# Privacy rule: No tester personal data. Review outputs before sharing and do
+# not add tester names, emails, exact locations, health details, screenshots
+# with account data, or free-text worship notes.
+capture_shell package_resolve cmd package resolve-activity --brief "$PACKAGE_NAME"
+capture_shell package_path pm path "$PACKAGE_NAME"
+capture_shell device_model getprop ro.product.model
+capture_shell android_version getprop ro.build.version.release
+capture_package_filtered_shell deviceidle_whitelist cmd deviceidle whitelist
+capture_package_filtered_shell dumpsys_alarm dumpsys alarm
+capture_package_filtered_shell dumpsys_notification dumpsys notification
+"$ADB" "${adb_args[@]}" logcat -b crash -d 2>/dev/null |
+  grep -F "$PACKAGE_NAME" >"$OUT_DIR/logcat_crash_package.txt" || true
+
+cat >"$OUT_DIR/README.txt" <<README
+Android OEM reminder ADB capture
+Package: $PACKAGE_NAME
+Privacy rule: No tester personal data.
+
+Use these files only as operational evidence for package resolution,
+notification/alarm registration hints, and crash-buffer review. Long-window
+8-hour, 24-hour, reboot, and battery-policy outcomes still require manual
+observation in the CSV templates.
+README
+
+printf 'ADB observation captures written to %s\n' "$OUT_DIR"
+EOF
+chmod +x "$out_dir/adb_observation_commands.sh"
+
 cat >"$out_dir/oem_observation_checklist.md" <<'EOF'
 # Android OEM Reminder Observation Checklist
 
@@ -251,6 +311,8 @@ Status: template evidence only until long-window device observations are recorde
 Start by reviewing `device_environment_snapshot.txt`. It may be prefilled by
 ADB when a device serial is supplied, or it may contain handoff placeholders
 when no Android device is connected.
+Run `adb_observation_commands.sh` at the start and end of the observation
+window to capture package-filtered ADB evidence without tester personal data.
 
 ## Scope
 
@@ -266,6 +328,8 @@ when no Android device is connected.
 - Keep notes aggregate and operational, for example delivered, delayed, missed, or tapped.
 - Verify lock-screen copy remains gentle and privacy-safe.
 - Do not include Women's Ibadah Mode state in notification text or observation notes.
+- Review ADB captures before sharing; keep only package-filtered operational
+  evidence from `adb_observation_commands.sh`.
 
 ## Strict Mode Gate
 
@@ -312,6 +376,7 @@ Generated observation files:
 - reboot_delivery_checklist.csv
 - battery_policy_review.csv
 - device_environment_snapshot.txt
+- adb_observation_commands.sh
 - oem_observation_checklist.md
 
 Copied evidence:

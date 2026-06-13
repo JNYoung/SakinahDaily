@@ -149,6 +149,9 @@ Template mode exports `build/android-oem-reminder-observation` with:
   environment, prefilled from `adb shell getprop` and
   `adb shell cmd deviceidle whitelist` when a device is connected, otherwise
   left as a manual handoff template.
+- `adb_observation_commands.sh` for package-filtered ADB capture commands
+  covering package resolution, device-idle state, alarm/notification hints, and
+  crash-buffer review without tester personal data.
 - `oem_observation_checklist.md` for lock-screen copy and privacy-safe
   observation rules.
 
