@@ -106,6 +106,12 @@ Current implementation:
   Raw payloads, routes, scheduled local time, exact reminder times, lock-screen
   body copy, locations, Women's Ibadah Mode status, feedback text, and
   religious text are not sent.
+- Notification Settings denied-permission recovery records local
+  `notification_permission_recovery_opened` events with only
+  `source=notification_settings` and coarse `change_type` such as
+  `system_settings_opened` or `system_settings_unavailable`. Routes, payloads,
+  device model, exact reminder times, locations, Women's Ibadah Mode status,
+  feedback text, lock-screen body copy, and religious text are not sent.
 - Handled local notification taps record `notification_tap_opened` with only a
   coarse content type such as `prayer`, `daily_session`, `quran`, `dua`, or
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
@@ -116,15 +122,17 @@ Current implementation:
   covered by `notification_settings_viewed`; prayer reminder outcomes and
   changes are covered by `prayer_reminder_permission_result` and
   `prayer_reminder_changed`; Notification Settings QA smoke outcomes are
-  covered by `notification_smoke_test_result`; Daily Session reminder outcomes
-  and changes are covered by `daily_session_reminder_permission_result` and
+  covered by `notification_smoke_test_result`; denied-permission recovery is
+  covered by `notification_permission_recovery_opened`; Daily Session reminder
+  outcomes and changes are covered by
+  `daily_session_reminder_permission_result` and
   `daily_session_reminder_changed`; local notification opens are covered by
   `notification_tap_opened`. The Home and Prayer direct prayer opt-in surfaces
   use controlled `source=home_prayer_card` and `source=prayer_page_card`, while
   Daily Session reminder sources stay controlled as `settings`,
   `session_completion`, or `home_session_completion`. Exact reminder times,
-  routes, payloads, coordinates, Women's Ibadah Mode exact status, feedback
-  text, and religious text remain blocked.
+  routes, payloads, coordinates, device model, Women's Ibadah Mode exact
+  status, feedback text, and religious text remain blocked.
 - Prayer checklist updates record local `prayer_checklist_updated` events with
   aggregate completed count, all-prayers-completed boolean, and the controlled
   `source=prayer_page_checklist` entry label only; exact prayer completion
@@ -169,6 +177,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `prayer_reminder_permission_result`
 - `prayer_reminder_changed`
 - `notification_smoke_test_result`
+- `notification_permission_recovery_opened`
 - `notification_tap_opened`
 - `analytics_consent_changed`
 - `daily_session_reminder_permission_result`
@@ -288,6 +297,8 @@ aggregate prayer-reminder enabled state.
 source, coarse outcome, and reminder lead-time offset.
 `notification_smoke_test_result` must keep only `content_type`,
 `source=notification_settings_qa`, and `change_type`.
+`notification_permission_recovery_opened` must keep only
+`source=notification_settings` and coarse `change_type`.
 `daily_session_reminder_permission_result` must keep only session ID, enabled
 result, controlled source, and coarse outcome.
 `notification_tap_opened` must keep only `content_type` and `source`.
@@ -301,6 +312,7 @@ Session → Reminder/Feedback path and verify `home_viewed → prayer_viewed`,
 `prayer_checklist_updated`, `daily_session_started`,
 `daily_session_completed`, `daily_session_reminder_permission_result`,
 `daily_session_reminder_changed`, `notification_smoke_test_result`,
+`notification_permission_recovery_opened`,
 `notification_tap_opened`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` without raw
 payloads, routes, scheduled local times, coordinates, exact reminder times,

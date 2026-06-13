@@ -467,6 +467,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'Notifications are off. You can enable them from system settings.';
 
   @override
+  String get notificationPermissionRecoveryBody =>
+      'After enabling notifications in system settings, return here and try reminders again.';
+
+  @override
+  String get notificationPermissionRecoveryButton =>
+      'Open notification settings';
+
+  @override
+  String get notificationPermissionRecoveryOpened =>
+      'System notification settings opened.';
+
+  @override
+  String get notificationPermissionRecoveryUnavailable =>
+      'System notification settings could not be opened from Sakinah.';
+
+  @override
   String get notificationScheduled => 'Local prayer reminders are scheduled.';
 
   @override

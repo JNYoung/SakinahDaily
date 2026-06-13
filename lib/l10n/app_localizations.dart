@@ -970,6 +970,30 @@ abstract class AppLocalizations {
   /// **'Notifications are off. You can enable them from system settings.'**
   String get notificationPermissionDenied;
 
+  /// No description provided for @notificationPermissionRecoveryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'After enabling notifications in system settings, return here and try reminders again.'**
+  String get notificationPermissionRecoveryBody;
+
+  /// No description provided for @notificationPermissionRecoveryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Open notification settings'**
+  String get notificationPermissionRecoveryButton;
+
+  /// No description provided for @notificationPermissionRecoveryOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'System notification settings opened.'**
+  String get notificationPermissionRecoveryOpened;
+
+  /// No description provided for @notificationPermissionRecoveryUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'System notification settings could not be opened from Sakinah.'**
+  String get notificationPermissionRecoveryUnavailable;
+
   /// No description provided for @notificationScheduled.
   ///
   /// In en, this message translates to:

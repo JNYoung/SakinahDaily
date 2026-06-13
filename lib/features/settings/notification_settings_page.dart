@@ -107,6 +107,34 @@ class _NotificationSettingsPageState
               },
             ),
           ),
+          if (notificationFeedback == NotificationPermissionFeedback.denied)
+            Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l10n.t('notificationPermissionRecoveryBody')),
+                  const SizedBox(height: 8),
+                  OutlinedButton.icon(
+                    key: SakinahKeys.notificationPermissionRecoveryButton,
+                    onPressed: () {
+                      unawaited(
+                        _openSystemNotificationSettings(
+                          context: context,
+                          ref: ref,
+                          l10n: l10n,
+                          notificationService: notificationService,
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.open_in_new_outlined),
+                    label: Text(
+                      l10n.t('notificationPermissionRecoveryButton'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           if (nextPrayerReminderPreview != null) ...[
             const SizedBox(height: 8),
             ListTile(
@@ -289,6 +317,32 @@ class _NotificationSettingsPageState
       ),
     );
   }
+}
+
+Future<void> _openSystemNotificationSettings({
+  required BuildContext context,
+  required WidgetRef ref,
+  required SakinahLocalizations l10n,
+  required NotificationService notificationService,
+}) async {
+  final opened = await notificationService.openSystemNotificationSettings();
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.notificationPermissionRecoveryOpened,
+    {
+      'source': 'notification_settings',
+      'change_type':
+          opened ? 'system_settings_opened' : 'system_settings_unavailable',
+    },
+  );
+  if (!context.mounted) {
+    return;
+  }
+  _showSnackBar(
+    context,
+    opened
+        ? l10n.t('notificationPermissionRecoveryOpened')
+        : l10n.t('notificationPermissionRecoveryUnavailable'),
+  );
 }
 
 String _prayerReminderSubtitle(

@@ -253,6 +253,13 @@ class SakinahLocalizations {
       'notificationPermissionNotNow': 'Not now',
       'notificationPermissionDenied':
           'Notifications are off. You can enable them from system settings.',
+      'notificationPermissionRecoveryBody':
+          'After enabling notifications in system settings, return here and try reminders again.',
+      'notificationPermissionRecoveryButton': 'Open notification settings',
+      'notificationPermissionRecoveryOpened':
+          'System notification settings opened.',
+      'notificationPermissionRecoveryUnavailable':
+          'System notification settings could not be opened from Sakinah.',
       'notificationScheduled': 'Local prayer reminders are scheduled.',
       'notificationTapMalformed':
           'This notification could not be opened safely.',
@@ -735,6 +742,13 @@ class SakinahLocalizations {
       'notificationPermissionNotNow': 'Nanti saja',
       'notificationPermissionDenied':
           'Notifikasi mati. Anda dapat mengaktifkannya dari pengaturan sistem.',
+      'notificationPermissionRecoveryBody':
+          'Setelah mengaktifkan notifikasi di pengaturan sistem, kembali ke sini dan coba pengingat lagi.',
+      'notificationPermissionRecoveryButton': 'Buka pengaturan notifikasi',
+      'notificationPermissionRecoveryOpened':
+          'Pengaturan notifikasi sistem dibuka.',
+      'notificationPermissionRecoveryUnavailable':
+          'Pengaturan notifikasi sistem tidak dapat dibuka dari Sakinah.',
       'notificationScheduled': 'Pengingat shalat lokal telah dijadwalkan.',
       'notificationTapMalformed':
           'Notifikasi ini tidak dapat dibuka dengan aman.',
@@ -1212,6 +1226,12 @@ class SakinahLocalizations {
       'notificationPermissionNotNow': 'ليس الآن',
       'notificationPermissionDenied':
           'الإشعارات متوقفة. يمكنك تفعيلها من إعدادات النظام.',
+      'notificationPermissionRecoveryBody':
+          'بعد تفعيل الإشعارات من إعدادات النظام، عد إلى هنا وجرب التذكيرات مرة أخرى.',
+      'notificationPermissionRecoveryButton': 'افتح إعدادات الإشعارات',
+      'notificationPermissionRecoveryOpened': 'تم فتح إعدادات إشعارات النظام.',
+      'notificationPermissionRecoveryUnavailable':
+          'تعذر فتح إعدادات إشعارات النظام من سكينة.',
       'notificationScheduled': 'تم جدولة تذكيرات الصلاة المحلية.',
       'notificationTapMalformed': 'تعذر فتح هذا الإشعار بأمان.',
       'notificationTapFallbackPrayer': 'فتح أوقات الصلاة.',

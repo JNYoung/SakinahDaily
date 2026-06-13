@@ -463,6 +463,21 @@ class AppLocalizationsAr extends AppLocalizations {
       'الإشعارات متوقفة. يمكنك تفعيلها من إعدادات النظام.';
 
   @override
+  String get notificationPermissionRecoveryBody =>
+      'بعد تفعيل الإشعارات من إعدادات النظام، عد إلى هنا وجرب التذكيرات مرة أخرى.';
+
+  @override
+  String get notificationPermissionRecoveryButton => 'افتح إعدادات الإشعارات';
+
+  @override
+  String get notificationPermissionRecoveryOpened =>
+      'تم فتح إعدادات إشعارات النظام.';
+
+  @override
+  String get notificationPermissionRecoveryUnavailable =>
+      'تعذر فتح إعدادات إشعارات النظام من سكينة.';
+
+  @override
   String get notificationScheduled => 'تم جدولة تذكيرات الصلاة المحلية.';
 
   @override

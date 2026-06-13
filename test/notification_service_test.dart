@@ -24,6 +24,16 @@ void main() {
     expect(service.scheduled, isEmpty);
   });
 
+  test('notification settings recovery opens system settings from stub',
+      () async {
+    final service = LocalNotificationServiceStub();
+
+    final opened = await service.openSystemNotificationSettings();
+
+    expect(opened, isTrue);
+    expect(service.systemNotificationSettingsOpened, isTrue);
+  });
+
   test('notification scheduling is cancelable', () async {
     final service = LocalNotificationServiceStub();
     final prayers = PrayerCalculationService()
