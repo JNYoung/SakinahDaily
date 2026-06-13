@@ -61,7 +61,9 @@ existing privacy-safe events:
   scheduled count, and prayer lead-time offset when relevant.
 - `daily_session_reminder_permission_result` and
   `daily_session_reminder_changed` for the Daily Session return loop.
-- `notification_tap_opened` for coarse local notification open rate.
+- `notification_tap_result` for coarse local notification tap outcome health,
+  including opened, malformed-payload, missing-content, or unhandled results.
+- `notification_tap_opened` for coarse successful local notification open rate.
 
 The analytics contract intentionally excludes exact reminder times, raw
 payloads, routes, coordinates, manual place labels, prayer completion
@@ -300,11 +302,13 @@ Completed:
   habit loop.
 - Daily session reminders use privacy-safe lock-screen copy and local
   `daily_session` tap payloads that route back to the session.
-- Handled local notification taps now emit default-off, opt-in-gated
-  `notification_tap_opened` analytics with only coarse content type and
-  `source=local_notification`, allowing reviewed DebugView QA to observe Push
-  Open Rate without raw payloads, routes, content IDs, prayer names, women mode
-  status, or religious text.
+- Local notification taps now emit default-off, opt-in-gated
+  `notification_tap_result` analytics with only coarse content type,
+  `source=local_notification`, and coarse tap outcome. Successful opens also
+  emit `notification_tap_opened` with only coarse content type and source,
+  allowing reviewed DebugView QA to observe Push Open Rate and tap failures
+  without raw payloads, routes, content IDs, prayer names, women mode status,
+  or religious text.
 - Quran step enforces no BGM and no Quran TTS.
 - Dua step displays source and review status.
 - Women’s Mode can show local, privacy-safe support notes.

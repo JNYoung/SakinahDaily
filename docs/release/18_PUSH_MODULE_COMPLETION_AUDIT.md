@@ -91,12 +91,14 @@ The completed local loop uses the existing privacy-safe events:
 - `notification_permission_recovery_opened`
 - `daily_session_reminder_permission_result`
 - `daily_session_reminder_changed`
+- `notification_tap_result`
 - `notification_tap_opened`
 
 Allowed parameters are intentionally coarse: reminder type, enabled state,
 controlled source, coarse outcome, scheduled count, lead-time offset where
-relevant, session ID for the local daily session reminder loop, and coarse
-notification content type for opens.
+relevant, session ID for the local daily session reminder loop, coarse
+notification content type for opens, and coarse tap outcome for handled or
+unhandled local notification taps.
 
 The analytics contract blocks raw notification payloads, routes, exact
 scheduled local times, exact reminder times, lock-screen body copy, coordinates,

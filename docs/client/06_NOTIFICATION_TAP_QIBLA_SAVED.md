@@ -36,10 +36,13 @@ Prayer reminders use a local JSON tap payload:
 The payload intentionally does not include Women's Ibadah Mode exact status.
 
 When a reviewed analytics QA build is enabled and the user opts in from Privacy
-Center, a handled local notification tap can record `notification_tap_opened`
-with only coarse `content_type` and `source=local_notification`. The app does
-not send raw payloads, routes, content IDs, prayer names, reminder times,
-Women's Ibadah Mode status, or religious text for notification tap analytics.
+Center, local notification tap handling can record `notification_tap_result`
+with only coarse `content_type`, `source=local_notification`, and coarse
+`change_type` such as `opened`, `malformed_payload`, `missing_content`, or
+`unhandled`. Successful handled taps also record `notification_tap_opened` with
+only coarse `content_type` and source. The app does not send raw payloads,
+routes, content IDs, prayer names, reminder times, lock-screen copy, Women's
+Ibadah Mode status, or religious text for notification tap analytics.
 
 ## Local Push Compatibility
 

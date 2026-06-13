@@ -373,10 +373,16 @@ Status: Draft for release/store review.
   `daily_session_reminder_permission_result` with session ID, enabled result,
   controlled source, and coarse outcome; exact reminder times, routes, Women's
   Ibadah Mode status, routine notes, and free text are not sent.
-  Notification tap analytics is observable only as `notification_tap_opened`
-  with coarse content type and `source=local_notification`; foreground,
-  background, and cold-start prayer, Daily Session, Quran, Dua, and Dhikr local
-  notification launches are covered by the same listener contract.
+  Notification tap outcome analytics is observable as `notification_tap_result`
+  with coarse content type, `source=local_notification`, and coarse
+  `change_type` such as `opened`, `malformed_payload`, `missing_content`, or
+  `unhandled`; foreground, background, and cold-start prayer, Daily Session,
+  Quran, Dua, and Dhikr local notification launches are covered by the same
+  listener contract. Successful opens also continue to emit
+  `notification_tap_opened` with only coarse content type and
+  `source=local_notification`.
+  The same listener covers cold-start prayer, Daily Session, Quran, Dua, and
+  Dhikr local notification launches.
   Daily Session reminder analytics is limited to enabled state, source, change
   type, and session ID; exact reminder time is not sent.
   Local reminder scheduling analytics is limited to reminder type, enabled

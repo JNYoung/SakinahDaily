@@ -36,10 +36,20 @@ void main() {
             .where((event) =>
                 event.name == AnalyticsEventCatalog.notificationTapOpened)
             .toList();
+        final notificationTapResultEvents = analytics.events
+            .where((event) =>
+                event.name == AnalyticsEventCatalog.notificationTapResult)
+            .toList();
         expect(notificationTapEvents, hasLength(1));
         expect(notificationTapEvents.single.properties, {
           'content_type': scenario.expectedContentType,
           'source': 'local_notification',
+        });
+        expect(notificationTapResultEvents, hasLength(1));
+        expect(notificationTapResultEvents.single.properties, {
+          'content_type': scenario.expectedContentType,
+          'source': 'local_notification',
+          'change_type': 'opened',
         });
 
         final container = _container(tester);
@@ -73,11 +83,21 @@ void main() {
         .where((event) =>
             event.name == AnalyticsEventCatalog.notificationTapOpened)
         .toList();
+    final notificationTapResultEvents = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.notificationTapResult)
+        .toList();
     expect(find.byKey(SakinahKeys.prayerContentList), findsOneWidget);
     expect(notificationTapEvents, hasLength(1));
     expect(notificationTapEvents.single.properties, {
       'content_type': 'prayer',
       'source': 'local_notification',
+    });
+    expect(notificationTapResultEvents, hasLength(1));
+    expect(notificationTapResultEvents.single.properties, {
+      'content_type': 'prayer',
+      'source': 'local_notification',
+      'change_type': 'opened',
     });
     expect(container.read(notificationTapResultProvider), isNull);
     expectNoFlutterErrors(tester);
@@ -85,10 +105,12 @@ void main() {
 
   testWidgets('invalid notification tap result clears without navigation',
       (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/home',
       settleSplash: false,
+      analyticsService: analytics,
     );
     final container = _container(tester);
 
@@ -103,6 +125,21 @@ void main() {
 
     expect(find.byKey(SakinahKeys.homeContentList), findsOneWidget);
     expect(find.byKey(SakinahKeys.prayerContentList), findsNothing);
+    final notificationTapEvents = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.notificationTapOpened)
+        .toList();
+    final notificationTapResultEvents = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.notificationTapResult)
+        .toList();
+    expect(notificationTapEvents, isEmpty);
+    expect(notificationTapResultEvents, hasLength(1));
+    expect(notificationTapResultEvents.single.properties, {
+      'content_type': 'prayer',
+      'source': 'local_notification',
+      'change_type': 'malformed_payload',
+    });
     expect(container.read(notificationTapResultProvider), isNull);
     expectNoFlutterErrors(tester);
   });

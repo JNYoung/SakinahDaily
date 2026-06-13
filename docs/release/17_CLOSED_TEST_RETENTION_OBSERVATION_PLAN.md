@@ -53,6 +53,9 @@ signals:
 - Prayer Reminder Opt-in Rate.
 - Analytics Consent Rate for reviewed QA builds that need DebugView evidence.
 - D1 / D7 Retention.
+- Push Tap Outcome Health from aggregate tester feedback by default, or
+  `notification_tap_result` DebugView evidence when reviewed analytics QA is
+  explicitly approved.
 - Push Open Rate from aggregate tester feedback by default, or
   `notification_tap_opened` DebugView evidence when reviewed analytics QA is
   explicitly approved.
@@ -129,10 +132,12 @@ Daily Session reminder permission attempts should appear only as
 controlled source, and coarse outcome, so the session-to-reminder funnel can be
 diagnosed without storing exact reminder time, routes, Women's Ibadah Mode
 status, routine notes, or free text.
-Local notification opens, including cold-start launches from local notification
-payloads, should appear only as `notification_tap_opened` with coarse content
-type and `source=local_notification`; do not store raw payloads, routes,
-content IDs, prayer names, or religious text.
+Local notification tap handling, including cold-start launches from local
+notification payloads, should appear as `notification_tap_result` with coarse
+content type, `source=local_notification`, and coarse outcome. Successful
+opens also emit `notification_tap_opened` with coarse content type and source;
+do not store raw payloads, routes, content IDs, prayer names, lock-screen copy,
+or religious text.
 Push/reminder module DebugView coverage should be reviewed as one closed loop:
 `notification_settings_viewed` shows setup intent,
 `notification_permission_prompt_viewed` shows opt-in education exposure,
@@ -143,8 +148,10 @@ entry use,
 `prayer_reminder_permission_result` and `prayer_reminder_changed` show prayer
 reminder opt-in or preference changes,
 `daily_session_reminder_permission_result` and
-`daily_session_reminder_changed` show the Daily Session return loop, and
-`notification_tap_opened` shows coarse local-notification open behavior. Home
+`daily_session_reminder_changed` show the Daily Session return loop,
+`notification_tap_result` shows coarse opened/malformed/missing/unhandled tap
+outcomes, and `notification_tap_opened` shows coarse local-notification open
+behavior. Home
 and Prayer direct prayer reminder opt-ins must retain `source=home_prayer_card`
 and `source=prayer_page_card` respectively, and the Home completed-session
 Daily Session reminder opt-in must retain `source=home_session_completion`.
@@ -159,6 +166,7 @@ Reminder/Feedback retention loop QA checklist. Use it to verify that
 `daily_session_reminder_changed`, `notification_schedule_result`,
 `notification_smoke_test_result`,
 `notification_permission_recovery_opened`,
+`notification_tap_result`,
 `notification_tap_opened`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` appear in the
 expected order with controlled sources and no raw payloads, routes,
