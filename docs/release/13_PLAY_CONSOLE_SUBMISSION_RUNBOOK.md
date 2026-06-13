@@ -127,6 +127,8 @@ Source: `docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md`.
 
 - Build a signed AAB with `scripts/verify_google_play_internal_release.sh`.
 - Run `scripts/verify_google_play_upload_preflight.sh` before upload.
+  The preflight verifies the current AAB checksum and readable App Bundle
+  zip/base manifest structure before the artifact is treated as upload-ready.
 - Export `build/play-upload` with
   `scripts/export_google_play_upload_packet.sh` for final local review before
   creating or submitting the Closed testing release.

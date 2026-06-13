@@ -1180,6 +1180,12 @@ void main() {
       expect(content, contains('SAKINAH_PLAY_APP_CONTENT_READY'));
       expect(content, contains('SAKINAH_PLAY_STORE_LISTING_READY'));
       expect(content, contains('SAKINAH_PREFLIGHT_SKIP_RELEASE_GATE'));
+      expect(content, contains('SAKINAH_RELEASE_AAB_PATH'));
+      expect(content, contains('SAKINAH_RELEASE_CHECKSUM_PATH'));
+      expect(content, contains('validate_release_artifact_integrity'));
+      expect(content, contains('base/manifest/AndroidManifest.xml'));
+      expect(content, contains('shasum -a 256'));
+      expect(content, contains('zipfile'));
       expect(content, contains('verify_google_play_public_links.sh'));
       expect(content, contains('has_env_signing'));
       expect(content, contains('has_local_signing'));
@@ -1205,10 +1211,95 @@ void main() {
         contains('Play upload preflight failed'),
       );
 
+      final tempDir = Directory.systemTemp.createTempSync(
+        'sakinah-upload-preflight-',
+      );
+      addTearDown(() {
+        if (tempDir.existsSync()) {
+          tempDir.deleteSync(recursive: true);
+        }
+      });
+      final fakeAab = File('${tempDir.path}/app-release.aab');
+      final fakeChecksum = File('${tempDir.path}/app-release.aab.sha256');
+      final fakeStoreFile = File('${tempDir.path}/upload-keystore.jks')
+        ..writeAsStringSync('local test keystore placeholder');
+      final zipRun = Process.runSync(
+        'python3',
+        [
+          '-c',
+          'import sys, zipfile\n'
+              'with zipfile.ZipFile(sys.argv[1], "w") as z:\n'
+              '    z.writestr("base/manifest/AndroidManifest.xml", "<manifest/>")\n'
+              '    z.writestr("BundleConfig.pb", b"test")\n',
+          fakeAab.path,
+        ],
+      );
+      expect(zipRun.exitCode, 0, reason: zipRun.stderr.toString());
+      final checksumRun = Process.runSync('shasum', [
+        '-a',
+        '256',
+        fakeAab.path,
+      ]);
+      expect(checksumRun.exitCode, 0, reason: checksumRun.stderr.toString());
+      final checksum =
+          checksumRun.stdout.toString().split(RegExp(r'\s+')).first;
+      fakeChecksum.writeAsStringSync('$checksum  ${fakeAab.path}\n');
+
+      final preflightEnvironment = {
+        'PATH': Platform.environment['PATH'] ?? '',
+        'SAKINAH_PRIVACY_POLICY_URL':
+            'https://privacy.sakinahdaily.app/privacy',
+        'SAKINAH_PLAY_TESTING_FEEDBACK': 'support@sakinahdaily.app',
+        'SAKINAH_PLAY_TESTER_GROUP_EMAIL':
+            'sakinah-daily-testers@googlegroups.com',
+        'SAKINAH_PLAY_TESTER_GROUP_CREATED': 'true',
+        'SAKINAH_PLAY_CLOSED_TRACK_READY': 'true',
+        'SAKINAH_PLAY_APP_CONTENT_READY': 'true',
+        'SAKINAH_PLAY_STORE_LISTING_READY': 'true',
+        'SAKINAH_SKIP_PUBLIC_LINK_NETWORK': 'true',
+        'SAKINAH_PREFLIGHT_SKIP_RELEASE_GATE': 'true',
+        'SAKINAH_RELEASE_AAB_PATH': fakeAab.path,
+        'SAKINAH_RELEASE_CHECKSUM_PATH': fakeChecksum.path,
+        'SAKINAH_UPLOAD_STORE_FILE': fakeStoreFile.path,
+        'SAKINAH_UPLOAD_STORE_PASSWORD': 'local-store-password',
+        'SAKINAH_UPLOAD_KEY_ALIAS': 'upload',
+        'SAKINAH_UPLOAD_KEY_PASSWORD': 'local-key-password',
+      };
+
+      final validArtifactRun = Process.runSync(
+        'bash',
+        ['scripts/verify_google_play_upload_preflight.sh'],
+        environment: preflightEnvironment,
+        includeParentEnvironment: false,
+      );
+      expect(
+        validArtifactRun.exitCode,
+        0,
+        reason: '${validArtifactRun.stdout}\n${validArtifactRun.stderr}',
+      );
+      expect(validArtifactRun.stdout.toString(), contains('AAB integrity'));
+      expect(validArtifactRun.stdout.toString(), contains('verified'));
+
+      fakeChecksum.writeAsStringSync(
+        '${List.filled(64, '0').join()}  ${fakeAab.path}\n',
+      );
+      final mismatchRun = Process.runSync(
+        'bash',
+        ['scripts/verify_google_play_upload_preflight.sh'],
+        environment: preflightEnvironment,
+        includeParentEnvironment: false,
+      );
+      expect(mismatchRun.exitCode, isNot(0));
+      expect(
+        mismatchRun.stderr.toString(),
+        contains('AAB checksum mismatch'),
+      );
+
       expect(readiness, contains('Google Play upload preflight script'));
+      expect(readiness, contains('AAB integrity'));
       expect(
         readiness,
-        contains('does not accept unsigned release QA as upload evidence'),
+        contains('unsigned release QA as upload evidence'),
       );
       expect(
         androidChecklist,
