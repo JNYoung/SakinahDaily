@@ -140,7 +140,7 @@ SavedItem _savedQuranVerse() {
     titleSnapshot: 'Quran 94:5',
     subtitleSnapshot: 'For indeed, with hardship will be ease.',
     sourceLabel:
-        'Seed metadata; replace with approved Quran source before production',
+        'Quran 94:5 · Tanzil Arabic · Saheeh International EN · Kemenag RI ID',
     createdAt: DateTime.utc(2026, 5, 22),
     languageCode: 'en',
   );

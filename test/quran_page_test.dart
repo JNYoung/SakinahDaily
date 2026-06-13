@@ -33,9 +33,10 @@ void main() {
       findsWidgets,
     );
     expect(
-      find.textContaining('Seed metadata; replace with approved Quran source'),
+      find.textContaining('Tanzil Arabic'),
       findsWidgets,
     );
+    expect(find.textContaining('Saheeh International EN'), findsWidgets);
     expectNoFlutterErrors(tester);
   });
 

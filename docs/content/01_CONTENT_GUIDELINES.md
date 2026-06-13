@@ -159,10 +159,11 @@ MVP 建议 80–120 条内容。
 - 对每条内容添加 source_label。
 - 对每条内容添加 version 和 reviewed_at。
 
-上线前内容包 readiness：
+上线前内容包 readiness（reviewed content pack readiness packet）：
 
-- 运行 `scripts/export_reviewed_content_pack_readiness.sh` 导出 reviewed content pack readiness packet；模板模式只生成现有 seed 盘点、Quran source
-  placeholder 审查、audio rights 缺口和 beta pack checklist，不代表内容已经
+- 运行 `scripts/export_reviewed_content_pack_readiness.sh` 导出 reviewed
+  content pack readiness packet；模板模式只生成现有 seed 盘点、Quran source
+  placeholder count、audio rights 缺口和 beta pack checklist，不代表内容已经
   production-ready。
 - 严格模式
   `SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY=true` 只能在 Quran source

@@ -36,6 +36,14 @@ require_text() {
     fail "$path is missing required text: $needle"
 }
 
+reject_text() {
+  local path="$1"
+  local needle="$2"
+  if grep -Fq "$needle" "$path"; then
+    fail "$path still contains blocked text: $needle"
+  fi
+}
+
 require_true_var() {
   local name="$1"
   local description="$2"
@@ -66,7 +74,6 @@ for path in \
   require_file "$path"
 done
 
-require_text "$seed_content" "$placeholder_source"
 require_text "$seed_content" '"reviewStatus": "approved"'
 require_text "$content_guidelines" 'reviewed content pack readiness packet'
 require_text "$product_progress" 'reviewed content pack readiness packet'
@@ -91,6 +98,7 @@ if [[ "$require_strict" == "true" ]]; then
   require_true_var \
     SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED \
     "assigning a human reviewer owner for the content pack before beta/store use"
+  reject_text "$seed_content" "$placeholder_source"
 fi
 
 rm -rf "$out_dir"

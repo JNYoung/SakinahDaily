@@ -195,7 +195,7 @@ const _demoJson = r'''
         "id": "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.",
         "ar": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"
       },
-      "source": "Seed metadata; replace with approved Quran source before production",
+      "source": "Quran 1:1 · Tanzil Arabic · Saheeh International EN · Kemenag RI ID",
       "status": "published",
       "reviewStatus": "approved",
       "audioAssetId": "audio_fatiha_minshawi"
@@ -210,7 +210,7 @@ const _demoJson = r'''
         "id": "Maka sesungguhnya bersama kesulitan ada kemudahan.",
         "ar": "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا"
       },
-      "source": "Seed metadata; replace with approved Quran source before production",
+      "source": "Quran 94:5 · Tanzil Arabic · Saheeh International EN · Kemenag RI ID",
       "status": "published",
       "reviewStatus": "approved",
       "audioAssetId": "audio_fatiha_minshawi"
@@ -225,7 +225,7 @@ const _demoJson = r'''
         "id": "Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram.",
         "ar": "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"
       },
-      "source": "Seed metadata; replace with approved Quran source before production",
+      "source": "Quran 13:28 · Tanzil Arabic · Saheeh International EN · Kemenag RI ID",
       "status": "published",
       "reviewStatus": "approved",
       "audioAssetId": "audio_fatiha_minshawi"

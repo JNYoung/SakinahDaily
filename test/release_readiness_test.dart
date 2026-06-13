@@ -3298,6 +3298,12 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
           .readAsStringSync();
       final versionNotes = File('docs/release/08_VERSION_AND_RELEASE_NOTES.md')
           .readAsStringSync();
+      final seedContent =
+          File('assets/content/seed_content.json').readAsStringSync();
+      const retiredSourcePlaceholder =
+          'Seed metadata; replace with approved Quran source before production';
+      const reviewedQuranSourceLabel =
+          'Quran 94:5 · Tanzil Arabic · Saheeh International EN · Kemenag RI ID';
 
       expect(script.existsSync(), isTrue);
       final mode = script.statSync().mode;
@@ -3315,17 +3321,19 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(content, contains('SAKINAH_DUA_DHIKR_PACK_REVIEWED'));
       expect(content, contains('SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED'));
       expect(content, contains('SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED'));
+      expect(content, contains('placeholder_source'));
+      expect(content, contains('source_placeholder_count'));
       expect(
         content,
-        contains(
-          'Seed metadata; replace with approved Quran source before production',
-        ),
+        isNot(contains(r'require_text "$seed_content" "$placeholder_source"')),
       );
       expect(content, contains('session_target_min,5'));
       expect(content, contains('dua_target_min,30'));
       expect(content, contains('dhikr_target_min,20'));
       expect(content, contains('quran_ayah_target_min,10'));
       expect(content, contains('No generated religious content'));
+      expect(seedContent, isNot(contains(retiredSourcePlaceholder)));
+      expect(seedContent, contains(reviewedQuranSourceLabel));
 
       final templateRun = Process.runSync(
         'bash',
@@ -3365,7 +3373,7 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(inventory, contains('daily_session,reviewed_beta_target_min,5'));
       expect(inventory, contains('quran_ayah,current_count,3'));
       expect(inventory, contains('quran_ayah,reviewed_beta_target_min,10'));
-      expect(inventory, contains('quran_ayah,source_placeholder_count,3'));
+      expect(inventory, contains('quran_ayah,source_placeholder_count,0'));
       expect(inventory, contains('dua,current_count,5'));
       expect(inventory, contains('dua,reviewed_beta_target_min,30'));
       expect(inventory, contains('dhikr,current_count,5'));
@@ -3376,10 +3384,10 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
         sourceReview,
         contains('content_type,content_id,current_source,required_action'),
       );
-      expect(sourceReview, contains('quran_ayah,1:1'));
-      expect(sourceReview, contains('quran_ayah,94:5'));
-      expect(sourceReview, contains('quran_ayah,13:28'));
-      expect(sourceReview, contains('replace with approved Quran source'));
+      expect(sourceReview, isNot(contains('quran_ayah,1:1')));
+      expect(sourceReview, isNot(contains('quran_ayah,94:5')));
+      expect(sourceReview, isNot(contains('quran_ayah,13:28')));
+      expect(checklist, contains('Quran source placeholders: 0 current'));
 
       expect(
         audioReview,

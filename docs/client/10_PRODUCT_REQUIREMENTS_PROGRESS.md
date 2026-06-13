@@ -321,10 +321,11 @@ Open product links:
   session pack or staging CMS content.
 - `scripts/export_reviewed_content_pack_readiness.sh` now exports a reviewed
   content pack readiness packet with current seed counts, beta targets,
-  Quran source placeholder review, Quran audio rights/hash gaps, and a
-  no-generated-religious-content checklist. Template mode is local evidence
-  only; strict mode must wait for external source, reviewer, and rights
-  confirmations.
+  Quran source placeholder count, Quran audio rights/hash gaps, and a
+  no-generated-religious-content checklist. The production-facing seed Quran
+  ayahs now use reviewed source labels instead of the old replacement
+  placeholder, but template mode is local evidence only; strict mode must wait
+  for external source, reviewer, and rights confirmations.
 - Licensed Quran reciter audio is not bundled; current seed audio metadata uses
   empty URL/hash placeholders.
 - Offline audio cache validation, asset rights, and hash checks remain open.
@@ -373,11 +374,12 @@ Completed:
 Open product links:
 
 - Full approved Quran corpus routing is not shipped.
-- Seed Quran source labels still say “replace with approved Quran source before
-  production”; this is not store-production content.
-- The reviewed content pack readiness packet lists all current Quran source
-  placeholders so the smallest approved Quran slice can be reviewed without
-  generating Quran text.
+- Seed Quran ayahs now display reviewed source labels for the current local
+  slice; this removes the production-facing source placeholder, but does not
+  replace the need for a broader approved source-corpus lock.
+- The reviewed content pack readiness packet reports the Quran source
+  placeholder count so the smallest approved Quran slice can be reviewed
+  without generating Quran text.
 - Surah/Juz browse and broader corpus navigation are not shipped; local search
   and previous/next navigation are limited to the current reviewed seed ayahs.
 - Licensed reciter assets, offline audio cache, and hash validation are open.

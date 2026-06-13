@@ -149,10 +149,10 @@ Status: Draft for release/store review.
 - [x] Reviewed content pack readiness packet exists at
   `scripts/export_reviewed_content_pack_readiness.sh`; template mode writes
   current seed inventory, beta content targets, Quran source placeholder
-  review, Quran audio rights/hash review, and a no-generated-religious-content
+  count, Quran audio rights/hash review, and a no-generated-religious-content
   checklist into `build/reviewed-content-pack-readiness`, while strict mode
-  fails until source placeholders, reviewed beta pack coverage, licensed audio
-  rights, and a human content owner are confirmed.
+  fails until any source placeholder is removed, reviewed beta pack coverage,
+  licensed audio rights, and a human content owner are confirmed.
 - [x] Google Play store visual assets verifier exists at
   `scripts/verify_google_play_store_assets.sh`; it generates and validates the
   1024 x 500, 24-bit PNG/no-alpha feature graphic and can strictly check the
@@ -599,7 +599,7 @@ Status: Draft for release/store review.
 - [x] `scripts/export_reviewed_content_pack_readiness.sh` exports a
   template-mode Reviewed Content Pack readiness packet at
   `build/reviewed-content-pack-readiness` with seed counts, beta targets,
-  source-placeholder review, audio rights/hash review, and strict-mode
+  source-placeholder count, audio rights/hash review, and strict-mode
   confirmation requirements.
 - [x] `scripts/export_android_oem_reminder_observation_packet.sh` exports a
   template-mode Android OEM reminder observation packet at
