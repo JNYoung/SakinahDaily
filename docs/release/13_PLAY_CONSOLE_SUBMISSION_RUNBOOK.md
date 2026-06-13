@@ -189,7 +189,8 @@ Sources:
   review, then rerun it in strict mode after the real closed-test evidence and
   Production access answer review are complete. Strict mode fails until the
   retention packet manifest contains `Completed retention evidence inputs:
-  validated`.
+  validated` and the current AAB checksum matches
+  `SAKINAH_RELEASE_AAB_PATH` / `SAKINAH_RELEASE_CHECKSUM_PATH`.
 
 ## Local evidence packet
 
@@ -249,6 +250,8 @@ available:
 - Production access evidence packet:
   `build/play-production-access`, exported by
   `scripts/export_google_play_production_access_packet.sh`.
+  Strict mode copies the current signed AAB and checksum only after verifying
+  the checksum match and readable App Bundle base manifest.
 
 ## Official references
 

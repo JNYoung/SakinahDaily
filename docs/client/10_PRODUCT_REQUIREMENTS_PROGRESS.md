@@ -518,7 +518,9 @@ Retention observation preparation:
   `scripts/export_google_play_production_access_packet.sh` strict mode now
   requires that completed retention manifest before exporting the final Play
   Console handoff packet, so Production access evidence cannot silently fall
-  back to Day 0 / Day 1 templates.
+  back to Day 0 / Day 1 templates. The same strict export now verifies the
+  current AAB checksum before copying upload evidence, so the final handoff
+  cannot rely on stale local build evidence.
 - Home now exposes the in-app Closed testing guide when
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, keeping Day 1 / Day 3 /
   Day 7 / Day 14 feedback prompts close to the daily prayer habit loop while

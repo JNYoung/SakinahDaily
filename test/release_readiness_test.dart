@@ -1763,6 +1763,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(scriptContent, contains('build/play-production-access'));
       expect(scriptContent, contains('manifest.txt'));
       expect(scriptContent, contains('require_completed_retention_packet'));
+      expect(scriptContent, contains('validate_production_aab_integrity'));
       expect(
         scriptContent,
         contains('Completed retention evidence inputs: validated'),
@@ -1771,7 +1772,12 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(scriptContent, contains('12_CLOSED_TESTING_EVIDENCE_LOG.md'));
       expect(scriptContent,
           contains('verify_google_play_production_access_pack.sh'));
+      expect(scriptContent, contains('SAKINAH_RELEASE_AAB_PATH'));
+      expect(scriptContent, contains('SAKINAH_RELEASE_CHECKSUM_PATH'));
+      expect(scriptContent,
+          contains('build/app/outputs/bundle/release/app-release.aab'));
       expect(scriptContent, contains('app-release.aab.sha256'));
+      expect(scriptContent, contains('base/manifest/AndroidManifest.xml'));
       expect(scriptContent, contains('google-play-feature-graphic.png'));
       expect(
           scriptContent, contains('production_access_decisions_template.csv'));
@@ -1851,6 +1857,84 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
         contains('Completed retention evidence inputs: validated'),
       );
 
+      final completedRetentionDir =
+          Directory('build/play-retention-observation')
+            ..createSync(recursive: true);
+      File('${completedRetentionDir.path}/manifest.txt').writeAsStringSync('''
+Google Play closed-test retention observation packet
+Completed retention evidence inputs: validated
+Privacy rule: No tester personal data.
+''');
+      File('${completedRetentionDir.path}/daily_observation_template.csv')
+          .writeAsStringSync('''
+test_day,calendar_date,version_code,opted_in_testers,active_install_signal,prayer_view_signal,reminder_opt_in_signal,daily_session_signal,suggested_theme_key,feedback_reviewed,decision_or_follow_up,evidence_note,privacy_rule
+Day 14,2026-06-28,1,12,8 active installs,8 prayer views,7 reminder opt-ins,6 daily sessions,retention_reason_to_return,reviewed,ready for production access,aggregate only,No tester personal data
+''');
+      File('${completedRetentionDir.path}/feedback_theme_template.csv')
+          .writeAsStringSync('''
+theme,severity,source,decision,fix_or_follow_up,status,production_access_answer_note,privacy_rule
+retention_reason_to_return,high,feedback channel,document production readiness,none,reviewed,include D14 aggregate themes,No tester personal data
+''');
+      File(
+        '${completedRetentionDir.path}/production_access_decisions_template.csv',
+      ).writeAsStringSync('''
+decision_date,feedback_theme,change_or_decision,evidence,release_status,production_access_answer_note,privacy_rule
+2026-06-28,retention_reason_to_return,documented production handoff evidence,build/play-retention-observation/manifest.txt,ready,aggregate evidence only,No tester personal data
+''');
+      File(
+        '${completedRetentionDir.path}/analytics_debugview_retention_evidence.csv',
+      ).writeAsStringSync('''
+qa_item,analytics_decision,event_name,expected_result,privacy_result,evidence_note,privacy_rule
+push_schedule,approved_for_debugview,notification_schedule_result,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+push_open,approved_for_debugview,notification_tap_opened,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+''');
+      File('${completedRetentionDir.path}/production_access_feedback_summary.md')
+          .writeAsStringSync('''
+# Production Access Feedback Summary
+
+Privacy rule: No tester personal data.
+''');
+
+      final tempArtifactDir = Directory.systemTemp.createTempSync(
+        'sakinah-production-aab-',
+      );
+      addTearDown(() {
+        if (tempArtifactDir.existsSync()) {
+          tempArtifactDir.deleteSync(recursive: true);
+        }
+      });
+      final fakeAab = File('${tempArtifactDir.path}/app-release.aab');
+      final fakeChecksum =
+          File('${tempArtifactDir.path}/app-release.aab.sha256')
+            ..writeAsStringSync('${List.filled(64, '0').join()}  stale.aab\n');
+      final zipRun = Process.runSync(
+        'python3',
+        [
+          '-c',
+          'import sys, zipfile\n'
+              'with zipfile.ZipFile(sys.argv[1], "w") as z:\n'
+              '    z.writestr("base/manifest/AndroidManifest.xml", "<manifest/>")\n',
+          fakeAab.path,
+        ],
+      );
+      expect(zipRun.exitCode, 0, reason: zipRun.stderr.toString());
+      final staleArtifactRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_production_access_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_PRODUCTION_ACCESS_PACKET_READY': 'true',
+          'SAKINAH_RELEASE_AAB_PATH': fakeAab.path,
+          'SAKINAH_RELEASE_CHECKSUM_PATH': fakeChecksum.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(staleArtifactRun.exitCode, isNot(0));
+      expect(
+        staleArtifactRun.stderr.toString(),
+        contains('AAB checksum mismatch'),
+      );
+
       expect(docsIndex,
           contains('export_google_play_production_access_packet.sh'));
       expect(readiness, contains('Production access evidence packet'));
@@ -1858,6 +1942,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
         readiness,
         contains('Completed retention evidence inputs: validated'),
       );
+      expect(readiness, contains('AAB integrity'));
       expect(
         submissionRunbook,
         contains('export_google_play_production_access_packet.sh'),
@@ -1869,10 +1954,12 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(answerDraft, contains('production_access_feedback_summary.md'));
       expect(
           answerDraft, contains('SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE'));
+      expect(answerDraft, contains('SAKINAH_RELEASE_AAB_PATH'));
       expect(versionNotes, contains('Production access evidence packet'));
       expect(versionNotes, contains('production_access_feedback_summary.md'));
       expect(versionNotes,
           contains('Completed retention evidence inputs: validated'));
+      expect(versionNotes, contains('current AAB checksum'));
     });
 
     test('Google Play closed-test retention observation packet can be exported',

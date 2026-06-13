@@ -98,7 +98,8 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `production_access_feedback_summary.md` from the retention observation packet
   when available, and strict mode now requires the retention manifest to show
   `Completed retention evidence inputs: validated` before final Play Console
-  handoff.
+  handoff. Strict mode also verifies the current AAB checksum before copying
+  the signed AAB and checksum into the final evidence packet.
 
 ## Remaining External Gates
 
@@ -151,6 +152,7 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
 - Production access answer draft strict mode after feedback themes, changes
   made, readiness evidence, and human review are complete.
 - Production access evidence packet strict export after the real closed-test
-  evidence, checksum, visual evidence, and answer review are complete.
+  evidence, current AAB checksum, visual evidence, and answer review are
+  complete.
 - Testing feedback email or URL.
 - Final legal/store approval for metadata and privacy drafts.
