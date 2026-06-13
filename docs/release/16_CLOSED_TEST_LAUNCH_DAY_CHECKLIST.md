@@ -87,6 +87,9 @@ SAKINAH_PLAY_UPLOAD_PACKET_REVIEWED=true \
 SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE=true \
 SAKINAH_PLAY_TESTER_LINKS_REVIEWED=true \
 SAKINAH_PLAY_INVITE_COPY_REVIEWED=true \
+SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE=/path/to/closed_test_release_evidence.csv \
+SAKINAH_CLOSED_TEST_LINKS_EVIDENCE=/path/to/closed_test_links_evidence.csv \
+SAKINAH_CLOSED_TEST_INVITE_EVIDENCE=/path/to/closed_test_invite_evidence.csv \
 SAKINAH_PRIVACY_POLICY_URL=https://privacy.sakinahdaily.app/privacy \
 SAKINAH_PLAY_TESTING_FEEDBACK=support@sakinahdaily.app \
 scripts/verify_google_play_closed_test_launch_day.sh
@@ -96,6 +99,38 @@ Strict mode also delegates to the Play submission strict gate, so upload
 signing, public privacy/feedback links, app-content declarations, store listing
 readiness, screenshots, feature graphic, Google Group binding, closed-testing
 track setup, signed AAB, and checksum evidence must already be ready.
+It also validates the three completed launch-day evidence CSV files before
+delegating to the external Play submission strict gate.
+
+Operators can validate just the local completed launch-day evidence without
+requiring the external Play Console strict gate:
+
+```sh
+SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE=true \
+SAKINAH_PLAY_CONSOLE_APP_CREATED=true \
+SAKINAH_PLAY_TESTER_GROUP_CREATED=true \
+SAKINAH_PLAY_CLOSED_TRACK_READY=true \
+SAKINAH_PLAY_TESTING_FEEDBACK_READY=true \
+SAKINAH_PLAY_UPLOAD_PACKET_REVIEWED=true \
+SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE=true \
+SAKINAH_PLAY_TESTER_LINKS_REVIEWED=true \
+SAKINAH_PLAY_INVITE_COPY_REVIEWED=true \
+SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE=/path/to/closed_test_release_evidence.csv \
+SAKINAH_CLOSED_TEST_LINKS_EVIDENCE=/path/to/closed_test_links_evidence.csv \
+SAKINAH_CLOSED_TEST_INVITE_EVIDENCE=/path/to/closed_test_invite_evidence.csv \
+scripts/verify_google_play_closed_test_launch_day.sh
+```
+
+Completed evidence mode copies the three CSVs into
+`build/play-closed-test-launch-day/completed-evidence` and prints
+`Closed-test launch evidence inputs: validated`. The completed evidence must
+prove the Play Console app exists, upload packet was reviewed, Testing feedback
+is ready, the closed-test release is live or visible to testers, Google Group /
+Play opt-in / Store listing / leave-testing links were reviewed in the right
+order, invite copy was reviewed, the leave link was excluded from invite copy,
+and every row keeps `No tester personal data`. Rows with `TBD`,
+`pending_manual_observation`, `pending_tap_route`, `record_manually`, or
+`unknown` do not pass.
 
 Day 0 / Day 1 operator strict mode is separate and should be run after the
 launch strict gate:

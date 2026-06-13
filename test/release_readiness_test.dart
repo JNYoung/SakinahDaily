@@ -3820,6 +3820,11 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(content, contains('SAKINAH_PLAY_CLOSED_TRACK_READY'));
       expect(content, contains('SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE'));
       expect(content, contains('SAKINAH_PLAY_TESTER_LINKS_REVIEWED'));
+      expect(content, contains('SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_LINKS_EVIDENCE'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_INVITE_EVIDENCE'));
+      expect(content, contains('validate_completed_launch_evidence'));
       expect(content, contains('verify_google_play_submission_pack.sh'));
       expect(content, contains('verify_google_play_public_links_packet.sh'));
       expect(content, contains('verify_google_play_store_assets.sh'));
@@ -3887,16 +3892,153 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
         contains('SAKINAH_PLAY_CONSOLE_APP_CREATED=true'),
       );
 
+      final evidenceMissingRun = Process.runSync(
+        'bash',
+        ['scripts/verify_google_play_closed_test_launch_day.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE': 'true',
+          'SAKINAH_PLAY_CONSOLE_APP_CREATED': 'true',
+          'SAKINAH_PLAY_TESTER_GROUP_CREATED': 'true',
+          'SAKINAH_PLAY_CLOSED_TRACK_READY': 'true',
+          'SAKINAH_PLAY_TESTING_FEEDBACK_READY': 'true',
+          'SAKINAH_PLAY_UPLOAD_PACKET_REVIEWED': 'true',
+          'SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE': 'true',
+          'SAKINAH_PLAY_TESTER_LINKS_REVIEWED': 'true',
+          'SAKINAH_PLAY_INVITE_COPY_REVIEWED': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(evidenceMissingRun.exitCode, isNot(0));
+      expect(
+        evidenceMissingRun.stderr.toString(),
+        contains('SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE must point'),
+      );
+
+      final launchEvidenceDir =
+          Directory.systemTemp.createTempSync('sakinah_launch_evidence_');
+      addTearDown(() {
+        if (launchEvidenceDir.existsSync()) {
+          launchEvidenceDir.deleteSync(recursive: true);
+        }
+      });
+      final releaseEvidence =
+          File('${launchEvidenceDir.path}/closed_test_release_evidence.csv')
+            ..writeAsStringSync('''
+checkpoint,status,evidence_path,privacy_rule
+play_console_app_created,confirmed,docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md,No tester personal data
+closed_test_release_live,confirmed,build/play-upload/manifest.txt,No tester personal data
+upload_packet_reviewed,confirmed,build/play-upload/manifest.txt,No tester personal data
+testing_feedback_ready,confirmed,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,No tester personal data
+''');
+      final linksEvidence =
+          File('${launchEvidenceDir.path}/closed_test_links_evidence.csv')
+            ..writeAsStringSync('''
+link_type,url,review_result,evidence_path,privacy_rule
+google_group,https://groups.google.com/g/sakinah-daily-testers,reviewed_first,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+play_opt_in,https://play.google.com/apps/testing/com.sakinahdaily.app,reviewed_second,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+store_listing,https://play.google.com/store/apps/details?id=com.sakinahdaily.app,reviewed_after_group,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+leave_testing,https://play.google.com/apps/testing/com.sakinahdaily.app/leave,excluded_from_invite,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+''');
+      final inviteEvidence =
+          File('${launchEvidenceDir.path}/closed_test_invite_evidence.csv')
+            ..writeAsStringSync('''
+copy_check,review_result,evidence_path,privacy_rule
+invite_copy_reviewed,reviewed,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+group_link_first,reviewed,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+play_opt_in_second,reviewed,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+feedback_privacy_copy_reviewed,reviewed,docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md,No tester personal data
+leave_link_not_invite,reviewed,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+''');
+      final completeEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/verify_google_play_closed_test_launch_day.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE': 'true',
+          'SAKINAH_PLAY_CONSOLE_APP_CREATED': 'true',
+          'SAKINAH_PLAY_TESTER_GROUP_CREATED': 'true',
+          'SAKINAH_PLAY_CLOSED_TRACK_READY': 'true',
+          'SAKINAH_PLAY_TESTING_FEEDBACK_READY': 'true',
+          'SAKINAH_PLAY_UPLOAD_PACKET_REVIEWED': 'true',
+          'SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE': 'true',
+          'SAKINAH_PLAY_TESTER_LINKS_REVIEWED': 'true',
+          'SAKINAH_PLAY_INVITE_COPY_REVIEWED': 'true',
+          'SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE': releaseEvidence.path,
+          'SAKINAH_CLOSED_TEST_LINKS_EVIDENCE': linksEvidence.path,
+          'SAKINAH_CLOSED_TEST_INVITE_EVIDENCE': inviteEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(
+        completeEvidenceRun.exitCode,
+        0,
+        reason: '${completeEvidenceRun.stdout}\n${completeEvidenceRun.stderr}',
+      );
+      expect(
+        completeEvidenceRun.stdout.toString(),
+        contains('Closed-test launch evidence inputs: validated'),
+      );
+      expect(
+        File('build/play-closed-test-launch-day/completed-evidence/closed_test_release_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+      expect(
+        File('build/play-closed-test-launch-day/completed-evidence/closed_test_links_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+      expect(
+        File('build/play-closed-test-launch-day/completed-evidence/closed_test_invite_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+
+      linksEvidence.writeAsStringSync('''
+link_type,url,review_result,evidence_path,privacy_rule
+google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+''');
+      final incompleteEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/verify_google_play_closed_test_launch_day.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE': 'true',
+          'SAKINAH_PLAY_CONSOLE_APP_CREATED': 'true',
+          'SAKINAH_PLAY_TESTER_GROUP_CREATED': 'true',
+          'SAKINAH_PLAY_CLOSED_TRACK_READY': 'true',
+          'SAKINAH_PLAY_TESTING_FEEDBACK_READY': 'true',
+          'SAKINAH_PLAY_UPLOAD_PACKET_REVIEWED': 'true',
+          'SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE': 'true',
+          'SAKINAH_PLAY_TESTER_LINKS_REVIEWED': 'true',
+          'SAKINAH_PLAY_INVITE_COPY_REVIEWED': 'true',
+          'SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE': releaseEvidence.path,
+          'SAKINAH_CLOSED_TEST_LINKS_EVIDENCE': linksEvidence.path,
+          'SAKINAH_CLOSED_TEST_INVITE_EVIDENCE': inviteEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(incompleteEvidenceRun.exitCode, isNot(0));
+      expect(
+        incompleteEvidenceRun.stderr.toString(),
+        contains('completed launch evidence still contains placeholder'),
+      );
+
       expect(docsIndex, contains('16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md'));
       expect(readiness, contains('closed-test launch day gate'));
+      expect(readiness, contains('SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE'));
       expect(androidChecklist,
           contains('verify_google_play_closed_test_launch_day.sh'));
       expect(
           launchPack, contains('verify_google_play_closed_test_launch_day.sh'));
       expect(launchPack, contains('Share the Google Group link first'));
+      expect(
+          launchPack, contains('SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE'));
       expect(submissionRunbook,
           contains('verify_google_play_closed_test_launch_day.sh'));
       expect(versionNotes, contains('closed-test launch day gate'));
+      expect(versionNotes, contains('SAKINAH_CLOSED_TEST_LINKS_EVIDENCE'));
       expect(uploadExporter,
           contains('verify_google_play_closed_test_launch_day.sh'));
       expect(

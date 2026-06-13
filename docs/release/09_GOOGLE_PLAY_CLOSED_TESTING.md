@@ -103,6 +103,14 @@ the launch-day checklist in
 packet in `build/play-upload`, and the rule that the leave testing link is not
 an invite link.
 
+For completed local launch evidence after the real Play Console release is
+visible, run the same gate with
+`SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE=true` and provide
+`SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE`,
+`SAKINAH_CLOSED_TEST_LINKS_EVIDENCE`, and
+`SAKINAH_CLOSED_TEST_INVITE_EVIDENCE`. The CSVs must contain no template
+placeholders and no tester personal data.
+
 ## 12 Tester / 14 Day Requirement
 
 For new personal developer accounts that are subject to Google Play's testing
