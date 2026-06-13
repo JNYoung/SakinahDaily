@@ -10,6 +10,7 @@ runbook="docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md"
 readiness="docs/release/01_RELEASE_READINESS_CHECKLIST.md"
 upload_manifest="build/play-upload/manifest.txt"
 public_links_manifest="build/play-public-links/manifest.txt"
+completed_evidence_dir="build/play-closed-test-launch-day/completed-evidence"
 group_email="sakinah-daily-testers@googlegroups.com"
 group_link="https://groups.google.com/g/sakinah-daily-testers"
 opt_in_link="https://play.google.com/apps/testing/com.sakinahdaily.app"
@@ -45,6 +46,130 @@ require_true_var() {
   local description="$2"
   [[ "${!name:-}" == "true" ]] ||
     fail "$name=true is required after $description."
+}
+
+require_env_file() {
+  local name="$1"
+  local description="$2"
+  local path="${!name:-}"
+
+  [[ -n "$path" ]] ||
+    fail "$name must point to completed evidence after $description."
+  [[ -f "$path" ]] ||
+    fail "$name points to a missing evidence file: $path"
+}
+
+validate_completed_launch_evidence() {
+  local path="$1"
+  local label="$2"
+  shift 2
+
+  require_file "$path"
+  for placeholder in \
+    TBD \
+    pending_manual_observation \
+    pending_tap_route \
+    record_manually \
+    unknown; do
+    if grep -Fq "$placeholder" "$path"; then
+      fail "$label completed launch evidence still contains placeholder: $placeholder"
+    fi
+  done
+
+  for needle in "$@"; do
+    require_text "$path" "$needle"
+  done
+}
+
+copy_completed_launch_evidence_file() {
+  local env_name="$1"
+  local target_name="$2"
+  local path="${!env_name:-}"
+
+  require_file "$path"
+  mkdir -p "$completed_evidence_dir"
+  cp "$path" "$completed_evidence_dir/$target_name"
+}
+
+require_launch_evidence_inputs() {
+  require_true_var \
+    SAKINAH_PLAY_CONSOLE_APP_CREATED \
+    "creating the Play Console app record for com.sakinahdaily.app"
+  require_true_var \
+    SAKINAH_PLAY_TESTER_GROUP_CREATED \
+    "creating the Google Group $group_email"
+  require_true_var \
+    SAKINAH_PLAY_CLOSED_TRACK_READY \
+    "binding the tester group to the Closed testing track"
+  require_true_var \
+    SAKINAH_PLAY_TESTING_FEEDBACK_READY \
+    "configuring Play Console Testing feedback"
+  require_true_var \
+    SAKINAH_PLAY_UPLOAD_PACKET_REVIEWED \
+    "reviewing build/play-upload before launch"
+  require_true_var \
+    SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE \
+    "confirming the closed-testing release is approved or visible to testers"
+  require_true_var \
+    SAKINAH_PLAY_TESTER_LINKS_REVIEWED \
+    "reviewing the tester group, opt-in, store, and leave links"
+  require_true_var \
+    SAKINAH_PLAY_INVITE_COPY_REVIEWED \
+    "reviewing the final invite copy and feedback privacy language"
+  require_env_file \
+    SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE \
+    "confirming the Play Console app, upload packet, feedback channel, and live closed-test release"
+  require_env_file \
+    SAKINAH_CLOSED_TEST_LINKS_EVIDENCE \
+    "reviewing Google Group, Play opt-in, store listing, and leave-testing links"
+  require_env_file \
+    SAKINAH_CLOSED_TEST_INVITE_EVIDENCE \
+    "reviewing invite copy, share order, feedback privacy copy, and leave-link exclusion"
+
+  validate_completed_launch_evidence \
+    "$SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE" \
+    "release" \
+    "checkpoint,status,evidence_path,privacy_rule" \
+    "play_console_app_created" \
+    "closed_test_release_live" \
+    "upload_packet_reviewed" \
+    "testing_feedback_ready" \
+    "No tester personal data"
+  validate_completed_launch_evidence \
+    "$SAKINAH_CLOSED_TEST_LINKS_EVIDENCE" \
+    "tester links" \
+    "link_type,url,review_result,evidence_path,privacy_rule" \
+    "google_group" \
+    "$group_link" \
+    "play_opt_in" \
+    "$opt_in_link" \
+    "store_listing" \
+    "$store_link" \
+    "leave_testing" \
+    "$leave_link" \
+    "excluded_from_invite" \
+    "No tester personal data"
+  validate_completed_launch_evidence \
+    "$SAKINAH_CLOSED_TEST_INVITE_EVIDENCE" \
+    "invite copy" \
+    "copy_check,review_result,evidence_path,privacy_rule" \
+    "invite_copy_reviewed" \
+    "group_link_first" \
+    "play_opt_in_second" \
+    "feedback_privacy_copy_reviewed" \
+    "leave_link_not_invite" \
+    "No tester personal data"
+
+  rm -rf "$completed_evidence_dir"
+  copy_completed_launch_evidence_file \
+    SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE \
+    closed_test_release_evidence.csv
+  copy_completed_launch_evidence_file \
+    SAKINAH_CLOSED_TEST_LINKS_EVIDENCE \
+    closed_test_links_evidence.csv
+  copy_completed_launch_evidence_file \
+    SAKINAH_CLOSED_TEST_INVITE_EVIDENCE \
+    closed_test_invite_evidence.csv
 }
 
 for path in \
@@ -108,6 +233,9 @@ for needle in \
   require_text "$runbook" "$needle"
   require_text "$readiness" "$needle"
 done
+require_text "$launch_day_doc" 'SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE'
+require_text "$launch_pack" 'SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE'
+require_text "$readiness" 'SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE'
 
 for needle in \
   'Google Play upload evidence packet' \
@@ -126,32 +254,13 @@ for needle in \
   require_text "$public_links_manifest" "$needle"
 done
 
-if [[ "${SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_READY:-false}" == "true" ]]; then
-  require_true_var \
-    SAKINAH_PLAY_CONSOLE_APP_CREATED \
-    "creating the Play Console app record for com.sakinahdaily.app"
-  require_true_var \
-    SAKINAH_PLAY_TESTER_GROUP_CREATED \
-    "creating the Google Group $group_email"
-  require_true_var \
-    SAKINAH_PLAY_CLOSED_TRACK_READY \
-    "binding the tester group to the Closed testing track"
-  require_true_var \
-    SAKINAH_PLAY_TESTING_FEEDBACK_READY \
-    "configuring Play Console Testing feedback"
-  require_true_var \
-    SAKINAH_PLAY_UPLOAD_PACKET_REVIEWED \
-    "reviewing build/play-upload before launch"
-  require_true_var \
-    SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE \
-    "confirming the closed-testing release is approved or visible to testers"
-  require_true_var \
-    SAKINAH_PLAY_TESTER_LINKS_REVIEWED \
-    "reviewing the tester group, opt-in, store, and leave links"
-  require_true_var \
-    SAKINAH_PLAY_INVITE_COPY_REVIEWED \
-    "reviewing the final invite copy and feedback privacy language"
+if [[ "${SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE:-false}" == "true" || \
+  "${SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_READY:-false}" == "true" ]]; then
+  require_launch_evidence_inputs
+  printf 'Closed-test launch evidence inputs: validated\n'
+fi
 
+if [[ "${SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_READY:-false}" == "true" ]]; then
   SAKINAH_REQUIRE_PLAY_SUBMISSION_READY=true \
     scripts/verify_google_play_submission_pack.sh
 fi

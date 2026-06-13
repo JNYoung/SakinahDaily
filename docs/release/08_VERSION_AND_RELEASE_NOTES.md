@@ -66,7 +66,11 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `scripts/verify_google_play_submission_pack.sh`.
 - closed-test launch day gate:
   `docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md` and
-  `scripts/verify_google_play_closed_test_launch_day.sh`.
+  `scripts/verify_google_play_closed_test_launch_day.sh`; completed evidence
+  mode uses `SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE=true` with
+  `SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_LINKS_EVIDENCE`, and
+  `SAKINAH_CLOSED_TEST_INVITE_EVIDENCE`.
 - closed-test retention observation packet:
   `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md`,
   `build/play-retention-observation`, and
@@ -136,7 +140,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   ready.
 - closed-test launch day gate strict mode after the closed-testing release is
   approved or live, the upload packet is reviewed, and final tester links are
-  checked in Google Group first / Play opt-in second order.
+  checked in Google Group first / Play opt-in second order. The strict gate now
+  also requires completed launch evidence CSVs with no template placeholders
+  and no tester personal data.
 - closed-test retention observation packet strict mode after feedback channels
   are ready and a human has scheduled Day 1 / Day 3 / Day 7 / Day 14 aggregate
   review using `retention_operator_calendar.csv`.

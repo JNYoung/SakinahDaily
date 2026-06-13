@@ -82,6 +82,13 @@ Status: Draft for release/store review.
   `build/play-upload`, while strict mode fails until the real Play Console
   release is live for testers and a human confirms the Closed-test launch day
   gate: Share the Google Group link first, then the Play opt-in link.
+  Completed local evidence mode uses
+  `SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE=true` with
+  `SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_LINKS_EVIDENCE`, and
+  `SAKINAH_CLOSED_TEST_INVITE_EVIDENCE`; it rejects template placeholders,
+  copies the CSVs to `build/play-closed-test-launch-day/completed-evidence`,
+  and keeps `No tester personal data`.
 - [x] Google Play closed-test retention observation packet exists at
   `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` with exporter
   `scripts/export_google_play_closed_test_retention_packet.sh`; template mode
@@ -641,7 +648,11 @@ Status: Draft for release/store review.
   scripts/verify_google_play_closed_test_launch_day.sh` passes only after the
   Play Console app, Google Group, closed track, Testing feedback channel,
   reviewed upload packet, live closed-test release, and final tester-link copy
-  are all confirmed.
+  are all confirmed. Strict mode also requires completed
+  `SAKINAH_CLOSED_TEST_RELEASE_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_LINKS_EVIDENCE`, and
+  `SAKINAH_CLOSED_TEST_INVITE_EVIDENCE` CSVs with no template placeholders and
+  no tester personal data.
 - [ ] `SAKINAH_REQUIRE_RETENTION_OBSERVATION_READY=true
   scripts/export_google_play_closed_test_retention_packet.sh` passes only after
   the closed-testing release is live, feedback channels are configured, the
