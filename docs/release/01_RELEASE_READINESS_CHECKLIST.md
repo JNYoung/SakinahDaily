@@ -115,7 +115,8 @@ Status: Draft for release/store review.
   privacy-safe observation templates into `build/android-oem-reminder-observation`,
   plus a non-personal `device_environment_snapshot.txt` with Android
   model/version/package/battery-idle context when `adb` and a device serial are
-  available,
+  available, and a package-filtered `adb_observation_commands.sh` handoff for
+  package resolution, device-idle, alarm/notification, and crash-buffer capture,
   while strict mode fails until real device long-window reminder evidence,
   reboot restore, battery review, and a human observation owner are confirmed.
 - [x] Local e2e gate exists at `scripts/verify_local_e2e.sh`; it runs
@@ -488,7 +489,8 @@ Status: Draft for release/store review.
   template-mode Android OEM reminder observation packet at
   `build/android-oem-reminder-observation` with 8-hour, 24-hour, reboot
   restore, battery-policy, device environment snapshot, lock-screen-copy,
-  no-tester-personal-data, and strict-mode confirmation templates.
+  package-filtered ADB observation commands, no-tester-personal-data, and
+  strict-mode confirmation templates.
 - [x] `scripts/verify_google_play_store_assets.sh` passes for the feature
   graphic and local store visual assets.
 - [x] `scripts/verify_local_e2e.sh` is available as the unattended local e2e

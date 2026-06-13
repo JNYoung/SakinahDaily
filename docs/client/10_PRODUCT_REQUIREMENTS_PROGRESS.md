@@ -580,7 +580,10 @@ Android launch smoke preparation:
   device serial are available, the packet also includes a non-personal
   device environment snapshot with Android version, model, package resolution,
   and battery/device-idle context so the observation owner can compare OEM
-  behavior without recording tester personal data.
+  behavior without recording tester personal data. The packet also includes
+  `adb_observation_commands.sh`, a package-filtered handoff script for package
+  resolution, device-idle, alarm/notification, and crash-buffer capture around
+  the long-window observation.
 
 Google Play metadata preparation:
 

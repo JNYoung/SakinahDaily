@@ -675,8 +675,11 @@ void main() {
       expect(content, contains('battery_policy_review.csv'));
       expect(content, contains('device_environment_snapshot.txt'));
       expect(content, contains('oem_observation_checklist.md'));
+      expect(content, contains('adb_observation_commands.sh'));
       expect(content, contains('adb shell getprop'));
       expect(content, contains('cmd deviceidle whitelist'));
+      expect(content, contains('dumpsys alarm'));
+      expect(content, contains('dumpsys notification'));
       expect(content,
           contains('SAKINAH_REQUIRE_ANDROID_OEM_REMINDER_OBSERVATION_READY'));
       expect(content, contains('SAKINAH_ANDROID_OEM_TEST_DEVICE_CONFIRMED'));
@@ -718,10 +721,14 @@ void main() {
       final checklist = File(
               'build/android-oem-reminder-observation/oem_observation_checklist.md')
           .readAsStringSync();
+      final adbCommands = File(
+              'build/android-oem-reminder-observation/adb_observation_commands.sh')
+          .readAsStringSync();
 
       expect(manifest, contains('Android OEM reminder observation packet'));
       expect(manifest, contains('com.sakinahdaily.app'));
       expect(manifest, contains('No tester personal data'));
+      expect(manifest, contains('adb_observation_commands.sh'));
       expect(
         observation,
         contains(
@@ -743,6 +750,17 @@ void main() {
       expect(checklist, contains('after device reboot'));
       expect(checklist, contains('do not record tester personal data'));
       expect(checklist, contains('lock-screen copy'));
+      expect(checklist, contains('adb_observation_commands.sh'));
+      expect(adbCommands, contains('#!/usr/bin/env bash'));
+      expect(adbCommands, contains('set -euo pipefail'));
+      expect(adbCommands, contains('PACKAGE_NAME="com.sakinahdaily.app"'));
+      expect(adbCommands, contains('ADB_SERIAL'));
+      expect(adbCommands, contains('dumpsys alarm'));
+      expect(adbCommands, contains('dumpsys notification'));
+      expect(adbCommands, contains('cmd package resolve-activity'));
+      expect(adbCommands, contains('cmd deviceidle whitelist'));
+      expect(adbCommands, contains('logcat -b crash -d'));
+      expect(adbCommands, contains('No tester personal data'));
 
       final strictRun = Process.runSync(
         'bash',
@@ -769,9 +787,11 @@ void main() {
       expect(androidChecklist,
           contains('Android OEM reminder observation packet'));
       expect(androidChecklist, contains('device_environment_snapshot.txt'));
+      expect(androidChecklist, contains('adb_observation_commands.sh'));
       expect(
           productProgress, contains('Android OEM reminder observation packet'));
       expect(productProgress, contains('device environment snapshot'));
+      expect(productProgress, contains('adb_observation_commands.sh'));
       expect(acceptance, contains('Android OEM reminder observation packet'));
       expect(versionNotes, contains('Android OEM reminder observation packet'));
     });
