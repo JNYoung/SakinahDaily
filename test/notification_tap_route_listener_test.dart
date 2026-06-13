@@ -19,17 +19,28 @@ void main() {
       (tester) async {
         final notifications = LocalNotificationServiceStub()
           ..launchPayload = scenario.payload;
+        final analytics = StubAnalyticsService(enabled: true);
 
         await pumpSakinahApp(
           tester,
           initialLocation: '/home',
           settleSplash: false,
           notificationService: notifications,
+          analyticsService: analytics,
         );
         await tester.pumpAndSettle();
 
         expect(find.byKey(scenario.expectedKey), findsOneWidget);
         expect(await notifications.takeLaunchPayload(), isNull);
+        final notificationTapEvents = analytics.events
+            .where((event) =>
+                event.name == AnalyticsEventCatalog.notificationTapOpened)
+            .toList();
+        expect(notificationTapEvents, hasLength(1));
+        expect(notificationTapEvents.single.properties, {
+          'content_type': scenario.expectedContentType,
+          'source': 'local_notification',
+        });
 
         final container = _container(tester);
         expect(container.read(notificationTapResultProvider), isNull);
@@ -136,6 +147,7 @@ final _coldStartScenarios = [
     name: 'prayer',
     payload: prayerNotificationPayload(),
     expectedKey: SakinahKeys.prayerContentList,
+    expectedContentType: 'prayer',
   ),
   _ColdStartScenario(
     name: 'daily session',
@@ -145,6 +157,7 @@ final _coldStartScenarios = [
       fallbackRoute: '/home',
     ),
     expectedKey: SakinahKeys.sessionProgressBar,
+    expectedContentType: 'daily_session',
   ),
   _ColdStartScenario(
     name: 'Quran verse',
@@ -154,6 +167,7 @@ final _coldStartScenarios = [
       fallbackRoute: '/quran',
     ),
     expectedKey: SakinahKeys.quranVerseDetailPage,
+    expectedContentType: 'quran',
   ),
   _ColdStartScenario(
     name: 'Dua detail',
@@ -163,6 +177,17 @@ final _coldStartScenarios = [
       fallbackRoute: '/dua',
     ),
     expectedKey: SakinahKeys.duaSourceCard,
+    expectedContentType: 'dua',
+  ),
+  _ColdStartScenario(
+    name: 'Dhikr counter',
+    payload: _localPushPayload(
+      type: 'dhikr',
+      contentId: 'dhikr_subhanallah',
+      fallbackRoute: '/dhikr',
+    ),
+    expectedKey: SakinahKeys.dhikrCounter,
+    expectedContentType: 'dhikr',
   ),
 ];
 
@@ -171,11 +196,13 @@ class _ColdStartScenario {
     required this.name,
     required this.payload,
     required this.expectedKey,
+    required this.expectedContentType,
   });
 
   final String name;
   final String payload;
   final Key expectedKey;
+  final String expectedContentType;
 }
 
 String _localPushPayload({

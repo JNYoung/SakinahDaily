@@ -124,9 +124,10 @@ Daily Session reminder permission attempts should appear only as
 controlled source, and coarse outcome, so the session-to-reminder funnel can be
 diagnosed without storing exact reminder time, routes, Women's Ibadah Mode
 status, routine notes, or free text.
-Local notification opens should appear only as `notification_tap_opened` with
-coarse content type and `source=local_notification`; do not store raw payloads,
-routes, content IDs, prayer names, or religious text.
+Local notification opens, including cold-start launches from local notification
+payloads, should appear only as `notification_tap_opened` with coarse content
+type and `source=local_notification`; do not store raw payloads, routes,
+content IDs, prayer names, or religious text.
 Push/reminder module DebugView coverage should be reviewed as one closed loop:
 `notification_settings_viewed` shows setup intent,
 `notification_smoke_test_result` shows QA notification scheduling or denial,

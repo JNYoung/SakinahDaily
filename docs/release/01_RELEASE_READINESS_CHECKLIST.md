@@ -338,7 +338,9 @@ Status: Draft for release/store review.
   controlled source, and coarse outcome; exact reminder times, routes, Women's
   Ibadah Mode status, routine notes, and free text are not sent.
   Notification tap analytics is observable only as `notification_tap_opened`
-  with coarse content type and `source=local_notification`.
+  with coarse content type and `source=local_notification`; foreground,
+  background, and cold-start prayer, Daily Session, Quran, Dua, and Dhikr local
+  notification launches are covered by the same listener contract.
   Daily Session reminder analytics is limited to enabled state, source, change
   type, and session ID; exact reminder time is not sent.
   Dua detail/save analytics is limited to content ID, source/screen, and saved

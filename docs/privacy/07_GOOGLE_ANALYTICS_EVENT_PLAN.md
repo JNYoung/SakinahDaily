@@ -112,7 +112,8 @@ Current implementation:
   `system_settings_opened` or `system_settings_unavailable`. Routes, payloads,
   device model, exact reminder times, locations, Women's Ibadah Mode status,
   feedback text, lock-screen body copy, and religious text are not sent.
-- Handled local notification taps record `notification_tap_opened` with only a
+- Handled local notification taps, including foreground/background taps and
+  cold-start launch payloads, record `notification_tap_opened` with only a
   coarse content type such as `prayer`, `daily_session`, `quran`, `dua`, or
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
   prayer names, exact reminder times, Women's Ibadah Mode status, and religious
@@ -126,8 +127,9 @@ Current implementation:
   covered by `notification_permission_recovery_opened`; Daily Session reminder
   outcomes and changes are covered by
   `daily_session_reminder_permission_result` and
-  `daily_session_reminder_changed`; local notification opens are covered by
-  `notification_tap_opened`. The Home and Prayer direct prayer opt-in surfaces
+  `daily_session_reminder_changed`; foreground/background and cold-start local
+  notification opens are covered by `notification_tap_opened`. The Home and
+  Prayer direct prayer opt-in surfaces
   use controlled `source=home_prayer_card` and `source=prayer_page_card`, while
   Daily Session reminder sources stay controlled as `settings`,
   `session_completion`, or `home_session_completion`. Exact reminder times,
