@@ -22,6 +22,9 @@
 - [x] 本地 e2e 总闸脚本 `scripts/verify_local_e2e.sh` 可无人值守运行测试、analyzer、
   Play 模板门禁、Google Analytics DebugView QA packet、Day 0 / Day 1 operator packet、
   内容 readiness、Android OEM reminder observation packet 和 Android launch smoke。
+- [x] Day 0 / Day 1 operator packet 的 completed-evidence mode 要求填写
+  aggregate status 和 Day 1 feedback CSV evidence，模板 `TBD`/placeholder
+  不能通过 completed gate。
 - [x] GitHub Actions workflow `.github/workflows/local-e2e.yml` 可在 PR 上运行
   本地 e2e 门禁的 CI 版本；PR 模板要求填写命令、测试和产品约束。
 

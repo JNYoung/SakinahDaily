@@ -235,6 +235,13 @@ scripts/export_google_play_day0_day1_operator_packet.sh
 It writes `build/play-day0-day1-operator` so the operator can track launch
 share order, Day 1 onboarding/privacy feedback, evidence-log updates, and the
 optional DebugView decision from one aggregate-only handoff.
+Completed Day 0 / Day 1 evidence mode is available through
+`SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE=true` plus
+`SAKINAH_DAY0_DAY1_STATUS_EVIDENCE` and `SAKINAH_DAY1_FEEDBACK_EVIDENCE`.
+It copies completed aggregate-only CSVs into
+`build/play-day0-day1-operator/completed-evidence` and fails if template
+placeholders such as `TBD`, `pending_manual_observation`,
+`pending_tap_route`, `record_manually`, or `unknown` remain.
 
 ## Strict Mode
 

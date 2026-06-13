@@ -540,6 +540,13 @@ Retention observation preparation:
   back to Day 0 / Day 1 templates. The same strict export now verifies the
   current AAB checksum before copying upload evidence, so the final handoff
   cannot rely on stale local build evidence.
+  The Day 0 / Day 1 operator packet now has its own completed-evidence mode:
+  it requires aggregate status and Day 1 feedback CSVs through
+  `SAKINAH_DAY0_DAY1_STATUS_EVIDENCE` and
+  `SAKINAH_DAY1_FEEDBACK_EVIDENCE`, rejects `TBD`/template placeholder rows,
+  and writes `Completed evidence inputs: validated` only after the first-share
+  order, Day 1 review, DebugView decision, and evidence-log readiness are
+  recorded without tester personal data.
 - Home now exposes the in-app Closed testing guide when
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, keeping Day 1 / Day 3 /
   Day 7 / Day 14 feedback prompts close to the daily prayer habit loop while

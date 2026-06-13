@@ -99,7 +99,12 @@ Status: Draft for release/store review.
   operator confirms the release is visible, Google Group link was shared
   first, Play opt-in link second, evidence log updates are ready, Day 1 review
   is scheduled, and any DebugView usage decision is recorded without tester
-  personal data.
+  personal data. Strict mode and completed-evidence mode also require
+  aggregate-only completed CSVs through
+  `SAKINAH_DAY0_DAY1_STATUS_EVIDENCE` and
+  `SAKINAH_DAY1_FEEDBACK_EVIDENCE`; rows with `TBD`,
+  `pending_manual_observation`, `pending_tap_route`, `record_manually`, or
+  `unknown` cannot pass as completed Day 0 / Day 1 launch evidence.
 - [x] Google Analytics DebugView QA packet exists at
   `scripts/export_google_analytics_debugview_packet.sh`; template mode writes
   a DebugView checklist, analytics event catalog, retention funnel checklist,
@@ -515,7 +520,11 @@ Status: Draft for release/store review.
   launch-day share order, Day 1 onboarding/privacy feedback review,
   retention-observation templates, optional DebugView evidence, and
   `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md` into one operator handoff
-  without storing tester personal data.
+  without storing tester personal data. `SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE=true`
+  validates completed status and Day 1 feedback evidence CSVs, copies them into
+  `build/play-day0-day1-operator/completed-evidence`, and writes
+  `Completed evidence inputs: validated` only when template placeholders have
+  been removed.
 - [ ] Google Group `sakinah-daily-testers@googlegroups.com` is created and
   bound to the Play Console closed-testing track.
 - [ ] Play Console testing feedback channel is configured with the final

@@ -3038,6 +3038,10 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(content, contains('SAKINAH_DAY0_GROUP_LINK_SHARED_FIRST'));
       expect(content, contains('SAKINAH_DAY0_PLAY_OPT_IN_SHARED_SECOND'));
       expect(content, contains('SAKINAH_DAY1_REVIEW_SCHEDULED'));
+      expect(content, contains('SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE'));
+      expect(content, contains('SAKINAH_DAY0_DAY1_STATUS_EVIDENCE'));
+      expect(content, contains('SAKINAH_DAY1_FEEDBACK_EVIDENCE'));
+      expect(content, contains('validate_completed_day0_day1_evidence'));
       expect(content, contains('No tester personal data'));
 
       final templateRun = Process.runSync(
@@ -3070,6 +3074,9 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(manifest, contains('build/play-upload/manifest.txt'));
       expect(manifest, contains('build/play-retention-observation'));
       expect(manifest, contains('build/google-analytics-debugview'));
+      expect(manifest, contains('SAKINAH_DAY0_DAY1_STATUS_EVIDENCE'));
+      expect(manifest, contains('SAKINAH_DAY1_FEEDBACK_EVIDENCE'));
+      expect(manifest, contains('Completed evidence inputs: not requested'));
       expect(
           manifest, contains('docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md'));
 
@@ -3092,6 +3099,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(statusCsv, contains('group link shared first'));
       expect(statusCsv, contains('Day 1'));
       expect(statusCsv, contains('onboarding_location_clarity'));
+      expect(statusCsv, contains('TBD'));
 
       expect(
           feedbackCsv,
@@ -3101,6 +3109,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(feedbackCsv, contains('onboarding_location_clarity'));
       expect(feedbackCsv, contains('privacy_center_trust'));
       expect(feedbackCsv, contains('No tester personal data'));
+      expect(feedbackCsv, contains('TBD'));
 
       final strictRun = Process.runSync(
         'bash',
@@ -3121,15 +3130,144 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
         contains('SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED=true'),
       );
 
+      final completeRunMissingEvidence = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_day0_day1_operator_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE': 'true',
+          'SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED': 'true',
+          'SAKINAH_DAY0_CLOSED_TEST_RELEASE_VISIBLE': 'true',
+          'SAKINAH_DAY0_GROUP_LINK_SHARED_FIRST': 'true',
+          'SAKINAH_DAY0_PLAY_OPT_IN_SHARED_SECOND': 'true',
+          'SAKINAH_DAY0_EVIDENCE_LOG_UPDATED': 'true',
+          'SAKINAH_DAY1_REVIEW_SCHEDULED': 'true',
+          'SAKINAH_DAY1_FEEDBACK_PRIVACY_COPY_REVIEWED': 'true',
+          'SAKINAH_DAY1_EVIDENCE_LOG_READY': 'true',
+          'SAKINAH_DAY1_DEBUGVIEW_DECISION_RECORDED': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(completeRunMissingEvidence.exitCode, isNot(0));
+      expect(
+        completeRunMissingEvidence.stderr.toString(),
+        contains('SAKINAH_DAY0_DAY1_STATUS_EVIDENCE must point'),
+      );
+
+      final completeEvidenceDir =
+          Directory.systemTemp.createTempSync('sakinah_day0_day1_evidence_');
+      addTearDown(() {
+        if (completeEvidenceDir.existsSync()) {
+          completeEvidenceDir.deleteSync(recursive: true);
+        }
+      });
+      final statusEvidence =
+          File('${completeEvidenceDir.path}/day0_day1_status_evidence.csv')
+            ..writeAsStringSync('''
+checkpoint_day,checkpoint,owner,status,evidence_path,privacy_rule
+Day 0,release visible to testers,release-ops,done,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,No tester personal data
+Day 0,group link shared first,release-ops,done,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,No tester personal data
+Day 0,Play opt-in shared second,release-ops,done,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,No tester personal data
+Day 0,leave testing link excluded from invite copy,release-ops,done,docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md,No tester personal data
+Day 0,feedback privacy copy reviewed,release-ops,done,docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md,No tester personal data
+Day 1,onboarding_location_clarity review scheduled,release-ops,scheduled,build/play-retention-observation/daily_observation_template.csv,No tester personal data
+Day 1,Privacy Center first-use feedback reviewed,release-ops,reviewed,build/play-retention-observation/feedback_theme_template.csv,No tester personal data
+Day 1,DebugView QA decision recorded,release-ops,recorded,build/google-analytics-debugview/retention_loop_debugview_qa.md,No tester personal data
+Day 1,evidence log ready for aggregate notes,release-ops,ready,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,No tester personal data
+''');
+      final feedbackEvidence =
+          File('${completeEvidenceDir.path}/day1_feedback_evidence.csv')
+            ..writeAsStringSync('''
+test_day,theme_key,aggregate_signal,decision_or_follow_up,evidence_path,privacy_rule
+Day 1,onboarding_location_clarity,reviewed,keep manual location copy,build/play-retention-observation/feedback_theme_template.csv,No tester personal data
+Day 1,play_install_or_opt_in_access,reviewed,no access blockers,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,No tester personal data
+Day 1,reminder_usefulness_or_annoyance,reviewed,watch Day 3 reminder sentiment,build/play-retention-observation/feedback_theme_template.csv,No tester personal data
+Day 1,privacy_center_trust,reviewed,no copy change needed,build/play-retention-observation/feedback_theme_template.csv,No tester personal data
+Day 1,localization_rtl_or_bahasa,reviewed,no launch blocker,build/play-retention-observation/feedback_theme_template.csv,No tester personal data
+''');
+      final completeEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_day0_day1_operator_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE': 'true',
+          'SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED': 'true',
+          'SAKINAH_DAY0_CLOSED_TEST_RELEASE_VISIBLE': 'true',
+          'SAKINAH_DAY0_GROUP_LINK_SHARED_FIRST': 'true',
+          'SAKINAH_DAY0_PLAY_OPT_IN_SHARED_SECOND': 'true',
+          'SAKINAH_DAY0_EVIDENCE_LOG_UPDATED': 'true',
+          'SAKINAH_DAY1_REVIEW_SCHEDULED': 'true',
+          'SAKINAH_DAY1_FEEDBACK_PRIVACY_COPY_REVIEWED': 'true',
+          'SAKINAH_DAY1_EVIDENCE_LOG_READY': 'true',
+          'SAKINAH_DAY1_DEBUGVIEW_DECISION_RECORDED': 'true',
+          'SAKINAH_DAY0_DAY1_STATUS_EVIDENCE': statusEvidence.path,
+          'SAKINAH_DAY1_FEEDBACK_EVIDENCE': feedbackEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(
+        completeEvidenceRun.exitCode,
+        0,
+        reason: '${completeEvidenceRun.stdout}\n${completeEvidenceRun.stderr}',
+      );
+      final completeManifest =
+          File('build/play-day0-day1-operator/manifest.txt').readAsStringSync();
+      expect(
+          completeManifest, contains('Completed evidence inputs: validated'));
+      expect(
+        File('build/play-day0-day1-operator/completed-evidence/day0_day1_status_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+      expect(
+        File('build/play-day0-day1-operator/completed-evidence/day1_feedback_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+
+      feedbackEvidence.writeAsStringSync('''
+test_day,theme_key,aggregate_signal,decision_or_follow_up,evidence_path,privacy_rule
+Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedback_theme_template.csv,No tester personal data
+''');
+      final incompleteEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_day0_day1_operator_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE': 'true',
+          'SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED': 'true',
+          'SAKINAH_DAY0_CLOSED_TEST_RELEASE_VISIBLE': 'true',
+          'SAKINAH_DAY0_GROUP_LINK_SHARED_FIRST': 'true',
+          'SAKINAH_DAY0_PLAY_OPT_IN_SHARED_SECOND': 'true',
+          'SAKINAH_DAY0_EVIDENCE_LOG_UPDATED': 'true',
+          'SAKINAH_DAY1_REVIEW_SCHEDULED': 'true',
+          'SAKINAH_DAY1_FEEDBACK_PRIVACY_COPY_REVIEWED': 'true',
+          'SAKINAH_DAY1_EVIDENCE_LOG_READY': 'true',
+          'SAKINAH_DAY1_DEBUGVIEW_DECISION_RECORDED': 'true',
+          'SAKINAH_DAY0_DAY1_STATUS_EVIDENCE': statusEvidence.path,
+          'SAKINAH_DAY1_FEEDBACK_EVIDENCE': feedbackEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(incompleteEvidenceRun.exitCode, isNot(0));
+      expect(
+        incompleteEvidenceRun.stderr.toString(),
+        contains('completed evidence still contains placeholder'),
+      );
+
       expect(docsIndex,
           contains('export_google_play_day0_day1_operator_packet.sh'));
       expect(readiness, contains('Day 0 / Day 1 operator packet'));
       expect(launchDayChecklist, contains('Day 0 / Day 1 operator packet'));
+      expect(launchDayChecklist, contains('SAKINAH_DAY0_DAY1_STATUS_EVIDENCE'));
       expect(retentionPlan, contains('Day 0 / Day 1 operator packet'));
+      expect(retentionPlan,
+          contains('SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE'));
       expect(evidenceLog, contains('Day 0 / Day 1 operator packet'));
       expect(
           runbook, contains('export_google_play_day0_day1_operator_packet.sh'));
       expect(versionNotes, contains('Day 0 / Day 1 operator packet'));
+      expect(versionNotes, contains('SAKINAH_DAY1_FEEDBACK_EVIDENCE'));
     });
 
     test('reviewed content pack readiness packet can be exported', () {
