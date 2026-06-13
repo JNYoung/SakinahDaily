@@ -91,7 +91,13 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `build/google-analytics-debugview`, exported by
   `scripts/export_google_analytics_debugview_packet.sh`; includes retention
   funnel checks, blocked-parameter review, and notification QA smoke result
-  verification for local reminder delivery tests.
+  verification for local reminder delivery tests. Strict mode now requires
+  completed `SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE`,
+  `SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE`,
+  `SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE`, and
+  `SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE` CSVs with no
+  template placeholders or tester personal data before it writes
+  `Strict DebugView evidence inputs: validated`.
 - Push module completion audit packet:
   `build/push-module-completion-audit`, exported by
   `scripts/export_push_module_completion_audit.sh`; confirms the v0.1 local
@@ -168,7 +174,12 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `notification_schedule_result`, `notification_smoke_test_result`, and
   `notification_tap_result` verification without payloads, routes, exact
   reminder times, scheduled local times, lock-screen body copy, tester
-  identity, or religious text.
+  identity, or religious text. Strict mode also requires completed
+  `SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE`,
+  `SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE`,
+  `SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE`, and
+  `SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE` CSVs with no
+  template placeholders or tester personal data.
 - Push module completion audit packet strict mode after Android notification
   permission QA, real-device short-delay local reminder smoke delivery/tap
   routing, Google Analytics DebugView push/reminder event review, and Android

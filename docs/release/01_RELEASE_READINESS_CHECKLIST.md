@@ -126,7 +126,14 @@ Status: Draft for release/store review.
   `notification_permission_recovery_opened`, and
   `closed_test_prompt_marked_sent` without raw payloads, routes, scheduled
   local times, coordinates, feedback text, tester identity, lock-screen body
-  copy, device model, or religious text.
+  copy, device model, or religious text. Strict mode also requires completed
+  aggregate evidence CSVs through
+  `SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE`,
+  `SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE`,
+  `SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE`, and
+  `SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE`; they must contain
+  no template placeholders or tester personal data before the packet manifest
+  can show `Strict DebugView evidence inputs: validated`.
 - [x] Push module completion audit packet exists at
   `scripts/export_push_module_completion_audit.sh` with scope notes in
   `docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md`; template mode writes

@@ -345,6 +345,10 @@ Open product links:
   and `source=privacy_center`, giving the Google Analytics DebugView QA packet
   a consent-funnel signal without tester identity, location, Women's Ibadah
   Mode status, feedback text, or religious content.
+- Google Analytics DebugView strict readiness now requires completed setup,
+  event, retention-loop, and blocked-parameter evidence CSVs, so analytics can
+  be reviewed as an aggregate, privacy-safe release gate before any
+  closed-testing build transmits telemetry.
 - Session history is intentionally small and lacks filters or richer insights.
 - Reminder timing is user-selectable locally, but real-device notification
   permission/OEM scheduling QA remains open.

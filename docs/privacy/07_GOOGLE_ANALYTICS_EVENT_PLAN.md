@@ -378,8 +378,18 @@ SAKINAH_FIREBASE_PROJECT_CONFIG_READY=true \
 SAKINAH_ANALYTICS_CONSENT_QA_READY=true \
 SAKINAH_PLAY_DATA_SAFETY_ANALYTICS_REVIEWED=true \
 SAKINAH_DEBUGVIEW_DEVICE_READY=true \
+SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE=/path/to/analytics_debugview_setup.csv \
+SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE=/path/to/analytics_debugview_events.csv \
+SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE=/path/to/analytics_debugview_retention_loop.csv \
+SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE=/path/to/analytics_debugview_blocked_parameters.csv \
 scripts/export_google_analytics_debugview_packet.sh
 ```
+
+The four completed evidence CSVs must be aggregate-only, contain no tester
+personal data, and remove template placeholders such as `TBD`,
+`pending_manual_observation`, `record_manually`, or `unknown`. Passing strict
+mode copies them into `build/google-analytics-debugview/completed-evidence` and
+records `Strict DebugView evidence inputs: validated` in the manifest.
 
 ## Google Analytics Production Gate
 

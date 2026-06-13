@@ -2815,6 +2815,13 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(content, contains('blocked_parameter_review.csv'));
       expect(content, contains('SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY'));
       expect(content, contains('SAKINAH_ANALYTICS_ENABLED=true'));
+      expect(content, contains('SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE'));
+      expect(content, contains('SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE'));
+      expect(content,
+          contains('SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE'));
+      expect(content,
+          contains('SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE'));
+      expect(content, contains('validate_completed_debugview_evidence'));
       expect(content, contains('debug.firebase.analytics.app'));
       expect(content, contains('com.sakinahdaily.app'));
       expect(content, contains('Push/reminder module'));
@@ -3037,13 +3044,197 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
         contains('SAKINAH_ANALYTICS_ENABLED_CONFIRMED=true'),
       );
 
+      final strictMissingEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_analytics_debugview_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY': 'true',
+          'SAKINAH_ANALYTICS_ENABLED_CONFIRMED': 'true',
+          'SAKINAH_FIREBASE_PROJECT_CONFIG_READY': 'true',
+          'SAKINAH_ANALYTICS_CONSENT_QA_READY': 'true',
+          'SAKINAH_PLAY_DATA_SAFETY_ANALYTICS_REVIEWED': 'true',
+          'SAKINAH_DEBUGVIEW_DEVICE_READY': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictMissingEvidenceRun.exitCode, isNot(0));
+      expect(
+        strictMissingEvidenceRun.stderr.toString(),
+        contains('SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE must point'),
+      );
+
+      final strictEvidenceDir =
+          Directory.systemTemp.createTempSync('sakinah_debugview_');
+      addTearDown(() {
+        if (strictEvidenceDir.existsSync()) {
+          strictEvidenceDir.deleteSync(recursive: true);
+        }
+      });
+      final completedSetupEvidenceFile =
+          File('${strictEvidenceDir.path}/analytics_debugview_setup.csv')
+            ..writeAsStringSync('''
+check_id,status,evidence_path,privacy_rule,data_safety_rule
+analytics_enabled_build,confirmed,qa/build-config.txt,No tester personal data,Data Safety reviewed
+firebase_project_config,confirmed,qa/firebase-config-review.md,No tester personal data,Data Safety reviewed
+privacy_center_opt_in,confirmed,qa/privacy-center-opt-in.png,No tester personal data,Data Safety reviewed
+data_safety_review,confirmed,docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md,No tester personal data,Data Safety reviewed
+debugview_device,confirmed,qa/debugview-device.txt,No tester personal data,Data Safety reviewed
+''');
+      final completedEventEvidenceFile =
+          File('${strictEvidenceDir.path}/analytics_debugview_events.csv')
+            ..writeAsStringSync('''
+event_name,qa_flow,debugview_status,parameter_status,privacy_rule
+home_viewed,retention_loop,observed,no_forbidden_parameters,No tester personal data
+prayer_viewed,retention_loop,observed,no_forbidden_parameters,No tester personal data
+prayer_checklist_updated,retention_loop,observed,no_forbidden_parameters,No tester personal data
+daily_session_started,retention_loop,observed,no_forbidden_parameters,No tester personal data
+daily_session_completed,retention_loop,observed,no_forbidden_parameters,No tester personal data
+daily_session_reminder_permission_result,retention_loop,observed,no_forbidden_parameters,No tester personal data
+daily_session_reminder_changed,retention_loop,observed,no_forbidden_parameters,No tester personal data
+notification_permission_prompt_viewed,push_reminder,observed,no_forbidden_parameters,No tester personal data
+notification_schedule_result,push_reminder,observed,no_forbidden_parameters,No tester personal data
+notification_smoke_test_result,push_reminder,observed,no_forbidden_parameters,No tester personal data
+notification_permission_recovery_opened,push_reminder,observed,no_forbidden_parameters,No tester personal data
+notification_tap_result,push_reminder,observed,no_forbidden_parameters,No tester personal data
+notification_tap_opened,push_reminder,observed,no_forbidden_parameters,No tester personal data
+analytics_consent_changed,privacy_center,observed,no_forbidden_parameters,No tester personal data
+prayer_location_changed,prayer_setup,observed,no_forbidden_parameters,No tester personal data
+qibla_viewed,prayer_setup,observed,no_forbidden_parameters,No tester personal data
+dua_viewed,content_discovery,observed,no_forbidden_parameters,No tester personal data
+dhikr_started,content_discovery,observed,no_forbidden_parameters,No tester personal data
+women_ibadah_mode_changed,privacy_trust,observed,no_forbidden_parameters,No tester personal data
+closed_test_prompt_copied,feedback_loop,observed,no_forbidden_parameters,No tester personal data
+closed_test_prompt_marked_sent,feedback_loop,observed,no_forbidden_parameters,No tester personal data
+''');
+      final completedRetentionLoopEvidenceFile = File(
+          '${strictEvidenceDir.path}/analytics_debugview_retention_loop.csv')
+        ..writeAsStringSync('''
+loop_step,expected_event,observed_status,source,privacy_result,notes_rule
+home_to_prayer,home_viewed,observed,home,no_forbidden_parameters,aggregate QA only
+home_to_prayer,prayer_viewed,observed,home_prayer_card,no_forbidden_parameters,aggregate QA only
+prayer_checkin,prayer_checklist_updated,observed,prayer_page_checklist,no_forbidden_parameters,aggregate QA only
+prayer_to_session,daily_session_started,observed,prayer_completion,no_forbidden_parameters,aggregate QA only
+session_complete,daily_session_completed,observed,daily_session,no_forbidden_parameters,aggregate QA only
+session_to_reminder,daily_session_reminder_changed,observed,home_session_completion,no_forbidden_parameters,aggregate QA only
+reminder_schedule,notification_schedule_result,observed,home_session_completion,no_forbidden_parameters,aggregate QA only
+notification_tap,notification_tap_result,observed,local_notification,no_forbidden_parameters,aggregate QA only
+closed_test_feedback,closed_test_prompt_marked_sent,observed,closed_testing_guide,no_forbidden_parameters,aggregate QA only
+''');
+      final completedBlockedParameterEvidenceFile = File(
+          '${strictEvidenceDir.path}/analytics_debugview_blocked_parameters.csv')
+        ..writeAsStringSync('''
+forbidden_parameter,review_status,evidence_path,privacy_rule
+latitude,blocked,qa/blocked-parameters.csv,No tester personal data
+longitude,blocked,qa/blocked-parameters.csv,No tester personal data
+women_ibadah_status,blocked,qa/blocked-parameters.csv,No tester personal data
+feedback_text,blocked,qa/blocked-parameters.csv,No tester personal data
+quran_arabic_text,blocked,qa/blocked-parameters.csv,No tester personal data
+payload,blocked,qa/blocked-parameters.csv,No tester personal data
+scheduled_local_time,blocked,qa/blocked-parameters.csv,No tester personal data
+reminder_time,blocked,qa/blocked-parameters.csv,No tester personal data
+device_model,blocked,qa/blocked-parameters.csv,No tester personal data
+''');
+
+      final strictEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_analytics_debugview_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY': 'true',
+          'SAKINAH_ANALYTICS_ENABLED_CONFIRMED': 'true',
+          'SAKINAH_FIREBASE_PROJECT_CONFIG_READY': 'true',
+          'SAKINAH_ANALYTICS_CONSENT_QA_READY': 'true',
+          'SAKINAH_PLAY_DATA_SAFETY_ANALYTICS_REVIEWED': 'true',
+          'SAKINAH_DEBUGVIEW_DEVICE_READY': 'true',
+          'SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE':
+              completedSetupEvidenceFile.path,
+          'SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE':
+              completedEventEvidenceFile.path,
+          'SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE':
+              completedRetentionLoopEvidenceFile.path,
+          'SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE':
+              completedBlockedParameterEvidenceFile.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(
+        strictEvidenceRun.exitCode,
+        0,
+        reason: '${strictEvidenceRun.stdout}\n${strictEvidenceRun.stderr}',
+      );
+      final strictManifest =
+          File('build/google-analytics-debugview/manifest.txt')
+              .readAsStringSync();
+      expect(strictManifest,
+          contains('Strict DebugView evidence inputs: validated'));
+      expect(
+        File(
+          'build/google-analytics-debugview/completed-evidence/analytics_debugview_setup_evidence.csv',
+        ).existsSync(),
+        isTrue,
+      );
+      expect(
+        File(
+          'build/google-analytics-debugview/completed-evidence/analytics_debugview_event_evidence.csv',
+        ).existsSync(),
+        isTrue,
+      );
+      expect(
+        File(
+          'build/google-analytics-debugview/completed-evidence/analytics_debugview_retention_loop_evidence.csv',
+        ).existsSync(),
+        isTrue,
+      );
+      expect(
+        File(
+          'build/google-analytics-debugview/completed-evidence/analytics_debugview_blocked_parameter_evidence.csv',
+        ).existsSync(),
+        isTrue,
+      );
+
+      completedEventEvidenceFile.writeAsStringSync('''
+event_name,qa_flow,debugview_status,parameter_status,privacy_rule
+home_viewed,retention_loop,TBD,pending_manual_observation,No tester personal data
+''');
+      final placeholderEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_analytics_debugview_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY': 'true',
+          'SAKINAH_ANALYTICS_ENABLED_CONFIRMED': 'true',
+          'SAKINAH_FIREBASE_PROJECT_CONFIG_READY': 'true',
+          'SAKINAH_ANALYTICS_CONSENT_QA_READY': 'true',
+          'SAKINAH_PLAY_DATA_SAFETY_ANALYTICS_REVIEWED': 'true',
+          'SAKINAH_DEBUGVIEW_DEVICE_READY': 'true',
+          'SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE':
+              completedSetupEvidenceFile.path,
+          'SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE':
+              completedEventEvidenceFile.path,
+          'SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE':
+              completedRetentionLoopEvidenceFile.path,
+          'SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE':
+              completedBlockedParameterEvidenceFile.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(placeholderEvidenceRun.exitCode, isNot(0));
+      expect(
+        placeholderEvidenceRun.stderr.toString(),
+        contains('completed DebugView evidence still contains placeholder'),
+      );
+
       expect(
           docsIndex, contains('export_google_analytics_debugview_packet.sh'));
       expect(analyticsPlan, contains('DebugView QA packet'));
       expect(
           analyticsPlan, contains('notification_permission_recovery_opened'));
+      expect(analyticsPlan,
+          contains('SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE'));
       expect(analyticsPlan, contains('retention loop QA checklist'));
       expect(readiness, contains('Google Analytics DebugView QA packet'));
+      expect(readiness, contains('SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE'));
       expect(readiness, contains('retention loop QA checklist'));
       expect(readiness, contains('notification_settings_viewed'));
       expect(readiness, contains('prayer_reminder_permission_result'));
@@ -3055,6 +3246,8 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(retentionPlan, contains('DebugView QA packet'));
       expect(retentionPlan, contains('Home → Prayer → Daily Session'));
       expect(versionNotes, contains('Google Analytics DebugView QA packet'));
+      expect(versionNotes,
+          contains('SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE'));
     });
 
     test('Google Play Day 0 and Day 1 operator packet can be exported', () {

@@ -45,6 +45,43 @@ require_true_var() {
     fail "$name=true is required after $description."
 }
 
+require_env_file() {
+  local name="$1"
+  local description="$2"
+  local path="${!name:-}"
+
+  [[ -n "$path" ]] ||
+    fail "$name must point to completed evidence after $description."
+  [[ -f "$path" ]] ||
+    fail "$name points to a missing evidence file: $path"
+}
+
+validate_completed_debugview_evidence() {
+  local path="$1"
+  local label="$2"
+  local header="$3"
+  shift 3
+
+  require_file "$path"
+  require_text "$path" "$header"
+
+  for placeholder in \
+    pending_manual_observation \
+    pending_debugview_observation \
+    pending_tap_route \
+    record_manually \
+    TBD \
+    unknown; do
+    if grep -Fq "$placeholder" "$path"; then
+      fail "$label completed DebugView evidence still contains placeholder: $placeholder"
+    fi
+  done
+
+  for needle in "$@"; do
+    require_text "$path" "$needle"
+  done
+}
+
 copy_required_file() {
   local path="$1"
   local target="$out_dir/$path"
@@ -61,6 +98,17 @@ copy_required_text_evidence() {
   require_file "$path"
   mkdir -p "$(dirname "$target")"
   cp "$path" "$target"
+}
+
+copy_strict_evidence_file() {
+  local env_name="$1"
+  local target_name="$2"
+  local path="${!env_name:-}"
+
+  [[ -n "$path" ]] || return 0
+  require_file "$path"
+  mkdir -p "$out_dir/completed-evidence"
+  cp "$path" "$out_dir/completed-evidence/$target_name"
 }
 
 for path in \
@@ -137,6 +185,7 @@ require_text "$privacy_center" 'privacyAnalyticsSwitch'
 require_text "$privacy_center" 'setAnalyticsOptIn'
 require_text "$app_environment" 'SAKINAH_ANALYTICS_ENABLED'
 
+strict_evidence_status="not requested"
 if [[ "$require_strict" == "true" ]]; then
   require_true_var \
     SAKINAH_ANALYTICS_ENABLED_CONFIRMED \
@@ -153,6 +202,97 @@ if [[ "$require_strict" == "true" ]]; then
   require_true_var \
     SAKINAH_DEBUGVIEW_DEVICE_READY \
     "enabling Firebase DebugView for the target Android device"
+  require_env_file \
+    SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE \
+    "confirming the reviewed analytics QA build, Firebase config, consent, Data Safety, and DebugView device setup"
+  require_env_file \
+    SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE \
+    "observing required analytics events in Firebase DebugView"
+  require_env_file \
+    SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE \
+    "walking the Home to Prayer to Daily Session to Reminder/Feedback retention loop"
+  require_env_file \
+    SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE \
+    "reviewing blocked analytics parameters in DebugView"
+  validate_completed_debugview_evidence \
+    "$SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE" \
+    "analytics DebugView setup" \
+    "check_id,status,evidence_path,privacy_rule,data_safety_rule" \
+    analytics_enabled_build \
+    firebase_project_config \
+    privacy_center_opt_in \
+    data_safety_review \
+    debugview_device \
+    confirmed \
+    "No tester personal data" \
+    "Data Safety reviewed"
+  validate_completed_debugview_evidence \
+    "$SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE" \
+    "analytics DebugView event" \
+    "event_name,qa_flow,debugview_status,parameter_status,privacy_rule" \
+    home_viewed \
+    prayer_viewed \
+    prayer_checklist_updated \
+    daily_session_started \
+    daily_session_completed \
+    daily_session_reminder_permission_result \
+    daily_session_reminder_changed \
+    notification_permission_prompt_viewed \
+    notification_schedule_result \
+    notification_smoke_test_result \
+    notification_permission_recovery_opened \
+    notification_tap_result \
+    notification_tap_opened \
+    analytics_consent_changed \
+    prayer_location_changed \
+    qibla_viewed \
+    dua_viewed \
+    dhikr_started \
+    women_ibadah_mode_changed \
+    closed_test_prompt_copied \
+    closed_test_prompt_marked_sent \
+    observed \
+    no_forbidden_parameters \
+    "No tester personal data"
+  validate_completed_debugview_evidence \
+    "$SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE" \
+    "analytics DebugView retention loop" \
+    "loop_step,expected_event,observed_status,source,privacy_result,notes_rule" \
+    home_to_prayer \
+    prayer_checkin \
+    prayer_to_session \
+    session_complete \
+    session_to_reminder \
+    reminder_schedule \
+    notification_tap \
+    closed_test_feedback \
+    home_viewed \
+    prayer_viewed \
+    daily_session_started \
+    daily_session_completed \
+    daily_session_reminder_changed \
+    notification_schedule_result \
+    notification_tap_result \
+    closed_test_prompt_marked_sent \
+    observed \
+    no_forbidden_parameters \
+    "aggregate QA only"
+  validate_completed_debugview_evidence \
+    "$SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE" \
+    "analytics DebugView blocked parameter" \
+    "forbidden_parameter,review_status,evidence_path,privacy_rule" \
+    latitude \
+    longitude \
+    women_ibadah_status \
+    feedback_text \
+    quran_arabic_text \
+    payload \
+    scheduled_local_time \
+    reminder_time \
+    device_model \
+    blocked \
+    "No tester personal data"
+  strict_evidence_status="validated"
 fi
 
 rm -rf "$out_dir"
@@ -175,6 +315,19 @@ for path in \
   "$app_environment"; do
   copy_required_text_evidence "$path"
 done
+
+copy_strict_evidence_file \
+  SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE \
+  analytics_debugview_setup_evidence.csv
+copy_strict_evidence_file \
+  SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE \
+  analytics_debugview_event_evidence.csv
+copy_strict_evidence_file \
+  SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE \
+  analytics_debugview_retention_loop_evidence.csv
+copy_strict_evidence_file \
+  SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE \
+  analytics_debugview_blocked_parameter_evidence.csv
 
 cat >"$out_dir/analytics_events_catalog.csv" <<'EOF'
 event_name,qa_flow,expected_parameters,forbidden_parameters,retention_signal
@@ -358,6 +511,25 @@ Official reference: $official_reference
 - Store screenshot mode forces analytics off; do not use screenshot builds for DebugView QA.
 - Use \`retention_loop_debugview_qa.md\` for the ordered Home → Prayer → Daily Session → Reminder/Feedback loop.
 
+## Strict Completed Evidence Gate
+
+Run strict export only after the QA reviewer supplies completed aggregate
+evidence CSVs with no template placeholders or tester personal data:
+
+\`\`\`sh
+SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY=true \\
+SAKINAH_ANALYTICS_ENABLED_CONFIRMED=true \\
+SAKINAH_FIREBASE_PROJECT_CONFIG_READY=true \\
+SAKINAH_ANALYTICS_CONSENT_QA_READY=true \\
+SAKINAH_PLAY_DATA_SAFETY_ANALYTICS_REVIEWED=true \\
+SAKINAH_DEBUGVIEW_DEVICE_READY=true \\
+SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE=/path/to/analytics_debugview_setup.csv \\
+SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE=/path/to/analytics_debugview_events.csv \\
+SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE=/path/to/analytics_debugview_retention_loop.csv \\
+SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE=/path/to/analytics_debugview_blocked_parameters.csv \\
+scripts/export_google_analytics_debugview_packet.sh
+\`\`\`
+
 ## Push/reminder module coverage
 
 - Verify \`notification_settings_viewed\` appears when opening Notification Settings from Settings, Home, Prayer, completion, or session-completion entry points.
@@ -456,6 +628,19 @@ Copied evidence:
 - source-evidence/$privacy_center.txt
 - source-evidence/$app_environment.txt
 - scripts/export_google_analytics_debugview_packet.sh
+
+Strict mode requires:
+- SAKINAH_ANALYTICS_ENABLED_CONFIRMED=true
+- SAKINAH_FIREBASE_PROJECT_CONFIG_READY=true
+- SAKINAH_ANALYTICS_CONSENT_QA_READY=true
+- SAKINAH_PLAY_DATA_SAFETY_ANALYTICS_REVIEWED=true
+- SAKINAH_DEBUGVIEW_DEVICE_READY=true
+- SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE=<completed analytics_debugview_setup.csv>
+- SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE=<completed analytics_debugview_events.csv>
+- SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE=<completed analytics_debugview_retention_loop.csv>
+- SAKINAH_ANALYTICS_DEBUGVIEW_BLOCKED_PARAMETER_EVIDENCE=<completed analytics_debugview_blocked_parameters.csv>
+
+Strict DebugView evidence inputs: $strict_evidence_status
 EOF
 
 printf 'Google Analytics DebugView QA packet exported.\n'
