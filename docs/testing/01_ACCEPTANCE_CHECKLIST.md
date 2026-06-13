@@ -72,6 +72,8 @@
 - [x] Push module completion audit packet 可导出本地 prayer reminders、本地
   Daily Session reminders、tap routing、权限、dev smoke control 和
   analytics coverage 矩阵，并明确 Remote FCM/APNs 不属于 v0.1 完成范围。
+- [x] 推送 tap outcome 打点覆盖 opened、malformed payload、missing content 和
+  unhandled 等粗粒度结果，不上传 raw payload、route、content ID 或锁屏正文。
 - [x] Push module completion audit strict mode 需要 completed permission QA、
   real-device smoke、DebugView event review 和 OEM owner CSV evidence，模板
   占位行不能通过 strict gate。

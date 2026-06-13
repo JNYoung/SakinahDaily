@@ -154,6 +154,7 @@ for needle in \
   'notification_permission_recovery_opened' \
   'daily_session_reminder_permission_result' \
   'daily_session_reminder_changed' \
+  'notification_tap_result' \
   'notification_tap_opened'; do
   require_text "$push_audit_doc" "$needle"
 done
@@ -166,6 +167,7 @@ require_text "$readiness" 'Push module completion audit packet'
 require_text "$acceptance" 'Push module completion audit packet'
 require_text "$version_notes" 'Push module completion audit packet'
 require_text "$analytics_service" 'notification_schedule_result'
+require_text "$analytics_service" 'notification_tap_result'
 require_text "$analytics_service" 'notification_tap_opened'
 require_text "$notification_service" 'schedulePrayerReminders'
 require_text "$notification_service" 'scheduleDailySessionReminder'
@@ -180,10 +182,12 @@ require_text "$prayer_reminder_toggle_flow" 'prayerReminderChanged'
 require_text "$daily_session_reminder_toggle_flow" 'dailySessionReminderPermissionResult'
 require_text "$daily_session_reminder_toggle_flow" 'dailySessionReminderChanged'
 require_text "$notification_tap_listener" 'notificationTapOpened'
+require_text "$notification_tap_listener" 'notificationTapResult'
 require_text "$notification_service_test" 'privacy-safe tap payload'
 require_text "$notification_settings_test" 'notificationScheduleResult'
 require_text "$notification_tap_service_test" 'malformed notification payload'
 require_text "$notification_tap_route_test" 'notificationTapOpened'
+require_text "$notification_tap_route_test" 'notificationTapResult'
 require_text "$analytics_test" 'notification_permission_prompt_viewed'
 
 strict_evidence_status="not requested"
@@ -233,6 +237,7 @@ if [[ "$require_strict" == "true" ]]; then
     "push DebugView event review" \
     notification_permission_prompt_viewed \
     notification_schedule_result \
+    notification_tap_result \
     notification_tap_opened \
     passed \
     "No tester personal data"
@@ -294,6 +299,7 @@ permission_explanation,complete,"showPrayerReminderExplanation and showDailySess
 android_permission_handling,complete,"requestPermissionAfterExplanation and openSystemNotificationSettings","notification_service_test.dart and notification_settings_page_test.dart","prayer_reminder_permission_result|daily_session_reminder_permission_result|notification_permission_recovery_opened","No device model, tester identity, or personal data"
 safe_lock_screen_copy,complete,"PrayerNotificationCopy and DailySessionNotificationCopy","notification_service_test.dart","notification_schedule_result","Women's Ibadah Mode exact status is not included"
 tap_routing,complete,"NotificationTapService and NotificationTapRouteListener","notification_tap_service_test.dart and notification_tap_route_listener_test.dart","notification_tap_opened","No raw payload, route, content ID, prayer name, or religious text"
+cold_start_and_tap_result,complete,"NotificationTapRouteListener tracks handled and unhandled local notification tap outcomes","notification_tap_route_listener_test.dart","notification_tap_result","No raw payload, route, content ID, prayer name, or religious text"
 cold_start_payload,complete,"FlutterLocalNotificationService.takeLaunchPayload","notification_tap_route_listener_test.dart","notification_tap_opened","Launch payload is resolved once and cleared"
 settings_management,complete,"NotificationSettingsPage prayer and daily reminder controls","notification_settings_page_test.dart","notification_settings_viewed|prayer_reminder_changed|daily_session_reminder_changed","No exact reminder time is sent to analytics"
 dev_smoke_controls,complete,"Notification Settings QA smoke buttons guarded by SAKINAH_NOTIFICATION_QA_ENABLED","notification_settings_page_test.dart","notification_smoke_test_result","No raw payloads, scheduled local times, lock-screen body, or religious text"
@@ -312,6 +318,7 @@ notification_smoke_test_result,dev-only delivery QA,"notification_settings_qa bu
 notification_permission_recovery_opened,denied-permission recovery,"Notification Settings recovery button","source=notification_settings|change_type","payload|route|device_model|scheduled_local_time|reminder_time|latitude|longitude|women_ibadah_status|feedback_text|quran_arabic_text|body","Do users recover from denied notification permission?"
 daily_session_reminder_permission_result,daily session reminder permission outcome,"Settings, session_completion, home_session_completion","session_id|enabled|source|change_type","reminder_time|route|women_ibadah_status|feedback_text|note","Does the session-to-reminder loop convert after completion?"
 daily_session_reminder_changed,daily session reminder preference change,"Settings, session_completion, home_session_completion","session_id|enabled|source|change_type","reminder_time|women_ibadah_status|feedback_text|note","Do completed-session surfaces create return intent?"
+notification_tap_result,local notification tap outcome,"foreground, background, and cold-start local notification tap handling","content_type|source=local_notification|change_type","payload|route|content_id|session_id|prayer_name|reminder_time|body|quran_arabic_text|women_ibadah_status|feedback_text","Do local notification taps open, fail parsing, or miss content without exposing raw payload data?"
 notification_tap_opened,local notification open,"foreground, background, and cold-start local notification taps","content_type|source=local_notification","payload|route|content_id|session_id|prayer_name|reminder_time|quran_arabic_text|women_ibadah_status|feedback_text","Do local reminders reopen the app without exposing raw payload data?"
 EOF
 
@@ -352,6 +359,7 @@ cat >"$out_dir/push_debugview_event_review.csv" <<'EOF'
 event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data
 notification_permission_prompt_viewed,reminder_type|source,record_manually,record_manually,pending_manual_observation,No tester personal data
 notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count|reminder_offset_minutes,record_manually,record_manually,pending_manual_observation,No tester personal data
+notification_tap_result,content_type|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
 notification_tap_opened,content_type|source,record_manually,record_manually,pending_manual_observation,No tester personal data
 EOF
 
@@ -376,7 +384,7 @@ Status: v0.1 本地提醒闭环完成；线上 server push 未纳入 MVP。
 
 ## 打点覆盖
 
-- Google Analytics DebugView 重点验证: `notification_settings_viewed`, `notification_permission_prompt_viewed`, `prayer_reminder_permission_result`, `prayer_reminder_changed`, `notification_schedule_result`, `notification_smoke_test_result`, `notification_permission_recovery_opened`, `daily_session_reminder_permission_result`, `daily_session_reminder_changed`, `notification_tap_opened`。
+- Google Analytics DebugView 重点验证: `notification_settings_viewed`, `notification_permission_prompt_viewed`, `prayer_reminder_permission_result`, `prayer_reminder_changed`, `notification_schedule_result`, `notification_smoke_test_result`, `notification_permission_recovery_opened`, `daily_session_reminder_permission_result`, `daily_session_reminder_changed`, `notification_tap_result`, `notification_tap_opened`。
 - Android OEM reminder observation packet 继续覆盖 8h / 24h / reboot / battery policy 长窗口可靠性，不把模板证据当成真实送达。
 - No raw payloads, routes, coordinates, scheduled local times, exact reminder times, lock-screen copy, tester identity, Women's Ibadah Mode exact status, feedback text, or religious text should appear in analytics.
 

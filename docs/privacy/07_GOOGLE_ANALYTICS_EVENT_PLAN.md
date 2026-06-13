@@ -124,6 +124,13 @@ Current implementation:
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
   prayer names, exact reminder times, Women's Ibadah Mode status, and religious
   text are not sent.
+- Local notification tap handling records `notification_tap_result` for both
+  opened and unhandled outcomes with only coarse content type,
+  `source=local_notification`, and coarse `change_type` values such as
+  `opened`, `malformed_payload`, `missing_content`, or `unhandled`. Raw
+  payloads, routes, content IDs, prayer names, exact reminder times,
+  lock-screen copy, Women's Ibadah Mode status, and religious text are not
+  sent.
 - Local reminder scheduling records `notification_schedule_result` with only
   `reminder_type` (`prayer` or `daily_session`), enabled state, controlled
   source, coarse result, aggregate `scheduled_count`, and prayer lead-time
@@ -142,7 +149,8 @@ Current implementation:
   outcomes and changes are covered by
   `daily_session_reminder_permission_result` and
   `daily_session_reminder_changed`; foreground/background and cold-start local
-  notification opens are covered by `notification_tap_opened`. The Home and
+  notification tap outcomes are covered by `notification_tap_result`, while
+  successful opens remain covered by `notification_tap_opened`. The Home and
   Prayer direct prayer opt-in surfaces
   use controlled `source=home_prayer_card` and `source=prayer_page_card`, while
   Daily Session reminder sources stay controlled as `settings`,
@@ -205,6 +213,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `notification_schedule_result`
 - `notification_smoke_test_result`
 - `notification_permission_recovery_opened`
+- `notification_tap_result`
 - `notification_tap_opened`
 - `analytics_consent_changed`
 - `daily_session_reminder_permission_result`
@@ -299,7 +308,8 @@ and the tester has turned on the Privacy Center usage analytics opt-in. Store
 screenshot mode forces analytics off and is not valid DebugView evidence.
 
 The QA reviewer should verify that `home_viewed`,
-`prayer_reminder_changed`, `qibla_viewed`, `notification_tap_opened`,
+`prayer_reminder_changed`, `qibla_viewed`, `notification_tap_result`,
+`notification_tap_opened`,
 `analytics_consent_changed`,
 `notification_settings_viewed`,
 `notification_permission_prompt_viewed`,
@@ -337,6 +347,8 @@ lead-time offset when relevant.
 `source=notification_settings` and coarse `change_type`.
 `daily_session_reminder_permission_result` must keep only session ID, enabled
 result, controlled source, and coarse outcome.
+`notification_tap_result` must keep only `content_type`,
+`source=local_notification`, and coarse `change_type`.
 `notification_tap_opened` must keep only `content_type` and `source`.
 `analytics_consent_changed` must keep only `enabled` and `source`.
 `dua_viewed` and `dua_saved` must keep only content ID, source/screen, and
@@ -350,6 +362,7 @@ Session → Reminder/Feedback path and verify `home_viewed → prayer_viewed`,
 `daily_session_reminder_changed`, `notification_schedule_result`,
 `notification_permission_prompt_viewed`, `notification_smoke_test_result`,
 `notification_permission_recovery_opened`,
+`notification_tap_result`,
 `notification_tap_opened`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` without raw
 payloads, routes, scheduled local times, coordinates, exact reminder times,

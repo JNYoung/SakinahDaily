@@ -49,6 +49,7 @@ class _NotificationTapRouteListenerState
         if (!identical(current, result)) {
           return;
         }
+        _trackNotificationTapResult(result);
         final route = result.route;
         if (result.handled && route != null && route.isNotEmpty) {
           final router = widget.router;
@@ -66,6 +67,17 @@ class _NotificationTapRouteListenerState
     return widget.child;
   }
 
+  void _trackNotificationTapResult(NotificationTapResult result) {
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.notificationTapResult,
+      {
+        'content_type': _notificationTapContentType(result),
+        'source': 'local_notification',
+        'change_type': _notificationTapChangeType(result),
+      },
+    );
+  }
+
   void _trackNotificationTapOpened(NotificationTapResult result) {
     final contentType = result.analyticsContentType;
     if (contentType == null || contentType.isEmpty) {
@@ -78,6 +90,36 @@ class _NotificationTapRouteListenerState
         'source': 'local_notification',
       },
     );
+  }
+
+  String _notificationTapContentType(NotificationTapResult result) {
+    final contentType = result.analyticsContentType;
+    if (contentType == null || contentType.isEmpty) {
+      return 'unknown';
+    }
+    return contentType;
+  }
+
+  String _notificationTapChangeType(NotificationTapResult result) {
+    final route = result.route;
+    if (result.handled && route != null && route.isNotEmpty) {
+      return 'opened';
+    }
+
+    for (final flag in result.flags) {
+      final changeType = switch (flag) {
+        'malformed_payload' => 'malformed_payload',
+        'notification_tap_missing_content' => 'missing_content',
+        'fallback_route_used' => 'fallback_route_used',
+        'direct_route_fallback' => 'direct_route_fallback',
+        _ => null,
+      };
+      if (changeType != null) {
+        return changeType;
+      }
+    }
+
+    return result.handled ? 'missing_route' : 'unhandled';
   }
 
   Future<void> _resolveLaunchPayload() async {

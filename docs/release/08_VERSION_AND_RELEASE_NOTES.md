@@ -93,7 +93,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `scripts/export_push_module_completion_audit.sh`; confirms the v0.1 local
   prayer reminder and local daily session reminder loop, push/reminder
   analytics coverage, privacy blocklist, and Remote FCM/APNs out-of-scope
-  boundary. The packet now includes `push_permission_qa_evidence.csv`,
+  boundary. Tap outcome health is now covered by `notification_tap_result`,
+  while successful opens continue to use `notification_tap_opened`. The packet
+  now includes `push_permission_qa_evidence.csv`,
   `push_real_device_smoke_evidence.csv`, `push_debugview_event_review.csv`,
   and `push_oem_owner_assignment.csv` templates for strict pre-upload QA
   evidence.
@@ -151,9 +153,10 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
 - Google Analytics DebugView QA packet strict mode after a reviewed Firebase
   QA build, Privacy Center opt-in, Data Safety review, and DebugView device
   setup are confirmed, including `notification_permission_prompt_viewed`,
-  `notification_schedule_result`, and `notification_smoke_test_result`
-  verification without payloads, routes, exact reminder times, scheduled local
-  times, lock-screen body copy, tester identity, or religious text.
+  `notification_schedule_result`, `notification_smoke_test_result`, and
+  `notification_tap_result` verification without payloads, routes, exact
+  reminder times, scheduled local times, lock-screen body copy, tester
+  identity, or religious text.
 - Push module completion audit packet strict mode after Android notification
   permission QA, real-device short-delay local reminder smoke delivery/tap
   routing, Google Analytics DebugView push/reminder event review, and Android

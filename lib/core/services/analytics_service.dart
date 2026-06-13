@@ -33,6 +33,7 @@ class AnalyticsEventCatalog {
   static const notificationSmokeTestResult = 'notification_smoke_test_result';
   static const notificationPermissionRecoveryOpened =
       'notification_permission_recovery_opened';
+  static const notificationTapResult = 'notification_tap_result';
   static const notificationTapOpened = 'notification_tap_opened';
   static const analyticsConsentChanged = 'analytics_consent_changed';
   static const dailySessionReminderPermissionResult =
@@ -68,6 +69,7 @@ class AnalyticsEventCatalog {
     notificationScheduleResult,
     notificationSmokeTestResult,
     notificationPermissionRecoveryOpened,
+    notificationTapResult,
     notificationTapOpened,
     analyticsConsentChanged,
     dailySessionReminderPermissionResult,
@@ -238,6 +240,12 @@ class AnalyticsParameterPolicy {
     'source',
   };
 
+  static const _notificationTapResultKeys = {
+    'content_type',
+    'source',
+    'change_type',
+  };
+
   static const _notificationSmokeTestResultKeys = {
     'content_type',
     'source',
@@ -392,6 +400,8 @@ class AnalyticsParameterPolicy {
         _analyticsConsentChangedKeys.contains(key),
       AnalyticsEventCatalog.notificationTapOpened =>
         _notificationTapOpenedKeys.contains(key),
+      AnalyticsEventCatalog.notificationTapResult =>
+        _notificationTapResultKeys.contains(key),
       AnalyticsEventCatalog.notificationSmokeTestResult =>
         _notificationSmokeTestResultKeys.contains(key),
       AnalyticsEventCatalog.notificationScheduleResult =>

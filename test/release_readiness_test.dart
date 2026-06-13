@@ -249,6 +249,7 @@ void main() {
           analyticsService, contains('notification_permission_prompt_viewed'));
       expect(analyticsService, contains('prayer_reminder_permission_result'));
       expect(analyticsService, contains('notification_schedule_result'));
+      expect(analyticsService, contains('notification_tap_result'));
       expect(analyticsService, contains('notification_tap_opened'));
       expect(analyticsService, contains('analytics_consent_changed'));
       expect(analyticsService,
@@ -341,6 +342,7 @@ void main() {
       expect(analyticsPlan, contains('notification_permission_prompt_viewed'));
       expect(analyticsPlan, contains('prayer_reminder_permission_result'));
       expect(analyticsPlan, contains('notification_schedule_result'));
+      expect(analyticsPlan, contains('notification_tap_result'));
       expect(analyticsPlan, contains('notification_tap_opened'));
       expect(analyticsPlan, contains('analytics_consent_changed'));
       expect(
@@ -1010,6 +1012,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(content, contains('notification_schedule_result'));
       expect(content, contains('notification_smoke_test_result'));
       expect(content, contains('notification_permission_recovery_opened'));
+      expect(content, contains('notification_tap_result'));
       expect(content, contains('notification_tap_opened'));
       expect(content, contains('No tester personal data'));
 
@@ -1095,6 +1098,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
         'notification_permission_recovery_opened',
         'daily_session_reminder_permission_result',
         'daily_session_reminder_changed',
+        'notification_tap_result',
         'notification_tap_opened',
       ]) {
         expect(analyticsMatrix, contains(eventName), reason: eventName);
@@ -1161,6 +1165,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(
           debugViewEvidence, contains('notification_permission_prompt_viewed'));
       expect(debugViewEvidence, contains('notification_schedule_result'));
+      expect(debugViewEvidence, contains('notification_tap_result'));
       expect(debugViewEvidence, contains('notification_tap_opened'));
       expect(oemOwnerEvidence,
           contains('owner_handle,review_cadence,next_review_date,qa_result'));
@@ -1213,6 +1218,7 @@ short_delay_daily_session,SC65XWPZ7DLNUSTC,daily_session,delivered,delivered,tap
 event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data
 notification_permission_prompt_viewed,reminder_type|source,reminder_type|source,no,passed,No tester personal data
 notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count,reminder_type|enabled|source|change_type|scheduled_count,no,passed,No tester personal data
+notification_tap_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
 notification_tap_opened,content_type|source,content_type|source,no,passed,No tester personal data
 ''');
       final completedOemOwnerEvidence =
@@ -1303,6 +1309,7 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
       );
       expect(dailySessionReminderToggleFlow,
           contains('dailySessionReminderChanged'));
+      expect(tapListener, contains('notificationTapResult'));
       expect(tapListener, contains('notificationTapOpened'));
       expect(notificationServiceTest, contains('privacy-safe tap payload'));
       expect(notificationServiceTest, contains('women mode notification copy'));
@@ -1312,6 +1319,7 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
       expect(tapServiceTest, contains('prayer notification payload'));
       expect(tapServiceTest, contains('malformed notification payload'));
       expect(tapRouteTest, contains('notificationTapOpened'));
+      expect(tapRouteTest, contains('notificationTapResult'));
 
       expect(docsIndex, contains('18_PUSH_MODULE_COMPLETION_AUDIT.md'));
       expect(docsIndex, contains('export_push_module_completion_audit.sh'));
@@ -2778,6 +2786,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(content, contains('notification_permission_recovery_opened'));
       expect(content, contains('prayer_location_changed'));
       expect(content, contains('qibla_viewed'));
+      expect(content, contains('notification_tap_result'));
       expect(content, contains('notification_tap_opened'));
       expect(content, contains('home_prayer_badge'));
       expect(content, contains('prayer_page_card'));
@@ -2799,6 +2808,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(retentionPlan, contains('prayer_location_changed'));
       expect(
           retentionPlan, contains('daily_session_reminder_permission_result'));
+      expect(retentionPlan, contains('notification_tap_result'));
       expect(retentionPlan, contains('prayer_page_card'));
       expect(retentionPlan, contains('prayer_completion_card'));
       expect(retentionPlan, contains('prayer_page_checklist'));
@@ -2881,6 +2891,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(events, contains('qibla_page'));
       expect(events, contains('prayer_completion_card'));
       expect(events, contains('prayer_page_checklist'));
+      expect(events, contains('notification_tap_result'));
       expect(events, contains('notification_tap_opened'));
       expect(events, contains('analytics_consent_changed'));
       expect(events, contains('daily_session_started'));
@@ -2917,6 +2928,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(funnel, contains('prayer_page_card'));
       expect(funnel, contains('Prayer page direct Enable reminders CTA'));
       expect(funnel, contains('prayer_completion_card'));
+      expect(funnel, contains('Push Tap Outcome Health'));
       expect(funnel, contains('Push Open Rate'));
       expect(funnel, contains('Push/reminder module'));
       expect(funnel, contains('Analytics Consent Rate'));
@@ -2944,6 +2956,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(loopQa, contains('notification_schedule_result'));
       expect(loopQa, contains('notification_smoke_test_result'));
       expect(loopQa, contains('notification_permission_recovery_opened'));
+      expect(loopQa, contains('notification_tap_result'));
       expect(loopQa, contains('notification_tap_opened'));
       expect(loopQa, contains('closed_test_prompt_copied'));
       expect(loopQa, contains('closed_test_prompt_marked_sent'));
@@ -5100,6 +5113,7 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(analyticsService,
           contains('daily_session_reminder_permission_result'));
       expect(analyticsService, contains('daily_session_reminder_changed'));
+      expect(analyticsService, contains('notification_tap_result'));
       expect(analyticsService, contains('notification_tap_opened'));
       expect(
         analyticsService,
@@ -5108,6 +5122,7 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(analyticsService, contains('_blockedKeyFragments'));
       expect(analyticsTest, contains('notification recovery analytics'));
       expect(analyticsTest, contains('notification schedule result'));
+      expect(analyticsTest, contains('notification tap result analytics'));
       expect(analyticsTest, contains('notification tap analytics keeps only'));
       expect(
         analyticsTest,
@@ -5162,6 +5177,7 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       );
       expect(tapRouteTest, contains("expectedContentType: 'dhikr'"));
       expect(tapRouteTest, contains('expectedContentType'));
+      expect(tapRouteTest, contains('notificationTapResult'));
       expect(tapRouteTest, contains('notificationTapOpened'));
 
       expect(productProgress, contains('Push module completion audit'));
@@ -5177,6 +5193,7 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(analyticsPlan, contains('notification_permission_prompt_viewed'));
       expect(analyticsPlan, contains('notification_schedule_result'));
       expect(analyticsPlan, contains('cold-start launch payloads'));
+      expect(analyticsPlan, contains('notification_tap_result'));
       expect(
         analyticsPlan,
         contains('notification_permission_recovery_opened'),
@@ -5188,6 +5205,7 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(readiness, contains('notification_permission_prompt_viewed'));
       expect(readiness, contains('notification_schedule_result'));
       expect(readiness, contains('cold-start prayer, Daily Session, Quran'));
+      expect(readiness, contains('notification_tap_result'));
       expect(readiness, contains('notification_permission_recovery_opened'));
       expect(
           retentionPlan, contains('Push/reminder module DebugView coverage'));
@@ -5201,6 +5219,7 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
           debugViewExporter, contains('notification_permission_prompt_viewed'));
       expect(debugViewExporter, contains('notification_schedule_result'));
       expect(debugViewExporter, contains('cold-start notification tap'));
+      expect(debugViewExporter, contains('notification_tap_result'));
       expect(
         debugViewExporter,
         contains('notification_permission_recovery_opened'),

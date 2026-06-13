@@ -30,6 +30,7 @@ void main() {
           AnalyticsEventCatalog.prayerReminderChanged,
           AnalyticsEventCatalog.notificationScheduleResult,
           AnalyticsEventCatalog.qiblaViewed,
+          AnalyticsEventCatalog.notificationTapResult,
           AnalyticsEventCatalog.notificationTapOpened,
           AnalyticsEventCatalog.notificationSmokeTestResult,
           AnalyticsEventCatalog.notificationPermissionRecoveryOpened,
@@ -55,6 +56,7 @@ void main() {
         'notification_permission_recovery_opened',
         'daily_session_reminder_permission_result',
         'daily_session_reminder_changed',
+        'notification_tap_result',
         'notification_tap_opened',
       ];
 
@@ -536,6 +538,36 @@ void main() {
       expect(analytics.events.single.properties, {
         'content_type': 'daily_session',
         'source': 'local_notification',
+      });
+    });
+
+    test('notification tap result analytics keeps only coarse outcome metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.notificationTapResult,
+        const {
+          'content_type': 'unknown',
+          'source': 'local_notification',
+          'change_type': 'malformed_payload',
+          'payload': '{"route":"/prayer"}',
+          'route': '/prayer',
+          'content_id': 'session_morning_ease',
+          'session_id': 'session_morning_ease',
+          'prayer_name': 'Fajr',
+          'body': 'private lock-screen copy',
+          'quran_arabic_text': 'sensitive text should never be sent',
+          'women_ibadah_status': 'menstruating',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'content_type': 'unknown',
+        'source': 'local_notification',
+        'change_type': 'malformed_payload',
       });
     });
 
