@@ -27,6 +27,7 @@ void main() {
           AnalyticsEventCatalog.notificationSettingsViewed,
           AnalyticsEventCatalog.prayerReminderPermissionResult,
           AnalyticsEventCatalog.prayerReminderChanged,
+          AnalyticsEventCatalog.notificationScheduleResult,
           AnalyticsEventCatalog.qiblaViewed,
           AnalyticsEventCatalog.notificationTapOpened,
           AnalyticsEventCatalog.notificationSmokeTestResult,
@@ -335,6 +336,42 @@ void main() {
       expect(analytics.events.single.properties, {
         'source': 'notification_settings',
         'change_type': 'system_settings_opened',
+      });
+    });
+
+    test('notification schedule result keeps only aggregate reminder metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.notificationScheduleResult,
+        const {
+          'reminder_type': 'prayer',
+          'enabled': true,
+          'source': 'home_prayer_card',
+          'change_type': 'scheduled',
+          'scheduled_count': 4,
+          'reminder_offset_minutes': 10,
+          'payload': '{"route":"/prayer"}',
+          'route': '/settings/notifications',
+          'reminder_time': '05:00',
+          'scheduled_local_time': '05:00',
+          'body': 'private lock-screen copy',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'postpartum',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'reminder_type': 'prayer',
+        'enabled': true,
+        'source': 'home_prayer_card',
+        'change_type': 'scheduled',
+        'scheduled_count': 4,
+        'reminder_offset_minutes': 10,
       });
     });
 

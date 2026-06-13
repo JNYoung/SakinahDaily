@@ -11,6 +11,7 @@ import '../../core/services/notification_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../core/services/prayer_reminder_preview_service.dart';
 import '../../shared/daily_session_reminder_toggle_flow.dart';
+import '../../shared/notification_analytics.dart';
 import '../../shared/prayer_reminder_toggle_flow.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -404,6 +405,7 @@ Future<void> _handlePrayerReminderChoiceToggle({
     controller: controller,
     notificationService: notificationService,
     prayerService: prayerService,
+    analyticsSource: analyticsSource,
   );
 }
 
@@ -448,6 +450,7 @@ Future<void> _handlePrayerReminderLeadTimeChanged({
     controller: controller,
     notificationService: notificationService,
     prayerService: prayerService,
+    analyticsSource: analyticsSource,
   );
 }
 
@@ -456,6 +459,7 @@ Future<void> _reschedulePrayerRemindersAfterPreferenceChange({
   required UserPreferencesController controller,
   required NotificationService notificationService,
   required PrayerCalculationService prayerService,
+  required String analyticsSource,
 }) async {
   final preferences = ref.read(userPreferencesProvider);
   if (!preferences.notificationsEnabled) {
@@ -489,11 +493,29 @@ Future<void> _reschedulePrayerRemindersAfterPreferenceChange({
     await notificationService.cancelPrayerReminders();
     await controller.setNotificationsEnabled(false);
     ref.read(notificationPermissionFeedbackProvider.notifier).state = null;
+    trackNotificationScheduleResult(
+      ref: ref,
+      reminderType: 'prayer',
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'schedule_empty',
+      scheduledCount: 0,
+      reminderOffsetMinutes: offset,
+    );
     return;
   }
 
   ref.read(notificationPermissionFeedbackProvider.notifier).state =
       NotificationPermissionFeedback.scheduled;
+  trackNotificationScheduleResult(
+    ref: ref,
+    reminderType: 'prayer',
+    enabled: true,
+    source: analyticsSource,
+    changeType: 'rescheduled',
+    scheduledCount: scheduled.length,
+    reminderOffsetMinutes: offset,
+  );
 }
 
 Future<void> _changeDailySessionReminderTime({
@@ -571,6 +593,14 @@ Future<void> _changeDailySessionReminderTime({
       source: analyticsSource,
       changeType: 'schedule_failed',
     );
+    trackNotificationScheduleResult(
+      ref: ref,
+      reminderType: 'daily_session',
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'schedule_failed',
+      scheduledCount: 0,
+    );
     _showSnackBar(context, l10n.t('notificationPermissionDenied'));
     return;
   }
@@ -580,6 +610,14 @@ Future<void> _changeDailySessionReminderTime({
     enabled: true,
     source: analyticsSource,
     changeType: 'time_updated',
+  );
+  trackNotificationScheduleResult(
+    ref: ref,
+    reminderType: 'daily_session',
+    enabled: true,
+    source: analyticsSource,
+    changeType: 'rescheduled',
+    scheduledCount: 1,
   );
   _showSnackBar(context, l10n.t('reminderTimeSaved'));
 }

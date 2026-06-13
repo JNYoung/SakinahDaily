@@ -7,6 +7,7 @@ import '../core/providers/app_providers.dart';
 import '../core/services/analytics_service.dart';
 import '../core/services/notification_service.dart';
 import '../core/services/prayer_calculation_service.dart';
+import 'notification_analytics.dart';
 
 Future<void> handlePrayerReminderToggle({
   required bool enabled,
@@ -28,6 +29,17 @@ Future<void> handlePrayerReminderToggle({
       preferences: preferences,
       enabled: false,
       source: analyticsSource,
+    );
+    trackNotificationScheduleResult(
+      ref: ref,
+      reminderType: 'prayer',
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'disabled',
+      scheduledCount: 0,
+      reminderOffsetMinutes: sanitizePrayerReminderOffsetMinutes(
+        preferences.prayerReminderOffsetMinutes,
+      ),
     );
     return;
   }
@@ -99,6 +111,15 @@ Future<void> handlePrayerReminderToggle({
       source: analyticsSource,
       changeType: 'scheduled',
     );
+    trackNotificationScheduleResult(
+      ref: ref,
+      reminderType: 'prayer',
+      enabled: true,
+      source: analyticsSource,
+      changeType: 'scheduled',
+      scheduledCount: scheduled.length,
+      reminderOffsetMinutes: offset,
+    );
     _trackGlobalPrayerReminderChanged(
       ref: ref,
       preferences: preferences,
@@ -112,6 +133,15 @@ Future<void> handlePrayerReminderToggle({
       enabled: false,
       source: analyticsSource,
       changeType: 'schedule_empty',
+    );
+    trackNotificationScheduleResult(
+      ref: ref,
+      reminderType: 'prayer',
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'schedule_empty',
+      scheduledCount: 0,
+      reminderOffsetMinutes: offset,
     );
   }
 }

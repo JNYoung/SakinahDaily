@@ -246,6 +246,7 @@ void main() {
       expect(analyticsService, contains('prayer_reminder_changed'));
       expect(analyticsService, contains('notification_settings_viewed'));
       expect(analyticsService, contains('prayer_reminder_permission_result'));
+      expect(analyticsService, contains('notification_schedule_result'));
       expect(analyticsService, contains('notification_tap_opened'));
       expect(analyticsService, contains('analytics_consent_changed'));
       expect(analyticsService,
@@ -336,6 +337,7 @@ void main() {
       expect(analyticsPlan, contains('daily_session_reminder_changed'));
       expect(analyticsPlan, contains('notification_settings_viewed'));
       expect(analyticsPlan, contains('prayer_reminder_permission_result'));
+      expect(analyticsPlan, contains('notification_schedule_result'));
       expect(analyticsPlan, contains('notification_tap_opened'));
       expect(analyticsPlan, contains('analytics_consent_changed'));
       expect(
@@ -1967,6 +1969,7 @@ void main() {
       expect(content, contains('analytics_consent_changed'));
       expect(content, contains('notification_settings_viewed'));
       expect(content, contains('prayer_reminder_permission_result'));
+      expect(content, contains('notification_schedule_result'));
       expect(content, contains('notification_smoke_test_result'));
       expect(content, contains('notification_permission_recovery_opened'));
       expect(content, contains('prayer_location_changed'));
@@ -1985,6 +1988,7 @@ void main() {
       expect(readiness, contains('prayer_completion_card'));
       expect(retentionPlan, contains('notification_settings_viewed'));
       expect(retentionPlan, contains('prayer_reminder_permission_result'));
+      expect(retentionPlan, contains('notification_schedule_result'));
       expect(retentionPlan, contains('notification_smoke_test_result'));
       expect(
           retentionPlan, contains('notification_permission_recovery_opened'));
@@ -2061,6 +2065,7 @@ void main() {
       expect(events, contains('prayer_reminder_changed'));
       expect(events, contains('notification_settings_viewed'));
       expect(events, contains('prayer_reminder_permission_result'));
+      expect(events, contains('notification_schedule_result'));
       expect(events, contains('notification_smoke_test_result'));
       expect(events, contains('notification_permission_recovery_opened'));
       expect(events, contains('home_prayer_card'));
@@ -2097,6 +2102,8 @@ void main() {
       expect(funnel, contains('notification_settings_viewed'));
       expect(funnel, contains('Prayer Reminder Permission Outcome Rate'));
       expect(funnel, contains('prayer_reminder_permission_result'));
+      expect(funnel, contains('Local Reminder Schedule Health'));
+      expect(funnel, contains('notification_schedule_result'));
       expect(funnel, contains('Notification QA Smoke Result Rate'));
       expect(funnel, contains('notification_smoke_test_result'));
       expect(funnel, contains('Notification Permission Recovery Rate'));
@@ -2130,6 +2137,7 @@ void main() {
       expect(loopQa, contains('daily_session_completed'));
       expect(loopQa, contains('daily_session_reminder_permission_result'));
       expect(loopQa, contains('daily_session_reminder_changed'));
+      expect(loopQa, contains('notification_schedule_result'));
       expect(loopQa, contains('notification_smoke_test_result'));
       expect(loopQa, contains('notification_permission_recovery_opened'));
       expect(loopQa, contains('notification_tap_opened'));
@@ -4144,6 +4152,7 @@ void main() {
       expect(analyticsService, contains('notification_settings_viewed'));
       expect(analyticsService, contains('prayer_reminder_permission_result'));
       expect(analyticsService, contains('prayer_reminder_changed'));
+      expect(analyticsService, contains('notification_schedule_result'));
       expect(analyticsService,
           contains('daily_session_reminder_permission_result'));
       expect(analyticsService, contains('daily_session_reminder_changed'));
@@ -4154,6 +4163,7 @@ void main() {
       );
       expect(analyticsService, contains('_blockedKeyFragments'));
       expect(analyticsTest, contains('notification recovery analytics'));
+      expect(analyticsTest, contains('notification schedule result'));
       expect(analyticsTest, contains('notification tap analytics keeps only'));
       expect(
         analyticsTest,
@@ -4220,6 +4230,7 @@ void main() {
         analyticsPlan,
         contains('Push/reminder module analytics coverage is complete'),
       );
+      expect(analyticsPlan, contains('notification_schedule_result'));
       expect(analyticsPlan, contains('cold-start launch payloads'));
       expect(
         analyticsPlan,
@@ -4229,6 +4240,7 @@ void main() {
         readiness,
         contains('Push module completion audit: v0.1 local reminder loop'),
       );
+      expect(readiness, contains('notification_schedule_result'));
       expect(readiness, contains('cold-start prayer, Daily Session, Quran'));
       expect(readiness, contains('notification_permission_recovery_opened'));
       expect(
@@ -4239,6 +4251,7 @@ void main() {
         contains('notification_permission_recovery_opened'),
       );
       expect(debugViewExporter, contains('Push/reminder module'));
+      expect(debugViewExporter, contains('notification_schedule_result'));
       expect(debugViewExporter, contains('cold-start notification tap'));
       expect(
         debugViewExporter,

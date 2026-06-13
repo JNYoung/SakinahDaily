@@ -54,6 +54,9 @@ existing privacy-safe events:
   empty-schedule prayer reminder attempts.
 - `prayer_reminder_changed` for global, per-prayer, and lead-time reminder
   changes from Settings, Home, Prayer, or Prayer completion surfaces.
+- `notification_schedule_result` for aggregate local scheduling health,
+  including reminder type, controlled source, coarse result, enabled state,
+  scheduled count, and prayer lead-time offset when relevant.
 - `daily_session_reminder_permission_result` and
   `daily_session_reminder_changed` for the Daily Session return loop.
 - `notification_tap_opened` for coarse local notification open rate.
@@ -465,6 +468,13 @@ Retention observation preparation:
   source, coarse outcome, and lead-time offset, so permission denial or
   explanation dismissal can be diagnosed without sending routes, locations,
   exact reminder times, Women's Ibadah Mode status, or free text.
+  Local reminder scheduling analytics now records
+  `notification_schedule_result` for prayer and Daily Session reminders with
+  only reminder type, enabled state, controlled source, coarse result,
+  scheduled count, and prayer lead-time offset when relevant, so reviewed
+  DebugView QA can verify push module health without payloads, routes, exact
+  reminder times, prayer names, lock-screen body copy, locations, Women's
+  Ibadah Mode status, or free text.
   Daily Session reminder permission analytics now records
   `daily_session_reminder_permission_result` with only session ID, enabled
   result, controlled source, and coarse outcome, so completion-to-reminder

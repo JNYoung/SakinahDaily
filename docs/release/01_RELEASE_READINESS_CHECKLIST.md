@@ -107,6 +107,7 @@ Status: Draft for release/store review.
   reviewed Firebase QA build, Privacy Center opt-in, Data Safety review, and
   DebugView device setup are confirmed. The loop checklist explicitly walks
   Home → Prayer → Daily Session → Reminder/Feedback and verifies
+  `notification_schedule_result`,
   `notification_smoke_test_result`,
   `notification_permission_recovery_opened`, and
   `closed_test_prompt_marked_sent` without raw payloads, routes, scheduled
@@ -345,6 +346,11 @@ Status: Draft for release/store review.
   notification launches are covered by the same listener contract.
   Daily Session reminder analytics is limited to enabled state, source, change
   type, and session ID; exact reminder time is not sent.
+  Local reminder scheduling analytics is limited to reminder type, enabled
+  state, controlled source, coarse result, scheduled count, and prayer
+  lead-time offset when relevant; raw payloads, routes, exact scheduled times,
+  prayer names, lock-screen body copy, locations, Women's Ibadah Mode status,
+  and free text are not sent.
   Dua detail/save analytics is limited to content ID, source/screen, and saved
   enabled state. Dhikr counter analytics is limited to start/completion content
   ID and source. Women's Ibadah Mode analytics is limited to enabled state and
