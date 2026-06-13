@@ -103,7 +103,9 @@ require_text "$data_safety" 'Data Safety must be reviewed and updated'
 require_text "$sdk_inventory" 'Google Analytics / Firebase Analytics SDK'
 require_text "$retention_plan" 'DebugView QA packet'
 require_text "$retention_plan" 'Push/reminder module DebugView coverage'
+require_text "$retention_plan" 'Home → Prayer → Daily Session'
 require_text "$readiness" 'Google Analytics DebugView QA packet'
+require_text "$readiness" 'retention loop QA checklist'
 require_text "$version_notes" 'Google Analytics DebugView QA packet'
 require_text "$analytics_service" 'AnalyticsEventCatalog'
 require_text "$analytics_service" 'AnalyticsParameterPolicy'
@@ -214,7 +216,69 @@ Dua Save Rate,/dua/:id save toggle,dua_saved,dua_detail,enabled state only,no du
 Dhikr Start Rate,/dhikr counter first tap,dhikr_started,dhikr_counter,content_id and source only,no dhikr text or count trail
 Dhikr Completion Rate,/dhikr counter reaches target,dhikr_completed,dhikr_counter,content_id and source only,no dhikr text or count trail
 Women Mode Trust Signal,/settings/women,women_ibadah_mode_changed,women_mode,enabled state only,no exact women mode status or health details
-Closed-test Prompt Usage,/settings/testing-guide,closed_test_prompt_copied,closed_testing_guide,prompt_day and theme_key only,no feedback text/email
+Closed-test Prompt Usage,/settings/testing-guide,closed_test_prompt_copied|closed_test_prompt_marked_sent,closed_testing_guide,prompt_day and theme_key only,no feedback text/email
+EOF
+
+cat >"$out_dir/retention_loop_debugview_qa.md" <<'EOF'
+# Retention Loop DebugView QA
+
+Status: ordered QA checklist for reviewed analytics builds only.
+
+This checklist verifies the core retained-user loop from Home → Prayer → Daily
+Session → Reminder/Feedback. Run it only after the QA build has reviewed
+Firebase configuration, `SAKINAH_ANALYTICS_ENABLED=true`, Privacy Center usage
+analytics opt-in, and Firebase DebugView device setup.
+
+## Home → Prayer → Daily Session → Reminder/Feedback
+
+1. Open Home after onboarding or a returning-user launch.
+   Expected DebugView sequence: `home_viewed → prayer_viewed` when the user
+   enters Prayer from the Home next-prayer card, badge, or progress card.
+
+2. On Prayer, review the next-prayer context and check off prayers locally.
+   Expected events: `prayer_viewed` and `prayer_checklist_updated`.
+   Confirm `prayer_checklist_updated` includes only `screen`,
+   `completed_count`, `all_prayers_completed`, and
+   `source=prayer_page_checklist`.
+
+3. Start Daily Session from Home, bottom navigation, or the prayer-completion
+   entry point.
+   Expected events: `daily_session_started`, `daily_session_step_viewed`, and
+   `daily_session_completed`.
+   Confirm no Quran, Dua, Dhikr, reflection, translation, or free-text content
+   appears in DebugView.
+
+4. From the completed-session Home surface, choose Set daily reminder.
+   Expected events: `daily_session_reminder_permission_result` and
+   `daily_session_reminder_changed` with `source=home_session_completion`.
+   Confirm exact reminder time and routine notes are absent.
+
+5. Open Notification Settings from a relevant entry point and adjust prayer
+   reminders or lead time.
+   Expected events: `notification_settings_viewed`,
+   `prayer_reminder_permission_result`, and `prayer_reminder_changed`.
+   Confirm sources stay controlled, such as `settings`, `home_prayer_card`,
+   `prayer_page_card`, or `prayer_completion_card`.
+
+6. Tap a local notification during QA.
+   Expected event: `notification_tap_opened` with only coarse `content_type`
+   and `source=local_notification`.
+   No raw payloads, routes, coordinates, exact reminder times, content IDs,
+   prayer names, Women's Ibadah Mode exact status, feedback text, or religious
+   text may appear.
+
+7. Open the closed-testing guide, copy a prompt, and mark it sent locally.
+   Expected events: `closed_test_prompt_copied` and
+   `closed_test_prompt_marked_sent` with only `prompt_day`, `theme_key`, and
+   `source=closed_testing_guide`.
+   Confirm tester names, email addresses, and feedback text are absent.
+
+## Completion Evidence
+
+- Screenshot or note DebugView rows for the expected events only.
+- Keep evidence aggregate-only; do not export tester-level analytics data.
+- Record any missing event, wrong source, or blocked-field leak as a release
+  blocker before enabling analytics in a Play closed-testing build.
 EOF
 
 cat >"$out_dir/blocked_parameter_review.csv" <<'EOF'
@@ -248,6 +312,7 @@ Official reference: $official_reference
 - Turn on Privacy Center usage analytics opt-in on the QA device.
 - Toggle Privacy Center usage analytics once during QA to verify \`analytics_consent_changed\`.
 - Store screenshot mode forces analytics off; do not use screenshot builds for DebugView QA.
+- Use \`retention_loop_debugview_qa.md\` for the ordered Home → Prayer → Daily Session → Reminder/Feedback loop.
 
 ## Push/reminder module coverage
 
@@ -279,6 +344,7 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Five local prayer check-ins leading to a Daily Session entry point.
 - Daily Session start, step view, and completion.
 - Home completed-session Set daily reminder CTA to in-place daily session reminder opt-in with source \`home_session_completion\`.
+- Closed testing guide prompt copy and local sent marker.
 - Dua detail open and save toggle.
 - Dhikr counter first tap and target completion.
 - Women's Ibadah Mode enabled/disabled change.
@@ -320,6 +386,7 @@ Generated QA files:
 - debugview_checklist.md
 - analytics_events_catalog.csv
 - retention_funnel_debugview.csv
+- retention_loop_debugview_qa.md
 - blocked_parameter_review.csv
 
 Copied evidence:

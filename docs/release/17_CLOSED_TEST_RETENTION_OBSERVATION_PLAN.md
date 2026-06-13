@@ -121,6 +121,16 @@ and `source=prayer_page_card` respectively, and the Home completed-session
 Daily Session reminder opt-in must retain `source=home_session_completion`.
 Exact reminder times, routes, raw payloads, coordinates, Women's Ibadah Mode
 exact status, feedback text, and religious text stay out of DebugView.
+The optional DebugView packet also includes a Home → Prayer → Daily Session →
+Reminder/Feedback retention loop QA checklist. Use it to verify that
+`home_viewed → prayer_viewed`, `prayer_checklist_updated`,
+`daily_session_started`, `daily_session_completed`,
+`daily_session_reminder_permission_result`,
+`daily_session_reminder_changed`, `notification_tap_opened`,
+`closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` appear in the
+expected order with controlled sources and no raw payloads, routes,
+coordinates, exact reminder times, feedback text, tester identity, Women's
+Ibadah Mode exact status, or religious text.
 
 ## Observation Windows
 
