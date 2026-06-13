@@ -96,7 +96,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `build/play-production-access`, exported by
   `scripts/export_google_play_production_access_packet.sh`; carries
   `production_access_feedback_summary.md` from the retention observation packet
-  when available.
+  when available, and strict mode now requires the retention manifest to show
+  `Completed retention evidence inputs: validated` before final Play Console
+  handoff.
 
 ## Remaining External Gates
 

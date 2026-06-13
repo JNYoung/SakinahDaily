@@ -172,6 +172,12 @@ Sources:
 - Fill `production_access_feedback_summary.md` with aggregate Day 1 / Day 3 /
   Day 7 / Day 14 themes first, then copy the reviewed wording into the Play
   Console answer draft.
+- Before the final evidence packet, rerun the retention packet with
+  `SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true` so
+  `build/play-retention-observation/manifest.txt` shows
+  `Completed retention evidence inputs: validated` and
+  `analytics_debugview_retention_evidence.csv` is included without tester
+  personal data.
 - Run `scripts/verify_google_play_closed_testing_evidence.sh` during launch
   prep and strict mode after the real 14-day test.
 - Run `scripts/verify_google_play_production_access_pack.sh` in template mode
@@ -181,7 +187,9 @@ Sources:
 - Export `build/play-production-access` with
   `scripts/export_google_play_production_access_packet.sh` before final human
   review, then rerun it in strict mode after the real closed-test evidence and
-  Production access answer review are complete.
+  Production access answer review are complete. Strict mode fails until the
+  retention packet manifest contains `Completed retention evidence inputs:
+  validated`.
 
 ## Local evidence packet
 
@@ -232,6 +240,8 @@ available:
   `scripts/export_google_play_day0_day1_operator_packet.sh`.
 - Production access feedback summary:
   `build/play-retention-observation/production_access_feedback_summary.md`.
+- Production access DebugView retention evidence:
+  `build/play-retention-observation/analytics_debugview_retention_evidence.csv`.
 - Closed-testing evidence log:
   `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`.
 - Production access answer draft:

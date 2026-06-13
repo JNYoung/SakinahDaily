@@ -194,6 +194,11 @@ Evidence sources:
 - [ ] Changes made or release decisions are summarized.
 - [ ] `build/play-retention-observation/production_access_feedback_summary.md`
   is filled with aggregate Day 1 / Day 3 / Day 7 / Day 14 themes.
+- [ ] `build/play-retention-observation/manifest.txt` shows
+  `Completed retention evidence inputs: validated` from
+  `SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true`, and the packet includes
+  `analytics_debugview_retention_evidence.csv` with no forbidden parameters or
+  tester personal data.
 - [ ] Release readiness checklist reflects the tested build.
 - [ ] Signed AAB checksum is available before upload / Production access
   review.
@@ -220,6 +225,7 @@ SAKINAH_REQUIRE_CLOSED_TESTING_COMPLETE=true \
 scripts/verify_google_play_production_access_pack.sh
 
 SAKINAH_REQUIRE_PRODUCTION_ACCESS_PACKET_READY=true \
+SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true \
 SAKINAH_PLAY_PRODUCTION_ACCESS_DRAFT_REVIEWED=true \
 SAKINAH_PLAY_FEEDBACK_SUMMARY_READY=true \
 SAKINAH_PLAY_CHANGES_SUMMARY_READY=true \
