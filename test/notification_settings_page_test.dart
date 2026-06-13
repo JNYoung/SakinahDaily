@@ -755,12 +755,14 @@ void main() {
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();
     final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/settings/notifications',
       settleSplash: false,
       preferencesStore: preferencesStore,
       notificationService: notifications,
+      analyticsService: analytics,
     );
     await tester.pumpAndSettle();
 
@@ -772,6 +774,17 @@ void main() {
 
     var preferences = await UserPreferencesRepository(preferencesStore).load();
     expect(preferences.prayerReminderOffsetMinutes, 10);
+    var prayerReminderEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.prayerReminderChanged,
+    );
+    expect(prayerReminderEvents, hasLength(1));
+    expect(prayerReminderEvents.single.properties, {
+      'prayer_name': 'all',
+      'enabled': false,
+      'source': 'settings',
+      'reminder_offset_minutes': 10,
+    });
 
     await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
     await tester.pumpAndSettle();
@@ -787,6 +800,17 @@ void main() {
       notifications.scheduled.map((reminder) => reminder.body),
       everyElement(contains('10 minutes')),
     );
+    prayerReminderEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.prayerReminderChanged,
+    );
+    expect(prayerReminderEvents, hasLength(2));
+    expect(prayerReminderEvents.last.properties, {
+      'prayer_name': 'all',
+      'enabled': true,
+      'source': 'settings',
+      'reminder_offset_minutes': 10,
+    });
     expectNoFlutterErrors(tester);
   });
 
