@@ -678,11 +678,17 @@ void main() {
       expect(content, contains('long_window_observation_log.csv'));
       expect(content, contains('reboot_delivery_checklist.csv'));
       expect(content, contains('battery_policy_review.csv'));
+      expect(content, contains('notification_permission_state.csv'));
       expect(content, contains('device_environment_snapshot.txt'));
       expect(content, contains('oem_observation_checklist.md'));
       expect(content, contains('adb_observation_commands.sh'));
       expect(content, contains('adb shell getprop'));
       expect(content, contains('cmd deviceidle whitelist'));
+      expect(
+        content,
+        contains(r'appops get "$PACKAGE_NAME" POST_NOTIFICATION'),
+      );
+      expect(content, contains(r'dumpsys package "$PACKAGE_NAME"'));
       expect(content, contains('dumpsys alarm'));
       expect(content, contains('dumpsys notification'));
       expect(content,
@@ -699,6 +705,10 @@ void main() {
       );
       expect(content, contains('SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE'));
       expect(content, contains('SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE'));
+      expect(
+        content,
+        contains('SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE'),
+      );
       expect(content, contains('validate_completed_oem_evidence'));
       expect(content, contains('pending_manual_observation'));
       expect(content, contains('pending_tap_route'));
@@ -730,6 +740,9 @@ void main() {
       final battery = File(
               'build/android-oem-reminder-observation/battery_policy_review.csv')
           .readAsStringSync();
+      final permission = File(
+              'build/android-oem-reminder-observation/notification_permission_state.csv')
+          .readAsStringSync();
       final deviceSnapshot = File(
               'build/android-oem-reminder-observation/device_environment_snapshot.txt')
           .readAsStringSync();
@@ -756,6 +769,9 @@ void main() {
       expect(reboot, contains('RECEIVE_BOOT_COMPLETED'));
       expect(battery, contains('battery_policy_state'));
       expect(battery, contains('aggressive battery-management'));
+      expect(permission, contains('POST_NOTIFICATIONS'));
+      expect(permission, contains('app_notification_importance'));
+      expect(permission, contains('notification_channel_state'));
       expect(
           deviceSnapshot, contains('Android OEM device environment snapshot'));
       expect(deviceSnapshot, contains('Privacy rule: No tester personal data'));
@@ -770,6 +786,8 @@ void main() {
       expect(adbCommands, contains('set -euo pipefail'));
       expect(adbCommands, contains('PACKAGE_NAME="com.sakinahdaily.app"'));
       expect(adbCommands, contains('ADB_SERIAL'));
+      expect(adbCommands, contains(r'appops get "$PACKAGE_NAME"'));
+      expect(adbCommands, contains(r'dumpsys package "$PACKAGE_NAME"'));
       expect(adbCommands, contains('dumpsys alarm'));
       expect(adbCommands, contains('dumpsys notification'));
       expect(adbCommands, contains('cmd package resolve-activity'));
@@ -824,6 +842,14 @@ package_replace,SC65XWPZ7DLNUSTC,ScheduledNotificationBootReceiver,install updat
 device_serial,oem_or_model,battery_policy_state,aggressive battery-management risk,review_action,observed_result
 SC65XWPZ7DLNUSTC,Pixel test,reviewed,no_delay_observed,record OEM battery/background policy and whether reminders are delayed,reviewed_no_user_guidance_needed
 ''');
+      final permissionEvidence =
+          File('${strictEvidenceDir.path}/notification_permission_state.csv')
+            ..writeAsStringSync('''
+permission_check,device_serial,android_sdk,post_notifications_state,app_notification_importance,notification_channel_state,qa_result,notes_without_personal_data
+initial,SC65XWPZ7DLNUSTC,36,POST_NOTIFICATIONS_granted,default_enabled,channels_enabled,reviewed,No tester personal data
+after_prompt,SC65XWPZ7DLNUSTC,36,POST_NOTIFICATIONS_granted,default_enabled,channels_enabled,reviewed,No tester personal data
+after_recovery,SC65XWPZ7DLNUSTC,36,POST_NOTIFICATIONS_granted,default_enabled,channels_enabled,reviewed,No tester personal data
+''');
 
       final strictEvidenceRun = Process.runSync(
         'bash',
@@ -840,6 +866,7 @@ SC65XWPZ7DLNUSTC,Pixel test,reviewed,no_delay_observed,record OEM battery/backgr
           'SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE': longWindowEvidence.path,
           'SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE': rebootEvidence.path,
           'SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE': batteryEvidence.path,
+          'SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE': permissionEvidence.path,
         },
         includeParentEnvironment: false,
       );
@@ -872,6 +899,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
           'SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE': longWindowEvidence.path,
           'SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE': rebootEvidence.path,
           'SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE': batteryEvidence.path,
+          'SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE': permissionEvidence.path,
         },
         includeParentEnvironment: false,
       );
@@ -889,10 +917,12 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(androidChecklist,
           contains('SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE'));
       expect(androidChecklist, contains('device_environment_snapshot.txt'));
+      expect(androidChecklist, contains('notification_permission_state.csv'));
       expect(androidChecklist, contains('adb_observation_commands.sh'));
       expect(
           productProgress, contains('Android OEM reminder observation packet'));
       expect(productProgress, contains('device environment snapshot'));
+      expect(productProgress, contains('notification permission state'));
       expect(productProgress, contains('adb_observation_commands.sh'));
       expect(acceptance, contains('Android OEM reminder observation packet'));
       expect(versionNotes, contains('Android OEM reminder observation packet'));

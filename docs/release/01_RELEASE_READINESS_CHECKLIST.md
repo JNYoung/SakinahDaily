@@ -133,13 +133,15 @@ Status: Draft for release/store review.
   in `build/android-launch-smoke`.
 - [x] Android OEM reminder observation packet exists at
   `scripts/export_android_oem_reminder_observation_packet.sh`; template mode
-  writes 8-hour, 24-hour, reboot restore, battery-policy, lock-screen-copy, and
-  privacy-safe observation templates into `build/android-oem-reminder-observation`,
+  writes 8-hour, 24-hour, reboot restore, battery-policy,
+  notification-permission-state, lock-screen-copy, and privacy-safe observation
+  templates into `build/android-oem-reminder-observation`,
   plus a non-personal `device_environment_snapshot.txt` with Android
   model/version/package/battery-idle context when `adb` and a device serial are
   available, and a package-filtered `adb_observation_commands.sh` handoff for
-  package resolution, device-idle, alarm/notification, and crash-buffer capture,
-  while strict mode fails until real device long-window reminder evidence,
+  package resolution, notification permission/appops, device-idle,
+  alarm/notification, and crash-buffer capture, while strict mode fails until
+  real device long-window reminder evidence, notification permission state,
   reboot restore, battery review, and a human observation owner are confirmed.
 - [x] Local e2e gate exists at `scripts/verify_local_e2e.sh`; it runs
   `flutter test`, `dart analyze`, Play submission/public-links template gates,
@@ -558,9 +560,9 @@ Status: Draft for release/store review.
 - [x] `scripts/export_android_oem_reminder_observation_packet.sh` exports a
   template-mode Android OEM reminder observation packet at
   `build/android-oem-reminder-observation` with 8-hour, 24-hour, reboot
-  restore, battery-policy, device environment snapshot, lock-screen-copy,
-  package-filtered ADB observation commands, no-tester-personal-data, and
-  strict-mode confirmation templates.
+  restore, battery-policy, notification-permission-state, device environment
+  snapshot, lock-screen-copy, package-filtered ADB observation commands,
+  no-tester-personal-data, and strict-mode confirmation templates.
 - [x] `scripts/verify_google_play_store_assets.sh` passes for the feature
   graphic and local store visual assets.
 - [x] `scripts/verify_local_e2e.sh` is available as the unattended local e2e
@@ -630,7 +632,8 @@ Status: Draft for release/store review.
   owner signs off. Strict mode must also receive completed
   `SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE`,
   `SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE`, and
-  `SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE` CSVs with no template placeholders.
+  `SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE`, and
+  `SAKINAH_ANDROID_OEM_PERMISSION_EVIDENCE` CSVs with no template placeholders.
 - [x] Android release appbundle native debug-symbol stripping is healthy after
   installing Android SDK cmdline-tools `latest` with `apkanalyzer`.
 - [x] Unsigned Google Play release QA passes locally:

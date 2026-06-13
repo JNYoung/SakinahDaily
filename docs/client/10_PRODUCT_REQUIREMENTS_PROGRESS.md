@@ -622,15 +622,17 @@ Android launch smoke preparation:
   `build/android-launch-smoke/emulator-5554-manifest.txt`.
 - Android OEM reminder observation preparation now exports
   `build/android-oem-reminder-observation` with long-window reminder,
-  reboot-restore, battery-policy, lock-screen-copy, and no-tester-personal-data
-  templates for the next overnight/24-hour device QA pass. When `adb` and a
-  device serial are available, the packet also includes a non-personal
-  device environment snapshot with Android version, model, package resolution,
-  and battery/device-idle context so the observation owner can compare OEM
-  behavior without recording tester personal data. The packet also includes
-  `adb_observation_commands.sh`, a package-filtered handoff script for package
-  resolution, device-idle, alarm/notification, and crash-buffer capture around
-  the long-window observation.
+  reboot-restore, battery-policy, notification permission state,
+  lock-screen-copy, and no-tester-personal-data templates for the next
+  overnight/24-hour device QA pass. When `adb` and a device serial are
+  available, the packet also includes a device environment snapshot with no
+  personal data: Android version, model, package resolution,
+  `POST_NOTIFICATIONS` appops/package state, and battery/device-idle context so
+  the observation owner can compare OEM behavior. The packet also includes
+  `adb_observation_commands.sh`, a
+  package-filtered handoff script for package resolution, notification
+  permission/appops, device-idle, alarm/notification, and crash-buffer capture
+  around the long-window observation.
 
 Google Play metadata preparation:
 
