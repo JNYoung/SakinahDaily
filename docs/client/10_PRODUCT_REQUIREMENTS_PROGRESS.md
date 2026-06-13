@@ -510,7 +510,11 @@ Retention observation preparation:
 - `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` and
   `scripts/export_google_play_closed_test_retention_packet.sh` prepare local
   Day 1 / Day 3 / Day 7 / Day 14 observation templates for Production access
-  evidence without tester personal data.
+  evidence without tester personal data. Completed evidence mode now requires
+  filled aggregate daily observation, feedback theme, production decision, and
+  Google Analytics DebugView retention-loop evidence CSVs with no template
+  placeholders before the packet can be used as final Production access
+  handoff evidence.
 - Home now exposes the in-app Closed testing guide when
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, keeping Day 1 / Day 3 /
   Day 7 / Day 14 feedback prompts close to the daily prayer habit loop while

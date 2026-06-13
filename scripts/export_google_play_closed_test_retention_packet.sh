@@ -6,6 +6,7 @@ cd "$repo_root"
 
 out_dir="${SAKINAH_RETENTION_OBSERVATION_PACKET_DIR:-build/play-retention-observation}"
 require_strict="${SAKINAH_REQUIRE_RETENTION_OBSERVATION_READY:-false}"
+require_complete="${SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE:-false}"
 
 observation_plan="docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md"
 evidence_log="docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md"
@@ -44,6 +45,39 @@ require_true_var() {
   local description="$2"
   [[ "${!name:-}" == "true" ]] ||
     fail "$name=true is required after $description."
+}
+
+require_env_file() {
+  local name="$1"
+  local description="$2"
+  local path="${!name:-}"
+
+  [[ -n "$path" ]] ||
+    fail "$name must point to completed evidence after $description."
+  [[ -f "$path" ]] ||
+    fail "$name points to a missing evidence file: $path"
+}
+
+validate_completed_retention_evidence() {
+  local path="$1"
+  local label="$2"
+  shift 2
+
+  require_file "$path"
+  for placeholder in \
+    TBD \
+    pending_manual_observation \
+    pending_tap_route \
+    record_manually \
+    unknown; do
+    if grep -Fq "$placeholder" "$path"; then
+      fail "$label completed retention evidence still contains placeholder: $placeholder"
+    fi
+  done
+
+  for needle in "$@"; do
+    require_text "$path" "$needle"
+  done
 }
 
 copy_required_file() {
@@ -88,10 +122,12 @@ require_text "$answer_draft" 'production_access_feedback_summary.md'
 require_text "$launch_day_checklist" 'No tester personal data'
 require_text "$product_progress" 'Weekly Active Prayer Reminder Users'
 require_text "$acceptance" 'Beta observation'
+require_text "$observation_plan" 'SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE'
+require_text "$observation_plan" 'SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE'
 
 scripts/verify_google_play_closed_testing_evidence.sh
 
-if [[ "$require_strict" == "true" ]]; then
+if [[ "$require_strict" == "true" || "$require_complete" == "true" ]]; then
   require_true_var \
     SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE \
     "confirming the closed-testing release is approved or live for testers"
@@ -107,6 +143,63 @@ if [[ "$require_strict" == "true" ]]; then
   require_true_var \
     SAKINAH_PLAY_EVIDENCE_LOG_READY \
     "preparing docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md for aggregate notes"
+fi
+
+if [[ "$require_complete" == "true" ]]; then
+  require_env_file \
+    SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE \
+    "recording aggregate Day 0 / Day 1 / Day 3 / Day 7 / Day 14 retention observations"
+  require_env_file \
+    SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE \
+    "summarizing aggregate feedback themes after closed testing"
+  require_env_file \
+    SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE \
+    "recording production-access changes or release decisions"
+  require_env_file \
+    SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE \
+    "recording the approved Google Analytics DebugView retention-loop review"
+
+  validate_completed_retention_evidence \
+    "$SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE" \
+    "daily closed-test observation" \
+    'test_day' \
+    'Day 0' \
+    'Day 1' \
+    'Day 3' \
+    'Day 7' \
+    'Day 14' \
+    'active_install_signal' \
+    'prayer_view_signal' \
+    'reminder_opt_in_signal' \
+    'daily_session_signal' \
+    'No tester personal data'
+  validate_completed_retention_evidence \
+    "$SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE" \
+    "closed-test feedback themes" \
+    'onboarding_location_clarity' \
+    'prayer_time_trust' \
+    'reminder_usefulness_or_annoyance' \
+    'retention_reason_to_return' \
+    'reviewed' \
+    'No tester personal data'
+  validate_completed_retention_evidence \
+    "$SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE" \
+    "production-access decisions" \
+    'feedback_theme' \
+    'change_or_decision' \
+    'release_status' \
+    'production_access_answer_note' \
+    'ready' \
+    'No tester personal data'
+  validate_completed_retention_evidence \
+    "$SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE" \
+    "Google Analytics DebugView retention evidence" \
+    'analytics_decision' \
+    'home_viewed' \
+    'notification_schedule_result' \
+    'notification_tap_opened' \
+    'no_forbidden_parameters' \
+    'No tester personal data'
 fi
 
 rm -rf "$out_dir"
@@ -151,6 +244,25 @@ cat >"$out_dir/production_access_decisions_template.csv" <<'EOF'
 decision_date,feedback_theme,change_or_decision,evidence,release_status,production_access_answer_note
 TBD,TBD,TBD,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,TBD,TBD
 EOF
+
+cat >"$out_dir/analytics_debugview_retention_evidence.csv" <<'EOF'
+qa_item,analytics_decision,event_name,expected_result,privacy_result,evidence_note,privacy_rule
+retention_loop,TBD,home_viewed,TBD,TBD,TBD,No tester personal data
+push_schedule,TBD,notification_schedule_result,TBD,TBD,TBD,No tester personal data
+push_open,TBD,notification_tap_opened,TBD,TBD,TBD,No tester personal data
+daily_session_return,TBD,daily_session_reminder_changed,TBD,TBD,TBD,No tester personal data
+EOF
+
+if [[ "$require_complete" == "true" ]]; then
+  cp "$SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE" \
+    "$out_dir/daily_observation_template.csv"
+  cp "$SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE" \
+    "$out_dir/feedback_theme_template.csv"
+  cp "$SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE" \
+    "$out_dir/production_access_decisions_template.csv"
+  cp "$SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE" \
+    "$out_dir/analytics_debugview_retention_evidence.csv"
+fi
 
 cat >"$out_dir/production_access_feedback_summary.md" <<'EOF'
 # Production Access Feedback Summary
@@ -239,6 +351,8 @@ Google Play closed-test retention observation packet
 Generated UTC: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 Package: com.sakinahdaily.app
 Strict mode requested: $require_strict
+Completed evidence requested: $require_complete
+Completed retention evidence inputs: $([[ "$require_complete" == "true" ]] && printf 'validated' || printf 'not requested')
 Privacy rule: No tester personal data.
 
 Observation focus:
@@ -251,6 +365,7 @@ Generated templates:
 - daily_observation_template.csv
 - feedback_theme_template.csv
 - production_access_decisions_template.csv
+- analytics_debugview_retention_evidence.csv
 - production_access_feedback_summary.md
 
 Copied evidence:
@@ -272,6 +387,10 @@ Use:
   access review.
 - Use production_access_feedback_summary.md to turn Day 1 / Day 3 / Day 7 /
   Day 14 aggregate themes into Play Console answer-ready copy.
+- Use SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true only after Day 14
+  aggregate evidence, production-access decisions, and reviewed DebugView
+  retention-loop evidence files are complete and contain no template
+  placeholders.
 EOF
 
 printf 'Google Play closed-test retention observation packet exported.\n'

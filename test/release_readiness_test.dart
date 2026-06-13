@@ -1908,11 +1908,13 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
 
       final content = script.readAsStringSync();
       expect(content, contains('SAKINAH_REQUIRE_RETENTION_OBSERVATION_READY'));
+      expect(content, contains('SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE'));
       expect(content, contains('build/play-retention-observation'));
       expect(content, contains('daily_observation_template.csv'));
       expect(content, contains('feedback_theme_template.csv'));
       expect(content, contains('production_access_decisions_template.csv'));
       expect(content, contains('production_access_feedback_summary.md'));
+      expect(content, contains('analytics_debugview_retention_evidence.csv'));
       expect(productionExporter,
           contains('production_access_decisions_template.csv'));
       expect(productionExporter,
@@ -1922,6 +1924,15 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(content, contains('SAKINAH_PLAY_RETENTION_OWNER_ASSIGNED'));
       expect(content, contains('SAKINAH_PLAY_RETENTION_REVIEW_SCHEDULED'));
       expect(content, contains('SAKINAH_PLAY_EVIDENCE_LOG_READY'));
+      expect(
+        content,
+        contains('SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE'),
+      );
+      expect(content, contains('SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE'));
+      expect(content, contains('SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE'));
+      expect(content, contains('SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE'));
+      expect(content, contains('validate_completed_retention_evidence'));
+      expect(content, contains('TBD'));
       expect(content, contains('No tester personal data'));
       expect(content, contains('Day 1'));
       expect(content, contains('Day 3'));
@@ -2006,13 +2017,127 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
         contains('SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE=true'),
       );
 
+      final completedEvidenceDir =
+          Directory.systemTemp.createTempSync('sakinah_retention_evidence_');
+      addTearDown(() {
+        if (completedEvidenceDir.existsSync()) {
+          completedEvidenceDir.deleteSync(recursive: true);
+        }
+      });
+      final dailyEvidence =
+          File('${completedEvidenceDir.path}/daily_observation.csv')
+            ..writeAsStringSync('''
+test_day,calendar_date,version_code,opted_in_testers,active_install_signal,prayer_view_signal,reminder_opt_in_signal,daily_session_signal,suggested_theme_key,feedback_reviewed,decision_or_follow_up,evidence_note,privacy_rule
+Day 0,2026-06-14,1,12,release visible to testers,not yet observed,not yet observed,not yet observed,play_install_or_opt_in_access,reviewed,launch observation started,aggregate only,No tester personal data
+Day 1,2026-06-15,1,12,11 active installs,9 prayer views,6 reminder opt-ins,5 daily sessions,onboarding_location_clarity,reviewed,clarify manual location copy,aggregate only,No tester personal data
+Day 3,2026-06-17,1,12,10 active installs,9 prayer views,7 reminder opt-ins,6 daily sessions,prayer_time_trust,reviewed,keep prayer method copy,aggregate only,No tester personal data
+Day 7,2026-06-21,1,12,9 active installs,8 prayer views,7 reminder opt-ins,6 daily sessions,retention_reason_to_return,reviewed,prioritize reminder usefulness,aggregate only,No tester personal data
+Day 14,2026-06-28,1,12,8 active installs,8 prayer views,7 reminder opt-ins,6 daily sessions,retention_reason_to_return,reviewed,ready for production answer draft,aggregate only,No tester personal data
+''');
+      final feedbackEvidence =
+          File('${completedEvidenceDir.path}/feedback_themes.csv')
+            ..writeAsStringSync('''
+theme,severity,source,decision,fix_or_follow_up,status,production_access_answer_note,privacy_rule
+onboarding_location_clarity,medium,Play Testing feedback,clarify location setup copy,copy follow-up,reviewed,include in feedback answer,No tester personal data
+prayer_time_trust,low,feedback channel,keep calculation method visible,no app change needed,reviewed,include in readiness answer,No tester personal data
+reminder_usefulness_or_annoyance,medium,Play Testing feedback,tune reminder copy,copy follow-up,reviewed,include reminder feedback,No tester personal data
+retention_reason_to_return,high,feedback channel,prioritize daily return loop,documented release decision,reviewed,include production access answer,No tester personal data
+''');
+      final decisionsEvidence =
+          File('${completedEvidenceDir.path}/production_decisions.csv')
+            ..writeAsStringSync('''
+decision_date,feedback_theme,change_or_decision,evidence,release_status,production_access_answer_note,privacy_rule
+2026-06-28,onboarding_location_clarity,clarified manual location copy,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,ready,aggregate feedback only,No tester personal data
+2026-06-28,reminder_usefulness_or_annoyance,kept gentle reminder defaults,build/play-retention-observation/daily_observation_template.csv,ready,include reminder usefulness evidence,No tester personal data
+2026-06-28,retention_reason_to_return,documented daily return loop as production-ready,build/google-analytics-debugview/retention_loop_debugview_qa.md,ready,include D7 and D14 aggregate themes,No tester personal data
+''');
+      final debugViewEvidence =
+          File('${completedEvidenceDir.path}/debugview_retention.csv')
+            ..writeAsStringSync('''
+qa_item,analytics_decision,event_name,expected_result,privacy_result,evidence_note,privacy_rule
+retention_loop,approved_for_debugview,home_viewed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+push_schedule,approved_for_debugview,notification_schedule_result,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+push_open,approved_for_debugview,notification_tap_opened,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+daily_session_return,approved_for_debugview,daily_session_reminder_changed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+''');
+
+      final completedRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_closed_test_retention_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_RETENTION_OBSERVATION_READY': 'true',
+          'SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE': 'true',
+          'SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE': 'true',
+          'SAKINAH_PLAY_TESTING_FEEDBACK_READY': 'true',
+          'SAKINAH_PLAY_RETENTION_OWNER_ASSIGNED': 'true',
+          'SAKINAH_PLAY_RETENTION_REVIEW_SCHEDULED': 'true',
+          'SAKINAH_PLAY_EVIDENCE_LOG_READY': 'true',
+          'SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE': dailyEvidence.path,
+          'SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE': feedbackEvidence.path,
+          'SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE': decisionsEvidence.path,
+          'SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE': debugViewEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(completedRun.exitCode, 0);
+      final completedManifest =
+          File('build/play-retention-observation/manifest.txt')
+              .readAsStringSync();
+      expect(completedManifest,
+          contains('Completed retention evidence inputs: validated'));
+      expect(
+        File('build/play-retention-observation/daily_observation_template.csv')
+            .readAsStringSync(),
+        contains('12,8 active installs,8 prayer views'),
+      );
+      expect(
+        File('build/play-retention-observation/analytics_debugview_retention_evidence.csv')
+            .readAsStringSync(),
+        contains('notification_schedule_result'),
+      );
+
+      dailyEvidence.writeAsStringSync('''
+test_day,calendar_date,version_code,opted_in_testers,active_install_signal,prayer_view_signal,reminder_opt_in_signal,daily_session_signal,suggested_theme_key,feedback_reviewed,decision_or_follow_up,evidence_note,privacy_rule
+Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No tester personal data
+''');
+      final incompleteCompletedRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_closed_test_retention_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_RETENTION_OBSERVATION_READY': 'true',
+          'SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE': 'true',
+          'SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE': 'true',
+          'SAKINAH_PLAY_TESTING_FEEDBACK_READY': 'true',
+          'SAKINAH_PLAY_RETENTION_OWNER_ASSIGNED': 'true',
+          'SAKINAH_PLAY_RETENTION_REVIEW_SCHEDULED': 'true',
+          'SAKINAH_PLAY_EVIDENCE_LOG_READY': 'true',
+          'SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE': dailyEvidence.path,
+          'SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE': feedbackEvidence.path,
+          'SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE': decisionsEvidence.path,
+          'SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE': debugViewEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(incompleteCompletedRun.exitCode, isNot(0));
+      expect(
+        incompleteCompletedRun.stderr.toString(),
+        contains('completed retention evidence still contains placeholder'),
+      );
+
       expect(
           docsIndex, contains('17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md'));
       expect(readiness, contains('closed-test retention observation packet'));
       expect(readiness, contains('production_access_feedback_summary.md'));
+      expect(
+          readiness, contains('SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE'));
       expect(launchPack,
           contains('export_google_play_closed_test_retention_packet.sh'));
+      expect(launchPack, contains('SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE'));
       expect(evidenceLog, contains('retention observation packet'));
+      expect(
+          evidenceLog, contains('SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE'));
       expect(runbook,
           contains('export_google_play_closed_test_retention_packet.sh'));
       expect(runbook, contains('production_access_feedback_summary.md'));

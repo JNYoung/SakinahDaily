@@ -241,6 +241,35 @@ the observation process is ready when the closed test starts. Use
 `SAKINAH_REQUIRE_CLOSED_TESTING_COMPLETE=true
 scripts/verify_google_play_closed_testing_evidence.sh` after Day 14.
 
+After the real Day 14 review, use completed evidence mode to replace the
+packet templates with aggregate-only evidence files and reject unfinished
+template placeholders:
+
+```sh
+SAKINAH_REQUIRE_RETENTION_OBSERVATION_READY=true \
+SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true \
+SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE=true \
+SAKINAH_PLAY_TESTING_FEEDBACK_READY=true \
+SAKINAH_PLAY_RETENTION_OWNER_ASSIGNED=true \
+SAKINAH_PLAY_RETENTION_REVIEW_SCHEDULED=true \
+SAKINAH_PLAY_EVIDENCE_LOG_READY=true \
+SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE=path/to/completed-daily-observation.csv \
+SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE=path/to/completed-feedback-themes.csv \
+SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE=path/to/completed-production-decisions.csv \
+SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE=path/to/completed-debugview-retention.csv \
+scripts/export_google_play_closed_test_retention_packet.sh
+```
+
+Completed evidence mode copies those four CSVs into
+`build/play-retention-observation`, writes
+`analytics_debugview_retention_evidence.csv`, and fails if any evidence still
+contains placeholders such as `TBD`, `pending_manual_observation`,
+`pending_tap_route`, `record_manually`, or `unknown`. The DebugView evidence
+file should only record the approved analytics QA decision, expected
+whitelisted events, and `no_forbidden_parameters`; it must not include tester
+identity, raw payloads, routes, coordinates, exact reminder times, feedback
+text, religious text, or Women's Ibadah Mode exact status.
+
 ## Production Access Use
 
 When the test ends, summarize only aggregate results:
