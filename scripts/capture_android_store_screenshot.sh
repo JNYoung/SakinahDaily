@@ -67,6 +67,17 @@ if [[ ! -x "${adb_bin}" ]]; then
   adb_bin="adb"
 fi
 
+command -v python3 >/dev/null 2>&1 ||
+  { echo "python3 is required to normalize screenshots." >&2; exit 66; }
+
+if ! python3 - <<'PY' >/dev/null 2>&1
+from PIL import Image
+PY
+then
+  echo "Python Pillow is required to normalize screenshots." >&2
+  exit 66
+fi
+
 adb_args=()
 if [[ -n "${ANDROID_SERIAL:-}" ]]; then
   adb_args=(-s "${ANDROID_SERIAL}")
@@ -94,4 +105,15 @@ sleep "${settle_seconds}"
 
 mkdir -p "$(dirname "${output}")"
 "${adb_bin}" "${adb_args[@]}" exec-out screencap -p > "${output}"
+python3 - "${output}" <<'PY'
+from pathlib import Path
+from PIL import Image
+import sys
+
+path = Path(sys.argv[1])
+image = Image.open(path)
+if image.mode != "RGB":
+    image = image.convert("RGB")
+image.save(path, format="PNG")
+PY
 echo "Captured ${locale} ${route} -> ${output}"

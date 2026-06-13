@@ -51,6 +51,9 @@ The generated feature graphic is
 1024 x 500, 24-bit PNG, no alpha. The verifier regenerates the asset from the
 app icon and release-safe store copy, then checks the PNG dimensions and color
 mode. Strict mode also checks the Android screenshot matrix and contact sheet:
+strict mode verifies all 27 required Android screenshot filenames across
+English, Indonesian, and Arabic, and checks each screenshot is PNG, RGB/no-alpha,
+within Google Play image bounds, and portrait Android phone bounds.
 
 ```sh
 SAKINAH_REQUIRE_STORE_ASSETS_READY=true \
@@ -96,7 +99,8 @@ scripts/capture_android_store_screenshots.sh
 The script builds a dev QA APK with deterministic screenshot mode enabled,
 installs it on the connected Android device, launches the requested route, and
 writes a PNG under `build/store-screenshots/android/` unless an output path is
-provided.
+provided. It normalizes Android `screencap` output to RGB/no-alpha PNG so the
+strict visual-assets gate can reject alpha-channel screenshots before upload.
 
 Screenshot mode keeps `/splash` on the Flutter brand screen instead of
 auto-advancing to onboarding. Override `SAKINAH_SCREENSHOT_SETTLE_SECONDS` only

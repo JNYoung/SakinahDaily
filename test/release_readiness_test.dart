@@ -2895,6 +2895,16 @@ void main() {
       expect(verifierContent, contains('no alpha'));
       expect(verifierContent, contains('build/store-screenshots/android'));
       expect(verifierContent, contains('android-contact-sheet.png'));
+      expect(verifierContent, contains('SAKINAH_STORE_SCREENSHOT_DIR'));
+      expect(verifierContent, contains('SAKINAH_STORE_CONTACT_SHEET'));
+      expect(verifierContent, contains('required_screenshots'));
+      expect(verifierContent, contains('en-splash.png'));
+      expect(verifierContent, contains('id-home.png'));
+      expect(verifierContent, contains('ar-settings-privacy.png'));
+      expect(verifierContent, contains('session-session_morning_ease.png'));
+      expect(verifierContent, contains('Image.open'));
+      expect(verifierContent, contains('image.mode != "RGB"'));
+      expect(verifierContent, contains('height < width'));
 
       final run = Process.runSync(
         'bash',
@@ -2914,10 +2924,44 @@ void main() {
       expect(featureGraphicInfo.height, 500);
       expect(featureGraphicInfo.colorType, 2);
 
+      final fixtureDir =
+          Directory.systemTemp.createTempSync('sakinah_store_assets_');
+      addTearDown(() {
+        if (fixtureDir.existsSync()) {
+          fixtureDir.deleteSync(recursive: true);
+        }
+      });
+      final screenshotDir = Directory('${fixtureDir.path}/screenshots')
+        ..createSync(recursive: true);
+      final contactSheet = File('${fixtureDir.path}/contact-sheet.png');
+      _writeStoreScreenshotFixture(
+        screenshotDir: screenshotDir,
+        contactSheet: contactSheet,
+      );
+      final strictRun = Process.runSync(
+        'bash',
+        ['scripts/verify_google_play_store_assets.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_STORE_ASSETS_READY': 'true',
+          'SAKINAH_STORE_SCREENSHOT_DIR': screenshotDir.path,
+          'SAKINAH_STORE_CONTACT_SHEET': contactSheet.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictRun.exitCode, 0);
+      expect(
+        strictRun.stdout.toString(),
+        contains('Strict screenshot matrix: 27 PNGs verified'),
+      );
+
       expect(screenshotPlan, contains('google-play-feature-graphic.png'));
       expect(screenshotPlan, contains('1024 x 500'));
       expect(screenshotPlan, contains('24-bit PNG'));
       expect(screenshotPlan, contains('no alpha'));
+      expect(screenshotPlan, contains('strict mode verifies all 27'));
+      expect(screenshotPlan, contains('PNG, RGB/no-alpha'));
+      expect(screenshotPlan, contains('portrait Android phone bounds'));
       expect(
         screenshotPlan,
         contains(
@@ -2934,7 +2978,9 @@ void main() {
         contains('verify_google_play_store_assets.sh'),
       );
       expect(readiness, contains('Google Play store visual assets'));
+      expect(readiness, contains('27 required Android screenshot filenames'));
       expect(androidChecklist, contains('verify_google_play_store_assets.sh'));
+      expect(androidChecklist, contains('RGB/no-alpha'));
       expect(metadata, contains('Feature graphic'));
       expect(metadata, contains('Prayer times and local reminders'));
     });
@@ -3025,6 +3071,8 @@ void main() {
         contains(r'settle_seconds="${SAKINAH_SCREENSHOT_SETTLE_SECONDS:-3}"'),
       );
       expect(script, contains('screencap -p'));
+      expect(script, contains('Python Pillow is required'));
+      expect(script, contains('.convert("RGB")'));
     });
 
     test('Android store screenshot set helper covers launch matrix', () {
@@ -4647,6 +4695,38 @@ List<String> _trackedProjectFiles() {
       .toList();
 }
 
+void _writeStoreScreenshotFixture({
+  required Directory screenshotDir,
+  required File contactSheet,
+}) {
+  final result = Process.runSync(
+    'python3',
+    [
+      '-c',
+      '''
+from pathlib import Path
+from PIL import Image, ImageDraw
+import sys
+
+screenshot_dir = Path(sys.argv[1])
+contact_sheet = Path(sys.argv[2])
+required = "${_requiredStoreScreenshotFiles.join(',')}".split(',')
+screenshot_dir.mkdir(parents=True, exist_ok=True)
+for index, name in enumerate(required):
+    image = Image.new("RGB", (1080, 1920), ((index * 13) % 255, 48, 96))
+    draw = ImageDraw.Draw(image)
+    draw.text((48, 48), name, fill=(255, 255, 255))
+    image.save(screenshot_dir / name)
+contact = Image.new("RGB", (2160, 3840), (246, 242, 232))
+contact.save(contact_sheet)
+''',
+      screenshotDir.path,
+      contactSheet.path,
+    ],
+  );
+  expect(result.exitCode, 0, reason: result.stderr.toString());
+}
+
 _PngInfo _readPngInfo(File file) {
   final bytes = file.readAsBytesSync();
   expect(bytes.length, greaterThanOrEqualTo(26), reason: file.path);
@@ -4673,6 +4753,36 @@ class _PngInfo {
   final int height;
   final int colorType;
 }
+
+const _requiredStoreScreenshotFiles = [
+  'en-splash.png',
+  'en-onboarding.png',
+  'en-home.png',
+  'en-prayer.png',
+  'en-settings.png',
+  'en-settings-notifications.png',
+  'en-settings-prayer-location.png',
+  'en-settings-privacy.png',
+  'en-session-session_morning_ease.png',
+  'id-splash.png',
+  'id-onboarding.png',
+  'id-home.png',
+  'id-prayer.png',
+  'id-settings.png',
+  'id-settings-notifications.png',
+  'id-settings-prayer-location.png',
+  'id-settings-privacy.png',
+  'id-session-session_morning_ease.png',
+  'ar-splash.png',
+  'ar-onboarding.png',
+  'ar-home.png',
+  'ar-prayer.png',
+  'ar-settings.png',
+  'ar-settings-notifications.png',
+  'ar-settings-prayer-location.png',
+  'ar-settings-privacy.png',
+  'ar-session-session_morning_ease.png',
+];
 
 bool _isScannableTextPath(String path) {
   return const [
