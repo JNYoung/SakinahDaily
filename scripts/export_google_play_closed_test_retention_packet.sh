@@ -124,6 +124,8 @@ require_text "$product_progress" 'Weekly Active Prayer Reminder Users'
 require_text "$acceptance" 'Beta observation'
 require_text "$observation_plan" 'SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE'
 require_text "$observation_plan" 'SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE'
+require_text "$observation_plan" 'retention_operator_calendar.csv'
+require_text "$launch_day_checklist" 'retention_operator_calendar.csv'
 
 scripts/verify_google_play_closed_testing_evidence.sh
 
@@ -255,6 +257,62 @@ push_open,TBD,notification_tap_opened,TBD,TBD,TBD,No tester personal data
 daily_session_return,TBD,daily_session_reminder_changed,TBD,TBD,TBD,No tester personal data
 EOF
 
+cat >"$out_dir/retention_operator_calendar.csv" <<'EOF'
+test_day,operator_task,evidence_to_update,feedback_focus,privacy_rule,next_action
+Day 0,share Google Group link first then Play opt-in link,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,play_install_or_opt_in_access,No tester personal data,record aggregate opted-in testers and install visibility
+Day 1,record aggregate opted-in testers and first-use clarity,daily_observation_template.csv,onboarding_location_clarity,No tester personal data,review location and notification setup confusion
+Day 3,review prayer reminder usefulness and prayer-time trust,feedback_theme_template.csv,prayer_time_trust,No tester personal data,group reminder usefulness or annoyance themes
+Day 7,review return reasons and privacy trust,daily_observation_template.csv,retention_reason_to_return,No tester personal data,decide whether a small follow-up is needed before Day 14
+Day 14,summarize production access feedback and release decisions,production_access_feedback_summary.md,retention_reason_to_return,No tester personal data,copy aggregate answers into Production access draft
+EOF
+
+cat >"$out_dir/retention_operator_runbook.md" <<'EOF'
+# Closed-Test Retention Operator Runbook
+
+Status: Template; use with `retention_operator_calendar.csv` during the real
+Google Play closed test.
+
+Privacy rule: No tester personal data. Record aggregate counts, theme keys,
+decisions, and follow-up status only. Do not record tester names, emails,
+private messages, health details, screenshots with account data, exact
+locations, or Women's Ibadah Mode exact status.
+
+## Day 0
+
+- Share the Google Group link first, then the Play opt-in link.
+- Confirm testers can join, opt in, install, and open the app.
+- Update `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md` with aggregate
+  opted-in tester count and install visibility only.
+
+## Day 1
+
+- Review first-use feedback for onboarding, manual/preset prayer location, and
+  notification choice clarity.
+- Update `daily_observation_template.csv` and `feedback_theme_template.csv`
+  with aggregate themes.
+
+## Day 3
+
+- Review prayer-time trust, selected location clarity, and prayer reminder
+  usefulness or annoyance.
+- Keep feedback grouped under `prayer_time_trust` or
+  `reminder_usefulness_or_annoyance`.
+
+## Day 7
+
+- Review why testers reopened or ignored the app.
+- Decide whether any small copy or release-note follow-up should be completed
+  before Day 14.
+
+## Day 14
+
+- Summarize aggregate themes and release decisions in
+  `production_access_feedback_summary.md`.
+- Copy reviewed, aggregate-only answers into
+  `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`.
+- Confirm the final summary still says No tester personal data.
+EOF
+
 if [[ "$require_complete" == "true" ]]; then
   cp "$SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE" \
     "$out_dir/daily_observation_template.csv"
@@ -287,6 +345,8 @@ locations, or Women's Ibadah Mode exact status.
   evidence log.
 - `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md` for copy-ready Play
   Console answer sections.
+- `retention_operator_calendar.csv` and `retention_operator_runbook.md` for the
+  Day 0 / Day 1 / Day 3 / Day 7 / Day 14 operator task list.
 
 ## What Feedback Did You Receive
 
@@ -368,6 +428,8 @@ Generated templates:
 - feedback_theme_template.csv
 - production_access_decisions_template.csv
 - analytics_debugview_retention_evidence.csv
+- retention_operator_calendar.csv
+- retention_operator_runbook.md
 - production_access_feedback_summary.md
 
 Copied evidence:
@@ -389,6 +451,8 @@ Use:
   access review.
 - Use production_access_feedback_summary.md to turn Day 1 / Day 3 / Day 7 /
   Day 14 aggregate themes into Play Console answer-ready copy.
+- Use retention_operator_calendar.csv and retention_operator_runbook.md to keep
+  the Day 0 / Day 1 / Day 3 / Day 7 / Day 14 review cadence explicit.
 - Use SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true only after Day 14
   aggregate evidence, production-access decisions, and reviewed DebugView
   retention-loop evidence files are complete and contain no template

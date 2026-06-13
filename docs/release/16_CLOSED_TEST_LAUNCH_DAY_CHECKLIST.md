@@ -162,6 +162,10 @@ Feedback guidance must include:
 - Closed-test retention observation packet:
   `build/play-retention-observation`, exported by
   `scripts/export_google_play_closed_test_retention_packet.sh`.
+  Start from `retention_operator_calendar.csv` and
+  `retention_operator_runbook.md` inside that packet so Day 0 / Day 1 /
+  Day 3 / Day 7 / Day 14 aggregate review tasks and the Google Group link
+  first share order stay explicit.
 - Production access answer draft:
   `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`.
 
