@@ -211,6 +211,14 @@ Status: Draft for release/store review.
   reflection copy is positioned as a gentle reminder, not a religious ruling.
 - [x] Notification Settings manages prayer reminders and daily session reminders
   separately.
+- [x] Push module completion audit: v0.1 local reminder loop is complete for
+  client-side prayer reminders and Daily Session reminders, including
+  explanatory permission UX, Android notification permission handling, local
+  scheduling/cancel paths, Settings management, Home/Prayer direct prayer
+  reminder opt-in, safe notification tap routing, cold-start payload handling,
+  dev-only smoke controls, and regression tests. Remote FCM/APNs remains
+  outside v0.1 scope and requires a separate backend/data-safety review before
+  being marked complete.
 - [x] Home session card surfaces enabled daily session reminder time as a local
   status chip, so users can confirm the habit loop without remote tracking or
   account sync.
@@ -258,10 +266,11 @@ Status: Draft for release/store review.
   Prayer reminder analytics is observable only with prayer scope, enabled
   state, controlled source such as `settings`, `home_prayer_card`,
   `prayer_page_card`, or `prayer_completion_card`, and lead-time offset; routes
-  and exact reminder times are not sent. The Prayer page can enable reminders
-  directly from its top card when reminders are off, using the same
-  `source=prayer_page_card` as its reminder-settings path and staying on
-  Prayer after local scheduling succeeds.
+  and exact reminder times are not sent. Home and Prayer can enable reminders
+  directly from their top cards when reminders are off, using the same
+  `source=home_prayer_card` or `source=prayer_page_card` as their
+  reminder-settings paths and staying on the originating surface after local
+  scheduling succeeds.
   Notification Settings view analytics is observable only as
   `notification_settings_viewed` with screen, controlled source, and aggregate
   prayer-reminder enabled state.

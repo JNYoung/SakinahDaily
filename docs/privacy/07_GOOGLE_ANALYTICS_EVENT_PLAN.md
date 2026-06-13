@@ -87,9 +87,10 @@ Current implementation:
   a controlled source such as `settings`, `home_prayer_card`,
   `prayer_page_card`, or `prayer_completion_card`. Routes, exact reminder
   times, locations, Women's Ibadah Mode status, and free text are not sent.
-  Prayer-page direct reminder enable uses the same `prayer_page_card` source
-  as the Prayer reminder settings path, so the top-card opt-in loop can be
-  reviewed without adding route or prayer-completion details.
+  Home-card and Prayer-page direct reminder enable use the same
+  `home_prayer_card` and `prayer_page_card` sources as their reminder settings
+  paths, so top-card opt-in loops can be reviewed without adding route or
+  prayer-completion details.
 - Prayer reminder permission attempts record local
   `prayer_reminder_permission_result` events with enabled result, controlled
   source, coarse outcome such as `scheduled`, `permission_denied`,
@@ -101,6 +102,17 @@ Current implementation:
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
   prayer names, exact reminder times, Women's Ibadah Mode status, and religious
   text are not sent.
+- Push/reminder module analytics coverage is complete for the v0.1 local
+  reminder loop without adding new sensitive events. Reminder setup interest is
+  covered by `notification_settings_viewed`; prayer reminder outcomes and
+  changes are covered by `prayer_reminder_permission_result` and
+  `prayer_reminder_changed`; Daily Session reminder outcomes and changes are
+  covered by `daily_session_reminder_permission_result` and
+  `daily_session_reminder_changed`; local notification opens are covered by
+  `notification_tap_opened`. The Home and Prayer direct opt-in surfaces use
+  controlled `source=home_prayer_card` and `source=prayer_page_card`, while
+  exact reminder times, routes, payloads, coordinates, Women's Ibadah Mode
+  exact status, feedback text, and religious text remain blocked.
 - Prayer checklist updates record local `prayer_checklist_updated` events with
   aggregate completed count, all-prayers-completed boolean, and the controlled
   `source=prayer_page_checklist` entry label only; exact prayer completion

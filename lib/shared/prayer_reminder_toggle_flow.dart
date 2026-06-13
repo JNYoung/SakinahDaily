@@ -183,3 +183,22 @@ Future<bool?> showPrayerReminderExplanation(
     },
   );
 }
+
+void showPrayerReminderFeedbackSnackBar({
+  required BuildContext context,
+  required SakinahLocalizations l10n,
+  required NotificationPermissionFeedback? feedback,
+}) {
+  final message = switch (feedback) {
+    NotificationPermissionFeedback.scheduled => l10n.t('notificationScheduled'),
+    NotificationPermissionFeedback.denied =>
+      l10n.t('notificationPermissionDenied'),
+    null => null,
+  };
+  if (message == null) {
+    return;
+  }
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(content: Text(message)));
+}

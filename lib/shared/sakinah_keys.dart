@@ -17,6 +17,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('home_prayer_times_button');
   static const homePrayerReminderSettingsButton =
       ValueKey<String>('home_prayer_reminder_settings_button');
+  static const homePrayerEnableRemindersButton =
+      ValueKey<String>('home_prayer_enable_reminders_button');
   static const homePrayerNextReminderPreview =
       ValueKey<String>('home_prayer_next_reminder_preview');
   static const homeContentList = ValueKey<String>('home_content_list');

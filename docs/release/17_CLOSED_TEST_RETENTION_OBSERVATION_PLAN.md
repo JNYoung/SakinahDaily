@@ -92,9 +92,10 @@ Prayer reminder permission attempts should appear only as
 coarse outcome, and lead-time offset, so denial or explanation dismissal can be
 observed without storing routes, exact reminder times, coordinates, Women's
 Ibadah Mode status, or free text.
-Prayer-page direct reminder enable should use `source=prayer_page_card` and
-keep the user on Prayer after local scheduling, so closed-test reviewers can
-compare Prayer-page opt-in friction against Home, Settings, and completion-card
+Home-card and Prayer-page direct reminder enable should use
+`source=home_prayer_card` or `source=prayer_page_card` and keep the user on the
+originating surface after local scheduling, so closed-test reviewers can
+compare Home and Prayer opt-in friction against Settings and completion-card
 entry points without collecting routes or exact reminder times.
 Prayer checklist updates should appear only as `prayer_checklist_updated` with
 screen, aggregate completed count, all-prayers-completed state, and
@@ -108,6 +109,17 @@ status, routine notes, or free text.
 Local notification opens should appear only as `notification_tap_opened` with
 coarse content type and `source=local_notification`; do not store raw payloads,
 routes, content IDs, prayer names, or religious text.
+Push/reminder module DebugView coverage should be reviewed as one closed loop:
+`notification_settings_viewed` shows setup intent,
+`prayer_reminder_permission_result` and `prayer_reminder_changed` show prayer
+reminder opt-in or preference changes,
+`daily_session_reminder_permission_result` and
+`daily_session_reminder_changed` show the Daily Session return loop, and
+`notification_tap_opened` shows coarse local-notification open behavior. Home
+and Prayer direct reminder opt-ins must retain `source=home_prayer_card` and
+`source=prayer_page_card` respectively, while exact reminder times, routes,
+raw payloads, coordinates, Women's Ibadah Mode exact status, feedback text, and
+religious text stay out of DebugView.
 
 ## Observation Windows
 

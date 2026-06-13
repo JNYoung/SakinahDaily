@@ -1,6 +1,6 @@
 # Product Requirements Progress — Prayer, Session, Quran, Dua
 
-Status date: 2026-06-11
+Status date: 2026-06-13
 Scope: product-side progress for the core worship chains and notification
 cold-start routing.
 
@@ -35,6 +35,33 @@ Current high-priority release work:
 4. Reviewed content pack readiness packet strict mode after Quran source
    placeholders, beta session/dua/dhikr coverage, licensed Quran audio rights,
    and a human content owner are externally confirmed.
+
+Push module completion audit: v0.1 local reminder loop is complete for the
+client-side MVP. This means prayer reminders and Daily Session reminders have
+local opt-in UX, explanatory permission copy, Android permission handling,
+local scheduling/cancel paths, safe lock-screen copy, tap routing, cold-start
+payload handling, Settings management, Home/Prayer direct prayer-reminder
+opt-in, dev-only delivery smoke controls, and automated regression tests.
+Remote FCM/APNs is outside v0.1 scope and should not be treated as completed
+until a separate push backend, CMS payload review, consent/data-safety review,
+and server-triggered delivery QA are designed.
+
+Push/reminder analytics coverage for the completed local loop uses only the
+existing privacy-safe events:
+
+- `notification_settings_viewed` for reminder setup interest and entry source.
+- `prayer_reminder_permission_result` for accepted, dismissed, denied, or
+  empty-schedule prayer reminder attempts.
+- `prayer_reminder_changed` for global or per-prayer reminder changes from
+  Settings, Home, Prayer, or Prayer completion surfaces.
+- `daily_session_reminder_permission_result` and
+  `daily_session_reminder_changed` for the Daily Session return loop.
+- `notification_tap_opened` for coarse local notification open rate.
+
+The analytics contract intentionally excludes exact reminder times, raw
+payloads, routes, coordinates, manual place labels, prayer completion
+timestamps, Women's Ibadah Mode exact status, feedback text, and religious
+text.
 
 ## 1. Cold-Start Notification Routing
 
@@ -111,6 +138,11 @@ Completed:
   previews the next local prayer reminder with prayer name and local clock time,
   helping users trust the reminder loop without opening Settings or uploading
   exact reminder timing.
+- When prayer reminders are off, Home's first-screen prayer card now enables
+  local prayer reminders in place after the existing permission explanation,
+  records `source=home_prayer_card`, and leaves the user on Home with a
+  scheduled confirmation. Once reminders are on, the same Home surface becomes
+  the Manage reminders path into Notification Settings.
 - Onboarding now includes a preset prayer-location step for Makkah, Riyadh,
   Jakarta, Dubai, and Cairo, with no GPS permission request in the v0.1
   baseline.
@@ -430,11 +462,11 @@ Retention observation preparation:
   and Home retention events, and Women's Ibadah Mode exact status before the
   Firebase Analytics adapter can send events. Privacy Center now exposes the
   user analytics opt-in for analytics-enabled builds.
-  Prayer-page reminder opt-in analytics uses the existing
+  Home-card and Prayer-page reminder opt-in analytics use the existing
   `prayer_reminder_permission_result` and `prayer_reminder_changed` events with
-  `source=prayer_page_card`, so direct Prayer-page conversion can be reviewed
-  without routes, exact reminder times, coordinates, or prayer completion
-  details.
+  `source=home_prayer_card` or `source=prayer_page_card`, so direct Home and
+  Prayer conversion can be reviewed without routes, exact reminder times,
+  coordinates, or prayer completion details.
   Qibla view analytics now records only screen, route, coarse location method,
   calculation method, and controlled source such as `prayer_page_card`, so
   Qibla utility interest can be monitored without sending coordinates, place
