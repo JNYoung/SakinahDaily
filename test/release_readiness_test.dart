@@ -4111,6 +4111,12 @@ void main() {
         tapRouteTest,
         contains('notification tap result navigates to prayer route'),
       );
+      expect(
+        tapRouteTest,
+        contains("name: 'Dhikr counter'"),
+      );
+      expect(tapRouteTest, contains("expectedContentType: 'dhikr'"));
+      expect(tapRouteTest, contains('expectedContentType'));
       expect(tapRouteTest, contains('notificationTapOpened'));
 
       expect(productProgress, contains('Push module completion audit'));
@@ -4123,6 +4129,7 @@ void main() {
         analyticsPlan,
         contains('Push/reminder module analytics coverage is complete'),
       );
+      expect(analyticsPlan, contains('cold-start launch payloads'));
       expect(
         analyticsPlan,
         contains('notification_permission_recovery_opened'),
@@ -4131,14 +4138,17 @@ void main() {
         readiness,
         contains('Push module completion audit: v0.1 local reminder loop'),
       );
+      expect(readiness, contains('cold-start prayer, Daily Session, Quran'));
       expect(readiness, contains('notification_permission_recovery_opened'));
       expect(
           retentionPlan, contains('Push/reminder module DebugView coverage'));
+      expect(retentionPlan, contains('cold-start launches'));
       expect(
         retentionPlan,
         contains('notification_permission_recovery_opened'),
       );
       expect(debugViewExporter, contains('Push/reminder module'));
+      expect(debugViewExporter, contains('cold-start notification tap'));
       expect(
         debugViewExporter,
         contains('notification_permission_recovery_opened'),
