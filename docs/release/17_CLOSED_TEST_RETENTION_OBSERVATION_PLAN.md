@@ -116,10 +116,11 @@ reminder opt-in or preference changes,
 `daily_session_reminder_permission_result` and
 `daily_session_reminder_changed` show the Daily Session return loop, and
 `notification_tap_opened` shows coarse local-notification open behavior. Home
-and Prayer direct reminder opt-ins must retain `source=home_prayer_card` and
-`source=prayer_page_card` respectively, while exact reminder times, routes,
-raw payloads, coordinates, Women's Ibadah Mode exact status, feedback text, and
-religious text stay out of DebugView.
+and Prayer direct prayer reminder opt-ins must retain `source=home_prayer_card`
+and `source=prayer_page_card` respectively, and the Home completed-session
+Daily Session reminder opt-in must retain `source=home_session_completion`.
+Exact reminder times, routes, raw payloads, coordinates, Women's Ibadah Mode
+exact status, feedback text, and religious text stay out of DebugView.
 
 ## Observation Windows
 

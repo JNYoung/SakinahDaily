@@ -205,8 +205,10 @@ Status: Draft for release/store review.
   progress plus local weekly Home progress, and cleared by Delete local data.
 - [x] Daily Session can be completed optionally from the Home session card and
   records local completion state.
-- [x] Home offers a Set daily reminder CTA after today's session is complete
-  when the local daily session reminder is still off.
+- [x] Home offers an in-place Set daily reminder CTA after today's session is
+  complete when the local daily session reminder is still off, using the same
+  permission explanation and `source=home_session_completion` analytics as the
+  session reminder flow without forcing a Settings detour.
 - [x] Daily Session Reflection step displays a localized no-fatwa note so
   reflection copy is positioned as a gentle reminder, not a religious ruling.
 - [x] Notification Settings manages prayer reminders and daily session reminders

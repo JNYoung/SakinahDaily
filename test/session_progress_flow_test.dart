@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/repositories/session_progress_repository.dart';
+import 'package:sakinah_daily/core/repositories/user_preferences_repository.dart';
 import 'package:sakinah_daily/core/services/analytics_service.dart';
 import 'package:sakinah_daily/core/services/notification_service.dart';
 import 'package:sakinah_daily/shared/sakinah_keys.dart';
@@ -87,6 +88,7 @@ void main() {
 
   testWidgets('Home shows Completed Today after completion', (tester) async {
     final store = InMemorySessionProgressStore();
+    final preferencesStore = InMemoryUserPreferencesStore();
     final analytics = StubAnalyticsService(enabled: true);
     final notifications = LocalNotificationServiceStub();
     await SessionProgressRepository(store).markCompleted(
@@ -104,6 +106,7 @@ void main() {
       tester,
       initialLocation: '/home',
       settleSplash: false,
+      preferencesStore: preferencesStore,
       sessionProgressStore: store,
       analyticsService: analytics,
       notificationService: notifications,
@@ -114,17 +117,35 @@ void main() {
     expect(find.text('Review'), findsOneWidget);
 
     await tapByKey(tester, SakinahKeys.homeSessionReminderCtaButton);
-
-    expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
-    await scrollUntilFound(tester, find.text('Daily session reminder'));
-    expect(find.text('Daily session reminder'), findsOneWidget);
-
-    await tapByKey(tester, SakinahKeys.settingsDailySessionReminderSwitch);
     expect(find.text('Set daily reminder?'), findsOneWidget);
 
-    await tester.tap(find.text('Set reminder'));
+    await tester.tap(find.text('Set reminder').last);
     await tester.pumpAndSettle();
 
+    final preferences =
+        await UserPreferencesRepository(preferencesStore).load();
+    expect(preferences.dailySessionReminderEnabled, isTrue);
+    expect(notifications.dailySessionReminder, isNotNull);
+    expect(find.byKey(SakinahKeys.homeSessionCard), findsOneWidget);
+    expect(
+      find.byKey(SakinahKeys.homeSessionReminderStatusChip),
+      findsOneWidget,
+    );
+    expect(find.byKey(SakinahKeys.homeSessionReminderCtaButton), findsNothing);
+    expect(find.text('Daily reminder set'), findsOneWidget);
+
+    final permissionEvents = analytics.events.where(
+      (event) =>
+          event.name ==
+          AnalyticsEventCatalog.dailySessionReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': true,
+      'source': 'home_session_completion',
+      'change_type': 'scheduled',
+    });
     final reminderEvents = analytics.events.where(
       (event) =>
           event.name == AnalyticsEventCatalog.dailySessionReminderChanged,
