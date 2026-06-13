@@ -201,7 +201,9 @@ Evidence sources:
   tester personal data.
 - [ ] Release readiness checklist reflects the tested build.
 - [ ] Signed AAB checksum is available before upload / Production access
-  review.
+  review, and `SAKINAH_RELEASE_AAB_PATH` matches
+  `SAKINAH_RELEASE_CHECKSUM_PATH` in the Production access evidence packet
+  strict export.
 - [ ] Human reviewer has checked wording for accuracy and policy safety.
 
 ## Validation
@@ -226,6 +228,8 @@ scripts/verify_google_play_production_access_pack.sh
 
 SAKINAH_REQUIRE_PRODUCTION_ACCESS_PACKET_READY=true \
 SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true \
+SAKINAH_RELEASE_AAB_PATH=build/app/outputs/bundle/release/app-release.aab \
+SAKINAH_RELEASE_CHECKSUM_PATH=build/play-internal/app-release.aab.sha256 \
 SAKINAH_PLAY_PRODUCTION_ACCESS_DRAFT_REVIEWED=true \
 SAKINAH_PLAY_FEEDBACK_SUMMARY_READY=true \
 SAKINAH_PLAY_CHANGES_SUMMARY_READY=true \

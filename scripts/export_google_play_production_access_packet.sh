@@ -6,6 +6,8 @@ cd "$repo_root"
 
 out_dir="${SAKINAH_PRODUCTION_ACCESS_PACKET_DIR:-build/play-production-access}"
 require_strict="${SAKINAH_REQUIRE_PRODUCTION_ACCESS_PACKET_READY:-false}"
+aab_path="${SAKINAH_RELEASE_AAB_PATH:-build/app/outputs/bundle/release/app-release.aab}"
+checksum_path="${SAKINAH_RELEASE_CHECKSUM_PATH:-build/play-internal/app-release.aab.sha256}"
 
 fail() {
   local message="$1"
@@ -60,6 +62,56 @@ require_completed_retention_packet() {
   require_text "$summary" 'No tester personal data'
 }
 
+validate_production_aab_integrity() {
+  [[ -s "$aab_path" ]] || fail "expected signed bundle is missing or empty at $aab_path."
+  [[ -s "$checksum_path" ]] || fail "expected checksum is missing or empty at $checksum_path."
+
+  command -v shasum >/dev/null 2>&1 ||
+    fail "shasum is required to verify the release AAB checksum."
+  command -v python3 >/dev/null 2>&1 ||
+    fail "python3 is required to verify the release AAB zip structure."
+
+  local expected_checksum
+  local actual_checksum
+  expected_checksum="$(
+    awk 'NF {print tolower($1); exit}' "$checksum_path"
+  )"
+  [[ "$expected_checksum" =~ ^[0-9a-f]{64}$ ]] ||
+    fail "release AAB checksum file must start with a 64-character SHA-256 digest."
+
+  actual_checksum="$(
+    shasum -a 256 "$aab_path" | awk '{print tolower($1)}'
+  )"
+  [[ "$actual_checksum" == "$expected_checksum" ]] ||
+    fail "AAB checksum mismatch: $aab_path does not match $checksum_path."
+
+  local bundle_validation
+  if ! bundle_validation="$(
+    python3 - "$aab_path" <<'PY' 2>&1
+import sys
+import zipfile
+
+path = sys.argv[1]
+try:
+    with zipfile.ZipFile(path) as bundle:
+        bad_member = bundle.testzip()
+        if bad_member is not None:
+            raise ValueError(f"corrupt zip member: {bad_member}")
+        names = set(bundle.namelist())
+        required = {"base/manifest/AndroidManifest.xml"}
+        missing = sorted(required - names)
+        if missing:
+            raise ValueError("missing required App Bundle entries: " + ", ".join(missing))
+except zipfile.BadZipFile as exc:
+    raise SystemExit(f"not a valid zip/App Bundle: {exc}")
+except ValueError as exc:
+    raise SystemExit(str(exc))
+PY
+  )"; then
+    fail "AAB integrity check failed: $bundle_validation"
+  fi
+}
+
 copy_required_file() {
   local path="$1"
   local target="$out_dir/$path"
@@ -89,9 +141,9 @@ require_executable scripts/export_google_play_closed_test_retention_packet.sh
 
 if [[ "$require_strict" == "true" ]]; then
   require_completed_retention_packet
+  validate_production_aab_integrity
   SAKINAH_REQUIRE_PRODUCTION_ACCESS_READY=true \
     scripts/verify_google_play_production_access_pack.sh
-  require_file build/play-internal/app-release.aab.sha256
   require_file build/store-assets/google-play-feature-graphic.png
 else
   scripts/verify_google_play_production_access_pack.sh
@@ -121,7 +173,8 @@ for path in \
   copy_required_file "$path"
 done
 
-aab_checksum_status="$(copy_optional_file build/play-internal/app-release.aab.sha256)"
+aab_status="$(copy_optional_file "$aab_path")"
+aab_checksum_status="$(copy_optional_file "$checksum_path")"
 feature_graphic_status="$(copy_optional_file build/store-assets/google-play-feature-graphic.png)"
 contact_sheet_status="$(copy_optional_file build/store-screenshots/android-contact-sheet.png)"
 retention_manifest_status="$(copy_optional_file build/play-retention-observation/manifest.txt)"
@@ -159,7 +212,8 @@ Required copied evidence:
 - scripts/verify_google_play_production_access_pack.sh
 
 Optional copied artifacts:
-- build/play-internal/app-release.aab.sha256: $aab_checksum_status
+- $aab_path: $aab_status
+- $checksum_path: $aab_checksum_status
 - build/store-assets/google-play-feature-graphic.png: $feature_graphic_status
 - build/store-screenshots/android-contact-sheet.png: $contact_sheet_status
 - build/play-retention-observation/manifest.txt: $retention_manifest_status
@@ -181,6 +235,9 @@ Use:
   "Completed retention evidence inputs: validated" from
   SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true before this packet can be
   used as final Play Console handoff evidence.
+- Strict mode also validates that SAKINAH_RELEASE_AAB_PATH matches
+  SAKINAH_RELEASE_CHECKSUM_PATH and that the current AAB is a readable App
+  Bundle with base/manifest/AndroidManifest.xml.
 EOF
 
 printf 'Production access evidence packet exported.\n'
