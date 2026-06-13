@@ -77,6 +77,7 @@
 | `docs/release/15_PUBLIC_LINKS_HOSTING_PACKET.md` | Google Play 隐私政策和测试反馈公开链接静态托管包、严格公网 URL gate |
 | `docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md` | Google Play 封闭测试上线当天 checklist、群组优先分享顺序、tester link 复核、`scripts/verify_google_play_closed_test_launch_day.sh` 和 Day 0 / Day 1 操作员包 `scripts/export_google_play_day0_day1_operator_packet.sh` |
 | `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` | Google Play 封闭测试留存观察计划、D1/D3/D7/D14 反馈主题、可选 DebugView QA packet、Day 0 / Day 1 操作员包、Production access 反馈证据模板和 `scripts/export_google_play_closed_test_retention_packet.sh` |
+| `docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md` | 推送/本地提醒模块完成度审计、打点覆盖矩阵、隐私黑名单和 `scripts/export_push_module_completion_audit.sh` |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Agent Service 文档

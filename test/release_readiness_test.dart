@@ -928,6 +928,246 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(versionNotes, contains('Android OEM reminder observation packet'));
     });
 
+    test('push module completion audit packet can be exported', () {
+      final script = File('scripts/export_push_module_completion_audit.sh');
+      final docsIndex = File('docs/00_DOCS_INDEX.md').readAsStringSync();
+      final pushAuditDoc =
+          File('docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md')
+              .readAsStringSync();
+      final productProgress =
+          File('docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md')
+              .readAsStringSync();
+      final analyticsPlan =
+          File('docs/privacy/07_GOOGLE_ANALYTICS_EVENT_PLAN.md')
+              .readAsStringSync();
+      final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
+          .readAsStringSync();
+      final acceptance =
+          File('docs/testing/01_ACCEPTANCE_CHECKLIST.md').readAsStringSync();
+      final versionNotes = File('docs/release/08_VERSION_AND_RELEASE_NOTES.md')
+          .readAsStringSync();
+      final localE2e = File('scripts/verify_local_e2e.sh').readAsStringSync();
+      final analyticsService =
+          File('lib/core/services/analytics_service.dart').readAsStringSync();
+      final notificationService =
+          File('lib/core/services/notification_service.dart')
+              .readAsStringSync();
+      final notificationSettings =
+          File('lib/features/settings/notification_settings_page.dart')
+              .readAsStringSync();
+      final prayerReminderToggleFlow =
+          File('lib/shared/prayer_reminder_toggle_flow.dart')
+              .readAsStringSync();
+      final dailySessionReminderToggleFlow =
+          File('lib/shared/daily_session_reminder_toggle_flow.dart')
+              .readAsStringSync();
+      final tapListener =
+          File('lib/shared/widgets/notification_tap_route_listener.dart')
+              .readAsStringSync();
+      final notificationServiceTest =
+          File('test/notification_service_test.dart').readAsStringSync();
+      final notificationSettingsTest =
+          File('test/notification_settings_page_test.dart').readAsStringSync();
+      final tapServiceTest =
+          File('test/notification_tap_service_test.dart').readAsStringSync();
+      final tapRouteTest =
+          File('test/notification_tap_route_listener_test.dart')
+              .readAsStringSync();
+      final analyticsTest =
+          File('test/analytics_service_test.dart').readAsStringSync();
+
+      expect(script.existsSync(), isTrue);
+      final mode = script.statSync().mode;
+      expect(mode & 0x49, isNonZero);
+
+      final content = script.readAsStringSync();
+      expect(content, contains('build/push-module-completion-audit'));
+      expect(content, contains('push_module_completion_matrix.csv'));
+      expect(content, contains('push_analytics_coverage_matrix.csv'));
+      expect(content, contains('push_privacy_blocklist.csv'));
+      expect(content, contains('push_module_qa_handoff.md'));
+      expect(content, contains('SAKINAH_REQUIRE_PUSH_MODULE_AUDIT_READY'));
+      expect(content, contains('SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY'));
+      expect(content, contains('SAKINAH_PUSH_REAL_DEVICE_SMOKE_READY'));
+      expect(content, contains('SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_REVIEWED'));
+      expect(
+        content,
+        contains('SAKINAH_PUSH_OEM_OBSERVATION_OWNER_ASSIGNED'),
+      );
+      expect(content, contains('local prayer reminders'));
+      expect(content, contains('local daily session reminders'));
+      expect(content, contains('Remote FCM/APNs is outside v0.1 scope'));
+      expect(content, contains('notification_permission_prompt_viewed'));
+      expect(content, contains('notification_schedule_result'));
+      expect(content, contains('notification_smoke_test_result'));
+      expect(content, contains('notification_permission_recovery_opened'));
+      expect(content, contains('notification_tap_opened'));
+      expect(content, contains('No tester personal data'));
+
+      final templateRun = Process.runSync(
+        'bash',
+        ['scripts/export_push_module_completion_audit.sh'],
+        environment: {'PATH': Platform.environment['PATH'] ?? ''},
+        includeParentEnvironment: false,
+      );
+      expect(templateRun.exitCode, 0);
+      expect(templateRun.stderr.toString(), isEmpty);
+      expect(
+        templateRun.stdout.toString(),
+        contains('Push module completion audit packet exported'),
+      );
+
+      final manifest = File('build/push-module-completion-audit/manifest.txt')
+          .readAsStringSync();
+      final completionMatrix = File(
+              'build/push-module-completion-audit/push_module_completion_matrix.csv')
+          .readAsStringSync();
+      final analyticsMatrix = File(
+              'build/push-module-completion-audit/push_analytics_coverage_matrix.csv')
+          .readAsStringSync();
+      final privacyBlocklist =
+          File('build/push-module-completion-audit/push_privacy_blocklist.csv')
+              .readAsStringSync();
+      final handoff =
+          File('build/push-module-completion-audit/push_module_qa_handoff.md')
+              .readAsStringSync();
+
+      expect(manifest, contains('Push module completion audit packet'));
+      expect(manifest, contains('v0.1 local reminder loop: complete'));
+      expect(manifest, contains('Remote FCM/APNs is outside v0.1 scope'));
+      expect(manifest, contains('No tester personal data'));
+      expect(
+        manifest,
+        contains('docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md'),
+      );
+
+      expect(
+        completionMatrix,
+        contains(
+          'capability,status,implementation_evidence,test_evidence,analytics_evidence,privacy_note',
+        ),
+      );
+      expect(completionMatrix, contains('local_prayer_reminders,complete'));
+      expect(
+          completionMatrix, contains('local_daily_session_reminders,complete'));
+      expect(completionMatrix, contains('permission_explanation,complete'));
+      expect(
+          completionMatrix, contains('android_permission_handling,complete'));
+      expect(completionMatrix, contains('safe_lock_screen_copy,complete'));
+      expect(completionMatrix, contains('tap_routing,complete'));
+      expect(completionMatrix, contains('cold_start_payload,complete'));
+      expect(completionMatrix, contains('settings_management,complete'));
+      expect(completionMatrix, contains('dev_smoke_controls,complete'));
+      expect(completionMatrix, contains('remote_fcm_apns,out_of_scope'));
+
+      for (final eventName in const [
+        'notification_settings_viewed',
+        'notification_permission_prompt_viewed',
+        'prayer_reminder_permission_result',
+        'prayer_reminder_changed',
+        'notification_schedule_result',
+        'notification_smoke_test_result',
+        'notification_permission_recovery_opened',
+        'daily_session_reminder_permission_result',
+        'daily_session_reminder_changed',
+        'notification_tap_opened',
+      ]) {
+        expect(analyticsMatrix, contains(eventName), reason: eventName);
+        expect(analyticsService, contains(eventName), reason: eventName);
+        expect(analyticsTest, contains(eventName), reason: eventName);
+        expect(analyticsPlan, contains(eventName), reason: eventName);
+        expect(pushAuditDoc, contains(eventName), reason: eventName);
+      }
+
+      expect(analyticsMatrix, contains('home_prayer_card'));
+      expect(analyticsMatrix, contains('prayer_page_card'));
+      expect(analyticsMatrix, contains('prayer_completion_card'));
+      expect(analyticsMatrix, contains('home_session_completion'));
+      expect(analyticsMatrix, contains('notification_settings_qa'));
+      expect(analyticsMatrix, contains('local_notification'));
+      expect(analyticsMatrix, contains('No exact reminder time'));
+
+      expect(privacyBlocklist, contains('payload'));
+      expect(privacyBlocklist, contains('route'));
+      expect(privacyBlocklist, contains('scheduled_local_time'));
+      expect(privacyBlocklist, contains('reminder_time'));
+      expect(privacyBlocklist, contains('latitude'));
+      expect(privacyBlocklist, contains('longitude'));
+      expect(privacyBlocklist, contains('women_ibadah_status'));
+      expect(privacyBlocklist, contains('feedback_text'));
+      expect(privacyBlocklist, contains('quran_arabic_text'));
+      expect(privacyBlocklist, contains('body'));
+
+      expect(handoff, contains('推送模块完成度'));
+      expect(handoff, contains('本地 prayer reminders'));
+      expect(handoff, contains('本地 Daily Session reminders'));
+      expect(handoff, contains('Remote FCM/APNs'));
+      expect(handoff, contains('Google Analytics DebugView'));
+      expect(handoff, contains('Android OEM reminder observation packet'));
+      expect(handoff, contains('No raw payloads, routes, coordinates'));
+
+      final strictRun = Process.runSync(
+        'bash',
+        ['scripts/export_push_module_completion_audit.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_PUSH_MODULE_AUDIT_READY': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictRun.exitCode, isNot(0));
+      expect(
+        strictRun.stderr.toString(),
+        contains('Push module completion audit packet failed'),
+      );
+      expect(
+        strictRun.stderr.toString(),
+        contains('SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY=true'),
+      );
+
+      expect(notificationService, contains('schedulePrayerReminders'));
+      expect(notificationService, contains('scheduleDailySessionReminder'));
+      expect(notificationService, contains('takeLaunchPayload'));
+      expect(notificationService, contains('openSystemNotificationSettings'));
+      expect(notificationSettings, contains('notificationSettingsViewed'));
+      expect(notificationSettings, contains('notificationSmokeTestResult'));
+      expect(notificationSettings,
+          contains('notificationPermissionRecoveryOpened'));
+      expect(
+        prayerReminderToggleFlow,
+        contains('trackNotificationPermissionPromptViewed'),
+      );
+      expect(
+          prayerReminderToggleFlow, contains('prayerReminderPermissionResult'));
+      expect(prayerReminderToggleFlow, contains('prayerReminderChanged'));
+      expect(
+        dailySessionReminderToggleFlow,
+        contains('dailySessionReminderPermissionResult'),
+      );
+      expect(dailySessionReminderToggleFlow,
+          contains('dailySessionReminderChanged'));
+      expect(tapListener, contains('notificationTapOpened'));
+      expect(notificationServiceTest, contains('privacy-safe tap payload'));
+      expect(notificationServiceTest, contains('women mode notification copy'));
+      expect(notificationSettingsTest, contains('notificationScheduleResult'));
+      expect(notificationSettingsTest,
+          contains('notificationPermissionRecoveryOpened'));
+      expect(tapServiceTest, contains('prayer notification payload'));
+      expect(tapServiceTest, contains('malformed notification payload'));
+      expect(tapRouteTest, contains('notificationTapOpened'));
+
+      expect(docsIndex, contains('18_PUSH_MODULE_COMPLETION_AUDIT.md'));
+      expect(docsIndex, contains('export_push_module_completion_audit.sh'));
+      expect(readiness, contains('Push module completion audit packet'));
+      expect(productProgress, contains('Push module completion audit packet'));
+      expect(productProgress, contains('v0.1 local reminder loop is complete'));
+      expect(analyticsPlan, contains('Push module completion audit packet'));
+      expect(acceptance, contains('Push module completion audit packet'));
+      expect(versionNotes, contains('Push module completion audit packet'));
+      expect(localE2e, contains('export_push_module_completion_audit.sh'));
+      expect(localE2e, contains('SAKINAH_E2E_SKIP_PUSH_MODULE_AUDIT'));
+    });
+
     test('local e2e gate is scripted and documented', () {
       final script = File('scripts/verify_local_e2e.sh');
       final workflow = File('.github/workflows/local-e2e.yml');
@@ -950,6 +1190,8 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(content, contains('verify_google_play_public_links_packet.sh'));
       expect(content, contains('export_google_analytics_debugview_packet.sh'));
       expect(content, contains('SAKINAH_E2E_SKIP_ANALYTICS_DEBUGVIEW_PACKET'));
+      expect(content, contains('export_push_module_completion_audit.sh'));
+      expect(content, contains('SAKINAH_E2E_SKIP_PUSH_MODULE_AUDIT'));
       expect(
           content, contains('export_google_play_day0_day1_operator_packet.sh'));
       expect(content, contains('SAKINAH_E2E_SKIP_DAY0_DAY1_OPERATOR_PACKET'));
@@ -5168,6 +5410,7 @@ const _releaseDocs = [
   'docs/release/15_PUBLIC_LINKS_HOSTING_PACKET.md',
   'docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md',
   'docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md',
+  'docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md',
 ];
 
 const _featureDirs = {

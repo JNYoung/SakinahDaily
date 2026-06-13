@@ -84,6 +84,12 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `scripts/export_google_analytics_debugview_packet.sh`; includes retention
   funnel checks, blocked-parameter review, and notification QA smoke result
   verification for local reminder delivery tests.
+- Push module completion audit packet:
+  `build/push-module-completion-audit`, exported by
+  `scripts/export_push_module_completion_audit.sh`; confirms the v0.1 local
+  prayer reminder and local daily session reminder loop, push/reminder
+  analytics coverage, privacy blocklist, and Remote FCM/APNs out-of-scope
+  boundary.
 - Reviewed content pack readiness packet:
   `build/reviewed-content-pack-readiness`, exported by
   `scripts/export_reviewed_content_pack_readiness.sh`.
@@ -138,6 +144,10 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `notification_schedule_result`, and `notification_smoke_test_result`
   verification without payloads, routes, exact reminder times, scheduled local
   times, lock-screen body copy, tester identity, or religious text.
+- Push module completion audit packet strict mode after Android notification
+  permission QA, real-device short-delay local reminder smoke delivery/tap
+  routing, Google Analytics DebugView push/reminder event review, and Android
+  OEM observation owner assignment are confirmed.
 - Reviewed content pack readiness packet strict mode after Quran source
   placeholders are replaced, beta session/dua/dhikr coverage is reviewed,
   licensed Quran audio rights and hashes are confirmed, and a human content

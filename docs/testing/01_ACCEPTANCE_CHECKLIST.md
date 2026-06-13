@@ -66,6 +66,9 @@
 - [x] Android OEM reminder observation packet 可导出 8h / 24h / reboot /
   battery policy / notification permission state 长窗口观察模板和 device
   environment snapshot，且不记录 tester personal data。
+- [x] Push module completion audit packet 可导出本地 prayer reminders、本地
+  Daily Session reminders、tap routing、权限、dev smoke control 和
+  analytics coverage 矩阵，并明确 Remote FCM/APNs 不属于 v0.1 完成范围。
 
 ## 7. Engineering
 

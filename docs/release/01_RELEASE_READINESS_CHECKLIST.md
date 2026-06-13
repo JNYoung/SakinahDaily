@@ -115,6 +115,16 @@ Status: Draft for release/store review.
   `closed_test_prompt_marked_sent` without raw payloads, routes, scheduled
   local times, coordinates, feedback text, tester identity, lock-screen body
   copy, device model, or religious text.
+- [x] Push module completion audit packet exists at
+  `scripts/export_push_module_completion_audit.sh` with scope notes in
+  `docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md`; template mode writes
+  `build/push-module-completion-audit` with a push module completion matrix,
+  push analytics coverage matrix, privacy blocklist, and QA handoff. The audit
+  confirms the v0.1 local prayer reminder and local daily session reminder loop
+  is complete while Remote FCM/APNs is outside v0.1 scope. Strict mode fails
+  until Android permission QA, real-device smoke delivery/tap routing, Google
+  Analytics DebugView review, and an Android OEM observation owner are
+  confirmed, with No tester personal data.
 - [x] Reviewed content pack readiness packet exists at
   `scripts/export_reviewed_content_pack_readiness.sh`; template mode writes
   current seed inventory, beta content targets, Quran source placeholder

@@ -9,6 +9,7 @@ skip_dart_analyze="${SAKINAH_E2E_SKIP_DART_ANALYZE:-false}"
 skip_submission_pack="${SAKINAH_E2E_SKIP_SUBMISSION_PACK:-false}"
 skip_public_links_packet="${SAKINAH_E2E_SKIP_PUBLIC_LINKS_PACKET:-false}"
 skip_analytics_debugview_packet="${SAKINAH_E2E_SKIP_ANALYTICS_DEBUGVIEW_PACKET:-false}"
+skip_push_module_audit="${SAKINAH_E2E_SKIP_PUSH_MODULE_AUDIT:-false}"
 skip_day0_day1_operator_packet="${SAKINAH_E2E_SKIP_DAY0_DAY1_OPERATOR_PACKET:-false}"
 skip_reviewed_content_pack="${SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK:-false}"
 skip_android_oem_observation_packet="${SAKINAH_E2E_SKIP_ANDROID_OEM_OBSERVATION_PACKET:-false}"
@@ -69,6 +70,13 @@ if [[ "$skip_analytics_debugview_packet" != "true" ]]; then
     scripts/export_google_analytics_debugview_packet.sh
 else
   printf 'Skipping analytics DebugView QA packet because SAKINAH_E2E_SKIP_ANALYTICS_DEBUGVIEW_PACKET=true.\n'
+fi
+
+if [[ "$skip_push_module_audit" != "true" ]]; then
+  run_step "Push module completion audit packet" \
+    scripts/export_push_module_completion_audit.sh
+else
+  printf 'Skipping push module completion audit because SAKINAH_E2E_SKIP_PUSH_MODULE_AUDIT=true.\n'
 fi
 
 if [[ "$skip_day0_day1_operator_packet" != "true" ]]; then
