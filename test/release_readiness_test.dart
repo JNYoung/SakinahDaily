@@ -3364,6 +3364,11 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(content, contains('SAKINAH_DUA_DHIKR_PACK_REVIEWED'));
       expect(content, contains('SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED'));
       expect(content, contains('SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED'));
+      expect(content, contains('SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE'));
+      expect(content, contains('SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE'));
+      expect(content, contains('SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE'));
+      expect(content, contains('SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE'));
+      expect(content, contains('validate_completed_content_evidence'));
       expect(content, contains('placeholder_source'));
       expect(content, contains('source_placeholder_count'));
       expect(
@@ -3468,6 +3473,154 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
         contains('SAKINAH_QURAN_SOURCE_PLACEHOLDERS_REPLACED=true'),
       );
 
+      final strictMissingEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_reviewed_content_pack_readiness.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY': 'true',
+          'SAKINAH_QURAN_SOURCE_PLACEHOLDERS_REPLACED': 'true',
+          'SAKINAH_BETA_SESSION_PACK_REVIEWED': 'true',
+          'SAKINAH_DUA_DHIKR_PACK_REVIEWED': 'true',
+          'SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED': 'true',
+          'SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictMissingEvidenceRun.exitCode, isNot(0));
+      expect(
+        strictMissingEvidenceRun.stderr.toString(),
+        contains('SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE must point'),
+      );
+
+      final strictEvidenceDir =
+          Directory.systemTemp.createTempSync('sakinah_reviewed_content_');
+      addTearDown(() {
+        if (strictEvidenceDir.existsSync()) {
+          strictEvidenceDir.deleteSync(recursive: true);
+        }
+      });
+      const completedInventoryEvidence = '''
+content_type,current_count,target_min,target_max,review_status,reviewed_at,privacy_rule,religious_safety_rule
+daily_session,5,5,7,reviewed,2026-06-14,No tester personal data,No generated religious content
+quran_ayah,10,10,20,reviewed,2026-06-14,No tester personal data,No generated religious content
+dua,30,30,50,reviewed,2026-06-14,No tester personal data,No generated religious content
+dhikr,20,20,30,reviewed,2026-06-14,No tester personal data,No generated religious content
+''';
+      final completedInventoryEvidenceFile =
+          File('${strictEvidenceDir.path}/reviewed_content_inventory.csv')
+            ..writeAsStringSync(completedInventoryEvidence);
+      final completedQuranSourceEvidenceFile =
+          File('${strictEvidenceDir.path}/reviewed_quran_source_evidence.csv')
+            ..writeAsStringSync('''
+verse_key,source_label,arabic_source,translation_source,review_status,reviewed_at,religious_safety_rule
+1:1,Quran 1:1 · Tanzil Arabic · Saheeh International EN · Kemenag RI ID,Tanzil Arabic,Saheeh International EN; Kemenag RI ID,approved_source_label,2026-06-14,No generated religious content
+94:5,Quran 94:5 · Tanzil Arabic · Saheeh International EN · Kemenag RI ID,Tanzil Arabic,Saheeh International EN; Kemenag RI ID,approved_source_label,2026-06-14,No generated religious content
+13:28,Quran 13:28 · Tanzil Arabic · Saheeh International EN · Kemenag RI ID,Tanzil Arabic,Saheeh International EN; Kemenag RI ID,approved_source_label,2026-06-14,No generated religious content
+''');
+      final completedAudioRightsEvidenceFile =
+          File('${strictEvidenceDir.path}/reviewed_audio_rights_evidence.csv')
+            ..writeAsStringSync('''
+audio_asset_id,reciter_name,url_or_storage_path,sha256,rights_status,review_status,evidence_path,religious_safety_rule
+audio_fatiha_minshawi,Muhammad Siddiq al-Minshawi,storage://reviewed-audio/al-fatiha.mp3,sha256:reviewed-placeholder,rights_confirmed,reviewed,content-rights/audio_fatiha_minshawi.pdf,No background music; No generated religious content
+''');
+      final completedOwnerEvidenceFile =
+          File('${strictEvidenceDir.path}/reviewed_content_owner_evidence.csv')
+            ..writeAsStringSync('''
+owner_role,owner_name_or_team,review_scope,status,evidence_path,privacy_rule,religious_safety_rule
+content_owner,release-content,content inventory and beta pack,approved,content-review/inventory.csv,No tester personal data,No generated religious content
+religious_reviewer,review-board,Quran source labels and dua/dhikr pack,approved,content-review/religious-review.csv,No tester personal data,No generated religious content
+release_owner,release-ops,Google Play handoff,approved,release/reviewed-content-handoff.md,No tester personal data,No generated religious content
+''');
+
+      final strictEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_reviewed_content_pack_readiness.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY': 'true',
+          'SAKINAH_QURAN_SOURCE_PLACEHOLDERS_REPLACED': 'true',
+          'SAKINAH_BETA_SESSION_PACK_REVIEWED': 'true',
+          'SAKINAH_DUA_DHIKR_PACK_REVIEWED': 'true',
+          'SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED': 'true',
+          'SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED': 'true',
+          'SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE':
+              completedInventoryEvidenceFile.path,
+          'SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE':
+              completedQuranSourceEvidenceFile.path,
+          'SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE':
+              completedAudioRightsEvidenceFile.path,
+          'SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE':
+              completedOwnerEvidenceFile.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(
+        strictEvidenceRun.exitCode,
+        0,
+        reason: '${strictEvidenceRun.stdout}\n${strictEvidenceRun.stderr}',
+      );
+      final strictManifest =
+          File('build/reviewed-content-pack-readiness/manifest.txt')
+              .readAsStringSync();
+      expect(strictManifest, contains('Strict evidence inputs: validated'));
+      expect(
+        File(
+          'build/reviewed-content-pack-readiness/completed-evidence/reviewed_content_inventory_evidence.csv',
+        ).existsSync(),
+        isTrue,
+      );
+      expect(
+        File(
+          'build/reviewed-content-pack-readiness/completed-evidence/reviewed_quran_source_evidence.csv',
+        ).existsSync(),
+        isTrue,
+      );
+      expect(
+        File(
+          'build/reviewed-content-pack-readiness/completed-evidence/reviewed_audio_rights_evidence.csv',
+        ).existsSync(),
+        isTrue,
+      );
+      expect(
+        File(
+          'build/reviewed-content-pack-readiness/completed-evidence/reviewed_content_owner_evidence.csv',
+        ).existsSync(),
+        isTrue,
+      );
+
+      completedInventoryEvidenceFile.writeAsStringSync('''
+content_type,current_count,target_min,target_max,review_status,reviewed_at,privacy_rule,religious_safety_rule
+daily_session,TBD,5,7,pending_manual_observation,record_manually,No tester personal data,No generated religious content
+''');
+      final placeholderEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_reviewed_content_pack_readiness.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY': 'true',
+          'SAKINAH_QURAN_SOURCE_PLACEHOLDERS_REPLACED': 'true',
+          'SAKINAH_BETA_SESSION_PACK_REVIEWED': 'true',
+          'SAKINAH_DUA_DHIKR_PACK_REVIEWED': 'true',
+          'SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED': 'true',
+          'SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED': 'true',
+          'SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE':
+              completedInventoryEvidenceFile.path,
+          'SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE':
+              completedQuranSourceEvidenceFile.path,
+          'SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE':
+              completedAudioRightsEvidenceFile.path,
+          'SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE':
+              completedOwnerEvidenceFile.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(placeholderEvidenceRun.exitCode, isNot(0));
+      expect(
+        placeholderEvidenceRun.stderr.toString(),
+        contains('completed content evidence still contains placeholder'),
+      );
+
       expect(docsIndex, contains('export_reviewed_content_pack_readiness.sh'));
       expect(
           productProgress, contains('reviewed content pack readiness packet'));
@@ -3475,7 +3628,10 @@ Day 1,onboarding_location_clarity,TBD,TBD,build/play-retention-observation/feedb
       expect(contentGuidelines,
           contains('reviewed content pack readiness packet'));
       expect(readiness, contains('Reviewed content pack readiness packet'));
+      expect(
+          readiness, contains('SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE'));
       expect(versionNotes, contains('Reviewed content pack readiness packet'));
+      expect(versionNotes, contains('SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE'));
     });
 
     test('Google Play public links are scripted and documented', () {

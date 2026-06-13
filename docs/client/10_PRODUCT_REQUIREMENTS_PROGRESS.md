@@ -34,7 +34,8 @@ Current high-priority release work:
    the Android OEM reminder observation packet before broad beta.
 4. Reviewed content pack readiness packet strict mode after Quran source
    placeholders, beta session/dua/dhikr coverage, licensed Quran audio rights,
-   and a human content owner are externally confirmed.
+   a human content owner, and completed reviewed content evidence CSVs are
+   externally confirmed.
 
 Push module completion audit: v0.1 local reminder loop is complete for the
 client-side MVP. This means prayer reminders and Daily Session reminders have
@@ -382,7 +383,9 @@ Open product links:
   replace the need for a broader approved source-corpus lock.
 - The reviewed content pack readiness packet reports the Quran source
   placeholder count so the smallest approved Quran slice can be reviewed
-  without generating Quran text.
+  without generating Quran text. Strict mode now requires completed reviewed
+  Quran source evidence and rejects template placeholders before the packet can
+  be treated as store-ready evidence.
 - Surah/Juz browse and broader corpus navigation are not shipped; local search
   and previous/next navigation are limited to the current reviewed seed ayahs.
 - Licensed reciter assets, offline audio cache, and hash validation are open.
@@ -428,6 +431,9 @@ Open product links:
   been removed in favor of text-only state copy.
 - Reviewed content depth is still seed-level; no staging CMS publishing flow is
   connected for expanded dua packs.
+- Reviewed content strict readiness now requires completed inventory, Quran
+  source, audio rights, and owner evidence CSVs, so content expansion can be
+  reviewed as evidence rather than only a manual confirmation.
 - Women’s Ibadah category curation remains limited to local policy notes rather
   than a reviewed content category.
 - PRD categories such as Before sleep, Anxiety, Travel, Study / Work, Ramadan,

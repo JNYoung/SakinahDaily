@@ -106,7 +106,12 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   events, not only notification tap/open checks.
 - Reviewed content pack readiness packet:
   `build/reviewed-content-pack-readiness`, exported by
-  `scripts/export_reviewed_content_pack_readiness.sh`.
+  `scripts/export_reviewed_content_pack_readiness.sh`. Strict mode now requires
+  completed `SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE`,
+  `SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE`,
+  `SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE`, and
+  `SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE` CSVs with no template placeholders
+  or tester personal data before it writes `Strict evidence inputs: validated`.
 - Android OEM reminder observation packet:
   `build/android-oem-reminder-observation`, exported by
   `scripts/export_android_oem_reminder_observation_packet.sh`, now including
@@ -177,7 +182,13 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
 - Reviewed content pack readiness packet strict mode after Quran source
   placeholders are replaced, beta session/dua/dhikr coverage is reviewed,
   licensed Quran audio rights and hashes are confirmed, and a human content
-  owner signs off.
+  owner signs off. Strict mode also requires completed
+  `SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE`,
+  `SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE`,
+  `SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE`, and
+  `SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE` CSVs with no template placeholders
+  or tester personal data before the packet manifest can show
+  `Strict evidence inputs: validated`.
 - Android OEM reminder observation packet strict mode after 8-hour, 24-hour,
   notification permission state, reboot restore, and aggressive
   battery-management reminder behavior is observed on a real Android device,

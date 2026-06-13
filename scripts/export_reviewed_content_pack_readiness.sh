@@ -51,6 +51,43 @@ require_true_var() {
     fail "$name=true is required after $description."
 }
 
+require_env_file() {
+  local name="$1"
+  local description="$2"
+  local path="${!name:-}"
+
+  [[ -n "$path" ]] ||
+    fail "$name must point to completed evidence after $description."
+  [[ -f "$path" ]] ||
+    fail "$name points to a missing evidence file: $path"
+}
+
+validate_completed_content_evidence() {
+  local path="$1"
+  local label="$2"
+  local header="$3"
+  shift 3
+
+  require_file "$path"
+  require_text "$path" "$header"
+
+  for placeholder in \
+    pending_manual_observation \
+    pending_tap_route \
+    pending_owner_assignment \
+    record_manually \
+    TBD \
+    unknown; do
+    if grep -Fq "$placeholder" "$path"; then
+      fail "$label completed content evidence still contains placeholder: $placeholder"
+    fi
+  done
+
+  for needle in "$@"; do
+    require_text "$path" "$needle"
+  done
+}
+
 copy_required_file() {
   local path="$1"
   local target="$out_dir/$path"
@@ -58,6 +95,17 @@ copy_required_file() {
   require_file "$path"
   mkdir -p "$(dirname "$target")"
   cp "$path" "$target"
+}
+
+copy_strict_evidence_file() {
+  local env_name="$1"
+  local target_name="$2"
+  local path="${!env_name:-}"
+
+  [[ -n "$path" ]] || return 0
+  require_file "$path"
+  mkdir -p "$out_dir/completed-evidence"
+  cp "$path" "$out_dir/completed-evidence/$target_name"
 }
 
 command -v python3 >/dev/null ||
@@ -82,6 +130,7 @@ require_text "$readiness" 'Reviewed content pack readiness packet'
 require_text "$version_notes" 'Reviewed content pack readiness packet'
 require_text "$docs_index" 'export_reviewed_content_pack_readiness.sh'
 
+strict_evidence_status="not requested"
 if [[ "$require_strict" == "true" ]]; then
   require_true_var \
     SAKINAH_QURAN_SOURCE_PLACEHOLDERS_REPLACED \
@@ -99,6 +148,62 @@ if [[ "$require_strict" == "true" ]]; then
     SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED \
     "assigning a human reviewer owner for the content pack before beta/store use"
   reject_text "$seed_content" "$placeholder_source"
+  require_env_file \
+    SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE \
+    "reviewing beta session, Quran, Dua, and Dhikr inventory coverage"
+  require_env_file \
+    SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE \
+    "confirming approved Quran source labels"
+  require_env_file \
+    SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE \
+    "confirming licensed Quran reciter audio rights, URLs, and hashes"
+  require_env_file \
+    SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE \
+    "assigning content, religious review, and release owners"
+  validate_completed_content_evidence \
+    "$SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE" \
+    "reviewed content inventory" \
+    "content_type,current_count,target_min,target_max,review_status,reviewed_at,privacy_rule,religious_safety_rule" \
+    daily_session \
+    quran_ayah \
+    dua \
+    dhikr \
+    reviewed \
+    "No generated religious content" \
+    "No tester personal data"
+  validate_completed_content_evidence \
+    "$SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE" \
+    "reviewed Quran source" \
+    "verse_key,source_label,arabic_source,translation_source,review_status,reviewed_at,religious_safety_rule" \
+    "1:1" \
+    "94:5" \
+    "13:28" \
+    "Tanzil Arabic" \
+    "Saheeh International EN" \
+    "Kemenag RI ID" \
+    approved_source_label \
+    "No generated religious content"
+  validate_completed_content_evidence \
+    "$SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE" \
+    "reviewed audio rights" \
+    "audio_asset_id,reciter_name,url_or_storage_path,sha256,rights_status,review_status,evidence_path,religious_safety_rule" \
+    audio_fatiha_minshawi \
+    "Muhammad Siddiq al-Minshawi" \
+    rights_confirmed \
+    "sha256:" \
+    "No background music" \
+    "No generated religious content"
+  validate_completed_content_evidence \
+    "$SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE" \
+    "reviewed content owner" \
+    "owner_role,owner_name_or_team,review_scope,status,evidence_path,privacy_rule,religious_safety_rule" \
+    content_owner \
+    religious_reviewer \
+    release_owner \
+    approved \
+    "No generated religious content" \
+    "No tester personal data"
+  strict_evidence_status="validated"
 fi
 
 rm -rf "$out_dir"
@@ -252,6 +357,10 @@ SAKINAH_BETA_SESSION_PACK_REVIEWED=true \\
 SAKINAH_DUA_DHIKR_PACK_REVIEWED=true \\
 SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED=true \\
 SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED=true \\
+SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE=/path/to/reviewed_content_inventory.csv \\
+SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE=/path/to/reviewed_quran_source_evidence.csv \\
+SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE=/path/to/reviewed_audio_rights_evidence.csv \\
+SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE=/path/to/reviewed_content_owner_evidence.csv \\
 scripts/export_reviewed_content_pack_readiness.sh
 ```
 """
@@ -270,6 +379,19 @@ for path in \
   scripts/export_reviewed_content_pack_readiness.sh; do
   copy_required_file "$path"
 done
+
+copy_strict_evidence_file \
+  SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE \
+  reviewed_content_inventory_evidence.csv
+copy_strict_evidence_file \
+  SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE \
+  reviewed_quran_source_evidence.csv
+copy_strict_evidence_file \
+  SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE \
+  reviewed_audio_rights_evidence.csv
+copy_strict_evidence_file \
+  SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE \
+  reviewed_content_owner_evidence.csv
 
 cat >"$out_dir/manifest.txt" <<EOF
 Reviewed content pack readiness packet
@@ -302,6 +424,12 @@ Strict mode requires:
 - SAKINAH_DUA_DHIKR_PACK_REVIEWED=true
 - SAKINAH_QURAN_AUDIO_RIGHTS_CONFIRMED=true
 - SAKINAH_REVIEWED_CONTENT_PACK_OWNER_ASSIGNED=true
+- SAKINAH_REVIEWED_CONTENT_INVENTORY_EVIDENCE=<completed reviewed_content_inventory.csv>
+- SAKINAH_REVIEWED_QURAN_SOURCE_EVIDENCE=<completed reviewed_quran_source_evidence.csv>
+- SAKINAH_REVIEWED_AUDIO_RIGHTS_EVIDENCE=<completed reviewed_audio_rights_evidence.csv>
+- SAKINAH_REVIEWED_CONTENT_OWNER_EVIDENCE=<completed reviewed_content_owner_evidence.csv>
+
+Strict evidence inputs: $strict_evidence_status
 EOF
 
 printf 'Reviewed content pack readiness packet exported.\n'
