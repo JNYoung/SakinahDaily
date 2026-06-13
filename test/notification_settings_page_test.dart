@@ -292,9 +292,12 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
-  testWidgets('Home prayer reminder CTA records home source analytics',
+  testWidgets('Home prayer card manages reminders after reminders are enabled',
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();
+    await UserPreferencesRepository(preferencesStore).save(
+      UserPreferences.defaults().copyWith(notificationsEnabled: true),
+    );
     final notifications = LocalNotificationServiceStub();
     final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
@@ -309,18 +312,66 @@ void main() {
 
     await tapByKey(tester, SakinahKeys.homePrayerReminderSettingsButton);
     expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
+    final viewEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationSettingsViewed,
+    );
+    expect(viewEvents, hasLength(1));
+    expect(viewEvents.single.properties, {
+      'screen': 'notification_settings',
+      'source': 'home_prayer_card',
+      'prayer_reminders_enabled': true,
+    });
+    expectNoFlutterErrors(tester);
+  });
 
-    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+  testWidgets('Home prayer card can enable reminders without leaving Home',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/home',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
     await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.homePrayerEnableRemindersButton);
     expect(find.text('Enable prayer reminders?'), findsOneWidget);
 
     await tester.tap(find.text('Enable reminders').last);
     await tester.pumpAndSettle();
 
-    final prayerReminderEvents = analytics.events
-        .where((event) =>
-            event.name == AnalyticsEventCatalog.prayerReminderChanged)
-        .toList();
+    final preferences =
+        await UserPreferencesRepository(preferencesStore).load();
+    expect(preferences.notificationsEnabled, isTrue);
+    expect(notifications.scheduled, isNotEmpty);
+    expect(find.byKey(SakinahKeys.homePrayerPrimaryCard), findsOneWidget);
+    expect(find.byKey(SakinahKeys.homePrayerReminderSettingsButton),
+        findsOneWidget);
+    expect(
+        find.byKey(SakinahKeys.homePrayerEnableRemindersButton), findsNothing);
+    expect(find.text('Local prayer reminders are scheduled.'), findsOneWidget);
+
+    final permissionEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.prayerReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'enabled': true,
+      'source': 'home_prayer_card',
+      'change_type': 'scheduled',
+      'reminder_offset_minutes': 0,
+    });
+    final prayerReminderEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.prayerReminderChanged,
+    );
     expect(prayerReminderEvents, hasLength(1));
     expect(prayerReminderEvents.single.properties, {
       'prayer_name': 'all',

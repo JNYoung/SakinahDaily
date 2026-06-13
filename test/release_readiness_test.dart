@@ -1796,6 +1796,7 @@ void main() {
       expect(content, contains('SAKINAH_ANALYTICS_ENABLED=true'));
       expect(content, contains('debug.firebase.analytics.app'));
       expect(content, contains('com.sakinahdaily.app'));
+      expect(content, contains('Push/reminder module'));
       expect(content, contains('home_session_completion'));
       expect(content, contains('daily_session_reminder_changed'));
       expect(content, contains('daily_session_reminder_permission_result'));
@@ -1873,6 +1874,7 @@ void main() {
       );
       expect(checklist, contains('Privacy Center usage analytics opt-in'));
       expect(checklist, contains('Store screenshot mode forces analytics off'));
+      expect(checklist, contains('Push/reminder module coverage'));
 
       expect(
         events,
@@ -1920,9 +1922,12 @@ void main() {
       expect(funnel, contains('Prayer Reminder Permission Outcome Rate'));
       expect(funnel, contains('prayer_reminder_permission_result'));
       expect(funnel, contains('home_prayer_card'));
+      expect(funnel, contains('Home prayer card direct Enable reminders CTA'));
       expect(funnel, contains('prayer_page_card'));
+      expect(funnel, contains('Prayer page direct Enable reminders CTA'));
       expect(funnel, contains('prayer_completion_card'));
       expect(funnel, contains('Push Open Rate'));
+      expect(funnel, contains('Push/reminder module'));
       expect(funnel, contains('Analytics Consent Rate'));
       expect(funnel, contains('Daily Session Start Rate'));
       expect(
@@ -3254,6 +3259,8 @@ void main() {
         () {
       final prayerPage =
           File('lib/features/prayer/prayer_page.dart').readAsStringSync();
+      final homePage =
+          File('lib/features/home/home_page.dart').readAsStringSync();
       final qiblaPage =
           File('lib/features/qibla/qibla_page.dart').readAsStringSync();
       final keys = File('lib/shared/sakinah_keys.dart').readAsStringSync();
@@ -3375,12 +3382,23 @@ void main() {
       );
       expect(
         notificationSettingsTest,
+        contains('Home prayer card can enable reminders without leaving Home'),
+      );
+      expect(
+        notificationSettingsTest,
+        contains(
+            'Home prayer card manages reminders after reminders are enabled'),
+      );
+      expect(
+        notificationSettingsTest,
         contains('Prayer page can enable reminders without leaving Prayer'),
       );
       expect(
         notificationSettingsTest,
         contains('Prayer page manages reminders after reminders are enabled'),
       );
+      expect(homePage, contains('homePrayerEnableRemindersButton'));
+      expect(homePage, contains('handlePrayerReminderToggle'));
       expect(prayerPage, contains('prayerTopEnableRemindersButton'));
       expect(prayerPage, contains('handlePrayerReminderToggle'));
       expect(
@@ -3395,6 +3413,7 @@ void main() {
       expect(readiness, contains('complete state after all five'));
       expect(readiness, contains('Prayer week summary'));
       expect(readiness, contains('prayer_page_card'));
+      expect(readiness, contains('home_prayer_card'));
       expect(readiness, contains('can enable reminders'));
       expect(readiness, contains('Qibla view analytics'));
       expect(readiness, contains('return to Qibla'));
@@ -3410,7 +3429,8 @@ void main() {
       expect(productProgress, contains('Home now shows a local-only'));
       expect(productProgress, contains('Home view analytics includes only'));
       expect(productProgress, contains('prayer_page_card'));
-      expect(productProgress, contains('Prayer-page reminder opt-in'));
+      expect(productProgress,
+          contains('Home-card and Prayer-page reminder opt-in'));
       expect(productProgress, contains('Qibla context action'));
       expect(productProgress, contains('Qibla-page recovery'));
       expect(productProgress, contains('Change location action'));
@@ -3588,6 +3608,150 @@ void main() {
       );
       expect(acceptance, contains('[x] 权限拒绝不影响 App 使用。'));
       expect(acceptance, contains('[x] 推送文案温柔克制。'));
+    });
+
+    test('push module completion and analytics coverage are audited', () {
+      final manifest =
+          File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
+      final notificationService =
+          File('lib/core/services/notification_service.dart')
+              .readAsStringSync();
+      final notificationSettings =
+          File('lib/features/settings/notification_settings_page.dart')
+              .readAsStringSync();
+      final prayerReminderToggleFlow =
+          File('lib/shared/prayer_reminder_toggle_flow.dart')
+              .readAsStringSync();
+      final homePage =
+          File('lib/features/home/home_page.dart').readAsStringSync();
+      final prayerPage =
+          File('lib/features/prayer/prayer_page.dart').readAsStringSync();
+      final tapListener =
+          File('lib/shared/widgets/notification_tap_route_listener.dart')
+              .readAsStringSync();
+      final analyticsService =
+          File('lib/core/services/analytics_service.dart').readAsStringSync();
+      final notificationServiceTest =
+          File('test/notification_service_test.dart').readAsStringSync();
+      final notificationSettingsTest =
+          File('test/notification_settings_page_test.dart').readAsStringSync();
+      final tapRouteTest =
+          File('test/notification_tap_route_listener_test.dart')
+              .readAsStringSync();
+      final analyticsTest =
+          File('test/analytics_service_test.dart').readAsStringSync();
+      final analyticsPlan =
+          File('docs/privacy/07_GOOGLE_ANALYTICS_EVENT_PLAN.md')
+              .readAsStringSync();
+      final productProgress =
+          File('docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md')
+              .readAsStringSync();
+      final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
+          .readAsStringSync();
+      final retentionPlan =
+          File('docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md')
+              .readAsStringSync();
+      final debugViewExporter =
+          File('scripts/export_google_analytics_debugview_packet.sh')
+              .readAsStringSync();
+
+      expect(manifest, contains('android.permission.POST_NOTIFICATIONS'));
+      expect(manifest, contains('android.permission.RECEIVE_BOOT_COMPLETED'));
+      expect(
+        manifest,
+        contains(
+          'com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver',
+        ),
+      );
+      expect(
+        manifest,
+        contains(
+          'com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver',
+        ),
+      );
+
+      expect(notificationService, contains('schedulePrayerReminders'));
+      expect(notificationService, contains('scheduleDailySessionReminder'));
+      expect(notificationService, contains('schedulePrayerReminderSmokeTest'));
+      expect(notificationService, contains('takeLaunchPayload'));
+      expect(notificationService, contains('prayerNotificationPayload'));
+      expect(notificationService, contains('dailySessionNotificationPayload'));
+      expect(notificationSettings, contains('notificationSettingsViewed'));
+      expect(
+          notificationSettings, contains('_trackDailySessionReminderChanged'));
+      expect(
+        notificationSettings,
+        contains('_trackDailySessionReminderPermissionResult'),
+      );
+      expect(
+        prayerReminderToggleFlow,
+        contains('prayerReminderPermissionResult'),
+      );
+      expect(prayerReminderToggleFlow, contains('prayerReminderChanged'));
+      expect(homePage, contains('homePrayerEnableRemindersButton'));
+      expect(homePage, contains("analyticsSource: 'home_prayer_card'"));
+      expect(prayerPage, contains('prayerTopEnableRemindersButton'));
+      expect(prayerPage, contains("analyticsSource: 'prayer_page_card'"));
+      expect(tapListener, contains('notificationTapOpened'));
+
+      expect(analyticsService, contains('notification_settings_viewed'));
+      expect(analyticsService, contains('prayer_reminder_permission_result'));
+      expect(analyticsService, contains('prayer_reminder_changed'));
+      expect(analyticsService,
+          contains('daily_session_reminder_permission_result'));
+      expect(analyticsService, contains('daily_session_reminder_changed'));
+      expect(analyticsService, contains('notification_tap_opened'));
+      expect(analyticsService, contains('_blockedKeyFragments'));
+      expect(analyticsTest, contains('notification tap analytics keeps only'));
+      expect(
+        analyticsTest,
+        contains('prayer reminder permission analytics keeps safe outcome'),
+      );
+
+      expect(notificationServiceTest, contains('privacy-safe tap payload'));
+      expect(notificationServiceTest, contains('prayer reminder smoke test'));
+      expect(
+        notificationSettingsTest,
+        contains('Home prayer card can enable reminders without leaving Home'),
+      );
+      expect(
+        notificationSettingsTest,
+        contains('Prayer page can enable reminders without leaving Prayer'),
+      );
+      expect(
+        notificationSettingsTest,
+        contains('Notification settings records view analytics'),
+      );
+      expect(
+        notificationSettingsTest,
+        contains('Prayer reminder explanation dismissal is tracked safely'),
+      );
+      expect(
+        tapRouteTest,
+        contains('notification tap result navigates to prayer route'),
+      );
+      expect(tapRouteTest, contains('notificationTapOpened'));
+
+      expect(productProgress, contains('Push module completion audit'));
+      expect(productProgress, contains('v0.1 local reminder loop is complete'));
+      expect(
+          productProgress, contains('Remote FCM/APNs is outside v0.1 scope'));
+      expect(
+          productProgress, contains('Longer-window OEM scheduling behavior'));
+      expect(
+        analyticsPlan,
+        contains('Push/reminder module analytics coverage is complete'),
+      );
+      expect(
+        readiness,
+        contains('Push module completion audit: v0.1 local reminder loop'),
+      );
+      expect(
+          retentionPlan, contains('Push/reminder module DebugView coverage'));
+      expect(debugViewExporter, contains('Push/reminder module'));
+      expect(debugViewExporter, contains('home_prayer_card'));
+      expect(debugViewExporter, contains('prayer_page_card'));
+      expect(debugViewExporter, contains('notification_tap_opened'));
     });
 
     test('store metadata and Google Play drafts are present', () {

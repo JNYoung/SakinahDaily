@@ -78,8 +78,12 @@ void main() {
     expect(find.byKey(SakinahKeys.homePrayerPrimaryCard), findsOneWidget);
     expect(find.byKey(SakinahKeys.homePrayerTimesButton), findsOneWidget);
     expect(
-      find.byKey(SakinahKeys.homePrayerReminderSettingsButton),
+      find.byKey(SakinahKeys.homePrayerEnableRemindersButton),
       findsOneWidget,
+    );
+    expect(
+      find.byKey(SakinahKeys.homePrayerReminderSettingsButton),
+      findsNothing,
     );
     expect(find.byKey(SakinahKeys.homeQuickActionDua), findsNothing);
     expect(find.byKey(SakinahKeys.homeQuickActionDhikr), findsNothing);
@@ -429,8 +433,17 @@ void main() {
 
   testWidgets('home prayer actions open prayer and reminder settings',
       (tester) async {
-    await pumpSakinahApp(tester);
-    await continueToHome(tester);
+    final preferencesStore = InMemoryUserPreferencesStore();
+    await UserPreferencesRepository(preferencesStore).save(
+      UserPreferences.defaults().copyWith(notificationsEnabled: true),
+    );
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/home',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+    );
+    await tester.pumpAndSettle();
 
     await tapByKey(tester, SakinahKeys.homePrayerTimesButton);
     await scrollUntilFound(

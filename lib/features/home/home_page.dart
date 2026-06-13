@@ -10,7 +10,9 @@ import '../../core/models/saved_item.dart';
 import '../../core/models/sakinah_models.dart';
 import '../../core/providers/app_providers.dart';
 import '../../core/services/analytics_service.dart';
+import '../../core/services/prayer_calculation_service.dart';
 import '../../core/services/prayer_reminder_preview_service.dart';
+import '../../shared/prayer_reminder_toggle_flow.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/app_card.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
@@ -187,10 +189,26 @@ class HomePage extends ConsumerWidget {
             ),
             nextReminderPreviewLabel: nextPrayerReminderPreviewLabel,
             openPrayerLabel: l10n.t('viewPrayerTimes'),
-            reminderSettingsLabel: l10n.t('manageReminders'),
+            reminderButtonKey: preferences.notificationsEnabled
+                ? SakinahKeys.homePrayerReminderSettingsButton
+                : SakinahKeys.homePrayerEnableRemindersButton,
+            reminderSettingsLabel: preferences.notificationsEnabled
+                ? l10n.t('manageReminders')
+                : l10n.t('notificationPermissionAllow'),
             onOpenPrayer: () => context.push('/prayer?source=home_prayer_card'),
-            onReminderSettings: () =>
-                context.go('/settings/notifications?source=home_prayer_card'),
+            onReminderSettings: preferences.notificationsEnabled
+                ? () => context.go(
+                      '/settings/notifications?source=home_prayer_card',
+                    )
+                : () => unawaited(
+                      _enableHomePrayerReminders(
+                        context: context,
+                        ref: ref,
+                        l10n: l10n,
+                        preferences: preferences,
+                        prayerService: prayerService,
+                      ),
+                    ),
           ),
           const SizedBox(height: 18),
           if (testingFeedbackChannel != null) ...[
@@ -402,6 +420,34 @@ class HomePage extends ConsumerWidget {
   }
 }
 
+Future<void> _enableHomePrayerReminders({
+  required BuildContext context,
+  required WidgetRef ref,
+  required SakinahLocalizations l10n,
+  required UserPreferences preferences,
+  required PrayerCalculationService prayerService,
+}) async {
+  await handlePrayerReminderToggle(
+    enabled: true,
+    context: context,
+    ref: ref,
+    l10n: l10n,
+    controller: ref.read(userPreferencesProvider.notifier),
+    notificationService: ref.read(notificationServiceProvider),
+    prayerService: prayerService,
+    preferences: preferences,
+    analyticsSource: 'home_prayer_card',
+  );
+  if (!context.mounted) {
+    return;
+  }
+  showPrayerReminderFeedbackSnackBar(
+    context: context,
+    l10n: l10n,
+    feedback: ref.read(notificationPermissionFeedbackProvider),
+  );
+}
+
 class _HomeAnalyticsTracker extends ConsumerStatefulWidget {
   const _HomeAnalyticsTracker({
     required this.prayerCompletion,
@@ -611,6 +657,7 @@ class _PrayerReleaseCard extends StatelessWidget {
     required this.remindersLabel,
     required this.nextReminderPreviewLabel,
     required this.openPrayerLabel,
+    required this.reminderButtonKey,
     required this.reminderSettingsLabel,
     required this.onOpenPrayer,
     required this.onReminderSettings,
@@ -626,6 +673,7 @@ class _PrayerReleaseCard extends StatelessWidget {
   final String remindersLabel;
   final String? nextReminderPreviewLabel;
   final String openPrayerLabel;
+  final Key reminderButtonKey;
   final String reminderSettingsLabel;
   final VoidCallback onOpenPrayer;
   final VoidCallback onReminderSettings;
@@ -711,7 +759,7 @@ class _PrayerReleaseCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: PrimaryButton(
-              key: SakinahKeys.homePrayerReminderSettingsButton,
+              key: reminderButtonKey,
               label: reminderSettingsLabel,
               tonal: true,
               onPressed: onReminderSettings,
