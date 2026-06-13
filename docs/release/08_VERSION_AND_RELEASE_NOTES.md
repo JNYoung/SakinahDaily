@@ -126,9 +126,10 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   scheduled, and any DebugView usage decision is recorded.
 - Google Analytics DebugView QA packet strict mode after a reviewed Firebase
   QA build, Privacy Center opt-in, Data Safety review, and DebugView device
-  setup are confirmed, including `notification_smoke_test_result` verification
-  without payloads, routes, scheduled local times, lock-screen body copy,
-  tester identity, or religious text.
+  setup are confirmed, including `notification_schedule_result` and
+  `notification_smoke_test_result` verification without payloads, routes,
+  scheduled local times, lock-screen body copy, tester identity, or religious
+  text.
 - Reviewed content pack readiness packet strict mode after Quran source
   placeholders are replaced, beta session/dua/dhikr coverage is reviewed,
   licensed Quran audio rights and hashes are confirmed, and a human content

@@ -130,6 +130,7 @@ type and `source=local_notification`; do not store raw payloads, routes,
 content IDs, prayer names, or religious text.
 Push/reminder module DebugView coverage should be reviewed as one closed loop:
 `notification_settings_viewed` shows setup intent,
+`notification_schedule_result` shows aggregate local reminder scheduling health,
 `notification_smoke_test_result` shows QA notification scheduling or denial,
 `notification_permission_recovery_opened` shows denied-permission recovery
 entry use,
@@ -148,7 +149,8 @@ Reminder/Feedback retention loop QA checklist. Use it to verify that
 `home_viewed → prayer_viewed`, `prayer_checklist_updated`,
 `daily_session_started`, `daily_session_completed`,
 `daily_session_reminder_permission_result`,
-`daily_session_reminder_changed`, `notification_smoke_test_result`,
+`daily_session_reminder_changed`, `notification_schedule_result`,
+`notification_smoke_test_result`,
 `notification_permission_recovery_opened`,
 `notification_tap_opened`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` appear in the

@@ -27,6 +27,7 @@ class AnalyticsEventCatalog {
   static const prayerReminderPermissionResult =
       'prayer_reminder_permission_result';
   static const prayerReminderChanged = 'prayer_reminder_changed';
+  static const notificationScheduleResult = 'notification_schedule_result';
   static const notificationSmokeTestResult = 'notification_smoke_test_result';
   static const notificationPermissionRecoveryOpened =
       'notification_permission_recovery_opened';
@@ -61,6 +62,7 @@ class AnalyticsEventCatalog {
     notificationSettingsViewed,
     prayerReminderPermissionResult,
     prayerReminderChanged,
+    notificationScheduleResult,
     notificationSmokeTestResult,
     notificationPermissionRecoveryOpened,
     notificationTapOpened,
@@ -108,10 +110,12 @@ class AnalyticsParameterPolicy {
     'prayer_name',
     'prayer_reminders_enabled',
     'prayers_completed_today',
+    'reminder_type',
     'reminder_offset_minutes',
     'route',
     'screen',
     'session_id',
+    'scheduled_count',
     'source',
     'step_id',
     'step_index',
@@ -230,6 +234,15 @@ class AnalyticsParameterPolicy {
     'content_type',
     'source',
     'change_type',
+  };
+
+  static const _notificationScheduleResultKeys = {
+    'reminder_type',
+    'enabled',
+    'source',
+    'change_type',
+    'scheduled_count',
+    'reminder_offset_minutes',
   };
 
   static const _notificationPermissionRecoveryOpenedKeys = {
@@ -371,6 +384,8 @@ class AnalyticsParameterPolicy {
         _notificationTapOpenedKeys.contains(key),
       AnalyticsEventCatalog.notificationSmokeTestResult =>
         _notificationSmokeTestResultKeys.contains(key),
+      AnalyticsEventCatalog.notificationScheduleResult =>
+        _notificationScheduleResultKeys.contains(key),
       AnalyticsEventCatalog.notificationPermissionRecoveryOpened =>
         _notificationPermissionRecoveryOpenedKeys.contains(key),
       AnalyticsEventCatalog.closedTestPromptCopied ||

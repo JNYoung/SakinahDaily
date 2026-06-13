@@ -6,6 +6,7 @@ import '../core/models/sakinah_models.dart';
 import '../core/providers/app_providers.dart';
 import '../core/services/analytics_service.dart';
 import '../core/services/notification_service.dart';
+import 'notification_analytics.dart';
 
 Future<void> handleDailySessionReminderToggle({
   required bool enabled,
@@ -27,6 +28,14 @@ Future<void> handleDailySessionReminderToggle({
       enabled: false,
       source: analyticsSource,
       changeType: 'disabled',
+    );
+    trackNotificationScheduleResult(
+      ref: ref,
+      reminderType: 'daily_session',
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'disabled',
+      scheduledCount: 0,
     );
     return;
   }
@@ -87,6 +96,14 @@ Future<void> handleDailySessionReminderToggle({
       source: analyticsSource,
       changeType: 'schedule_failed',
     );
+    trackNotificationScheduleResult(
+      ref: ref,
+      reminderType: 'daily_session',
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'schedule_failed',
+      scheduledCount: 0,
+    );
     _showSnackBar(context, l10n.t('notificationPermissionDenied'));
     return;
   }
@@ -105,6 +122,14 @@ Future<void> handleDailySessionReminderToggle({
     enabled: true,
     source: analyticsSource,
     changeType: 'enabled',
+  );
+  trackNotificationScheduleResult(
+    ref: ref,
+    reminderType: 'daily_session',
+    enabled: true,
+    source: analyticsSource,
+    changeType: 'scheduled',
+    scheduledCount: 1,
   );
   if (context.mounted) {
     _showSnackBar(context, l10n.t('dailyReminderSet'));

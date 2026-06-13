@@ -192,6 +192,18 @@ void main() {
     expect(notifications.dailySessionReminder, isNotNull);
     expect(notifications.dailySessionReminder!.time.hour, 20);
     expect(notifications.dailySessionReminder!.time.minute, 0);
+    var scheduleEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationScheduleResult,
+    );
+    expect(scheduleEvents, hasLength(1));
+    expect(scheduleEvents.single.properties, {
+      'reminder_type': 'daily_session',
+      'enabled': true,
+      'source': 'settings',
+      'change_type': 'scheduled',
+      'scheduled_count': 1,
+    });
     final permissionEvents = _eventsNamed(
       analytics,
       AnalyticsEventCatalog.dailySessionReminderPermissionResult,
@@ -247,6 +259,18 @@ void main() {
     expect(preferences.dailySessionReminderEnabled, isTrue);
     expect(notifications.dailySessionReminder!.time.hour, 21);
     expect(notifications.dailySessionReminder!.time.minute, 15);
+    scheduleEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationScheduleResult,
+    );
+    expect(scheduleEvents, hasLength(2));
+    expect(scheduleEvents.last.properties, {
+      'reminder_type': 'daily_session',
+      'enabled': true,
+      'source': 'settings',
+      'change_type': 'rescheduled',
+      'scheduled_count': 1,
+    });
     reminderEvents = _eventsNamed(
       analytics,
       AnalyticsEventCatalog.dailySessionReminderChanged,
@@ -265,6 +289,18 @@ void main() {
     preferences = await UserPreferencesRepository(preferencesStore).load();
     expect(preferences.dailySessionReminderEnabled, isFalse);
     expect(notifications.dailySessionReminder, isNull);
+    scheduleEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationScheduleResult,
+    );
+    expect(scheduleEvents, hasLength(3));
+    expect(scheduleEvents.last.properties, {
+      'reminder_type': 'daily_session',
+      'enabled': false,
+      'source': 'settings',
+      'change_type': 'disabled',
+      'scheduled_count': 0,
+    });
     reminderEvents = _eventsNamed(
       analytics,
       AnalyticsEventCatalog.dailySessionReminderChanged,
@@ -436,6 +472,19 @@ void main() {
     var preferences = await UserPreferencesRepository(preferencesStore).load();
     expect(preferences.notificationsEnabled, isTrue);
     expect(notifications.scheduled, isNotEmpty);
+    var scheduleEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationScheduleResult,
+    );
+    expect(scheduleEvents, hasLength(1));
+    expect(scheduleEvents.single.properties, {
+      'reminder_type': 'prayer',
+      'enabled': true,
+      'source': 'settings',
+      'change_type': 'scheduled',
+      'scheduled_count': notifications.scheduled.length,
+      'reminder_offset_minutes': 0,
+    });
     var prayerReminderEvents = _eventsNamed(
       analytics,
       AnalyticsEventCatalog.prayerReminderChanged,
@@ -465,6 +514,19 @@ void main() {
     preferences = await UserPreferencesRepository(preferencesStore).load();
     expect(preferences.notificationsEnabled, isFalse);
     expect(notifications.scheduled, isEmpty);
+    scheduleEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationScheduleResult,
+    );
+    expect(scheduleEvents, hasLength(2));
+    expect(scheduleEvents.last.properties, {
+      'reminder_type': 'prayer',
+      'enabled': false,
+      'source': 'settings',
+      'change_type': 'disabled',
+      'scheduled_count': 0,
+      'reminder_offset_minutes': 0,
+    });
     prayerReminderEvents = _eventsNamed(
       analytics,
       AnalyticsEventCatalog.prayerReminderChanged,
@@ -548,6 +610,19 @@ void main() {
         find.byKey(SakinahKeys.homePrayerEnableRemindersButton), findsNothing);
     expect(find.text('Local prayer reminders are scheduled.'), findsOneWidget);
 
+    final scheduleEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationScheduleResult,
+    );
+    expect(scheduleEvents, hasLength(1));
+    expect(scheduleEvents.single.properties, {
+      'reminder_type': 'prayer',
+      'enabled': true,
+      'source': 'home_prayer_card',
+      'change_type': 'scheduled',
+      'scheduled_count': notifications.scheduled.length,
+      'reminder_offset_minutes': 0,
+    });
     final permissionEvents = _eventsNamed(
       analytics,
       AnalyticsEventCatalog.prayerReminderPermissionResult,

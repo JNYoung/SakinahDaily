@@ -118,11 +118,18 @@ Current implementation:
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
   prayer names, exact reminder times, Women's Ibadah Mode status, and religious
   text are not sent.
+- Local reminder scheduling records `notification_schedule_result` with only
+  `reminder_type` (`prayer` or `daily_session`), enabled state, controlled
+  source, coarse result, aggregate `scheduled_count`, and prayer lead-time
+  offset when relevant. Raw payloads, routes, exact scheduled times,
+  lock-screen copy, prayer names, device model, coordinates, Women's Ibadah
+  Mode status, feedback text, and religious text are not sent.
 - Push/reminder module analytics coverage is complete for the v0.1 local
   reminder loop without adding new sensitive events. Reminder setup interest is
   covered by `notification_settings_viewed`; prayer reminder outcomes and
   changes are covered by `prayer_reminder_permission_result` and
-  `prayer_reminder_changed`; Notification Settings QA smoke outcomes are
+  `prayer_reminder_changed`; local scheduling health is covered by
+  `notification_schedule_result`; Notification Settings QA smoke outcomes are
   covered by `notification_smoke_test_result`; denied-permission recovery is
   covered by `notification_permission_recovery_opened`; Daily Session reminder
   outcomes and changes are covered by
@@ -178,6 +185,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `notification_settings_viewed`
 - `prayer_reminder_permission_result`
 - `prayer_reminder_changed`
+- `notification_schedule_result`
 - `notification_smoke_test_result`
 - `notification_permission_recovery_opened`
 - `notification_tap_opened`
@@ -218,10 +226,12 @@ Only enum-like, non-sensitive operational parameters are allowed:
 - `prayer_name`
 - `prayer_reminders_enabled`
 - `prayers_completed_today`
+- `reminder_type`
 - `reminder_offset_minutes`
 - `route`
 - `screen`
 - `session_id`
+- `scheduled_count`
 - `source`
 - `step_id`
 - `step_index`
@@ -276,6 +286,7 @@ The QA reviewer should verify that `home_viewed`,
 `analytics_consent_changed`,
 `notification_settings_viewed`,
 `prayer_reminder_permission_result`,
+`notification_schedule_result`,
 `notification_smoke_test_result`,
 `prayer_location_changed`,
 `daily_session_started`,
@@ -297,6 +308,9 @@ method, controlled source, and coarse change type.
 aggregate prayer-reminder enabled state.
 `prayer_reminder_permission_result` must keep only enabled result, controlled
 source, coarse outcome, and reminder lead-time offset.
+`notification_schedule_result` must keep only reminder type, enabled state,
+controlled source, coarse outcome, aggregate scheduled count, and prayer
+lead-time offset when relevant.
 `notification_smoke_test_result` must keep only `content_type`,
 `source=notification_settings_qa`, and `change_type`.
 `notification_permission_recovery_opened` must keep only
@@ -313,7 +327,8 @@ The retention loop QA checklist must walk the ordered Home → Prayer → Daily
 Session → Reminder/Feedback path and verify `home_viewed → prayer_viewed`,
 `prayer_checklist_updated`, `daily_session_started`,
 `daily_session_completed`, `daily_session_reminder_permission_result`,
-`daily_session_reminder_changed`, `notification_smoke_test_result`,
+`daily_session_reminder_changed`, `notification_schedule_result`,
+`notification_smoke_test_result`,
 `notification_permission_recovery_opened`,
 `notification_tap_opened`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` without raw
