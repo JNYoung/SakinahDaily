@@ -44,6 +44,26 @@ void main() {
       );
     });
 
+    test('push reminder analytics event names stay audit-visible', () {
+      const pushReminderEventNames = [
+        'notification_settings_viewed',
+        'notification_permission_prompt_viewed',
+        'prayer_reminder_permission_result',
+        'prayer_reminder_changed',
+        'notification_schedule_result',
+        'notification_smoke_test_result',
+        'notification_permission_recovery_opened',
+        'daily_session_reminder_permission_result',
+        'daily_session_reminder_changed',
+        'notification_tap_opened',
+      ];
+
+      expect(
+        AnalyticsEventCatalog.allowedEventNames,
+        containsAll(pushReminderEventNames),
+      );
+    });
+
     test('stub records only whitelisted events when enabled', () {
       final analytics = StubAnalyticsService(enabled: true);
 

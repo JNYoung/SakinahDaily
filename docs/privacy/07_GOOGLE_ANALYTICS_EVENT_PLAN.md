@@ -149,6 +149,12 @@ Current implementation:
   `session_completion`, or `home_session_completion`. Exact reminder times,
   routes, payloads, coordinates, device model, Women's Ibadah Mode exact
   status, feedback text, and religious text remain blocked.
+- Push module completion audit packet export is available at
+  `scripts/export_push_module_completion_audit.sh`. It writes
+  `build/push-module-completion-audit` with a push module completion matrix,
+  push analytics coverage matrix, privacy blocklist, and QA handoff so
+  reminder coverage can be checked before Google Play closed testing without
+  adding new sensitive event names or transmitting analytics by default.
 - Prayer checklist updates record local `prayer_checklist_updated` events with
   aggregate completed count, all-prayers-completed boolean, and the controlled
   `source=prayer_page_checklist` entry label only; exact prayer completion

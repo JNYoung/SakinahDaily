@@ -68,6 +68,14 @@ payloads, routes, coordinates, manual place labels, prayer completion
 timestamps, Women's Ibadah Mode exact status, feedback text, and religious
 text.
 
+Push module completion audit packet: `scripts/export_push_module_completion_audit.sh`
+now exports `build/push-module-completion-audit` with a feature completion
+matrix, push analytics coverage matrix, privacy blocklist, and QA handoff. This
+turns the v0.1 local reminder loop completion decision into a repeatable release
+gate and keeps Remote FCM/APNs clearly marked as outside v0.1 scope until a
+separate backend, CMS payload review, consent/data-safety review, and
+server-triggered delivery QA are designed.
+
 App launch and onboarding return loop: Splash now keeps first-time users on the
 onboarding path, stores local onboarding completion when Continue is pressed,
 and sends returning users with completed onboarding directly to Home after the
