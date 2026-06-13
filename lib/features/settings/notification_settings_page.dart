@@ -260,6 +260,7 @@ class _NotificationSettingsPageState
                 unawaited(
                   _scheduleNotificationSmokeTest(
                     context: context,
+                    ref: ref,
                     notificationService: notificationService,
                   ),
                 );
@@ -274,6 +275,7 @@ class _NotificationSettingsPageState
                 unawaited(
                   _schedulePrayerReminderSmokeTest(
                     context: context,
+                    ref: ref,
                     notificationService: notificationService,
                     preferences: preferences,
                   ),
@@ -647,6 +649,7 @@ void _showSnackBar(BuildContext context, String message) {
 
 Future<void> _scheduleNotificationSmokeTest({
   required BuildContext context,
+  required WidgetRef ref,
   required NotificationService notificationService,
 }) async {
   final granted = await notificationService.requestPermissionAfterExplanation();
@@ -654,6 +657,11 @@ Future<void> _scheduleNotificationSmokeTest({
     return;
   }
   if (!granted) {
+    _trackNotificationSmokeTestResult(
+      ref: ref,
+      contentType: 'notification',
+      changeType: 'permission_denied',
+    );
     _showSnackBar(
       context,
       'Notifications are off. You can enable them from system settings.',
@@ -665,6 +673,11 @@ Future<void> _scheduleNotificationSmokeTest({
   if (!context.mounted) {
     return;
   }
+  _trackNotificationSmokeTestResult(
+    ref: ref,
+    contentType: 'notification',
+    changeType: scheduled == null ? 'schedule_failed' : 'scheduled',
+  );
   _showSnackBar(
     context,
     scheduled == null
@@ -675,6 +688,7 @@ Future<void> _scheduleNotificationSmokeTest({
 
 Future<void> _schedulePrayerReminderSmokeTest({
   required BuildContext context,
+  required WidgetRef ref,
   required NotificationService notificationService,
   required UserPreferences preferences,
 }) async {
@@ -683,6 +697,11 @@ Future<void> _schedulePrayerReminderSmokeTest({
     return;
   }
   if (!granted) {
+    _trackNotificationSmokeTestResult(
+      ref: ref,
+      contentType: 'prayer',
+      changeType: 'permission_denied',
+    );
     _showSnackBar(
       context,
       'Notifications are off. You can enable them from system settings.',
@@ -697,10 +716,30 @@ Future<void> _schedulePrayerReminderSmokeTest({
   if (!context.mounted) {
     return;
   }
+  _trackNotificationSmokeTestResult(
+    ref: ref,
+    contentType: 'prayer',
+    changeType: scheduled == null ? 'schedule_failed' : 'scheduled',
+  );
   _showSnackBar(
     context,
     scheduled == null
         ? 'Notifications are off. You can enable them from system settings.'
         : 'Prayer reminder test scheduled.',
+  );
+}
+
+void _trackNotificationSmokeTestResult({
+  required WidgetRef ref,
+  required String contentType,
+  required String changeType,
+}) {
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.notificationSmokeTestResult,
+    {
+      'content_type': contentType,
+      'source': 'notification_settings_qa',
+      'change_type': changeType,
+    },
   );
 }

@@ -27,6 +27,7 @@ class AnalyticsEventCatalog {
   static const prayerReminderPermissionResult =
       'prayer_reminder_permission_result';
   static const prayerReminderChanged = 'prayer_reminder_changed';
+  static const notificationSmokeTestResult = 'notification_smoke_test_result';
   static const notificationTapOpened = 'notification_tap_opened';
   static const analyticsConsentChanged = 'analytics_consent_changed';
   static const dailySessionReminderPermissionResult =
@@ -58,6 +59,7 @@ class AnalyticsEventCatalog {
     notificationSettingsViewed,
     prayerReminderPermissionResult,
     prayerReminderChanged,
+    notificationSmokeTestResult,
     notificationTapOpened,
     analyticsConsentChanged,
     dailySessionReminderPermissionResult,
@@ -221,6 +223,12 @@ class AnalyticsParameterPolicy {
     'source',
   };
 
+  static const _notificationSmokeTestResultKeys = {
+    'content_type',
+    'source',
+    'change_type',
+  };
+
   static const _closedTestPromptKeys = {
     'prompt_day',
     'theme_key',
@@ -353,6 +361,8 @@ class AnalyticsParameterPolicy {
         _analyticsConsentChangedKeys.contains(key),
       AnalyticsEventCatalog.notificationTapOpened =>
         _notificationTapOpenedKeys.contains(key),
+      AnalyticsEventCatalog.notificationSmokeTestResult =>
+        _notificationSmokeTestResultKeys.contains(key),
       AnalyticsEventCatalog.closedTestPromptCopied ||
       AnalyticsEventCatalog.closedTestPromptMarkedSent =>
         _closedTestPromptKeys.contains(key),

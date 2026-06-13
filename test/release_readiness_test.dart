@@ -1876,6 +1876,7 @@ void main() {
       expect(content, contains('analytics_consent_changed'));
       expect(content, contains('notification_settings_viewed'));
       expect(content, contains('prayer_reminder_permission_result'));
+      expect(content, contains('notification_smoke_test_result'));
       expect(content, contains('prayer_location_changed'));
       expect(content, contains('qibla_viewed'));
       expect(content, contains('notification_tap_opened'));
@@ -1892,6 +1893,7 @@ void main() {
       expect(readiness, contains('prayer_completion_card'));
       expect(retentionPlan, contains('notification_settings_viewed'));
       expect(retentionPlan, contains('prayer_reminder_permission_result'));
+      expect(retentionPlan, contains('notification_smoke_test_result'));
       expect(retentionPlan, contains('prayer_location_changed'));
       expect(
           retentionPlan, contains('daily_session_reminder_permission_result'));
@@ -1965,6 +1967,7 @@ void main() {
       expect(events, contains('prayer_reminder_changed'));
       expect(events, contains('notification_settings_viewed'));
       expect(events, contains('prayer_reminder_permission_result'));
+      expect(events, contains('notification_smoke_test_result'));
       expect(events, contains('home_prayer_card'));
       expect(events, contains('home_prayer_badge'));
       expect(events, contains('home_progress_card'));
@@ -1999,6 +2002,8 @@ void main() {
       expect(funnel, contains('notification_settings_viewed'));
       expect(funnel, contains('Prayer Reminder Permission Outcome Rate'));
       expect(funnel, contains('prayer_reminder_permission_result'));
+      expect(funnel, contains('Notification QA Smoke Result Rate'));
+      expect(funnel, contains('notification_smoke_test_result'));
       expect(funnel, contains('home_prayer_card'));
       expect(funnel, contains('Home prayer card direct Enable reminders CTA'));
       expect(funnel, contains('prayer_page_card'));
@@ -2028,6 +2033,7 @@ void main() {
       expect(loopQa, contains('daily_session_completed'));
       expect(loopQa, contains('daily_session_reminder_permission_result'));
       expect(loopQa, contains('daily_session_reminder_changed'));
+      expect(loopQa, contains('notification_smoke_test_result'));
       expect(loopQa, contains('notification_tap_opened'));
       expect(loopQa, contains('closed_test_prompt_copied'));
       expect(loopQa, contains('closed_test_prompt_marked_sent'));
@@ -2043,6 +2049,8 @@ void main() {
       expect(blocked, contains('feedback_text'));
       expect(blocked, contains('quran_arabic_text'));
       expect(blocked, contains('reminder_time'));
+      expect(blocked, contains('payload'));
+      expect(blocked, contains('scheduled_local_time'));
 
       final strictRun = Process.runSync(
         'bash',
@@ -2071,6 +2079,7 @@ void main() {
       expect(readiness, contains('retention loop QA checklist'));
       expect(readiness, contains('notification_settings_viewed'));
       expect(readiness, contains('prayer_reminder_permission_result'));
+      expect(readiness, contains('notification_smoke_test_result'));
       expect(readiness, contains('prayer_location_changed'));
       expect(readiness, contains('qibla_viewed'));
       expect(readiness, contains('daily_session_reminder_permission_result'));
