@@ -147,6 +147,11 @@ Source: `docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md`.
   `scripts/export_google_play_closed_test_retention_packet.sh` so Day 1 /
   Day 3 / Day 7 / Day 14 feedback themes can be summarized without tester
   personal data.
+- Export the Day 0 / Day 1 operator packet with
+  `scripts/export_google_play_day0_day1_operator_packet.sh` before sharing
+  invite links and again before the first-use feedback review, so share order,
+  evidence-log updates, Day 1 theme intake, and optional DebugView decisions
+  are handled from one aggregate-only handoff.
 
 ## Production access
 
@@ -220,6 +225,9 @@ available:
 - Closed-test retention observation packet:
   `build/play-retention-observation`, exported by
   `scripts/export_google_play_closed_test_retention_packet.sh`.
+- Day 0 / Day 1 operator packet:
+  `build/play-day0-day1-operator`, exported by
+  `scripts/export_google_play_day0_day1_operator_packet.sh`.
 - Production access feedback summary:
   `build/play-retention-observation/production_access_feedback_summary.md`.
 - Closed-testing evidence log:

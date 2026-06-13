@@ -87,6 +87,16 @@ Status: Draft for release/store review.
   `build/play-retention-observation` without tester personal data, while
   strict mode fails until the closed-test release is live, feedback channels
   are ready, and a human review owner/schedule is confirmed.
+- [x] Google Play Day 0 / Day 1 operator packet exists at
+  `scripts/export_google_play_day0_day1_operator_packet.sh`; template mode
+  regenerates the closed-test launch day gate, retention observation packet,
+  and Google Analytics DebugView QA packet, then writes
+  `build/play-day0-day1-operator` with a first-24-hours operator checklist,
+  status CSV, and Day 1 feedback intake CSV. Strict mode fails until a human
+  operator confirms the release is visible, Google Group link was shared
+  first, Play opt-in link second, evidence log updates are ready, Day 1 review
+  is scheduled, and any DebugView usage decision is recorded without tester
+  personal data.
 - [x] Google Analytics DebugView QA packet exists at
   `scripts/export_google_analytics_debugview_packet.sh`; template mode writes
   a DebugView checklist, analytics event catalog, retention funnel checklist,
@@ -125,9 +135,10 @@ Status: Draft for release/store review.
   reboot restore, battery review, and a human observation owner are confirmed.
 - [x] Local e2e gate exists at `scripts/verify_local_e2e.sh`; it runs
   `flutter test`, `dart analyze`, Play submission/public-links template gates,
-  the Google Analytics DebugView QA packet, the reviewed content pack readiness
-  packet, the Android OEM reminder observation packet, optional internal
-  release gate, and Android launch smoke when an Android device is available.
+  the Google Analytics DebugView QA packet, the Day 0 / Day 1 operator packet,
+  the reviewed content pack readiness packet, the Android OEM reminder
+  observation packet, optional internal release gate, and Android launch smoke
+  when an Android device is available.
 - [x] GitHub Actions local e2e workflow exists at
   `.github/workflows/local-e2e.yml`; it runs on pull requests and pushes to
   `main`, uses Node 24-compatible `actions/checkout@v6`, installs Flutter, and
@@ -443,6 +454,13 @@ Status: Draft for release/store review.
   daily observation, feedback theme, Production access decision CSV, and
   `production_access_feedback_summary.md` templates for D1/D3/D7/D14 review
   without storing tester personal data.
+- [x] Day 0 / Day 1 operator packet can be exported to
+  `build/play-day0-day1-operator` with
+  `scripts/export_google_play_day0_day1_operator_packet.sh`; it ties the
+  launch-day share order, Day 1 onboarding/privacy feedback review,
+  retention-observation templates, optional DebugView evidence, and
+  `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md` into one operator handoff
+  without storing tester personal data.
 - [ ] Google Group `sakinah-daily-testers@googlegroups.com` is created and
   bound to the Play Console closed-testing track.
 - [ ] Play Console testing feedback channel is configured with the final
@@ -488,6 +506,10 @@ Status: Draft for release/store review.
   `build/play-retention-observation` for aggregate Day 1 / Day 3 / Day 7 /
   Day 14 feedback review, suggested theme-key grouping, and Production access
   answer preparation through `production_access_feedback_summary.md`.
+- [x] `scripts/export_google_play_day0_day1_operator_packet.sh` exports a
+  template-mode Day 0 / Day 1 operator packet at
+  `build/play-day0-day1-operator`, regenerating launch-day, retention, and
+  DebugView packets before writing first-24-hours operator templates.
 - [x] Home exposes the same Day 1 / Day 3 / Day 7 / Day 14 closed-test guide
   entry when the feedback channel is configured, keeping the retention feedback
   loop visible in the primary prayer habit path. It also highlights the next

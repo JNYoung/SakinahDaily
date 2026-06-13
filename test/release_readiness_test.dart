@@ -818,6 +818,9 @@ void main() {
       expect(content, contains('verify_google_play_public_links_packet.sh'));
       expect(content, contains('export_google_analytics_debugview_packet.sh'));
       expect(content, contains('SAKINAH_E2E_SKIP_ANALYTICS_DEBUGVIEW_PACKET'));
+      expect(
+          content, contains('export_google_play_day0_day1_operator_packet.sh'));
+      expect(content, contains('SAKINAH_E2E_SKIP_DAY0_DAY1_OPERATOR_PACKET'));
       expect(content, contains('export_reviewed_content_pack_readiness.sh'));
       expect(content, contains('SAKINAH_E2E_SKIP_REVIEWED_CONTENT_PACK'));
       expect(content,
@@ -830,10 +833,12 @@ void main() {
       expect(content, contains('android-arm64'));
       expect(readiness, contains('Local e2e gate'));
       expect(readiness, contains('Google Analytics DebugView QA packet'));
+      expect(readiness, contains('Day 0 / Day 1 operator packet'));
       expect(readiness, contains('actions/checkout@v6'));
       expect(readiness, contains('Node 24-compatible checkout'));
       expect(acceptance, contains('scripts/verify_local_e2e.sh'));
       expect(acceptance, contains('Google Analytics DebugView QA packet'));
+      expect(acceptance, contains('Day 0 / Day 1 operator packet'));
 
       expect(workflow.existsSync(), isTrue);
       final workflowContent = workflow.readAsStringSync();
@@ -2072,6 +2077,137 @@ void main() {
       expect(retentionPlan, contains('DebugView QA packet'));
       expect(retentionPlan, contains('Home → Prayer → Daily Session'));
       expect(versionNotes, contains('Google Analytics DebugView QA packet'));
+    });
+
+    test('Google Play Day 0 and Day 1 operator packet can be exported', () {
+      final script =
+          File('scripts/export_google_play_day0_day1_operator_packet.sh');
+      final docsIndex = File('docs/00_DOCS_INDEX.md').readAsStringSync();
+      final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
+          .readAsStringSync();
+      final launchDayChecklist =
+          File('docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md')
+              .readAsStringSync();
+      final retentionPlan =
+          File('docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md')
+              .readAsStringSync();
+      final evidenceLog = File('docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md')
+          .readAsStringSync();
+      final runbook = File('docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md')
+          .readAsStringSync();
+      final versionNotes = File('docs/release/08_VERSION_AND_RELEASE_NOTES.md')
+          .readAsStringSync();
+
+      expect(script.existsSync(), isTrue);
+      final mode = script.statSync().mode;
+      expect(mode & 0x49, isNonZero);
+
+      final content = script.readAsStringSync();
+      expect(content, contains('build/play-day0-day1-operator'));
+      expect(content, contains('day0_day1_operator_checklist.md'));
+      expect(content, contains('day0_day1_status_template.csv'));
+      expect(content, contains('day1_feedback_intake_template.csv'));
+      expect(content, contains('verify_google_play_closed_test_launch_day.sh'));
+      expect(content,
+          contains('export_google_play_closed_test_retention_packet.sh'));
+      expect(content, contains('export_google_analytics_debugview_packet.sh'));
+      expect(content, contains('SAKINAH_REQUIRE_DAY0_DAY1_OPERATOR_READY'));
+      expect(content, contains('SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED'));
+      expect(content, contains('SAKINAH_DAY0_GROUP_LINK_SHARED_FIRST'));
+      expect(content, contains('SAKINAH_DAY0_PLAY_OPT_IN_SHARED_SECOND'));
+      expect(content, contains('SAKINAH_DAY1_REVIEW_SCHEDULED'));
+      expect(content, contains('No tester personal data'));
+
+      final templateRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_day0_day1_operator_packet.sh'],
+        environment: {'PATH': Platform.environment['PATH'] ?? ''},
+        includeParentEnvironment: false,
+      );
+      expect(templateRun.exitCode, 0);
+      expect(templateRun.stderr.toString(), isEmpty);
+      expect(
+        templateRun.stdout.toString(),
+        contains('Google Play Day 0 / Day 1 operator packet exported'),
+      );
+
+      final manifest =
+          File('build/play-day0-day1-operator/manifest.txt').readAsStringSync();
+      final checklist =
+          File('build/play-day0-day1-operator/day0_day1_operator_checklist.md')
+              .readAsStringSync();
+      final statusCsv =
+          File('build/play-day0-day1-operator/day0_day1_status_template.csv')
+              .readAsStringSync();
+      final feedbackCsv = File(
+              'build/play-day0-day1-operator/day1_feedback_intake_template.csv')
+          .readAsStringSync();
+
+      expect(manifest, contains('Google Play Day 0 / Day 1 operator packet'));
+      expect(manifest, contains('No tester personal data'));
+      expect(manifest, contains('build/play-upload/manifest.txt'));
+      expect(manifest, contains('build/play-retention-observation'));
+      expect(manifest, contains('build/google-analytics-debugview'));
+      expect(
+          manifest, contains('docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md'));
+
+      expect(checklist, contains('Day 0'));
+      expect(checklist, contains('Day 1'));
+      expect(checklist, contains('Google Group link first'));
+      expect(checklist, contains('Play opt-in link second'));
+      expect(checklist, contains('Leave testing link is not an invite'));
+      expect(checklist,
+          contains('Please avoid personal or sensitive health details'));
+      expect(checklist, contains('retention_loop_debugview_qa.md'));
+      expect(checklist, contains('closed_test_prompt_marked_sent'));
+      expect(checklist,
+          contains('docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md'));
+
+      expect(statusCsv,
+          contains('checkpoint_day,checkpoint,owner,status,evidence_path'));
+      expect(statusCsv, contains('Day 0'));
+      expect(statusCsv, contains('release visible to testers'));
+      expect(statusCsv, contains('group link shared first'));
+      expect(statusCsv, contains('Day 1'));
+      expect(statusCsv, contains('onboarding_location_clarity'));
+
+      expect(
+          feedbackCsv,
+          contains(
+              'test_day,theme_key,aggregate_signal,decision_or_follow_up'));
+      expect(feedbackCsv, contains('Day 1'));
+      expect(feedbackCsv, contains('onboarding_location_clarity'));
+      expect(feedbackCsv, contains('privacy_center_trust'));
+      expect(feedbackCsv, contains('No tester personal data'));
+
+      final strictRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_day0_day1_operator_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_DAY0_DAY1_OPERATOR_READY': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictRun.exitCode, isNot(0));
+      expect(
+        strictRun.stderr.toString(),
+        contains('Google Play Day 0 / Day 1 operator packet failed'),
+      );
+      expect(
+        strictRun.stderr.toString(),
+        contains('SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED=true'),
+      );
+
+      expect(docsIndex,
+          contains('export_google_play_day0_day1_operator_packet.sh'));
+      expect(readiness, contains('Day 0 / Day 1 operator packet'));
+      expect(launchDayChecklist, contains('Day 0 / Day 1 operator packet'));
+      expect(retentionPlan, contains('Day 0 / Day 1 operator packet'));
+      expect(evidenceLog, contains('Day 0 / Day 1 operator packet'));
+      expect(
+          runbook, contains('export_google_play_day0_day1_operator_packet.sh'));
+      expect(versionNotes, contains('Day 0 / Day 1 operator packet'));
     });
 
     test('reviewed content pack readiness packet can be exported', () {

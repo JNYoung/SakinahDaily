@@ -24,6 +24,11 @@ Use it with:
 - The optional Google Analytics DebugView QA packet exported by
   `scripts/export_google_analytics_debugview_packet.sh` when a reviewed
   analytics QA build is available.
+- The Day 0 / Day 1 operator packet exported by
+  `scripts/export_google_play_day0_day1_operator_packet.sh`, which regenerates
+  the launch-day, retention-observation, and DebugView packets before writing a
+  first-24-hours operator checklist and aggregate Day 1 feedback intake
+  templates.
 - `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`.
 - `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`.
 
@@ -183,6 +188,16 @@ The packet is written to `build/play-retention-observation` and contains:
 - The closed-testing evidence log.
 - The Production access answer draft.
 - The closed-test launch day checklist.
+
+For the first 24 hours, also create the Day 0 / Day 1 operator packet:
+
+```sh
+scripts/export_google_play_day0_day1_operator_packet.sh
+```
+
+It writes `build/play-day0-day1-operator` so the operator can track launch
+share order, Day 1 onboarding/privacy feedback, evidence-log updates, and the
+optional DebugView decision from one aggregate-only handoff.
 
 ## Strict Mode
 

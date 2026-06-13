@@ -33,6 +33,27 @@ Template mode regenerates and checks:
 - The Play Console submission pack through
   `scripts/verify_google_play_submission_pack.sh`.
 
+## Day 0 / Day 1 operator packet
+
+Run this when preparing the first 24 hours of closed testing:
+
+```sh
+scripts/export_google_play_day0_day1_operator_packet.sh
+```
+
+Template mode regenerates the closed-test launch day gate, the retention
+observation packet, and the Google Analytics DebugView QA packet, then writes
+`build/play-day0-day1-operator` with:
+
+- `day0_day1_operator_checklist.md` for launch share order and Day 1 review.
+- `day0_day1_status_template.csv` for owner/status/evidence tracking.
+- `day1_feedback_intake_template.csv` for aggregate Day 1 theme intake.
+
+Use this packet to keep Google Group link first, Play opt-in link second,
+evidence-log updates, Day 1 onboarding/privacy feedback, and optional
+DebugView QA evidence in one operator handoff. Do not store tester personal
+data.
+
 ## Strict Launch Gate
 
 Run strict mode only after the real Play Console release is approved or
@@ -71,6 +92,23 @@ Strict mode also delegates to the Play submission strict gate, so upload
 signing, public privacy/feedback links, app-content declarations, store listing
 readiness, screenshots, feature graphic, Google Group binding, closed-testing
 track setup, signed AAB, and checksum evidence must already be ready.
+
+Day 0 / Day 1 operator strict mode is separate and should be run after the
+launch strict gate:
+
+```sh
+SAKINAH_REQUIRE_DAY0_DAY1_OPERATOR_READY=true \
+SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED=true \
+SAKINAH_DAY0_CLOSED_TEST_RELEASE_VISIBLE=true \
+SAKINAH_DAY0_GROUP_LINK_SHARED_FIRST=true \
+SAKINAH_DAY0_PLAY_OPT_IN_SHARED_SECOND=true \
+SAKINAH_DAY0_EVIDENCE_LOG_UPDATED=true \
+SAKINAH_DAY1_REVIEW_SCHEDULED=true \
+SAKINAH_DAY1_FEEDBACK_PRIVACY_COPY_REVIEWED=true \
+SAKINAH_DAY1_EVIDENCE_LOG_READY=true \
+SAKINAH_DAY1_DEBUGVIEW_DECISION_RECORDED=true \
+scripts/export_google_play_day0_day1_operator_packet.sh
+```
 
 ## Share Order
 
