@@ -74,7 +74,10 @@ matrix, push analytics coverage matrix, privacy blocklist, and QA handoff. This
 turns the v0.1 local reminder loop completion decision into a repeatable release
 gate and keeps Remote FCM/APNs clearly marked as outside v0.1 scope until a
 separate backend, CMS payload review, consent/data-safety review, and
-server-triggered delivery QA are designed.
+server-triggered delivery QA are designed. Strict mode now requires completed
+permission QA, real-device smoke, DebugView event review, and OEM owner
+assignment CSV evidence before the manifest can show
+`Strict push evidence inputs: validated`.
 
 App launch and onboarding return loop: Splash now keeps first-time users on the
 onboarding path, stores local onboarding completion when Continue is pressed,

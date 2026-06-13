@@ -119,12 +119,21 @@ Status: Draft for release/store review.
   `scripts/export_push_module_completion_audit.sh` with scope notes in
   `docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md`; template mode writes
   `build/push-module-completion-audit` with a push module completion matrix,
-  push analytics coverage matrix, privacy blocklist, and QA handoff. The audit
-  confirms the v0.1 local prayer reminder and local daily session reminder loop
-  is complete while Remote FCM/APNs is outside v0.1 scope. Strict mode fails
-  until Android permission QA, real-device smoke delivery/tap routing, Google
-  Analytics DebugView review, and an Android OEM observation owner are
-  confirmed, with No tester personal data.
+  push analytics coverage matrix, privacy blocklist, QA handoff,
+  `push_permission_qa_evidence.csv`,
+  `push_real_device_smoke_evidence.csv`,
+  `push_debugview_event_review.csv`, and
+  `push_oem_owner_assignment.csv`. The audit confirms the v0.1 local prayer
+  reminder and local daily session reminder loop is complete while Remote
+  FCM/APNs is outside v0.1 scope. Strict mode fails until Android permission
+  QA, real-device smoke delivery/tap routing, Google Analytics DebugView
+  review, and an Android OEM observation owner are confirmed, with No tester
+  personal data. Strict mode also requires completed evidence CSVs through
+  `SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE`,
+  `SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE`,
+  `SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE`, and
+  `SAKINAH_PUSH_OEM_OWNER_EVIDENCE`; completed runs write
+  `Strict push evidence inputs: validated` into the manifest.
 - [x] Reviewed content pack readiness packet exists at
   `scripts/export_reviewed_content_pack_readiness.sh`; template mode writes
   current seed inventory, beta content targets, Quran source placeholder

@@ -154,7 +154,10 @@ Current implementation:
   `build/push-module-completion-audit` with a push module completion matrix,
   push analytics coverage matrix, privacy blocklist, and QA handoff so
   reminder coverage can be checked before Google Play closed testing without
-  adding new sensitive event names or transmitting analytics by default.
+  adding new sensitive event names or transmitting analytics by default. The
+  strict evidence path requires a completed `push_debugview_event_review.csv`
+  with no forbidden push/reminder parameters before the audit manifest can show
+  `Strict push evidence inputs: validated`.
 - Prayer checklist updates record local `prayer_checklist_updated` events with
   aggregate completed count, all-prayers-completed boolean, and the controlled
   `source=prayer_page_checklist` entry label only; exact prayer completion

@@ -53,6 +53,40 @@ require_true_var() {
     fail "$name=true is required after $description."
 }
 
+require_env_file() {
+  local name="$1"
+  local description="$2"
+  local path="${!name:-}"
+
+  [[ -n "$path" ]] ||
+    fail "$name must point to completed evidence after $description."
+  [[ -f "$path" ]] ||
+    fail "$name points to a missing evidence file: $path"
+}
+
+validate_completed_push_evidence() {
+  local path="$1"
+  local label="$2"
+  shift 2
+
+  require_file "$path"
+  for placeholder in \
+    pending_manual_observation \
+    pending_tap_route \
+    pending_owner_assignment \
+    record_manually \
+    TBD \
+    unknown; do
+    if grep -Fq "$placeholder" "$path"; then
+      fail "$label strict evidence still contains placeholder: $placeholder"
+    fi
+  done
+
+  for needle in "$@"; do
+    require_text "$path" "$needle"
+  done
+}
+
 copy_required_file() {
   local path="$1"
   local target="$out_dir/$path"
@@ -69,6 +103,17 @@ copy_required_text_evidence() {
   require_file "$path"
   mkdir -p "$(dirname "$target")"
   cp "$path" "$target"
+}
+
+copy_strict_evidence_file() {
+  local env_name="$1"
+  local target_name="$2"
+  local path="${!env_name:-}"
+
+  [[ -n "$path" ]] || return 0
+  require_file "$path"
+  mkdir -p "$out_dir/completed-evidence"
+  cp "$path" "$out_dir/completed-evidence/$target_name"
 }
 
 for path in \
@@ -141,6 +186,7 @@ require_text "$notification_tap_service_test" 'malformed notification payload'
 require_text "$notification_tap_route_test" 'notificationTapOpened'
 require_text "$analytics_test" 'notification_permission_prompt_viewed'
 
+strict_evidence_status="not requested"
 if [[ "$require_strict" == "true" ]]; then
   require_true_var \
     SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY \
@@ -154,6 +200,48 @@ if [[ "$require_strict" == "true" ]]; then
   require_true_var \
     SAKINAH_PUSH_OEM_OBSERVATION_OWNER_ASSIGNED \
     "assigning long-window Android OEM reminder observation ownership"
+  require_env_file \
+    SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE \
+    "verifying Android notification permission accept, deny, and recovery paths"
+  require_env_file \
+    SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE \
+    "capturing real-device short-delay local reminder delivery and tap routing"
+  require_env_file \
+    SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE \
+    "reviewing Google Analytics DebugView push/reminder events"
+  require_env_file \
+    SAKINAH_PUSH_OEM_OWNER_EVIDENCE \
+    "assigning long-window Android OEM reminder observation ownership"
+  validate_completed_push_evidence \
+    "$SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE" \
+    "Android notification permission QA" \
+    permission_allowed \
+    permission_denied \
+    system_settings_recovery \
+    passed \
+    "No tester personal data"
+  validate_completed_push_evidence \
+    "$SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE" \
+    "real-device push smoke QA" \
+    short_delay_prayer \
+    short_delay_daily_session \
+    delivered \
+    tapped \
+    "No tester personal data"
+  validate_completed_push_evidence \
+    "$SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE" \
+    "push DebugView event review" \
+    notification_permission_prompt_viewed \
+    notification_schedule_result \
+    notification_tap_opened \
+    passed \
+    "No tester personal data"
+  validate_completed_push_evidence \
+    "$SAKINAH_PUSH_OEM_OWNER_EVIDENCE" \
+    "push OEM observation owner assignment" \
+    assigned \
+    "No tester personal data"
+  strict_evidence_status="validated"
 fi
 
 rm -rf "$out_dir"
@@ -184,6 +272,19 @@ for path in \
   "$analytics_test"; do
   copy_required_text_evidence "$path"
 done
+
+copy_strict_evidence_file \
+  SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE \
+  push_permission_qa_evidence.csv
+copy_strict_evidence_file \
+  SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE \
+  push_real_device_smoke_evidence.csv
+copy_strict_evidence_file \
+  SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE \
+  push_debugview_event_review.csv
+copy_strict_evidence_file \
+  SAKINAH_PUSH_OEM_OWNER_EVIDENCE \
+  push_oem_owner_assignment.csv
 
 cat >"$out_dir/push_module_completion_matrix.csv" <<'EOF'
 capability,status,implementation_evidence,test_evidence,analytics_evidence,privacy_note
@@ -234,6 +335,31 @@ tester_name,Tester identity is never collected by the audit packet,AnalyticsPara
 email,Tester contact data is never sent in app analytics,AnalyticsParameterPolicy blocked fragments
 EOF
 
+cat >"$out_dir/push_permission_qa_evidence.csv" <<'EOF'
+scenario,device_serial,android_sdk,expected_result,observed_result,notes_without_personal_data
+permission_allowed,record_manually,record_manually,permission granted and reminders scheduled,pending_manual_observation,No tester personal data
+permission_denied,record_manually,record_manually,permission denied keeps app usable,pending_manual_observation,No tester personal data
+system_settings_recovery,record_manually,record_manually,system settings recovery opens,pending_manual_observation,No tester personal data
+EOF
+
+cat >"$out_dir/push_real_device_smoke_evidence.csv" <<'EOF'
+scenario,device_serial,reminder_type,expected_delivery_result,observed_delivery_result,tap_route_result,notes_without_personal_data
+short_delay_prayer,record_manually,prayer,delivered,pending_manual_observation,pending_tap_route,No tester personal data
+short_delay_daily_session,record_manually,daily_session,delivered,pending_manual_observation,pending_tap_route,No tester personal data
+EOF
+
+cat >"$out_dir/push_debugview_event_review.csv" <<'EOF'
+event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data
+notification_permission_prompt_viewed,reminder_type|source,record_manually,record_manually,pending_manual_observation,No tester personal data
+notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count|reminder_offset_minutes,record_manually,record_manually,pending_manual_observation,No tester personal data
+notification_tap_opened,content_type|source,record_manually,record_manually,pending_manual_observation,No tester personal data
+EOF
+
+cat >"$out_dir/push_oem_owner_assignment.csv" <<'EOF'
+owner_handle,review_cadence,next_review_date,qa_result,notes_without_personal_data
+pending_owner_assignment,daily-through-day14,record_manually,pending_owner_assignment,No tester personal data
+EOF
+
 cat >"$out_dir/push_module_qa_handoff.md" <<'EOF'
 # 推送模块完成度 QA Handoff
 
@@ -254,12 +380,21 @@ Status: v0.1 本地提醒闭环完成；线上 server push 未纳入 MVP。
 - Android OEM reminder observation packet 继续覆盖 8h / 24h / reboot / battery policy 长窗口可靠性，不把模板证据当成真实送达。
 - No raw payloads, routes, coordinates, scheduled local times, exact reminder times, lock-screen copy, tester identity, Women's Ibadah Mode exact status, feedback text, or religious text should appear in analytics.
 
+## Strict evidence 模板
+
+- `push_permission_qa_evidence.csv`: Android 权限允许、拒绝、系统设置恢复。
+- `push_real_device_smoke_evidence.csv`: 短延迟 prayer reminder 和 Daily Session reminder 的真机送达/点击路由。
+- `push_debugview_event_review.csv`: DebugView 中推送/提醒事件参数复核。
+- `push_oem_owner_assignment.csv`: Android OEM 长窗口观察 owner 和节奏。
+
 ## 上架前人工复核
 
 1. 在 Android 真机上完成权限允许、权限拒绝、系统设置恢复、短延迟 prayer smoke、短延迟 daily-session smoke。
-2. 在 reviewed QA build 中打开 Privacy Center usage analytics opt-in，并用 Google Analytics DebugView 复核上述事件参数。
-3. 为长窗口 OEM 观察指定 owner，并把观察结果写入 Android OEM reminder observation packet。
-4. 若未来启用 Remote FCM/APNs，先新增独立 PRD、CMS payload review、Data Safety review、server-triggered delivery QA 和新的打点矩阵。
+2. 将真机结果填入 `push_permission_qa_evidence.csv` 和 `push_real_device_smoke_evidence.csv`，不要记录 tester personal data。
+3. 在 reviewed QA build 中打开 Privacy Center usage analytics opt-in，并用 Google Analytics DebugView 复核上述事件参数，填入 `push_debugview_event_review.csv`。
+4. 为长窗口 OEM 观察指定 owner，并把 owner 填入 `push_oem_owner_assignment.csv`，具体观察结果仍写入 Android OEM reminder observation packet。
+5. 设置 strict mode 环境变量和四个 evidence CSV 路径，确认 `Strict push evidence inputs: validated`。
+6. 若未来启用 Remote FCM/APNs，先新增独立 PRD、CMS payload review、Data Safety review、server-triggered delivery QA 和新的打点矩阵。
 EOF
 
 cat >"$out_dir/manifest.txt" <<EOF
@@ -276,6 +411,10 @@ Artifacts:
 - push_analytics_coverage_matrix.csv
 - push_privacy_blocklist.csv
 - push_module_qa_handoff.md
+- push_permission_qa_evidence.csv
+- push_real_device_smoke_evidence.csv
+- push_debugview_event_review.csv
+- push_oem_owner_assignment.csv
 - docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md
 
 Strict mode:
@@ -284,6 +423,12 @@ Strict mode:
 - SAKINAH_PUSH_REAL_DEVICE_SMOKE_READY=true
 - SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_REVIEWED=true
 - SAKINAH_PUSH_OEM_OBSERVATION_OWNER_ASSIGNED=true
+- SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE=<completed push_permission_qa_evidence.csv>
+- SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE=<completed push_real_device_smoke_evidence.csv>
+- SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE=<completed push_debugview_event_review.csv>
+- SAKINAH_PUSH_OEM_OWNER_EVIDENCE=<completed push_oem_owner_assignment.csv>
+
+Strict push evidence inputs: $strict_evidence_status
 EOF
 
 printf 'Push module completion audit packet exported to %s\n' "$out_dir"

@@ -43,11 +43,19 @@ Template mode writes `build/push-module-completion-audit` with:
 - `push_analytics_coverage_matrix.csv`
 - `push_privacy_blocklist.csv`
 - `push_module_qa_handoff.md`
+- `push_permission_qa_evidence.csv`
+- `push_real_device_smoke_evidence.csv`
+- `push_debugview_event_review.csv`
+- `push_oem_owner_assignment.csv`
 - copied source evidence for notification, analytics, and tests
 
 The packet is safe to attach to a local release review. It does not collect
 tester names, emails, personal identifiers, location, health data, Women's
 Ibadah Mode exact status, feedback text, or religious text.
+
+The four evidence CSVs are templates in normal export mode. They intentionally
+contain placeholder values such as `pending_manual_observation` so operators
+cannot confuse template output with completed QA evidence.
 
 Strict mode:
 
@@ -57,12 +65,18 @@ SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY=true \
 SAKINAH_PUSH_REAL_DEVICE_SMOKE_READY=true \
 SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_REVIEWED=true \
 SAKINAH_PUSH_OEM_OBSERVATION_OWNER_ASSIGNED=true \
+SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE=/path/to/push_permission_qa_evidence.csv \
+SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE=/path/to/push_real_device_smoke_evidence.csv \
+SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE=/path/to/push_debugview_event_review.csv \
+SAKINAH_PUSH_OEM_OWNER_EVIDENCE=/path/to/push_oem_owner_assignment.csv \
 scripts/export_push_module_completion_audit.sh
 ```
 
 Strict mode is for final pre-upload review after Android permission QA, real
 device smoke delivery/tap-route QA, DebugView review, and OEM observation
-ownership are confirmed.
+ownership are confirmed. It validates that the completed evidence files contain
+the expected scenarios/events, contain no template placeholders, and then writes
+`Strict push evidence inputs: validated` into the manifest.
 
 ## Push/Reminder Analytics Coverage
 
