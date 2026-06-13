@@ -114,10 +114,13 @@ class _QiblaPageState extends ConsumerState<QiblaPage> {
           ),
           const SizedBox(height: 18),
           PrimaryButton(
+            key: SakinahKeys.qiblaChangeLocationButton,
             label: l10n.t('qiblaChangeLocation'),
             icon: Icons.location_on_outlined,
             tonal: true,
-            onPressed: () => context.go('/settings/prayer-location'),
+            onPressed: () => context.go(
+              '/settings/prayer-location?source=qibla_page',
+            ),
           ),
         ],
       ),

@@ -182,7 +182,9 @@ Status: Draft for release/store review.
 - [x] Saved items are local-only and cleared by local data deletion.
 - [x] Home exposes recent saved items only as a local continue rail; it does not
   add account sync, social sharing, or remote saved-item storage.
-- [x] Qibla uses selected prayer location without GPS or compass permission.
+- [x] Qibla uses selected prayer location without GPS or compass permission,
+  and its Change prayer location action can return to Qibla after a manual
+  location save.
 - [x] Manual prayer location updates prayer/Qibla settings without GPS or
   sensor permission, and the save confirmation offers a direct View prayer
   times action back into the Prayer page.
@@ -267,9 +269,10 @@ Status: Draft for release/store review.
   Prayer location/method setting analytics is observable only as
   `prayer_location_changed` with coarse location method, calculation method,
   controlled source such as `settings_prayer_location`,
-  `settings_prayer_method`, `manual_location_page`, or `prayer_page_card`, and
-  coarse change type; exact coordinates, manual place labels, timezone IDs,
-  routes, Women's Ibadah Mode status, and free text are not sent.
+  `settings_prayer_method`, `manual_location_page`, `prayer_page_card`, or
+  `qibla_page`, and coarse change type; exact coordinates, manual place
+  labels, timezone IDs, routes, Women's Ibadah Mode status, and free text are
+  not sent.
   Prayer reminder permission analytics is observable only as
   `prayer_reminder_permission_result` with enabled result, controlled source,
   coarse outcome, and lead-time offset; routes, exact reminder times,

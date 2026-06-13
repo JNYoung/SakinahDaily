@@ -161,6 +161,45 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('manual prayer location save can return to Qibla from Qibla',
+      (tester) async {
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/prayer-location?source=qibla_page',
+      settleSplash: false,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLocationLabelField),
+      'Jakarta Selatan',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLatitudeField),
+      '-6.2088',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLongitudeField),
+      '106.8456',
+    );
+    await tapByKey(tester, SakinahKeys.manualLocationSaveButton);
+
+    final event = analytics.events.singleWhere(
+      (event) => event.name == AnalyticsEventCatalog.prayerLocationChanged,
+    );
+    expect(event.properties, containsPair('source', 'qibla_page'));
+    expect(find.text('Qibla'), findsOneWidget);
+
+    await tester.tap(find.text('Qibla'));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.qiblaPage), findsOneWidget);
+    expect(find.text('Jakarta Selatan'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('manual prayer location page rejects invalid coordinates',
       (tester) async {
     await pumpSakinahApp(
