@@ -129,10 +129,13 @@ class _PrayerPageState extends ConsumerState<PrayerPage> {
                         ),
                       ),
                       PrimaryButton(
+                        key: SakinahKeys.prayerTopLocationButton,
                         label: l10n.t('changeLocation'),
+                        icon: Icons.edit_location_alt_outlined,
                         tonal: true,
-                        onPressed: () =>
-                            context.go('/settings/prayer-location'),
+                        onPressed: () => context.go(
+                          '/settings/prayer-location?source=prayer_page_card',
+                        ),
                       ),
                     ],
                   ),

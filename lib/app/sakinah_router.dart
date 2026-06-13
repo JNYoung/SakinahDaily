@@ -172,7 +172,11 @@ GoRouter createSakinahRouter({
       ),
       GoRoute(
         path: '/settings/prayer-location',
-        builder: (context, state) => const ManualPrayerLocationPage(),
+        builder: (context, state) => ManualPrayerLocationPage(
+          entrySource: _safeManualPrayerLocationSource(
+            state.uri.queryParameters['source'],
+          ),
+        ),
       ),
       GoRoute(
         path: '/prayer',
@@ -189,6 +193,13 @@ GoRouter createSakinahRouter({
 String? _safePrayerEntrySource(String? source) {
   return switch (source) {
     'home_prayer_badge' || 'home_prayer_card' || 'home_progress_card' => source,
+    _ => null,
+  };
+}
+
+String? _safeManualPrayerLocationSource(String? source) {
+  return switch (source) {
+    'prayer_page_card' => source,
     _ => null,
   };
 }

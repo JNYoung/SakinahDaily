@@ -169,7 +169,7 @@ onboarding_completed,onboarding_finish,"language_code|location_method|audio_pref
 home_viewed,home_open,"screen|route|prayers_completed_today|prayer_checkins_7d|prayer_checkin_days_7d|prayer_checkin_streak_days|prayer_reminders_enabled","prayer_name|latitude|longitude|women_ibadah_status|feedback_text",D1/D7 Retention
 prayer_viewed,prayer_open,"screen|route|prayer_name|calculation_method|location_method|source=home_prayer_badge|source=home_prayer_card|source=home_progress_card","latitude|longitude|women_ibadah_status|session_id|content_id",Prayer View Rate
 qibla_viewed,qibla_open,"screen|route|calculation_method|location_method|source=prayer_page_card|source=settings|source=manual_location|source=direct","latitude|longitude|location_label|qibla_bearing_degrees|women_ibadah_status|feedback_text",Qibla View Rate
-prayer_location_changed,prayer_location_settings,"location_method|calculation_method|source=settings_prayer_location|source=settings_prayer_method|source=manual_location_page|change_type","latitude|longitude|location_label|timezone_id|route|women_ibadah_status|feedback_text",Prayer Settings Completion Rate
+prayer_location_changed,prayer_location_settings,"location_method|calculation_method|source=settings_prayer_location|source=settings_prayer_method|source=manual_location_page|source=prayer_page_card|change_type","latitude|longitude|location_label|timezone_id|route|women_ibadah_status|feedback_text",Prayer Settings Completion Rate
 notification_settings_viewed,notification_settings_open,"screen|source|prayer_reminders_enabled","route|latitude|longitude|women_ibadah_status|feedback_text|reminder_time",Reminder Setup View Rate
 prayer_reminder_permission_result,notification_permission,"enabled|source|change_type|reminder_offset_minutes","route|latitude|longitude|women_ibadah_status|feedback_text|reminder_time",Prayer Reminder Permission Outcome Rate
 prayer_reminder_changed,notification_settings,"prayer_name|enabled|source=settings|source=home_prayer_card|source=prayer_page_card|source=prayer_completion_card|reminder_offset_minutes","route|latitude|longitude|women_ibadah_status|feedback_text",Prayer Reminder Opt-in Rate
@@ -195,7 +195,7 @@ funnel_step,trigger_path,expected_event,expected_source,success_signal,privacy_c
 Onboarding Completion Rate,/onboarding,onboarding_completed,onboarding,language_code and location_method only,no GPS or exact location
 Prayer View Rate,/prayer,prayer_viewed,home_prayer_badge or home_prayer_card or home_progress_card,screen route coarse method and controlled source,no exact coordinates or session/content IDs
 Qibla View Rate,/qibla,qibla_viewed,"prayer_page_card, settings, manual_location, or direct",screen route coarse method and controlled source,no exact coordinates selected place label or bearing degrees
-Prayer Settings Completion Rate,"/settings prayer location, prayer method, or manual location save",prayer_location_changed,"settings_prayer_location, settings_prayer_method, or manual_location_page",coarse method source and change_type only,no coordinates location labels timezone IDs routes or free text
+Prayer Settings Completion Rate,"/settings prayer location, prayer method, Prayer page location action, or manual location save",prayer_location_changed,"settings_prayer_location, settings_prayer_method, manual_location_page, or prayer_page_card",coarse method source and change_type only,no coordinates location labels timezone IDs routes or free text
 Reminder Setup View Rate,/settings/notifications,notification_settings_viewed,"settings, home_prayer_card, prayer_page_card, prayer_completion_card, home_session_completion, or session_completion",source and aggregate enabled state only,no route exact reminder time location women mode status or free text
 Prayer Reminder Permission Outcome Rate,notification permission flow,prayer_reminder_permission_result,"settings, home_prayer_card, prayer_page_card, or prayer_completion_card",scheduled or denied outcome only,no route exact reminder time location women mode status or free text
 Prayer Reminder Opt-in Rate,"/settings/notifications, Home prayer card, Prayer page card, or Prayer completion card",prayer_reminder_changed,"settings, home_prayer_card, prayer_page_card, or prayer_completion_card",enabled true,no route exact location women mode status or free text
@@ -264,7 +264,7 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Home open after local prayer completion state loads.
 - Prayer page open and prayer reminder toggle.
 - Qibla page open from Prayer card, Settings/manual location, or direct route.
-- Settings prayer location preset, prayer method change, and manual location save.
+- Settings prayer location preset, prayer method change, Prayer page Change location, and manual location save.
 - Five local prayer check-ins leading to a Daily Session entry point.
 - Daily Session start, step view, and completion.
 - Home completed-session CTA to Notification Settings, then daily session reminder opt-in with source \`home_session_completion\`.

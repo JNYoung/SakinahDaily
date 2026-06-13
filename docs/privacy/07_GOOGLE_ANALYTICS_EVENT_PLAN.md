@@ -68,9 +68,10 @@ Current implementation:
   `prayer_location_changed` events with only coarse location method
   (`preset` or `manual`), calculation method, controlled source such as
   `settings_prayer_location`, `settings_prayer_method`, or
-  `manual_location_page`, and coarse change type only. Exact coordinates,
-  manual place labels, timezone IDs, routes, Women's Ibadah Mode status, and
-  free text are not sent.
+  `manual_location_page`, plus `prayer_page_card` when the user enters manual
+  setup from Prayer, and coarse change type only. Exact coordinates, manual
+  place labels, timezone IDs, routes, Women's Ibadah Mode status, and free text
+  are not sent.
 - Notification Settings records a local `notification_settings_viewed` event
   once per page entry with only screen, controlled entry source, and whether
   prayer reminders are already enabled. Controlled entry sources include

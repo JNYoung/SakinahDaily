@@ -332,6 +332,22 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('prayer page opens manual location from prayer context',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.prayerTopLocationButton);
+
+    expect(find.byKey(SakinahKeys.manualPrayerLocationPage), findsOneWidget);
+    expect(find.text('Manual prayer location'), findsWidgets);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('home session card shows enabled daily reminder time',
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();
