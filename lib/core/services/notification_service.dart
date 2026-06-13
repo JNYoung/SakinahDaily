@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as timezone_data;
 import 'package:timezone/timezone.dart' as timezone;
@@ -162,6 +163,7 @@ class DailySessionNotificationCopy {
 abstract class NotificationService {
   Future<String?> takeLaunchPayload();
   Future<bool> requestPermissionAfterExplanation();
+  Future<bool> openSystemNotificationSettings();
   Future<List<ScheduledPrayerReminder>> schedulePrayerReminders(
     PrayerSettings settings,
     List<PrayerTime> prayerTimes, {
@@ -192,6 +194,8 @@ abstract class NotificationService {
 
 class LocalNotificationServiceStub implements NotificationService {
   bool permissionGranted = true;
+  bool canOpenSystemNotificationSettings = true;
+  bool systemNotificationSettingsOpened = false;
   String? launchPayload;
   final List<ScheduledPrayerReminder> scheduled = [];
   ScheduledDailySessionReminder? dailySessionReminder;
@@ -227,6 +231,12 @@ class LocalNotificationServiceStub implements NotificationService {
   @override
   Future<bool> requestPermissionAfterExplanation() async {
     return permissionGranted;
+  }
+
+  @override
+  Future<bool> openSystemNotificationSettings() async {
+    systemNotificationSettingsOpened = canOpenSystemNotificationSettings;
+    return canOpenSystemNotificationSettings;
   }
 
   @override
@@ -406,6 +416,20 @@ class FlutterLocalNotificationService implements NotificationService {
       return _permissionGranted;
     } on Object {
       _permissionGranted = false;
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> openSystemNotificationSettings() async {
+    try {
+      final opened = await _notificationSettingsChannel.invokeMethod<bool>(
+        'openNotificationSettings',
+      );
+      return opened ?? false;
+    } on MissingPluginException {
+      return false;
+    } on Object {
       return false;
     }
   }
@@ -707,6 +731,8 @@ DateTime nextDailySessionReminderTime({
 const _dailySessionNotificationId = 201;
 const _prayerReminderSmokeTestId = 298;
 const _notificationSmokeTestId = 299;
+const _notificationSettingsChannel =
+    MethodChannel('com.sakinahdaily.app/notification_settings');
 const _qaPrayerSettings = PrayerSettings(
   latitude: 21.3891,
   longitude: 39.8579,

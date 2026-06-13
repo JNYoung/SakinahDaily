@@ -736,6 +736,56 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets(
+      'Prayer reminder permission recovery opens system settings and is tracked',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final notifications = LocalNotificationServiceStub()
+      ..permissionGranted = false;
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(SakinahKeys.settingsNotificationSwitch));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Enable reminders'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+        'After enabling notifications in system settings, '
+        'return here and try reminders again.',
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(SakinahKeys.notificationPermissionRecoveryButton),
+      findsOneWidget,
+    );
+
+    await tapByKey(tester, SakinahKeys.notificationPermissionRecoveryButton);
+
+    expect(notifications.systemNotificationSettingsOpened, isTrue);
+    expect(find.text('System notification settings opened.'), findsOneWidget);
+    final recoveryEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationPermissionRecoveryOpened,
+    );
+    expect(recoveryEvents, hasLength(1));
+    expect(recoveryEvents.single.properties, {
+      'source': 'notification_settings',
+      'change_type': 'system_settings_opened',
+    });
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Prayer reminder explanation dismissal is tracked safely',
       (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();

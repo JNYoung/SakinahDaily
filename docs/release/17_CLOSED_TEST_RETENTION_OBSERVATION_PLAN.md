@@ -104,6 +104,12 @@ verify local notification scheduling or permission denial without storing raw
 payloads, routes, scheduled local times, exact reminder times, lock-screen body
 copy, coordinates, Women's Ibadah Mode status, feedback text, or religious
 text.
+Denied notification permission recovery should appear only as
+`notification_permission_recovery_opened` with
+`source=notification_settings` and coarse `change_type`, so the operator can
+verify the system settings recovery path without storing routes, payloads,
+device model, exact reminder times, coordinates, Women's Ibadah Mode status,
+feedback text, lock-screen body copy, or religious text.
 Home-card and Prayer-page direct reminder enable should use
 `source=home_prayer_card` or `source=prayer_page_card` and keep the user on the
 originating surface after local scheduling, so closed-test reviewers can
@@ -124,6 +130,8 @@ routes, content IDs, prayer names, or religious text.
 Push/reminder module DebugView coverage should be reviewed as one closed loop:
 `notification_settings_viewed` shows setup intent,
 `notification_smoke_test_result` shows QA notification scheduling or denial,
+`notification_permission_recovery_opened` shows denied-permission recovery
+entry use,
 `prayer_reminder_permission_result` and `prayer_reminder_changed` show prayer
 reminder opt-in or preference changes,
 `daily_session_reminder_permission_result` and
@@ -140,6 +148,7 @@ Reminder/Feedback retention loop QA checklist. Use it to verify that
 `daily_session_started`, `daily_session_completed`,
 `daily_session_reminder_permission_result`,
 `daily_session_reminder_changed`, `notification_smoke_test_result`,
+`notification_permission_recovery_opened`,
 `notification_tap_opened`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` appear in the
 expected order with controlled sources and no raw payloads, routes,

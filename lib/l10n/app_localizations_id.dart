@@ -466,6 +466,22 @@ class AppLocalizationsId extends AppLocalizations {
       'Notifikasi mati. Anda dapat mengaktifkannya dari pengaturan sistem.';
 
   @override
+  String get notificationPermissionRecoveryBody =>
+      'Setelah mengaktifkan notifikasi di pengaturan sistem, kembali ke sini dan coba pengingat lagi.';
+
+  @override
+  String get notificationPermissionRecoveryButton =>
+      'Buka pengaturan notifikasi';
+
+  @override
+  String get notificationPermissionRecoveryOpened =>
+      'Pengaturan notifikasi sistem dibuka.';
+
+  @override
+  String get notificationPermissionRecoveryUnavailable =>
+      'Pengaturan notifikasi sistem tidak dapat dibuka dari Sakinah.';
+
+  @override
   String get notificationScheduled =>
       'Pengingat shalat lokal telah dijadwalkan.';
 

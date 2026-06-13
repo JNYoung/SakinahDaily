@@ -30,6 +30,7 @@ void main() {
           AnalyticsEventCatalog.qiblaViewed,
           AnalyticsEventCatalog.notificationTapOpened,
           AnalyticsEventCatalog.notificationSmokeTestResult,
+          AnalyticsEventCatalog.notificationPermissionRecoveryOpened,
           AnalyticsEventCatalog.analyticsConsentChanged,
           AnalyticsEventCatalog.dailySessionReminderPermissionResult,
           AnalyticsEventCatalog.dailySessionReminderChanged,
@@ -308,6 +309,32 @@ void main() {
         'content_type': 'prayer',
         'source': 'notification_settings_qa',
         'change_type': 'scheduled',
+      });
+    });
+
+    test('notification recovery analytics keeps safe settings metadata', () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.notificationPermissionRecoveryOpened,
+        const {
+          'source': 'notification_settings',
+          'change_type': 'system_settings_opened',
+          'route': '/settings/notifications',
+          'payload': '{"screen":"settings"}',
+          'device_model': 'Pixel 8',
+          'reminder_time': '05:00',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'menstruating',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'source': 'notification_settings',
+        'change_type': 'system_settings_opened',
       });
     });
 
