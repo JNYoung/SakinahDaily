@@ -183,7 +183,9 @@ Status: Draft for release/store review.
 - [x] Home exposes recent saved items only as a local continue rail; it does not
   add account sync, social sharing, or remote saved-item storage.
 - [x] Qibla uses selected prayer location without GPS or compass permission.
-- [x] Manual prayer location updates prayer/Qibla settings without GPS or sensor permission.
+- [x] Manual prayer location updates prayer/Qibla settings without GPS or
+  sensor permission, and the save confirmation offers a direct View prayer
+  times action back into the Prayer page.
 - [x] Quran entry/detail routes use local approved seed/cache content only.
 - [x] Quran recitation copy remains voice-only with no BGM and no Quran TTS.
 - [x] Quran safety screenshot evidence captured at

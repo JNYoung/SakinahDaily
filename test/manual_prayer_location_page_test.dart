@@ -125,6 +125,42 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('manual prayer location save can open prayer times',
+      (tester) async {
+    final store = InMemoryUserPreferencesStore();
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/prayer-location',
+      settleSplash: false,
+      preferencesStore: store,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLocationLabelField),
+      'Jakarta Selatan',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLatitudeField),
+      '-6.2088',
+    );
+    await tester.enterText(
+      find.byKey(SakinahKeys.manualLongitudeField),
+      '106.8456',
+    );
+    await tapByKey(tester, SakinahKeys.manualLocationSaveButton);
+
+    expect(find.text('Location saved'), findsOneWidget);
+    expect(find.text('View prayer times'), findsOneWidget);
+
+    await tester.tap(find.text('View prayer times'));
+    await tester.pumpAndSettle();
+
+    expect(find.text("Today's prayer times"), findsOneWidget);
+    expect(find.text('Jakarta Selatan'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('manual prayer location page rejects invalid coordinates',
       (tester) async {
     await pumpSakinahApp(

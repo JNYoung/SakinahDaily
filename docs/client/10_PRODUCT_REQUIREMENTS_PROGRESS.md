@@ -147,6 +147,9 @@ Completed:
   a short-delay local notification during Android device QA.
 - Manual prayer location page saves label, latitude, longitude, optional
   timezone ID, and calculation method locally.
+- After a manual location save, the confirmation now offers View prayer times,
+  taking the user straight back to Prayer so they can verify the updated local
+  schedule without hunting through navigation.
 - Settings prayer location preset changes, prayer calculation-method changes,
   and manual location saves now emit default-off, opt-in-gated
   `prayer_location_changed` analytics with only coarse location method,

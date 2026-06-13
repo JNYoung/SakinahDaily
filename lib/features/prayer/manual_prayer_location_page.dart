@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/localization/sakinah_localizations.dart';
 import '../../core/models/sakinah_models.dart';
@@ -211,9 +212,21 @@ class _ManualPrayerLocationPageState
         'change_type': 'manual_location_saved',
       },
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.t('locationSaved'))),
-    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(l10n.t('locationSaved')),
+          action: SnackBarAction(
+            label: l10n.t('viewPrayerTimes'),
+            onPressed: () {
+              if (mounted) {
+                context.go('/prayer');
+              }
+            },
+          ),
+        ),
+      );
   }
 
   String? _validateRange(

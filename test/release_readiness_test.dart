@@ -3925,6 +3925,11 @@ void main() {
       );
       expect(
         manualLocationTest,
+        contains('manual prayer location save can open prayer times'),
+      );
+      expect(manualLocationTest, contains('View prayer times'));
+      expect(
+        manualLocationTest,
         contains('Stored locally. No GPS permission is required.'),
       );
       expect(
