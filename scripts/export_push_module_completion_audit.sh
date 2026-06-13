@@ -235,8 +235,15 @@ if [[ "$require_strict" == "true" ]]; then
   validate_completed_push_evidence \
     "$SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE" \
     "push DebugView event review" \
+    notification_settings_viewed \
     notification_permission_prompt_viewed \
+    prayer_reminder_permission_result \
+    prayer_reminder_changed \
     notification_schedule_result \
+    notification_smoke_test_result \
+    notification_permission_recovery_opened \
+    daily_session_reminder_permission_result \
+    daily_session_reminder_changed \
     notification_tap_result \
     notification_tap_opened \
     passed \
@@ -357,8 +364,15 @@ EOF
 
 cat >"$out_dir/push_debugview_event_review.csv" <<'EOF'
 event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data
+notification_settings_viewed,screen|source|prayer_reminders_enabled,record_manually,record_manually,pending_manual_observation,No tester personal data
 notification_permission_prompt_viewed,reminder_type|source,record_manually,record_manually,pending_manual_observation,No tester personal data
+prayer_reminder_permission_result,enabled|source|change_type|reminder_offset_minutes,record_manually,record_manually,pending_manual_observation,No tester personal data
+prayer_reminder_changed,prayer_name|enabled|source|reminder_offset_minutes,record_manually,record_manually,pending_manual_observation,No tester personal data
 notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count|reminder_offset_minutes,record_manually,record_manually,pending_manual_observation,No tester personal data
+notification_smoke_test_result,content_type|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
+notification_permission_recovery_opened,source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
+daily_session_reminder_permission_result,session_id|enabled|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
+daily_session_reminder_changed,session_id|enabled|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
 notification_tap_result,content_type|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
 notification_tap_opened,content_type|source,record_manually,record_manually,pending_manual_observation,No tester personal data
 EOF
