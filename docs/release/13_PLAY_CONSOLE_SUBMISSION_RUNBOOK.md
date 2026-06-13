@@ -154,12 +154,17 @@ Sources:
 
 - `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`.
 - `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`.
+- `build/play-retention-observation/production_access_feedback_summary.md`
+  after running `scripts/export_google_play_closed_test_retention_packet.sh`.
 
 - Keep at least 12 opted-in testers for 14 continuous days if the account is
   subject to Google Play's testing requirement.
 - Track aggregate counts only. Do not store tester personal data.
 - Review Google Play Testing feedback and the configured feedback channel.
 - Record feedback themes, changes made, and the Production access answer draft.
+- Fill `production_access_feedback_summary.md` with aggregate Day 1 / Day 3 /
+  Day 7 / Day 14 themes first, then copy the reviewed wording into the Play
+  Console answer draft.
 - Run `scripts/verify_google_play_closed_testing_evidence.sh` during launch
   prep and strict mode after the real 14-day test.
 - Run `scripts/verify_google_play_production_access_pack.sh` in template mode
@@ -215,6 +220,8 @@ available:
 - Closed-test retention observation packet:
   `build/play-retention-observation`, exported by
   `scripts/export_google_play_closed_test_retention_packet.sh`.
+- Production access feedback summary:
+  `build/play-retention-observation/production_access_feedback_summary.md`.
 - Closed-testing evidence log:
   `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`.
 - Production access answer draft:

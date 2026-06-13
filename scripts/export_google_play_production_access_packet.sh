@@ -57,6 +57,8 @@ if [[ "$require_strict" == "true" ]]; then
   require_file build/play-internal/app-release.aab.sha256
   require_file build/store-assets/google-play-feature-graphic.png
   require_file build/play-retention-observation/manifest.txt
+  require_file build/play-retention-observation/production_access_decisions_template.csv
+  require_file build/play-retention-observation/production_access_feedback_summary.md
 else
   scripts/verify_google_play_production_access_pack.sh
   scripts/export_google_play_closed_test_retention_packet.sh
@@ -91,6 +93,8 @@ contact_sheet_status="$(copy_optional_file build/store-screenshots/android-conta
 retention_manifest_status="$(copy_optional_file build/play-retention-observation/manifest.txt)"
 retention_daily_status="$(copy_optional_file build/play-retention-observation/daily_observation_template.csv)"
 retention_feedback_status="$(copy_optional_file build/play-retention-observation/feedback_theme_template.csv)"
+retention_decisions_status="$(copy_optional_file build/play-retention-observation/production_access_decisions_template.csv)"
+retention_answer_summary_status="$(copy_optional_file build/play-retention-observation/production_access_feedback_summary.md)"
 
 cat >"$out_dir/manifest.txt" <<EOF
 Production access evidence packet
@@ -126,14 +130,17 @@ Optional copied artifacts:
 - build/play-retention-observation/manifest.txt: $retention_manifest_status
 - build/play-retention-observation/daily_observation_template.csv: $retention_daily_status
 - build/play-retention-observation/feedback_theme_template.csv: $retention_feedback_status
+- build/play-retention-observation/production_access_decisions_template.csv: $retention_decisions_status
+- build/play-retention-observation/production_access_feedback_summary.md: $retention_answer_summary_status
 
 Use:
 - Upload the app and answer Play Console fields from the source docs.
 - Paste only aggregate tester counts, feedback themes, changes, and readiness
   evidence. Do not paste tester names, emails, health details, private
   messages, or Women's Ibadah Mode status.
-- Use the retention observation packet for Day 1 / Day 3 / Day 7 / Day 14 aggregate
-  feedback review before filling Production access answers.
+- Use production_access_feedback_summary.md from the retention observation
+  packet for Day 1 / Day 3 / Day 7 / Day 14 aggregate feedback review before
+  filling Production access answers.
 EOF
 
 printf 'Production access evidence packet exported.\n'

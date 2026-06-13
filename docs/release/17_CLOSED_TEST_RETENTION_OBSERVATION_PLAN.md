@@ -2,7 +2,7 @@
 
 Status: Template; use during the real Google Play closed test.
 
-Last checked against Google Play Help on 2026-06-11.
+Last checked against Google Play Help on 2026-06-13.
 
 ## Purpose
 
@@ -168,6 +168,7 @@ The packet is written to `build/play-retention-observation` and contains:
 - `daily_observation_template.csv`
 - `feedback_theme_template.csv`
 - `production_access_decisions_template.csv`
+- `production_access_feedback_summary.md`
 - This plan.
 - The closed-testing evidence log.
 - The Production access answer draft.
@@ -209,6 +210,9 @@ Map those summaries into:
 
 - `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`
 - `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`
+- `build/play-retention-observation/production_access_feedback_summary.md`
+  first, so the final Play Console answers can be reviewed from one
+  aggregate-only handoff file.
 
 ## Official Reference
 

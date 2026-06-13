@@ -1573,6 +1573,9 @@ void main() {
           contains('verify_google_play_production_access_pack.sh'));
       expect(scriptContent, contains('app-release.aab.sha256'));
       expect(scriptContent, contains('google-play-feature-graphic.png'));
+      expect(
+          scriptContent, contains('production_access_decisions_template.csv'));
+      expect(scriptContent, contains('production_access_feedback_summary.md'));
 
       final templateRun = Process.runSync(
         'bash',
@@ -1597,6 +1600,27 @@ void main() {
           manifest, contains('docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md'));
       expect(manifest,
           contains('scripts/verify_google_play_production_access_pack.sh'));
+      expect(
+          manifest, contains('build/play-retention-observation/manifest.txt'));
+      expect(
+        manifest,
+        contains(
+          'build/play-retention-observation/production_access_decisions_template.csv',
+        ),
+      );
+      expect(
+        manifest,
+        contains(
+          'build/play-retention-observation/production_access_feedback_summary.md',
+        ),
+      );
+
+      final answerSummary = File(
+        'build/play-production-access/build/play-retention-observation/production_access_feedback_summary.md',
+      ).readAsStringSync();
+      expect(answerSummary, contains('Production Access Feedback Summary'));
+      expect(answerSummary, contains('What Feedback Did You Receive'));
+      expect(answerSummary, contains('No tester personal data'));
 
       final strictRun = Process.runSync(
         'bash',
@@ -1624,9 +1648,13 @@ void main() {
         submissionRunbook,
         contains('export_google_play_production_access_packet.sh'),
       );
+      expect(
+          submissionRunbook, contains('production_access_feedback_summary.md'));
       expect(answerDraft,
           contains('export_google_play_production_access_packet.sh'));
+      expect(answerDraft, contains('production_access_feedback_summary.md'));
       expect(versionNotes, contains('Production access evidence packet'));
+      expect(versionNotes, contains('production_access_feedback_summary.md'));
     });
 
     test('Google Play closed-test retention observation packet can be exported',
@@ -1689,6 +1717,11 @@ void main() {
       expect(content, contains('daily_observation_template.csv'));
       expect(content, contains('feedback_theme_template.csv'));
       expect(content, contains('production_access_decisions_template.csv'));
+      expect(content, contains('production_access_feedback_summary.md'));
+      expect(productionExporter,
+          contains('production_access_decisions_template.csv'));
+      expect(productionExporter,
+          contains('production_access_feedback_summary.md'));
       expect(content, contains('SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE'));
       expect(content, contains('SAKINAH_PLAY_TESTING_FEEDBACK_READY'));
       expect(content, contains('SAKINAH_PLAY_RETENTION_OWNER_ASSIGNED'));
@@ -1724,6 +1757,9 @@ void main() {
       final decisionsCsv = File(
         'build/play-retention-observation/production_access_decisions_template.csv',
       ).readAsStringSync();
+      final answerSummary = File(
+        'build/play-retention-observation/production_access_feedback_summary.md',
+      ).readAsStringSync();
 
       expect(manifest,
           contains('Google Play closed-test retention observation packet'));
@@ -1731,6 +1767,7 @@ void main() {
       expect(manifest, contains('daily_observation_template.csv'));
       expect(manifest, contains('feedback_theme_template.csv'));
       expect(manifest, contains('production_access_decisions_template.csv'));
+      expect(manifest, contains('production_access_feedback_summary.md'));
       expect(dailyCsv, contains('test_day,calendar_date,version_code'));
       expect(dailyCsv, contains('Day 1'));
       expect(dailyCsv, contains('Day 3'));
@@ -1748,6 +1785,12 @@ void main() {
       expect(decisionsCsv,
           contains('decision_date,feedback_theme,change_or_decision'));
       expect(decisionsCsv, contains('production_access_answer_note'));
+      expect(answerSummary, contains('Production Access Feedback Summary'));
+      expect(answerSummary, contains('What Feedback Did You Receive'));
+      expect(answerSummary, contains('What Changes Did You Make'));
+      expect(answerSummary, contains('Why Is The App Ready For Production'));
+      expect(answerSummary, contains('Day 1 / Day 3 / Day 7 / Day 14'));
+      expect(answerSummary, contains('No tester personal data'));
 
       final strictRun = Process.runSync(
         'bash',
@@ -1771,16 +1814,20 @@ void main() {
       expect(
           docsIndex, contains('17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md'));
       expect(readiness, contains('closed-test retention observation packet'));
+      expect(readiness, contains('production_access_feedback_summary.md'));
       expect(launchPack,
           contains('export_google_play_closed_test_retention_packet.sh'));
       expect(evidenceLog, contains('retention observation packet'));
       expect(runbook,
           contains('export_google_play_closed_test_retention_packet.sh'));
+      expect(runbook, contains('production_access_feedback_summary.md'));
       expect(answerDraft,
           contains('17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md'));
+      expect(answerDraft, contains('production_access_feedback_summary.md'));
       expect(launchDayChecklist, contains('retention observation packet'));
       expect(
           versionNotes, contains('closed-test retention observation packet'));
+      expect(versionNotes, contains('production_access_feedback_summary.md'));
       expect(productionExporter,
           contains('export_google_play_closed_test_retention_packet.sh'));
       expect(productionVerifier,

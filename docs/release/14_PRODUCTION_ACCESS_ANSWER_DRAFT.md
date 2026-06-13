@@ -2,7 +2,7 @@
 
 Status: Template; fill after the real Google Play closed test completes.
 
-Last checked against Google Play Help on 2026-06-11.
+Last checked against Google Play Help on 2026-06-13.
 
 ## Purpose
 
@@ -96,6 +96,9 @@ Feedback themes to fill after the closed test:
 Use `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` and the
 exported `build/play-retention-observation/feedback_theme_template.csv` to keep
 the Day 1 / Day 3 / Day 7 / Day 14 feedback summary aggregate-only.
+The exported `build/play-retention-observation/production_access_feedback_summary.md`
+turns those aggregate themes into copy-ready notes for this Play Console answer
+without adding tester personal data.
 
 Draft answer:
 
@@ -111,6 +114,9 @@ Evidence source:
 
 Additional template source:
 `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md`
+
+Answer-ready summary template:
+`build/play-retention-observation/production_access_feedback_summary.md`
 
 ## What Changes Did You Make
 
@@ -139,6 +145,7 @@ Evidence sources:
 - `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`
 - `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md`
 - `docs/release/01_RELEASE_READINESS_CHECKLIST.md`
+- `build/play-retention-observation/production_access_feedback_summary.md`
 
 ## Why Is The App Ready For Production
 
@@ -185,6 +192,8 @@ Evidence sources:
   Day 14 aggregate tester counts.
 - [ ] Feedback themes have no tester personal data.
 - [ ] Changes made or release decisions are summarized.
+- [ ] `build/play-retention-observation/production_access_feedback_summary.md`
+  is filled with aggregate Day 1 / Day 3 / Day 7 / Day 14 themes.
 - [ ] Release readiness checklist reflects the tested build.
 - [ ] Signed AAB checksum is available before upload / Production access
   review.
