@@ -82,11 +82,12 @@ Current implementation:
   completion state is loaded, with aggregate prayer retention counts only:
   today's completed count, 7-day check-in count, 7-day check-in days, current
   check-in streak, and prayer reminder enabled state.
-- Prayer reminder global and per-prayer changes record local
-  `prayer_reminder_changed` events with reminder enabled state, lead time, and
-  a controlled source such as `settings`, `home_prayer_card`,
-  `prayer_page_card`, or `prayer_completion_card`. Routes, exact reminder
-  times, locations, Women's Ibadah Mode status, and free text are not sent.
+- Prayer reminder global, per-prayer, and lead-time changes record local
+  `prayer_reminder_changed` events with reminder enabled state, lead-time
+  offset, and a controlled source such as `settings`, `home_prayer_card`,
+  `prayer_page_card`, or `prayer_completion_card`. Lead-time changes use
+  `prayer_name=all`. Routes, exact reminder times, locations, Women's Ibadah
+  Mode status, and free text are not sent.
   Home-card and Prayer-page direct reminder enable use the same
   `home_prayer_card` and `prayer_page_card` sources as their reminder settings
   paths, so top-card opt-in loops can be reviewed without adding route or

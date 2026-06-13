@@ -167,6 +167,7 @@ class _NotificationSettingsPageState
                   controller: controller,
                   notificationService: notificationService,
                   prayerService: prayerService,
+                  analyticsSource: prayerReminderAnalyticsSource,
                 ),
               );
             },
@@ -376,8 +377,16 @@ Future<void> _handlePrayerReminderLeadTimeChanged({
   required UserPreferencesController controller,
   required NotificationService notificationService,
   required PrayerCalculationService prayerService,
+  required String analyticsSource,
 }) async {
   await controller.setPrayerReminderOffsetMinutes(minutes);
+  final preferences = ref.read(userPreferencesProvider);
+  _trackPrayerReminderChanged(
+    ref: ref,
+    prayerName: 'all',
+    enabled: preferences.notificationsEnabled,
+    source: analyticsSource,
+  );
   await _reschedulePrayerRemindersAfterPreferenceChange(
     ref: ref,
     controller: controller,

@@ -52,8 +52,8 @@ existing privacy-safe events:
 - `notification_settings_viewed` for reminder setup interest and entry source.
 - `prayer_reminder_permission_result` for accepted, dismissed, denied, or
   empty-schedule prayer reminder attempts.
-- `prayer_reminder_changed` for global or per-prayer reminder changes from
-  Settings, Home, Prayer, or Prayer completion surfaces.
+- `prayer_reminder_changed` for global, per-prayer, and lead-time reminder
+  changes from Settings, Home, Prayer, or Prayer completion surfaces.
 - `daily_session_reminder_permission_result` and
   `daily_session_reminder_changed` for the Daily Session return loop.
 - `notification_tap_opened` for coarse local notification open rate.
@@ -173,6 +173,11 @@ Completed:
 - Notification Settings now supports prayer reminder lead-time offset controls
   for at prayer time, 5 minutes before, 10 minutes before, and 15 minutes
   before; local scheduling applies the selected offset to each selected prayer.
+- Prayer reminder lead-time changes now record the same privacy-safe
+  `prayer_reminder_changed` analytics event with `prayer_name=all`, current
+  enabled state, controlled source, and coarse offset minutes only, so
+  reviewed DebugView QA can see whether testers tune reminder timing without
+  receiving exact reminder times.
 - Notification Settings now summarizes selected prayer names and lead time in
   the enabled reminder status, so users can confirm the exact local reminder
   scope without opening each per-prayer control.

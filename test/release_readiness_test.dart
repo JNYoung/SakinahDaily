@@ -1932,7 +1932,8 @@ void main() {
       expect(events, contains('women_ibadah_mode_changed'));
       expect(events, contains('closed_test_prompt_copied'));
 
-      expect(funnel, contains('Prayer Reminder Opt-in Rate'));
+      expect(funnel, contains('Prayer Reminder Opt-in And Timing Tune Rate'));
+      expect(funnel, contains('lead-time dropdown'));
       expect(funnel, contains('Qibla View Rate'));
       expect(funnel, contains('Prayer Settings Completion Rate'));
       expect(funnel, contains('prayer_location_changed'));

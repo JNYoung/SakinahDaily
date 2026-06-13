@@ -295,6 +295,10 @@ Status: Draft for release/store review.
   `prayer_reminder_permission_result` with enabled result, controlled source,
   coarse outcome, and lead-time offset; routes, exact reminder times,
   coordinates, Women's Ibadah Mode status, and free text are not sent.
+  Prayer reminder change analytics is observable only as
+  `prayer_reminder_changed` with prayer scope, enabled state, controlled source,
+  and lead-time offset; lead-time dropdown changes use `prayer_name=all` and do
+  not send exact reminder times.
   Daily Session reminder permission analytics is observable only as
   `daily_session_reminder_permission_result` with session ID, enabled result,
   controlled source, and coarse outcome; exact reminder times, routes, Women's
