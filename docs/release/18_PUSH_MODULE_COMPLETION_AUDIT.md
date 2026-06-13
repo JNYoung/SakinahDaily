@@ -78,6 +78,15 @@ ownership are confirmed. It validates that the completed evidence files contain
 the expected scenarios/events, contain no template placeholders, and then writes
 `Strict push evidence inputs: validated` into the manifest.
 
+The completed DebugView evidence must cover the full local push/reminder event
+set: `notification_settings_viewed`, `notification_permission_prompt_viewed`,
+`prayer_reminder_permission_result`, `prayer_reminder_changed`,
+`notification_schedule_result`, `notification_smoke_test_result`,
+`notification_permission_recovery_opened`,
+`daily_session_reminder_permission_result`,
+`daily_session_reminder_changed`, `notification_tap_result`, and
+`notification_tap_opened`.
+
 ## Push/Reminder Analytics Coverage
 
 The completed local loop uses the existing privacy-safe events:

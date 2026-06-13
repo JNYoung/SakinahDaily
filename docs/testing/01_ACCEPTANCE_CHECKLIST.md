@@ -76,7 +76,8 @@
   unhandled 等粗粒度结果，不上传 raw payload、route、content ID 或锁屏正文。
 - [x] Push module completion audit strict mode 需要 completed permission QA、
   real-device smoke、DebugView event review 和 OEM owner CSV evidence，模板
-  占位行不能通过 strict gate。
+  占位行不能通过 strict gate；DebugView evidence 必须覆盖 11 个本地
+  push/reminder 事件，不能只验证通知打开事件。
 
 ## 7. Engineering
 

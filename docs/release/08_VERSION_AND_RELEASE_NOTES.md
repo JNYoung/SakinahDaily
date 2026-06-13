@@ -102,7 +102,8 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   now includes `push_permission_qa_evidence.csv`,
   `push_real_device_smoke_evidence.csv`, `push_debugview_event_review.csv`,
   and `push_oem_owner_assignment.csv` templates for strict pre-upload QA
-  evidence.
+  evidence; strict DebugView evidence must include all 11 local push/reminder
+  events, not only notification tap/open checks.
 - Reviewed content pack readiness packet:
   `build/reviewed-content-pack-readiness`, exported by
   `scripts/export_reviewed_content_pack_readiness.sh`.
@@ -171,7 +172,8 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE`,
   `SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE`, and
   `SAKINAH_PUSH_OEM_OWNER_EVIDENCE` CSVs with no template placeholders and
-  writes `Strict push evidence inputs: validated` into the manifest.
+  full 11-event push/reminder DebugView coverage before it writes
+  `Strict push evidence inputs: validated` into the manifest.
 - Reviewed content pack readiness packet strict mode after Quran source
   placeholders are replaced, beta session/dua/dhikr coverage is reviewed,
   licensed Quran audio rights and hashes are confirmed, and a human content

@@ -1088,7 +1088,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(completionMatrix, contains('dev_smoke_controls,complete'));
       expect(completionMatrix, contains('remote_fcm_apns,out_of_scope'));
 
-      for (final eventName in const [
+      const pushReminderDebugViewEvents = [
         'notification_settings_viewed',
         'notification_permission_prompt_viewed',
         'prayer_reminder_permission_result',
@@ -1100,7 +1100,8 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
         'daily_session_reminder_changed',
         'notification_tap_result',
         'notification_tap_opened',
-      ]) {
+      ];
+      for (final eventName in pushReminderDebugViewEvents) {
         expect(analyticsMatrix, contains(eventName), reason: eventName);
         expect(analyticsService, contains(eventName), reason: eventName);
         expect(analyticsTest, contains(eventName), reason: eventName);
@@ -1162,11 +1163,9 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
           'event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data',
         ),
       );
-      expect(
-          debugViewEvidence, contains('notification_permission_prompt_viewed'));
-      expect(debugViewEvidence, contains('notification_schedule_result'));
-      expect(debugViewEvidence, contains('notification_tap_result'));
-      expect(debugViewEvidence, contains('notification_tap_opened'));
+      for (final eventName in pushReminderDebugViewEvents) {
+        expect(debugViewEvidence, contains(eventName), reason: eventName);
+      }
       expect(oemOwnerEvidence,
           contains('owner_handle,review_cadence,next_review_date,qa_result'));
       expect(oemOwnerEvidence, contains('pending_owner_assignment'));
@@ -1212,15 +1211,23 @@ scenario,device_serial,reminder_type,expected_delivery_result,observed_delivery_
 short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,delivered,tapped_prayer,No tester personal data
 short_delay_daily_session,SC65XWPZ7DLNUSTC,daily_session,delivered,delivered,tapped_daily_session,No tester personal data
 ''');
-      final completedDebugViewEvidence =
-          File('${strictEvidenceDir.path}/push_debugview_event_review.csv')
-            ..writeAsStringSync('''
+      const completedPushDebugViewEvidence = '''
 event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data
+notification_settings_viewed,screen|source|prayer_reminders_enabled,screen|source|prayer_reminders_enabled,no,passed,No tester personal data
 notification_permission_prompt_viewed,reminder_type|source,reminder_type|source,no,passed,No tester personal data
-notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count,reminder_type|enabled|source|change_type|scheduled_count,no,passed,No tester personal data
+prayer_reminder_permission_result,enabled|source|change_type|reminder_offset_minutes,enabled|source|change_type|reminder_offset_minutes,no,passed,No tester personal data
+prayer_reminder_changed,prayer_name|enabled|source|reminder_offset_minutes,prayer_name|enabled|source|reminder_offset_minutes,no,passed,No tester personal data
+notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count|reminder_offset_minutes,reminder_type|enabled|source|change_type|scheduled_count|reminder_offset_minutes,no,passed,No tester personal data
+notification_smoke_test_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
+notification_permission_recovery_opened,source|change_type,source|change_type,no,passed,No tester personal data
+daily_session_reminder_permission_result,session_id|enabled|source|change_type,session_id|enabled|source|change_type,no,passed,No tester personal data
+daily_session_reminder_changed,session_id|enabled|source|change_type,session_id|enabled|source|change_type,no,passed,No tester personal data
 notification_tap_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
 notification_tap_opened,content_type|source,content_type|source,no,passed,No tester personal data
-''');
+''';
+      final completedDebugViewEvidence =
+          File('${strictEvidenceDir.path}/push_debugview_event_review.csv')
+            ..writeAsStringSync(completedPushDebugViewEvidence);
       final completedOemOwnerEvidence =
           File('${strictEvidenceDir.path}/push_oem_owner_assignment.csv')
             ..writeAsStringSync('''
@@ -1257,6 +1264,42 @@ release-ops,daily-through-day14,2026-06-14,assigned,No tester personal data
               .readAsStringSync();
       expect(
           strictManifest, contains('Strict push evidence inputs: validated'));
+
+      completedDebugViewEvidence.writeAsStringSync('''
+event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data
+notification_permission_prompt_viewed,reminder_type|source,reminder_type|source,no,passed,No tester personal data
+notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count,reminder_type|enabled|source|change_type|scheduled_count,no,passed,No tester personal data
+notification_tap_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
+notification_tap_opened,content_type|source,content_type|source,no,passed,No tester personal data
+''');
+      final incompleteDebugViewEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_push_module_completion_audit.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_PUSH_MODULE_AUDIT_READY': 'true',
+          'SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY': 'true',
+          'SAKINAH_PUSH_REAL_DEVICE_SMOKE_READY': 'true',
+          'SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_REVIEWED': 'true',
+          'SAKINAH_PUSH_OEM_OBSERVATION_OWNER_ASSIGNED': 'true',
+          'SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE':
+              completedPermissionEvidence.path,
+          'SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE':
+              completedSmokeEvidence.path,
+          'SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE':
+              completedDebugViewEvidence.path,
+          'SAKINAH_PUSH_OEM_OWNER_EVIDENCE': completedOemOwnerEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(incompleteDebugViewEvidenceRun.exitCode, isNot(0));
+      expect(
+        incompleteDebugViewEvidenceRun.stderr.toString(),
+        contains('notification_settings_viewed'),
+      );
+      completedDebugViewEvidence.writeAsStringSync(
+        completedPushDebugViewEvidence,
+      );
 
       completedSmokeEvidence.writeAsStringSync('''
 scenario,device_serial,reminder_type,expected_delivery_result,observed_delivery_result,tap_route_result,notes_without_personal_data

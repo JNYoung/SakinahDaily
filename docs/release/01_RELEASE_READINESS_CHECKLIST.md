@@ -144,8 +144,11 @@ Status: Draft for release/store review.
   `SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE`,
   `SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE`,
   `SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE`, and
-  `SAKINAH_PUSH_OEM_OWNER_EVIDENCE`; completed runs write
-  `Strict push evidence inputs: validated` into the manifest.
+  `SAKINAH_PUSH_OEM_OWNER_EVIDENCE`; DebugView evidence must cover all 11
+  local push/reminder events from setup view through permission, scheduling,
+  smoke QA, recovery, daily-session reminder, tap result, and tap open.
+  Completed runs write `Strict push evidence inputs: validated` into the
+  manifest.
 - [x] Reviewed content pack readiness packet exists at
   `scripts/export_reviewed_content_pack_readiness.sh`; template mode writes
   current seed inventory, beta content targets, Quran source placeholder
