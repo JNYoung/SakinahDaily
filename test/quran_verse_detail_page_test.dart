@@ -19,9 +19,10 @@ void main() {
     expect(
         find.text('For indeed, with hardship will be ease.'), findsOneWidget);
     expect(
-      find.textContaining('Seed metadata; replace with approved Quran source'),
+      find.textContaining('Quran 94:5 · Tanzil Arabic'),
       findsOneWidget,
     );
+    expect(find.textContaining('Kemenag RI ID'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 
