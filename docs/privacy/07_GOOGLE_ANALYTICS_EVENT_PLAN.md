@@ -234,7 +234,8 @@ scripts/export_google_analytics_debugview_packet.sh
 
 The packet is written to `build/google-analytics-debugview` and contains a
 Firebase DebugView checklist, a Google Analytics event catalog, a retention
-funnel checklist, a blocked-parameter review CSV, and copied source evidence.
+funnel checklist, a retention loop QA checklist, a blocked-parameter review
+CSV, and copied source evidence.
 It follows the official Firebase DebugView workflow at
 `https://firebase.google.com/docs/analytics/debugview`, including the Android
 debug command:
@@ -281,6 +282,14 @@ result, controlled source, and coarse outcome.
 saved enabled state where relevant.
 `dhikr_started` and `dhikr_completed` must keep only content ID and source.
 `women_ibadah_mode_changed` must keep only enabled state and source.
+The retention loop QA checklist must walk the ordered Home → Prayer → Daily
+Session → Reminder/Feedback path and verify `home_viewed → prayer_viewed`,
+`prayer_checklist_updated`, `daily_session_started`,
+`daily_session_completed`, `daily_session_reminder_permission_result`,
+`daily_session_reminder_changed`, `notification_tap_opened`,
+`closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` without raw
+payloads, routes, coordinates, exact reminder times, feedback text, tester
+identity, or religious text.
 
 Strict export mode is available for pre-upload review:
 

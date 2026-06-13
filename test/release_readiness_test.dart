@@ -1858,6 +1858,7 @@ void main() {
       expect(content, contains('debugview_checklist.md'));
       expect(content, contains('analytics_events_catalog.csv'));
       expect(content, contains('retention_funnel_debugview.csv'));
+      expect(content, contains('retention_loop_debugview_qa.md'));
       expect(content, contains('blocked_parameter_review.csv'));
       expect(content, contains('SAKINAH_REQUIRE_ANALYTICS_DEBUGVIEW_READY'));
       expect(content, contains('SAKINAH_ANALYTICS_ENABLED=true'));
@@ -1900,6 +1901,7 @@ void main() {
         includeParentEnvironment: false,
       );
       expect(templateRun.exitCode, 0);
+      expect(templateRun.stderr.toString(), isEmpty);
       expect(
         templateRun.stdout.toString(),
         contains('Google Analytics DebugView QA packet exported'),
@@ -1915,6 +1917,9 @@ void main() {
               .readAsStringSync();
       final funnel = File(
               'build/google-analytics-debugview/retention_funnel_debugview.csv')
+          .readAsStringSync();
+      final loopQa = File(
+              'build/google-analytics-debugview/retention_loop_debugview_qa.md')
           .readAsStringSync();
       final blocked =
           File('build/google-analytics-debugview/blocked_parameter_review.csv')
@@ -2009,6 +2014,20 @@ void main() {
       expect(funnel, contains('Dua Detail View Rate'));
       expect(funnel, contains('Dhikr Completion Rate'));
       expect(funnel, contains('Women Mode Trust Signal'));
+      expect(funnel, contains('closed_test_prompt_marked_sent'));
+
+      expect(loopQa, contains('Home → Prayer → Daily Session'));
+      expect(loopQa, contains('home_viewed → prayer_viewed'));
+      expect(loopQa, contains('prayer_checklist_updated'));
+      expect(loopQa, contains('daily_session_started'));
+      expect(loopQa, contains('daily_session_completed'));
+      expect(loopQa, contains('daily_session_reminder_permission_result'));
+      expect(loopQa, contains('daily_session_reminder_changed'));
+      expect(loopQa, contains('notification_tap_opened'));
+      expect(loopQa, contains('closed_test_prompt_copied'));
+      expect(loopQa, contains('closed_test_prompt_marked_sent'));
+      expect(loopQa, contains('source=home_session_completion'));
+      expect(loopQa, contains('No raw payloads, routes, coordinates'));
 
       expect(blocked, contains('latitude'));
       expect(blocked, contains('longitude'));
@@ -2042,13 +2061,16 @@ void main() {
       expect(
           docsIndex, contains('export_google_analytics_debugview_packet.sh'));
       expect(analyticsPlan, contains('DebugView QA packet'));
+      expect(analyticsPlan, contains('retention loop QA checklist'));
       expect(readiness, contains('Google Analytics DebugView QA packet'));
+      expect(readiness, contains('retention loop QA checklist'));
       expect(readiness, contains('notification_settings_viewed'));
       expect(readiness, contains('prayer_reminder_permission_result'));
       expect(readiness, contains('prayer_location_changed'));
       expect(readiness, contains('qibla_viewed'));
       expect(readiness, contains('daily_session_reminder_permission_result'));
       expect(retentionPlan, contains('DebugView QA packet'));
+      expect(retentionPlan, contains('Home → Prayer → Daily Session'));
       expect(versionNotes, contains('Google Analytics DebugView QA packet'));
     });
 

@@ -90,9 +90,13 @@ Status: Draft for release/store review.
 - [x] Google Analytics DebugView QA packet exists at
   `scripts/export_google_analytics_debugview_packet.sh`; template mode writes
   a DebugView checklist, analytics event catalog, retention funnel checklist,
-  and blocked-parameter review into `build/google-analytics-debugview`, while
-  strict mode fails until the reviewed Firebase QA build, Privacy Center opt-in,
-  Data Safety review, and DebugView device setup are confirmed.
+  retention loop QA checklist, and blocked-parameter review into
+  `build/google-analytics-debugview`, while strict mode fails until the
+  reviewed Firebase QA build, Privacy Center opt-in, Data Safety review, and
+  DebugView device setup are confirmed. The loop checklist explicitly walks
+  Home → Prayer → Daily Session → Reminder/Feedback and verifies
+  `closed_test_prompt_marked_sent` without raw payloads, routes, coordinates,
+  feedback text, tester identity, or religious text.
 - [x] Reviewed content pack readiness packet exists at
   `scripts/export_reviewed_content_pack_readiness.sh`; template mode writes
   current seed inventory, beta content targets, Quran source placeholder
