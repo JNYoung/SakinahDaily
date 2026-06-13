@@ -85,7 +85,8 @@ Status: Draft for release/store review.
 - [x] Google Play closed-test retention observation packet exists at
   `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` with exporter
   `scripts/export_google_play_closed_test_retention_packet.sh`; template mode
-  writes D1/D3/D7/D14 retention observation CSV templates into
+  writes D1/D3/D7/D14 retention observation CSV templates plus
+  `retention_operator_calendar.csv` and `retention_operator_runbook.md` into
   `build/play-retention-observation` without tester personal data, while
   strict mode fails until the closed-test release is live, feedback channels
   are ready, and a human review owner/schedule is confirmed.
@@ -485,7 +486,8 @@ Status: Draft for release/store review.
 - [x] Closed-test retention observation packet can be exported to
   `build/play-retention-observation` with
   `scripts/export_google_play_closed_test_retention_packet.sh`; it includes
-  daily observation, feedback theme, Production access decision CSV, and
+  daily observation, feedback theme, Production access decision CSV,
+  `retention_operator_calendar.csv`, `retention_operator_runbook.md`, and
   `production_access_feedback_summary.md` templates for D1/D3/D7/D14 review
   without storing tester personal data.
 - [x] Day 0 / Day 1 operator packet can be exported to
@@ -542,8 +544,9 @@ Status: Draft for release/store review.
 - [x] `scripts/export_google_play_closed_test_retention_packet.sh` exports a
   template-mode closed-test retention observation packet at
   `build/play-retention-observation` for aggregate Day 1 / Day 3 / Day 7 /
-  Day 14 feedback review, suggested theme-key grouping, and Production access
-  answer preparation through `production_access_feedback_summary.md`.
+  Day 14 feedback review, suggested theme-key grouping, operator cadence via
+  `retention_operator_calendar.csv`, and Production access answer preparation
+  through `production_access_feedback_summary.md`.
 - [x] `scripts/export_google_play_day0_day1_operator_packet.sh` exports a
   template-mode Day 0 / Day 1 operator packet at
   `build/play-day0-day1-operator`, regenerating launch-day, retention, and

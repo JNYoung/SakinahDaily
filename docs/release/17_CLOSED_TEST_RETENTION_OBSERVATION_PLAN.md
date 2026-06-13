@@ -212,11 +212,19 @@ The packet is written to `build/play-retention-observation` and contains:
 - `daily_observation_template.csv`
 - `feedback_theme_template.csv`
 - `production_access_decisions_template.csv`
+- `retention_operator_calendar.csv`
+- `retention_operator_runbook.md`
 - `production_access_feedback_summary.md`
 - This plan.
 - The closed-testing evidence log.
 - The Production access answer draft.
 - The closed-test launch day checklist.
+
+Use `retention_operator_calendar.csv` as the compact Day 0 / Day 1 / Day 3 /
+Day 7 / Day 14 task list for the person running the test. It keeps the share
+order, aggregate evidence file to update, feedback theme focus, and next action
+visible without asking the operator to record tester personal data.
+Use `retention_operator_runbook.md` for the matching step-by-step handoff.
 
 For the first 24 hours, also create the Day 0 / Day 1 operator packet:
 
@@ -296,6 +304,10 @@ Map those summaries into:
 - `build/play-retention-observation/production_access_feedback_summary.md`
   first, so the final Play Console answers can be reviewed from one
   aggregate-only handoff file.
+- `build/play-retention-observation/retention_operator_calendar.csv`
+  and `build/play-retention-observation/retention_operator_runbook.md`
+  during the test, so the operator keeps the Day 0 / Day 1 / Day 3 / Day 7 /
+  Day 14 review cadence and Google Group link first share order explicit.
 
 ## Official Reference
 

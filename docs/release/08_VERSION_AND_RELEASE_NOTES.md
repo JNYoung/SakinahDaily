@@ -71,8 +71,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md`,
   `build/play-retention-observation`, and
   `scripts/export_google_play_closed_test_retention_packet.sh`; includes
-  `production_access_feedback_summary.md` for answer-ready aggregate feedback
-  handoff.
+  `retention_operator_calendar.csv`, `retention_operator_runbook.md`, and
+  `production_access_feedback_summary.md` for Day 0 / Day 1 / Day 3 / Day 7 /
+  Day 14 operator cadence and answer-ready aggregate feedback handoff.
 - Day 0 / Day 1 operator packet:
   `build/play-day0-day1-operator`, exported by
   `scripts/export_google_play_day0_day1_operator_packet.sh`; ties first-share
@@ -123,7 +124,7 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   checked in Google Group first / Play opt-in second order.
 - closed-test retention observation packet strict mode after feedback channels
   are ready and a human has scheduled Day 1 / Day 3 / Day 7 / Day 14 aggregate
-  review.
+  review using `retention_operator_calendar.csv`.
 - closed-test retention completed-evidence mode after Day 14 aggregate daily
   observation, feedback themes, production decisions, and Google Analytics
   DebugView retention evidence CSVs are filled with no template placeholders.

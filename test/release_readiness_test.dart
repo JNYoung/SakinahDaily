@@ -2059,6 +2059,8 @@ Privacy rule: No tester personal data.
       expect(content, contains('production_access_decisions_template.csv'));
       expect(content, contains('production_access_feedback_summary.md'));
       expect(content, contains('analytics_debugview_retention_evidence.csv'));
+      expect(content, contains('retention_operator_calendar.csv'));
+      expect(content, contains('retention_operator_runbook.md'));
       expect(productionExporter,
           contains('production_access_decisions_template.csv'));
       expect(productionExporter,
@@ -2110,6 +2112,12 @@ Privacy rule: No tester personal data.
       final answerSummary = File(
         'build/play-retention-observation/production_access_feedback_summary.md',
       ).readAsStringSync();
+      final operatorCalendar = File(
+        'build/play-retention-observation/retention_operator_calendar.csv',
+      ).readAsStringSync();
+      final operatorRunbook = File(
+        'build/play-retention-observation/retention_operator_runbook.md',
+      ).readAsStringSync();
 
       expect(manifest,
           contains('Google Play closed-test retention observation packet'));
@@ -2118,6 +2126,8 @@ Privacy rule: No tester personal data.
       expect(manifest, contains('feedback_theme_template.csv'));
       expect(manifest, contains('production_access_decisions_template.csv'));
       expect(manifest, contains('production_access_feedback_summary.md'));
+      expect(manifest, contains('retention_operator_calendar.csv'));
+      expect(manifest, contains('retention_operator_runbook.md'));
       expect(dailyCsv, contains('test_day,calendar_date,version_code'));
       expect(dailyCsv, contains('Day 1'));
       expect(dailyCsv, contains('Day 3'));
@@ -2141,6 +2151,24 @@ Privacy rule: No tester personal data.
       expect(answerSummary, contains('Why Is The App Ready For Production'));
       expect(answerSummary, contains('Day 1 / Day 3 / Day 7 / Day 14'));
       expect(answerSummary, contains('No tester personal data'));
+      expect(operatorCalendar, contains('test_day,operator_task'));
+      expect(operatorCalendar, contains('Day 0'));
+      expect(operatorCalendar, contains('Day 1'));
+      expect(operatorCalendar, contains('Day 3'));
+      expect(operatorCalendar, contains('Day 7'));
+      expect(operatorCalendar, contains('Day 14'));
+      expect(operatorCalendar, contains('share Google Group link first'));
+      expect(operatorCalendar, contains('record aggregate opted-in testers'));
+      expect(operatorCalendar, contains('review prayer reminder usefulness'));
+      expect(operatorCalendar, contains('No tester personal data'));
+      expect(
+          operatorRunbook, contains('Closed-Test Retention Operator Runbook'));
+      expect(operatorRunbook, contains('Day 0'));
+      expect(operatorRunbook, contains('Day 14'));
+      expect(operatorRunbook, contains('Google Group link first'));
+      expect(
+          operatorRunbook, contains('production_access_feedback_summary.md'));
+      expect(operatorRunbook, contains('No tester personal data'));
 
       final strictRun = Process.runSync(
         'bash',
@@ -2274,6 +2302,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(
           docsIndex, contains('17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md'));
       expect(readiness, contains('closed-test retention observation packet'));
+      expect(readiness, contains('retention_operator_calendar.csv'));
       expect(readiness, contains('production_access_feedback_summary.md'));
       expect(
           readiness, contains('SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE'));
@@ -2290,8 +2319,10 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
           contains('17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md'));
       expect(answerDraft, contains('production_access_feedback_summary.md'));
       expect(launchDayChecklist, contains('retention observation packet'));
+      expect(launchDayChecklist, contains('retention_operator_calendar.csv'));
       expect(
           versionNotes, contains('closed-test retention observation packet'));
+      expect(versionNotes, contains('retention_operator_calendar.csv'));
       expect(versionNotes, contains('production_access_feedback_summary.md'));
       expect(productionExporter,
           contains('export_google_play_closed_test_retention_packet.sh'));
