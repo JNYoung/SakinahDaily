@@ -65,6 +65,8 @@ existing privacy-safe events:
 - `notification_tap_result` for coarse local notification tap outcome health,
   including opened, malformed-payload, missing-content, or unhandled results.
 - `notification_tap_opened` for coarse successful local notification open rate.
+- `local_push_resolution_result` for coarse local push payload parsing and
+  content availability health before final navigation/open-rate review.
 
 The analytics contract intentionally excludes exact reminder times, raw
 payloads, routes, coordinates, manual place labels, prayer completion
@@ -81,7 +83,7 @@ server-triggered delivery QA are designed. Strict mode now requires completed
 permission QA, real-device smoke, DebugView event review, and OEM owner
 assignment CSV evidence before the manifest can show
 `Strict push evidence inputs: validated`. The DebugView event review evidence
-must cover the full 11-event local push/reminder set, from Notification
+must cover the full 12-event local push/reminder set, from Notification
 Settings view and permission education through scheduling, smoke QA, recovery,
 Daily Session reminder outcomes, tap result, and tap open.
 
@@ -310,7 +312,9 @@ Completed:
   `notification_tap_result` analytics with only coarse content type,
   `source=local_notification`, and coarse tap outcome. Successful opens also
   emit `notification_tap_opened` with only coarse content type and source,
-  allowing reviewed DebugView QA to observe Push Open Rate and tap failures
+  and all local push payload resolutions emit `local_push_resolution_result`
+  with only coarse content type, source, and resolution outcome, allowing
+  reviewed DebugView QA to observe Push Open Rate, payload resolution, and tap failures
   without raw payloads, routes, content IDs, prayer names, women mode status,
   or religious text.
 - Quran step enforces no BGM and no Quran TTS.

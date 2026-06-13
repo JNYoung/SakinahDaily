@@ -49,6 +49,7 @@ class _NotificationTapRouteListenerState
         if (!identical(current, result)) {
           return;
         }
+        _trackLocalPushResolutionResult(result);
         _trackNotificationTapResult(result);
         final route = result.route;
         if (result.handled && route != null && route.isNotEmpty) {
@@ -70,6 +71,17 @@ class _NotificationTapRouteListenerState
   void _trackNotificationTapResult(NotificationTapResult result) {
     ref.read(analyticsServiceProvider).track(
       AnalyticsEventCatalog.notificationTapResult,
+      {
+        'content_type': _notificationTapContentType(result),
+        'source': 'local_notification',
+        'change_type': _notificationTapChangeType(result),
+      },
+    );
+  }
+
+  void _trackLocalPushResolutionResult(NotificationTapResult result) {
+    ref.read(analyticsServiceProvider).track(
+      AnalyticsEventCatalog.localPushResolutionResult,
       {
         'content_type': _notificationTapContentType(result),
         'source': 'local_notification',

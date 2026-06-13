@@ -48,7 +48,9 @@ Women's Ibadah Mode status, and religious content are not sent.
 Notification tap analytics, if enabled in a reviewed build after user opt-in,
 sends only a coarse content type, `source=local_notification`, and coarse tap
 outcome for `notification_tap_result`; successful opens also send
-`notification_tap_opened` with only coarse content type and source. Raw
+`notification_tap_opened` with only coarse content type and source. Local push
+payload parsing/content availability sends `local_push_resolution_result` with
+only coarse content type, source, and outcome. Raw
 payloads, routes, content IDs, prayer names, reminder times, lock-screen copy,
 Women's Ibadah Mode status, and religious content are not sent.
 

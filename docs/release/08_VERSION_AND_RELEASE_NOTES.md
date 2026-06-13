@@ -104,11 +104,13 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   prayer reminder and local daily session reminder loop, push/reminder
   analytics coverage, privacy blocklist, and Remote FCM/APNs out-of-scope
   boundary. Tap outcome health is now covered by `notification_tap_result`,
-  while successful opens continue to use `notification_tap_opened`. The packet
+  payload parsing/content availability is covered by
+  `local_push_resolution_result`, while successful opens continue to use
+  `notification_tap_opened`. The packet
   now includes `push_permission_qa_evidence.csv`,
   `push_real_device_smoke_evidence.csv`, `push_debugview_event_review.csv`,
   and `push_oem_owner_assignment.csv` templates for strict pre-upload QA
-  evidence; strict DebugView evidence must include all 11 local push/reminder
+  evidence; strict DebugView evidence must include all 12 local push/reminder
   events, not only notification tap/open checks.
 - Reviewed content pack readiness packet:
   `build/reviewed-content-pack-readiness`, exported by
@@ -172,9 +174,10 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   QA build, Privacy Center opt-in, Data Safety review, and DebugView device
   setup are confirmed, including `notification_permission_prompt_viewed`,
   `notification_schedule_result`, `notification_smoke_test_result`, and
-  `notification_tap_result` verification without payloads, routes, exact
-  reminder times, scheduled local times, lock-screen body copy, tester
-  identity, or religious text. Strict mode also requires completed
+  `notification_tap_result` plus `local_push_resolution_result` verification
+  without payloads, routes, exact reminder times, scheduled local times,
+  lock-screen body copy, tester identity, or religious text. Strict mode also
+  requires completed
   `SAKINAH_ANALYTICS_DEBUGVIEW_SETUP_EVIDENCE`,
   `SAKINAH_ANALYTICS_DEBUGVIEW_EVENT_EVIDENCE`,
   `SAKINAH_ANALYTICS_DEBUGVIEW_RETENTION_LOOP_EVIDENCE`, and
@@ -188,7 +191,7 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE`,
   `SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE`, and
   `SAKINAH_PUSH_OEM_OWNER_EVIDENCE` CSVs with no template placeholders and
-  full 11-event push/reminder DebugView coverage before it writes
+  full 12-event push/reminder DebugView coverage before it writes
   `Strict push evidence inputs: validated` into the manifest.
 - Reviewed content pack readiness packet strict mode after Quran source
   placeholders are replaced, beta session/dua/dhikr coverage is reviewed,

@@ -151,9 +151,10 @@ Status: Draft for release/store review.
   `SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE`,
   `SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE`,
   `SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE`, and
-  `SAKINAH_PUSH_OEM_OWNER_EVIDENCE`; DebugView evidence must cover all 11
+  `SAKINAH_PUSH_OEM_OWNER_EVIDENCE`; DebugView evidence must cover all 12
   local push/reminder events from setup view through permission, scheduling,
-  smoke QA, recovery, daily-session reminder, tap result, and tap open.
+  smoke QA, recovery, daily-session reminder, tap result, tap open, and local
+  push resolution.
   Completed runs write `Strict push evidence inputs: validated` into the
   manifest.
 - [x] Reviewed content pack readiness packet exists at
@@ -406,6 +407,11 @@ Status: Draft for release/store review.
   listener contract. Successful opens also continue to emit
   `notification_tap_opened` with only coarse content type and
   `source=local_notification`.
+  Local push payload parsing/content availability analytics is observable as
+  `local_push_resolution_result` with only coarse content type,
+  `source=local_notification`, and coarse `change_type`; raw payloads, routes,
+  content IDs, prayer names, lock-screen copy, Women's Ibadah Mode status, and
+  religious text are not sent.
   The same listener covers cold-start prayer, Daily Session, Quran, Dua, and
   Dhikr local notification launches.
   Daily Session reminder analytics is limited to enabled state, source, change

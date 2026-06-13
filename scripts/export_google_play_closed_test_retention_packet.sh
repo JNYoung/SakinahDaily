@@ -201,6 +201,7 @@ if [[ "$require_complete" == "true" ]]; then
     'notification_permission_prompt_viewed' \
     'notification_schedule_result' \
     'notification_tap_opened' \
+    'local_push_resolution_result' \
     'no_forbidden_parameters' \
     'No tester personal data'
 fi
@@ -254,6 +255,7 @@ retention_loop,TBD,home_viewed,TBD,TBD,TBD,No tester personal data
 push_prompt,TBD,notification_permission_prompt_viewed,TBD,TBD,TBD,No tester personal data
 push_schedule,TBD,notification_schedule_result,TBD,TBD,TBD,No tester personal data
 push_open,TBD,notification_tap_opened,TBD,TBD,TBD,No tester personal data
+push_resolution,TBD,local_push_resolution_result,TBD,TBD,TBD,No tester personal data
 daily_session_return,TBD,daily_session_reminder_changed,TBD,TBD,TBD,No tester personal data
 EOF
 

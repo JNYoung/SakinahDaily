@@ -59,6 +59,9 @@ signals:
 - Push Open Rate from aggregate tester feedback by default, or
   `notification_tap_opened` DebugView evidence when reviewed analytics QA is
   explicitly approved.
+- Local Push Resolution Health from aggregate tester feedback by default, or
+  `local_push_resolution_result` DebugView evidence when reviewed analytics QA
+  is explicitly approved.
 - Daily Session Start Rate.
 - Settings Completion Rate.
 
@@ -136,7 +139,9 @@ Local notification tap handling, including cold-start launches from local
 notification payloads, should appear as `notification_tap_result` with coarse
 content type, `source=local_notification`, and coarse outcome. Successful
 opens also emit `notification_tap_opened` with coarse content type and source;
-do not store raw payloads, routes, content IDs, prayer names, lock-screen copy,
+local push payload parsing/content availability also emits
+`local_push_resolution_result` with coarse content type, source, and outcome.
+Do not store raw payloads, routes, content IDs, prayer names, lock-screen copy,
 or religious text.
 Push/reminder module DebugView coverage should be reviewed as one closed loop:
 `notification_settings_viewed` shows setup intent,
@@ -151,7 +156,8 @@ reminder opt-in or preference changes,
 `daily_session_reminder_changed` show the Daily Session return loop,
 `notification_tap_result` shows coarse opened/malformed/missing/unhandled tap
 outcomes, and `notification_tap_opened` shows coarse local-notification open
-behavior. Home
+behavior, while `local_push_resolution_result` shows coarse payload
+parsing/content availability. Home
 and Prayer direct prayer reminder opt-ins must retain `source=home_prayer_card`
 and `source=prayer_page_card` respectively, and the Home completed-session
 Daily Session reminder opt-in must retain `source=home_session_completion`.
@@ -168,6 +174,7 @@ Reminder/Feedback retention loop QA checklist. Use it to verify that
 `notification_permission_recovery_opened`,
 `notification_tap_result`,
 `notification_tap_opened`,
+`local_push_resolution_result`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` appear in the
 expected order with controlled sources and no raw payloads, routes,
 scheduled local times, coordinates, exact reminder times, feedback text, tester
