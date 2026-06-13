@@ -433,8 +433,9 @@ Status: Draft for release/store review.
 - [x] Closed-test retention observation packet can be exported to
   `build/play-retention-observation` with
   `scripts/export_google_play_closed_test_retention_packet.sh`; it includes
-  daily observation, feedback theme, and Production access decision CSV
-  templates for D1/D3/D7/D14 review without storing tester personal data.
+  daily observation, feedback theme, Production access decision CSV, and
+  `production_access_feedback_summary.md` templates for D1/D3/D7/D14 review
+  without storing tester personal data.
 - [ ] Google Group `sakinah-daily-testers@googlegroups.com` is created and
   bound to the Play Console closed-testing track.
 - [ ] Play Console testing feedback channel is configured with the final
@@ -479,7 +480,7 @@ Status: Draft for release/store review.
   template-mode closed-test retention observation packet at
   `build/play-retention-observation` for aggregate Day 1 / Day 3 / Day 7 /
   Day 14 feedback review, suggested theme-key grouping, and Production access
-  answer preparation.
+  answer preparation through `production_access_feedback_summary.md`.
 - [x] Home exposes the same Day 1 / Day 3 / Day 7 / Day 14 closed-test guide
   entry when the feedback channel is configured, keeping the retention feedback
   loop visible in the primary prayer habit path. It also highlights the next

@@ -84,6 +84,7 @@ require_text "$evidence_log" 'Feedback themes'
 require_text "$evidence_log" 'Production access answers'
 require_text "$answer_draft" 'What Feedback Did You Receive'
 require_text "$answer_draft" 'What Changes Did You Make'
+require_text "$answer_draft" 'production_access_feedback_summary.md'
 require_text "$launch_day_checklist" 'No tester personal data'
 require_text "$product_progress" 'Weekly Active Prayer Reminder Users'
 require_text "$acceptance" 'Beta observation'
@@ -151,6 +152,88 @@ decision_date,feedback_theme,change_or_decision,evidence,release_status,producti
 TBD,TBD,TBD,docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md,TBD,TBD
 EOF
 
+cat >"$out_dir/production_access_feedback_summary.md" <<'EOF'
+# Production Access Feedback Summary
+
+Status: Template; fill after Day 14 using aggregate closed-test evidence only.
+
+Privacy rule: No tester personal data. Do not paste tester names, emails,
+private messages, screenshots with account data, health details, exact
+locations, or Women's Ibadah Mode exact status.
+
+## Closed Test Evidence Inputs
+
+- `daily_observation_template.csv` for Day 1 / Day 3 / Day 7 / Day 14
+  aggregate observation notes.
+- `feedback_theme_template.csv` for aggregate feedback themes, severity,
+  decisions, and follow-up status.
+- `production_access_decisions_template.csv` for changes made or release
+  decisions.
+- `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md` for the final canonical
+  evidence log.
+- `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md` for copy-ready Play
+  Console answer sections.
+
+## What Feedback Did You Receive
+
+Draft after Day 14:
+
+```text
+We reviewed aggregate feedback from Google Play Testing feedback and the
+configured feedback channel. The main themes were: TBD. We used Day 1 / Day 3 /
+Day 7 / Day 14 prompts to group feedback around onboarding clarity, prayer-time
+trust, reminder usefulness, daily return intent, privacy trust, localization,
+and performance. We did not store tester personal data.
+```
+
+Evidence to cite:
+
+- `feedback_theme_template.csv`
+- `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md`
+
+## What Changes Did You Make
+
+Draft after Day 14:
+
+```text
+Based on tester feedback, we made or documented the following changes: TBD. We
+kept changes scoped to the prayer-first v0.1 release path and did not add ads,
+tracking, social features, AI fatwa, or remote storage of sensitive Women's
+Ibadah Mode state.
+```
+
+Evidence to cite:
+
+- `production_access_decisions_template.csv`
+- `docs/release/01_RELEASE_READINESS_CHECKLIST.md`
+
+## Why Is The App Ready For Production
+
+Draft after Day 14:
+
+```text
+The app is ready for Production access after closed testing because the tested
+release path is narrow and local-first: Home -> Prayer -> Session -> Settings.
+Testers could review prayer times, manage local reminders, complete a daily
+session, inspect Privacy Center, and send structured feedback. Store listing,
+Data Safety, release readiness, Android launch smoke, and reminder observation
+evidence are tracked before submission.
+```
+
+Evidence to cite:
+
+- `docs/release/01_RELEASE_READINESS_CHECKLIST.md`
+- `build/play-upload/manifest.txt`
+- `build/play-production-access/manifest.txt`
+
+## Final Fill Checklist
+
+- [ ] Replace `TBD` with aggregate feedback themes and decisions.
+- [ ] Confirm Day 1 / Day 3 / Day 7 / Day 14 evidence is summarized.
+- [ ] Confirm no tester personal data appears in this summary.
+- [ ] Copy finalized answers into `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`.
+EOF
+
 cat >"$out_dir/manifest.txt" <<EOF
 Google Play closed-test retention observation packet
 Generated UTC: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -168,6 +251,7 @@ Generated templates:
 - daily_observation_template.csv
 - feedback_theme_template.csv
 - production_access_decisions_template.csv
+- production_access_feedback_summary.md
 
 Copied evidence:
 - $observation_plan
@@ -186,6 +270,8 @@ Use:
 - Transfer summarized themes into docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md
   and docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md before Production
   access review.
+- Use production_access_feedback_summary.md to turn Day 1 / Day 3 / Day 7 /
+  Day 14 aggregate themes into Play Console answer-ready copy.
 EOF
 
 printf 'Google Play closed-test retention observation packet exported.\n'

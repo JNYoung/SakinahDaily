@@ -67,7 +67,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
 - closed-test retention observation packet:
   `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md`,
   `build/play-retention-observation`, and
-  `scripts/export_google_play_closed_test_retention_packet.sh`.
+  `scripts/export_google_play_closed_test_retention_packet.sh`; includes
+  `production_access_feedback_summary.md` for answer-ready aggregate feedback
+  handoff.
 - Google Analytics DebugView QA packet:
   `build/google-analytics-debugview`, exported by
   `scripts/export_google_analytics_debugview_packet.sh`.
@@ -82,7 +84,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `scripts/verify_google_play_production_access_pack.sh`.
 - Production access evidence packet:
   `build/play-production-access`, exported by
-  `scripts/export_google_play_production_access_packet.sh`.
+  `scripts/export_google_play_production_access_packet.sh`; carries
+  `production_access_feedback_summary.md` from the retention observation packet
+  when available.
 
 ## Remaining External Gates
 
