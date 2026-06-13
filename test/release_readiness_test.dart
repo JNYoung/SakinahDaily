@@ -1762,6 +1762,11 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
           contains('SAKINAH_REQUIRE_PRODUCTION_ACCESS_PACKET_READY'));
       expect(scriptContent, contains('build/play-production-access'));
       expect(scriptContent, contains('manifest.txt'));
+      expect(scriptContent, contains('require_completed_retention_packet'));
+      expect(
+        scriptContent,
+        contains('Completed retention evidence inputs: validated'),
+      );
       expect(scriptContent, contains('14_PRODUCTION_ACCESS_ANSWER_DRAFT.md'));
       expect(scriptContent, contains('12_CLOSED_TESTING_EVIDENCE_LOG.md'));
       expect(scriptContent,
@@ -1771,6 +1776,10 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(
           scriptContent, contains('production_access_decisions_template.csv'));
       expect(scriptContent, contains('production_access_feedback_summary.md'));
+      expect(
+        scriptContent,
+        contains('analytics_debugview_retention_evidence.csv'),
+      );
 
       final templateRun = Process.runSync(
         'bash',
@@ -1809,6 +1818,12 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
           'build/play-retention-observation/production_access_feedback_summary.md',
         ),
       );
+      expect(
+        manifest,
+        contains(
+          'build/play-retention-observation/analytics_debugview_retention_evidence.csv',
+        ),
+      );
 
       final answerSummary = File(
         'build/play-production-access/build/play-retention-observation/production_access_feedback_summary.md',
@@ -1829,16 +1844,20 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(strictRun.exitCode, isNot(0));
       expect(
         strictRun.stderr.toString(),
-        contains('Production access answer pack failed'),
+        contains('Production access evidence packet failed'),
       );
       expect(
         strictRun.stderr.toString(),
-        contains('SAKINAH_PLAY_PRODUCTION_ACCESS_DRAFT_REVIEWED=true'),
+        contains('Completed retention evidence inputs: validated'),
       );
 
       expect(docsIndex,
           contains('export_google_play_production_access_packet.sh'));
       expect(readiness, contains('Production access evidence packet'));
+      expect(
+        readiness,
+        contains('Completed retention evidence inputs: validated'),
+      );
       expect(
         submissionRunbook,
         contains('export_google_play_production_access_packet.sh'),
@@ -1848,8 +1867,12 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(answerDraft,
           contains('export_google_play_production_access_packet.sh'));
       expect(answerDraft, contains('production_access_feedback_summary.md'));
+      expect(
+          answerDraft, contains('SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE'));
       expect(versionNotes, contains('Production access evidence packet'));
       expect(versionNotes, contains('production_access_feedback_summary.md'));
+      expect(versionNotes,
+          contains('Completed retention evidence inputs: validated'));
     });
 
     test('Google Play closed-test retention observation packet can be exported',

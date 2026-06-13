@@ -24,6 +24,42 @@ require_executable() {
   [[ -x "$path" ]] || fail "required script is not executable: $path"
 }
 
+require_text() {
+  local path="$1"
+  local needle="$2"
+  grep -Fq "$needle" "$path" ||
+    fail "$path must contain completed retention evidence validation: $needle"
+}
+
+require_completed_retention_packet() {
+  local manifest="build/play-retention-observation/manifest.txt"
+  local daily="build/play-retention-observation/daily_observation_template.csv"
+  local feedback="build/play-retention-observation/feedback_theme_template.csv"
+  local decisions="build/play-retention-observation/production_access_decisions_template.csv"
+  local debugview="build/play-retention-observation/analytics_debugview_retention_evidence.csv"
+  local summary="build/play-retention-observation/production_access_feedback_summary.md"
+
+  require_file "$manifest"
+  require_file "$daily"
+  require_file "$feedback"
+  require_file "$decisions"
+  require_file "$debugview"
+  require_file "$summary"
+  require_text "$manifest" 'Completed retention evidence inputs: validated'
+  require_text "$daily" 'Day 14'
+  require_text "$daily" 'No tester personal data'
+  require_text "$feedback" 'retention_reason_to_return'
+  require_text "$feedback" 'No tester personal data'
+  require_text "$decisions" 'production_access_answer_note'
+  require_text "$decisions" 'No tester personal data'
+  require_text "$debugview" 'notification_schedule_result'
+  require_text "$debugview" 'notification_tap_opened'
+  require_text "$debugview" 'no_forbidden_parameters'
+  require_text "$debugview" 'No tester personal data'
+  require_text "$summary" 'Production Access Feedback Summary'
+  require_text "$summary" 'No tester personal data'
+}
+
 copy_required_file() {
   local path="$1"
   local target="$out_dir/$path"
@@ -52,13 +88,11 @@ require_executable scripts/verify_google_play_store_assets.sh
 require_executable scripts/export_google_play_closed_test_retention_packet.sh
 
 if [[ "$require_strict" == "true" ]]; then
+  require_completed_retention_packet
   SAKINAH_REQUIRE_PRODUCTION_ACCESS_READY=true \
     scripts/verify_google_play_production_access_pack.sh
   require_file build/play-internal/app-release.aab.sha256
   require_file build/store-assets/google-play-feature-graphic.png
-  require_file build/play-retention-observation/manifest.txt
-  require_file build/play-retention-observation/production_access_decisions_template.csv
-  require_file build/play-retention-observation/production_access_feedback_summary.md
 else
   scripts/verify_google_play_production_access_pack.sh
   scripts/export_google_play_closed_test_retention_packet.sh
@@ -94,6 +128,7 @@ retention_manifest_status="$(copy_optional_file build/play-retention-observation
 retention_daily_status="$(copy_optional_file build/play-retention-observation/daily_observation_template.csv)"
 retention_feedback_status="$(copy_optional_file build/play-retention-observation/feedback_theme_template.csv)"
 retention_decisions_status="$(copy_optional_file build/play-retention-observation/production_access_decisions_template.csv)"
+retention_debugview_status="$(copy_optional_file build/play-retention-observation/analytics_debugview_retention_evidence.csv)"
 retention_answer_summary_status="$(copy_optional_file build/play-retention-observation/production_access_feedback_summary.md)"
 
 cat >"$out_dir/manifest.txt" <<EOF
@@ -131,6 +166,7 @@ Optional copied artifacts:
 - build/play-retention-observation/daily_observation_template.csv: $retention_daily_status
 - build/play-retention-observation/feedback_theme_template.csv: $retention_feedback_status
 - build/play-retention-observation/production_access_decisions_template.csv: $retention_decisions_status
+- build/play-retention-observation/analytics_debugview_retention_evidence.csv: $retention_debugview_status
 - build/play-retention-observation/production_access_feedback_summary.md: $retention_answer_summary_status
 
 Use:
@@ -141,6 +177,10 @@ Use:
 - Use production_access_feedback_summary.md from the retention observation
   packet for Day 1 / Day 3 / Day 7 / Day 14 aggregate feedback review before
   filling Production access answers.
+- Strict mode requires build/play-retention-observation/manifest.txt to show
+  "Completed retention evidence inputs: validated" from
+  SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true before this packet can be
+  used as final Play Console handoff evidence.
 EOF
 
 printf 'Production access evidence packet exported.\n'

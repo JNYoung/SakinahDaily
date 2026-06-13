@@ -588,8 +588,9 @@ Status: Draft for release/store review.
   evidence, and human answer review are complete.
 - [ ] `SAKINAH_REQUIRE_PRODUCTION_ACCESS_PACKET_READY=true
   scripts/export_google_play_production_access_packet.sh` passes after the real
-  closed-test evidence, Production access answer review, checksum, and visual
-  evidence are ready for final human review.
+  closed-test evidence, completed retention packet manifest with
+  `Completed retention evidence inputs: validated`, Production access answer
+  review, checksum, and visual evidence are ready for final human review.
 - [ ] `SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_READY=true
   scripts/verify_google_play_closed_test_launch_day.sh` passes only after the
   Play Console app, Google Group, closed track, Testing feedback channel,
