@@ -120,6 +120,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
 - closed-test retention observation packet strict mode after feedback channels
   are ready and a human has scheduled Day 1 / Day 3 / Day 7 / Day 14 aggregate
   review.
+- closed-test retention completed-evidence mode after Day 14 aggregate daily
+  observation, feedback themes, production decisions, and Google Analytics
+  DebugView retention evidence CSVs are filled with no template placeholders.
 - Day 0 / Day 1 operator packet strict mode after a human owner confirms the
   closed-test release is visible, Google Group link was shared first, Play
   opt-in link second, evidence-log updates are ready, Day 1 review is

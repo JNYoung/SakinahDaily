@@ -43,6 +43,30 @@ This packet ties the Google Group-first share order, Play opt-in second step,
 Day 1 onboarding/privacy feedback review, optional DebugView decision, and this
 evidence log together without storing tester personal data.
 
+After the real Day 14 review, re-export the retention packet in completed
+evidence mode so the Production access handoff contains filled aggregate CSVs
+instead of templates:
+
+```sh
+SAKINAH_REQUIRE_RETENTION_OBSERVATION_READY=true \
+SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true \
+SAKINAH_PLAY_CLOSED_TEST_RELEASE_LIVE=true \
+SAKINAH_PLAY_TESTING_FEEDBACK_READY=true \
+SAKINAH_PLAY_RETENTION_OWNER_ASSIGNED=true \
+SAKINAH_PLAY_RETENTION_REVIEW_SCHEDULED=true \
+SAKINAH_PLAY_EVIDENCE_LOG_READY=true \
+SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE=path/to/completed-daily-observation.csv \
+SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE=path/to/completed-feedback-themes.csv \
+SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE=path/to/completed-production-decisions.csv \
+SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE=path/to/completed-debugview-retention.csv \
+scripts/export_google_play_closed_test_retention_packet.sh
+```
+
+Completed evidence mode rejects `TBD`, `pending_manual_observation`,
+`pending_tap_route`, `record_manually`, and `unknown`, and it keeps the
+DebugView retention evidence to whitelisted events plus
+`no_forbidden_parameters` without tester personal data.
+
 Official requirement reference:
 https://support.google.com/googleplay/android-developer/answer/14151465
 

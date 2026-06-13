@@ -601,6 +601,14 @@ Status: Draft for release/store review.
   retention observation owner is assigned, the Day 1 / Day 3 / Day 7 /
   Day 14 review schedule is set, and the evidence log is ready for aggregate
   notes.
+- [ ] `SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true
+  scripts/export_google_play_closed_test_retention_packet.sh` passes only after
+  the real Day 14 review is complete and the operator supplies completed
+  `SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE`,
+  `SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE`,
+  `SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE`, and
+  `SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE` CSVs with no template
+  placeholders or tester personal data.
 - [ ] `SAKINAH_REQUIRE_REVIEWED_CONTENT_PACK_READY=true
   scripts/export_reviewed_content_pack_readiness.sh` passes only after Quran
   source placeholders are replaced, the 5-7 session / 30-50 dua / 20-30 dhikr /

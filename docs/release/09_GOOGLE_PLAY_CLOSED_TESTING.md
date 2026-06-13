@@ -168,7 +168,14 @@ Production access notes to prepare:
   `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md`. Use
   `scripts/export_google_play_closed_test_retention_packet.sh` before sharing
   tester invites so Day 1 / Day 3 / Day 7 / Day 14 feedback themes can be
-  captured as aggregate notes without tester personal data.
+  captured as aggregate notes without tester personal data. After the real Day
+  14 review, run the same exporter with
+  `SAKINAH_REQUIRE_RETENTION_EVIDENCE_COMPLETE=true` and completed
+  `SAKINAH_PLAY_RETENTION_DAILY_EVIDENCE`,
+  `SAKINAH_PLAY_RETENTION_FEEDBACK_EVIDENCE`,
+  `SAKINAH_PLAY_RETENTION_DECISIONS_EVIDENCE`, and
+  `SAKINAH_PLAY_RETENTION_DEBUGVIEW_EVIDENCE` files so Production access
+  summaries use filled aggregate evidence instead of templates.
 
 Daily tester checklist coverage:
 
