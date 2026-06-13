@@ -46,6 +46,39 @@ require_true_var() {
     fail "$name=true is required after $description."
 }
 
+require_env_file() {
+  local name="$1"
+  local description="$2"
+  local path="${!name:-}"
+
+  [[ -n "$path" ]] ||
+    fail "$name must point to completed evidence after $description."
+  [[ -f "$path" ]] ||
+    fail "$name points to a missing evidence file: $path"
+}
+
+validate_completed_oem_evidence() {
+  local path="$1"
+  local label="$2"
+  shift 2
+
+  require_file "$path"
+  for placeholder in \
+    pending_manual_observation \
+    pending_tap_route \
+    record_manually \
+    TBD \
+    unknown; do
+    if grep -Fq "$placeholder" "$path"; then
+      fail "$label strict evidence still contains placeholder: $placeholder"
+    fi
+  done
+
+  for needle in "$@"; do
+    require_text "$path" "$needle"
+  done
+}
+
 copy_required_file() {
   local path="$1"
   local target="$out_dir/$path"
@@ -183,6 +216,7 @@ require_text "$permission_copy" 'RECEIVE_BOOT_COMPLETED'
 require_text "$android_manifest" 'RECEIVE_BOOT_COMPLETED'
 require_text "$notification_service" 'zonedSchedule'
 require_text "$launch_smoke" 'SAKINAH_ANDROID_SERIAL'
+require_text "$android_checklist" 'SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE'
 
 if [[ "$require_strict" == "true" ]]; then
   require_true_var \
@@ -203,6 +237,36 @@ if [[ "$require_strict" == "true" ]]; then
   require_true_var \
     SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED \
     "assigning a human owner for the long-window reminder observation"
+  require_env_file \
+    SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE \
+    "recording completed 8-hour, 24-hour, and daily-session reminder outcomes"
+  require_env_file \
+    SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE \
+    "recording reboot and package-replacement reminder outcomes"
+  require_env_file \
+    SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE \
+    "recording OEM battery/background policy review outcomes"
+  validate_completed_oem_evidence \
+    "$SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE" \
+    "long-window OEM reminder observation" \
+    '8h' \
+    '24h' \
+    'daily_session' \
+    'delivered' \
+    'tapped' \
+    'No tester personal data'
+  validate_completed_oem_evidence \
+    "$SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE" \
+    "reboot OEM reminder observation" \
+    'reboot_restore' \
+    'package_replace' \
+    'No tester personal data'
+  validate_completed_oem_evidence \
+    "$SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE" \
+    "battery-policy OEM reminder observation" \
+    'battery_policy_state' \
+    'observed_result' \
+    'reviewed'
 fi
 
 rm -rf "$out_dir"
@@ -237,6 +301,15 @@ device_serial,oem_or_model,battery_policy_state,aggressive battery-management ri
 $device_serial,$oem_model,record_manually,unknown,record OEM battery/background policy and whether reminders are delayed,pending_manual_observation
 $device_serial,$oem_model,optimized_or_restricted,aggressive battery-management may delay local notifications,record user-facing guidance decision if delay is observed,pending_manual_observation
 EOF
+
+if [[ "$require_strict" == "true" ]]; then
+  cp "$SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE" \
+    "$out_dir/long_window_observation_log.csv"
+  cp "$SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE" \
+    "$out_dir/reboot_delivery_checklist.csv"
+  cp "$SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE" \
+    "$out_dir/battery_policy_review.csv"
+fi
 
 write_device_environment_snapshot \
   "$out_dir/device_environment_snapshot.txt" \
@@ -369,6 +442,7 @@ Android OEM reminder observation packet
 Generated UTC: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 Package: $package_name
 Strict mode requested: $require_strict
+Strict evidence inputs: $([[ "$require_strict" == "true" ]] && printf 'validated' || printf 'not requested')
 Privacy rule: No tester personal data.
 
 Generated observation files:
@@ -400,6 +474,9 @@ Strict mode requires:
 - SAKINAH_REBOOT_REMINDER_RESTORE_OBSERVED=true
 - SAKINAH_BATTERY_POLICY_REVIEWED=true
 - SAKINAH_OEM_OBSERVATION_OWNER_ASSIGNED=true
+- SAKINAH_ANDROID_OEM_LONG_WINDOW_EVIDENCE=<completed long-window CSV>
+- SAKINAH_ANDROID_OEM_REBOOT_EVIDENCE=<completed reboot CSV>
+- SAKINAH_ANDROID_OEM_BATTERY_EVIDENCE=<completed battery-policy CSV>
 EOF
 
 printf 'Android OEM reminder observation packet exported.\n'

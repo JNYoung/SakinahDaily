@@ -236,7 +236,9 @@ Open product links:
   Android OEM reminder observation packet with 8-hour, 24-hour, reboot restore,
   battery-policy, privacy-safe notes, and strict-mode confirmation templates.
   Template mode does not claim delivery success; strict mode waits for real
-  device observation.
+  device observation and now validates completed long-window, reboot, and
+  battery-policy evidence CSVs so placeholder rows cannot pass as observed
+  reminder reliability.
 
 Suggested next milestone:
 
