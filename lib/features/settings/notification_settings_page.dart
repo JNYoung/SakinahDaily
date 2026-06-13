@@ -483,6 +483,13 @@ Future<void> _changeDailySessionReminderTime({
     if (!context.mounted) {
       return;
     }
+    trackDailySessionReminderPermissionResult(
+      ref: ref,
+      sessionId: session.id,
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'permission_denied',
+    );
     _showSnackBar(context, l10n.t('notificationPermissionDenied'));
     return;
   }
@@ -501,6 +508,13 @@ Future<void> _changeDailySessionReminderTime({
     if (!context.mounted) {
       return;
     }
+    trackDailySessionReminderPermissionResult(
+      ref: ref,
+      sessionId: session.id,
+      enabled: false,
+      source: analyticsSource,
+      changeType: 'schedule_failed',
+    );
     _showSnackBar(context, l10n.t('notificationPermissionDenied'));
     return;
   }

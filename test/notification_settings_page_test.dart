@@ -215,6 +215,132 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Daily session reminder time reschedule denial is tracked safely',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    await UserPreferencesRepository(preferencesStore).save(
+      UserPreferences.defaults().copyWith(
+        dailySessionReminderEnabled: true,
+      ),
+    );
+    final notifications = LocalNotificationServiceStub()
+      ..permissionGranted = false;
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.settingsDailySessionReminderTimeButton),
+    );
+    await tapByKey(tester, SakinahKeys.settingsDailySessionReminderTimeButton);
+    expect(find.text('Reminder time'), findsWidgets);
+
+    await tester.tap(
+      find.byKey(SakinahKeys.settingsDailySessionReminderHourDropdown),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('21').last);
+    await tester.pumpAndSettle();
+
+    await tester.tap(
+      find.byKey(SakinahKeys.settingsDailySessionReminderMinuteDropdown),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('15').last);
+    await tester.pumpAndSettle();
+
+    await tester.tap(
+      find.byKey(SakinahKeys.settingsDailySessionReminderTimeSaveButton),
+    );
+    await tester.pumpAndSettle();
+
+    final preferences =
+        await UserPreferencesRepository(preferencesStore).load();
+    expect(preferences.dailySessionReminderEnabled, isFalse);
+    expect(notifications.dailySessionReminder, isNull);
+    final permissionEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.dailySessionReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': false,
+      'source': 'settings',
+      'change_type': 'permission_denied',
+    });
+    expect(
+      find.text(
+          'Notifications are off. You can enable them from system settings.'),
+      findsOneWidget,
+    );
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets(
+      'Daily session reminder time reschedule failure is tracked safely',
+      (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    await UserPreferencesRepository(preferencesStore).save(
+      UserPreferences.defaults().copyWith(
+        dailySessionReminderEnabled: true,
+      ),
+    );
+    final notifications = _FailingDailySessionReminderNotificationService();
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    await scrollUntilFound(
+      tester,
+      find.byKey(SakinahKeys.settingsDailySessionReminderTimeButton),
+    );
+    await tapByKey(tester, SakinahKeys.settingsDailySessionReminderTimeButton);
+    await tester.pumpAndSettle();
+
+    await tester.tap(
+      find.byKey(SakinahKeys.settingsDailySessionReminderTimeSaveButton),
+    );
+    await tester.pumpAndSettle();
+
+    final preferences =
+        await UserPreferencesRepository(preferencesStore).load();
+    expect(preferences.dailySessionReminderEnabled, isFalse);
+    expect(notifications.dailySessionReminder, isNull);
+    final permissionEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.dailySessionReminderPermissionResult,
+    );
+    expect(permissionEvents, hasLength(1));
+    expect(permissionEvents.single.properties, {
+      'session_id': 'session_morning_ease',
+      'enabled': false,
+      'source': 'settings',
+      'change_type': 'schedule_failed',
+    });
+    expect(
+      find.text(
+          'Notifications are off. You can enable them from system settings.'),
+      findsOneWidget,
+    );
+    expectNoFlutterErrors(tester);
+  });
+
   testWidgets('Notification settings manage prayer reminders', (tester) async {
     final preferencesStore = InMemoryUserPreferencesStore();
     final notifications = LocalNotificationServiceStub();
@@ -915,6 +1041,19 @@ List<AnalyticsEvent> _eventsNamed(
   return analytics.events
       .where((event) => event.name == eventName)
       .toList(growable: false);
+}
+
+class _FailingDailySessionReminderNotificationService
+    extends LocalNotificationServiceStub {
+  @override
+  Future<ScheduledDailySessionReminder?> scheduleDailySessionReminder(
+    DailySession session, {
+    String languageCode = 'en',
+    int minutesAfterMidnight = defaultDailySessionReminderMinutesAfterMidnight,
+    WomenIbadahMode womenIbadahMode = const WomenIbadahMode(enabled: false),
+  }) async {
+    return null;
+  }
 }
 
 String _formatClockTime(DateTime time) {

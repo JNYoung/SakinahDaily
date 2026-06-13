@@ -3811,6 +3811,18 @@ void main() {
         contains('Prayer reminder explanation dismissal is tracked safely'),
       );
       expect(
+        notificationSettingsTest,
+        contains(
+          'Daily session reminder time reschedule denial is tracked safely',
+        ),
+      );
+      expect(
+        notificationSettingsTest,
+        contains(
+          'Daily session reminder time reschedule failure is tracked safely',
+        ),
+      );
+      expect(
         tapRouteTest,
         contains('notification tap result navigates to prayer route'),
       );
