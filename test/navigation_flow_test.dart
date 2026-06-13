@@ -372,7 +372,12 @@ void main() {
 
     expect(find.byKey(SakinahKeys.homeSessionCard), findsOneWidget);
     expect(find.text('Daily session reminder · 05:30'), findsOneWidget);
-    expect(find.byKey(SakinahKeys.homeSessionReminderCtaButton), findsNothing);
+    expect(find.text('Manage daily reminder'), findsOneWidget);
+
+    await tapByKey(tester, SakinahKeys.homeSessionReminderCtaButton);
+
+    expect(find.byKey(SakinahKeys.notificationSettingsPage), findsOneWidget);
+    expect(find.text('Notification settings'), findsOneWidget);
     expectNoFlutterErrors(tester);
   });
 

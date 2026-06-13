@@ -77,6 +77,11 @@ class HomePage extends ConsumerWidget {
         : null;
     final showSessionReminderCta =
         completedToday && !preferences.dailySessionReminderEnabled;
+    final sessionReminderCtaLabel = preferences.dailySessionReminderEnabled
+        ? l10n.t('manageDailyReminder')
+        : showSessionReminderCta
+            ? l10n.t('setDailyReminder')
+            : null;
     final showWomenModeSupport = preferences.womenIbadahMode.enabled &&
         womenModeDecision.flags.any(
           (flag) =>
@@ -239,23 +244,26 @@ class HomePage extends ConsumerWidget {
                 showWomenModeSupport ? l10n.t('localOnlyMode') : null,
             startButtonKey: SakinahKeys.homeSessionStartButton,
             startLabel: sessionButtonLabel,
-            reminderCtaLabel:
-                showSessionReminderCta ? l10n.t('setDailyReminder') : null,
+            reminderCtaLabel: sessionReminderCtaLabel,
             voiceOnlyLabel: l10n.t('voiceOnly'),
             onStart: () => completedToday
                 ? context.go('/session/${session.id}/completed')
                 : context.go('/session/${session.id}?source=home'),
-            onReminderCta: showSessionReminderCta
-                ? () => unawaited(
-                      _enableHomeDailySessionReminder(
-                        context: context,
-                        ref: ref,
-                        l10n: l10n,
-                        preferences: preferences,
-                        session: session,
-                      ),
+            onReminderCta: preferences.dailySessionReminderEnabled
+                ? () => context.go(
+                      '/settings/notifications?source=home_session_completion',
                     )
-                : null,
+                : showSessionReminderCta
+                    ? () => unawaited(
+                          _enableHomeDailySessionReminder(
+                            context: context,
+                            ref: ref,
+                            l10n: l10n,
+                            preferences: preferences,
+                            session: session,
+                          ),
+                        )
+                    : null,
             onVoiceOnly: () => _showQuranVoiceOnlySheet(context, l10n),
           ),
           if (recentSavedItems.isNotEmpty) ...[

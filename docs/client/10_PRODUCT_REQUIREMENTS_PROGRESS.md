@@ -254,8 +254,9 @@ Completed:
 - Saved sessions can reappear on Home through the local continue rail, giving
   users a lightweight return path without social sharing, accounts, or remote
   saved-item sync.
-- Home session card now surfaces the enabled daily session reminder time, so
-  users can confirm their local habit loop without digging back into Settings.
+- Home session card now surfaces the enabled daily session reminder time and a
+  Manage daily reminder CTA back to Notification Settings, so users can confirm
+  and adjust their local habit loop without hunting through Settings.
 - When today's session is already complete and the local daily session reminder
   is still off, Home now shows a Set daily reminder CTA that enables the
   reminder in place after the existing permission explanation, giving the

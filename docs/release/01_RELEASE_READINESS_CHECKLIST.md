@@ -209,6 +209,9 @@ Status: Draft for release/store review.
   complete when the local daily session reminder is still off, using the same
   permission explanation and `source=home_session_completion` analytics as the
   session reminder flow without forcing a Settings detour.
+- [x] Home shows the enabled daily session reminder time with a Manage daily
+  reminder CTA back to Notification Settings, so users can adjust the local
+  return loop from the same Home card.
 - [x] Daily Session Reflection step displays a localized no-fatwa note so
   reflection copy is positioned as a gentle reminder, not a religious ruling.
 - [x] Notification Settings manages prayer reminders and daily session reminders
