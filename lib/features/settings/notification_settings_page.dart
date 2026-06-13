@@ -10,10 +10,10 @@ import '../../core/services/analytics_service.dart';
 import '../../core/services/notification_service.dart';
 import '../../core/services/prayer_calculation_service.dart';
 import '../../core/services/prayer_reminder_preview_service.dart';
+import '../../shared/prayer_reminder_toggle_flow.dart';
 import '../../shared/sakinah_keys.dart';
 import '../../shared/widgets/language_aware_scaffold.dart';
 import '../../shared/widgets/settings_tile.dart';
-import 'prayer_reminder_toggle_flow.dart';
 
 class NotificationSettingsPage extends ConsumerStatefulWidget {
   const NotificationSettingsPage({this.entrySource, super.key});

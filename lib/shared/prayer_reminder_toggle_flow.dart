@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/localization/sakinah_localizations.dart';
-import '../../core/models/sakinah_models.dart';
-import '../../core/providers/app_providers.dart';
-import '../../core/services/analytics_service.dart';
-import '../../core/services/notification_service.dart';
-import '../../core/services/prayer_calculation_service.dart';
+import '../core/localization/sakinah_localizations.dart';
+import '../core/models/sakinah_models.dart';
+import '../core/providers/app_providers.dart';
+import '../core/services/analytics_service.dart';
+import '../core/services/notification_service.dart';
+import '../core/services/prayer_calculation_service.dart';
 
 Future<void> handlePrayerReminderToggle({
   required bool enabled,

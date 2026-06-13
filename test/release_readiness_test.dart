@@ -3375,8 +3375,14 @@ void main() {
       );
       expect(
         notificationSettingsTest,
-        contains('Prayer page reminder CTA records prayer page source'),
+        contains('Prayer page can enable reminders without leaving Prayer'),
       );
+      expect(
+        notificationSettingsTest,
+        contains('Prayer page manages reminders after reminders are enabled'),
+      );
+      expect(prayerPage, contains('prayerTopEnableRemindersButton'));
+      expect(prayerPage, contains('handlePrayerReminderToggle'));
       expect(
         readiness,
         contains(
@@ -3389,6 +3395,7 @@ void main() {
       expect(readiness, contains('complete state after all five'));
       expect(readiness, contains('Prayer week summary'));
       expect(readiness, contains('prayer_page_card'));
+      expect(readiness, contains('can enable reminders'));
       expect(readiness, contains('Qibla view analytics'));
       expect(readiness, contains('return to Qibla'));
       expect(
@@ -3403,6 +3410,7 @@ void main() {
       expect(productProgress, contains('Home now shows a local-only'));
       expect(productProgress, contains('Home view analytics includes only'));
       expect(productProgress, contains('prayer_page_card'));
+      expect(productProgress, contains('Prayer-page reminder opt-in'));
       expect(productProgress, contains('Qibla context action'));
       expect(productProgress, contains('Qibla-page recovery'));
       expect(productProgress, contains('Change location action'));
@@ -3495,7 +3503,7 @@ void main() {
           File('lib/core/services/notification_service.dart')
               .readAsStringSync();
       final prayerReminderToggleFlow =
-          File('lib/features/settings/prayer_reminder_toggle_flow.dart')
+          File('lib/shared/prayer_reminder_toggle_flow.dart')
               .readAsStringSync();
       final notificationServiceTest =
           File('test/notification_service_test.dart').readAsStringSync();

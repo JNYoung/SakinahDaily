@@ -87,6 +87,9 @@ Current implementation:
   a controlled source such as `settings`, `home_prayer_card`,
   `prayer_page_card`, or `prayer_completion_card`. Routes, exact reminder
   times, locations, Women's Ibadah Mode status, and free text are not sent.
+  Prayer-page direct reminder enable uses the same `prayer_page_card` source
+  as the Prayer reminder settings path, so the top-card opt-in loop can be
+  reviewed without adding route or prayer-completion details.
 - Prayer reminder permission attempts record local
   `prayer_reminder_permission_result` events with enabled result, controlled
   source, coarse outcome such as `scheduled`, `permission_denied`,

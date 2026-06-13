@@ -121,6 +121,12 @@ Completed:
   `source=prayer_page_card`, so reviewed DebugView QA can separate ordinary
   Prayer-page reminder opt-ins from Home-card, completion-card, and Settings
   changes without sending routes or prayer completion details.
+- When prayer reminders are off, the Prayer page top reminder CTA now enables
+  local prayer reminders in place after the existing permission explanation,
+  records `source=prayer_page_card`, and leaves the user on Prayer with a
+  scheduled confirmation so the reminder opt-in loop no longer requires a
+  detour through Settings. Once reminders are on, the same surface becomes the
+  Manage reminders path.
 - Prayer page now also exposes a Qibla context action in the next-prayer card,
   opening `/qibla?source=prayer_page_card` so the prayer-time-to-direction
   loop is visible without turning Home into a generic tool grid.
@@ -424,6 +430,11 @@ Retention observation preparation:
   and Home retention events, and Women's Ibadah Mode exact status before the
   Firebase Analytics adapter can send events. Privacy Center now exposes the
   user analytics opt-in for analytics-enabled builds.
+  Prayer-page reminder opt-in analytics uses the existing
+  `prayer_reminder_permission_result` and `prayer_reminder_changed` events with
+  `source=prayer_page_card`, so direct Prayer-page conversion can be reviewed
+  without routes, exact reminder times, coordinates, or prayer completion
+  details.
   Qibla view analytics now records only screen, route, coarse location method,
   calculation method, and controlled source such as `prayer_page_card`, so
   Qibla utility interest can be monitored without sending coordinates, place
