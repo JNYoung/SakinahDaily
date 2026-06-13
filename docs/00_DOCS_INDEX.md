@@ -75,8 +75,8 @@
 | `docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md` | Google Play Console 提交包、App content、商店列表、闭测 release、`scripts/export_google_play_upload_packet.sh` 上传证据包和人工确认 gate |
 | `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md` | Google Play Production access 回答草稿、证据链接、严格模式 gate，以及 `scripts/export_google_play_production_access_packet.sh` 本地证据包导出 |
 | `docs/release/15_PUBLIC_LINKS_HOSTING_PACKET.md` | Google Play 隐私政策和测试反馈公开链接静态托管包、严格公网 URL gate |
-| `docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md` | Google Play 封闭测试上线当天 checklist、群组优先分享顺序、tester link 复核和 `scripts/verify_google_play_closed_test_launch_day.sh` |
-| `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` | Google Play 封闭测试留存观察计划、D1/D3/D7/D14 反馈主题、可选 DebugView QA packet、Production access 反馈证据模板和 `scripts/export_google_play_closed_test_retention_packet.sh` |
+| `docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md` | Google Play 封闭测试上线当天 checklist、群组优先分享顺序、tester link 复核、`scripts/verify_google_play_closed_test_launch_day.sh` 和 Day 0 / Day 1 操作员包 `scripts/export_google_play_day0_day1_operator_packet.sh` |
+| `docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md` | Google Play 封闭测试留存观察计划、D1/D3/D7/D14 反馈主题、可选 DebugView QA packet、Day 0 / Day 1 操作员包、Production access 反馈证据模板和 `scripts/export_google_play_closed_test_retention_packet.sh` |
 | `docs/testing/01_ACCEPTANCE_CHECKLIST.md` | 验收清单、QA、beta 观察项 |
 
 ### Agent Service 文档

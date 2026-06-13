@@ -32,6 +32,17 @@ Day 7 / Day 14 review templates before the test starts. Generate it with:
 scripts/export_google_play_closed_test_retention_packet.sh
 ```
 
+For launch day and the first-use review, use the Day 0 / Day 1 operator packet
+at `build/play-day0-day1-operator`. Generate it with:
+
+```sh
+scripts/export_google_play_day0_day1_operator_packet.sh
+```
+
+This packet ties the Google Group-first share order, Play opt-in second step,
+Day 1 onboarding/privacy feedback review, optional DebugView decision, and this
+evidence log together without storing tester personal data.
+
 Official requirement reference:
 https://support.google.com/googleplay/android-developer/answer/14151465
 
