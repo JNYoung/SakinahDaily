@@ -986,6 +986,10 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(content, contains('push_analytics_coverage_matrix.csv'));
       expect(content, contains('push_privacy_blocklist.csv'));
       expect(content, contains('push_module_qa_handoff.md'));
+      expect(content, contains('push_permission_qa_evidence.csv'));
+      expect(content, contains('push_real_device_smoke_evidence.csv'));
+      expect(content, contains('push_debugview_event_review.csv'));
+      expect(content, contains('push_oem_owner_assignment.csv'));
       expect(content, contains('SAKINAH_REQUIRE_PUSH_MODULE_AUDIT_READY'));
       expect(content, contains('SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY'));
       expect(content, contains('SAKINAH_PUSH_REAL_DEVICE_SMOKE_READY'));
@@ -994,6 +998,11 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
         content,
         contains('SAKINAH_PUSH_OEM_OBSERVATION_OWNER_ASSIGNED'),
       );
+      expect(content, contains('SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE'));
+      expect(content, contains('SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE'));
+      expect(content, contains('SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE'));
+      expect(content, contains('SAKINAH_PUSH_OEM_OWNER_EVIDENCE'));
+      expect(content, contains('validate_completed_push_evidence'));
       expect(content, contains('local prayer reminders'));
       expect(content, contains('local daily session reminders'));
       expect(content, contains('Remote FCM/APNs is outside v0.1 scope'));
@@ -1031,11 +1040,27 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       final handoff =
           File('build/push-module-completion-audit/push_module_qa_handoff.md')
               .readAsStringSync();
+      final permissionEvidence = File(
+              'build/push-module-completion-audit/push_permission_qa_evidence.csv')
+          .readAsStringSync();
+      final smokeEvidence = File(
+              'build/push-module-completion-audit/push_real_device_smoke_evidence.csv')
+          .readAsStringSync();
+      final debugViewEvidence = File(
+              'build/push-module-completion-audit/push_debugview_event_review.csv')
+          .readAsStringSync();
+      final oemOwnerEvidence = File(
+              'build/push-module-completion-audit/push_oem_owner_assignment.csv')
+          .readAsStringSync();
 
       expect(manifest, contains('Push module completion audit packet'));
       expect(manifest, contains('v0.1 local reminder loop: complete'));
       expect(manifest, contains('Remote FCM/APNs is outside v0.1 scope'));
       expect(manifest, contains('No tester personal data'));
+      expect(manifest, contains('push_permission_qa_evidence.csv'));
+      expect(manifest, contains('push_real_device_smoke_evidence.csv'));
+      expect(manifest, contains('push_debugview_event_review.csv'));
+      expect(manifest, contains('push_oem_owner_assignment.csv'));
       expect(
         manifest,
         contains('docs/release/18_PUSH_MODULE_COMPLETION_AUDIT.md'),
@@ -1105,6 +1130,41 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(handoff, contains('Google Analytics DebugView'));
       expect(handoff, contains('Android OEM reminder observation packet'));
       expect(handoff, contains('No raw payloads, routes, coordinates'));
+      expect(handoff, contains('push_permission_qa_evidence.csv'));
+      expect(handoff, contains('push_debugview_event_review.csv'));
+
+      expect(
+        permissionEvidence,
+        contains(
+          'scenario,device_serial,android_sdk,expected_result,observed_result,notes_without_personal_data',
+        ),
+      );
+      expect(permissionEvidence, contains('permission_allowed'));
+      expect(permissionEvidence, contains('permission_denied'));
+      expect(permissionEvidence, contains('system_settings_recovery'));
+      expect(permissionEvidence, contains('pending_manual_observation'));
+      expect(
+        smokeEvidence,
+        contains(
+          'scenario,device_serial,reminder_type,expected_delivery_result,observed_delivery_result,tap_route_result,notes_without_personal_data',
+        ),
+      );
+      expect(smokeEvidence, contains('short_delay_prayer'));
+      expect(smokeEvidence, contains('short_delay_daily_session'));
+      expect(smokeEvidence, contains('pending_tap_route'));
+      expect(
+        debugViewEvidence,
+        contains(
+          'event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data',
+        ),
+      );
+      expect(
+          debugViewEvidence, contains('notification_permission_prompt_viewed'));
+      expect(debugViewEvidence, contains('notification_schedule_result'));
+      expect(debugViewEvidence, contains('notification_tap_opened'));
+      expect(oemOwnerEvidence,
+          contains('owner_handle,review_cadence,next_review_date,qa_result'));
+      expect(oemOwnerEvidence, contains('pending_owner_assignment'));
 
       final strictRun = Process.runSync(
         'bash',
@@ -1123,6 +1183,103 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(
         strictRun.stderr.toString(),
         contains('SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY=true'),
+      );
+
+      final strictEvidenceDir =
+          Directory.systemTemp.createTempSync('sakinah_push_evidence_');
+      addTearDown(() {
+        if (strictEvidenceDir.existsSync()) {
+          strictEvidenceDir.deleteSync(recursive: true);
+        }
+      });
+      final completedPermissionEvidence =
+          File('${strictEvidenceDir.path}/push_permission_qa_evidence.csv')
+            ..writeAsStringSync('''
+scenario,device_serial,android_sdk,expected_result,observed_result,notes_without_personal_data
+permission_allowed,SC65XWPZ7DLNUSTC,36,permission granted and reminders scheduled,passed,No tester personal data
+permission_denied,SC65XWPZ7DLNUSTC,36,permission denied keeps app usable,passed,No tester personal data
+system_settings_recovery,SC65XWPZ7DLNUSTC,36,system settings recovery opens,passed,No tester personal data
+''');
+      final completedSmokeEvidence =
+          File('${strictEvidenceDir.path}/push_real_device_smoke_evidence.csv')
+            ..writeAsStringSync('''
+scenario,device_serial,reminder_type,expected_delivery_result,observed_delivery_result,tap_route_result,notes_without_personal_data
+short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,delivered,tapped_prayer,No tester personal data
+short_delay_daily_session,SC65XWPZ7DLNUSTC,daily_session,delivered,delivered,tapped_daily_session,No tester personal data
+''');
+      final completedDebugViewEvidence =
+          File('${strictEvidenceDir.path}/push_debugview_event_review.csv')
+            ..writeAsStringSync('''
+event_name,expected_parameters,observed_parameters,forbidden_parameters_present,qa_result,notes_without_personal_data
+notification_permission_prompt_viewed,reminder_type|source,reminder_type|source,no,passed,No tester personal data
+notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count,reminder_type|enabled|source|change_type|scheduled_count,no,passed,No tester personal data
+notification_tap_opened,content_type|source,content_type|source,no,passed,No tester personal data
+''');
+      final completedOemOwnerEvidence =
+          File('${strictEvidenceDir.path}/push_oem_owner_assignment.csv')
+            ..writeAsStringSync('''
+owner_handle,review_cadence,next_review_date,qa_result,notes_without_personal_data
+release-ops,daily-through-day14,2026-06-14,assigned,No tester personal data
+''');
+      final strictEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_push_module_completion_audit.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_PUSH_MODULE_AUDIT_READY': 'true',
+          'SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY': 'true',
+          'SAKINAH_PUSH_REAL_DEVICE_SMOKE_READY': 'true',
+          'SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_REVIEWED': 'true',
+          'SAKINAH_PUSH_OEM_OBSERVATION_OWNER_ASSIGNED': 'true',
+          'SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE':
+              completedPermissionEvidence.path,
+          'SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE':
+              completedSmokeEvidence.path,
+          'SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE':
+              completedDebugViewEvidence.path,
+          'SAKINAH_PUSH_OEM_OWNER_EVIDENCE': completedOemOwnerEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(
+        strictEvidenceRun.exitCode,
+        0,
+        reason: '${strictEvidenceRun.stdout}\n${strictEvidenceRun.stderr}',
+      );
+      final strictManifest =
+          File('build/push-module-completion-audit/manifest.txt')
+              .readAsStringSync();
+      expect(
+          strictManifest, contains('Strict push evidence inputs: validated'));
+
+      completedSmokeEvidence.writeAsStringSync('''
+scenario,device_serial,reminder_type,expected_delivery_result,observed_delivery_result,tap_route_result,notes_without_personal_data
+short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,pending_tap_route,No tester personal data
+''');
+      final incompleteEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_push_module_completion_audit.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_PUSH_MODULE_AUDIT_READY': 'true',
+          'SAKINAH_PUSH_ANDROID_PERMISSION_QA_READY': 'true',
+          'SAKINAH_PUSH_REAL_DEVICE_SMOKE_READY': 'true',
+          'SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_REVIEWED': 'true',
+          'SAKINAH_PUSH_OEM_OBSERVATION_OWNER_ASSIGNED': 'true',
+          'SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE':
+              completedPermissionEvidence.path,
+          'SAKINAH_PUSH_REAL_DEVICE_SMOKE_EVIDENCE':
+              completedSmokeEvidence.path,
+          'SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE':
+              completedDebugViewEvidence.path,
+          'SAKINAH_PUSH_OEM_OWNER_EVIDENCE': completedOemOwnerEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(incompleteEvidenceRun.exitCode, isNot(0));
+      expect(
+        incompleteEvidenceRun.stderr.toString(),
+        contains('strict evidence still contains placeholder'),
       );
 
       expect(notificationService, contains('schedulePrayerReminders'));
@@ -1159,11 +1316,18 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(docsIndex, contains('18_PUSH_MODULE_COMPLETION_AUDIT.md'));
       expect(docsIndex, contains('export_push_module_completion_audit.sh'));
       expect(readiness, contains('Push module completion audit packet'));
+      expect(readiness, contains('push_permission_qa_evidence.csv'));
+      expect(readiness, contains('Strict push evidence inputs'));
       expect(productProgress, contains('Push module completion audit packet'));
       expect(productProgress, contains('v0.1 local reminder loop is complete'));
       expect(analyticsPlan, contains('Push module completion audit packet'));
       expect(acceptance, contains('Push module completion audit packet'));
       expect(versionNotes, contains('Push module completion audit packet'));
+      expect(
+          versionNotes, contains('SAKINAH_PUSH_ANDROID_PERMISSION_EVIDENCE'));
+      expect(pushAuditDoc, contains('push_real_device_smoke_evidence.csv'));
+      expect(
+          pushAuditDoc, contains('SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE'));
       expect(localE2e, contains('export_push_module_completion_audit.sh'));
       expect(localE2e, contains('SAKINAH_E2E_SKIP_PUSH_MODULE_AUDIT'));
     });

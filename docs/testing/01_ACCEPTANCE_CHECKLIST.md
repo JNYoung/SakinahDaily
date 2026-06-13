@@ -69,6 +69,9 @@
 - [x] Push module completion audit packet 可导出本地 prayer reminders、本地
   Daily Session reminders、tap routing、权限、dev smoke control 和
   analytics coverage 矩阵，并明确 Remote FCM/APNs 不属于 v0.1 完成范围。
+- [x] Push module completion audit strict mode 需要 completed permission QA、
+  real-device smoke、DebugView event review 和 OEM owner CSV evidence，模板
+  占位行不能通过 strict gate。
 
 ## 7. Engineering
 
