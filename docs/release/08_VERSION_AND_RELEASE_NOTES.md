@@ -77,7 +77,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   DebugView decisions into one launch handoff.
 - Google Analytics DebugView QA packet:
   `build/google-analytics-debugview`, exported by
-  `scripts/export_google_analytics_debugview_packet.sh`.
+  `scripts/export_google_analytics_debugview_packet.sh`; includes retention
+  funnel checks, blocked-parameter review, and notification QA smoke result
+  verification for local reminder delivery tests.
 - Reviewed content pack readiness packet:
   `build/reviewed-content-pack-readiness`, exported by
   `scripts/export_reviewed_content_pack_readiness.sh`.
@@ -121,7 +123,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   scheduled, and any DebugView usage decision is recorded.
 - Google Analytics DebugView QA packet strict mode after a reviewed Firebase
   QA build, Privacy Center opt-in, Data Safety review, and DebugView device
-  setup are confirmed.
+  setup are confirmed, including `notification_smoke_test_result` verification
+  without payloads, routes, scheduled local times, lock-screen body copy,
+  tester identity, or religious text.
 - Reviewed content pack readiness packet strict mode after Quran source
   placeholders are replaced, beta session/dua/dhikr coverage is reviewed,
   licensed Quran audio rights and hashes are confirmed, and a human content

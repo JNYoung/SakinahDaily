@@ -83,6 +83,7 @@ for needle in \
   'analytics_consent_changed' \
   'notification_settings_viewed' \
   'prayer_reminder_permission_result' \
+  'notification_smoke_test_result' \
   'prayer_location_changed' \
   'qibla_viewed' \
   'notification_tap_opened' \
@@ -113,6 +114,7 @@ require_text "$analytics_service" 'notification_tap_opened'
 require_text "$analytics_service" 'analytics_consent_changed'
 require_text "$analytics_service" 'notification_settings_viewed'
 require_text "$analytics_service" 'prayer_reminder_permission_result'
+require_text "$analytics_service" 'notification_smoke_test_result'
 require_text "$analytics_service" 'prayer_location_changed'
 require_text "$analytics_service" 'qibla_viewed'
 require_text "$analytics_service" 'daily_session_reminder_permission_result'
@@ -176,6 +178,7 @@ qibla_viewed,qibla_open,"screen|route|calculation_method|location_method|source=
 prayer_location_changed,prayer_location_settings,"location_method|calculation_method|source=settings_prayer_location|source=settings_prayer_method|source=manual_location_page|source=prayer_page_card|source=qibla_page|change_type","latitude|longitude|location_label|timezone_id|route|women_ibadah_status|feedback_text",Prayer Settings Completion Rate
 notification_settings_viewed,notification_settings_open,"screen|source|prayer_reminders_enabled","route|latitude|longitude|women_ibadah_status|feedback_text|reminder_time",Reminder Setup View Rate
 prayer_reminder_permission_result,notification_permission,"enabled|source|change_type|reminder_offset_minutes","route|latitude|longitude|women_ibadah_status|feedback_text|reminder_time",Prayer Reminder Permission Outcome Rate
+notification_smoke_test_result,notification_qa_smoke,"content_type|source=notification_settings_qa|change_type","payload|route|scheduled_local_time|reminder_time|latitude|longitude|women_ibadah_status|feedback_text|quran_arabic_text|body",Notification QA Smoke Result Rate
 prayer_reminder_changed,notification_settings_or_prayer_page,"prayer_name|enabled|source=settings|source=home_prayer_card|source=prayer_page_card|source=prayer_completion_card|reminder_offset_minutes","route|latitude|longitude|women_ibadah_status|feedback_text|reminder_time",Prayer Reminder Opt-in And Timing Tune Rate
 notification_tap_opened,local_notification_open,"content_type|source=local_notification","route|content_id|session_id|prayer_name|quran_arabic_text|women_ibadah_status|feedback_text",Push Open Rate
 analytics_consent_changed,privacy_center,"enabled|source=privacy_center","email|tester_name|latitude|longitude|women_ibadah_status|feedback_text",Analytics Consent Rate
@@ -202,8 +205,9 @@ Qibla View Rate,/qibla,qibla_viewed,"prayer_page_card, settings, manual_location
 Prayer Settings Completion Rate,"/settings prayer location, prayer method, Prayer page location action, Qibla location action, or manual location save",prayer_location_changed,"settings_prayer_location, settings_prayer_method, manual_location_page, prayer_page_card, or qibla_page",coarse method source and change_type only,no coordinates location labels timezone IDs routes or free text
 Reminder Setup View Rate,/settings/notifications,notification_settings_viewed,"settings, home_prayer_card, prayer_page_card, prayer_completion_card, home_session_completion, or session_completion",source and aggregate enabled state only,no route exact reminder time location women mode status or free text
 Prayer Reminder Permission Outcome Rate,notification permission flow,prayer_reminder_permission_result,"settings, home_prayer_card, prayer_page_card, or prayer_completion_card",scheduled or denied outcome only,no route exact reminder time location women mode status or free text
+Notification QA Smoke Result Rate,Notification Settings QA buttons,notification_smoke_test_result,notification_settings_qa,scheduled denied or failed QA outcome only,no payload route scheduled local time exact reminder time location women mode status feedback text or religious text
 Prayer Reminder Opt-in And Timing Tune Rate,"/settings/notifications, Home prayer card direct Enable reminders CTA, Prayer page direct Enable reminders CTA, Prayer completion card, or lead-time dropdown",prayer_reminder_changed,"settings, home_prayer_card, prayer_page_card, or prayer_completion_card",enabled state and reminder_offset_minutes only,no route exact reminder time exact location women mode status or free text
-Push/reminder module,"Notification Settings, Home prayer card direct Enable reminders CTA, Prayer page direct Enable reminders CTA, lead-time dropdown, Daily Session reminder toggle, and local notification tap","notification_settings_viewed|prayer_reminder_permission_result|prayer_reminder_changed|daily_session_reminder_permission_result|daily_session_reminder_changed|notification_tap_opened","settings|home_prayer_card|prayer_page_card|home_session_completion|session_completion|local_notification",local reminder loop coverage,no route payload exact reminder time coordinates women mode status feedback text or religious text
+Push/reminder module,"Notification Settings, QA smoke buttons, Home prayer card direct Enable reminders CTA, Prayer page direct Enable reminders CTA, lead-time dropdown, Daily Session reminder toggle, and local notification tap","notification_settings_viewed|notification_smoke_test_result|prayer_reminder_permission_result|prayer_reminder_changed|daily_session_reminder_permission_result|daily_session_reminder_changed|notification_tap_opened","settings|notification_settings_qa|home_prayer_card|prayer_page_card|home_session_completion|session_completion|local_notification",local reminder loop coverage,no route payload exact reminder time coordinates women mode status feedback text or religious text
 Push Open Rate,notification tap,notification_tap_opened,local_notification,coarse content_type only,no route content ID prayer name or raw payload
 Analytics Consent Rate,/settings/privacy,analytics_consent_changed,privacy_center,usage analytics opt-in or opt-out,no tester identity location or women mode status
 Prayer To Session,/prayer complete state,daily_session_started,prayer_completion,session starts after five check-ins,no prayer completion names/timestamps
@@ -260,14 +264,22 @@ analytics opt-in, and Firebase DebugView device setup.
    Confirm sources stay controlled, such as `settings`, `home_prayer_card`,
    `prayer_page_card`, or `prayer_completion_card`.
 
-6. Tap a local notification during QA.
+6. If notification QA controls are enabled, schedule both QA smoke buttons from
+   Notification Settings.
+   Expected event: `notification_smoke_test_result` with only coarse
+   `content_type`, `source=notification_settings_qa`, and `change_type`.
+   Confirm no payload, route, scheduled local time, exact reminder time,
+   location, Women's Ibadah Mode exact status, lock-screen body, feedback text,
+   or religious text appears.
+
+7. Tap a local notification during QA.
    Expected event: `notification_tap_opened` with only coarse `content_type`
    and `source=local_notification`.
    No raw payloads, routes, coordinates, exact reminder times, content IDs,
    prayer names, Women's Ibadah Mode exact status, feedback text, or religious
    text may appear.
 
-7. Open the closed-testing guide, copy a prompt, and mark it sent locally.
+8. Open the closed-testing guide, copy a prompt, and mark it sent locally.
    Expected events: `closed_test_prompt_copied` and
    `closed_test_prompt_marked_sent` with only `prompt_day`, `theme_key`, and
    `source=closed_testing_guide`.
@@ -296,6 +308,8 @@ email,email,personal identifier must not be sent
 tester_name,tester_name,personal identifier must not be sent
 reminder_time,reminder_time,exact reminder time is not required for retention monitoring
 timezone_id,timezone_id,manual timezone identifiers are not required for usage telemetry
+payload,payload,raw notification payloads and routes must not be sent
+scheduled_local_time,scheduled_local_time,exact QA notification schedule time is not required for retention monitoring
 EOF
 
 cat >"$out_dir/debugview_checklist.md" <<EOF
@@ -320,6 +334,7 @@ Official reference: $official_reference
 - Verify Home prayer card direct Enable reminders CTA records \`prayer_reminder_permission_result\` and \`prayer_reminder_changed\` with \`source=home_prayer_card\`.
 - Verify Prayer page direct Enable reminders CTA records \`prayer_reminder_permission_result\` and \`prayer_reminder_changed\` with \`source=prayer_page_card\`.
 - Verify Daily Session reminder opt-in records \`daily_session_reminder_permission_result\` and \`daily_session_reminder_changed\` with a controlled session reminder source.
+- Verify Notification Settings QA buttons record \`notification_smoke_test_result\` with only coarse \`content_type\`, \`source=notification_settings_qa\`, and \`change_type\`.
 - Verify local notification taps record \`notification_tap_opened\` with only coarse \`content_type\` and \`source=local_notification\`.
 
 ## Android DebugView Commands
@@ -336,6 +351,7 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Home prayer card direct Enable reminders CTA to prayer reminder opt-in.
 - Prayer page direct Enable reminders CTA to prayer reminder opt-in.
 - Prayer completion card to prayer reminder opt-in.
+- Notification Settings QA smoke buttons for generic and prayer reminder test notifications.
 - Local prayer reminder tap and Daily Session reminder tap.
 - Home open after local prayer completion state loads.
 - Prayer page open and prayer reminder toggle.
@@ -358,6 +374,7 @@ adb shell setprop debug.firebase.analytics.app .none.
 - Verify \`prayer_reminder_changed\` keeps only prayer scope, enabled state, controlled source, and lead-time offset.
 - Verify \`notification_settings_viewed\` keeps only screen, controlled source, and aggregate prayer-reminder enabled state.
 - Verify \`prayer_reminder_permission_result\` keeps only enabled result, controlled source, coarse outcome, and reminder lead-time offset.
+- Verify \`notification_smoke_test_result\` keeps only coarse content type, \`source=notification_settings_qa\`, and coarse result type.
 - Verify \`notification_tap_opened\` keeps only coarse content type and source.
 - Verify \`analytics_consent_changed\` keeps only enabled state and source.
 - Verify \`daily_session_reminder_permission_result\` keeps only session ID, enabled result, controlled source, and coarse outcome.

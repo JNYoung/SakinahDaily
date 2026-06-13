@@ -46,11 +46,13 @@ void main() {
   testWidgets('Notification QA smoke test can schedule dev notification',
       (tester) async {
     final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/settings/notifications',
       settleSplash: false,
       notificationService: notifications,
+      analyticsService: analytics,
       appEnvironmentConfig: const AppEnvironmentConfig(
         environment: AppEnvironment.dev,
         appName: 'Sakinah Daily Dev',
@@ -65,17 +67,29 @@ void main() {
     expect(notifications.smokeTestReminder, isNotNull);
     expect(notifications.smokeTestReminder!.payload, contains('/prayer'));
     expect(find.text('Test notification scheduled.'), findsOneWidget);
+    final smokeEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationSmokeTestResult,
+    );
+    expect(smokeEvents, hasLength(1));
+    expect(smokeEvents.single.properties, {
+      'content_type': 'notification',
+      'source': 'notification_settings_qa',
+      'change_type': 'scheduled',
+    });
     expectNoFlutterErrors(tester);
   });
 
   testWidgets('Prayer reminder QA smoke test can schedule dev prayer reminder',
       (tester) async {
     final notifications = LocalNotificationServiceStub();
+    final analytics = StubAnalyticsService(enabled: true);
     await pumpSakinahApp(
       tester,
       initialLocation: '/settings/notifications',
       settleSplash: false,
       notificationService: notifications,
+      analyticsService: analytics,
       appEnvironmentConfig: const AppEnvironmentConfig(
         environment: AppEnvironment.dev,
         appName: 'Sakinah Daily Dev',
@@ -91,6 +105,57 @@ void main() {
     expect(notifications.prayerReminderSmokeTest!.payload, contains('/prayer'));
     expect(notifications.prayerReminderSmokeTest!.body, contains('Fajr'));
     expect(find.text('Prayer reminder test scheduled.'), findsOneWidget);
+    final smokeEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationSmokeTestResult,
+    );
+    expect(smokeEvents, hasLength(1));
+    expect(smokeEvents.single.properties, {
+      'content_type': 'prayer',
+      'source': 'notification_settings_qa',
+      'change_type': 'scheduled',
+    });
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Notification QA smoke test denial is tracked safely',
+      (tester) async {
+    final notifications = LocalNotificationServiceStub()
+      ..permissionGranted = false;
+    final analytics = StubAnalyticsService(enabled: true);
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/notifications',
+      settleSplash: false,
+      notificationService: notifications,
+      analyticsService: analytics,
+      appEnvironmentConfig: const AppEnvironmentConfig(
+        environment: AppEnvironment.dev,
+        appName: 'Sakinah Daily Dev',
+        remoteContentEnabled: false,
+        notificationQaEnabled: true,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.prayerReminderSmokeTestButton);
+
+    expect(notifications.prayerReminderSmokeTest, isNull);
+    expect(
+      find.text(
+          'Notifications are off. You can enable them from system settings.'),
+      findsOneWidget,
+    );
+    final smokeEvents = _eventsNamed(
+      analytics,
+      AnalyticsEventCatalog.notificationSmokeTestResult,
+    );
+    expect(smokeEvents, hasLength(1));
+    expect(smokeEvents.single.properties, {
+      'content_type': 'prayer',
+      'source': 'notification_settings_qa',
+      'change_type': 'permission_denied',
+    });
     expectNoFlutterErrors(tester);
   });
 

@@ -105,8 +105,9 @@ Status: Draft for release/store review.
   reviewed Firebase QA build, Privacy Center opt-in, Data Safety review, and
   DebugView device setup are confirmed. The loop checklist explicitly walks
   Home → Prayer → Daily Session → Reminder/Feedback and verifies
-  `closed_test_prompt_marked_sent` without raw payloads, routes, coordinates,
-  feedback text, tester identity, or religious text.
+  `notification_smoke_test_result` plus `closed_test_prompt_marked_sent`
+  without raw payloads, routes, scheduled local times, coordinates, feedback
+  text, tester identity, lock-screen body copy, or religious text.
 - [x] Reviewed content pack readiness packet exists at
   `scripts/export_reviewed_content_pack_readiness.sh`; template mode writes
   current seed inventory, beta content targets, Quran source placeholder
@@ -313,6 +314,12 @@ Status: Draft for release/store review.
   `prayer_reminder_permission_result` with enabled result, controlled source,
   coarse outcome, and lead-time offset; routes, exact reminder times,
   coordinates, Women's Ibadah Mode status, and free text are not sent.
+  Notification QA smoke analytics is observable only as
+  `notification_smoke_test_result` with coarse content type,
+  `source=notification_settings_qa`, and coarse result type; raw payloads,
+  routes, scheduled local times, exact reminder times, lock-screen body copy,
+  coordinates, Women's Ibadah Mode status, feedback text, and religious text
+  are not sent.
   Prayer reminder change analytics is observable only as
   `prayer_reminder_changed` with prayer scope, enabled state, controlled source,
   and lead-time offset; lead-time dropdown changes use `prayer_name=all` and do

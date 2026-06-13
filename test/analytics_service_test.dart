@@ -29,6 +29,7 @@ void main() {
           AnalyticsEventCatalog.prayerReminderChanged,
           AnalyticsEventCatalog.qiblaViewed,
           AnalyticsEventCatalog.notificationTapOpened,
+          AnalyticsEventCatalog.notificationSmokeTestResult,
           AnalyticsEventCatalog.analyticsConsentChanged,
           AnalyticsEventCatalog.dailySessionReminderPermissionResult,
           AnalyticsEventCatalog.dailySessionReminderChanged,
@@ -276,6 +277,37 @@ void main() {
         'prompt_day': 'day3',
         'theme_key': 'prayer_time_trust',
         'source': 'closed_testing_guide',
+      });
+    });
+
+    test('notification smoke test analytics keeps safe QA outcome metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.notificationSmokeTestResult,
+        const {
+          'content_type': 'prayer',
+          'source': 'notification_settings_qa',
+          'change_type': 'scheduled',
+          'payload': '{"route":"/prayer"}',
+          'route': '/settings/notifications',
+          'reminder_time': '05:00',
+          'scheduled_local_time': '05:00',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'menstruating',
+          'quran_arabic_text': 'sensitive text should never be sent',
+          'body': 'private lock-screen copy',
+          'feedback_text': 'private tester note',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'content_type': 'prayer',
+        'source': 'notification_settings_qa',
+        'change_type': 'scheduled',
       });
     });
 

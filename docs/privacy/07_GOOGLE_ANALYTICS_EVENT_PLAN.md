@@ -99,6 +99,13 @@ Current implementation:
   `explanation_dismissed`, or `schedule_empty`, and lead-time offset only.
   Routes, exact reminder times, locations, Women's Ibadah Mode status, and
   free text are not sent.
+- Notification Settings QA smoke buttons record local
+  `notification_smoke_test_result` events with only coarse content type
+  (`notification` or `prayer`), `source=notification_settings_qa`, and coarse
+  result such as `scheduled`, `permission_denied`, or `schedule_failed`.
+  Raw payloads, routes, scheduled local time, exact reminder times, lock-screen
+  body copy, locations, Women's Ibadah Mode status, feedback text, and
+  religious text are not sent.
 - Handled local notification taps record `notification_tap_opened` with only a
   coarse content type such as `prayer`, `daily_session`, `quran`, `dua`, or
   `dhikr`, plus `source=local_notification`. Raw payloads, routes, content IDs,
@@ -108,8 +115,9 @@ Current implementation:
   reminder loop without adding new sensitive events. Reminder setup interest is
   covered by `notification_settings_viewed`; prayer reminder outcomes and
   changes are covered by `prayer_reminder_permission_result` and
-  `prayer_reminder_changed`; Daily Session reminder outcomes and changes are
-  covered by `daily_session_reminder_permission_result` and
+  `prayer_reminder_changed`; Notification Settings QA smoke outcomes are
+  covered by `notification_smoke_test_result`; Daily Session reminder outcomes
+  and changes are covered by `daily_session_reminder_permission_result` and
   `daily_session_reminder_changed`; local notification opens are covered by
   `notification_tap_opened`. The Home and Prayer direct prayer opt-in surfaces
   use controlled `source=home_prayer_card` and `source=prayer_page_card`, while
@@ -160,6 +168,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `notification_settings_viewed`
 - `prayer_reminder_permission_result`
 - `prayer_reminder_changed`
+- `notification_smoke_test_result`
 - `notification_tap_opened`
 - `analytics_consent_changed`
 - `daily_session_reminder_permission_result`
@@ -217,6 +226,8 @@ The sanitizer drops sensitive or free-text fields, including:
 - exact prayer completion names or completion timestamps for prayer checklist
   updates and Home retention summaries
 - exact daily session reminder time
+- notification payloads, routes, lock-screen body copy, or scheduled local time
+  from notification QA smoke tests
 - tester names, emails, or personal identifiers
 - feedback text, private notes, and free text
 - Quran, Dua, reflection, Arabic, translation, or religious text fields
@@ -254,6 +265,7 @@ The QA reviewer should verify that `home_viewed`,
 `analytics_consent_changed`,
 `notification_settings_viewed`,
 `prayer_reminder_permission_result`,
+`notification_smoke_test_result`,
 `prayer_location_changed`,
 `daily_session_started`,
 `daily_session_step_viewed`, `daily_session_completed`,
@@ -274,6 +286,8 @@ method, controlled source, and coarse change type.
 aggregate prayer-reminder enabled state.
 `prayer_reminder_permission_result` must keep only enabled result, controlled
 source, coarse outcome, and reminder lead-time offset.
+`notification_smoke_test_result` must keep only `content_type`,
+`source=notification_settings_qa`, and `change_type`.
 `daily_session_reminder_permission_result` must keep only session ID, enabled
 result, controlled source, and coarse outcome.
 `notification_tap_opened` must keep only `content_type` and `source`.
@@ -286,10 +300,11 @@ The retention loop QA checklist must walk the ordered Home → Prayer → Daily
 Session → Reminder/Feedback path and verify `home_viewed → prayer_viewed`,
 `prayer_checklist_updated`, `daily_session_started`,
 `daily_session_completed`, `daily_session_reminder_permission_result`,
-`daily_session_reminder_changed`, `notification_tap_opened`,
+`daily_session_reminder_changed`, `notification_smoke_test_result`,
+`notification_tap_opened`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` without raw
-payloads, routes, coordinates, exact reminder times, feedback text, tester
-identity, or religious text.
+payloads, routes, scheduled local times, coordinates, exact reminder times,
+feedback text, tester identity, lock-screen body copy, or religious text.
 
 Strict export mode is available for pre-upload review:
 
