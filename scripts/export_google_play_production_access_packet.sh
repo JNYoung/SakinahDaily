@@ -57,6 +57,7 @@ require_completed_retention_packet() {
   require_text "$debugview" 'notification_permission_prompt_viewed'
   require_text "$debugview" 'notification_schedule_result'
   require_text "$debugview" 'notification_tap_opened'
+  require_text "$debugview" 'local_push_resolution_result'
   require_text "$debugview" 'no_forbidden_parameters'
   require_text "$debugview" 'No tester personal data'
   require_text "$summary" 'Production Access Feedback Summary'

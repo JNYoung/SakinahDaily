@@ -131,6 +131,12 @@ Current implementation:
   payloads, routes, content IDs, prayer names, exact reminder times,
   lock-screen copy, Women's Ibadah Mode status, and religious text are not
   sent.
+- Local push payload resolution records `local_push_resolution_result` with the
+  same coarse content type, `source=local_notification`, and coarse
+  `change_type`. This separates payload parsing/content availability health
+  from final navigation/open rate without sending raw payloads, routes, content
+  IDs, prayer names, lock-screen copy, Women's Ibadah Mode status, or religious
+  text.
 - Local reminder scheduling records `notification_schedule_result` with only
   `reminder_type` (`prayer` or `daily_session`), enabled state, controlled
   source, coarse result, aggregate `scheduled_count`, and prayer lead-time
@@ -149,8 +155,10 @@ Current implementation:
   outcomes and changes are covered by
   `daily_session_reminder_permission_result` and
   `daily_session_reminder_changed`; foreground/background and cold-start local
-  notification tap outcomes are covered by `notification_tap_result`, while
-  successful opens remain covered by `notification_tap_opened`. The Home and
+  notification tap outcomes are covered by `notification_tap_result`, local
+  payload parsing/content availability is covered by
+  `local_push_resolution_result`, while successful opens remain covered by
+  `notification_tap_opened`. The Home and
   Prayer direct prayer opt-in surfaces
   use controlled `source=home_prayer_card` and `source=prayer_page_card`, while
   Daily Session reminder sources stay controlled as `settings`,
@@ -216,6 +224,7 @@ Allowed events are intentionally focused on the prayer app loop:
 - `notification_permission_recovery_opened`
 - `notification_tap_result`
 - `notification_tap_opened`
+- `local_push_resolution_result`
 - `analytics_consent_changed`
 - `daily_session_reminder_permission_result`
 - `daily_session_reminder_changed`
@@ -310,7 +319,7 @@ screenshot mode forces analytics off and is not valid DebugView evidence.
 
 The QA reviewer should verify that `home_viewed`,
 `prayer_reminder_changed`, `qibla_viewed`, `notification_tap_result`,
-`notification_tap_opened`,
+`notification_tap_opened`, `local_push_resolution_result`,
 `analytics_consent_changed`,
 `notification_settings_viewed`,
 `notification_permission_prompt_viewed`,
@@ -351,6 +360,8 @@ result, controlled source, and coarse outcome.
 `notification_tap_result` must keep only `content_type`,
 `source=local_notification`, and coarse `change_type`.
 `notification_tap_opened` must keep only `content_type` and `source`.
+`local_push_resolution_result` must keep only `content_type`,
+`source=local_notification`, and coarse `change_type`.
 `analytics_consent_changed` must keep only `enabled` and `source`.
 `dua_viewed` and `dua_saved` must keep only content ID, source/screen, and
 saved enabled state where relevant.
@@ -365,6 +376,7 @@ Session → Reminder/Feedback path and verify `home_viewed → prayer_viewed`,
 `notification_permission_recovery_opened`,
 `notification_tap_result`,
 `notification_tap_opened`,
+`local_push_resolution_result`,
 `closed_test_prompt_copied`, and `closed_test_prompt_marked_sent` without raw
 payloads, routes, scheduled local times, coordinates, exact reminder times,
 feedback text, tester identity, lock-screen body copy, or religious text.

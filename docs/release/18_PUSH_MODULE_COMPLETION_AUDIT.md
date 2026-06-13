@@ -85,7 +85,7 @@ set: `notification_settings_viewed`, `notification_permission_prompt_viewed`,
 `notification_permission_recovery_opened`,
 `daily_session_reminder_permission_result`,
 `daily_session_reminder_changed`, `notification_tap_result`, and
-`notification_tap_opened`.
+`notification_tap_opened`, plus `local_push_resolution_result`.
 
 ## Push/Reminder Analytics Coverage
 
@@ -102,12 +102,16 @@ The completed local loop uses the existing privacy-safe events:
 - `daily_session_reminder_changed`
 - `notification_tap_result`
 - `notification_tap_opened`
+- `local_push_resolution_result`
 
 Allowed parameters are intentionally coarse: reminder type, enabled state,
 controlled source, coarse outcome, scheduled count, lead-time offset where
 relevant, session ID for the local daily session reminder loop, coarse
 notification content type for opens, and coarse tap outcome for handled or
-unhandled local notification taps.
+unhandled local notification taps. Local push payload resolution also records a
+coarse `local_push_resolution_result` so missing content, malformed payloads,
+fallback routes, and opened payloads can be reviewed separately from the final
+navigation/open rate.
 
 The analytics contract blocks raw notification payloads, routes, exact
 scheduled local times, exact reminder times, lock-screen body copy, coordinates,

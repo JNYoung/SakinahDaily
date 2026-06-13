@@ -40,6 +40,10 @@ void main() {
             .where((event) =>
                 event.name == AnalyticsEventCatalog.notificationTapResult)
             .toList();
+        final localPushResolutionEvents = analytics.events
+            .where((event) =>
+                event.name == AnalyticsEventCatalog.localPushResolutionResult)
+            .toList();
         expect(notificationTapEvents, hasLength(1));
         expect(notificationTapEvents.single.properties, {
           'content_type': scenario.expectedContentType,
@@ -47,6 +51,12 @@ void main() {
         });
         expect(notificationTapResultEvents, hasLength(1));
         expect(notificationTapResultEvents.single.properties, {
+          'content_type': scenario.expectedContentType,
+          'source': 'local_notification',
+          'change_type': 'opened',
+        });
+        expect(localPushResolutionEvents, hasLength(1));
+        expect(localPushResolutionEvents.single.properties, {
           'content_type': scenario.expectedContentType,
           'source': 'local_notification',
           'change_type': 'opened',
@@ -87,6 +97,12 @@ void main() {
         .where((event) =>
             event.name == AnalyticsEventCatalog.notificationTapResult)
         .toList();
+    final localPushResolutionEvents = analytics.events
+        .where(
+          (event) =>
+              event.name == AnalyticsEventCatalog.localPushResolutionResult,
+        )
+        .toList();
     expect(find.byKey(SakinahKeys.prayerContentList), findsOneWidget);
     expect(notificationTapEvents, hasLength(1));
     expect(notificationTapEvents.single.properties, {
@@ -95,6 +111,12 @@ void main() {
     });
     expect(notificationTapResultEvents, hasLength(1));
     expect(notificationTapResultEvents.single.properties, {
+      'content_type': 'prayer',
+      'source': 'local_notification',
+      'change_type': 'opened',
+    });
+    expect(localPushResolutionEvents, hasLength(1));
+    expect(localPushResolutionEvents.single.properties, {
       'content_type': 'prayer',
       'source': 'local_notification',
       'change_type': 'opened',
@@ -133,9 +155,21 @@ void main() {
         .where((event) =>
             event.name == AnalyticsEventCatalog.notificationTapResult)
         .toList();
+    final localPushResolutionEvents = analytics.events
+        .where(
+          (event) =>
+              event.name == AnalyticsEventCatalog.localPushResolutionResult,
+        )
+        .toList();
     expect(notificationTapEvents, isEmpty);
     expect(notificationTapResultEvents, hasLength(1));
     expect(notificationTapResultEvents.single.properties, {
+      'content_type': 'prayer',
+      'source': 'local_notification',
+      'change_type': 'malformed_payload',
+    });
+    expect(localPushResolutionEvents, hasLength(1));
+    expect(localPushResolutionEvents.single.properties, {
       'content_type': 'prayer',
       'source': 'local_notification',
       'change_type': 'malformed_payload',
@@ -172,6 +206,13 @@ void main() {
     expect(
       analytics.events.where(
           (event) => event.name == AnalyticsEventCatalog.notificationTapOpened),
+      hasLength(1),
+    );
+    expect(
+      analytics.events.where(
+        (event) =>
+            event.name == AnalyticsEventCatalog.localPushResolutionResult,
+      ),
       hasLength(1),
     );
     expect(container.read(notificationTapResultProvider), isNull);

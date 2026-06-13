@@ -40,9 +40,12 @@ Center, local notification tap handling can record `notification_tap_result`
 with only coarse `content_type`, `source=local_notification`, and coarse
 `change_type` such as `opened`, `malformed_payload`, `missing_content`, or
 `unhandled`. Successful handled taps also record `notification_tap_opened` with
-only coarse `content_type` and source. The app does not send raw payloads,
-routes, content IDs, prayer names, reminder times, lock-screen copy, Women's
-Ibadah Mode status, or religious text for notification tap analytics.
+only coarse `content_type` and source. Local push payload parsing/content
+availability also records `local_push_resolution_result` with only coarse
+`content_type`, `source=local_notification`, and `change_type`. The app does
+not send raw payloads, routes, content IDs, prayer names, reminder times,
+lock-screen copy, Women's Ibadah Mode status, or religious text for
+notification tap analytics.
 
 ## Local Push Compatibility
 

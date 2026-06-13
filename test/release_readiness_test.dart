@@ -251,6 +251,7 @@ void main() {
       expect(analyticsService, contains('notification_schedule_result'));
       expect(analyticsService, contains('notification_tap_result'));
       expect(analyticsService, contains('notification_tap_opened'));
+      expect(analyticsService, contains('local_push_resolution_result'));
       expect(analyticsService, contains('analytics_consent_changed'));
       expect(analyticsService,
           contains('daily_session_reminder_permission_result'));
@@ -344,6 +345,7 @@ void main() {
       expect(analyticsPlan, contains('notification_schedule_result'));
       expect(analyticsPlan, contains('notification_tap_result'));
       expect(analyticsPlan, contains('notification_tap_opened'));
+      expect(analyticsPlan, contains('local_push_resolution_result'));
       expect(analyticsPlan, contains('analytics_consent_changed'));
       expect(
           analyticsPlan, contains('daily_session_reminder_permission_result'));
@@ -1014,6 +1016,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(content, contains('notification_permission_recovery_opened'));
       expect(content, contains('notification_tap_result'));
       expect(content, contains('notification_tap_opened'));
+      expect(content, contains('local_push_resolution_result'));
       expect(content, contains('No tester personal data'));
 
       final templateRun = Process.runSync(
@@ -1083,6 +1086,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
           completionMatrix, contains('android_permission_handling,complete'));
       expect(completionMatrix, contains('safe_lock_screen_copy,complete'));
       expect(completionMatrix, contains('tap_routing,complete'));
+      expect(completionMatrix, contains('local_push_resolution,complete'));
       expect(completionMatrix, contains('cold_start_payload,complete'));
       expect(completionMatrix, contains('settings_management,complete'));
       expect(completionMatrix, contains('dev_smoke_controls,complete'));
@@ -1100,6 +1104,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
         'daily_session_reminder_changed',
         'notification_tap_result',
         'notification_tap_opened',
+        'local_push_resolution_result',
       ];
       for (final eventName in pushReminderDebugViewEvents) {
         expect(analyticsMatrix, contains(eventName), reason: eventName);
@@ -1224,6 +1229,7 @@ daily_session_reminder_permission_result,session_id|enabled|source|change_type,s
 daily_session_reminder_changed,session_id|enabled|source|change_type,session_id|enabled|source|change_type,no,passed,No tester personal data
 notification_tap_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
 notification_tap_opened,content_type|source,content_type|source,no,passed,No tester personal data
+local_push_resolution_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
 ''';
       final completedDebugViewEvidence =
           File('${strictEvidenceDir.path}/push_debugview_event_review.csv')
@@ -1271,6 +1277,7 @@ notification_permission_prompt_viewed,reminder_type|source,reminder_type|source,
 notification_schedule_result,reminder_type|enabled|source|change_type|scheduled_count,reminder_type|enabled|source|change_type|scheduled_count,no,passed,No tester personal data
 notification_tap_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
 notification_tap_opened,content_type|source,content_type|source,no,passed,No tester personal data
+local_push_resolution_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
 ''');
       final incompleteDebugViewEvidenceRun = Process.runSync(
         'bash',
@@ -2276,6 +2283,7 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
         scriptContent,
         contains('analytics_debugview_retention_evidence.csv'),
       );
+      expect(scriptContent, contains('local_push_resolution_result'));
 
       final templateRun = Process.runSync(
         'bash',
@@ -2378,6 +2386,7 @@ qa_item,analytics_decision,event_name,expected_result,privacy_result,evidence_no
 push_prompt,approved_for_debugview,notification_permission_prompt_viewed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 push_schedule,approved_for_debugview,notification_schedule_result,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 push_open,approved_for_debugview,notification_tap_opened,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+push_resolution,approved_for_debugview,local_push_resolution_result,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 ''');
       File('${completedRetentionDir.path}/production_access_feedback_summary.md')
           .writeAsStringSync('''
@@ -2516,6 +2525,7 @@ Privacy rule: No tester personal data.
       expect(content, contains('production_access_decisions_template.csv'));
       expect(content, contains('production_access_feedback_summary.md'));
       expect(content, contains('analytics_debugview_retention_evidence.csv'));
+      expect(content, contains('local_push_resolution_result'));
       expect(content, contains('retention_operator_calendar.csv'));
       expect(content, contains('retention_operator_runbook.md'));
       expect(productionExporter,
@@ -2688,6 +2698,7 @@ retention_loop,approved_for_debugview,home_viewed,observed,no_forbidden_paramete
 push_prompt,approved_for_debugview,notification_permission_prompt_viewed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 push_schedule,approved_for_debugview,notification_schedule_result,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 push_open,approved_for_debugview,notification_tap_opened,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
+push_resolution,approved_for_debugview,local_push_resolution_result,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 daily_session_return,approved_for_debugview,daily_session_reminder_changed,observed,no_forbidden_parameters,aggregate QA only,No tester personal data
 ''');
 
@@ -2725,6 +2736,11 @@ daily_session_return,approved_for_debugview,daily_session_reminder_changed,obser
         File('build/play-retention-observation/analytics_debugview_retention_evidence.csv')
             .readAsStringSync(),
         contains('notification_schedule_result'),
+      );
+      expect(
+        File('build/play-retention-observation/analytics_debugview_retention_evidence.csv')
+            .readAsStringSync(),
+        contains('local_push_resolution_result'),
       );
 
       dailyEvidence.writeAsStringSync('''
@@ -2838,6 +2854,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(content, contains('qibla_viewed'));
       expect(content, contains('notification_tap_result'));
       expect(content, contains('notification_tap_opened'));
+      expect(content, contains('local_push_resolution_result'));
       expect(content, contains('home_prayer_badge'));
       expect(content, contains('prayer_page_card'));
       expect(content, contains('settings_prayer_location'));
@@ -2859,6 +2876,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(
           retentionPlan, contains('daily_session_reminder_permission_result'));
       expect(retentionPlan, contains('notification_tap_result'));
+      expect(retentionPlan, contains('local_push_resolution_result'));
       expect(retentionPlan, contains('prayer_page_card'));
       expect(retentionPlan, contains('prayer_completion_card'));
       expect(retentionPlan, contains('prayer_page_checklist'));
@@ -2943,6 +2961,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(events, contains('prayer_page_checklist'));
       expect(events, contains('notification_tap_result'));
       expect(events, contains('notification_tap_opened'));
+      expect(events, contains('local_push_resolution_result'));
       expect(events, contains('analytics_consent_changed'));
       expect(events, contains('daily_session_started'));
       expect(events, contains('daily_session_step_viewed'));
@@ -2980,6 +2999,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(funnel, contains('prayer_completion_card'));
       expect(funnel, contains('Push Tap Outcome Health'));
       expect(funnel, contains('Push Open Rate'));
+      expect(funnel, contains('Local Push Resolution Health'));
       expect(funnel, contains('Push/reminder module'));
       expect(funnel, contains('Analytics Consent Rate'));
       expect(funnel, contains('Daily Session Start Rate'));
@@ -3008,6 +3028,7 @@ Day 14,TBD,1,TBD,TBD,TBD,TBD,TBD,retention_reason_to_return,TBD,TBD,TBD,No teste
       expect(loopQa, contains('notification_permission_recovery_opened'));
       expect(loopQa, contains('notification_tap_result'));
       expect(loopQa, contains('notification_tap_opened'));
+      expect(loopQa, contains('local_push_resolution_result'));
       expect(loopQa, contains('closed_test_prompt_copied'));
       expect(loopQa, contains('closed_test_prompt_marked_sent'));
       expect(loopQa, contains('source=home_session_completion'));
@@ -3098,6 +3119,7 @@ notification_smoke_test_result,push_reminder,observed,no_forbidden_parameters,No
 notification_permission_recovery_opened,push_reminder,observed,no_forbidden_parameters,No tester personal data
 notification_tap_result,push_reminder,observed,no_forbidden_parameters,No tester personal data
 notification_tap_opened,push_reminder,observed,no_forbidden_parameters,No tester personal data
+local_push_resolution_result,push_reminder,observed,no_forbidden_parameters,No tester personal data
 analytics_consent_changed,privacy_center,observed,no_forbidden_parameters,No tester personal data
 prayer_location_changed,prayer_setup,observed,no_forbidden_parameters,No tester personal data
 qibla_viewed,prayer_setup,observed,no_forbidden_parameters,No tester personal data
@@ -3119,6 +3141,7 @@ session_complete,daily_session_completed,observed,daily_session,no_forbidden_par
 session_to_reminder,daily_session_reminder_changed,observed,home_session_completion,no_forbidden_parameters,aggregate QA only
 reminder_schedule,notification_schedule_result,observed,home_session_completion,no_forbidden_parameters,aggregate QA only
 notification_tap,notification_tap_result,observed,local_notification,no_forbidden_parameters,aggregate QA only
+notification_tap,local_push_resolution_result,observed,local_notification,no_forbidden_parameters,aggregate QA only
 closed_test_feedback,closed_test_prompt_marked_sent,observed,closed_testing_guide,no_forbidden_parameters,aggregate QA only
 ''');
       final completedBlockedParameterEvidenceFile = File(
@@ -5657,6 +5680,7 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(analyticsService, contains('daily_session_reminder_changed'));
       expect(analyticsService, contains('notification_tap_result'));
       expect(analyticsService, contains('notification_tap_opened'));
+      expect(analyticsService, contains('local_push_resolution_result'));
       expect(
         analyticsService,
         contains('notification_permission_recovery_opened'),
@@ -5666,6 +5690,7 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(analyticsTest, contains('notification schedule result'));
       expect(analyticsTest, contains('notification tap result analytics'));
       expect(analyticsTest, contains('notification tap analytics keeps only'));
+      expect(analyticsTest, contains('local push resolution analytics'));
       expect(
         analyticsTest,
         contains('prayer reminder permission analytics keeps safe outcome'),
@@ -5721,6 +5746,7 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(tapRouteTest, contains('expectedContentType'));
       expect(tapRouteTest, contains('notificationTapResult'));
       expect(tapRouteTest, contains('notificationTapOpened'));
+      expect(tapRouteTest, contains('localPushResolutionResult'));
 
       expect(productProgress, contains('Push module completion audit'));
       expect(productProgress, contains('v0.1 local reminder loop is complete'));
@@ -5736,6 +5762,7 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(analyticsPlan, contains('notification_schedule_result'));
       expect(analyticsPlan, contains('cold-start launch payloads'));
       expect(analyticsPlan, contains('notification_tap_result'));
+      expect(analyticsPlan, contains('local_push_resolution_result'));
       expect(
         analyticsPlan,
         contains('notification_permission_recovery_opened'),
@@ -5748,6 +5775,7 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(readiness, contains('notification_schedule_result'));
       expect(readiness, contains('cold-start prayer, Daily Session, Quran'));
       expect(readiness, contains('notification_tap_result'));
+      expect(readiness, contains('local_push_resolution_result'));
       expect(readiness, contains('notification_permission_recovery_opened'));
       expect(
           retentionPlan, contains('Push/reminder module DebugView coverage'));
@@ -5762,6 +5790,7 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(debugViewExporter, contains('notification_schedule_result'));
       expect(debugViewExporter, contains('cold-start notification tap'));
       expect(debugViewExporter, contains('notification_tap_result'));
+      expect(debugViewExporter, contains('local_push_resolution_result'));
       expect(
         debugViewExporter,
         contains('notification_permission_recovery_opened'),
