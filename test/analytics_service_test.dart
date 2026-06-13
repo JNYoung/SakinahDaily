@@ -25,6 +25,7 @@ void main() {
           AnalyticsEventCatalog.prayerViewed,
           AnalyticsEventCatalog.prayerLocationChanged,
           AnalyticsEventCatalog.notificationSettingsViewed,
+          AnalyticsEventCatalog.notificationPermissionPromptViewed,
           AnalyticsEventCatalog.prayerReminderPermissionResult,
           AnalyticsEventCatalog.prayerReminderChanged,
           AnalyticsEventCatalog.notificationScheduleResult,
@@ -543,6 +544,33 @@ void main() {
         'screen': 'notification_settings',
         'source': 'prayer_page_card',
         'prayer_reminders_enabled': true,
+      });
+    });
+
+    test('notification permission prompt analytics keeps safe funnel metadata',
+        () {
+      final analytics = StubAnalyticsService(enabled: true);
+
+      analytics.track(
+        AnalyticsEventCatalog.notificationPermissionPromptViewed,
+        const {
+          'reminder_type': 'daily_session',
+          'source': 'home_session_completion',
+          'route': '/settings/notifications',
+          'reminder_time': '21:15',
+          'payload': '{"route":"/session/session_morning_ease"}',
+          'latitude': 21.4225,
+          'longitude': 39.8262,
+          'women_ibadah_status': 'postpartum',
+          'feedback_text': 'private tester note',
+          'body': 'private lock-screen copy',
+        },
+      );
+
+      expect(analytics.events, hasLength(1));
+      expect(analytics.events.single.properties, {
+        'reminder_type': 'daily_session',
+        'source': 'home_session_completion',
       });
     });
 

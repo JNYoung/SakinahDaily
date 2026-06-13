@@ -24,6 +24,8 @@ class AnalyticsEventCatalog {
   static const qiblaViewed = 'qibla_viewed';
   static const prayerLocationChanged = 'prayer_location_changed';
   static const notificationSettingsViewed = 'notification_settings_viewed';
+  static const notificationPermissionPromptViewed =
+      'notification_permission_prompt_viewed';
   static const prayerReminderPermissionResult =
       'prayer_reminder_permission_result';
   static const prayerReminderChanged = 'prayer_reminder_changed';
@@ -60,6 +62,7 @@ class AnalyticsEventCatalog {
     qiblaViewed,
     prayerLocationChanged,
     notificationSettingsViewed,
+    notificationPermissionPromptViewed,
     prayerReminderPermissionResult,
     prayerReminderChanged,
     notificationScheduleResult,
@@ -197,6 +200,11 @@ class AnalyticsParameterPolicy {
     'screen',
     'source',
     'prayer_reminders_enabled',
+  };
+
+  static const _notificationPermissionPromptViewedKeys = {
+    'reminder_type',
+    'source',
   };
 
   static const _prayerReminderPermissionResultKeys = {
@@ -370,6 +378,8 @@ class AnalyticsParameterPolicy {
         _prayerReminderChangedKeys.contains(key),
       AnalyticsEventCatalog.notificationSettingsViewed =>
         _notificationSettingsViewedKeys.contains(key),
+      AnalyticsEventCatalog.notificationPermissionPromptViewed =>
+        _notificationPermissionPromptViewedKeys.contains(key),
       AnalyticsEventCatalog.prayerReminderPermissionResult =>
         _prayerReminderPermissionResultKeys.contains(key),
       AnalyticsEventCatalog.prayerChecklistUpdated =>

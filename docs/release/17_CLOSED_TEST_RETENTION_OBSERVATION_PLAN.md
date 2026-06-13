@@ -81,6 +81,11 @@ Notification Settings views should appear only as
 `notification_settings_viewed` with screen, controlled source, and aggregate
 prayer-reminder enabled state, so setup interest can be observed separately
 from reminder opt-in.
+Reminder permission prompt exposure should appear only as
+`notification_permission_prompt_viewed` with reminder type and controlled
+source, so prayer and Daily Session opt-in education can be measured without
+routes, payloads, exact reminder times, lock-screen copy, locations, Women's
+Ibadah Mode status, feedback text, or religious text.
 Qibla views should appear only as `qibla_viewed` with screen, route, coarse
 location method, calculation method, and controlled source such as
 `prayer_page_card`, so prayer utility interest can be observed without exact
@@ -130,6 +135,7 @@ type and `source=local_notification`; do not store raw payloads, routes,
 content IDs, prayer names, or religious text.
 Push/reminder module DebugView coverage should be reviewed as one closed loop:
 `notification_settings_viewed` shows setup intent,
+`notification_permission_prompt_viewed` shows opt-in education exposure,
 `notification_schedule_result` shows aggregate local reminder scheduling health,
 `notification_smoke_test_result` shows QA notification scheduling or denial,
 `notification_permission_recovery_opened` shows denied-permission recovery
@@ -148,6 +154,7 @@ The optional DebugView packet also includes a Home → Prayer → Daily Session 
 Reminder/Feedback retention loop QA checklist. Use it to verify that
 `home_viewed → prayer_viewed`, `prayer_checklist_updated`,
 `daily_session_started`, `daily_session_completed`,
+`notification_permission_prompt_viewed`,
 `daily_session_reminder_permission_result`,
 `daily_session_reminder_changed`, `notification_schedule_result`,
 `notification_smoke_test_result`,

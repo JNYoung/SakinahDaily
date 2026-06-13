@@ -25,3 +25,17 @@ void trackNotificationScheduleResult({
     },
   );
 }
+
+void trackNotificationPermissionPromptViewed({
+  required WidgetRef ref,
+  required String reminderType,
+  required String source,
+}) {
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.notificationPermissionPromptViewed,
+    {
+      'reminder_type': reminderType,
+      'source': source,
+    },
+  );
+}
