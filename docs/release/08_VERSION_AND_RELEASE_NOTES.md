@@ -44,6 +44,9 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   `scripts/verify_google_play_closed_testing_evidence.sh`.
 - Google Play upload preflight:
   `scripts/verify_google_play_upload_preflight.sh`.
+  This gate now verifies AAB integrity by matching the current SHA-256 checksum
+  and checking readable App Bundle zip/base manifest structure before upload
+  evidence is accepted.
 - Google Play upload evidence packet:
   `build/play-upload`, exported by
   `scripts/export_google_play_upload_packet.sh`.

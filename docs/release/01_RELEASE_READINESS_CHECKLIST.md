@@ -19,7 +19,9 @@ Status: Draft for release/store review.
   `scripts/verify_google_play_upload_preflight.sh`; it requires upload signing,
   privacy policy URL, testing feedback channel, Google Group/closed-track
   human confirmations, app-content/store-listing confirmations, release AAB
-  and checksum evidence, and does not accept unsigned release QA as upload evidence.
+  and checksum evidence, validates AAB integrity by checking the current
+  SHA-256 match and App Bundle zip/base manifest structure, and does not
+  accept unsigned release QA as upload evidence.
 - [x] Google Play upload evidence packet export exists at
   `scripts/export_google_play_upload_packet.sh`; template mode copies the Play
   upload docs, privacy/data-safety drafts, Android package/build evidence,
@@ -496,9 +498,13 @@ Status: Draft for release/store review.
 - [ ] `scripts/verify_google_play_upload_preflight.sh` succeeds with upload
   signing, `SAKINAH_PRIVACY_POLICY_URL`, `SAKINAH_PLAY_TESTING_FEEDBACK`,
   Google Group/closed-track confirmations, app-content/store-listing
-  confirmations, and signed release artifacts ready for Play upload.
+  confirmations, and signed release artifacts with verified AAB integrity
+  ready for Play upload.
 - [x] `scripts/export_google_play_upload_packet.sh` exports a template-mode
   Google Play upload evidence packet at `build/play-upload`.
+  Strict upload packet mode delegates to the upload preflight AAB integrity
+  gate, so stale checksums or malformed `.aab` files cannot be treated as Play
+  upload evidence.
 - [x] `scripts/export_google_play_public_links_packet.sh` exports a
   template-mode Google Play public links hosting packet at
   `build/play-public-links`.

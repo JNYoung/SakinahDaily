@@ -7,8 +7,8 @@ cd "$repo_root"
 out_dir="${SAKINAH_PLAY_UPLOAD_PACKET_DIR:-build/play-upload}"
 require_strict="${SAKINAH_REQUIRE_PLAY_UPLOAD_PACKET_READY:-false}"
 
-aab_path="build/app/outputs/bundle/release/app-release.aab"
-checksum_path="build/play-internal/app-release.aab.sha256"
+aab_path="${SAKINAH_RELEASE_AAB_PATH:-build/app/outputs/bundle/release/app-release.aab}"
+checksum_path="${SAKINAH_RELEASE_CHECKSUM_PATH:-build/play-internal/app-release.aab.sha256}"
 feature_graphic="build/store-assets/google-play-feature-graphic.png"
 screenshot_dir="build/store-screenshots/android"
 contact_sheet="build/store-screenshots/android-contact-sheet.png"
@@ -151,6 +151,8 @@ Validation:
 - scripts/verify_google_play_store_assets.sh
 - scripts/verify_google_play_submission_pack.sh
 - scripts/verify_google_play_closed_test_launch_day.sh
+- Release AAB integrity: strict mode validates current checksum match and
+  App Bundle zip/base manifest structure through upload preflight.
 
 Required copied evidence:
 - docs/release/01_RELEASE_READINESS_CHECKLIST.md
@@ -175,8 +177,8 @@ Required copied evidence:
 - scripts/verify_google_play_closed_test_launch_day.sh
 
 Optional copied artifacts:
-- build/app/outputs/bundle/release/app-release.aab: $aab_status
-- build/play-internal/app-release.aab.sha256: $checksum_status
+- $aab_path: $aab_status
+- $checksum_path: $checksum_status
 - build/store-assets/google-play-feature-graphic.png: $feature_graphic_status
 - build/store-screenshots/android-contact-sheet.png: $contact_sheet_status
 - build/store-screenshots/android: $screenshot_dir_status

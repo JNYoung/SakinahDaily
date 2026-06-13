@@ -84,6 +84,9 @@ scripts/verify_google_play_upload_preflight.sh
 
 The preflight must pass before treating the AAB as a Google Play upload
 candidate.
+It verifies that the current AAB matches the SHA-256 checksum and that the
+artifact is a readable App Bundle zip with the base module manifest entry, so a
+stale checksum or malformed `.aab` cannot be used as upload evidence.
 
 ## Recovery Notes
 

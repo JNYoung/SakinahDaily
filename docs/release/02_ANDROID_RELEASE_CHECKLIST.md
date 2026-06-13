@@ -91,7 +91,9 @@ The preflight script is stricter than unsigned local QA. It does not accept
 `SAKINAH_ALLOW_UNSIGNED_RELEASE_QA=true` as Play upload evidence. It requires
 upload signing, an HTTPS privacy policy URL, a Testing feedback email or URL,
 the Sakinah Google Group, closed-testing track binding, Play Console app-content
-declarations, store listing readiness, and the signed AAB plus checksum. Use
+declarations, store listing readiness, and the signed AAB plus checksum. It
+also verifies that the checksum matches the current AAB and that the `.aab` is
+a readable App Bundle zip with the base module manifest entry. Use
 `SAKINAH_PREFLIGHT_SKIP_RELEASE_GATE=true` only when a signed AAB and
 `build/play-internal/app-release.aab.sha256` already exist from the release
 gate.

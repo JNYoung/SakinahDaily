@@ -6,8 +6,8 @@ cd "$repo_root"
 
 package_name="com.sakinahdaily.app"
 default_tester_group="sakinah-daily-testers@googlegroups.com"
-aab_path="build/app/outputs/bundle/release/app-release.aab"
-checksum_path="build/play-internal/app-release.aab.sha256"
+aab_path="${SAKINAH_RELEASE_AAB_PATH:-build/app/outputs/bundle/release/app-release.aab}"
+checksum_path="${SAKINAH_RELEASE_CHECKSUM_PATH:-build/play-internal/app-release.aab.sha256}"
 
 fail() {
   local message="$1"
@@ -63,6 +63,58 @@ check_no_tracked_secret_files() {
     fail "tracked secret-like file found: $tracked_secret"
 }
 
+validate_release_artifact_integrity() {
+  [[ -s "$aab_path" ]] || fail "expected signed bundle is missing or empty at $aab_path."
+  [[ -s "$checksum_path" ]] || fail "expected checksum is missing or empty at $checksum_path."
+
+  command -v shasum >/dev/null 2>&1 ||
+    fail "shasum is required to verify the release AAB checksum."
+  command -v python3 >/dev/null 2>&1 ||
+    fail "python3 is required to verify the release AAB zip structure."
+
+  local expected_checksum
+  local actual_checksum
+  expected_checksum="$(
+    awk 'NF {print tolower($1); exit}' "$checksum_path"
+  )"
+  [[ "$expected_checksum" =~ ^[0-9a-f]{64}$ ]] ||
+    fail "release AAB checksum file must start with a 64-character SHA-256 digest."
+
+  actual_checksum="$(
+    shasum -a 256 "$aab_path" | awk '{print tolower($1)}'
+  )"
+  [[ "$actual_checksum" == "$expected_checksum" ]] ||
+    fail "AAB checksum mismatch: $aab_path does not match $checksum_path."
+
+  local bundle_validation
+  if ! bundle_validation="$(
+    python3 - "$aab_path" <<'PY' 2>&1
+import sys
+import zipfile
+
+path = sys.argv[1]
+try:
+    with zipfile.ZipFile(path) as bundle:
+        bad_member = bundle.testzip()
+        if bad_member is not None:
+            raise ValueError(f"corrupt zip member: {bad_member}")
+        names = set(bundle.namelist())
+        required = {"base/manifest/AndroidManifest.xml"}
+        missing = sorted(required - names)
+        if missing:
+            raise ValueError("missing required App Bundle entries: " + ", ".join(missing))
+except zipfile.BadZipFile as exc:
+    raise SystemExit(f"not a valid zip/App Bundle: {exc}")
+except ValueError as exc:
+    raise SystemExit(str(exc))
+PY
+  )"; then
+    fail "AAB integrity check failed: $bundle_validation"
+  fi
+
+  printf 'AAB integrity: verified\n'
+}
+
 privacy_policy_url="${SAKINAH_PRIVACY_POLICY_URL:-}"
 testing_feedback="${SAKINAH_PLAY_TESTING_FEEDBACK:-}"
 tester_group_email="${SAKINAH_PLAY_TESTER_GROUP_EMAIL:-$default_tester_group}"
@@ -101,17 +153,11 @@ fi
 
 check_no_tracked_secret_files
 
-if [[ "${SAKINAH_PREFLIGHT_SKIP_RELEASE_GATE:-false}" == "true" ]]; then
-  [[ -f "$aab_path" ]] ||
-    fail "SAKINAH_PREFLIGHT_SKIP_RELEASE_GATE=true requires an existing $aab_path."
-  [[ -f "$checksum_path" ]] ||
-    fail "SAKINAH_PREFLIGHT_SKIP_RELEASE_GATE=true requires an existing $checksum_path."
-else
+if [[ "${SAKINAH_PREFLIGHT_SKIP_RELEASE_GATE:-false}" != "true" ]]; then
   scripts/verify_google_play_internal_release.sh
 fi
 
-[[ -f "$aab_path" ]] || fail "expected signed bundle was not produced at $aab_path."
-[[ -f "$checksum_path" ]] || fail "expected checksum was not produced at $checksum_path."
+validate_release_artifact_integrity
 
 printf 'Google Play upload preflight passed.\n'
 printf 'Package: %s\n' "$package_name"
