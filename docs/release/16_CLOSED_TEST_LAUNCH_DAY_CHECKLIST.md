@@ -54,6 +54,10 @@ evidence-log updates, Day 1 onboarding/privacy feedback, and optional
 DebugView QA evidence in one operator handoff. Do not store tester personal
 data.
 
+The CSV files are templates in normal export mode. They intentionally contain
+`TBD` placeholders so operators cannot mistake a prepared handoff for completed
+launch-day evidence.
+
 ## Strict Launch Gate
 
 Run strict mode only after the real Play Console release is approved or
@@ -107,8 +111,43 @@ SAKINAH_DAY1_REVIEW_SCHEDULED=true \
 SAKINAH_DAY1_FEEDBACK_PRIVACY_COPY_REVIEWED=true \
 SAKINAH_DAY1_EVIDENCE_LOG_READY=true \
 SAKINAH_DAY1_DEBUGVIEW_DECISION_RECORDED=true \
+SAKINAH_DAY0_DAY1_STATUS_EVIDENCE=/path/to/day0_day1_status_evidence.csv \
+SAKINAH_DAY1_FEEDBACK_EVIDENCE=/path/to/day1_feedback_evidence.csv \
 scripts/export_google_play_day0_day1_operator_packet.sh
 ```
+
+Strict mode validates the two completed evidence CSVs before delegating to the
+external Play Console launch and retention readiness gates. The completed
+evidence must include launch visibility, Google Group first / Play opt-in
+second share order, leave-link exclusion, feedback privacy copy review, Day 1
+review scheduling, Privacy Center review, DebugView decision, evidence-log
+readiness, Day 1 aggregate theme intake, and `No tester personal data`. Rows
+with `TBD`, `pending_manual_observation`, `pending_tap_route`,
+`record_manually`, or `unknown` do not pass.
+
+After the real Day 1 review, the operator can also validate just the local
+completed Day 0 / Day 1 evidence packet without requiring the external strict
+Play Console gates:
+
+```sh
+SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE=true \
+SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED=true \
+SAKINAH_DAY0_CLOSED_TEST_RELEASE_VISIBLE=true \
+SAKINAH_DAY0_GROUP_LINK_SHARED_FIRST=true \
+SAKINAH_DAY0_PLAY_OPT_IN_SHARED_SECOND=true \
+SAKINAH_DAY0_EVIDENCE_LOG_UPDATED=true \
+SAKINAH_DAY1_REVIEW_SCHEDULED=true \
+SAKINAH_DAY1_FEEDBACK_PRIVACY_COPY_REVIEWED=true \
+SAKINAH_DAY1_EVIDENCE_LOG_READY=true \
+SAKINAH_DAY1_DEBUGVIEW_DECISION_RECORDED=true \
+SAKINAH_DAY0_DAY1_STATUS_EVIDENCE=/path/to/day0_day1_status_evidence.csv \
+SAKINAH_DAY1_FEEDBACK_EVIDENCE=/path/to/day1_feedback_evidence.csv \
+scripts/export_google_play_day0_day1_operator_packet.sh
+```
+
+Completed evidence mode copies those two CSVs into
+`build/play-day0-day1-operator/completed-evidence` and writes
+`Completed evidence inputs: validated` into the manifest.
 
 ## Share Order
 

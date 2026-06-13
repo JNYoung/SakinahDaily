@@ -6,6 +6,7 @@ cd "$repo_root"
 
 out_dir="${SAKINAH_DAY0_DAY1_OPERATOR_PACKET_DIR:-build/play-day0-day1-operator}"
 require_strict="${SAKINAH_REQUIRE_DAY0_DAY1_OPERATOR_READY:-false}"
+require_complete="${SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE:-false}"
 
 launch_day_checklist="docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md"
 retention_plan="docs/release/17_CLOSED_TEST_RETENTION_OBSERVATION_PLAN.md"
@@ -49,6 +50,39 @@ require_true_var() {
     fail "$name=true is required after $description."
 }
 
+require_env_file() {
+  local name="$1"
+  local description="$2"
+  local path="${!name:-}"
+
+  [[ -n "$path" ]] ||
+    fail "$name must point to completed evidence after $description."
+  [[ -f "$path" ]] ||
+    fail "$name points to a missing evidence file: $path"
+}
+
+validate_completed_day0_day1_evidence() {
+  local path="$1"
+  local label="$2"
+  shift 2
+
+  require_file "$path"
+  for placeholder in \
+    TBD \
+    pending_manual_observation \
+    pending_tap_route \
+    record_manually \
+    unknown; do
+    if grep -Fq "$placeholder" "$path"; then
+      fail "$label completed evidence still contains placeholder: $placeholder"
+    fi
+  done
+
+  for needle in "$@"; do
+    require_text "$path" "$needle"
+  done
+}
+
 copy_required_file() {
   local path="$1"
   local target="$out_dir/$path"
@@ -56,6 +90,17 @@ copy_required_file() {
   require_file "$path"
   mkdir -p "$(dirname "$target")"
   cp "$path" "$target"
+}
+
+copy_completed_evidence_file() {
+  local env_name="$1"
+  local target_name="$2"
+  local path="${!env_name:-}"
+
+  [[ -n "$path" ]] || return 0
+  require_file "$path"
+  mkdir -p "$out_dir/completed-evidence"
+  cp "$path" "$out_dir/completed-evidence/$target_name"
 }
 
 for path in \
@@ -87,12 +132,16 @@ require_text "$evidence_log" 'No tester personal data'
 require_text "$submission_runbook" 'export_google_play_day0_day1_operator_packet.sh'
 require_text "$readiness" 'Day 0 / Day 1 operator packet'
 require_text "$analytics_plan" 'retention loop QA checklist'
+require_text "$launch_day_checklist" 'SAKINAH_DAY0_DAY1_STATUS_EVIDENCE'
+require_text "$retention_plan" 'SAKINAH_REQUIRE_DAY0_DAY1_EVIDENCE_COMPLETE'
+require_text "$readiness" 'SAKINAH_DAY1_FEEDBACK_EVIDENCE'
 
 scripts/verify_google_play_closed_test_launch_day.sh
 scripts/export_google_play_closed_test_retention_packet.sh
 scripts/export_google_analytics_debugview_packet.sh
 
-if [[ "$require_strict" == "true" ]]; then
+completed_evidence_status="not requested"
+if [[ "$require_strict" == "true" || "$require_complete" == "true" ]]; then
   require_true_var \
     SAKINAH_DAY0_OPERATOR_OWNER_ASSIGNED \
     "assigning one human owner to run the Day 0 / Day 1 operator checklist"
@@ -121,6 +170,43 @@ if [[ "$require_strict" == "true" ]]; then
     SAKINAH_DAY1_DEBUGVIEW_DECISION_RECORDED \
     "recording whether an approved Analytics DebugView QA build will be used"
 
+  require_env_file \
+    SAKINAH_DAY0_DAY1_STATUS_EVIDENCE \
+    "recording Day 0 share order, launch visibility, owner, and Day 1 review readiness"
+  require_env_file \
+    SAKINAH_DAY1_FEEDBACK_EVIDENCE \
+    "reviewing aggregate Day 1 onboarding, install, reminder, privacy, and localization feedback"
+
+  validate_completed_day0_day1_evidence \
+    "$SAKINAH_DAY0_DAY1_STATUS_EVIDENCE" \
+    "Day 0 / Day 1 status" \
+    'checkpoint_day,checkpoint,owner,status,evidence_path,privacy_rule' \
+    'release visible to testers' \
+    'group link shared first' \
+    'Play opt-in shared second' \
+    'leave testing link excluded from invite copy' \
+    'feedback privacy copy reviewed' \
+    'onboarding_location_clarity review scheduled' \
+    'Privacy Center first-use feedback reviewed' \
+    'DebugView QA decision recorded' \
+    'evidence log ready for aggregate notes' \
+    'No tester personal data'
+  validate_completed_day0_day1_evidence \
+    "$SAKINAH_DAY1_FEEDBACK_EVIDENCE" \
+    "Day 1 feedback intake" \
+    'test_day,theme_key,aggregate_signal,decision_or_follow_up,evidence_path,privacy_rule' \
+    'Day 1' \
+    'onboarding_location_clarity' \
+    'play_install_or_opt_in_access' \
+    'reminder_usefulness_or_annoyance' \
+    'privacy_center_trust' \
+    'localization_rtl_or_bahasa' \
+    'reviewed' \
+    'No tester personal data'
+  completed_evidence_status="validated"
+fi
+
+if [[ "$require_strict" == "true" ]]; then
   SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_READY=true \
     scripts/verify_google_play_closed_test_launch_day.sh
   SAKINAH_REQUIRE_RETENTION_OBSERVATION_READY=true \
@@ -143,6 +229,13 @@ for path in \
   scripts/export_google_analytics_debugview_packet.sh; do
   copy_required_file "$path"
 done
+
+copy_completed_evidence_file \
+  SAKINAH_DAY0_DAY1_STATUS_EVIDENCE \
+  day0_day1_status_evidence.csv
+copy_completed_evidence_file \
+  SAKINAH_DAY1_FEEDBACK_EVIDENCE \
+  day1_feedback_evidence.csv
 
 cat >"$out_dir/day0_day1_operator_checklist.md" <<EOF
 # Google Play Day 0 / Day 1 Operator Checklist
@@ -219,12 +312,18 @@ Google Play Day 0 / Day 1 operator packet
 Generated UTC: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 Package: com.sakinahdaily.app
 Strict mode requested: $require_strict
+Completed evidence requested: $require_complete
 Privacy rule: No tester personal data.
 
 Generated files:
 - day0_day1_operator_checklist.md
 - day0_day1_status_template.csv
 - day1_feedback_intake_template.csv
+
+Completed evidence:
+- SAKINAH_DAY0_DAY1_STATUS_EVIDENCE=<completed day0_day1_status_evidence.csv>
+- SAKINAH_DAY1_FEEDBACK_EVIDENCE=<completed day1_feedback_evidence.csv>
+- Completed evidence inputs: $completed_evidence_status
 
 Regenerated dependency packets:
 - build/play-upload/manifest.txt
