@@ -89,6 +89,22 @@ void main() {
     expectNoFlutterErrors(tester);
   });
 
+  testWidgets('Qibla page opens manual location setup from Qibla context',
+      (tester) async {
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/qibla',
+      settleSplash: false,
+    );
+    await tester.pumpAndSettle();
+
+    await tapByKey(tester, SakinahKeys.qiblaChangeLocationButton);
+
+    expect(find.byKey(SakinahKeys.manualPrayerLocationPage), findsOneWidget);
+    expect(find.text('Manual prayer location'), findsWidgets);
+    expectNoFlutterErrors(tester);
+  });
+
   test('AndroidManifest does not request exact or coarse location', () {
     final manifest =
         File('android/app/src/main/AndroidManifest.xml').readAsStringSync();

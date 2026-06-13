@@ -200,6 +200,7 @@ String? _safePrayerEntrySource(String? source) {
 String? _safeManualPrayerLocationSource(String? source) {
   return switch (source) {
     'prayer_page_card' => source,
+    'qibla_page' => source,
     _ => null,
   };
 }

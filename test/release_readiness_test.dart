@@ -347,6 +347,7 @@ void main() {
       expect(analyticsPlan, contains('Qibla page records a local'));
       expect(analyticsPlan, contains('settings_prayer_location'));
       expect(analyticsPlan, contains('manual_location_page'));
+      expect(analyticsPlan, contains('qibla_page'));
       expect(analyticsPlan, contains('home_prayer_card'));
       expect(analyticsPlan, contains('home_progress_card'));
       expect(analyticsPlan, contains('prayer_page_card'));
@@ -1808,6 +1809,7 @@ void main() {
       expect(content, contains('prayer_page_card'));
       expect(content, contains('settings_prayer_location'));
       expect(content, contains('manual_location_page'));
+      expect(content, contains('qibla_page'));
       expect(content, contains('home_progress_card'));
       expect(content, contains('prayer_completion_card'));
       expect(content, contains('prayer_page_checklist'));
@@ -1890,6 +1892,7 @@ void main() {
       expect(events, contains('prayer_page_card'));
       expect(events, contains('settings_prayer_location'));
       expect(events, contains('manual_location_page'));
+      expect(events, contains('qibla_page'));
       expect(events, contains('prayer_completion_card'));
       expect(events, contains('prayer_page_checklist'));
       expect(events, contains('notification_tap_opened'));
@@ -1911,6 +1914,7 @@ void main() {
       expect(funnel, contains('Qibla View Rate'));
       expect(funnel, contains('Prayer Settings Completion Rate'));
       expect(funnel, contains('prayer_location_changed'));
+      expect(funnel, contains('qibla_page'));
       expect(funnel, contains('Reminder Setup View Rate'));
       expect(funnel, contains('notification_settings_viewed'));
       expect(funnel, contains('Prayer Reminder Permission Outcome Rate'));
@@ -3250,10 +3254,14 @@ void main() {
         () {
       final prayerPage =
           File('lib/features/prayer/prayer_page.dart').readAsStringSync();
+      final qiblaPage =
+          File('lib/features/qibla/qibla_page.dart').readAsStringSync();
       final keys = File('lib/shared/sakinah_keys.dart').readAsStringSync();
       final router = File('lib/app/sakinah_router.dart').readAsStringSync();
       final navigationTest =
           File('test/navigation_flow_test.dart').readAsStringSync();
+      final qiblaPageTest =
+          File('test/qibla_page_test.dart').readAsStringSync();
       final featureBehaviorTest =
           File('test/feature_behavior_test.dart').readAsStringSync();
       final manualLocationTest =
@@ -3280,15 +3288,20 @@ void main() {
       expect(prayerPage, contains('prayerTopLocationButton'));
       expect(prayerPage,
           contains('/settings/prayer-location?source=prayer_page_card'));
+      expect(qiblaPage, contains('qiblaChangeLocationButton'));
+      expect(
+          qiblaPage, contains('/settings/prayer-location?source=qibla_page'));
       expect(keys, contains('prayerTimesSectionHeader'));
       expect(keys, contains('prayerTopReminderSettingsButton'));
       expect(keys, contains('prayerTopQiblaButton'));
       expect(keys, contains('prayerTopLocationButton'));
+      expect(keys, contains('qiblaChangeLocationButton'));
       expect(keys, contains('prayerCompletionCheckbox'));
       expect(keys, contains('homePrayerCompletionMetric'));
       expect(keys, contains('homePrayerCheckInButton'));
       expect(keys, contains('homePrayerWeekProgress'));
       expect(router, contains('_safeManualPrayerLocationSource'));
+      expect(router, contains('qibla_page'));
       expect(
         navigationTest,
         contains('prayer page shows all five daily prayer times'),
@@ -3304,6 +3317,14 @@ void main() {
       expect(
         manualLocationTest,
         contains('manual prayer location save keeps prayer page source'),
+      );
+      expect(
+        manualLocationTest,
+        contains('manual prayer location save can return to Qibla from Qibla'),
+      );
+      expect(
+        qiblaPageTest,
+        contains('Qibla page opens manual location setup from Qibla context'),
       );
       expect(
         navigationTest,
@@ -3369,6 +3390,7 @@ void main() {
       expect(readiness, contains('Prayer week summary'));
       expect(readiness, contains('prayer_page_card'));
       expect(readiness, contains('Qibla view analytics'));
+      expect(readiness, contains('return to Qibla'));
       expect(
         productProgress,
         contains('Prayer page now gives the full-day list'),
@@ -3382,6 +3404,7 @@ void main() {
       expect(productProgress, contains('Home view analytics includes only'));
       expect(productProgress, contains('prayer_page_card'));
       expect(productProgress, contains('Qibla context action'));
+      expect(productProgress, contains('Qibla-page recovery'));
       expect(productProgress, contains('Change location action'));
       expect(
         productProgress,

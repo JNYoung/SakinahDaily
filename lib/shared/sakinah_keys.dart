@@ -198,6 +198,8 @@ abstract final class SakinahKeys {
   }
 
   static const qiblaPage = ValueKey<String>('qibla_page');
+  static const qiblaChangeLocationButton =
+      ValueKey<String>('qibla_change_location_button');
   static const savedItemsPage = ValueKey<String>('saved_items_page');
   static const duaSearchField = ValueKey<String>('dua_search_field');
   static const duaEmptyState = ValueKey<String>('dua_empty_state');

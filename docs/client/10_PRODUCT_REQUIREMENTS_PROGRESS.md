@@ -158,6 +158,10 @@ Completed:
   manual place labels, timezone IDs, routes, Women's Ibadah Mode status, or
   free text.
 - Qibla uses the selected prayer location without GPS or sensor permissions.
+- Qibla's Change prayer location action now opens manual prayer location setup
+  with `source=qibla_page`; after saving, the confirmation can return directly
+  to Qibla so users can verify the updated direction without searching through
+  navigation.
 - Local prayer reminder taps, including cold-start taps, route to `/prayer`.
 - Women’s Mode notification copy avoids sensitive lock-screen state.
 - Android store screenshots now verify Home/Prayer current-next prayer labels,
@@ -426,9 +430,9 @@ Retention observation preparation:
   labels, or bearing degrees.
   Prayer location setup analytics now records only `prayer_location_changed`
   with coarse location method, calculation method, controlled source, and
-  coarse change type, so manual/preset setup friction and Prayer-page recovery
-  can be observed without sending coordinates, manual place labels, timezone
-  IDs, routes, Women's Ibadah Mode status, or free text.
+  coarse change type, so manual/preset setup friction plus Prayer-page and
+  Qibla-page recovery can be observed without sending coordinates, manual
+  place labels, timezone IDs, routes, Women's Ibadah Mode status, or free text.
   Dua/Dhikr secondary-feature analytics keeps only content IDs and controlled
   sources, while Women's Ibadah Mode analytics keeps only enabled state and
   `source=women_mode`, so usage can be reviewed without transmitting exact

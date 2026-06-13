@@ -84,9 +84,9 @@ status, or free text.
 Prayer location and calculation-method setup should appear only as
 `prayer_location_changed` with coarse location method, calculation method,
 controlled source such as `settings_prayer_location`,
-`settings_prayer_method`, `manual_location_page`, or `prayer_page_card`, and
-coarse change type; do not store coordinates, manual place labels, timezone
-IDs, routes, Women's Ibadah Mode status, or free text.
+`settings_prayer_method`, `manual_location_page`, `prayer_page_card`, or
+`qibla_page`, and coarse change type; do not store coordinates, manual place
+labels, timezone IDs, routes, Women's Ibadah Mode status, or free text.
 Prayer reminder permission attempts should appear only as
 `prayer_reminder_permission_result` with enabled result, controlled source,
 coarse outcome, and lead-time offset, so denial or explanation dismissal can be

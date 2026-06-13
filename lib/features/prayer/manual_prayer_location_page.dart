@@ -212,16 +212,21 @@ class _ManualPrayerLocationPageState
         'change_type': 'manual_location_saved',
       },
     );
+    final returnToQibla = widget.entrySource == 'qibla_page';
+    final actionLabel =
+        returnToQibla ? l10n.t('qibla') : l10n.t('viewPrayerTimes');
+    final actionRoute =
+        returnToQibla ? '/qibla?source=manual_location' : '/prayer';
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
           content: Text(l10n.t('locationSaved')),
           action: SnackBarAction(
-            label: l10n.t('viewPrayerTimes'),
+            label: actionLabel,
             onPressed: () {
               if (mounted) {
-                context.go('/prayer');
+                context.go(actionRoute);
               }
             },
           ),
