@@ -3533,14 +3533,30 @@ void main() {
 
     test('Home daily prayer companion acceptance is covered', () {
       final prd = File('docs/prd/02_CLIENT_PRD.md').readAsStringSync();
+      final models =
+          File('lib/core/models/sakinah_models.dart').readAsStringSync();
+      final providers =
+          File('lib/core/providers/app_providers.dart').readAsStringSync();
+      final onboardingPage =
+          File('lib/features/onboarding/onboarding_page.dart')
+              .readAsStringSync();
+      final splashPage =
+          File('lib/features/splash/splash_page.dart').readAsStringSync();
       final homePage =
           File('lib/features/home/home_page.dart').readAsStringSync();
       final navigationTest =
           File('test/navigation_flow_test.dart').readAsStringSync();
+      final splashTest = File('test/splash_page_test.dart').readAsStringSync();
+      final preferencesTest =
+          File('test/preferences_repository_test.dart').readAsStringSync();
+      final widgetTest = File('test/widget_test.dart').readAsStringSync();
       final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
           .readAsStringSync();
       final acceptance =
           File('docs/testing/01_ACCEPTANCE_CHECKLIST.md').readAsStringSync();
+      final productProgress =
+          File('docs/client/10_PRODUCT_REQUIREMENTS_PROGRESS.md')
+              .readAsStringSync();
 
       expect(prd, contains('Home 是核心入口，不能做成工具列表。'));
       expect(
@@ -3561,6 +3577,22 @@ void main() {
       expect(homePage, contains('testingFeedbackChannel'));
       expect(homePage, contains('/settings/testing-guide'));
       expect(homePage, isNot(contains('homeQuickActionsCard')));
+      expect(models, contains('hasCompletedOnboarding'));
+      expect(providers, contains('completeOnboarding'));
+      expect(onboardingPage, contains('completeOnboarding'));
+      expect(
+        splashPage,
+        contains("hasCompletedOnboarding ? '/home' : '/onboarding'"),
+      );
+      expect(
+        splashTest,
+        contains('splash opens home when onboarding has completed'),
+      );
+      expect(
+        preferencesTest,
+        contains('legacy saved preferences count as completed onboarding'),
+      );
+      expect(widgetTest, contains('hasCompletedOnboarding, isTrue'));
       expect(
         navigationTest,
         contains('home is daily prayer companion rather than a tool stack'),
@@ -3589,8 +3621,20 @@ void main() {
         ),
       );
       expect(
+        readiness,
+        contains('Splash keeps first-time users on onboarding'),
+      );
+      expect(
+        productProgress,
+        contains('App launch and onboarding return loop'),
+      );
+      expect(
         acceptance,
         contains('[x] App 不像工具堆叠，而像 daily prayer companion。'),
+      );
+      expect(
+        acceptance,
+        contains('后续启动会从 Splash 回到 Home'),
       );
     });
 

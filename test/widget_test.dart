@@ -8,7 +8,10 @@ import 'support/sakinah_test_harness.dart';
 
 void main() {
   testWidgets('app renders onboarding and reaches home', (tester) async {
-    await pumpSakinahApp(tester);
+    final store = InMemoryUserPreferencesStore();
+    final repository = UserPreferencesRepository(store);
+
+    await pumpSakinahApp(tester, preferencesStore: store);
 
     expect(find.text('Sakinah Daily'), findsOneWidget);
     expect(find.text('Begin with calm worship'), findsOneWidget);
@@ -17,6 +20,7 @@ void main() {
 
     expect(find.text('Assalamu alaikum,'), findsOneWidget);
     expect(find.text("Today's Sakinah Session"), findsOneWidget);
+    expect((await repository.load()).hasCompletedOnboarding, isTrue);
   });
 
   testWidgets('onboarding sets preset prayer location without GPS permission',

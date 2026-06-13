@@ -63,6 +63,13 @@ payloads, routes, coordinates, manual place labels, prayer completion
 timestamps, Women's Ibadah Mode exact status, feedback text, and religious
 text.
 
+App launch and onboarding return loop: Splash now keeps first-time users on the
+onboarding path, stores local onboarding completion when Continue is pressed,
+and sends returning users with completed onboarding directly to Home after the
+brand screen. Legacy saved preference records that predate the completion flag
+count as completed onboarding, so existing testers are not forced back through
+setup after an app update.
+
 ## 1. Cold-Start Notification Routing
 
 Status: implemented and Android-emulator verified.

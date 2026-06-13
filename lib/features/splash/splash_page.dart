@@ -2,13 +2,15 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
+import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({
     super.key,
     this.autoAdvance = true,
@@ -17,10 +19,10 @@ class SplashPage extends StatefulWidget {
   final bool autoAdvance;
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState extends ConsumerState<SplashPage> {
   Timer? _timer;
 
   @override
@@ -30,10 +32,17 @@ class _SplashPageState extends State<SplashPage> {
       return;
     }
     _timer = Timer(const Duration(milliseconds: 1800), () {
-      if (mounted) {
-        context.go('/onboarding');
-      }
+      unawaited(_routeAfterSplash());
     });
+  }
+
+  Future<void> _routeAfterSplash() async {
+    await ref.read(userPreferencesProvider.notifier).load();
+    if (!mounted) {
+      return;
+    }
+    final preferences = ref.read(userPreferencesProvider);
+    context.go(preferences.hasCompletedOnboarding ? '/home' : '/onboarding');
   }
 
   @override

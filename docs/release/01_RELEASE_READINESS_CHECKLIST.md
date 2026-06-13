@@ -154,6 +154,9 @@ Status: Draft for release/store review.
   Day 3 / Day 7 / Day 14 feedback prompts with copyable structured feedback
   templates, suggested aggregate theme keys, and local feedback-sent checkboxes
   for closed-test retention evidence.
+- [x] Splash keeps first-time users on onboarding, stores local onboarding
+  completion when setup finishes, and routes returning or legacy saved
+  preference users directly to Home after the brand screen.
 - [x] Home also surfaces a Closed testing guide entry when
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, so testers can reach the
   Day 1 / Day 3 / Day 7 / Day 14 prompts from the daily prayer surface without
