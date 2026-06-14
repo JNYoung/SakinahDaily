@@ -5118,6 +5118,12 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(androidChecklist, contains('## Android Asset Review'));
       expect(androidChecklist, contains('assets/branding/app_icon.png'));
       expect(androidChecklist, contains('sakinah_native_splash.png'));
+      expect(androidChecklist, contains('sakinah_splash_system_mark.xml'));
+      expect(androidChecklist, contains('sakinah_splash_branding.png'));
+      expect(
+        androidChecklist,
+        contains('Flutter brand-screen artwork'),
+      );
       expect(
         androidChecklist,
         contains('build/store-screenshots/android-assets/en-splash.png'),
@@ -5874,7 +5880,9 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       );
       expect(
         productProgress,
-        contains('normal launch splash. The client loads local preferences'),
+        contains(
+          'normal launch splash, but its artwork now matches the Flutter',
+        ),
       );
       expect(
         acceptance,
@@ -6749,6 +6757,7 @@ List<String> _trackedProjectFiles() {
   return (result.stdout as String)
       .split('\n')
       .where((path) => path.trim().isNotEmpty)
+      .where((path) => File(path).existsSync())
       .toList();
 }
 

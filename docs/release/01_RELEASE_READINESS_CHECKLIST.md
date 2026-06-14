@@ -509,7 +509,8 @@ Status: Draft for release/store review.
   keywords.
 - [x] App icon and splash assets reviewed on Android device
   `SC65XWPZ7DLNUSTC`; launcher icon resource dimensions pass local tests and
-  splash capture evidence is
+  native splash assets use the Flutter brand-screen artwork, Android 12+
+  system mark, and Android 12+ branding image. Splash capture evidence is
   `build/store-screenshots/android-assets/en-splash.png`.
 - [ ] Privacy policy hosting URL selected before store submission.
 - [ ] Final public privacy policy URL and Testing feedback channel pass

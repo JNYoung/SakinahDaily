@@ -13,8 +13,9 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - The settings secondary-page routing issue was fixed so returning from women ibadah mode keeps the selected bottom tab and visible page aligned.
 - Indonesian and Arabic localization gaps were patched across the main onboarding, home, settings, dua, dhikr, prayer, and session surfaces.
 - Android native launch resources use Sakinah static artwork and an Android 12+
-  Sakinah system splash icon. Normal app launch now uses this native splash
-  only, then the first Flutter frame opens onboarding or Home directly from
+  Sakinah system mark plus branding image. Normal app launch now uses this
+  native splash only, with artwork aligned to the Flutter `/splash` brand
+  screen, then the first Flutter frame opens onboarding or Home directly from
   local preferences; the Flutter `/splash` page is retained only as an explicit
   dev/store-screenshot brand route.
 - App launcher icon assets were generated from the Sakinah icon direction for Android, Web, and macOS, with a tracked source at `assets/branding/app_icon.png`.

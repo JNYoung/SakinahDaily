@@ -88,12 +88,13 @@ Settings view and permission education through scheduling, smoke QA, recovery,
 Daily Session reminder outcomes, tap result, and tap open.
 
 App launch and onboarding return loop: Android native splash is now the only
-normal launch splash. The client loads local preferences before the first
-Flutter frame, sends first-time users directly to onboarding, and sends
-returning users with completed onboarding directly to Home without showing a
-second Flutter brand screen. Legacy saved preference records that predate the
-completion flag count as completed onboarding, so existing testers are not
-forced back through setup after an app update.
+normal launch splash, but its artwork now matches the Flutter `/splash` brand
+screen instead of showing a generic Android icon. The client loads local
+preferences before the first Flutter frame, sends first-time users directly to
+onboarding, and sends returning users with completed onboarding directly to Home
+without showing a second Flutter brand screen. Legacy saved preference records
+that predate the completion flag count as completed onboarding, so existing
+testers are not forced back through setup after an app update.
 
 ## 1. Cold-Start Notification Routing
 
