@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/models/sakinah_models.dart';
 import '../core/providers/app_providers.dart';
 import '../features/daily_session/daily_session_page.dart';
 import '../features/daily_session/session_completion_page.dart';
@@ -27,26 +28,24 @@ import '../features/splash/splash_page.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final environment = ref.watch(appEnvironmentConfigProvider);
-  final freezeSplashForScreenshot = environment.storeScreenshotModeEnabled &&
-      environment.storeScreenshotInitialRoute == '/splash';
+  final initialPreferences = ref.watch(initialUserPreferencesProvider);
   return createSakinahRouter(
-    initialLocation: environment.storeScreenshotInitialRoute ?? '/splash',
-    splashAutoAdvance: !freezeSplashForScreenshot,
+    initialLocation: environment.storeScreenshotInitialRoute ??
+        startupRouteForPreferences(
+          initialPreferences ?? UserPreferences.defaults(),
+        ),
   );
 });
 
 GoRouter createSakinahRouter({
-  String initialLocation = '/splash',
-  bool splashAutoAdvance = true,
+  String initialLocation = '/onboarding',
 }) {
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => SplashPage(
-          autoAdvance: splashAutoAdvance,
-        ),
+        builder: (context, state) => const SplashPage(),
       ),
       GoRoute(
         path: '/onboarding',
@@ -188,6 +187,10 @@ GoRouter createSakinahRouter({
       ),
     ],
   );
+}
+
+String startupRouteForPreferences(UserPreferences preferences) {
+  return preferences.hasCompletedOnboarding ? '/home' : '/onboarding';
 }
 
 String? _safePrayerEntrySource(String? source) {

@@ -277,14 +277,14 @@ void main() {
     await tester.pumpAndSettle();
 
     await tapByKey(tester, SakinahKeys.deleteLocalDataButton);
-    expect(find.text('Confirm local reset'), findsOneWidget);
+    expect(find.text('Konfirmasi reset lokal'), findsOneWidget);
     expect(
         (await preferencesRepository.load()).womenIbadahMode.enabled, isTrue);
 
     await tester.tap(
       find.descendant(
         of: find.byType(AlertDialog),
-        matching: find.widgetWithText(FilledButton, 'Delete local data'),
+        matching: find.widgetWithText(FilledButton, 'Hapus data lokal'),
       ),
     );
     await tester.pumpAndSettle();

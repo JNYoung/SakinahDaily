@@ -31,7 +31,13 @@ import '../services/qibla_service.dart';
 import '../services/remote_content_api_client.dart';
 import '../services/women_mode_content_policy.dart';
 
-final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
+final initialUserPreferencesProvider =
+    Provider<UserPreferences?>((ref) => null);
+
+final localeProvider = StateProvider<Locale>((ref) {
+  final initialPreferences = ref.watch(initialUserPreferencesProvider);
+  return Locale(initialPreferences?.languageCode ?? 'en');
+});
 
 final currentDateTimeProvider = Provider<DateTime>((ref) => DateTime.now());
 
@@ -63,18 +69,25 @@ final userPreferencesRepositoryProvider =
 final userPreferencesProvider =
     StateNotifierProvider<UserPreferencesController, UserPreferences>(
   (ref) {
+    final initialPreferences = ref.watch(initialUserPreferencesProvider);
     final controller = UserPreferencesController(
       ref,
       ref.watch(userPreferencesRepositoryProvider),
+      initialPreferences: initialPreferences,
     );
-    unawaited(controller.load());
+    if (initialPreferences == null) {
+      unawaited(controller.load());
+    }
     return controller;
   },
 );
 
 class UserPreferencesController extends StateNotifier<UserPreferences> {
-  UserPreferencesController(this.ref, this.repository)
-      : super(UserPreferences.defaults());
+  UserPreferencesController(
+    this.ref,
+    this.repository, {
+    UserPreferences? initialPreferences,
+  }) : super(initialPreferences ?? UserPreferences.defaults());
 
   final Ref ref;
   final UserPreferencesRepository repository;

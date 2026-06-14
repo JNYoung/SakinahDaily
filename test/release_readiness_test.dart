@@ -5765,6 +5765,8 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
           File('lib/core/models/sakinah_models.dart').readAsStringSync();
       final providers =
           File('lib/core/providers/app_providers.dart').readAsStringSync();
+      final mainDart = File('lib/main.dart').readAsStringSync();
+      final router = File('lib/app/sakinah_router.dart').readAsStringSync();
       final onboardingPage =
           File('lib/features/onboarding/onboarding_page.dart')
               .readAsStringSync();
@@ -5807,14 +5809,32 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(homePage, isNot(contains('homeQuickActionsCard')));
       expect(models, contains('hasCompletedOnboarding'));
       expect(providers, contains('completeOnboarding'));
+      expect(providers, contains('initialUserPreferencesProvider'));
+      expect(mainDart, contains('SharedPreferencesUserPreferencesStore'));
+      expect(
+        mainDart,
+        contains('initialUserPreferencesProvider.overrideWithValue'),
+      );
+      expect(router, contains('startupRouteForPreferences'));
+      expect(
+        router,
+        contains(
+            "preferences.hasCompletedOnboarding ? '/home' : '/onboarding'"),
+      );
       expect(onboardingPage, contains('completeOnboarding'));
+      expect(splashPage, contains('class SplashPage extends StatelessWidget'));
       expect(
         splashPage,
-        contains("hasCompletedOnboarding ? '/home' : '/onboarding'"),
+        isNot(contains('context.go')),
       );
       expect(
         splashTest,
-        contains('splash opens home when onboarding has completed'),
+        contains('normal launch opens home when onboarding has completed'),
+      );
+      expect(
+        splashTest,
+        contains(
+            'normal launch opens onboarding without a Flutter splash page'),
       );
       expect(
         preferencesTest,
@@ -5850,11 +5870,11 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       );
       expect(
         readiness,
-        contains('Splash keeps first-time users on onboarding'),
+        contains('Android native splash is the only normal launch splash'),
       );
       expect(
         productProgress,
-        contains('App launch and onboarding return loop'),
+        contains('normal launch splash. The client loads local preferences'),
       );
       expect(
         acceptance,
@@ -5862,7 +5882,7 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       );
       expect(
         acceptance,
-        contains('后续启动会从 Splash 回到 Home'),
+        contains('后续启动会在原生开屏后直接回到 Home'),
       );
     });
 

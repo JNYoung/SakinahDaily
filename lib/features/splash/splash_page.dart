@@ -1,55 +1,13 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../app/theme/sakinah_theme.dart';
 import '../../core/localization/sakinah_localizations.dart';
-import '../../core/providers/app_providers.dart';
 import '../../shared/sakinah_keys.dart';
 
-class SplashPage extends ConsumerStatefulWidget {
-  const SplashPage({
-    super.key,
-    this.autoAdvance = true,
-  });
-
-  final bool autoAdvance;
-
-  @override
-  ConsumerState<SplashPage> createState() => _SplashPageState();
-}
-
-class _SplashPageState extends ConsumerState<SplashPage> {
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    if (!widget.autoAdvance) {
-      return;
-    }
-    _timer = Timer(const Duration(milliseconds: 1800), () {
-      unawaited(_routeAfterSplash());
-    });
-  }
-
-  Future<void> _routeAfterSplash() async {
-    await ref.read(userPreferencesProvider.notifier).load();
-    if (!mounted) {
-      return;
-    }
-    final preferences = ref.read(userPreferencesProvider);
-    context.go(preferences.hasCompletedOnboarding ? '/home' : '/onboarding');
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
+class SplashPage extends StatelessWidget {
+  const SplashPage({super.key});
 
   @override
   Widget build(BuildContext context) {
