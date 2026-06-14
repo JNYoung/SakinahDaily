@@ -341,7 +341,8 @@ Google Play Data Safety review.
 - App icon source: `assets/branding/app_icon.png` at 1024 x 1024.
 - Android launcher icon resources are present in the `mipmap-*` density
   folders from 48 x 48 through 192 x 192.
-- Native splash resources use the Flutter brand-screen artwork in
+- Native splash resources use the shared Flutter splash artwork at
+  `assets/branding/sakinah_splash.png`, copied into
   `sakinah_native_splash.png` for the launch window, plus
   `sakinah_splash_system_mark.xml` and `sakinah_splash_branding.png` for the
   Android 12+ system splash, instead of the default Flutter launcher icon or a
@@ -349,8 +350,8 @@ Google Play Data Safety review.
 - On 2026-06-11, `SC65XWPZ7DLNUSTC` was used for Android splash review with
   the deterministic screenshot build. Evidence path:
   `build/store-screenshots/android-assets/en-splash.png`.
-- Local asset regression tests cover launcher icon dimensions and Android
-  native splash resource references.
+- Local asset regression tests cover launcher icon dimensions, Android native
+  splash resource references, and shared Android/iOS splash-image hashes.
 
 ## Build Commands
 

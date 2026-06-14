@@ -2,20 +2,30 @@
 
 Status: Draft for release/store review.
 
-The current workspace does not include an iOS project. Do not manually create
-or edit provisioning artifacts unless Flutter tooling is available and the
-release owner approves the platform setup.
+The workspace includes the Flutter iOS Runner project, but signing,
+provisioning, App Store metadata, and real-device screenshot evidence are still
+release-owner tasks. Do not commit provisioning profiles or certificates.
 
-When iOS is available:
+Current native launch setup:
 
-- Verify Runner bundle identifier, for example `com.sakinahdaily.app`.
+- Runner bundle identifier: `com.sakinahdaily.app`.
+- Launch storyboard: `ios/Runner/Base.lproj/LaunchScreen.storyboard`.
+- Launch artwork image set:
+  `ios/Runner/Assets.xcassets/SakinahSplash.imageset`.
+- The image set uses the shared Flutter splash artwork at
+  `assets/branding/sakinah_splash.png`, matching the Android native splash bitmap.
+- `UILaunchStoryboardName` is `LaunchScreen`.
+
+Before iOS submission:
+
+- Re-verify Runner bundle identifier after any Xcode project regeneration.
 - Set display name to `Sakinah Daily`.
 - Configure signing team in Xcode or CI secrets.
-- Do not commit provisioning profiles or certificates.
 - Verify notification permission copy before requesting permission.
 - Confirm App Privacy labels against `docs/privacy`.
 - Capture iPhone 6.7-inch and 6.5-inch screenshots.
 - Verify Arabic RTL, Bahasa Indonesia, and English screenshots.
+- Verify the `SakinahSplash.imageset` launch screen on a real device.
 - Do not add ATT prompt unless tracking is actually introduced and reviewed.
 
 Future iOS submission checklist:

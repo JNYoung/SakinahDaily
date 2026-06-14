@@ -247,10 +247,12 @@ Status: Draft for release/store review.
   Day 3 / Day 7 / Day 14 feedback prompts with copyable structured feedback
   templates, suggested aggregate theme keys, and local feedback-sent checkboxes
   for closed-test retention evidence.
-- [x] Android native splash is the only normal launch splash. Startup loads
-  local preferences before the first Flutter frame, opens first-time users
-  directly on onboarding, and opens returning or legacy saved preference users
-  directly on Home without showing a second Flutter brand screen.
+- [x] Android and iOS native splash surfaces use the shared Flutter splash
+  artwork at `assets/branding/sakinah_splash.png`. Android remains the only
+  normal launch splash path for the current Play build: startup loads local
+  preferences before the first Flutter frame, opens first-time users directly
+  on onboarding, and opens returning or legacy saved preference users directly
+  on Home without showing a second Flutter brand screen.
 - [x] Home also surfaces a Closed testing guide entry when
   `SAKINAH_PLAY_TESTING_FEEDBACK` is configured, so testers can reach the
   Day 1 / Day 3 / Day 7 / Day 14 prompts from the daily prayer surface without
@@ -509,9 +511,11 @@ Status: Draft for release/store review.
   keywords.
 - [x] App icon and splash assets reviewed on Android device
   `SC65XWPZ7DLNUSTC`; launcher icon resource dimensions pass local tests and
-  native splash assets use the Flutter brand-screen artwork, Android 12+
-  system mark, and Android 12+ branding image. Splash capture evidence is
-  `build/store-screenshots/android-assets/en-splash.png`.
+  Android/iOS native splash assets use the shared Flutter splash artwork,
+  Android 12+ system mark, and Android 12+ branding image. Splash capture
+  evidence is `build/store-screenshots/android-assets/en-splash.png`; iOS
+  LaunchScreen is wired to `SakinahSplash.imageset` and still needs real-device
+  App Store screenshot evidence before any iOS submission.
 - [ ] Privacy policy hosting URL selected before store submission.
 - [ ] Final public privacy policy URL and Testing feedback channel pass
   `scripts/verify_google_play_public_links.sh` without
