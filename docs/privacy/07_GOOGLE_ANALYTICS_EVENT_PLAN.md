@@ -133,10 +133,14 @@ Current implementation:
   sent.
 - Local push payload resolution records `local_push_resolution_result` with the
   same coarse content type, `source=local_notification`, and coarse
-  `change_type`. This separates payload parsing/content availability health
-  from final navigation/open rate without sending raw payloads, routes, content
-  IDs, prayer names, lock-screen copy, Women's Ibadah Mode status, or religious
-  text.
+  `change_type`. The expected resolution outcomes are resolved, fallback route
+  used, direct route fallback, missing content, and malformed payload, encoded
+  as
+  `resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload`.
+  This separates payload parsing/content availability health from final
+  `notification_tap_result` navigation/open rate without sending raw payloads,
+  routes, content IDs, prayer names, lock-screen copy, Women's Ibadah Mode
+  status, or religious text.
 - Local reminder scheduling records `notification_schedule_result` with only
   `reminder_type` (`prayer` or `daily_session`), enabled state, controlled
   source, coarse result, aggregate `scheduled_count`, and prayer lead-time
@@ -361,7 +365,9 @@ result, controlled source, and coarse outcome.
 `source=local_notification`, and coarse `change_type`.
 `notification_tap_opened` must keep only `content_type` and `source`.
 `local_push_resolution_result` must keep only `content_type`,
-`source=local_notification`, and coarse `change_type`.
+`source=local_notification`, and coarse `change_type`; DebugView QA should
+confirm resolution change types such as resolved, fallback route used, direct
+route fallback, missing content, and malformed payload.
 `analytics_consent_changed` must keep only `enabled` and `source`.
 `dua_viewed` and `dua_saved` must keep only content ID, source/screen, and
 saved enabled state where relevant.

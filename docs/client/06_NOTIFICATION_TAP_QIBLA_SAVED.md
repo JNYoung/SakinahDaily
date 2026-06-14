@@ -46,6 +46,11 @@ availability also records `local_push_resolution_result` with only coarse
 not send raw payloads, routes, content IDs, prayer names, reminder times,
 lock-screen copy, Women's Ibadah Mode status, or religious text for
 notification tap analytics.
+`local_push_resolution_result.change_type` is intentionally separate from
+`notification_tap_result.change_type`: resolution uses coarse payload/content
+outcomes such as `resolved`, `fallback_route_used`, `direct_route_fallback`,
+`missing_content`, or `malformed_payload`, while tap result describes whether
+the final notification interaction opened a route or ended unhandled.
 
 ## Local Push Compatibility
 

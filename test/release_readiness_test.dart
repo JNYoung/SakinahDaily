@@ -1017,6 +1017,12 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(content, contains('notification_tap_result'));
       expect(content, contains('notification_tap_opened'));
       expect(content, contains('local_push_resolution_result'));
+      expect(
+        content,
+        contains(
+          'resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload',
+        ),
+      );
       expect(content, contains('No tester personal data'));
 
       final templateRun = Process.runSync(
@@ -1120,6 +1126,12 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(analyticsMatrix, contains('home_session_completion'));
       expect(analyticsMatrix, contains('notification_settings_qa'));
       expect(analyticsMatrix, contains('local_notification'));
+      expect(
+        analyticsMatrix,
+        contains(
+          'resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload',
+        ),
+      );
       expect(analyticsMatrix, contains('No exact reminder time'));
 
       expect(privacyBlocklist, contains('payload'));
@@ -1138,6 +1150,7 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       expect(handoff, contains('本地 Daily Session reminders'));
       expect(handoff, contains('Remote FCM/APNs'));
       expect(handoff, contains('Google Analytics DebugView'));
+      expect(handoff, contains('解析结果和点击打开结果分离'));
       expect(handoff, contains('Android OEM reminder observation packet'));
       expect(handoff, contains('No raw payloads, routes, coordinates'));
       expect(handoff, contains('push_permission_qa_evidence.csv'));
@@ -1171,6 +1184,12 @@ observation_window,device_serial,oem_or_model,scheduled_reminder_type,scheduled_
       for (final eventName in pushReminderDebugViewEvents) {
         expect(debugViewEvidence, contains(eventName), reason: eventName);
       }
+      expect(
+        debugViewEvidence,
+        contains(
+          'resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload',
+        ),
+      );
       expect(oemOwnerEvidence,
           contains('owner_handle,review_cadence,next_review_date,qa_result'));
       expect(oemOwnerEvidence, contains('pending_owner_assignment'));
@@ -1229,7 +1248,7 @@ daily_session_reminder_permission_result,session_id|enabled|source|change_type,s
 daily_session_reminder_changed,session_id|enabled|source|change_type,session_id|enabled|source|change_type,no,passed,No tester personal data
 notification_tap_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
 notification_tap_opened,content_type|source,content_type|source,no,passed,No tester personal data
-local_push_resolution_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data
+local_push_resolution_result,content_type|source|change_type,content_type|source|change_type,no,passed,No tester personal data; resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload
 ''';
       final completedDebugViewEvidence =
           File('${strictEvidenceDir.path}/push_debugview_event_review.csv')
@@ -1361,15 +1380,18 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
           contains('dailySessionReminderChanged'));
       expect(tapListener, contains('notificationTapResult'));
       expect(tapListener, contains('notificationTapOpened'));
+      expect(tapListener, contains('_localPushResolutionChangeType'));
       expect(notificationServiceTest, contains('privacy-safe tap payload'));
       expect(notificationServiceTest, contains('women mode notification copy'));
       expect(notificationSettingsTest, contains('notificationScheduleResult'));
       expect(notificationSettingsTest,
           contains('notificationPermissionRecoveryOpened'));
       expect(tapServiceTest, contains('prayer notification payload'));
+      expect(tapServiceTest, contains('resolutionOutcome'));
       expect(tapServiceTest, contains('malformed notification payload'));
       expect(tapRouteTest, contains('notificationTapOpened'));
       expect(tapRouteTest, contains('notificationTapResult'));
+      expect(tapRouteTest, contains('fallback resolution outcome'));
 
       expect(docsIndex, contains('18_PUSH_MODULE_COMPLETION_AUDIT.md'));
       expect(docsIndex, contains('export_push_module_completion_audit.sh'));
@@ -1379,6 +1401,7 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
       expect(productProgress, contains('Push module completion audit packet'));
       expect(productProgress, contains('v0.1 local reminder loop is complete'));
       expect(analyticsPlan, contains('Push module completion audit packet'));
+      expect(analyticsPlan, contains('resolved, fallback route used'));
       expect(acceptance, contains('Push module completion audit packet'));
       expect(versionNotes, contains('Push module completion audit packet'));
       expect(
@@ -1386,12 +1409,14 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
       expect(pushAuditDoc, contains('push_real_device_smoke_evidence.csv'));
       expect(
           pushAuditDoc, contains('SAKINAH_PUSH_ANALYTICS_DEBUGVIEW_EVIDENCE'));
+      expect(pushAuditDoc, contains('resolved, fallback route used'));
       expect(localE2e, contains('export_push_module_completion_audit.sh'));
       expect(localE2e, contains('SAKINAH_E2E_SKIP_PUSH_MODULE_AUDIT'));
     });
 
     test('local e2e gate is scripted and documented', () {
       final script = File('scripts/verify_local_e2e.sh');
+      final testConfig = File('dart_test.yaml');
       final workflow = File('.github/workflows/local-e2e.yml');
       final pullRequestTemplate = File('.github/PULL_REQUEST_TEMPLATE.md');
       final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
@@ -1402,14 +1427,24 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
       expect(script.existsSync(), isTrue);
       final mode = script.statSync().mode;
       expect(mode & 0x49, isNonZero);
+      expect(testConfig.existsSync(), isTrue);
+      expect(testConfig.readAsStringSync(), contains('concurrency: 1'));
 
       final content = script.readAsStringSync();
+      expect(content, contains('SAKINAH_E2E_PROFILE'));
+      expect(content, contains('full|ci|fast|release'));
+      expect(content, contains('fast)'));
+      expect(content, contains('default_skip_flutter_test=true'));
+      expect(content, contains('Step timings'));
       expect(content, contains('flutter --no-version-check test'));
       expect(content, contains('--concurrency=1'));
       expect(content, contains('SAKINAH_E2E_FLUTTER_TEST_ARGS'));
       expect(content, contains('dart analyze'));
       expect(content, contains('verify_google_play_submission_pack.sh'));
       expect(content, contains('verify_google_play_public_links_packet.sh'));
+      expect(
+          content, contains('export_google_play_closed_test_setup_packet.sh'));
+      expect(content, contains('SAKINAH_E2E_SKIP_CLOSED_TEST_SETUP_PACKET'));
       expect(content, contains('export_google_analytics_debugview_packet.sh'));
       expect(content, contains('SAKINAH_E2E_SKIP_ANALYTICS_DEBUGVIEW_PACKET'));
       expect(content, contains('export_push_module_completion_audit.sh'));
@@ -1428,12 +1463,16 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
       expect(content, contains('SAKINAH_E2E_SKIP_ANDROID_LAUNCH'));
       expect(content, contains('android-arm64'));
       expect(readiness, contains('Local e2e gate'));
+      expect(readiness, contains('SAKINAH_E2E_PROFILE=fast'));
       expect(readiness, contains('Google Analytics DebugView QA packet'));
+      expect(readiness, contains('Google Play closed-test setup packet'));
       expect(readiness, contains('Day 0 / Day 1 operator packet'));
       expect(readiness, contains('actions/checkout@v6'));
       expect(readiness, contains('Node 24-compatible checkout'));
       expect(acceptance, contains('scripts/verify_local_e2e.sh'));
+      expect(acceptance, contains('fast profile'));
       expect(acceptance, contains('Google Analytics DebugView QA packet'));
+      expect(acceptance, contains('Google Play closed-test setup packet'));
       expect(acceptance, contains('Day 0 / Day 1 operator packet'));
 
       expect(workflow.existsSync(), isTrue);
@@ -1446,6 +1485,7 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
       expect(workflowContent, contains('subosito/flutter-action'));
       expect(workflowContent, contains('python3 -m pip install --user pillow'));
       expect(workflowContent, contains('scripts/verify_local_e2e.sh'));
+      expect(workflowContent, contains('SAKINAH_E2E_PROFILE: "ci"'));
       expect(workflowContent, contains('SAKINAH_E2E_SKIP_ANDROID_LAUNCH'));
       expect(workflowContent, contains('SAKINAH_E2E_SKIP_FLUTTER_TEST'));
       expect(workflowContent,
@@ -1994,6 +2034,350 @@ short_delay_prayer,SC65XWPZ7DLNUSTC,prayer,delivered,pending_manual_observation,
         contains('export_google_play_upload_packet.sh'),
       );
       expect(versionNotes, contains('Google Play upload evidence packet'));
+    });
+
+    test('Google Play closed-test setup evidence packet can be exported', () {
+      final script =
+          File('scripts/export_google_play_closed_test_setup_packet.sh');
+      final docsIndex = File('docs/00_DOCS_INDEX.md').readAsStringSync();
+      final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
+          .readAsStringSync();
+      final launchPack = File('docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md')
+          .readAsStringSync();
+      final runbook = File('docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md')
+          .readAsStringSync();
+      final versionNotes = File('docs/release/08_VERSION_AND_RELEASE_NOTES.md')
+          .readAsStringSync();
+      final acceptance =
+          File('docs/testing/01_ACCEPTANCE_CHECKLIST.md').readAsStringSync();
+      final localE2e = File('scripts/verify_local_e2e.sh').readAsStringSync();
+
+      expect(script.existsSync(), isTrue);
+      final mode = script.statSync().mode;
+      expect(mode & 0x49, isNonZero);
+
+      final content = script.readAsStringSync();
+      expect(content, contains('build/play-closed-test-setup'));
+      expect(content, contains('closed_test_setup_checklist.md'));
+      expect(content, contains('closed_test_setup_evidence.csv'));
+      expect(content, contains('closed_test_tester_links.csv'));
+      expect(content, contains('closed_test_group_binding_evidence.csv'));
+      expect(content, contains('closed_test_feedback_channel_evidence.csv'));
+      expect(content, contains('closed_test_release_artifact_evidence.csv'));
+      expect(content, contains('closed_test_external_blockers.csv'));
+      expect(content, contains('SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_GOOGLE_GROUP_CREATED'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_TRACK_BOUND'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_READY'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_RELEASE_DRAFT_READY'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_TESTER_LINKS_REVIEWED'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_GROUP_EVIDENCE'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_TRACK_EVIDENCE'));
+      expect(
+          content, contains('SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_EVIDENCE'));
+      expect(
+          content, contains('SAKINAH_CLOSED_TEST_RELEASE_ARTIFACT_EVIDENCE'));
+      expect(content, contains('SAKINAH_CLOSED_TEST_TESTER_LINKS_EVIDENCE'));
+      expect(
+        content,
+        contains('validate_completed_closed_test_setup_evidence'),
+      );
+      expect(content, contains('sakinah-daily-testers@googlegroups.com'));
+      expect(content, contains('com.sakinahdaily.app'));
+      expect(content, contains('No tester personal data'));
+
+      final templateRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_closed_test_setup_packet.sh'],
+        environment: {'PATH': Platform.environment['PATH'] ?? ''},
+        includeParentEnvironment: false,
+      );
+      expect(templateRun.exitCode, 0);
+      expect(templateRun.stderr.toString(), isEmpty);
+      expect(
+        templateRun.stdout.toString(),
+        contains('Google Play closed-test setup packet exported'),
+      );
+
+      final manifest =
+          File('build/play-closed-test-setup/manifest.txt').readAsStringSync();
+      final checklist =
+          File('build/play-closed-test-setup/closed_test_setup_checklist.md')
+              .readAsStringSync();
+      final setupEvidence =
+          File('build/play-closed-test-setup/closed_test_setup_evidence.csv')
+              .readAsStringSync();
+      final testerLinks =
+          File('build/play-closed-test-setup/closed_test_tester_links.csv')
+              .readAsStringSync();
+      final groupBinding = File(
+        'build/play-closed-test-setup/closed_test_group_binding_evidence.csv',
+      ).readAsStringSync();
+      final feedbackChannel = File(
+        'build/play-closed-test-setup/closed_test_feedback_channel_evidence.csv',
+      ).readAsStringSync();
+      final releaseArtifact = File(
+        'build/play-closed-test-setup/closed_test_release_artifact_evidence.csv',
+      ).readAsStringSync();
+      final blockers =
+          File('build/play-closed-test-setup/closed_test_external_blockers.csv')
+              .readAsStringSync();
+
+      expect(manifest, contains('Google Play closed-test setup packet'));
+      expect(manifest, contains('com.sakinahdaily.app'));
+      expect(manifest, contains('No tester personal data'));
+      expect(
+        manifest,
+        contains('Closed-test setup evidence inputs: not requested'),
+      );
+      expect(manifest, contains('closed_test_setup_checklist.md'));
+      expect(manifest, contains('closed_test_tester_links.csv'));
+      expect(
+        manifest,
+        contains('docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md'),
+      );
+      expect(
+        manifest,
+        contains('docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md'),
+      );
+
+      expect(checklist, contains('Google Group'));
+      expect(checklist, contains('Closed testing track'));
+      expect(checklist, contains('feedback channel'));
+      expect(checklist, contains('AAB'));
+      expect(
+        checklist,
+        contains('https://groups.google.com/g/sakinah-daily-testers'),
+      );
+      expect(
+        checklist,
+        contains('https://play.google.com/apps/testing/com.sakinahdaily.app'),
+      );
+      expect(checklist, contains('No tester personal data'));
+      expect(
+        setupEvidence,
+        contains('setup_area,status,evidence_owner,evidence_path,privacy_rule'),
+      );
+      expect(
+        setupEvidence,
+        contains('google_group,pending_play_console_action'),
+      );
+      expect(
+        setupEvidence,
+        contains('closed_testing_track,pending_play_console_action'),
+      );
+      expect(
+        testerLinks,
+        contains('link_type,url,status,share_order,privacy_rule'),
+      );
+      expect(testerLinks, contains('google_group'));
+      expect(testerLinks, contains('play_opt_in'));
+      expect(testerLinks, contains('store_listing'));
+      expect(groupBinding, contains('group_email,group_url,join_policy'));
+      expect(groupBinding, contains('sakinah-daily-testers@googlegroups.com'));
+      expect(feedbackChannel, contains('feedback_channel,channel_type,status'));
+      expect(feedbackChannel, contains('SAKINAH_PLAY_TESTING_FEEDBACK'));
+      expect(
+        releaseArtifact,
+        contains('artifact_type,package_name,version_name'),
+      );
+      expect(releaseArtifact, contains('app-release.aab.sha256'));
+      expect(blockers, contains('blocker_area,status,next_action'));
+      expect(blockers, contains('pending_manual_observation'));
+
+      final strictRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_closed_test_setup_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictRun.exitCode, isNot(0));
+      expect(
+        strictRun.stderr.toString(),
+        contains('Google Play closed-test setup packet failed'),
+      );
+      expect(
+        strictRun.stderr.toString(),
+        contains('SAKINAH_CLOSED_TEST_GOOGLE_GROUP_CREATED=true'),
+      );
+
+      final strictWithoutEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_closed_test_setup_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY': 'true',
+          'SAKINAH_CLOSED_TEST_GOOGLE_GROUP_CREATED': 'true',
+          'SAKINAH_CLOSED_TEST_TRACK_BOUND': 'true',
+          'SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_READY': 'true',
+          'SAKINAH_CLOSED_TEST_RELEASE_DRAFT_READY': 'true',
+          'SAKINAH_CLOSED_TEST_TESTER_LINKS_REVIEWED': 'true',
+        },
+        includeParentEnvironment: false,
+      );
+      expect(strictWithoutEvidenceRun.exitCode, isNot(0));
+      expect(
+        strictWithoutEvidenceRun.stderr.toString(),
+        contains('SAKINAH_CLOSED_TEST_GROUP_EVIDENCE must point'),
+      );
+
+      final strictEvidenceDir = Directory.systemTemp.createTempSync(
+        'sakinah_closed_test_setup_evidence_',
+      );
+      addTearDown(() {
+        if (strictEvidenceDir.existsSync()) {
+          strictEvidenceDir.deleteSync(recursive: true);
+        }
+      });
+      final groupEvidence =
+          File('${strictEvidenceDir.path}/closed_test_group_evidence.csv')
+            ..writeAsStringSync('''
+group_email,group_url,join_policy,member_visibility,status,evidence_path,privacy_rule
+sakinah-daily-testers@googlegroups.com,https://groups.google.com/g/sakinah-daily-testers,anyone_can_join,members_only,created,play-console/group-settings.png,No tester personal data
+''');
+      final trackEvidence =
+          File('${strictEvidenceDir.path}/closed_test_track_evidence.csv')
+            ..writeAsStringSync('''
+package_name,track_name,tester_group,status,countries_scope,evidence_path,privacy_rule
+com.sakinahdaily.app,closed-testing,sakinah-daily-testers@googlegroups.com,bound,broad,play-console/closed-track-testers.png,No tester personal data
+''');
+      final feedbackEvidence = File(
+        '${strictEvidenceDir.path}/closed_test_feedback_channel_evidence.csv',
+      )..writeAsStringSync('''
+feedback_channel,channel_type,status,evidence_path,privacy_rule
+support@sakinahdaily.app,email,configured,play-console/testing-feedback.png,No tester personal data
+''');
+      final releaseEvidence = File(
+        '${strictEvidenceDir.path}/closed_test_release_artifact_evidence.csv',
+      )..writeAsStringSync('''
+artifact_type,package_name,version_name,version_code,sha256,status,evidence_path
+aab,com.sakinahdaily.app,0.1.0,1,sha256:reviewed-closed-test-build,uploaded,build/play-internal/app-release.aab.sha256
+''');
+      final linksEvidence = File(
+          '${strictEvidenceDir.path}/closed_test_tester_links_evidence.csv')
+        ..writeAsStringSync('''
+link_type,url,status,share_order,privacy_rule
+google_group,https://groups.google.com/g/sakinah-daily-testers,reviewed,1,No tester personal data
+play_opt_in,https://play.google.com/apps/testing/com.sakinahdaily.app,reviewed,2,No tester personal data
+store_listing,https://play.google.com/store/apps/details?id=com.sakinahdaily.app,reviewed,3,No tester personal data
+''');
+
+      final strictEvidenceRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_closed_test_setup_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY': 'true',
+          'SAKINAH_CLOSED_TEST_GOOGLE_GROUP_CREATED': 'true',
+          'SAKINAH_CLOSED_TEST_TRACK_BOUND': 'true',
+          'SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_READY': 'true',
+          'SAKINAH_CLOSED_TEST_RELEASE_DRAFT_READY': 'true',
+          'SAKINAH_CLOSED_TEST_TESTER_LINKS_REVIEWED': 'true',
+          'SAKINAH_CLOSED_TEST_GROUP_EVIDENCE': groupEvidence.path,
+          'SAKINAH_CLOSED_TEST_TRACK_EVIDENCE': trackEvidence.path,
+          'SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_EVIDENCE':
+              feedbackEvidence.path,
+          'SAKINAH_CLOSED_TEST_RELEASE_ARTIFACT_EVIDENCE': releaseEvidence.path,
+          'SAKINAH_CLOSED_TEST_TESTER_LINKS_EVIDENCE': linksEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(
+        strictEvidenceRun.exitCode,
+        0,
+        reason: '${strictEvidenceRun.stdout}\n${strictEvidenceRun.stderr}',
+      );
+      final strictManifest =
+          File('build/play-closed-test-setup/manifest.txt').readAsStringSync();
+      expect(
+        strictManifest,
+        contains('Closed-test setup evidence inputs: validated'),
+      );
+      expect(
+        File('build/play-closed-test-setup/completed-evidence/closed_test_group_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+      expect(
+        File('build/play-closed-test-setup/completed-evidence/closed_test_track_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+      expect(
+        File('build/play-closed-test-setup/completed-evidence/closed_test_feedback_channel_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+      expect(
+        File('build/play-closed-test-setup/completed-evidence/closed_test_release_artifact_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+      expect(
+        File('build/play-closed-test-setup/completed-evidence/closed_test_tester_links_evidence.csv')
+            .existsSync(),
+        isTrue,
+      );
+
+      groupEvidence.writeAsStringSync('''
+group_email,group_url,join_policy,member_visibility,status,evidence_path,privacy_rule
+TBD,pending_play_console_action,record_manually,unknown,pending,record_manually,No tester personal data
+''');
+      final placeholderRun = Process.runSync(
+        'bash',
+        ['scripts/export_google_play_closed_test_setup_packet.sh'],
+        environment: {
+          'PATH': Platform.environment['PATH'] ?? '',
+          'SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY': 'true',
+          'SAKINAH_CLOSED_TEST_GOOGLE_GROUP_CREATED': 'true',
+          'SAKINAH_CLOSED_TEST_TRACK_BOUND': 'true',
+          'SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_READY': 'true',
+          'SAKINAH_CLOSED_TEST_RELEASE_DRAFT_READY': 'true',
+          'SAKINAH_CLOSED_TEST_TESTER_LINKS_REVIEWED': 'true',
+          'SAKINAH_CLOSED_TEST_GROUP_EVIDENCE': groupEvidence.path,
+          'SAKINAH_CLOSED_TEST_TRACK_EVIDENCE': trackEvidence.path,
+          'SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_EVIDENCE':
+              feedbackEvidence.path,
+          'SAKINAH_CLOSED_TEST_RELEASE_ARTIFACT_EVIDENCE': releaseEvidence.path,
+          'SAKINAH_CLOSED_TEST_TESTER_LINKS_EVIDENCE': linksEvidence.path,
+        },
+        includeParentEnvironment: false,
+      );
+      expect(placeholderRun.exitCode, isNot(0));
+      expect(
+        placeholderRun.stderr.toString(),
+        contains(
+          'completed closed-test setup evidence still contains placeholder',
+        ),
+      );
+
+      expect(
+        docsIndex,
+        contains('export_google_play_closed_test_setup_packet.sh'),
+      );
+      expect(readiness, contains('Google Play closed-test setup packet'));
+      expect(readiness, contains('SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY'));
+      expect(
+        launchPack,
+        contains('export_google_play_closed_test_setup_packet.sh'),
+      );
+      expect(launchPack, contains('SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY'));
+      expect(
+        runbook,
+        contains('export_google_play_closed_test_setup_packet.sh'),
+      );
+      expect(runbook, contains('build/play-closed-test-setup'));
+      expect(versionNotes, contains('Google Play closed-test setup packet'));
+      expect(versionNotes, contains('Closed-test setup evidence inputs'));
+      expect(
+        localE2e,
+        contains('export_google_play_closed_test_setup_packet.sh'),
+      );
+      expect(localE2e, contains('SAKINAH_E2E_SKIP_CLOSED_TEST_SETUP_PACKET'));
+      expect(acceptance, contains('Google Play closed-test setup packet'));
     });
 
     test('Google Play Console submission pack is scripted and documented', () {

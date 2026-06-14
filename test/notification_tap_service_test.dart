@@ -31,6 +31,7 @@ void main() {
     expect(result.handled, isTrue);
     expect(result.route, '/prayer');
     expect(result.analyticsContentType, 'prayer');
+    expect(result.resolutionOutcome, 'resolved');
     expect(result.flags, contains('notification_tap_fallback_prayer'));
   });
 
@@ -43,6 +44,7 @@ void main() {
     expect(result.handled, isTrue);
     expect(result.route, '/session/session_morning_ease');
     expect(result.analyticsContentType, 'daily_session');
+    expect(result.resolutionOutcome, 'resolved');
     expect(result.flags, isEmpty);
   });
 
@@ -56,6 +58,7 @@ void main() {
     expect(result.handled, isTrue);
     expect(result.route, '/quran/94:5');
     expect(result.analyticsContentType, 'quran');
+    expect(result.resolutionOutcome, 'resolved');
     expect(result.flags, isEmpty);
   });
 
@@ -65,6 +68,7 @@ void main() {
     expect(result.handled, isFalse);
     expect(result.route, isNull);
     expect(result.analyticsContentType, isNull);
+    expect(result.resolutionOutcome, 'malformed_payload');
     expect(result.flags, contains('malformed_payload'));
   });
 
@@ -79,6 +83,7 @@ void main() {
     expect(result.handled, isTrue);
     expect(result.route, '/home');
     expect(result.analyticsContentType, 'daily_session');
+    expect(result.resolutionOutcome, 'fallback_route_used');
     expect(result.flags, contains('missing_content'));
     expect(result.flags, contains('fallback_route_used'));
   });

@@ -108,10 +108,14 @@ Allowed parameters are intentionally coarse: reminder type, enabled state,
 controlled source, coarse outcome, scheduled count, lead-time offset where
 relevant, session ID for the local daily session reminder loop, coarse
 notification content type for opens, and coarse tap outcome for handled or
-unhandled local notification taps. Local push payload resolution also records a
-coarse `local_push_resolution_result` so missing content, malformed payloads,
-fallback routes, and opened payloads can be reviewed separately from the final
-navigation/open rate.
+unhandled local notification taps. Local push payload resolution records a
+separate `local_push_resolution_result` so resolved, fallback route used,
+direct route fallback, missing content, and malformed payload outcomes can be
+reviewed separately from the final `notification_tap_result` navigation/open
+rate. The DebugView evidence row should cover
+`resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload`
+without adding raw payload, route, content ID, prayer name, body copy, or
+religious text.
 
 The analytics contract blocks raw notification payloads, routes, exact
 scheduled local times, exact reminder times, lock-screen body copy, coordinates,
@@ -123,6 +127,10 @@ other free text.
 
 - Use the Google Analytics DebugView QA packet to confirm event names and
   allowed parameters before any analytics-enabled closed-test QA.
+- Confirm `notification_tap_result.change_type` describes the final tap result
+  while `local_push_resolution_result.change_type` describes payload/content
+  resolution only: resolved, fallback route used, direct route fallback,
+  missing content, or malformed payload.
 - Use the Android OEM reminder observation packet for 8-hour, 24-hour, reboot,
   battery-policy, and notification-permission-state evidence.
 - Use the dev-only Notification Settings smoke controls only in dev builds with

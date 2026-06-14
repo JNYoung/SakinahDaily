@@ -185,6 +185,13 @@ require_executable scripts/verify_google_play_public_links_packet.sh
 require_executable scripts/verify_google_play_store_assets.sh
 require_executable scripts/export_google_play_upload_packet.sh
 
+launch_evidence_inputs_validated="false"
+if [[ "${SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE:-false}" == "true" || \
+  "${SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_READY:-false}" == "true" ]]; then
+  require_launch_evidence_inputs
+  launch_evidence_inputs_validated="true"
+fi
+
 scripts/verify_google_play_submission_pack.sh
 scripts/verify_google_play_public_links_packet.sh
 scripts/verify_google_play_store_assets.sh
@@ -254,9 +261,7 @@ for needle in \
   require_text "$public_links_manifest" "$needle"
 done
 
-if [[ "${SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_EVIDENCE:-false}" == "true" || \
-  "${SAKINAH_REQUIRE_CLOSED_TEST_LAUNCH_READY:-false}" == "true" ]]; then
-  require_launch_evidence_inputs
+if [[ "$launch_evidence_inputs_validated" == "true" ]]; then
   printf 'Closed-test launch evidence inputs: validated\n'
 fi
 

@@ -28,6 +28,18 @@ Status: Draft for release/store review.
   verifier scripts, feature graphic, screenshots, AAB checksum, and a manifest
   into `build/play-upload`, while strict mode delegates to the upload preflight
   and strict store-asset gate before export.
+- [x] Google Play closed-test setup packet exists at
+  `scripts/export_google_play_closed_test_setup_packet.sh`; template mode
+  writes `build/play-closed-test-setup` with the Google Group, Closed testing
+  track binding, Testing feedback channel, release artifact, tester links, and
+  external blocker CSVs. Strict mode uses
+  `SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY=true` plus completed
+  `SAKINAH_CLOSED_TEST_GROUP_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_TRACK_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_RELEASE_ARTIFACT_EVIDENCE`, and
+  `SAKINAH_CLOSED_TEST_TESTER_LINKS_EVIDENCE`; placeholder rows such as `TBD`,
+  `pending_play_console_action`, `record_manually`, and `unknown` cannot pass.
 - [x] Android upload keystore setup helper exists at
   `scripts/create_android_upload_keystore.sh` with a documented flow in
   `docs/release/10_ANDROID_UPLOAD_SIGNING_SETUP.md`; it requires explicit local
@@ -196,10 +208,15 @@ Status: Draft for release/store review.
   reboot restore, battery review, and a human observation owner are confirmed.
 - [x] Local e2e gate exists at `scripts/verify_local_e2e.sh`; it runs
   `flutter test`, `dart analyze`, Play submission/public-links template gates,
-  the Google Analytics DebugView QA packet, the Day 0 / Day 1 operator packet,
-  the reviewed content pack readiness packet, the Android OEM reminder
-  observation packet, optional internal release gate, and Android launch smoke
-  when an Android device is available.
+  the Google Play closed-test setup packet, the Google Analytics DebugView QA
+  packet, the Day 0 / Day 1 operator packet, the reviewed content pack
+  readiness packet, the Android OEM reminder observation packet, optional
+  internal release gate, and Android launch smoke when an Android device is
+  available. Use `SAKINAH_E2E_PROFILE=full` for the complete local gate,
+  `SAKINAH_E2E_PROFILE=ci` for PR/hosted CI without Android launch,
+  `SAKINAH_E2E_PROFILE=fast` after `flutter test` and `dart analyze` have
+  already passed in the same PR review, and `SAKINAH_E2E_PROFILE=release` when
+  the signed/internal release gate should be included.
 - [x] GitHub Actions local e2e workflow exists at
   `.github/workflows/local-e2e.yml`; it runs on pull requests and pushes to
   `main`, uses Node 24-compatible `actions/checkout@v6`, installs Flutter, and
@@ -529,6 +546,16 @@ Status: Draft for release/store review.
   privacy/data-safety drafts, Android manifest/build evidence, verifier
   scripts, feature graphic, screenshot evidence, checksum, and manifest for
   final pre-upload review.
+- [x] Google Play closed-test setup packet can be exported to
+  `build/play-closed-test-setup` with
+  `scripts/export_google_play_closed_test_setup_packet.sh`; the packet keeps
+  CSV templates for Google Group creation, Closed testing track binding,
+  Testing feedback setup, release artifact upload/draft status, tester-link
+  review order, and external blockers. `SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY=true`
+  validates completed setup evidence CSVs, copies them into
+  `build/play-closed-test-setup/completed-evidence`, and writes
+  `Closed-test setup evidence inputs: validated` only when placeholder rows and
+  tester personal data are absent.
 - [x] Production access answer draft exists at
   `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md`; it maps the closed test
   summary, intended users/value, aggregate feedback themes, changes made, and
@@ -600,6 +627,10 @@ Status: Draft for release/store review.
 - [x] `scripts/export_google_play_production_access_packet.sh` exports a
   template-mode Production access evidence packet at
   `build/play-production-access`.
+- [x] `scripts/export_google_play_closed_test_setup_packet.sh` exports a
+  template-mode Google Play closed-test setup packet at
+  `build/play-closed-test-setup` for Google Group, Closed testing track,
+  feedback channel, release artifact, and tester-link evidence.
 - [x] `scripts/verify_google_play_closed_test_launch_day.sh` passes in template
   mode for the closed-test launch day gate, including local upload packet,
   public links packet QA, store assets, tester invite copy, and the rule to
@@ -655,6 +686,11 @@ Status: Draft for release/store review.
   public privacy/feedback links, Play Console app-content/store-listing
   confirmations, Google Group, closed-track binding, signed AAB checksum, and
   strict visual assets are ready for final pre-upload review.
+- [ ] `SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY=true
+  scripts/export_google_play_closed_test_setup_packet.sh` passes after the
+  Google Group, Closed testing track binding, Testing feedback channel, first
+  release artifact, and tester-link share order have completed evidence CSVs
+  with no placeholders or tester personal data.
 - [ ] `SAKINAH_REQUIRE_PUBLIC_LINKS_HOSTING_READY=true
   scripts/export_google_play_public_links_packet.sh` passes after the reviewed
   privacy policy and feedback channel are hosted on real public HTTPS URLs and
