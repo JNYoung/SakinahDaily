@@ -60,7 +60,14 @@ MVP 第一阶段：
 flutter pub get
 dart analyze
 flutter test
-scripts/verify_local_e2e.sh
+SAKINAH_E2E_PROFILE=ci scripts/verify_local_e2e.sh
+```
+
+本地已经单独跑过 `flutter test` 和 `dart analyze` 后，复核 Android 启动或
+脚本控制流可用：
+
+```text
+SAKINAH_E2E_PROFILE=fast scripts/verify_local_e2e.sh
 ```
 
 GitHub Actions:
@@ -68,7 +75,7 @@ GitHub Actions:
 - `.github/workflows/local-e2e.yml` runs on `pull_request` and pushes to
   `main`.
 - The workflow installs stable Flutter, runs `flutter pub get`, then delegates
-  to `scripts/verify_local_e2e.sh`.
+  to `scripts/verify_local_e2e.sh` with `SAKINAH_E2E_PROFILE=ci`.
 - The workflow uses `actions/checkout@v6` so the CI wrapper stays compatible
   with GitHub Actions' Node 24 runtime.
 - CI skips Android launch smoke and release signing by default because GitHub

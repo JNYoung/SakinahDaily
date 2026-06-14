@@ -85,7 +85,7 @@ class _NotificationTapRouteListenerState
       {
         'content_type': _notificationTapContentType(result),
         'source': 'local_notification',
-        'change_type': _notificationTapChangeType(result),
+        'change_type': _localPushResolutionChangeType(result),
       },
     );
   }
@@ -132,6 +132,18 @@ class _NotificationTapRouteListenerState
     }
 
     return result.handled ? 'missing_route' : 'unhandled';
+  }
+
+  String _localPushResolutionChangeType(NotificationTapResult result) {
+    final outcome = result.resolutionOutcome;
+    if (outcome != null && outcome.isNotEmpty) {
+      return outcome;
+    }
+    final route = result.route;
+    if (result.handled && route != null && route.isNotEmpty) {
+      return 'resolved';
+    }
+    return _notificationTapChangeType(result);
   }
 
   Future<void> _resolveLaunchPayload() async {

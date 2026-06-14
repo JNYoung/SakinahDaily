@@ -19,6 +19,7 @@ scripts/export_google_play_public_links_packet.sh
 scripts/verify_google_play_public_links_packet.sh
 scripts/export_google_analytics_debugview_packet.sh
 scripts/export_google_play_upload_packet.sh
+scripts/export_google_play_closed_test_setup_packet.sh
 scripts/verify_google_play_submission_pack.sh
 scripts/verify_google_play_production_access_pack.sh
 scripts/export_google_play_production_access_packet.sh
@@ -132,6 +133,17 @@ Source: `docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md`.
 - Export `build/play-upload` with
   `scripts/export_google_play_upload_packet.sh` for final local review before
   creating or submitting the Closed testing release.
+- Export `build/play-closed-test-setup` with
+  `scripts/export_google_play_closed_test_setup_packet.sh` before inviting
+  testers. Template mode creates operator CSVs for the Google Group, Closed
+  testing track binding, Testing feedback channel, release artifact, tester
+  links, and external blockers. Strict mode requires
+  `SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY=true` plus completed evidence CSVs
+  for `SAKINAH_CLOSED_TEST_GROUP_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_TRACK_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_EVIDENCE`,
+  `SAKINAH_CLOSED_TEST_RELEASE_ARTIFACT_EVIDENCE`, and
+  `SAKINAH_CLOSED_TEST_TESTER_LINKS_EVIDENCE`.
 - Add `sakinah-daily-testers@googlegroups.com` to the Closed testing track.
 - Configure Testing feedback with the same final email or URL supplied through
   `SAKINAH_PLAY_TESTING_FEEDBACK`.
@@ -212,6 +224,9 @@ available:
 - Google Play upload evidence packet:
   `build/play-upload`, exported by
   `scripts/export_google_play_upload_packet.sh`.
+- Google Play closed-test setup packet:
+  `build/play-closed-test-setup`, exported by
+  `scripts/export_google_play_closed_test_setup_packet.sh`.
 - Data safety draft:
   `docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md`.
 - Privacy policy draft:

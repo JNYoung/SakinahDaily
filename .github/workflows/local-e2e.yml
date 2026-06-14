@@ -33,6 +33,7 @@ jobs:
 
       - name: Run local e2e gate
         env:
+          SAKINAH_E2E_PROFILE: "ci"
           SAKINAH_E2E_SKIP_ANDROID_LAUNCH: "true"
           SAKINAH_E2E_RUN_RELEASE_GATE: "false"
           SAKINAH_E2E_SKIP_FLUTTER_TEST: "false"

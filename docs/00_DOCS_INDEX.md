@@ -68,11 +68,11 @@
 | `docs/release/06_PERMISSION_AND_DATA_SAFETY_REVIEW.md` | 权限与 data safety 一致性复核 |
 | `docs/release/07_BUILD_FLAVORS_AND_DART_DEFINE.md` | dev/staging/prod dart-define 配置 |
 | `docs/release/08_VERSION_AND_RELEASE_NOTES.md` | 版本号、构建号与 release notes 候选 |
-| `docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md` | Google Play 封闭测试群组、测试链接、反馈和 12/14 天准备包 |
+| `docs/release/09_GOOGLE_PLAY_CLOSED_TESTING.md` | Google Play 封闭测试群组、测试链接、反馈、`scripts/export_google_play_closed_test_setup_packet.sh` 设置证据包和 12/14 天准备包 |
 | `docs/release/10_ANDROID_UPLOAD_SIGNING_SETUP.md` | Android upload keystore 生成、保管和 Play 上传签名准备 |
 | `docs/release/11_PLAY_PUBLIC_LINKS_AND_FEEDBACK.md` | Google Play 隐私政策 URL 与测试反馈入口托管准备 |
 | `docs/release/12_CLOSED_TESTING_EVIDENCE_LOG.md` | Google Play 封闭测试 12/14 天证据日志、反馈主题和 Production access 答案草稿 |
-| `docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md` | Google Play Console 提交包、App content、商店列表、闭测 release、`scripts/export_google_play_upload_packet.sh` 上传证据包和人工确认 gate |
+| `docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md` | Google Play Console 提交包、App content、商店列表、闭测 release、`scripts/export_google_play_upload_packet.sh` 上传证据包、`scripts/export_google_play_closed_test_setup_packet.sh` 闭测设置证据包和人工确认 gate |
 | `docs/release/14_PRODUCTION_ACCESS_ANSWER_DRAFT.md` | Google Play Production access 回答草稿、证据链接、严格模式 gate，以及 `scripts/export_google_play_production_access_packet.sh` 本地证据包导出 |
 | `docs/release/15_PUBLIC_LINKS_HOSTING_PACKET.md` | Google Play 隐私政策和测试反馈公开链接静态托管包、严格公网 URL gate |
 | `docs/release/16_CLOSED_TEST_LAUNCH_DAY_CHECKLIST.md` | Google Play 封闭测试上线当天 checklist、群组优先分享顺序、tester link 复核、`scripts/verify_google_play_closed_test_launch_day.sh` 和 Day 0 / Day 1 操作员包 `scripts/export_google_play_day0_day1_operator_packet.sh` |

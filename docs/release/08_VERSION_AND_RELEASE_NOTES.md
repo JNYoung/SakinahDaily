@@ -50,6 +50,15 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
 - Google Play upload evidence packet:
   `build/play-upload`, exported by
   `scripts/export_google_play_upload_packet.sh`.
+- Google Play closed-test setup packet:
+  `build/play-closed-test-setup`, exported by
+  `scripts/export_google_play_closed_test_setup_packet.sh`; template mode
+  captures Google Group creation, Closed testing track binding, Testing
+  feedback setup, release artifact upload/draft status, tester-link share
+  order, and external blocker evidence. Strict mode uses
+  `SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY=true` and writes
+  `Closed-test setup evidence inputs: validated` only after completed evidence
+  CSVs contain no placeholders and no tester personal data.
 - Android upload signing setup:
   `docs/release/10_ANDROID_UPLOAD_SIGNING_SETUP.md`.
 - public privacy/feedback links:
@@ -152,6 +161,10 @@ Sakinah Daily v0.1 is a privacy-first daily prayer companion focused on:
   privacy/feedback links, Google Group, closed-track binding, signed AAB
   checksum, visual evidence, and app-content/store-listing confirmations are
   ready.
+- Google Play closed-test setup packet strict mode after Google Group creation,
+  closed-track binding, Testing feedback channel setup, first release artifact
+  upload/draft, and tester-link review have completed CSV evidence with no
+  template placeholders or tester personal data.
 - closed-test launch day gate strict mode after the closed-testing release is
   approved or live, the upload packet is reviewed, and final tester links are
   checked in Google Group first / Play opt-in second order. The strict gate now

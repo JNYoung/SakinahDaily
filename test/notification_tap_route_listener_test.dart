@@ -59,7 +59,7 @@ void main() {
         expect(localPushResolutionEvents.single.properties, {
           'content_type': scenario.expectedContentType,
           'source': 'local_notification',
-          'change_type': 'opened',
+          'change_type': 'resolved',
         });
 
         final container = _container(tester);
@@ -119,7 +119,7 @@ void main() {
     expect(localPushResolutionEvents.single.properties, {
       'content_type': 'prayer',
       'source': 'local_notification',
-      'change_type': 'opened',
+      'change_type': 'resolved',
     });
     expect(container.read(notificationTapResultProvider), isNull);
     expectNoFlutterErrors(tester);
@@ -175,6 +175,62 @@ void main() {
       'change_type': 'malformed_payload',
     });
     expect(container.read(notificationTapResultProvider), isNull);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('missing local push content records fallback resolution outcome',
+      (tester) async {
+    final notifications = LocalNotificationServiceStub()
+      ..launchPayload = _localPushPayload(
+        type: 'daily_session',
+        contentId: 'missing_session',
+        fallbackRoute: '/home',
+      );
+    final analytics = StubAnalyticsService(enabled: true);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/prayer',
+      settleSplash: false,
+      notificationService: notifications,
+      analyticsService: analytics,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.homeContentList), findsOneWidget);
+    final notificationTapEvents = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.notificationTapOpened)
+        .toList();
+    final notificationTapResultEvents = analytics.events
+        .where((event) =>
+            event.name == AnalyticsEventCatalog.notificationTapResult)
+        .toList();
+    final localPushResolutionEvents = analytics.events
+        .where(
+          (event) =>
+              event.name == AnalyticsEventCatalog.localPushResolutionResult,
+        )
+        .toList();
+
+    expect(notificationTapEvents, hasLength(1));
+    expect(notificationTapEvents.single.properties, {
+      'content_type': 'daily_session',
+      'source': 'local_notification',
+    });
+    expect(notificationTapResultEvents, hasLength(1));
+    expect(notificationTapResultEvents.single.properties, {
+      'content_type': 'daily_session',
+      'source': 'local_notification',
+      'change_type': 'opened',
+    });
+    expect(localPushResolutionEvents, hasLength(1));
+    expect(localPushResolutionEvents.single.properties, {
+      'content_type': 'daily_session',
+      'source': 'local_notification',
+      'change_type': 'fallback_route_used',
+    });
+    expect(_container(tester).read(notificationTapResultProvider), isNull);
     expectNoFlutterErrors(tester);
   });
 

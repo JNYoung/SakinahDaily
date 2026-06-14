@@ -20,8 +20,15 @@
   待发反馈，全部完成后显示 all sent 状态。
 - [x] App 不像工具堆叠，而像 daily prayer companion。
 - [x] 本地 e2e 总闸脚本 `scripts/verify_local_e2e.sh` 可无人值守运行测试、analyzer、
-  Play 模板门禁、Google Analytics DebugView QA packet、Day 0 / Day 1 operator packet、
-  内容 readiness、Android OEM reminder observation packet 和 Android launch smoke。
+  Play 模板门禁、Google Play closed-test setup packet、Google Analytics DebugView QA packet、
+  Day 0 / Day 1 operator packet、内容 readiness、Android OEM reminder observation packet
+  和 Android launch smoke；脚本支持 `full` / `ci` / `fast profile` / `release`
+  四种 profile，已经单独跑过 `flutter test` 与 `dart analyze` 后可用
+  `SAKINAH_E2E_PROFILE=fast` 避免重复测试和证据包导出。
+- [x] Google Play closed-test setup packet 可导出 Google Group、Closed testing
+  track、Testing feedback、release artifact、tester links 和外部 blocker
+  模板；strict mode 需要 completed CSV evidence 且不能包含 `TBD`、
+  `pending_play_console_action`、`record_manually` 或 tester personal data。
 - [x] Day 0 / Day 1 operator packet 的 completed-evidence mode 要求填写
   aggregate status 和 Day 1 feedback CSV evidence，模板 `TBD`/placeholder
   不能通过 completed gate。

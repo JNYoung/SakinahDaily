@@ -159,6 +159,7 @@ for needle in \
   'local_push_resolution_result'; do
   require_text "$push_audit_doc" "$needle"
 done
+require_text "$push_audit_doc" 'resolved, fallback route used'
 
 require_text "$docs_index" '18_PUSH_MODULE_COMPLETION_AUDIT.md'
 require_text "$docs_index" 'export_push_module_completion_audit.sh'
@@ -185,11 +186,14 @@ require_text "$daily_session_reminder_toggle_flow" 'dailySessionReminderPermissi
 require_text "$daily_session_reminder_toggle_flow" 'dailySessionReminderChanged'
 require_text "$notification_tap_listener" 'notificationTapOpened'
 require_text "$notification_tap_listener" 'notificationTapResult'
+require_text "$notification_tap_listener" '_localPushResolutionChangeType'
 require_text "$notification_service_test" 'privacy-safe tap payload'
 require_text "$notification_settings_test" 'notificationScheduleResult'
+require_text "$notification_tap_service_test" 'resolutionOutcome'
 require_text "$notification_tap_service_test" 'malformed notification payload'
 require_text "$notification_tap_route_test" 'notificationTapOpened'
 require_text "$notification_tap_route_test" 'notificationTapResult'
+require_text "$notification_tap_route_test" 'fallback resolution outcome'
 require_text "$analytics_test" 'notification_permission_prompt_viewed'
 
 strict_evidence_status="not requested"
@@ -249,6 +253,7 @@ if [[ "$require_strict" == "true" ]]; then
     notification_tap_result \
     notification_tap_opened \
     local_push_resolution_result \
+    'resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload' \
     passed \
     "No tester personal data"
   validate_completed_push_evidence \
@@ -310,7 +315,7 @@ android_permission_handling,complete,"requestPermissionAfterExplanation and open
 safe_lock_screen_copy,complete,"PrayerNotificationCopy and DailySessionNotificationCopy","notification_service_test.dart","notification_schedule_result","Women's Ibadah Mode exact status is not included"
 tap_routing,complete,"NotificationTapService and NotificationTapRouteListener","notification_tap_service_test.dart and notification_tap_route_listener_test.dart","notification_tap_opened","No raw payload, route, content ID, prayer name, or religious text"
 cold_start_and_tap_result,complete,"NotificationTapRouteListener tracks handled and unhandled local notification tap outcomes","notification_tap_route_listener_test.dart","notification_tap_result","No raw payload, route, content ID, prayer name, or religious text"
-local_push_resolution,complete,"NotificationTapRouteListener tracks local push payload resolution outcomes","notification_tap_route_listener_test.dart","local_push_resolution_result","No raw payload, route, content ID, prayer name, lock-screen body, or religious text"
+local_push_resolution,complete,"NotificationTapService carries resolutionOutcome and NotificationTapRouteListener tracks local push payload resolution outcomes","notification_tap_service_test.dart and notification_tap_route_listener_test.dart","local_push_resolution_result: resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload","No raw payload, route, content ID, prayer name, lock-screen body, or religious text"
 cold_start_payload,complete,"FlutterLocalNotificationService.takeLaunchPayload","notification_tap_route_listener_test.dart","notification_tap_opened","Launch payload is resolved once and cleared"
 settings_management,complete,"NotificationSettingsPage prayer and daily reminder controls","notification_settings_page_test.dart","notification_settings_viewed|prayer_reminder_changed|daily_session_reminder_changed","No exact reminder time is sent to analytics"
 dev_smoke_controls,complete,"Notification Settings QA smoke buttons guarded by SAKINAH_NOTIFICATION_QA_ENABLED","notification_settings_page_test.dart","notification_smoke_test_result","No raw payloads, scheduled local times, lock-screen body, or religious text"
@@ -331,7 +336,7 @@ daily_session_reminder_permission_result,daily session reminder permission outco
 daily_session_reminder_changed,daily session reminder preference change,"Settings, session_completion, home_session_completion","session_id|enabled|source|change_type","reminder_time|women_ibadah_status|feedback_text|note","Do completed-session surfaces create return intent?"
 notification_tap_result,local notification tap outcome,"foreground, background, and cold-start local notification tap handling","content_type|source=local_notification|change_type","payload|route|content_id|session_id|prayer_name|reminder_time|body|quran_arabic_text|women_ibadah_status|feedback_text","Do local notification taps open, fail parsing, or miss content without exposing raw payload data?"
 notification_tap_opened,local notification open,"foreground, background, and cold-start local notification taps","content_type|source=local_notification","payload|route|content_id|session_id|prayer_name|reminder_time|quran_arabic_text|women_ibadah_status|feedback_text","Do local reminders reopen the app without exposing raw payload data?"
-local_push_resolution_result,local push payload resolution,"foreground, background, and cold-start local push payload parsing and content resolution","content_type|source=local_notification|change_type","payload|route|content_id|session_id|prayer_name|reminder_time|body|quran_arabic_text|women_ibadah_status|feedback_text","Do local push payloads resolve, miss content, or fail parsing without exposing raw payload data?"
+local_push_resolution_result,local push payload resolution,"foreground, background, and cold-start local push payload parsing and content resolution","content_type|source=local_notification|change_type","payload|route|content_id|session_id|prayer_name|reminder_time|body|quran_arabic_text|women_ibadah_status|feedback_text","Do local push payloads resolve, use fallback, miss content, or fail parsing without exposing raw payload data? Expected change_type values: resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload"
 EOF
 
 cat >"$out_dir/push_privacy_blocklist.csv" <<'EOF'
@@ -380,7 +385,7 @@ daily_session_reminder_permission_result,session_id|enabled|source|change_type,r
 daily_session_reminder_changed,session_id|enabled|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
 notification_tap_result,content_type|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
 notification_tap_opened,content_type|source,record_manually,record_manually,pending_manual_observation,No tester personal data
-local_push_resolution_result,content_type|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data
+local_push_resolution_result,content_type|source|change_type,record_manually,record_manually,pending_manual_observation,No tester personal data; verify change_type values resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload
 EOF
 
 cat >"$out_dir/push_oem_owner_assignment.csv" <<'EOF'
@@ -405,6 +410,7 @@ Status: v0.1 本地提醒闭环完成；线上 server push 未纳入 MVP。
 ## 打点覆盖
 
 - Google Analytics DebugView 重点验证: `notification_settings_viewed`, `notification_permission_prompt_viewed`, `prayer_reminder_permission_result`, `prayer_reminder_changed`, `notification_schedule_result`, `notification_smoke_test_result`, `notification_permission_recovery_opened`, `daily_session_reminder_permission_result`, `daily_session_reminder_changed`, `notification_tap_result`, `notification_tap_opened`, `local_push_resolution_result`。
+- `notification_tap_result` 记录最终点击打开结果；`local_push_resolution_result` 记录 payload/content 解析结果。解析结果和点击打开结果分离，`local_push_resolution_result.change_type` 应覆盖 `resolved|fallback_route_used|direct_route_fallback|missing_content|malformed_payload`。
 - Android OEM reminder observation packet 继续覆盖 8h / 24h / reboot / battery policy 长窗口可靠性，不把模板证据当成真实送达。
 - No raw payloads, routes, coordinates, scheduled local times, exact reminder times, lock-screen copy, tester identity, Women's Ibadah Mode exact status, feedback text, or religious text should appear in analytics.
 

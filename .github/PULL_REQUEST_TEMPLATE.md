@@ -6,7 +6,7 @@
 
 - [ ] `flutter --no-version-check test`
 - [ ] `dart analyze`
-- [ ] `scripts/verify_local_e2e.sh`
+- [ ] `SAKINAH_E2E_PROFILE=fast scripts/verify_local_e2e.sh` after tests/analyzer, or `SAKINAH_E2E_PROFILE=ci scripts/verify_local_e2e.sh` for a full CI-equivalent local gate
 - [ ] Android launch smoke, if a device/emulator was available
 
 ## Tests / Analyzer Result

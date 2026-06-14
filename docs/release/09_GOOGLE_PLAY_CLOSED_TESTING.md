@@ -73,6 +73,7 @@ Before uploading the first candidate, run:
 ```sh
 scripts/verify_google_play_submission_pack.sh
 scripts/export_google_play_upload_packet.sh
+scripts/export_google_play_closed_test_setup_packet.sh
 scripts/verify_google_play_upload_preflight.sh
 ```
 
@@ -85,6 +86,32 @@ The upload evidence packet is exported to `build/play-upload` for local human
 review before the first Closed testing upload. Strict export mode should pass
 only after the same Play upload conditions and strict visual-asset evidence are
 ready.
+
+The closed-test setup packet is exported to `build/play-closed-test-setup` and
+captures the Play Console setup work that happens around the first upload:
+Google Group creation, Closed testing track binding, Testing feedback channel,
+release artifact upload/draft status, tester-link review order, and any
+external blocker. Template mode is safe to run before the Play Console work is
+done. Strict mode should pass only after completed CSV evidence is available:
+
+```sh
+SAKINAH_REQUIRE_CLOSED_TEST_SETUP_READY=true \
+SAKINAH_CLOSED_TEST_GOOGLE_GROUP_CREATED=true \
+SAKINAH_CLOSED_TEST_TRACK_BOUND=true \
+SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_READY=true \
+SAKINAH_CLOSED_TEST_RELEASE_DRAFT_READY=true \
+SAKINAH_CLOSED_TEST_TESTER_LINKS_REVIEWED=true \
+SAKINAH_CLOSED_TEST_GROUP_EVIDENCE=/path/to/closed_test_group_evidence.csv \
+SAKINAH_CLOSED_TEST_TRACK_EVIDENCE=/path/to/closed_test_track_evidence.csv \
+SAKINAH_CLOSED_TEST_FEEDBACK_CHANNEL_EVIDENCE=/path/to/closed_test_feedback_channel_evidence.csv \
+SAKINAH_CLOSED_TEST_RELEASE_ARTIFACT_EVIDENCE=/path/to/closed_test_release_artifact_evidence.csv \
+SAKINAH_CLOSED_TEST_TESTER_LINKS_EVIDENCE=/path/to/closed_test_tester_links_evidence.csv \
+scripts/export_google_play_closed_test_setup_packet.sh
+```
+
+Strict setup evidence must remain aggregate/operator evidence only and must keep
+`No tester personal data`. It rejects template placeholders such as `TBD`,
+`pending_play_console_action`, `record_manually`, and `unknown`.
 
 Google Play also exposes private Testing feedback in Play Console. Review it
 regularly during the test and keep a short issue/decision log for the later

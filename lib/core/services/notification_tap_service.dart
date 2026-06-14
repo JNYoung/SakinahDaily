@@ -50,12 +50,14 @@ class NotificationTapResult {
     required this.handled,
     required this.flags,
     this.analyticsContentType,
+    this.resolutionOutcome,
     this.route,
   });
 
   final bool handled;
   final String? route;
   final String? analyticsContentType;
+  final String? resolutionOutcome;
   final List<String> flags;
 }
 
@@ -100,6 +102,7 @@ class NotificationTapService {
     if (payload == null) {
       return const NotificationTapResult(
         handled: false,
+        resolutionOutcome: 'malformed_payload',
         flags: ['malformed_payload'],
       );
     }
@@ -115,6 +118,7 @@ class NotificationTapService {
         handled: true,
         route: '/prayer',
         analyticsContentType: 'prayer',
+        resolutionOutcome: 'resolved',
         flags: ['notification_tap_fallback_prayer'],
       );
     }
@@ -128,6 +132,7 @@ class NotificationTapService {
             handled: true,
             route: result.route,
             analyticsContentType: _analyticsContentType(payload.type),
+            resolutionOutcome: 'resolved',
             flags: result.flags,
           );
         }
@@ -136,6 +141,7 @@ class NotificationTapService {
             handled: true,
             route: payload.fallbackRoute,
             analyticsContentType: _analyticsContentType(payload.type),
+            resolutionOutcome: 'fallback_route_used',
             flags: [...result.flags, 'fallback_route_used'],
           );
         }
@@ -145,11 +151,14 @@ class NotificationTapService {
             handled: true,
             route: directRoute,
             analyticsContentType: _analyticsContentType(payload.type),
+            resolutionOutcome: 'direct_route_fallback',
             flags: [...result.flags, 'direct_route_fallback'],
           );
         }
         return NotificationTapResult(
           handled: false,
+          analyticsContentType: _analyticsContentType(payload.type),
+          resolutionOutcome: _resolutionOutcomeFromFlags(result.flags),
           flags: result.flags,
         );
       }
@@ -161,6 +170,7 @@ class NotificationTapService {
         handled: true,
         route: directRoute,
         analyticsContentType: _analyticsContentType(payload.type),
+        resolutionOutcome: 'direct_route_fallback',
         flags: const ['direct_route_fallback'],
       );
     }
@@ -170,13 +180,16 @@ class NotificationTapService {
         handled: true,
         route: payload.fallbackRoute,
         analyticsContentType: _analyticsContentType(payload.type),
+        resolutionOutcome: 'fallback_route_used',
         flags: const ['fallback_route_used'],
       );
     }
 
-    return const NotificationTapResult(
+    return NotificationTapResult(
       handled: false,
-      flags: ['notification_tap_missing_content'],
+      analyticsContentType: _analyticsContentType(payload.type),
+      resolutionOutcome: 'missing_content',
+      flags: const ['notification_tap_missing_content'],
     );
   }
 
@@ -212,3 +225,24 @@ class NotificationTapService {
 }
 
 String? _stringValue(Object? value) => value is String ? value : null;
+
+String _resolutionOutcomeFromFlags(List<String> flags) {
+  for (final flag in flags) {
+    final outcome = switch (flag) {
+      'malformed_payload' || 'missing_required_fields' => 'malformed_payload',
+      'missing_content' ||
+      'notification_tap_missing_content' =>
+        'missing_content',
+      'fallback_route_used' => 'fallback_route_used',
+      'direct_route_fallback' => 'direct_route_fallback',
+      'lock_screen_not_safe' => 'blocked_lock_screen',
+      'cycle_sensitive_lock_screen_copy' => 'blocked_cycle_sensitive_copy',
+      'unknown_type' => 'unknown_type',
+      _ => null,
+    };
+    if (outcome != null) {
+      return outcome;
+    }
+  }
+  return 'unhandled';
+}
