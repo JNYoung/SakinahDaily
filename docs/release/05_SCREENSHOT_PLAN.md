@@ -103,11 +103,13 @@ provided. It normalizes Android `screencap` output to RGB/no-alpha PNG so the
 strict visual-assets gate can reject alpha-channel screenshots before upload.
 
 Screenshot mode can still target the dev-only `/splash` brand screen for store
-asset capture, and the Android native launch artwork is kept visually aligned
-with that Flutter brand screen. Normal app launch no longer routes through
-Flutter `/splash`; Android native splash hands off directly to onboarding or
-Home. Override `SAKINAH_SCREENSHOT_SETTLE_SECONDS` only when manually reviewing
-startup timing.
+asset capture, and the shared native launch artwork lives at
+`assets/branding/sakinah_splash.png`. Android uses the same bitmap through
+`sakinah_native_splash.png`; iOS uses it through `SakinahSplash.imageset`.
+Normal app launch no longer routes through Flutter `/splash`; Android native
+splash hands off directly to onboarding or Home. Override
+`SAKINAH_SCREENSHOT_SETTLE_SECONDS` only when manually reviewing startup
+timing.
 
 Useful existing test keys:
 

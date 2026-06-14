@@ -5097,12 +5097,14 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(script, contains('build/store-screenshots/android'));
     });
 
-    test('Android icon and splash review evidence is documented', () {
+    test('native icon and splash review evidence is documented', () {
       final readiness = File('docs/release/01_RELEASE_READINESS_CHECKLIST.md')
           .readAsStringSync();
       final androidChecklist =
           File('docs/release/02_ANDROID_RELEASE_CHECKLIST.md')
               .readAsStringSync();
+      final iosChecklist =
+          File('docs/release/03_IOS_RELEASE_CHECKLIST.md').readAsStringSync();
       final screenshotPlan =
           File('docs/release/05_SCREENSHOT_PLAN.md').readAsStringSync();
       final productProgress =
@@ -5115,20 +5117,34 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
         contains('build/store-screenshots/android-assets/en-splash.png'),
       );
       expect(readiness, contains('27-screen Android phone matrix'));
+      expect(readiness, contains('assets/branding/sakinah_splash.png'));
+      expect(readiness, contains('SakinahSplash.imageset'));
       expect(androidChecklist, contains('## Android Asset Review'));
       expect(androidChecklist, contains('assets/branding/app_icon.png'));
+      expect(androidChecklist, contains('assets/branding/sakinah_splash.png'));
       expect(androidChecklist, contains('sakinah_native_splash.png'));
       expect(androidChecklist, contains('sakinah_splash_system_mark.xml'));
       expect(androidChecklist, contains('sakinah_splash_branding.png'));
       expect(
         androidChecklist,
-        contains('Flutter brand-screen artwork'),
+        contains('shared Flutter splash artwork'),
+      );
+      expect(iosChecklist, contains('LaunchScreen.storyboard'));
+      expect(iosChecklist, contains('com.sakinahdaily.app'));
+      expect(iosChecklist, contains('SakinahSplash.imageset'));
+      expect(iosChecklist, contains('assets/branding/sakinah_splash.png'));
+      expect(iosChecklist, contains('UILaunchStoryboardName'));
+      expect(
+        iosChecklist,
+        contains('matching the Android native splash bitmap'),
       );
       expect(
         androidChecklist,
         contains('build/store-screenshots/android-assets/en-splash.png'),
       );
       expect(screenshotPlan, contains('/splash'));
+      expect(screenshotPlan, contains('assets/branding/sakinah_splash.png'));
+      expect(screenshotPlan, contains('SakinahSplash.imageset'));
       expect(screenshotPlan, contains('SAKINAH_SCREENSHOT_SETTLE_SECONDS'));
       expect(screenshotPlan, contains('27 screenshots'));
       expect(screenshotPlan, contains('en-splash.png'));
@@ -5144,6 +5160,7 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       );
       expect(productProgress, contains('full 27-screen Android phone matrix'));
       expect(productProgress, contains('Splash / brand'));
+      expect(productProgress, contains('Android and iOS native splash'));
       expect(productProgress, contains('Quran safety screenshot evidence'));
     });
 
@@ -5876,12 +5893,12 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       );
       expect(
         readiness,
-        contains('Android native splash is the only normal launch splash'),
+        contains('Android and iOS native splash surfaces use the shared'),
       );
       expect(
         productProgress,
         contains(
-          'normal launch splash, but its artwork now matches the Flutter',
+          'Android and iOS native splash surfaces',
         ),
       );
       expect(
