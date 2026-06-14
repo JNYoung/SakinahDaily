@@ -102,9 +102,10 @@ writes a PNG under `build/store-screenshots/android/` unless an output path is
 provided. It normalizes Android `screencap` output to RGB/no-alpha PNG so the
 strict visual-assets gate can reject alpha-channel screenshots before upload.
 
-Screenshot mode keeps `/splash` on the Flutter brand screen instead of
-auto-advancing to onboarding. Override `SAKINAH_SCREENSHOT_SETTLE_SECONDS` only
-when manually reviewing startup timing.
+Screenshot mode can still target the dev-only `/splash` brand screen for store
+asset capture, but normal app launch no longer routes through Flutter `/splash`;
+Android native splash hands off directly to onboarding or Home. Override
+`SAKINAH_SCREENSHOT_SETTLE_SECONDS` only when manually reviewing startup timing.
 
 Useful existing test keys:
 

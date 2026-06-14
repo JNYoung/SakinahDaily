@@ -3,8 +3,8 @@
 ## 1. Product acceptance
 
 - [x] 用户可以完成 onboarding。
-- [x] 用户完成 onboarding 后，后续启动会从 Splash 回到 Home，不会重复强制
-  走 onboarding。
+- [x] 用户完成 onboarding 后，后续启动会在原生开屏后直接回到 Home，不再显示
+  第二个 Flutter 开屏，也不会重复强制走 onboarding。
 - [x] 用户可以在 Home 第一屏看到下一次礼拜、地点、计算方式和提醒状态。
 - [x] 用户可以查看 Fajr / Dhuhr / Asr / Maghrib / Isha 全天时间。
 - [x] 用户可以从 Prayer 页上下文动作进入 Qibla 方向页。

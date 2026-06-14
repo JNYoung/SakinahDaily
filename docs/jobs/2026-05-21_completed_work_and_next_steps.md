@@ -12,8 +12,11 @@ Workspace: `/Users/zhengjinyang/Documents/古兰经`
 - Widget/unit coverage now includes responsive layout, localization consistency, navigation flows, feature behavior, content service rules, push candidate rules, and the new splash screen.
 - The settings secondary-page routing issue was fixed so returning from women ibadah mode keeps the selected bottom tab and visible page aligned.
 - Indonesian and Arabic localization gaps were patched across the main onboarding, home, settings, dua, dhikr, prayer, and session surfaces.
-- The supplied Sakinah Daily artwork has been implemented as a native Flutter splash screen at `/splash`, with an automatic transition into onboarding.
-- Android native launch resources now use Sakinah static artwork and an Android 12+ Sakinah system splash icon, so the default Flutter template splash no longer flashes before the app splash.
+- Android native launch resources use Sakinah static artwork and an Android 12+
+  Sakinah system splash icon. Normal app launch now uses this native splash
+  only, then the first Flutter frame opens onboarding or Home directly from
+  local preferences; the Flutter `/splash` page is retained only as an explicit
+  dev/store-screenshot brand route.
 - App launcher icon assets were generated from the Sakinah icon direction for Android, Web, and macOS, with a tracked source at `assets/branding/app_icon.png`.
 - Branch `codex/prayer-prefs-notifications` adds real prayer settings, persistent user preferences, calculated prayer times, and a permission-aware local notification scheduling foundation.
 - User preferences now persist through a repository abstraction backed by `shared_preferences`, with fake in-memory storage for tests.

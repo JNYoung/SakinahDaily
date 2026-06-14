@@ -5,6 +5,7 @@ import 'package:sakinah_daily/app/sakinah_app.dart';
 import 'package:sakinah_daily/app/sakinah_router.dart';
 import 'package:sakinah_daily/core/config/app_environment.dart';
 import 'package:sakinah_daily/core/config/content_api_config.dart';
+import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/providers/app_providers.dart';
 import 'package:sakinah_daily/core/repositories/content_cache_repository.dart';
 import 'package:sakinah_daily/core/repositories/prayer_completion_repository.dart';
@@ -39,10 +40,20 @@ Future<void> pumpSakinahApp(
   SakinahAudioPlayer? audioPlayer,
   DateTime? currentDateTime,
 }) async {
-  final freezeSplashForScreenshot =
-      appEnvironmentConfig?.storeScreenshotModeEnabled == true &&
-          appEnvironmentConfig?.storeScreenshotInitialRoute == '/splash';
-
+  final effectivePreferencesStore =
+      preferencesStore ?? InMemoryUserPreferencesStore();
+  if (preferencesStore == null &&
+      appEnvironmentConfig?.storeScreenshotModeEnabled == true) {
+    await UserPreferencesRepository(effectivePreferencesStore).save(
+      UserPreferences.defaults().copyWith(
+        languageCode: appEnvironmentConfig?.storeScreenshotLanguageCode ?? 'en',
+        notificationsEnabled: false,
+        dailySessionReminderEnabled: false,
+      ),
+    );
+  }
+  final initialPreferences =
+      await UserPreferencesRepository(effectivePreferencesStore).load();
   tester.view.devicePixelRatio = 1;
   tester.view.physicalSize = viewport;
   if (platformBrightness != null) {
@@ -57,11 +68,9 @@ Future<void> pumpSakinahApp(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        if (preferencesStore != null ||
-            appEnvironmentConfig?.storeScreenshotModeEnabled != true)
-          userPreferencesStoreProvider.overrideWithValue(
-            preferencesStore ?? InMemoryUserPreferencesStore(),
-          ),
+        initialUserPreferencesProvider.overrideWithValue(initialPreferences),
+        userPreferencesStoreProvider
+            .overrideWithValue(effectivePreferencesStore),
         contentCacheStoreProvider.overrideWithValue(
           contentCacheStore ?? InMemoryContentCacheStore(),
         ),
@@ -93,8 +102,7 @@ Future<void> pumpSakinahApp(
           createSakinahRouter(
             initialLocation: initialLocation ??
                 appEnvironmentConfig?.storeScreenshotInitialRoute ??
-                '/splash',
-            splashAutoAdvance: !freezeSplashForScreenshot,
+                startupRouteForPreferences(initialPreferences),
           ),
         ),
       ],
