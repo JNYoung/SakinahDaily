@@ -1020,13 +1020,6 @@ class AppLocalizationsId extends AppLocalizations {
       'Pembayaran dan langganan belum diterapkan di MVP.';
 
   @override
-  String get privacyDataAdsTracking => 'Iklan atau pelacakan';
-
-  @override
-  String get privacyDataAdsTrackingNotes =>
-      'Iklan, pelacakan, dan prompt ATT belum diterapkan di MVP.';
-
-  @override
   String get source => 'Sumber';
 
   @override

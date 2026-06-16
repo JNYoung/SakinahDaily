@@ -436,9 +436,6 @@ class SakinahLocalizations {
       'privacyDataPaymentsSubscriptions': 'Payments and subscriptions',
       'privacyDataPaymentsSubscriptionsNotes':
           'Payments and subscriptions are not implemented in MVP.',
-      'privacyDataAdsTracking': 'Ads or tracking',
-      'privacyDataAdsTrackingNotes':
-          'Ads, tracking, and ATT prompts are not implemented in MVP.',
       'source': 'Source',
       'reviewed': 'Reviewed',
       'approvedContent': 'approved content',
@@ -925,9 +922,6 @@ class SakinahLocalizations {
       'privacyDataPaymentsSubscriptions': 'Pembayaran dan langganan',
       'privacyDataPaymentsSubscriptionsNotes':
           'Pembayaran dan langganan belum diterapkan di MVP.',
-      'privacyDataAdsTracking': 'Iklan atau pelacakan',
-      'privacyDataAdsTrackingNotes':
-          'Iklan, pelacakan, dan prompt ATT belum diterapkan di MVP.',
       'source': 'Sumber',
       'reviewed': 'Ditinjau',
       'approvedContent': 'konten disetujui',
@@ -1405,9 +1399,6 @@ class SakinahLocalizations {
       'privacyDataPaymentsSubscriptions': 'المدفوعات والاشتراكات',
       'privacyDataPaymentsSubscriptionsNotes':
           'المدفوعات والاشتراكات غير مطبقة في نسخة MVP.',
-      'privacyDataAdsTracking': 'إعلانات أو تتبع',
-      'privacyDataAdsTrackingNotes':
-          'الإعلانات والتتبع ومطالبة ATT غير مطبقة في نسخة MVP.',
       'source': 'المصدر',
       'reviewed': 'مراجعة',
       'approvedContent': 'محتوى معتمد',

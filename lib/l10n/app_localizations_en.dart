@@ -1017,13 +1017,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Payments and subscriptions are not implemented in MVP.';
 
   @override
-  String get privacyDataAdsTracking => 'Ads or tracking';
-
-  @override
-  String get privacyDataAdsTrackingNotes =>
-      'Ads, tracking, and ATT prompts are not implemented in MVP.';
-
-  @override
   String get source => 'Source';
 
   @override

@@ -50,6 +50,22 @@ void main() {
     expect(category.userCanDelete, isTrue);
   });
 
+  test('privacy inventory excludes ad and tracking collection entries', () {
+    final categoryIds = PrivacyDataInventory.categories.map(
+      (category) => category.id,
+    );
+    final localizationKeys = PrivacyDataInventory.categories.expand(
+      (category) => [
+        category.displayNameKey,
+        category.notesKey,
+      ],
+    );
+
+    expect(categoryIds, isNot(contains('ads_tracking')));
+    expect(localizationKeys, isNot(contains('privacyDataAdsTracking')));
+    expect(localizationKeys, isNot(contains('privacyDataAdsTrackingNotes')));
+  });
+
   test('saved items are marked medium sensitivity and local only', () {
     final category = PrivacyDataInventory.categoryById('saved_items');
 

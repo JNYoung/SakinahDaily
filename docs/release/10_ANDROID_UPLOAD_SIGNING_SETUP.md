@@ -16,6 +16,18 @@ Sakinah Daily. It does not create or store production secrets in the repository.
 
 The repository already ignores `key.properties`, `*.jks`, and `*.keystore`.
 
+## Private Key Upload Note
+
+For a new Google Play app, the default path is to upload a signed AAB and let
+Google Play App Signing create and hold the app signing key. In that flow, the
+upload key private key stays local and is used only to sign future app bundles.
+
+Only use a private-key upload when Play Console explicitly asks for an existing
+or operator-provided app signing key. Do not upload a raw private key. Use the
+PEPK tool and encryption public key provided by Play Console for that specific
+app, then upload the encrypted private-key package through the official console
+flow.
+
 ## Create A Local Upload Keystore
 
 Choose a path outside the repository, then run the helper with explicit local
@@ -30,8 +42,10 @@ SAKINAH_WRITE_KEY_PROPERTIES=true \
 scripts/create_android_upload_keystore.sh
 ```
 
-The helper uses `keytool -genkeypair` with RSA 2048 and a 10000-day validity
-period. It refuses to create the keystore inside the repository. It writes
+The helper uses `keytool -genkeypair` with JKS, RSA 2048, and a 10000-day
+validity period. JKS is explicit so the configured key password remains valid
+for Gradle release signing instead of being ignored by newer JDK PKCS12
+defaults. It refuses to create the keystore inside the repository. It writes
 `android/key.properties` only when `SAKINAH_WRITE_KEY_PROPERTIES=true`.
 
 If `android/key.properties` already exists, the helper refuses to overwrite it

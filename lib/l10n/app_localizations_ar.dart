@@ -1007,13 +1007,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'المدفوعات والاشتراكات غير مطبقة في نسخة MVP.';
 
   @override
-  String get privacyDataAdsTracking => 'إعلانات أو تتبع';
-
-  @override
-  String get privacyDataAdsTrackingNotes =>
-      'الإعلانات والتتبع ومطالبة ATT غير مطبقة في نسخة MVP.';
-
-  @override
   String get source => 'المصدر';
 
   @override
