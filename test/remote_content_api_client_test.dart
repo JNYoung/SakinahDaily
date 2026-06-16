@@ -58,6 +58,7 @@ void main() {
       womenIbadahMode: const WomenIbadahMode(
         enabled: true,
         status: WomenIbadahStatus.menstruating,
+        discreetModeEnabled: true,
       ),
     ));
 
@@ -71,6 +72,7 @@ void main() {
     expect(uri.toString(), isNot(contains('menstruating')));
     expect(uri.toString(), isNot(contains('postpartum')));
     expect(uri.toString(), isNot(contains('pregnancy')));
+    expect(uri.toString(), isNot(contains('discreet')));
   });
 
   test('women mode status values do not change remote manifest query',

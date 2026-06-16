@@ -2056,6 +2056,18 @@ abstract class AppLocalizations {
   /// **'Data stays local by default'**
   String get dataStaysLocal;
 
+  /// No description provided for @womenModeDiscreetToggleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discreet privacy mode'**
+  String get womenModeDiscreetToggleTitle;
+
+  /// No description provided for @womenModeDiscreetToggleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide women’s mode support copy on Home and Daily Session. Your status still stays on this device.'**
+  String get womenModeDiscreetToggleBody;
+
   /// No description provided for @recommendedNow.
   ///
   /// In en, this message translates to:

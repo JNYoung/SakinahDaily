@@ -326,6 +326,8 @@
   "modePregnancy": "الحمل",
   "modePreferNotToTrack": "أفضل عدم التتبع",
   "dataStaysLocal": "تبقى البيانات محلية افتراضيا",
+  "womenModeDiscreetToggleTitle": "وضع خصوصية هادئ",
+  "womenModeDiscreetToggleBody": "إخفاء نص دعم وضع النساء في الصفحة الرئيسية والجلسة اليومية. تبقى حالتك على هذا الجهاز.",
   "recommendedNow": "موصى به الآن",
   "gentleWorshipMoment": "لحظة عبادة لطيفة",
   "womenRecommendedDescription": "تذكيرات دعاء · ذكر · تأمل بدون دعوات مباشرة للصلاة.",

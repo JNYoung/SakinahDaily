@@ -29,6 +29,7 @@ void main() {
       womenIbadahMode: WomenIbadahMode(
         enabled: true,
         status: WomenIbadahStatus.pregnancy,
+        discreetModeEnabled: true,
       ),
     );
 
@@ -50,6 +51,7 @@ void main() {
     expect(loaded.womenIbadahMode.enabled, isTrue);
     expect(loaded.womenIbadahMode.status, WomenIbadahStatus.pregnancy);
     expect(loaded.womenIbadahMode.localOnly, isTrue);
+    expect(loaded.womenIbadahMode.discreetModeEnabled, isTrue);
   });
 
   test('onboarding completion defaults to false until setup is finished',
@@ -101,6 +103,7 @@ void main() {
     expect(loaded.completedClosedTestingPromptDays, isEmpty);
     expect(loaded.analyticsOptIn, isFalse);
     expect(loaded.womenIbadahMode.enabled, isFalse);
+    expect(loaded.womenIbadahMode.discreetModeEnabled, isFalse);
   });
 
   test('locale is restored after a fake app restart', () async {

@@ -184,6 +184,8 @@ void main() {
       'womenModeHomeSupportBody',
       'womenModeSessionNoteTitle',
       'womenModeSessionNoteBody',
+      'womenModeDiscreetToggleTitle',
+      'womenModeDiscreetToggleBody',
       'womenModeWhatChangesTitle',
       'womenModeWhatChangesBody',
       'womenModeWhatStaysPrivateTitle',

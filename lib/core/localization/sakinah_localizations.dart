@@ -462,6 +462,9 @@ class SakinahLocalizations {
       'modePregnancy': 'Pregnancy',
       'modePreferNotToTrack': 'Prefer not to track',
       'dataStaysLocal': 'Data stays local by default',
+      'womenModeDiscreetToggleTitle': 'Discreet privacy mode',
+      'womenModeDiscreetToggleBody':
+          'Hide women’s mode support copy on Home and Daily Session. Your status still stays on this device.',
       'recommendedNow': 'Recommended now',
       'gentleWorshipMoment': 'A gentle worship moment',
       'womenRecommendedDescription':
@@ -948,6 +951,9 @@ class SakinahLocalizations {
       'modePregnancy': 'Kehamilan',
       'modePreferNotToTrack': 'Tidak dilacak',
       'dataStaysLocal': 'Data tetap lokal secara default',
+      'womenModeDiscreetToggleTitle': 'Mode privasi tersembunyi',
+      'womenModeDiscreetToggleBody':
+          'Sembunyikan teks dukungan mode perempuan di Beranda dan Sesi Harian. Statusmu tetap berada di perangkat ini.',
       'recommendedNow': 'Direkomendasikan sekarang',
       'gentleWorshipMoment': 'Momen ibadah yang lembut',
       'womenRecommendedDescription':
@@ -1425,6 +1431,9 @@ class SakinahLocalizations {
       'modePregnancy': 'الحمل',
       'modePreferNotToTrack': 'أفضل عدم التتبع',
       'dataStaysLocal': 'تبقى البيانات محلية افتراضيا',
+      'womenModeDiscreetToggleTitle': 'وضع خصوصية هادئ',
+      'womenModeDiscreetToggleBody':
+          'إخفاء نص دعم وضع النساء في الصفحة الرئيسية والجلسة اليومية. تبقى حالتك على هذا الجهاز.',
       'recommendedNow': 'موصى به الآن',
       'gentleWorshipMoment': 'لحظة عبادة لطيفة',
       'womenRecommendedDescription':

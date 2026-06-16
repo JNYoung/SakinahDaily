@@ -36,6 +36,7 @@ void main() {
     expect(preferences.womenIbadahMode.localOnly, isTrue);
     expect(
         preferences.womenIbadahMode.hideCycleSensitiveLockScreenCopy, isTrue);
+    expect(preferences.womenIbadahMode.discreetModeEnabled, isFalse);
   });
 
   test('user preferences persist prayer reminder lead time safely', () {

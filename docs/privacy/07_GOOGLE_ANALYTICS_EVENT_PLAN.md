@@ -195,7 +195,8 @@ Current implementation:
 - Women's Ibadah Mode changes record local `women_ibadah_mode_changed` with
   only enabled state and `source=women_mode`. Exact status values such as
   menstruation, postpartum, pregnancy, prefer-not-to-track, health notes, or
-  other sensitive details are never sent.
+  other sensitive details are never sent. The discreet privacy mode toggle uses
+  the same safe event shape and does not send the discreet preference value.
 - Closed-test feedback prompt copy and local sent-marker actions record
   `closed_test_prompt_copied` and `closed_test_prompt_marked_sent` events with
   prompt day, suggested theme key, and screen source only; feedback text,
@@ -372,7 +373,8 @@ route fallback, missing content, and malformed payload.
 `dua_viewed` and `dua_saved` must keep only content ID, source/screen, and
 saved enabled state where relevant.
 `dhikr_started` and `dhikr_completed` must keep only content ID and source.
-`women_ibadah_mode_changed` must keep only enabled state and source.
+`women_ibadah_mode_changed` must keep only enabled state and source; exact
+status and discreet privacy mode values are not valid parameters.
 The retention loop QA checklist must walk the ordered Home → Prayer → Daily
 Session → Reminder/Feedback path and verify `home_viewed → prayer_viewed`,
 `prayer_checklist_updated`, `daily_session_started`,

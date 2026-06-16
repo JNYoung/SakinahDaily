@@ -41,7 +41,9 @@ synced to an account.
 
 Women's Ibadah Mode may change Home recommendations and Daily Session support
 copy locally. Exact status remains on device and is not used for remote
-personalization in the MVP.
+personalization in the MVP. If the user turns on discreet privacy mode, the app
+hides Women's Ibadah Mode support copy on Home and Daily Session while keeping
+the mode and discreet preference local to the device.
 
 Users can clear this local data from Settings > Privacy > Delete local data.
 Bundled seed content and app files remain because they are part of the app.
@@ -50,7 +52,8 @@ Bundled seed content and app files remain because they are part of the app.
 
 If remote content delivery is enabled, requests may include language, market,
 app version, and schema version. Detail-bundle recovery may include a bundle
-hint. Women's Ibadah Mode exact status is not sent with these requests.
+hint. Women's Ibadah Mode exact status and discreet privacy mode are not sent
+with these requests.
 
 If analytics is explicitly enabled in a reviewed build and the user opts in,
 the app may send only whitelisted Google Analytics 4 events about app flow and

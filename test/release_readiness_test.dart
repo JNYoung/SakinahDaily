@@ -6364,10 +6364,8 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
     test('Firebase Analytics is gated while crash ads tracking SDKs stay out',
         () {
       final pubspec = File('pubspec.yaml').readAsStringSync().toLowerCase();
-      final pubspecLock =
-          File('pubspec.lock').readAsStringSync().toLowerCase();
-      final appGradle =
-          File('android/app/build.gradle.kts').readAsStringSync();
+      final pubspecLock = File('pubspec.lock').readAsStringSync().toLowerCase();
+      final appGradle = File('android/app/build.gradle.kts').readAsStringSync();
       final appProvider =
           File('lib/core/providers/app_providers.dart').readAsStringSync();
       final analyticsService =
@@ -6656,12 +6654,18 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       );
       expect(remoteContentTest, contains('women mode status values do not'));
       expect(womenModeSessionTest, contains('avoids sensitive status terms'));
+      expect(womenModeSessionTest, contains('discreet women mode hides'));
       expect(womenModeSessionTest, contains('menstruat'));
       expect(womenModeSessionTest, contains('postpartum'));
       expect(womenModeSessionTest, contains('pregnan'));
       expect(
         womenModePolicyDoc,
         contains('Exact Women\'s Ibadah Mode status'),
+      );
+      expect(womenModePolicyDoc, contains('discreet privacy mode'));
+      expect(
+        privacyInventory,
+        contains('discreet on-screen visibility preference'),
       );
       expect(
         womenModePolicyDoc,

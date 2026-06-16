@@ -222,6 +222,8 @@ abstract final class SakinahKeys {
       ValueKey<String>('women_mode_pregnancy_chip');
   static const womenModePreferNotToTrackChip =
       ValueKey<String>('women_mode_prefer_not_to_track_chip');
+  static const womenModeDiscreetToggle =
+      ValueKey<String>('women_mode_discreet_toggle');
   static const womenModeStartButton =
       ValueKey<String>('women_mode_start_button');
   static const womenModeLocalChangesCard =

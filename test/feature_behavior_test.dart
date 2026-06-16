@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sakinah_daily/core/models/saved_item.dart';
+import 'package:sakinah_daily/core/models/sakinah_models.dart';
 import 'package:sakinah_daily/core/models/session_progress.dart';
 import 'package:sakinah_daily/core/repositories/prayer_completion_repository.dart';
 import 'package:sakinah_daily/core/repositories/saved_items_repository.dart';
@@ -375,6 +376,46 @@ void main() {
     expect(find.text('What does not leave this device'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Open Privacy Center'), 240);
     expect(find.text('Open Privacy Center'), findsOneWidget);
+    expectNoFlutterErrors(tester);
+  });
+
+  testWidgets('Women mode discreet privacy toggle stays local', (tester) async {
+    final preferencesStore = InMemoryUserPreferencesStore();
+    final preferencesRepository = UserPreferencesRepository(preferencesStore);
+    final analytics = StubAnalyticsService(enabled: true);
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/settings/women',
+      settleSplash: false,
+      preferencesStore: preferencesStore,
+      analyticsService: analytics,
+    );
+
+    await tapByKey(tester, SakinahKeys.womenModeMenstruatingChip);
+    await tester.scrollUntilVisible(
+      find.byKey(SakinahKeys.womenModeDiscreetToggle),
+      240,
+    );
+    await tapByKey(tester, SakinahKeys.womenModeDiscreetToggle);
+    await tester.pumpAndSettle();
+
+    final preferences = await preferencesRepository.load();
+    expect(preferences.womenIbadahMode.enabled, isTrue);
+    expect(preferences.womenIbadahMode.status, WomenIbadahStatus.menstruating);
+    expect(preferences.womenIbadahMode.discreetModeEnabled, isTrue);
+    expect(
+      analytics.events
+          .where(
+            (event) =>
+                event.name == AnalyticsEventCatalog.womenIbadahModeChanged,
+          )
+          .map((event) => event.properties),
+      everyElement({
+        'enabled': true,
+        'source': 'women_mode',
+      }),
+    );
     expectNoFlutterErrors(tester);
   });
 

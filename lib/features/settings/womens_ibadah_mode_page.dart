@@ -104,6 +104,18 @@ class WomensIbadahModePage extends ConsumerWidget {
                   avatar: const Icon(Icons.lock_outline_rounded, size: 16),
                   label: Text(l10n.t('dataStaysLocal')),
                 ),
+                const SizedBox(height: 10),
+                SwitchListTile(
+                  key: SakinahKeys.womenModeDiscreetToggle,
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.t('womenModeDiscreetToggleTitle')),
+                  subtitle: Text(l10n.t('womenModeDiscreetToggleBody')),
+                  value: preferences.womenIbadahMode.enabled &&
+                      preferences.womenIbadahMode.discreetModeEnabled,
+                  onChanged: preferences.womenIbadahMode.enabled
+                      ? (enabled) => _setWomenModeDiscreetMode(ref, enabled)
+                      : null,
+                ),
               ],
             ),
           ),
@@ -232,6 +244,21 @@ void _setWomenModeStatus(WidgetRef ref, WomenIbadahStatus status) {
     AnalyticsEventCatalog.womenIbadahModeChanged,
     {
       'enabled': status != WomenIbadahStatus.normal,
+      'source': 'women_mode',
+    },
+  );
+}
+
+void _setWomenModeDiscreetMode(WidgetRef ref, bool enabled) {
+  unawaited(
+    ref
+        .read(userPreferencesProvider.notifier)
+        .setWomenModeDiscreetMode(enabled),
+  );
+  ref.read(analyticsServiceProvider).track(
+    AnalyticsEventCatalog.womenIbadahModeChanged,
+    const {
+      'enabled': true,
       'source': 'women_mode',
     },
   );
