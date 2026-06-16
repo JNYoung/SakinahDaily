@@ -90,6 +90,10 @@ Daily Session reminder outcomes, tap result, and tap open.
 App launch and onboarding return loop: Android and iOS native splash surfaces
 now use the shared Flutter splash artwork at
 `assets/branding/sakinah_splash.png`, replacing the generic native icon look.
+Android 12+ keeps the platform splash layer neutral with a transparent icon
+placeholder and no separate mark/branding resource, so the visible native
+handoff uses the same full Flutter splash artwork instead of a mixed Android
+system splash plus Flutter brand screen.
 Android native splash is still the only normal launch splash for the Play
 build. The client loads local preferences before the first Flutter frame, sends
 first-time users directly to onboarding, and sends returning users with

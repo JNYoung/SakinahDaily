@@ -105,9 +105,11 @@ strict visual-assets gate can reject alpha-channel screenshots before upload.
 Screenshot mode can still target the dev-only `/splash` brand screen for store
 asset capture, and the shared native launch artwork lives at
 `assets/branding/sakinah_splash.png`. Android uses the same bitmap through
-`sakinah_native_splash.png`; iOS uses it through `SakinahSplash.imageset`.
-Normal app launch no longer routes through Flutter `/splash`; Android native
-splash hands off directly to onboarding or Home. Override
+`sakinah_native_splash.png`; Android 12+ uses only a transparent system splash
+icon placeholder so a separate Android mark/branding layer does not mix with
+the full splash artwork. iOS uses the same bitmap through
+`SakinahSplash.imageset`. Normal app launch no longer routes through Flutter
+`/splash`; Android native splash hands off directly to onboarding or Home. Override
 `SAKINAH_SCREENSHOT_SETTLE_SECONDS` only when manually reviewing startup
 timing.
 
