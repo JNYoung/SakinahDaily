@@ -344,10 +344,10 @@ Google Play Data Safety review.
 - Native splash resources use the shared Flutter splash artwork at
   `assets/branding/sakinah_splash.png`, copied into
   `sakinah_native_splash.png` for the launch and initialization window. Android
-  12+ uses `sakinah_splash_transparent_icon.xml` only as a neutral system splash
-  placeholder. There is no separate Android 12+ mark.
-  There is no separate Android 12+ branding. The user sees the same full
-  Flutter splash artwork instead of a mixed icon/branding screen.
+  12+ uses `sakinah_splash_system_mark.xml` and
+  `sakinah_splash_branding.png`, restored from the historical Flutter
+  brand-screen artwork, so the platform-owned native splash is visibly branded
+  before Flutter opens onboarding or Home.
 - On 2026-06-11, `SC65XWPZ7DLNUSTC` was used for Android splash review with
   the deterministic screenshot build. Evidence path:
   `build/store-screenshots/android-assets/en-splash.png`.

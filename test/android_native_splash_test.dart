@@ -19,31 +19,32 @@ void main() {
         .readAsStringSync();
     final nativeSplash = File(
         'android/app/src/main/res/drawable-nodpi/sakinah_native_splash.png');
-    final transparentSystemIcon = File(
-        'android/app/src/main/res/drawable/sakinah_splash_transparent_icon.xml');
-    final oldSystemSplashMark = File(
+    final systemSplashMark = File(
         'android/app/src/main/res/drawable/sakinah_splash_system_mark.xml');
-    final oldSystemSplashBranding = File(
+    final systemSplashBranding = File(
         'android/app/src/main/res/drawable-nodpi/sakinah_splash_branding.png');
+    final oldTransparentSystemIcon = File(
+        'android/app/src/main/res/drawable/sakinah_splash_transparent_icon.xml');
     final oldSystemSplashIcon =
         File('android/app/src/main/res/drawable/sakinah_splash_icon.xml');
 
     expect(nativeSplash.existsSync(), isTrue);
-    expect(transparentSystemIcon.existsSync(), isTrue);
-    expect(oldSystemSplashMark.existsSync(), isFalse);
-    expect(oldSystemSplashBranding.existsSync(), isFalse);
+    expect(systemSplashMark.existsSync(), isTrue);
+    expect(systemSplashBranding.existsSync(), isTrue);
+    expect(oldTransparentSystemIcon.existsSync(), isFalse);
     expect(oldSystemSplashIcon.existsSync(), isFalse);
     expect(_pngSize(nativeSplash), (width: 1080, height: 2400));
+    expect(_pngSize(systemSplashBranding), (width: 760, height: 420));
     expect(launchBackground, contains('@drawable/sakinah_native_splash'));
     expect(launchBackgroundV21, contains('@drawable/sakinah_native_splash'));
     expect(launchBackground, isNot(contains('@android:color/white')));
     expect(launchBackgroundV21, isNot(contains('?android:colorBackground')));
     expect(stylesV31, contains('android:windowSplashScreenBackground'));
-    expect(stylesV31, contains('@drawable/sakinah_splash_transparent_icon'));
-    expect(
-        stylesV31, isNot(contains('android:windowSplashScreenBrandingImage')));
-    expect(stylesV31, isNot(contains('@drawable/sakinah_splash_system_mark')));
-    expect(stylesV31, isNot(contains('@drawable/sakinah_splash_branding')));
+    expect(stylesV31, contains('@drawable/sakinah_splash_system_mark'));
+    expect(stylesV31, contains('android:windowSplashScreenBrandingImage'));
+    expect(stylesV31, contains('@drawable/sakinah_splash_branding'));
+    expect(stylesV31,
+        isNot(contains('@drawable/sakinah_splash_transparent_icon')));
     expect(stylesV31, isNot(contains('@drawable/sakinah_splash_icon')));
     expect(stylesV31, isNot(contains('@mipmap/ic_launcher')));
     expect(
