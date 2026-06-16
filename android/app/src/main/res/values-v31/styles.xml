@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Android 12+ always shows a system splash before the Flutter surface.
-         Use the Flutter splash mark and brand image so the platform-owned
-         splash feels like the Sakinah brand screen instead of a generic icon. -->
+    <!-- Android 12+ always shows a platform-owned splash first. Keep that
+         system layer visually neutral, then let the Activity window show the
+         full Flutter splash artwork through launch_background. Do not add a
+         separate icon/branding layer here; it creates a mixed double splash. -->
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">@drawable/launch_background</item>
         <item name="android:windowSplashScreenBackground">@color/sakinah_splash_background</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/sakinah_splash_system_mark</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/sakinah_splash_branding</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/sakinah_splash_transparent_icon</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/sakinah_splash_transparent</item>
         <item name="android:forceDarkAllowed">false</item>
     </style>
 
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@color/sakinah_splash_background</item>
+        <item name="android:windowBackground">@drawable/launch_background</item>
         <item name="android:forceDarkAllowed">false</item>
     </style>
 </resources>
