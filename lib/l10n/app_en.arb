@@ -304,8 +304,6 @@
   "privacyDataAccountDataNotes": "Account login is not implemented in MVP.",
   "privacyDataPaymentsSubscriptions": "Payments and subscriptions",
   "privacyDataPaymentsSubscriptionsNotes": "Payments and subscriptions are not implemented in MVP.",
-  "privacyDataAdsTracking": "Ads or tracking",
-  "privacyDataAdsTrackingNotes": "Ads, tracking, and ATT prompts are not implemented in MVP.",
   "source": "Source",
   "reviewed": "Reviewed",
   "approvedContent": "approved content",

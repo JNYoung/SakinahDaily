@@ -51,6 +51,7 @@ void main() {
       final wrapper = File('android/gradle/wrapper/gradle-wrapper.properties')
           .readAsStringSync();
       final settings = File('android/settings.gradle.kts').readAsStringSync();
+      final appGradle = File('android/app/build.gradle.kts').readAsStringSync();
 
       final gradleVersion = _versionFromMatch(
         RegExp(r'gradle-([0-9.]+)-all\.zip').firstMatch(wrapper),
@@ -63,10 +64,17 @@ void main() {
         RegExp(r'id\("org\.jetbrains\.kotlin\.android"\) version "([0-9.]+)"')
             .firstMatch(settings),
       );
+      final ndkVersion = _versionFromMatch(
+        RegExp(r'ndkVersion = "([0-9.]+)"').firstMatch(appGradle),
+      );
 
       expect(gradleVersion.compareTo(const _Version(8, 14, 0)), isNonNegative);
       expect(agpVersion.compareTo(const _Version(8, 11, 1)), isNonNegative);
       expect(kotlinVersion.compareTo(const _Version(2, 2, 20)), isNonNegative);
+      expect(
+        ndkVersion.compareTo(const _Version(28, 2, 13676358)),
+        isNonNegative,
+      );
     });
 
     test('Android app module is migrated away from explicit KGP', () {
@@ -5016,11 +5024,13 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(content, contains('SAKINAH_OVERWRITE_KEY_PROPERTIES'));
       expect(content, contains('android/key.properties'));
       expect(content, contains('umask 077'));
+      expect(content, contains(r'rm -f "$keystore_path"'));
       expect(
           content, contains('refusing to create a keystore inside the repo'));
       expect(content, contains('-keyalg RSA'));
       expect(content, contains('-keysize 2048'));
       expect(content, contains('-validity 10000'));
+      expect(content, contains('-storetype JKS'));
       expect(content, isNot(contains('replace-with-local-store-password')));
       expect(content, isNot(contains('replace-with-local-key-password')));
 
@@ -5044,6 +5054,8 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(setupDoc, contains('verify_google_play_upload_preflight.sh'));
       expect(setupDoc, contains('flutter build appbundle'));
       expect(setupDoc, contains('Google Play App Signing'));
+      expect(setupDoc, contains('PEPK'));
+      expect(setupDoc, contains('upload key private key stays local'));
       expect(docsIndex, contains('10_ANDROID_UPLOAD_SIGNING_SETUP.md'));
       expect(readiness, contains('Android upload keystore setup helper'));
       expect(androidChecklist, contains('create_android_upload_keystore.sh'));
@@ -6352,6 +6364,10 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
     test('Firebase Analytics is gated while crash ads tracking SDKs stay out',
         () {
       final pubspec = File('pubspec.yaml').readAsStringSync().toLowerCase();
+      final pubspecLock =
+          File('pubspec.lock').readAsStringSync().toLowerCase();
+      final appGradle =
+          File('android/app/build.gradle.kts').readAsStringSync();
       final appProvider =
           File('lib/core/providers/app_providers.dart').readAsStringSync();
       final analyticsService =
@@ -6360,6 +6376,20 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
           File('lib/core/models/sakinah_models.dart').readAsStringSync();
       final manifest =
           File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
+      final libDartSources = Directory('lib')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .where((file) => file.path.endsWith('.dart'))
+          .map((file) => file.readAsStringSync())
+          .join('\n')
+          .toLowerCase();
+      final releaseSurface = [
+        pubspec,
+        pubspecLock,
+        appGradle,
+        manifest,
+        libDartSources,
+      ].join('\n').toLowerCase();
 
       expect(pubspec, contains('firebase_core'));
       expect(pubspec, contains('firebase_analytics'));
@@ -6371,6 +6401,24 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
         'google_mobile_ads',
       ]) {
         expect(pubspec, isNot(contains(forbidden)), reason: forbidden);
+      }
+      for (final forbidden in [
+        'google_mobile_ads',
+        'play-services-ads',
+        'com.google.android.gms.permission.ad_id',
+        'advertisingidclient',
+        'mobileads.',
+        'adwidget(',
+        'bannerad(',
+        'interstitialad(',
+        'rewardedad(',
+        'nativead(',
+        'adrequest(',
+        'loadad(',
+        'showad(',
+        '.showad',
+      ]) {
+        expect(releaseSurface, isNot(contains(forbidden)), reason: forbidden);
       }
       expect(appProvider, contains('environment.analyticsEnabled'));
       expect(appProvider, contains('preferences.analyticsOptIn'));

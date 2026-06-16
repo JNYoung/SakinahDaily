@@ -239,15 +239,6 @@ abstract final class PrivacyDataInventory {
       userCanDelete: false,
       notesKey: 'privacyDataPaymentsSubscriptionsNotes',
     ),
-    PrivacyDataCategory(
-      id: 'ads_tracking',
-      displayNameKey: 'privacyDataAdsTracking',
-      storageLocation: PrivacyStorageLocation.notCollected,
-      sensitivity: PrivacySensitivity.high,
-      leavesDevice: false,
-      userCanDelete: false,
-      notesKey: 'privacyDataAdsTrackingNotes',
-    ),
   ];
 
   static PrivacyDataCategory categoryById(String id) {

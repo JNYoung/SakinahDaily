@@ -304,8 +304,6 @@
   "privacyDataAccountDataNotes": "تسجيل الدخول غير مطبق في نسخة MVP.",
   "privacyDataPaymentsSubscriptions": "المدفوعات والاشتراكات",
   "privacyDataPaymentsSubscriptionsNotes": "المدفوعات والاشتراكات غير مطبقة في نسخة MVP.",
-  "privacyDataAdsTracking": "إعلانات أو تتبع",
-  "privacyDataAdsTrackingNotes": "الإعلانات والتتبع ومطالبة ATT غير مطبقة في نسخة MVP.",
   "source": "المصدر",
   "reviewed": "مراجعة",
   "approvedContent": "محتوى معتمد",

@@ -1924,18 +1924,6 @@ abstract class AppLocalizations {
   /// **'Payments and subscriptions are not implemented in MVP.'**
   String get privacyDataPaymentsSubscriptionsNotes;
 
-  /// No description provided for @privacyDataAdsTracking.
-  ///
-  /// In en, this message translates to:
-  /// **'Ads or tracking'**
-  String get privacyDataAdsTracking;
-
-  /// No description provided for @privacyDataAdsTrackingNotes.
-  ///
-  /// In en, this message translates to:
-  /// **'Ads, tracking, and ATT prompts are not implemented in MVP.'**
-  String get privacyDataAdsTrackingNotes;
-
   /// No description provided for @source.
   ///
   /// In en, this message translates to:

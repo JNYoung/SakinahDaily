@@ -48,10 +48,14 @@ esac
 if [[ -e "$keystore_path" && "${SAKINAH_OVERWRITE_KEYSTORE:-false}" != "true" ]]; then
   fail "keystore already exists. Set SAKINAH_OVERWRITE_KEYSTORE=true to replace it."
 fi
+if [[ -e "$keystore_path" ]]; then
+  rm -f "$keystore_path"
+fi
 
 keytool -genkeypair \
   -v \
   -keystore "$keystore_path" \
+  -storetype JKS \
   -storepass "$SAKINAH_UPLOAD_STORE_PASSWORD" \
   -alias "$SAKINAH_UPLOAD_KEY_ALIAS" \
   -keypass "$SAKINAH_UPLOAD_KEY_PASSWORD" \
