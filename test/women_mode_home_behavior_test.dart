@@ -59,6 +59,27 @@ void main() {
     expect(find.text('Private gentle path'), findsNothing);
     expectNoFlutterErrors(tester);
   });
+
+  testWidgets('discreet women mode hides Home support copy', (tester) async {
+    final store = await _preferencesWithWomenMode(
+      WomenIbadahStatus.menstruating,
+      discreetModeEnabled: true,
+    );
+
+    await pumpSakinahApp(
+      tester,
+      initialLocation: '/home',
+      settleSplash: false,
+      preferencesStore: store,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(SakinahKeys.homeSessionCard), findsOneWidget);
+    expect(find.byKey(SakinahKeys.homeWomenModeSupportCard), findsNothing);
+    expect(find.text('Private gentle path'), findsNothing);
+    expect(find.text('Local-only mode'), findsNothing);
+    expectNoFlutterErrors(tester);
+  });
 }
 
 const _sensitiveTerms = [
@@ -72,12 +93,17 @@ const _sensitiveTerms = [
 ];
 
 Future<InMemoryUserPreferencesStore> _preferencesWithWomenMode(
-  WomenIbadahStatus status,
-) async {
+  WomenIbadahStatus status, {
+  bool discreetModeEnabled = false,
+}) async {
   final store = InMemoryUserPreferencesStore();
   await UserPreferencesRepository(store).save(
     UserPreferences.defaults().copyWith(
-      womenIbadahMode: WomenIbadahMode(enabled: true, status: status),
+      womenIbadahMode: WomenIbadahMode(
+        enabled: true,
+        status: status,
+        discreetModeEnabled: discreetModeEnabled,
+      ),
     ),
   );
   return store;

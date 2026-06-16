@@ -35,11 +35,19 @@ Home does not display exact state words for menstruation, postpartum, cycle, or
 similar terms. The existing session remains reachable until a reviewed
 dua/dhikr/reflection-specific session exists.
 
+If the user enables discreet privacy mode, Home keeps the standard Daily
+Session card and hides the Women's Ibadah Mode support label/body/chip. This
+does not turn off the local Women's Ibadah Mode state; it only lowers
+on-screen visibility for shared-screen or shoulder-surfing situations.
+
 ## Daily Session Behavior
 
 Daily Session shows a local-only note when Women's Ibadah Mode is enabled with
 a private state. The note says the mode stays on this device and that the
 session keeps a gentle worship-friendly path.
+
+If discreet privacy mode is enabled, Daily Session hides that local-only note
+while keeping the session flow available and keeping the exact mode on device.
 
 The app does not hide Quran content in this milestone and does not rewrite
 religious content. Surrounding UI copy stays gentle and avoids guilt, shame,

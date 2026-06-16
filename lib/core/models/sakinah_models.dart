@@ -552,18 +552,21 @@ class WomenIbadahMode {
     this.status = WomenIbadahStatus.normal,
     this.localOnly = true,
     this.hideCycleSensitiveLockScreenCopy = true,
+    this.discreetModeEnabled = false,
   });
 
   final bool enabled;
   final WomenIbadahStatus status;
   final bool localOnly;
   final bool hideCycleSensitiveLockScreenCopy;
+  final bool discreetModeEnabled;
 
   WomenIbadahMode copyWith({
     bool? enabled,
     WomenIbadahStatus? status,
     bool? localOnly,
     bool? hideCycleSensitiveLockScreenCopy,
+    bool? discreetModeEnabled,
   }) {
     return WomenIbadahMode(
       enabled: enabled ?? this.enabled,
@@ -571,6 +574,7 @@ class WomenIbadahMode {
       localOnly: localOnly ?? this.localOnly,
       hideCycleSensitiveLockScreenCopy: hideCycleSensitiveLockScreenCopy ??
           this.hideCycleSensitiveLockScreenCopy,
+      discreetModeEnabled: discreetModeEnabled ?? this.discreetModeEnabled,
     );
   }
 
@@ -579,6 +583,7 @@ class WomenIbadahMode {
         'status': status.name,
         'localOnly': localOnly,
         'hideCycleSensitiveLockScreenCopy': hideCycleSensitiveLockScreenCopy,
+        'discreetModeEnabled': discreetModeEnabled,
       };
 
   factory WomenIbadahMode.fromJson(Map<String, dynamic> json) {
@@ -595,6 +600,7 @@ class WomenIbadahMode {
       localOnly: json['localOnly'] as bool? ?? true,
       hideCycleSensitiveLockScreenCopy:
           json['hideCycleSensitiveLockScreenCopy'] as bool? ?? true,
+      discreetModeEnabled: json['discreetModeEnabled'] as bool? ?? false,
     );
   }
 }

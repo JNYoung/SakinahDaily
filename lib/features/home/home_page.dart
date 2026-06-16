@@ -83,6 +83,7 @@ class HomePage extends ConsumerWidget {
             ? l10n.t('setDailyReminder')
             : null;
     final showWomenModeSupport = preferences.womenIbadahMode.enabled &&
+        !preferences.womenIbadahMode.discreetModeEnabled &&
         womenModeDecision.flags.any(
           (flag) =>
               flag == 'prefer_dua_dhikr_reflection' ||

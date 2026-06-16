@@ -69,6 +69,7 @@ class _DailySessionPageState extends ConsumerState<DailySessionPage> {
     final step = session.steps[index];
     final stepTitle = step.title.resolve(preferences.languageCode);
     final showWomenModeNote = preferences.womenIbadahMode.enabled &&
+        !preferences.womenIbadahMode.discreetModeEnabled &&
         womenModeDecision.flags.any(
           (flag) =>
               flag == 'prefer_dua_dhikr_reflection' ||

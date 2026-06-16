@@ -1089,6 +1089,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dataStaysLocal => 'Data stays local by default';
 
   @override
+  String get womenModeDiscreetToggleTitle => 'Discreet privacy mode';
+
+  @override
+  String get womenModeDiscreetToggleBody =>
+      'Hide women’s mode support copy on Home and Daily Session. Your status still stays on this device.';
+
+  @override
   String get recommendedNow => 'Recommended now';
 
   @override

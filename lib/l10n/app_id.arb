@@ -326,6 +326,8 @@
   "modePregnancy": "Kehamilan",
   "modePreferNotToTrack": "Tidak dilacak",
   "dataStaysLocal": "Data tetap lokal secara default",
+  "womenModeDiscreetToggleTitle": "Mode privasi tersembunyi",
+  "womenModeDiscreetToggleBody": "Sembunyikan teks dukungan mode perempuan di Beranda dan Sesi Harian. Statusmu tetap berada di perangkat ini.",
   "recommendedNow": "Direkomendasikan sekarang",
   "gentleWorshipMoment": "Momen ibadah yang lembut",
   "womenRecommendedDescription": "Pengingat doa · dzikir · refleksi tanpa ajakan shalat langsung.",

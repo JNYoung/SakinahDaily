@@ -1092,6 +1092,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get dataStaysLocal => 'Data tetap lokal secara default';
 
   @override
+  String get womenModeDiscreetToggleTitle => 'Mode privasi tersembunyi';
+
+  @override
+  String get womenModeDiscreetToggleBody =>
+      'Sembunyikan teks dukungan mode perempuan di Beranda dan Sesi Harian. Statusmu tetap berada di perangkat ini.';
+
+  @override
   String get recommendedNow => 'Direkomendasikan sekarang';
 
   @override

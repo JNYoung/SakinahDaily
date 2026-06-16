@@ -1077,6 +1077,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dataStaysLocal => 'تبقى البيانات محلية افتراضيا';
 
   @override
+  String get womenModeDiscreetToggleTitle => 'وضع خصوصية هادئ';
+
+  @override
+  String get womenModeDiscreetToggleBody =>
+      'إخفاء نص دعم وضع النساء في الصفحة الرئيسية والجلسة اليومية. تبقى حالتك على هذا الجهاز.';
+
+  @override
   String get recommendedNow => 'موصى به الآن';
 
   @override

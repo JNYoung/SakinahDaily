@@ -200,6 +200,8 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
         womenIbadahMode: state.womenIbadahMode.copyWith(
           enabled: enabled,
           status: status,
+          discreetModeEnabled:
+              enabled && state.womenIbadahMode.discreetModeEnabled,
         ),
       ),
     );
@@ -211,6 +213,19 @@ class UserPreferencesController extends StateNotifier<UserPreferences> {
         womenIbadahMode: state.womenIbadahMode.copyWith(
           enabled: status != WomenIbadahStatus.normal,
           status: status,
+          discreetModeEnabled: status == WomenIbadahStatus.normal
+              ? false
+              : state.womenIbadahMode.discreetModeEnabled,
+        ),
+      ),
+    );
+  }
+
+  Future<void> setWomenModeDiscreetMode(bool enabled) async {
+    await _commit(
+      state.copyWith(
+        womenIbadahMode: state.womenIbadahMode.copyWith(
+          discreetModeEnabled: enabled && state.womenIbadahMode.enabled,
         ),
       ),
     );
