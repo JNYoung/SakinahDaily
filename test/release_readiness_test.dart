@@ -5135,13 +5135,10 @@ google_group,https://groups.google.com/g/sakinah-daily-testers,TBD,docs/release/
       expect(androidChecklist, contains('assets/branding/app_icon.png'));
       expect(androidChecklist, contains('assets/branding/sakinah_splash.png'));
       expect(androidChecklist, contains('sakinah_native_splash.png'));
-      expect(androidChecklist, contains('sakinah_splash_transparent_icon.xml'));
-      expect(androidChecklist, contains('no separate Android 12+ mark'));
-      expect(androidChecklist, contains('no separate Android 12+ branding'));
-      expect(
-        androidChecklist,
-        contains('shared Flutter splash artwork'),
-      );
+      expect(androidChecklist, contains('sakinah_splash_system_mark.xml'));
+      expect(androidChecklist, contains('sakinah_splash_branding.png'));
+      expect(androidChecklist, contains('historical Flutter'));
+      expect(androidChecklist, contains('brand-screen artwork'));
       expect(iosChecklist, contains('LaunchScreen.storyboard'));
       expect(iosChecklist, contains('com.sakinahdaily.app'));
       expect(iosChecklist, contains('SakinahSplash.imageset'));
