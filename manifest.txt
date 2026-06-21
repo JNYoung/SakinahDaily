@@ -1,0 +1,41 @@
+Google Play public links hosting packet
+Generated UTC: 2026-06-21T08:28:50Z
+Package: com.misbahdaily.app
+Strict mode requested: false
+Privacy rule: No tester personal data.
+
+Recommended hosting base:
+- https://misbahdaily.com
+
+Files to host:
+- index.html -> public landing page for policy and feedback links
+- privacy/index.html -> SAKINAH_PRIVACY_POLICY_URL
+- feedback/index.html -> SAKINAH_PLAY_TESTING_FEEDBACK if using an HTTPS feedback page
+
+Configured public fields:
+- SAKINAH_PRIVACY_POLICY_URL: missing; template default is https://misbahdaily.com/privacy
+- SAKINAH_PLAY_TESTING_FEEDBACK: missing; template default is support@misbahdaily.com
+
+Validation:
+- scripts/verify_google_play_public_links.sh
+- scripts/verify_google_play_public_links_packet.sh
+- SAKINAH_REQUIRE_PUBLIC_LINKS_HOSTING_READY=true scripts/export_google_play_public_links_packet.sh
+
+Required copied evidence:
+- docs/privacy/02_PRIVACY_POLICY_DRAFT.md
+- docs/privacy/04_GOOGLE_PLAY_DATA_SAFETY_DRAFT.md
+- docs/privacy/06_SDK_AND_API_INVENTORY.md
+- docs/release/11_PLAY_PUBLIC_LINKS_AND_FEEDBACK.md
+- docs/release/13_PLAY_CONSOLE_SUBMISSION_RUNBOOK.md
+- scripts/verify_google_play_public_links.sh
+- scripts/verify_google_play_public_links_packet.sh
+- scripts/verify_google_play_public_links_packet.sh
+
+Publish notes:
+- Review the generated privacy page with legal/store owner before publishing.
+- Host over HTTPS with no login, no geoblock, and no private network access.
+- Use the final URL in Play Console App content, Data safety, the production
+  Dart define, and scripts/verify_google_play_upload_preflight.sh.
+- If feedback uses email instead of this hosted page, keep
+  SAKINAH_PLAY_TESTING_FEEDBACK as the final support email and host only the
+  privacy page.
